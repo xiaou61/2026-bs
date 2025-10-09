@@ -28,9 +28,17 @@ public class AuthController {
      * 用户登录
      */
     @PostMapping("/login")
-    public Result<String> login(@RequestBody LoginRequest request) {
+    public Result<LoginResponse> login(@RequestBody LoginRequest request) {
         String token = userService.login(request.getUsername(), request.getPassword());
-        return Result.success("登录成功", token);
+        User user = userService.getUserByUsername(request.getUsername());
+        // 清除密码字段
+        user.setPassword(null);
+        
+        LoginResponse response = new LoginResponse();
+        response.setToken(token);
+        response.setUser(user);
+        
+        return Result.success("登录成功", response);
     }
     
     /**
@@ -97,5 +105,19 @@ public class AuthController {
         public void setOldPassword(String oldPassword) { this.oldPassword = oldPassword; }
         public String getNewPassword() { return newPassword; }
         public void setNewPassword(String newPassword) { this.newPassword = newPassword; }
+    }
+    
+    /**
+     * 登录响应实体
+     */
+    public static class LoginResponse {
+        private String token;
+        private User user;
+        
+        // getter和setter
+        public String getToken() { return token; }
+        public void setToken(String token) { this.token = token; }
+        public User getUser() { return user; }
+        public void setUser(User user) { this.user = user; }
     }
 }

@@ -35,7 +35,7 @@ public class ActivityController {
             return Result.error(403, "权限不足");
         }
         
-        activity.setPublisherId(userId);
+        activity.setOrganizerId(userId);
         activityService.publishActivity(activity);
         return Result.success();
     }
@@ -46,7 +46,7 @@ public class ActivityController {
     @GetMapping("/list")
     public Result<Page<Activity>> getActivityList(@RequestParam(defaultValue = "1") int pageNum,
                                                   @RequestParam(defaultValue = "10") int pageSize,
-                                                  @RequestParam(required = false) Integer status) {
+                                                  @RequestParam(required = false) String status) {
         Page<Activity> page = activityService.getActivityPage(pageNum, pageSize, status);
         return Result.success(page);
     }
@@ -54,7 +54,7 @@ public class ActivityController {
     /**
      * 根据ID查询活动详情
      */
-    @GetMapping("/{id}")
+    @GetMapping("/detail/{id}")
     public Result<Activity> getActivityById(@PathVariable Long id, HttpServletRequest request) {
         Activity activity = activityService.getById(id);
         
@@ -62,10 +62,13 @@ public class ActivityController {
             Long userId = (Long) request.getAttribute("userId");
             String role = (String) request.getAttribute("role");
             
+            // 填充组织者姓名
+            activity = activityService.getActivityWithOrganizerName(activity);
+            
             // 如果是学生，检查是否已报名
             if ("student".equals(role)) {
                 boolean hasSignedUp = activityService.hasSignedUp(id, userId);
-                // 可以通过额外字段返回报名状态，这里简化处理
+                activity.setIsSignedUp(hasSignedUp);
             }
         }
         
@@ -123,7 +126,7 @@ public class ActivityController {
             return Result.error("活动不存在");
         }
         
-        if (!"admin".equals(role) && !currentUserId.equals(activity.getPublisherId())) {
+        if (!"admin".equals(role) && !currentUserId.equals(activity.getOrganizerId())) {
             return Result.error(403, "权限不足");
         }
         
@@ -145,7 +148,7 @@ public class ActivityController {
             return Result.error("活动不存在");
         }
         
-        if (!"admin".equals(role) && !currentUserId.equals(existActivity.getPublisherId())) {
+        if (!"admin".equals(role) && !currentUserId.equals(existActivity.getOrganizerId())) {
             return Result.error(403, "权限不足");
         }
         
@@ -167,7 +170,7 @@ public class ActivityController {
             return Result.error("活动不存在");
         }
         
-        if (!"admin".equals(role) && !currentUserId.equals(existActivity.getPublisherId())) {
+        if (!"admin".equals(role) && !currentUserId.equals(existActivity.getOrganizerId())) {
             return Result.error(403, "权限不足");
         }
         

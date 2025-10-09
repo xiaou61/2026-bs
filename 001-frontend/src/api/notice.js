@@ -21,7 +21,7 @@ export const getNoticeList = (params) => {
 // 获取公告详情
 export const getNoticeDetail = (id) => {
   return request({
-    url: `/notice/${id}`,
+    url: `/notice/detail/${id}`,
     method: 'get'
   })
 }

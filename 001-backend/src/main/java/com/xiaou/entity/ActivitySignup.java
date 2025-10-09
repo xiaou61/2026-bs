@@ -1,6 +1,7 @@
 package com.xiaou.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -34,6 +35,25 @@ public class ActivitySignup implements Serializable {
     private String studentName;
     
     /**
+     * 学生手机号
+     */
+    @TableField(exist = false)
+    private String phone;
+    
+    /**
+     * 学生邮箱
+     */
+    @TableField(exist = false)
+    private String email;
+    
+    /**
+     * 报名时间（显示用）
+     */
+    @TableField(exist = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime signupTime;
+    
+    /**
      * 报名状态（0-待审核，1-已通过，2-已取消）
      */
     private Integer status;
@@ -47,12 +67,14 @@ public class ActivitySignup implements Serializable {
      * 创建时间
      */
     @TableField(fill = FieldFill.INSERT)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createTime;
     
     /**
      * 更新时间
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime updateTime;
     
     /**

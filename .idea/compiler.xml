@@ -8,13 +8,17 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="001" />
+        <module name="campus-affairs" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="001-backend" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="001" options="-parameters" />
+      <module name="001-backend" options="-parameters" />
+      <module name="campus-affairs" options="-parameters" />
     </option>
   </component>
 </project>

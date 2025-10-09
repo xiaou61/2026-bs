@@ -55,7 +55,7 @@ public class NoticeController {
     /**
      * 根据ID查询公告详情
      */
-    @GetMapping("/{id}")
+    @GetMapping("/detail/{id}")
     public Result<Notice> getNoticeById(@PathVariable Long id) {
         Notice notice = noticeService.getById(id);
         if (notice != null) {

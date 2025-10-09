@@ -38,30 +38,30 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         }
         
         // 设置活动状态
-        if (activity.getStatus() == null) {
-            activity.setStatus(1); // 默认报名中
+        if (activity.getStatus() == null || activity.getStatus().isEmpty()) {
+            activity.setStatus("未开始"); // 默认未开始
         }
         
         save(activity);
     }
     
     @Override
-    public Page<Activity> getActivityPage(int pageNum, int pageSize, Integer status) {
+    public Page<Activity> getActivityPage(int pageNum, int pageSize, String status) {
         Page<Activity> page = new Page<>(pageNum, pageSize);
         LambdaQueryWrapper<Activity> wrapper = new LambdaQueryWrapper<>();
         
-        if (status != null) {
+        if (status != null && !status.isEmpty()) {
             wrapper.eq(Activity::getStatus, status);
         }
         
         wrapper.orderByDesc(Activity::getCreateTime);
         Page<Activity> resultPage = page(page, wrapper);
         
-        // 填充发布者姓名
+        // 填充组织者姓名
         for (Activity record : resultPage.getRecords()) {
-            User publisher = userService.getById(record.getPublisherId());
-            if (publisher != null) {
-                record.setPublisherName(publisher.getRealName() != null ? publisher.getRealName() : publisher.getUsername());
+            User organizer = userService.getById(record.getOrganizerId());
+            if (organizer != null) {
+                record.setOrganizerName(organizer.getRealName() != null ? organizer.getRealName() : organizer.getUsername());
             }
         }
         
@@ -78,7 +78,7 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         }
         
         // 检查活动状态
-        if (activity.getStatus() != 1) {
+        if (!"进行中".equals(activity.getStatus())) {
             throw new BusinessException("活动未开放报名");
         }
         
@@ -146,15 +146,29 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         
         Page<ActivitySignup> resultPage = activitySignupService.page(page, wrapper);
         
-        // 填充学生姓名
+        // 填充学生信息
         for (ActivitySignup record : resultPage.getRecords()) {
             User student = userService.getById(record.getStudentId());
             if (student != null) {
                 record.setStudentName(student.getRealName() != null ? student.getRealName() : student.getUsername());
+                record.setPhone(student.getPhone());
+                record.setEmail(student.getEmail());
+                record.setSignupTime(record.getCreateTime());
             }
         }
         
         return resultPage;
+    }
+    
+    @Override
+    public Activity getActivityWithOrganizerName(Activity activity) {
+        if (activity != null && activity.getOrganizerId() != null) {
+            User organizer = userService.getById(activity.getOrganizerId());
+            if (organizer != null) {
+                activity.setOrganizerName(organizer.getRealName() != null ? organizer.getRealName() : organizer.getUsername());
+            }
+        }
+        return activity;
     }
 }
 

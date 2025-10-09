@@ -15,6 +15,12 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+    # 禁用将日期序列化为时间戳
+    serialization:
+      write-dates-as-timestamps: false
+    # 反序列化配置
+    deserialization:
+      fail-on-unknown-properties: false
 
 # MyBatis Plus配置
 mybatis-plus:

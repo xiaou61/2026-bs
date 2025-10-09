@@ -88,24 +88,23 @@ CREATE TABLE IF NOT EXISTS `notice` (
 -- 活动表
 CREATE TABLE IF NOT EXISTS `activity` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `name` varchar(200) NOT NULL COMMENT '活动名称',
+  `title` varchar(200) NOT NULL COMMENT '活动标题',
   `description` text NOT NULL COMMENT '活动描述',
   `location` varchar(200) NOT NULL COMMENT '活动地点',
-  `activity_time` datetime NOT NULL COMMENT '活动时间',
-  `signup_start_time` datetime NOT NULL COMMENT '报名开始时间',
-  `signup_end_time` datetime NOT NULL COMMENT '报名结束时间',
+  `start_time` datetime NOT NULL COMMENT '开始时间',
+  `end_time` datetime NOT NULL COMMENT '结束时间',
   `max_participants` int NOT NULL DEFAULT '100' COMMENT '人数限制',
   `current_participants` int NOT NULL DEFAULT '0' COMMENT '当前报名人数',
   `cover_image` varchar(500) DEFAULT NULL COMMENT '活动封面图',
-  `publisher_id` bigint NOT NULL COMMENT '发布者ID',
-  `status` tinyint NOT NULL DEFAULT '1' COMMENT '活动状态（0-未开始，1-报名中，2-已结束）',
+  `organizer_id` bigint NOT NULL COMMENT '组织者ID',
+  `status` varchar(20) NOT NULL DEFAULT '未开始' COMMENT '活动状态（未开始、进行中、已结束）',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
   PRIMARY KEY (`id`),
-  KEY `idx_publisher_id` (`publisher_id`),
+  KEY `idx_organizer_id` (`organizer_id`),
   KEY `idx_status` (`status`),
-  KEY `idx_activity_time` (`activity_time`)
+  KEY `idx_start_time` (`start_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='活动表';
 
 -- 活动报名表
@@ -139,6 +138,6 @@ INSERT INTO `notice` (`title`, `content`, `category`, `author_id`, `is_top`) VAL
 ('校园网络维护通知', '定于本周末进行校园网络设备维护，届时网络可能出现短暂中断，请提前做好准备。', '通知', 1, 0);
 
 -- 插入示例活动数据
-INSERT INTO `activity` (`name`, `description`, `location`, `activity_time`, `signup_start_time`, `signup_end_time`, `max_participants`, `publisher_id`) VALUES
-('春季运动会', '学校一年一度的春季运动会，欢迎全校师生参加。设有田径、球类等多个项目。', '校体育场', '2024-04-15 09:00:00', '2024-04-01 00:00:00', '2024-04-10 23:59:59', 200, 2),
-('编程竞赛', '面向全校学生的编程竞赛，设有个人赛和团队赛，获奖者将获得丰厚奖品。', '计算机学院机房', '2024-04-20 14:00:00', '2024-04-05 00:00:00', '2024-04-18 23:59:59', 50, 2);
+INSERT INTO `activity` (`title`, `description`, `location`, `start_time`, `end_time`, `max_participants`, `organizer_id`, `status`) VALUES
+('春季运动会', '学校一年一度的春季运动会，欢迎全校师生参加。设有田径、球类等多个项目。', '校体育场', '2024-04-15 09:00:00', '2024-04-15 17:00:00', 200, 2, '未开始'),
+('编程竞赛', '面向全校学生的编程竞赛，设有个人赛和团队赛，获奖者将获得丰厚奖品。', '计算机学院机房', '2024-04-20 14:00:00', '2024-04-20 18:00:00', 50, 2, '未开始');

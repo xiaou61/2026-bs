@@ -21,7 +21,7 @@ export const getActivityList = (params) => {
 // 获取活动详情
 export const getActivityDetail = (id) => {
   return request({
-    url: `/activity/${id}`,
+    url: `/activity/detail/${id}`,
     method: 'get'
   })
 }

@@ -18,7 +18,7 @@ public interface ActivityService extends IService<Activity> {
     /**
      * 分页查询活动列表
      */
-    Page<Activity> getActivityPage(int pageNum, int pageSize, Integer status);
+    Page<Activity> getActivityPage(int pageNum, int pageSize, String status);
     
     /**
      * 学生报名活动
@@ -39,5 +39,10 @@ public interface ActivityService extends IService<Activity> {
      * 获取活动报名列表
      */
     Object getActivitySignupList(Long activityId, int pageNum, int pageSize);
+    
+    /**
+     * 获取活动详情并填充组织者姓名
+     */
+    Activity getActivityWithOrganizerName(Activity activity);
 }
 

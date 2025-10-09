@@ -1,6 +1,7 @@
 package com.xiaou.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -18,9 +19,9 @@ public class Activity implements Serializable {
     private Long id;
     
     /**
-     * 活动名称
+     * 活动标题
      */
-    private String name;
+    private String title;
     
     /**
      * 活动描述
@@ -33,19 +34,16 @@ public class Activity implements Serializable {
     private String location;
     
     /**
-     * 活动时间
+     * 开始时间
      */
-    private LocalDateTime activityTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime startTime;
     
     /**
-     * 报名开始时间
+     * 结束时间
      */
-    private LocalDateTime signupStartTime;
-    
-    /**
-     * 报名结束时间
-     */
-    private LocalDateTime signupEndTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime endTime;
     
     /**
      * 人数限制
@@ -65,29 +63,37 @@ public class Activity implements Serializable {
     /**
      * 发布者ID
      */
-    private Long publisherId;
+    private Long organizerId;
     
     /**
      * 发布者姓名
      */
     @TableField(exist = false)
-    private String publisherName;
+    private String organizerName;
     
     /**
-     * 活动状态（0-未开始，1-报名中，2-已结束）
+     * 是否已报名（前端显示用）
      */
-    private Integer status;
+    @TableField(exist = false)
+    private Boolean isSignedUp;
+    
+    /**
+     * 活动状态（未开始、进行中、已结束）
+     */
+    private String status;
     
     /**
      * 创建时间
      */
     @TableField(fill = FieldFill.INSERT)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createTime;
     
     /**
      * 更新时间
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime updateTime;
     
     /**
