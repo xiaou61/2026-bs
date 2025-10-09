@@ -5,3 +5,4 @@ alwaysApply: true
  2.鉴权就用最简单的方法就可以了。
  3.所有的代码不需要写注释，不需要生成readme文件。不要写总结！！
  4.仔细看好前后端的字段。
+ 5.mybati-plus的依赖是mybatis-plus-spring-boot3-starter 一定要记着
