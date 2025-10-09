@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品详情 - 助农精准扶贫平台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">助农精准扶贫平台</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products.html">农产品</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/cart.html">购物车</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-6">
+                <img id="productImage" src="" class="img-fluid" alt="">
+            </div>
+            <div class="col-md-6">
+                <h2 id="productName"></h2>
+                <p class="text-muted" id="productRegion"></p>
+                <h3 class="text-danger" id="productPrice"></h3>
+                <p>库存：<span id="productStock"></span></p>
+                <hr>
+                <p id="productDescription"></p>
+                <hr>
+                <div class="d-flex align-items-center mb-3">
+                    <label class="me-2">数量：</label>
+                    <input type="number" class="form-control" style="width: 100px;" id="quantity" value="1" min="1">
+                </div>
+                <button class="btn btn-primary btn-lg me-2" onclick="addToCart()">加入购物车</button>
+                <button class="btn btn-success btn-lg" onclick="buyNow()">立即购买</button>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-12">
+                <h4>商品评价</h4>
+                <div id="commentList"></div>
+                <div class="mt-3" id="commentForm" style="display: none;">
+                    <h5>发表评价</h5>
+                    <div class="mb-3">
+                        <label>评分：</label>
+                        <select class="form-control" id="rating" style="width: 150px;">
+                            <option value="5">5星</option>
+                            <option value="4">4星</option>
+                            <option value="3">3星</option>
+                            <option value="2">2星</option>
+                            <option value="1">1星</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <textarea class="form-control" id="commentContent" rows="3" placeholder="请输入评价内容"></textarea>
+                    </div>
+                    <button class="btn btn-primary" onclick="submitComment()">提交评价</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let productId;
+        let product;
+
+        $(document).ready(function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            productId = urlParams.get('id');
+            
+            if (productId) {
+                loadProduct();
+                loadComments();
+            }
+
+            const token = localStorage.getItem('token');
+            if (token) {
+                $('#commentForm').show();
+            }
+        });
+
+        function loadProduct() {
+            $.ajax({
+                url: '/api/products/detail/' + productId,
+                method: 'GET',
+                success: function(response) {
+                    if (response.code === 200) {
+                        product = response.data;
+                        renderProduct(product);
+                    }
+                }
+            });
+        }
+
+        function renderProduct(p) {
+            $('#productImage').attr('src', p.coverUrl).attr('alt', p.name)
+                .on('error', function() {
+                    $(this).attr('src', 'https://via.placeholder.com/500x400?text=' + p.name);
+                });
+            $('#productName').text(p.name);
+            $('#productRegion').text(p.region || '');
+            $('#productPrice').text('¥' + p.price + '/' + p.unit);
+            $('#productStock').text(p.stock + p.unit);
+            $('#productDescription').text(p.description || '暂无描述');
+            $('#quantity').attr('max', p.stock);
+        }
+
+        function loadComments() {
+            $.ajax({
+                url: '/api/comments/product/' + productId,
+                method: 'GET',
+                success: function(response) {
+                    if (response.code === 200) {
+                        renderComments(response.data);
+                    }
+                }
+            });
+        }
+
+        function renderComments(comments) {
+            const container = $('#commentList');
+            container.empty();
+            
+            if (comments.length === 0) {
+                container.append('<p class="text-muted">暂无评价</p>');
+                return;
+            }
+
+            comments.forEach(comment => {
+                const stars = '★'.repeat(comment.rating) + '☆'.repeat(5 - comment.rating);
+                const item = `
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <span class="text-warning">${stars}</span>
+                                <span class="text-muted">${comment.createTime}</span>
+                            </div>
+                            <p class="mt-2">${comment.content || ''}</p>
+                        </div>
+                    </div>
+                `;
+                container.append(item);
+            });
+        }
+
+        function addToCart() {
+            const quantity = parseInt($('#quantity').val());
+            if (quantity <= 0 || quantity > product.stock) {
+                alert('数量不正确');
+                return;
+            }
+
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const existingItem = cart.find(item => item.productId === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({
+                    productId: productId,
+                    name: product.name,
+                    price: product.price,
+                    unit: product.unit,
+                    coverUrl: product.coverUrl,
+                    quantity: quantity
+                });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert('已加入购物车');
+        }
+
+        function buyNow() {
+            addToCart();
+            window.location.href = '/cart.html';
+        }
+
+        function submitComment() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('请先登录');
+                window.location.href = '/login.html';
+                return;
+            }
+
+            const data = {
+                productId: productId,
+                rating: parseInt($('#rating').val()),
+                content: $('#commentContent').val()
+            };
+
+            $.ajax({
+                url: '/api/comments',
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + token },
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function(response) {
+                    if (response.code === 200) {
+                        alert('评价成功');
+                        $('#commentContent').val('');
+                        loadComments();
+                    }
+                },
+                error: function(xhr) {
+                    const response = xhr.responseJSON;
+                    alert('评价失败：' + (response ? response.message : '网络错误'));
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购物车 - 助农精准扶贫平台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">助农精准扶贫平台</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products.html">农产品</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/cart.html">购物车</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <h2>购物车</h2>
+        <div class="row mt-4">
+            <div class="col-md-8">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>商品</th>
+                            <th>单价</th>
+                            <th>数量</th>
+                            <th>小计</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cartItems">
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>订单信息</h5>
+                        <hr>
+                        <div class="mb-3">
+                            <label>收货人姓名</label>
+                            <input type="text" class="form-control" id="receiverName">
+                        </div>
+                        <div class="mb-3">
+                            <label>联系电话</label>
+                            <input type="text" class="form-control" id="receiverPhone">
+                        </div>
+                        <div class="mb-3">
+                            <label>收货地址</label>
+                            <textarea class="form-control" id="shippingAddress" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label>备注</label>
+                            <textarea class="form-control" id="remark" rows="2"></textarea>
+                        </div>
+                        <hr>
+                        <h4>总计：¥<span id="totalPrice">0.00</span></h4>
+                        <button class="btn btn-success w-100 mt-3" onclick="checkout()">提交订单</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            loadCart();
+            loadUserInfo();
+        });
+
+        function loadUserInfo() {
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            if (user.realName) {
+                $('#receiverName').val(user.realName);
+                $('#receiverPhone').val(user.phone || '');
+                $('#shippingAddress').val(user.address || '');
+            }
+        }
+
+        function loadCart() {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            renderCart(cart);
+        }
+
+        function renderCart(cart) {
+            const tbody = $('#cartItems');
+            tbody.empty();
+
+            if (cart.length === 0) {
+                tbody.append('<tr><td colspan="5" class="text-center">购物车为空</td></tr>');
+                $('#totalPrice').text('0.00');
+                return;
+            }
+
+            let total = 0;
+            cart.forEach((item, index) => {
+                const subtotal = item.price * item.quantity;
+                total += subtotal;
+
+                const row = `
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="${item.coverUrl}" alt="${item.name}" 
+                                     style="width: 60px; height: 60px; object-fit: cover; margin-right: 10px;"
+                                     onerror="this.src='https://via.placeholder.com/60x60?text=${item.name}'">
+                                <span>${item.name}</span>
+                            </div>
+                        </td>
+                        <td>¥${item.price}/${item.unit}</td>
+                        <td>
+                            <input type="number" class="form-control" style="width: 80px;" 
+                                   value="${item.quantity}" min="1" 
+                                   onchange="updateQuantity(${index}, this.value)">
+                        </td>
+                        <td>¥${subtotal.toFixed(2)}</td>
+                        <td>
+                            <button class="btn btn-sm btn-danger" onclick="removeItem(${index})">删除</button>
+                        </td>
+                    </tr>
+                `;
+                tbody.append(row);
+            });
+
+            $('#totalPrice').text(total.toFixed(2));
+        }
+
+        function updateQuantity(index, quantity) {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            cart[index].quantity = parseInt(quantity);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        function removeItem(index) {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        function checkout() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('请先登录');
+                window.location.href = '/login.html';
+                return;
+            }
+
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            if (cart.length === 0) {
+                alert('购物车为空');
+                return;
+            }
+
+            const receiverName = $('#receiverName').val();
+            const receiverPhone = $('#receiverPhone').val();
+            const shippingAddress = $('#shippingAddress').val();
+
+            if (!receiverName || !receiverPhone || !shippingAddress) {
+                alert('请填写完整的收货信息');
+                return;
+            }
+
+            const items = cart.map(item => ({
+                productId: item.productId,
+                quantity: item.quantity
+            }));
+
+            const data = {
+                items: items,
+                shippingInfo: {
+                    receiverName: receiverName,
+                    receiverPhone: receiverPhone,
+                    address: shippingAddress,
+                    remark: $('#remark').val()
+                }
+            };
+
+            $.ajax({
+                url: '/api/orders',
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + token },
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function(response) {
+                    if (response.code === 200) {
+                        alert('订单提交成功');
+                        localStorage.removeItem('cart');
+                        window.location.href = '/order.html';
+                    }
+                },
+                error: function(xhr) {
+                    const response = xhr.responseJSON;
+                    alert('订单提交失败：' + (response ? response.message : '网络错误'));
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+

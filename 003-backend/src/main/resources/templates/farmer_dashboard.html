@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>农户后台 - 助农精准扶贫平台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">农户后台管理</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link text-white" href="#" onclick="logout()">退出</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-md-block bg-light sidebar py-3">
+                <div class="position-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" onclick="showSection('products')">我的商品</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('orders')">我的订单</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('addProduct')">发布商品</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main class="col-md-10 ms-sm-auto px-md-4 py-4">
+                <div id="productsSection">
+                    <h2>我的商品</h2>
+                    <div id="productList" class="mt-3"></div>
+                </div>
+
+                <div id="ordersSection" style="display: none;">
+                    <h2>我的订单</h2>
+                    <div id="orderList" class="mt-3"></div>
+                </div>
+
+                <div id="addProductSection" style="display: none;">
+                    <h2>发布商品</h2>
+                    <form id="productForm" class="mt-3">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">商品名称</label>
+                                    <input type="text" class="form-control" id="productName" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">分类</label>
+                                    <select class="form-control" id="productCategory" required></select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">价格(元)</label>
+                                    <input type="number" step="0.01" class="form-control" id="productPrice" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">库存</label>
+                                    <input type="number" class="form-control" id="productStock" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">单位</label>
+                                    <input type="text" class="form-control" id="productUnit" value="斤" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">产地</label>
+                                    <input type="text" class="form-control" id="productRegion" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">图片URL</label>
+                                    <input type="text" class="form-control" id="productCover">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">商品描述</label>
+                                    <textarea class="form-control" id="productDescription" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">发布商品</button>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('请先登录');
+                window.location.href = '/login.html';
+                return;
+            }
+            loadCategories();
+            loadMyProducts();
+        });
+
+        function showSection(section) {
+            $('#productsSection, #ordersSection, #addProductSection').hide();
+            if (section === 'products') {
+                $('#productsSection').show();
+                loadMyProducts();
+            } else if (section === 'orders') {
+                $('#ordersSection').show();
+                loadMyOrders();
+            } else if (section === 'addProduct') {
+                $('#addProductSection').show();
+            }
+        }
+
+        function loadCategories() {
+            $.ajax({
+                url: '/api/categories/tree',
+                method: 'GET',
+                success: function(response) {
+                    if (response.code === 200) {
+                        const select = $('#productCategory');
+                        response.data.forEach(cat => {
+                            select.append(`<option value="${cat.id}">${cat.name}</option>`);
+                        });
+                    }
+                }
+            });
+        }
+
+        function loadMyProducts() {
+            const token = localStorage.getItem('token');
+
+            $.ajax({
+                url: '/api/products/my-products',
+                method: 'GET',
+                headers: { 'Authorization': 'Bearer ' + token },
+                data: { page: 1, size: 50 },
+                success: function(response) {
+                    if (response.code === 200) {
+                        renderProducts(response.data.records);
+                    }
+                }
+            });
+        }
+
+        function renderProducts(products) {
+            const container = $('#productList');
+            container.empty();
+
+            if (products.length === 0) {
+                container.append('<p class="text-muted">暂无商品</p>');
+                return;
+            }
+
+            const table = `
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>商品名称</th>
+                            <th>价格</th>
+                            <th>库存</th>
+                            <th>状态</th>
+                            <th>创建时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productTableBody"></tbody>
+                </table>
+            `;
+            container.html(table);
+
+            products.forEach(p => {
+                const statusText = { 'pending': '待审核', 'approved': '已通过', 'rejected': '已拒绝' }[p.status] || p.status;
+                const row = `
+                    <tr>
+                        <td>${p.name}</td>
+                        <td>¥${p.price}/${p.unit}</td>
+                        <td>${p.stock}</td>
+                        <td>${statusText}</td>
+                        <td>${p.createTime}</td>
+                        <td>
+                            <button class="btn btn-sm btn-danger" onclick="deleteProduct(${p.id})">删除</button>
+                        </td>
+                    </tr>
+                `;
+                $('#productTableBody').append(row);
+            });
+        }
+
+        function deleteProduct(id) {
+            if (!confirm('确定要删除这个商品吗？')) return;
+
+            const token = localStorage.getItem('token');
+            $.ajax({
+                url: '/api/products/' + id,
+                method: 'DELETE',
+                headers: { 'Authorization': 'Bearer ' + token },
+                success: function(response) {
+                    if (response.code === 200) {
+                        alert('删除成功');
+                        loadMyProducts();
+                    }
+                }
+            });
+        }
+
+        function loadMyOrders() {
+            const token = localStorage.getItem('token');
+
+            $.ajax({
+                url: '/api/orders/my-orders',
+                method: 'GET',
+                headers: { 'Authorization': 'Bearer ' + token },
+                data: { page: 1, size: 50 },
+                success: function(response) {
+                    if (response.code === 200) {
+                        renderOrders(response.data.records);
+                    }
+                }
+            });
+        }
+
+        function renderOrders(orders) {
+            const container = $('#orderList');
+            container.empty();
+
+            if (orders.length === 0) {
+                container.append('<p class="text-muted">暂无订单</p>');
+                return;
+            }
+
+            orders.forEach(order => {
+                const statusText = { 'pending': '待支付', 'paid': '已支付', 'shipped': '已发货', 'completed': '已完成' }[order.status];
+                const card = `
+                    <div class="card mb-3">
+                        <div class="card-header">订单号：${order.orderNo} - ${statusText}</div>
+                        <div class="card-body">
+                            <p>总金额：¥${order.totalPrice}</p>
+                            <p>收货人：${order.receiverName} - ${order.receiverPhone}</p>
+                            <p>地址：${order.shippingAddress}</p>
+                            ${order.status === 'paid' ? `<button class="btn btn-sm btn-primary" onclick="shipOrder(${order.id})">发货</button>` : ''}
+                        </div>
+                    </div>
+                `;
+                container.append(card);
+            });
+        }
+
+        function shipOrder(orderId) {
+            const token = localStorage.getItem('token');
+            
+            $.ajax({
+                url: '/api/orders/' + orderId + '/status',
+                method: 'PUT',
+                headers: { 'Authorization': 'Bearer ' + token },
+                contentType: 'application/json',
+                data: JSON.stringify({ status: 'shipped' }),
+                success: function(response) {
+                    if (response.code === 200) {
+                        alert('发货成功');
+                        loadMyOrders();
+                    }
+                }
+            });
+        }
+
+        $('#productForm').submit(function(e) {
+            e.preventDefault();
+
+            const token = localStorage.getItem('token');
+            const data = {
+                name: $('#productName').val(),
+                categoryId: $('#productCategory').val(),
+                price: $('#productPrice').val(),
+                stock: $('#productStock').val(),
+                unit: $('#productUnit').val(),
+                region: $('#productRegion').val(),
+                coverUrl: $('#productCover').val() || '/images/products/default.jpg',
+                description: $('#productDescription').val()
+            };
+
+            $.ajax({
+                url: '/api/products',
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + token },
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function(response) {
+                    if (response.code === 200) {
+                        alert('商品发布成功，等待审核');
+                        $('#productForm')[0].reset();
+                        showSection('products');
+                    }
+                },
+                error: function(xhr) {
+                    alert('发布失败：' + xhr.responseJSON.message);
+                }
+            });
+        });
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/login.html';
+        }
+    </script>
+</body>
+</html>
+

@@ -9,6 +9,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="campus-affairs" />
+        <module name="003-backend" />
         <module name="002-backend" />
       </profile>
     </annotationProcessing>
@@ -20,6 +21,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="001-backend" options="-parameters" />
       <module name="002-backend" options="-parameters" />
+      <module name="003-backend" options="-parameters" />
       <module name="campus-affairs" options="-parameters" />
     </option>
   </component>

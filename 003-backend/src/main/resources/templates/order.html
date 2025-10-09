@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的订单 - 助农精准扶贫平台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">助农精准扶贫平台</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products.html">农产品</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/order.html">我的订单</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="logout()">退出</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <h2>我的订单</h2>
+        <div class="mt-4" id="orderList">
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('请先登录');
+                window.location.href = '/login.html';
+                return;
+            }
+            loadOrders();
+        });
+
+        function loadOrders() {
+            const token = localStorage.getItem('token');
+
+            $.ajax({
+                url: '/api/orders/my-orders',
+                method: 'GET',
+                headers: { 'Authorization': 'Bearer ' + token },
+                data: { page: 1, size: 20 },
+                success: function(response) {
+                    if (response.code === 200) {
+                        renderOrders(response.data.records);
+                    }
+                },
+                error: function() {
+                    alert('加载订单失败');
+                }
+            });
+        }
+
+        function renderOrders(orders) {
+            const container = $('#orderList');
+            container.empty();
+
+            if (orders.length === 0) {
+                container.append('<p class="text-center text-muted">暂无订单</p>');
+                return;
+            }
+
+            orders.forEach(order => {
+                const statusText = {
+                    'pending': '待支付',
+                    'paid': '已支付',
+                    'shipped': '已发货',
+                    'completed': '已完成',
+                    'cancelled': '已取消'
+                }[order.status] || order.status;
+
+                const card = `
+                    <div class="card mb-3">
+                        <div class="card-header d-flex justify-content-between">
+                            <span>订单号：${order.orderNo}</span>
+                            <span class="badge bg-primary">${statusText}</span>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>总金额：</strong>¥${order.totalPrice}</p>
+                            <p><strong>收货人：</strong>${order.receiverName} ${order.receiverPhone}</p>
+                            <p><strong>收货地址：</strong>${order.shippingAddress}</p>
+                            <p><strong>创建时间：</strong>${order.createTime}</p>
+                            ${order.status === 'pending' ? '<button class="btn btn-primary btn-sm" onclick="payOrder(' + order.id + ')">支付</button>' : ''}
+                            ${order.status === 'shipped' ? '<button class="btn btn-success btn-sm" onclick="confirmOrder(' + order.id + ')">确认收货</button>' : ''}
+                        </div>
+                    </div>
+                `;
+                container.append(card);
+            });
+        }
+
+        function payOrder(orderId) {
+            const token = localStorage.getItem('token');
+            
+            $.ajax({
+                url: '/api/orders/' + orderId + '/status',
+                method: 'PUT',
+                headers: { 'Authorization': 'Bearer ' + token },
+                contentType: 'application/json',
+                data: JSON.stringify({ status: 'paid' }),
+                success: function(response) {
+                    if (response.code === 200) {
+                        alert('支付成功');
+                        loadOrders();
+                    }
+                }
+            });
+        }
+
+        function confirmOrder(orderId) {
+            const token = localStorage.getItem('token');
+            
+            $.ajax({
+                url: '/api/orders/' + orderId + '/status',
+                method: 'PUT',
+                headers: { 'Authorization': 'Bearer ' + token },
+                contentType: 'application/json',
+                data: JSON.stringify({ status: 'completed' }),
+                success: function(response) {
+                    if (response.code === 200) {
+                        alert('确认收货成功');
+                        loadOrders();
+                    }
+                }
+            });
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/login.html';
+        }
+    </script>
+</body>
+</html>
+
