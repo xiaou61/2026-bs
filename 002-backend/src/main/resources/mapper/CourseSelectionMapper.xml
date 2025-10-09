@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.mapper.CourseSelectionMapper">
+
+    <resultMap id="CourseSelectionResultMap" type="com.xiaou.entity.CourseSelection">
+        <id property="id" column="id"/>
+        <result property="studentId" column="student_id"/>
+        <result property="studentName" column="student_name"/>
+        <result property="studentNo" column="student_no"/>
+        <result property="courseId" column="course_id"/>
+        <result property="courseName" column="course_name"/>
+        <result property="courseNo" column="course_no"/>
+        <result property="teacherName" column="teacher_name"/>
+        <result property="credit" column="credit"/>
+        <result property="status" column="status"/>
+        <result property="selectionTime" column="selection_time"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedTime" column="updated_time"/>
+    </resultMap>
+
+    <select id="findById" resultMap="CourseSelectionResultMap">
+        SELECT * FROM course_selections WHERE id = #{id}
+    </select>
+
+    <select id="findByStudentAndCourse" resultMap="CourseSelectionResultMap">
+        SELECT * FROM course_selections 
+        WHERE student_id = #{studentId} AND course_id = #{courseId}
+    </select>
+
+    <select id="findByStudentId" resultMap="CourseSelectionResultMap">
+        SELECT * FROM course_selections WHERE student_id = #{studentId} ORDER BY selection_time DESC
+    </select>
+
+    <select id="findByCourseId" resultMap="CourseSelectionResultMap">
+        SELECT * FROM course_selections WHERE course_id = #{courseId} ORDER BY selection_time DESC
+    </select>
+
+    <insert id="insert" parameterType="com.xiaou.entity.CourseSelection" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO course_selections (student_id, student_name, student_no, course_id, course_name, course_no, 
+                                      teacher_name, credit, status, selection_time)
+        VALUES (#{studentId}, #{studentName}, #{studentNo}, #{courseId}, #{courseName}, #{courseNo},
+                #{teacherName}, #{credit}, #{status}, #{selectionTime})
+    </insert>
+
+    <update id="update" parameterType="com.xiaou.entity.CourseSelection">
+        UPDATE course_selections
+        <set>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM course_selections WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteByStudentAndCourse">
+        DELETE FROM course_selections WHERE student_id = #{studentId} AND course_id = #{courseId}
+    </delete>
+
+</mapper>
+

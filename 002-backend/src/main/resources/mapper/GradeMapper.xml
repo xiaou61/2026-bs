@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.mapper.GradeMapper">
+
+    <resultMap id="GradeResultMap" type="com.xiaou.entity.Grade">
+        <id property="id" column="id"/>
+        <result property="studentId" column="student_id"/>
+        <result property="studentName" column="student_name"/>
+        <result property="studentNo" column="student_no"/>
+        <result property="courseId" column="course_id"/>
+        <result property="courseName" column="course_name"/>
+        <result property="courseNo" column="course_no"/>
+        <result property="teacherId" column="teacher_id"/>
+        <result property="teacherName" column="teacher_name"/>
+        <result property="credit" column="credit"/>
+        <result property="score" column="score"/>
+        <result property="gpa" column="gpa"/>
+        <result property="semester" column="semester"/>
+        <result property="status" column="status"/>
+        <result property="submitTime" column="submit_time"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedTime" column="updated_time"/>
+    </resultMap>
+
+    <select id="findById" resultMap="GradeResultMap">
+        SELECT * FROM grades WHERE id = #{id}
+    </select>
+
+    <select id="findByStudentAndCourse" resultMap="GradeResultMap">
+        SELECT * FROM grades WHERE student_id = #{studentId} AND course_id = #{courseId}
+    </select>
+
+    <select id="findByStudentId" resultMap="GradeResultMap">
+        SELECT * FROM grades WHERE student_id = #{studentId} ORDER BY created_time DESC
+    </select>
+
+    <select id="findByCourseId" resultMap="GradeResultMap">
+        SELECT * FROM grades WHERE course_id = #{courseId} ORDER BY student_no ASC
+    </select>
+
+    <select id="findByTeacherId" resultMap="GradeResultMap">
+        SELECT * FROM grades WHERE teacher_id = #{teacherId} ORDER BY created_time DESC
+    </select>
+
+    <insert id="insert" parameterType="com.xiaou.entity.Grade" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO grades (student_id, student_name, student_no, course_id, course_name, course_no, 
+                          teacher_id, teacher_name, credit, score, gpa, semester, status, submit_time)
+        VALUES (#{studentId}, #{studentName}, #{studentNo}, #{courseId}, #{courseName}, #{courseNo},
+                #{teacherId}, #{teacherName}, #{credit}, #{score}, #{gpa}, #{semester}, #{status}, #{submitTime})
+    </insert>
+
+    <update id="update" parameterType="com.xiaou.entity.Grade">
+        UPDATE grades
+        <set>
+            <if test="score != null">score = #{score},</if>
+            <if test="gpa != null">gpa = #{gpa},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="submitTime != null">submit_time = #{submitTime},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM grades WHERE id = #{id}
+    </delete>
+
+</mapper>
+

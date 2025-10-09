@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.mapper.NoticeMapper">
+
+    <resultMap id="NoticeResultMap" type="com.xiaou.entity.Notice">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="publisherId" column="publisher_id"/>
+        <result property="publisherName" column="publisher_name"/>
+        <result property="type" column="type"/>
+        <result property="status" column="status"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedTime" column="updated_time"/>
+    </resultMap>
+
+    <select id="findById" resultMap="NoticeResultMap">
+        SELECT * FROM notices WHERE id = #{id}
+    </select>
+
+    <select id="findAll" resultMap="NoticeResultMap">
+        SELECT * FROM notices
+        <where>
+            <if test="type != null and type != ''">
+                AND type = #{type}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                AND (title LIKE CONCAT('%', #{keyword}, '%')
+                OR content LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
+        ORDER BY created_time DESC
+    </select>
+
+    <insert id="insert" parameterType="com.xiaou.entity.Notice" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO notices (title, content, publisher_id, publisher_name, type, status)
+        VALUES (#{title}, #{content}, #{publisherId}, #{publisherName}, #{type}, #{status})
+    </insert>
+
+    <update id="update" parameterType="com.xiaou.entity.Notice">
+        UPDATE notices
+        <set>
+            <if test="title != null">title = #{title},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM notices WHERE id = #{id}
+    </delete>
+
+</mapper>
+

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.mapper.SystemConfigMapper">
+
+    <resultMap id="SystemConfigResultMap" type="com.xiaou.entity.SystemConfig">
+        <id property="id" column="id"/>
+        <result property="configKey" column="config_key"/>
+        <result property="configValue" column="config_value"/>
+        <result property="description" column="description"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedTime" column="updated_time"/>
+    </resultMap>
+
+    <select id="findById" resultMap="SystemConfigResultMap">
+        SELECT * FROM system_config WHERE id = #{id}
+    </select>
+
+    <select id="findByKey" resultMap="SystemConfigResultMap">
+        SELECT * FROM system_config WHERE config_key = #{configKey}
+    </select>
+
+    <select id="findAll" resultMap="SystemConfigResultMap">
+        SELECT * FROM system_config ORDER BY created_time DESC
+    </select>
+
+    <insert id="insert" parameterType="com.xiaou.entity.SystemConfig" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO system_config (config_key, config_value, description)
+        VALUES (#{configKey}, #{configValue}, #{description})
+    </insert>
+
+    <update id="update" parameterType="com.xiaou.entity.SystemConfig">
+        UPDATE system_config
+        <set>
+            <if test="configValue != null">config_value = #{configValue},</if>
+            <if test="description != null">description = #{description},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM system_config WHERE id = #{id}
+    </delete>
+
+</mapper>
+
