@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.mapper.CourseMapper">
+
+    <resultMap id="CourseResultMap" type="com.xiaou.entity.Course">
+        <id property="id" column="id"/>
+        <result property="courseNo" column="course_no"/>
+        <result property="courseName" column="course_name"/>
+        <result property="teacherId" column="teacher_id"/>
+        <result property="teacherName" column="teacher_name"/>
+        <result property="credit" column="credit"/>
+        <result property="totalCapacity" column="total_capacity"/>
+        <result property="selectedCount" column="selected_count"/>
+        <result property="courseType" column="course_type"/>
+        <result property="semester" column="semester"/>
+        <result property="classroom" column="classroom"/>
+        <result property="timeSlot" column="time_slot"/>
+        <result property="description" column="description"/>
+        <result property="status" column="status"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedTime" column="updated_time"/>
+    </resultMap>
+
+    <select id="findById" resultMap="CourseResultMap">
+        SELECT * FROM courses WHERE id = #{id}
+    </select>
+
+    <select id="findByCourseNo" resultMap="CourseResultMap">
+        SELECT * FROM courses WHERE course_no = #{courseNo}
+    </select>
+
+    <select id="findAll" resultMap="CourseResultMap">
+        SELECT * FROM courses
+        <where>
+            <if test="teacherId != null">
+                AND teacher_id = #{teacherId}
+            </if>
+            <if test="courseType != null and courseType != ''">
+                AND course_type = #{courseType}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                AND (course_name LIKE CONCAT('%', #{keyword}, '%')
+                OR course_no LIKE CONCAT('%', #{keyword}, '%')
+                OR teacher_name LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
+        ORDER BY created_time DESC
+    </select>
+
+    <select id="findByTeacherId" resultMap="CourseResultMap">
+        SELECT * FROM courses WHERE teacher_id = #{teacherId} ORDER BY created_time DESC
+    </select>
+
+    <insert id="insert" parameterType="com.xiaou.entity.Course" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO courses (course_no, course_name, teacher_id, teacher_name, credit, total_capacity, selected_count, 
+                           course_type, semester, classroom, time_slot, description, status)
+        VALUES (#{courseNo}, #{courseName}, #{teacherId}, #{teacherName}, #{credit}, #{totalCapacity}, #{selectedCount},
+                #{courseType}, #{semester}, #{classroom}, #{timeSlot}, #{description}, #{status})
+    </insert>
+
+    <update id="update" parameterType="com.xiaou.entity.Course">
+        UPDATE courses
+        <set>
+            <if test="courseName != null">course_name = #{courseName},</if>
+            <if test="teacherId != null">teacher_id = #{teacherId},</if>
+            <if test="teacherName != null">teacher_name = #{teacherName},</if>
+            <if test="credit != null">credit = #{credit},</if>
+            <if test="totalCapacity != null">total_capacity = #{totalCapacity},</if>
+            <if test="selectedCount != null">selected_count = #{selectedCount},</if>
+            <if test="courseType != null">course_type = #{courseType},</if>
+            <if test="semester != null">semester = #{semester},</if>
+            <if test="classroom != null">classroom = #{classroom},</if>
+            <if test="timeSlot != null">time_slot = #{timeSlot},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM courses WHERE id = #{id}
+    </delete>
+
+    <update id="updateSelectedCount">
+        UPDATE courses 
+        SET selected_count = selected_count + #{increment}
+        WHERE id = #{courseId}
+    </update>
+
+</mapper>
+
