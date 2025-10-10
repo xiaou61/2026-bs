@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的问卷 - 问卷调查系统</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f5f5f5;
+        }
+        .header {
+            background: #667eea;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            font-size: 24px;
+        }
+        .header .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+        .btn-primary:hover {
+            background: #f0f0f0;
+        }
+        .btn-danger {
+            background: #ff4444;
+            color: white;
+        }
+        .btn-danger:hover {
+            background: #cc0000;
+        }
+        .btn-success {
+            background: #00C851;
+            color: white;
+        }
+        .btn-success:hover {
+            background: #007E33;
+        }
+        .btn-info {
+            background: #33b5e5;
+            color: white;
+        }
+        .btn-info:hover {
+            background: #0099CC;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+        .survey-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .survey-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .survey-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .survey-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .survey-desc {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .survey-status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+        .status-draft {
+            background: #ffbb33;
+            color: white;
+        }
+        .status-published {
+            background: #00C851;
+            color: white;
+        }
+        .status-ended {
+            background: #999;
+            color: white;
+        }
+        .survey-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .share-link {
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #666;
+            word-break: break-all;
+        }
+        .copy-btn {
+            margin-left: 10px;
+            padding: 5px 10px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .copy-btn:hover {
+            background: #5568d3;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        .empty-state h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="header">
+            <h1>我的问卷</h1>
+            <div class="user-info">
+                <span>欢迎，{{ user.nickname }}（{{ user.role === 0 ? '管理员' : '普通用户' }}）</span>
+                <button v-if="user.role === 0" class="btn btn-primary" @click="createSurvey">创建问卷</button>
+                <button class="btn btn-danger" @click="logout">退出</button>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div v-if="surveys.length === 0" class="empty-state">
+                <h3>还没有问卷</h3>
+                <p v-if="user.role === 0">点击右上角"创建问卷"开始吧</p>
+                <p v-else>暂无可用问卷</p>
+            </div>
+            
+            <div v-else class="survey-grid">
+                <div v-for="survey in surveys" :key="survey.id" class="survey-card">
+                    <div class="survey-title">{{ survey.title }}</div>
+                    <div class="survey-desc">{{ survey.description || '暂无描述' }}</div>
+                    <span class="survey-status" :class="getStatusClass(survey.status)">
+                        {{ getStatusText(survey.status) }}
+                    </span>
+                    
+                    <div v-if="survey.status === 1" class="share-link">
+                        <strong>分享链接：</strong>
+                        <span :id="'link-' + survey.id">{{ getShareLink(survey.id) }}</span>
+                        <button class="copy-btn" @click="copyLink(survey.id)">复制链接</button>
+                    </div>
+                    
+                    <div class="survey-actions">
+                        <button v-if="survey.status === 0 && user.role === 0" class="btn btn-success" @click="publishSurvey(survey.id)">发布</button>
+                        <button v-if="user.role === 0" class="btn btn-info" @click="editSurvey(survey.id)">编辑</button>
+                        <button v-if="survey.status === 1" class="btn btn-info" @click="viewStats(survey.id)">统计</button>
+                        <button v-if="user.role === 0" class="btn btn-danger" @click="deleteSurvey(survey.id)">删除</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        
+        axios.interceptors.request.use(config => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                config.headers.Authorization = `Bearer ${token}`;
+            }
+            return config;
+        });
+
+        createApp({
+            data() {
+                return {
+                    user: {},
+                    surveys: []
+                }
+            },
+            mounted() {
+                this.checkLogin();
+                this.loadSurveys();
+            },
+            methods: {
+                checkLogin() {
+                    const user = localStorage.getItem('user');
+                    if (!user) {
+                        window.location.href = '/login';
+                        return;
+                    }
+                    this.user = JSON.parse(user);
+                },
+                async loadSurveys() {
+                    try {
+                        const response = await axios.get('/api/survey/list');
+                        if (response.data.code === 200) {
+                            this.surveys = response.data.data;
+                        }
+                    } catch (error) {
+                        console.error('加载问卷失败', error);
+                    }
+                },
+                createSurvey() {
+                    window.location.href = '/survey/create';
+                },
+                editSurvey(id) {
+                    window.location.href = `/survey/edit?id=${id}`;
+                },
+                viewStats(id) {
+                    window.location.href = `/survey/stat?id=${id}`;
+                },
+                async publishSurvey(id) {
+                    if (confirm('确定要发布这个问卷吗？')) {
+                        try {
+                            const response = await axios.put(`/api/survey/publish/${id}`);
+                            if (response.data.code === 200) {
+                                alert('发布成功');
+                                this.loadSurveys();
+                            }
+                        } catch (error) {
+                            alert('发布失败：' + (error.response?.data?.message || '未知错误'));
+                        }
+                    }
+                },
+                async deleteSurvey(id) {
+                    if (confirm('确定要删除这个问卷吗？')) {
+                        try {
+                            const response = await axios.delete(`/api/survey/delete/${id}`);
+                            if (response.data.code === 200) {
+                                alert('删除成功');
+                                this.loadSurveys();
+                            }
+                        } catch (error) {
+                            alert('删除失败：' + (error.response?.data?.message || '未知错误'));
+                        }
+                    }
+                },
+                getStatusClass(status) {
+                    return status === 0 ? 'status-draft' : status === 1 ? 'status-published' : 'status-ended';
+                },
+                getStatusText(status) {
+                    return status === 0 ? '草稿' : status === 1 ? '已发布' : '已结束';
+                },
+                getShareLink(id) {
+                    return `${window.location.origin}/survey/fill?id=${id}`;
+                },
+                copyLink(id) {
+                    const link = this.getShareLink(id);
+                    navigator.clipboard.writeText(link).then(() => {
+                        alert('链接已复制到剪贴板');
+                    }).catch(() => {
+                        const input = document.createElement('input');
+                        input.value = link;
+                        document.body.appendChild(input);
+                        input.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(input);
+                        alert('链接已复制到剪贴板');
+                    });
+                },
+                logout() {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    window.location.href = '/login';
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
+

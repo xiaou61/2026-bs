@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>填写问卷 - 问卷调查系统</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 50px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+        .survey-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+        }
+        .survey-title {
+            font-size: 32px;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .survey-desc {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .question-item {
+            margin-bottom: 35px;
+            padding: 25px;
+            background: linear-gradient(to right, #f8f9ff, #ffffff);
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .question-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+        .question-title .required {
+            color: #ff4444;
+            margin-left: 5px;
+        }
+        .question-type {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-left: 10px;
+            font-weight: normal;
+        }
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .option-label:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: translateX(5px);
+        }
+        .option-label input[type="radio"],
+        .option-label input[type="checkbox"] {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+            font-family: 'Arial', sans-serif;
+        }
+        input[type="text"]:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .rating-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .rating-label {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .rating-label:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        .rating-label input {
+            margin-right: 8px;
+        }
+        .btn {
+            padding: 18px 50px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 100%;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
+        }
+        .success-message {
+            text-align: center;
+            padding: 60px;
+        }
+        .success-message h2 {
+            color: #00C851;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .success-message p {
+            color: #666;
+            font-size: 18px;
+        }
+        .success-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <div v-if="!submitted">
+                <div class="survey-header">
+                    <h1 class="survey-title">{{ survey.title }}</h1>
+                    <p class="survey-desc">{{ survey.description }}</p>
+                </div>
+
+                <form @submit.prevent="handleSubmit">
+                    <div v-for="(question, index) in questions" :key="question.id" class="question-item">
+                        <div class="question-title">
+                            <span>{{ index + 1 }}. {{ question.title }}</span>
+                            <span class="question-type">{{ getTypeLabel(question.type) }}</span>
+                            <span v-if="question.required" class="required">*</span>
+                        </div>
+
+                        <div v-if="question.type === 'radio'">
+                            <label v-for="option in getOptions(question)" :key="option" class="option-label">
+                                <input type="radio" :name="'q_' + question.id" :value="option" v-model="answers[question.id]">
+                                <span>{{ option }}</span>
+                            </label>
+                        </div>
+
+                        <div v-else-if="question.type === 'checkbox'">
+                            <label v-for="option in getOptions(question)" :key="option" class="option-label">
+                                <input type="checkbox" :value="option" @change="updateCheckbox(question.id, option)">
+                                <span>{{ option }}</span>
+                            </label>
+                        </div>
+
+                        <div v-else-if="question.type === 'input'">
+                            <textarea v-model="answers[question.id]" placeholder="请在此输入您的答案..."></textarea>
+                        </div>
+
+                        <div v-else-if="question.type === 'rate'">
+                            <div class="rating-group">
+                                <label v-for="n in 5" :key="n" class="rating-label">
+                                    <input type="radio" :name="'q_' + question.id" :value="n" v-model="answers[question.id]">
+                                    <span>⭐ {{ n }}分</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div v-else-if="question.type === 'select'">
+                            <select v-model="answers[question.id]">
+                                <option value="">请选择...</option>
+                                <option v-for="option in getOptions(question)" :key="option" :value="option">
+                                    {{ option }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">提交问卷</button>
+                </form>
+            </div>
+
+            <div v-else class="success-message">
+                <div class="success-icon">✓</div>
+                <h2>提交成功！</h2>
+                <p>感谢您的参与，您的反馈对我们非常重要。</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    surveyId: null,
+                    survey: {},
+                    questions: [],
+                    answers: {},
+                    checkboxAnswers: {},
+                    submitted: false
+                }
+            },
+            mounted() {
+                const urlParams = new URLSearchParams(window.location.search);
+                this.surveyId = urlParams.get('id');
+                this.loadSurvey();
+                this.loadQuestions();
+            },
+            methods: {
+                async loadSurvey() {
+                    try {
+                        const response = await axios.get(`/api/survey/detail/${this.surveyId}`);
+                        if (response.data.code === 200) {
+                            this.survey = response.data.data;
+                        }
+                    } catch (error) {
+                        console.error('加载问卷失败', error);
+                    }
+                },
+                async loadQuestions() {
+                    try {
+                        const response = await axios.get(`/api/question/list/${this.surveyId}`);
+                        if (response.data.code === 200) {
+                            this.questions = response.data.data;
+                            this.questions.forEach(q => {
+                                if (q.type === 'checkbox') {
+                                    this.checkboxAnswers[q.id] = [];
+                                }
+                            });
+                        }
+                    } catch (error) {
+                        console.error('加载问题失败', error);
+                    }
+                },
+                getOptions(question) {
+                    if (question.options) {
+                        return JSON.parse(question.options);
+                    }
+                    return [];
+                },
+                getTypeLabel(type) {
+                    const typeMap = {
+                        radio: '单选题',
+                        checkbox: '多选题',
+                        input: '问答题',
+                        rate: '评分题',
+                        select: '下拉选择'
+                    };
+                    return typeMap[type] || type;
+                },
+                updateCheckbox(questionId, option) {
+                    if (!this.checkboxAnswers[questionId]) {
+                        this.checkboxAnswers[questionId] = [];
+                    }
+                    const index = this.checkboxAnswers[questionId].indexOf(option);
+                    if (index > -1) {
+                        this.checkboxAnswers[questionId].splice(index, 1);
+                    } else {
+                        this.checkboxAnswers[questionId].push(option);
+                    }
+                    this.answers[questionId] = this.checkboxAnswers[questionId].join(',');
+                },
+                async handleSubmit() {
+                    const details = [];
+                    for (const question of this.questions) {
+                        if (question.required && !this.answers[question.id]) {
+                            alert(`请回答第${this.questions.indexOf(question) + 1}题`);
+                            return;
+                        }
+                        if (this.answers[question.id]) {
+                            details.push({
+                                questionId: question.id,
+                                value: this.answers[question.id].toString()
+                            });
+                        }
+                    }
+
+                    try {
+                        const response = await axios.post('/api/answer/submit', {
+                            surveyId: this.surveyId,
+                            details: details
+                        });
+                        if (response.data.code === 200) {
+                            this.submitted = true;
+                        }
+                    } catch (error) {
+                        alert('提交失败：' + (error.response?.data?.message || '未知错误'));
+                    }
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>问卷统计 - 问卷调查系统</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f5f5f5;
+        }
+        .header {
+            background: #667eea;
+            color: white;
+            padding: 20px;
+        }
+        .header h1 {
+            font-size: 24px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 30px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .stat-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .chart {
+            width: 100%;
+            height: 400px;
+        }
+        .text-answers {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .text-answer-item {
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border-left: 3px solid #667eea;
+        }
+        .question-type-badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            margin-left: 10px;
+            font-weight: normal;
+        }
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            background: #667eea;
+            color: white;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+        }
+        .btn-export {
+            background: #00C851;
+        }
+        .btn-export:hover {
+            background: #007E33;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="header">
+            <h1>问卷统计分析</h1>
+        </div>
+        
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <button class="btn" @click="goBack">返回</button>
+                <button class="btn btn-export" @click="exportData">导出Excel</button>
+            </div>
+            
+            <div class="stat-card">
+                <div style="display: flex; justify-content: space-around; align-items: center;">
+                    <div style="text-align: center;">
+                        <h3 style="color: #667eea; font-size: 48px; margin: 0;">{{ totalAnswers }}</h3>
+                        <p style="color: #666; margin-top: 10px;">总答卷数</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <h3 style="color: #00C851; font-size: 48px; margin: 0;">{{ questionStats.length }}</h3>
+                        <p style="color: #666; margin-top: 10px;">问题数量</p>
+                    </div>
+                </div>
+            </div>
+
+            <div v-for="(stat, index) in questionStats" :key="index" class="stat-card">
+                <div class="stat-title">
+                    <span>{{ index + 1 }}. {{ stat.question.title }}</span>
+                    <span class="question-type-badge">{{ getTypeLabel(stat.question.type) }}</span>
+                </div>
+                
+                <div v-if="stat.optionCount">
+                    <div style="margin-bottom: 20px;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: #f5f5f5;">
+                                    <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">选项</th>
+                                    <th style="padding: 10px; text-align: center; border: 1px solid #ddd;">选择人数</th>
+                                    <th style="padding: 10px; text-align: center; border: 1px solid #ddd;">占比</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(count, option) in stat.optionCount" :key="option">
+                                    <td style="padding: 10px; border: 1px solid #ddd;">{{ option }}</td>
+                                    <td style="padding: 10px; text-align: center; border: 1px solid #ddd;">{{ count }}</td>
+                                    <td style="padding: 10px; text-align: center; border: 1px solid #ddd;">
+                                        {{ (count / totalAnswers * 100).toFixed(2) }}%
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div :id="'chart_' + index" class="chart"></div>
+                </div>
+
+                <div v-else-if="stat.answers" class="text-answers">
+                    <p style="color: #666; margin-bottom: 15px;">共 {{ stat.answers.length }} 条回答</p>
+                    <div v-for="(answer, idx) in stat.answers" :key="idx" class="text-answer-item">
+                        <strong>回答 {{ idx + 1 }}：</strong>{{ answer }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        
+        axios.interceptors.request.use(config => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                config.headers.Authorization = `Bearer ${token}`;
+            }
+            return config;
+        });
+
+        createApp({
+            data() {
+                return {
+                    surveyId: null,
+                    totalAnswers: 0,
+                    questionStats: []
+                }
+            },
+            mounted() {
+                const urlParams = new URLSearchParams(window.location.search);
+                this.surveyId = urlParams.get('id');
+                this.loadStatistics();
+            },
+            methods: {
+                async loadStatistics() {
+                    try {
+                        const response = await axios.get(`/api/answer/stat/${this.surveyId}`);
+                        if (response.data.code === 200) {
+                            this.totalAnswers = response.data.data.totalAnswers;
+                            this.questionStats = response.data.data.questionStats;
+                            
+                            this.$nextTick(() => {
+                                this.renderCharts();
+                            });
+                        }
+                    } catch (error) {
+                        console.error('加载统计失败', error);
+                    }
+                },
+                renderCharts() {
+                    this.questionStats.forEach((stat, index) => {
+                        if (stat.optionCount) {
+                            const chartDom = document.getElementById('chart_' + index);
+                            if (chartDom) {
+                                const myChart = echarts.init(chartDom);
+                                
+                                const data = Object.entries(stat.optionCount).map(([name, value]) => ({
+                                    name, value
+                                }));
+
+                                const option = {
+                                    tooltip: {
+                                        trigger: 'item'
+                                    },
+                                    legend: {
+                                        orient: 'vertical',
+                                        left: 'left'
+                                    },
+                                    series: [
+                                        {
+                                            name: '选项统计',
+                                            type: 'pie',
+                                            radius: '50%',
+                                            data: data,
+                                            emphasis: {
+                                                itemStyle: {
+                                                    shadowBlur: 10,
+                                                    shadowOffsetX: 0,
+                                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                                }
+                                            }
+                                        }
+                                    ]
+                                };
+
+                                myChart.setOption(option);
+                            }
+                        }
+                    });
+                },
+                getTypeLabel(type) {
+                    const typeMap = {
+                        radio: '单选题',
+                        checkbox: '多选题',
+                        input: '问答题',
+                        rate: '评分题',
+                        select: '下拉选择'
+                    };
+                    return typeMap[type] || type;
+                },
+                exportData() {
+                    const token = localStorage.getItem('token');
+                    const url = `/api/answer/export/${this.surveyId}`;
+                    
+                    fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                    .then(response => response.blob())
+                    .then(blob => {
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `问卷统计数据_${this.surveyId}.xlsx`;
+                        document.body.appendChild(a);
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        document.body.removeChild(a);
+                    })
+                    .catch(error => {
+                        alert('导出失败：' + error.message);
+                    });
+                },
+                goBack() {
+                    window.location.href = '/dashboard';
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
+

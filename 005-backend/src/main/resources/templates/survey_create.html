@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>创建问卷 - 问卷调查系统</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f5f5f5;
+        }
+        .header {
+            background: #667eea;
+            color: white;
+            padding: 20px;
+        }
+        .header h1 {
+            font-size: 24px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        .btn-secondary {
+            background: #999;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="header">
+            <h1>创建问卷</h1>
+        </div>
+        
+        <div class="container">
+            <form @submit.prevent="handleSubmit">
+                <div class="form-group">
+                    <label>问卷标题</label>
+                    <input type="text" v-model="form.title" required placeholder="请输入问卷标题">
+                </div>
+                <div class="form-group">
+                    <label>问卷描述</label>
+                    <textarea v-model="form.description" placeholder="请输入问卷描述（可选）"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">创建</button>
+                <button type="button" class="btn btn-secondary" @click="goBack">取消</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        
+        axios.interceptors.request.use(config => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                config.headers.Authorization = `Bearer ${token}`;
+            }
+            return config;
+        });
+
+        createApp({
+            data() {
+                return {
+                    form: {
+                        title: '',
+                        description: ''
+                    }
+                }
+            },
+            methods: {
+                async handleSubmit() {
+                    try {
+                        const response = await axios.post('/api/survey/create', this.form);
+                        if (response.data.code === 200) {
+                            alert('创建成功');
+                            window.location.href = '/dashboard';
+                        }
+                    } catch (error) {
+                        alert('创建失败：' + (error.response?.data?.message || '未知错误'));
+                    }
+                },
+                goBack() {
+                    window.location.href = '/dashboard';
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
+

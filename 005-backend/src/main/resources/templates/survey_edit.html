@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编辑问卷 - 问卷调查系统</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f5f5f5;
+        }
+        .header {
+            background: #667eea;
+            color: white;
+            padding: 20px;
+        }
+        .header h1 {
+            font-size: 24px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .question-list {
+            margin-top: 30px;
+        }
+        .question-item {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .option-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        .btn-success {
+            background: #00C851;
+            color: white;
+        }
+        .btn-danger {
+            background: #ff4444;
+            color: white;
+        }
+        .btn-secondary {
+            background: #999;
+            color: white;
+        }
+        .add-question {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f0f0f0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="header">
+            <h1>编辑问卷</h1>
+        </div>
+        
+        <div class="container">
+            <div class="form-group">
+                <label>问卷标题</label>
+                <input type="text" v-model="survey.title" required>
+            </div>
+            <div class="form-group">
+                <label>问卷描述</label>
+                <textarea v-model="survey.description"></textarea>
+            </div>
+            <button class="btn btn-primary" @click="saveSurvey">保存问卷信息</button>
+
+            <div class="question-list">
+                <h3>问题列表</h3>
+                <div v-for="(question, index) in questions" :key="question.id" class="question-item">
+                    <div class="question-header">
+                        <strong>问题 {{ index + 1 }}: {{ question.title }}</strong>
+                        <button class="btn btn-danger" @click="deleteQuestion(question.id)">删除</button>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <span style="background: #667eea; color: white; padding: 3px 10px; border-radius: 5px; font-size: 12px;">
+                            {{ getTypeText(question.type) }}
+                        </span>
+                        <div v-if="question.options" style="margin-top: 10px; padding: 10px; background: #f9f9f9; border-radius: 5px;">
+                            <strong>选项：</strong>
+                            <div v-for="(option, idx) in JSON.parse(question.options)" :key="idx" style="margin-left: 10px;">
+                                {{ idx + 1 }}. {{ option }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="add-question">
+                <h3>添加问题</h3>
+                <div class="form-group">
+                    <label>问题类型</label>
+                    <select v-model="newQuestion.type">
+                        <option value="radio">单选题</option>
+                        <option value="checkbox">多选题</option>
+                        <option value="input">填空题</option>
+                        <option value="rate">评分题</option>
+                        <option value="select">下拉选择</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>问题标题</label>
+                    <input type="text" v-model="newQuestion.title" placeholder="请输入问题标题">
+                </div>
+                <div v-if="['radio', 'checkbox', 'select'].includes(newQuestion.type)" class="form-group">
+                    <label>选项（每行一个）</label>
+                    <textarea v-model="newQuestion.optionsText" placeholder="选项1&#10;选项2&#10;选项3"></textarea>
+                </div>
+                <button class="btn btn-success" @click="addQuestion">添加问题</button>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <button class="btn btn-secondary" @click="goBack">返回</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        
+        axios.interceptors.request.use(config => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                config.headers.Authorization = `Bearer ${token}`;
+            }
+            return config;
+        });
+
+        createApp({
+            data() {
+                return {
+                    surveyId: null,
+                    survey: {},
+                    questions: [],
+                    newQuestion: {
+                        type: 'radio',
+                        title: '',
+                        optionsText: ''
+                    }
+                }
+            },
+            mounted() {
+                const urlParams = new URLSearchParams(window.location.search);
+                this.surveyId = urlParams.get('id');
+                this.loadSurvey();
+                this.loadQuestions();
+            },
+            methods: {
+                async loadSurvey() {
+                    try {
+                        const response = await axios.get(`/api/survey/detail/${this.surveyId}`);
+                        if (response.data.code === 200) {
+                            this.survey = response.data.data;
+                        }
+                    } catch (error) {
+                        console.error('加载问卷失败', error);
+                    }
+                },
+                async loadQuestions() {
+                    try {
+                        const response = await axios.get(`/api/question/list/${this.surveyId}`);
+                        if (response.data.code === 200) {
+                            this.questions = response.data.data;
+                        }
+                    } catch (error) {
+                        console.error('加载问题失败', error);
+                    }
+                },
+                async saveSurvey() {
+                    try {
+                        const response = await axios.put('/api/survey/update', {
+                            id: this.surveyId,
+                            title: this.survey.title,
+                            description: this.survey.description
+                        });
+                        if (response.data.code === 200) {
+                            alert('保存成功');
+                        }
+                    } catch (error) {
+                        alert('保存失败：' + (error.response?.data?.message || '未知错误'));
+                    }
+                },
+                async addQuestion() {
+                    if (!this.newQuestion.title) {
+                        alert('请输入问题标题');
+                        return;
+                    }
+
+                    let options = null;
+                    if (['radio', 'checkbox', 'select'].includes(this.newQuestion.type)) {
+                        const opts = this.newQuestion.optionsText.split('\n').filter(o => o.trim());
+                        if (opts.length === 0) {
+                            alert('请输入选项');
+                            return;
+                        }
+                        options = JSON.stringify(opts);
+                    }
+
+                    try {
+                        const response = await axios.post('/api/question/add', {
+                            surveyId: this.surveyId,
+                            type: this.newQuestion.type,
+                            title: this.newQuestion.title,
+                            options: options,
+                            required: 1,
+                            orderNo: this.questions.length
+                        });
+                        if (response.data.code === 200) {
+                            alert('添加成功');
+                            this.newQuestion = { type: 'radio', title: '', optionsText: '' };
+                            this.loadQuestions();
+                        }
+                    } catch (error) {
+                        alert('添加失败：' + (error.response?.data?.message || '未知错误'));
+                    }
+                },
+                async deleteQuestion(id) {
+                    if (confirm('确定要删除这个问题吗？')) {
+                        try {
+                            const response = await axios.delete(`/api/question/delete/${id}`);
+                            if (response.data.code === 200) {
+                                alert('删除成功');
+                                this.loadQuestions();
+                            }
+                        } catch (error) {
+                            alert('删除失败：' + (error.response?.data?.message || '未知错误'));
+                        }
+                    }
+                },
+                getTypeText(type) {
+                    const typeMap = {
+                        radio: '单选题',
+                        checkbox: '多选题',
+                        input: '填空题',
+                        rate: '评分题',
+                        select: '下拉选择'
+                    };
+                    return typeMap[type] || type;
+                },
+                goBack() {
+                    window.location.href = '/dashboard';
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
+

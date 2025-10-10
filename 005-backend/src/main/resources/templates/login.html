@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - 问卷调查系统</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-container {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            width: 400px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h2 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #5568d3;
+        }
+        .link {
+            text-align: center;
+            margin-top: 15px;
+            color: #666;
+        }
+        .link a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        .link a:hover {
+            text-decoration: underline;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="login-container">
+            <h2>用户登录</h2>
+            <form @submit.prevent="handleLogin">
+                <div class="form-group">
+                    <label>用户名</label>
+                    <input type="text" v-model="form.username" required>
+                </div>
+                <div class="form-group">
+                    <label>密码</label>
+                    <input type="password" v-model="form.password" required>
+                </div>
+                <button type="submit" class="btn">登录</button>
+                <div class="error" v-if="error">{{ error }}</div>
+            </form>
+            <div class="link">
+                还没有账号？ <a href="/register">立即注册</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        
+        createApp({
+            data() {
+                return {
+                    form: {
+                        username: '',
+                        password: ''
+                    },
+                    error: ''
+                }
+            },
+            methods: {
+                async handleLogin() {
+                    try {
+                        const response = await axios.post('/api/user/login', this.form);
+                        if (response.data.code === 200) {
+                            localStorage.setItem('token', response.data.data.token);
+                            localStorage.setItem('user', JSON.stringify(response.data.data.user));
+                            window.location.href = '/dashboard';
+                        } else {
+                            this.error = response.data.message;
+                        }
+                    } catch (error) {
+                        this.error = error.response?.data?.message || '登录失败';
+                    }
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
+
