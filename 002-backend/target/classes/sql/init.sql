@@ -3,6 +3,7 @@ CREATE DATABASE IF NOT EXISTS course_selection_system DEFAULT CHARACTER SET utf8
 USE course_selection_system;
 
 DROP TABLE IF EXISTS grades;
+
 DROP TABLE IF EXISTS course_selections;
 DROP TABLE IF EXISTS notices;
 DROP TABLE IF EXISTS courses;

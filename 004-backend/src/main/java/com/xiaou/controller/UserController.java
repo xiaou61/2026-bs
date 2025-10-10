@@ -36,13 +36,8 @@ public class UserController {
     }
     
     @GetMapping("/search")
-    public R searchUser(@RequestParam String keyword) {
-        User user = userService.getByUsername(keyword);
-        if (user != null) {
-            user.setPassword(null);
-            return R.ok(user);
-        }
-        return R.error("用户不存在");
+    public R searchUsers(@RequestParam String keyword) {
+        return R.ok(userService.searchUsers(keyword));
     }
 }
 
