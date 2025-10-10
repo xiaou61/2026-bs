@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册 - 校园失物招领系统</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .register-container { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); width: 450px; }
+        h2 { text-align: center; color: #333; margin-bottom: 30px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; color: #555; font-weight: 500; font-size: 14px; }
+        .form-group input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; }
+        .form-group input:focus { outline: none; border-color: #667eea; }
+        .btn { width: 100%; padding: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; margin-top: 10px; }
+        .btn:hover { opacity: 0.9; }
+        .link-text { text-align: center; margin-top: 20px; color: #666; }
+        .link-text a { color: #667eea; text-decoration: none; }
+        .link-text a:hover { text-decoration: underline; }
+        .error { color: #f56c6c; font-size: 14px; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h2>用户注册</h2>
+        <form id="registerForm">
+            <div class="form-group">
+                <label>用户名</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label>密码</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label>真实姓名</label>
+                <input type="text" id="realName" name="realName" required>
+            </div>
+            <div class="form-group">
+                <label>学号/工号</label>
+                <input type="text" id="studentId" name="studentId" required>
+            </div>
+            <div class="form-group">
+                <label>手机号</label>
+                <input type="tel" id="phone" name="phone">
+            </div>
+            <div class="form-group">
+                <label>邮箱</label>
+                <input type="email" id="email" name="email">
+            </div>
+            <div class="error" id="errorMsg"></div>
+            <button type="submit" class="btn">注册</button>
+        </form>
+        <div class="link-text">
+            已有账号？<a href="/login">立即登录</a>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $('#registerForm').on('submit', function(e) {
+            e.preventDefault();
+            const data = {
+                username: $('#username').val(),
+                password: $('#password').val(),
+                realName: $('#realName').val(),
+                studentId: $('#studentId').val(),
+                phone: $('#phone').val(),
+                email: $('#email').val()
+            };
+            
+            $.ajax({
+                url: '/api/user/register',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    if (res.code === 200) {
+                        alert('注册成功，请登录');
+                        window.location.href = '/login';
+                    } else {
+                        $('#errorMsg').text(res.message);
+                    }
+                },
+                error: function() {
+                    $('#errorMsg').text('注册失败，请重试');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

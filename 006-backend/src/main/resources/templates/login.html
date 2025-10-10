@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - 校园失物招领系统</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .login-container { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); width: 400px; }
+        h2 { text-align: center; color: #333; margin-bottom: 30px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; color: #555; font-weight: 500; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; }
+        .form-group input:focus { outline: none; border-color: #667eea; }
+        .btn { width: 100%; padding: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; margin-top: 10px; }
+        .btn:hover { opacity: 0.9; }
+        .link-text { text-align: center; margin-top: 20px; color: #666; }
+        .link-text a { color: #667eea; text-decoration: none; }
+        .link-text a:hover { text-decoration: underline; }
+        .error { color: #f56c6c; font-size: 14px; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>校园失物招领系统</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label>用户名</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label>密码</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="error" id="errorMsg"></div>
+            <button type="submit" class="btn">登录</button>
+        </form>
+        <div class="link-text">
+            还没有账号？<a href="/register">立即注册</a>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $('#loginForm').on('submit', function(e) {
+            e.preventDefault();
+            const data = {
+                username: $('#username').val(),
+                password: $('#password').val()
+            };
+            
+            $.ajax({
+                url: '/api/user/login',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    if (res.code === 200) {
+                        window.location.href = '/home';
+                    } else {
+                        $('#errorMsg').text(res.message);
+                    }
+                },
+                error: function() {
+                    $('#errorMsg').text('登录失败，请重试');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

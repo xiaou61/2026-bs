@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.mapper.NotificationMapper">
+    
+    <resultMap id="BaseResultMap" type="com.xiaou.entity.Notification">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="type" property="type"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="link_type" property="linkType"/>
+        <result column="link_id" property="linkId"/>
+        <result column="is_read" property="isRead"/>
+        <result column="created_at" property="createdAt"/>
+    </resultMap>
+
+    <select id="findByUserId" resultMap="BaseResultMap">
+        SELECT * FROM notification WHERE user_id = #{userId} ORDER BY created_at DESC
+    </select>
+
+    <select id="countUnread" resultType="int">
+        SELECT COUNT(*) FROM notification WHERE user_id = #{userId} AND is_read = 0
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO notification (user_id, type, title, content, link_type, link_id, is_read)
+        VALUES (#{userId}, #{type}, #{title}, #{content}, #{linkType}, #{linkId}, #{isRead})
+    </insert>
+
+    <update id="updateRead">
+        UPDATE notification SET is_read = 1 WHERE id = #{id}
+    </update>
+
+    <update id="updateAllRead">
+        UPDATE notification SET is_read = 1 WHERE user_id = #{userId} AND is_read = 0
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM notification WHERE id = #{id}
+    </delete>
+
+</mapper>
+

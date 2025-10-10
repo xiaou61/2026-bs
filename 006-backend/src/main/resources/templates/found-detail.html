@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>招领详情 - 校园失物招领系统</title>
+    <link rel="stylesheet" href="/css/common.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="nav-left"><h1>校园失物招领系统</h1></div>
+            <div class="nav-right">
+                <span id="username"></span>
+                <a href="/notifications" class="nav-link">通知 <span id="unreadCount" class="badge"></span></a>
+                <a href="/profile" class="nav-link">个人中心</a>
+                <a href="javascript:void(0)" onclick="logout()" class="nav-link">退出</a>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <a href="/home" class="menu-item">首页</a>
+                <a href="/lost" class="menu-item">失物信息</a>
+                <a href="/found" class="menu-item active">招领信息</a>
+                <a href="/lost/publish" class="menu-item">发布失物</a>
+                <a href="/found/publish" class="menu-item">发布招领</a>
+                <a href="/my/lost" class="menu-item">我的失物</a>
+                <a href="/my/found" class="menu-item">我的招领</a>
+                <a href="/claims/sent" class="menu-item">发出的认领</a>
+                <a href="/claims/received" class="menu-item">收到的认领</a>
+                <a href="/favorites" class="menu-item">我的收藏</a>
+                <div id="adminMenu"></div>
+            </div>
+
+            <div class="content">
+                <div class="section">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                        <h2 id="title" style="margin:0;"></h2>
+                        <div>
+                            <button class="btn btn-secondary" onclick="history.back()">返回</button>
+                            <button id="favoriteBtn" class="btn" onclick="toggleFavorite()">收藏</button>
+                            <button class="btn btn-success" onclick="showClaimDialog()">我要认领</button>
+                        </div>
+                    </div>
+
+                    <div id="imageGallery" class="image-preview"></div>
+                    
+                    <div style="margin:20px 0;">
+                        <p><strong>分类：</strong><span id="category"></span></p>
+                        <p><strong>拾取时间：</strong><span id="foundTime"></span></p>
+                        <p><strong>拾取地点：</strong><span id="foundLocation"></span></p>
+                        <p><strong>联系人：</strong><span id="contactName"></span></p>
+                        <p><strong>联系电话：</strong><span id="contactPhone"></span></p>
+                        <p><strong>状态：</strong><span id="status"></span></p>
+                        <p><strong>浏览次数：</strong><span id="views"></span></p>
+                    </div>
+
+                    <div>
+                        <h3>详细描述</h3>
+                        <p id="description"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="claimDialog" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000;">
+        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:white; padding:30px; border-radius:10px; width:500px;">
+            <h3>认领申请</h3>
+            <div class="form-group">
+                <label>验证信息</label>
+                <textarea id="verifyInfo" rows="3" placeholder="请填写物品特征以便验证"></textarea>
+            </div>
+            <div class="form-group">
+                <label>认领说明</label>
+                <textarea id="reason" rows="3" placeholder="请说明认领理由"></textarea>
+            </div>
+            <div>
+                <button class="btn" onclick="submitClaim()">提交</button>
+                <button class="btn btn-secondary" onclick="hideClaimDialog()">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/common.js"></script>
+    <script>
+        loadUser();
+        loadUnreadCount();
+
+        const itemId = getUrlParam('id');
+        let itemData = null;
+
+        $.get('/api/found/' + itemId, function(res) {
+            if (res.code === 200) {
+                itemData = res.data;
+                $('#title').text(itemData.title);
+                $('#category').text(itemData.categoryName);
+                $('#foundTime').text(formatDate(itemData.foundTime));
+                $('#foundLocation').text(itemData.foundLocation);
+                $('#contactName').text(itemData.contactName);
+                $('#contactPhone').text(itemData.contactPhone);
+                $('#status').text(itemData.status === 0 ? '待认领' : '已归还');
+                $('#views').text(itemData.views);
+                $('#description').text(itemData.description);
+
+                if (itemData.images && itemData.images.length > 0) {
+                    const html = itemData.images.map(img => 
+                        `<img src="${img.imageUrl}" style="max-width:200px; margin-right:10px;">`
+                    ).join('');
+                    $('#imageGallery').html(html);
+                }
+
+                if (itemData.isFavorite) {
+                    $('#favoriteBtn').text('取消收藏');
+                }
+            }
+        });
+
+        function toggleFavorite() {
+            if (itemData.isFavorite) {
+                $.ajax({
+                    url: '/api/favorite?itemType=found&itemId=' + itemId,
+                    type: 'DELETE',
+                    success: function(res) {
+                        if (res.code === 200) {
+                            itemData.isFavorite = false;
+                            $('#favoriteBtn').text('收藏');
+                        }
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: '/api/favorite',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ itemType: 'found', itemId: itemId }),
+                    success: function(res) {
+                        if (res.code === 200) {
+                            itemData.isFavorite = true;
+                            $('#favoriteBtn').text('取消收藏');
+                        }
+                    }
+                });
+            }
+        }
+
+        function showClaimDialog() {
+            $('#claimDialog').show();
+        }
+
+        function hideClaimDialog() {
+            $('#claimDialog').hide();
+        }
+
+        function submitClaim() {
+            const data = {
+                itemType: 'found',
+                itemId: itemId,
+                ownerId: itemData.userId,
+                verifyInfo: $('#verifyInfo').val(),
+                reason: $('#reason').val()
+            };
+
+            $.ajax({
+                url: '/api/claim',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    if (res.code === 200) {
+                        alert('认领申请已提交');
+                        hideClaimDialog();
+                    } else {
+                        alert(res.message);
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+

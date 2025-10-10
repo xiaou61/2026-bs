@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 - 校园失物招领系统</title>
+    <link rel="stylesheet" href="/css/common.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="nav-left"><h1>校园失物招领系统</h1></div>
+            <div class="nav-right">
+                <span id="username"></span>
+                <a href="/notifications" class="nav-link">通知 <span id="unreadCount" class="badge"></span></a>
+                <a href="/profile" class="nav-link">个人中心</a>
+                <a href="javascript:void(0)" onclick="logout()" class="nav-link">退出</a>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <a href="/home" class="menu-item">首页</a>
+                <a href="/lost" class="menu-item">失物信息</a>
+                <a href="/found" class="menu-item">招领信息</a>
+                <a href="/lost/publish" class="menu-item">发布失物</a>
+                <a href="/found/publish" class="menu-item">发布招领</a>
+                <a href="/my/lost" class="menu-item">我的失物</a>
+                <a href="/my/found" class="menu-item">我的招领</a>
+                <a href="/claims/sent" class="menu-item active">发出的认领</a>
+                <a href="/claims/received" class="menu-item">收到的认领</a>
+                <a href="/favorites" class="menu-item">我的收藏</a>
+                <div id="adminMenu"></div>
+            </div>
+
+            <div class="content">
+                <h2>个人信息</h2>
+                <div class="section">
+                    <form id="profileForm">
+                        <div class="form-group">
+                            <label>用户名</label>
+                            <input type="text" id="username" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>真实姓名</label>
+                            <input type="text" id="realName">
+                        </div>
+                        <div class="form-group">
+                            <label>学号/工号</label>
+                            <input type="text" id="studentId">
+                        </div>
+                        <div class="form-group">
+                            <label>手机号</label>
+                            <input type="tel" id="phone">
+                        </div>
+                        <div class="form-group">
+                            <label>邮箱</label>
+                            <input type="email" id="email">
+                        </div>
+                        <button type="submit" class="btn">保存</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/common.js"></script>
+    <script>
+        loadUser();
+        loadUnreadCount();
+
+        $.get('/api/user/current', function(res) {
+            if (res.code === 200 && res.data) {
+                $('#username').val(res.data.username);
+                $('#realName').val(res.data.realName);
+                $('#studentId').val(res.data.studentId);
+                $('#phone').val(res.data.phone);
+                $('#email').val(res.data.email);
+            }
+        });
+
+        $('#profileForm').on('submit', function(e) {
+            e.preventDefault();
+            const data = {
+                realName: $('#realName').val(),
+                studentId: $('#studentId').val(),
+                phone: $('#phone').val(),
+                email: $('#email').val()
+            };
+
+            $.ajax({
+                url: '/api/user/profile',
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    if (res.code === 200) {
+                        alert('保存成功！');
+                    } else {
+                        alert(res.message);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.mapper.ClaimMapper">
+    
+    <resultMap id="BaseResultMap" type="com.xiaou.entity.Claim">
+        <id column="id" property="id"/>
+        <result column="item_type" property="itemType"/>
+        <result column="item_id" property="itemId"/>
+        <result column="claimer_id" property="claimerId"/>
+        <result column="owner_id" property="ownerId"/>
+        <result column="verify_info" property="verifyInfo"/>
+        <result column="reason" property="reason"/>
+        <result column="status" property="status"/>
+        <result column="reply" property="reply"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="item_title" property="itemTitle"/>
+        <result column="claimer_name" property="claimerName"/>
+        <result column="owner_name" property="ownerName"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT c.*, u1.real_name as claimer_name, u2.real_name as owner_name
+        FROM claim c
+        LEFT JOIN user u1 ON c.claimer_id = u1.id
+        LEFT JOIN user u2 ON c.owner_id = u2.id
+        ORDER BY c.created_at DESC
+    </select>
+
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT c.*, u1.real_name as claimer_name, u2.real_name as owner_name
+        FROM claim c
+        LEFT JOIN user u1 ON c.claimer_id = u1.id
+        LEFT JOIN user u2 ON c.owner_id = u2.id
+        WHERE c.id = #{id}
+    </select>
+
+    <select id="findByClaimerId" resultMap="BaseResultMap">
+        SELECT c.*, 
+               CASE WHEN c.item_type = 'lost' THEN l.title ELSE f.title END as item_title,
+               u.real_name as owner_name
+        FROM claim c
+        LEFT JOIN lost_item l ON c.item_type = 'lost' AND c.item_id = l.id
+        LEFT JOIN found_item f ON c.item_type = 'found' AND c.item_id = f.id
+        LEFT JOIN user u ON c.owner_id = u.id
+        WHERE c.claimer_id = #{claimerId}
+        ORDER BY c.created_at DESC
+    </select>
+
+    <select id="findByOwnerId" resultMap="BaseResultMap">
+        SELECT c.*, 
+               CASE WHEN c.item_type = 'lost' THEN l.title ELSE f.title END as item_title,
+               u.real_name as claimer_name
+        FROM claim c
+        LEFT JOIN lost_item l ON c.item_type = 'lost' AND c.item_id = l.id
+        LEFT JOIN found_item f ON c.item_type = 'found' AND c.item_id = f.id
+        LEFT JOIN user u ON c.claimer_id = u.id
+        WHERE c.owner_id = #{ownerId}
+        ORDER BY c.created_at DESC
+    </select>
+
+    <select id="findByItem" resultMap="BaseResultMap">
+        SELECT c.*, u1.real_name as claimer_name, u2.real_name as owner_name
+        FROM claim c
+        LEFT JOIN user u1 ON c.claimer_id = u1.id
+        LEFT JOIN user u2 ON c.owner_id = u2.id
+        WHERE c.item_type = #{itemType} AND c.item_id = #{itemId}
+        ORDER BY c.created_at DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO claim (item_type, item_id, claimer_id, owner_id, verify_info, reason, status)
+        VALUES (#{itemType}, #{itemId}, #{claimerId}, #{ownerId}, #{verifyInfo}, #{reason}, #{status})
+    </insert>
+
+    <update id="update">
+        UPDATE claim
+        SET status = #{status},
+            reply = #{reply}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM claim WHERE id = #{id}
+    </delete>
+
+</mapper>
+

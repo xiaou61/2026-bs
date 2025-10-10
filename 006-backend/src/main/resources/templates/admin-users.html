@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户管理 - 校园失物招领系统</title>
+    <link rel="stylesheet" href="/css/common.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="nav-left"><h1>校园失物招领系统</h1></div>
+            <div class="nav-right">
+                <span id="username"></span>
+                <a href="/notifications" class="nav-link">通知 <span id="unreadCount" class="badge"></span></a>
+                <a href="/profile" class="nav-link">个人中心</a>
+                <a href="javascript:void(0)" onclick="logout()" class="nav-link">退出</a>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <a href="/home" class="menu-item">首页</a>
+                <a href="/lost" class="menu-item">失物信息</a>
+                <a href="/found" class="menu-item">招领信息</a>
+                <a href="/lost/publish" class="menu-item">发布失物</a>
+                <a href="/found/publish" class="menu-item">发布招领</a>
+                <a href="/my/lost" class="menu-item">我的失物</a>
+                <a href="/my/found" class="menu-item">我的招领</a>
+                <a href="/claims/sent" class="menu-item">发出的认领</a>
+                <a href="/claims/received" class="menu-item">收到的认领</a>
+                <a href="/favorites" class="menu-item">我的收藏</a>
+                <div id="adminMenu">
+                    <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
+                        <a href="/admin/users" class="menu-item active">用户管理</a>
+                        <a href="/admin/categories" class="menu-item">分类管理</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content">
+                <h2>用户管理</h2>
+                <div class="section">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>用户名</th>
+                                <th>真实姓名</th>
+                                <th>学号/工号</th>
+                                <th>手机号</th>
+                                <th>邮箱</th>
+                                <th>角色</th>
+                                <th>状态</th>
+                                <th>创建时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userList"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/common.js"></script>
+    <script>
+        loadUser();
+        loadUnreadCount();
+
+        loadUsers();
+
+        function loadUsers() {
+            $.get('/api/user/list', function(res) {
+                if (res.code === 200) {
+                    const html = res.data.map(user => `
+                        <tr>
+                            <td>${user.id}</td>
+                            <td>${user.username}</td>
+                            <td>${user.realName}</td>
+                            <td>${user.studentId || '-'}</td>
+                            <td>${user.phone || '-'}</td>
+                            <td>${user.email || '-'}</td>
+                            <td>${user.role === 'admin' ? '管理员' : '普通用户'}</td>
+                            <td>
+                                <span class="status-badge status-${user.status === 1 ? '1' : '2'}">
+                                    ${user.status === 1 ? '正常' : '禁用'}
+                                </span>
+                            </td>
+                            <td>${formatDate(user.createdAt)}</td>
+                            <td>
+                                ${user.role !== 'admin' ? `
+                                    ${user.status === 1 ? 
+                                        `<button class="btn btn-secondary" onclick="toggleStatus(${user.id}, 0)">禁用</button>` :
+                                        `<button class="btn btn-success" onclick="toggleStatus(${user.id}, 1)">启用</button>`
+                                    }
+                                    <button class="btn btn-danger" onclick="deleteUser(${user.id})">删除</button>
+                                ` : '-'}
+                            </td>
+                        </tr>
+                    `).join('');
+                    $('#userList').html(html);
+                }
+            });
+        }
+
+        function toggleStatus(id, status) {
+            const action = status === 1 ? '启用' : '禁用';
+            if (confirm(`确定要${action}该用户吗？`)) {
+                $.ajax({
+                    url: `/api/user/${id}/status?status=${status}`,
+                    type: 'PUT',
+                    success: function(res) {
+                        if (res.code === 200) {
+                            loadUsers();
+                        } else {
+                            alert(res.message);
+                        }
+                    }
+                });
+            }
+        }
+
+        function deleteUser(id) {
+            if (confirm('确定要删除该用户吗？此操作不可恢复！')) {
+                $.ajax({
+                    url: '/api/user/' + id,
+                    type: 'DELETE',
+                    success: function(res) {
+                        if (res.code === 200) {
+                            loadUsers();
+                        } else {
+                            alert(res.message);
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
+

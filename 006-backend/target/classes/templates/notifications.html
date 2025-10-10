@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>通知 - 校园失物招领系统</title>
+    <link rel="stylesheet" href="/css/common.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="nav-left"><h1>校园失物招领系统</h1></div>
+            <div class="nav-right">
+                <span id="username"></span>
+                <a href="/notifications" class="nav-link">通知 <span id="unreadCount" class="badge"></span></a>
+                <a href="/profile" class="nav-link">个人中心</a>
+                <a href="javascript:void(0)" onclick="logout()" class="nav-link">退出</a>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <a href="/home" class="menu-item">首页</a>
+                <a href="/lost" class="menu-item">失物信息</a>
+                <a href="/found" class="menu-item">招领信息</a>
+                <a href="/lost/publish" class="menu-item">发布失物</a>
+                <a href="/found/publish" class="menu-item">发布招领</a>
+                <a href="/my/lost" class="menu-item">我的失物</a>
+                <a href="/my/found" class="menu-item">我的招领</a>
+                <a href="/claims/sent" class="menu-item">发出的认领</a>
+                <a href="/claims/received" class="menu-item">收到的认领</a>
+                <a href="/favorites" class="menu-item">我的收藏</a>
+                <div id="adminMenu"></div>
+            </div>
+
+            <div class="content">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                    <h2 style="margin:0;">通知</h2>
+                    <button class="btn" onclick="markAllRead()">全部标为已读</button>
+                </div>
+                <div class="section">
+                    <div id="notificationList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/common.js"></script>
+    <script>
+        loadUser();
+        loadUnreadCount();
+
+        loadNotifications();
+
+        function loadNotifications() {
+            $.get('/api/notification/list', function(res) {
+                if (res.code === 200) {
+                    if (res.data.length === 0) {
+                        $('#notificationList').html('<p class="empty">暂无通知</p>');
+                    } else {
+                        const html = res.data.map(notif => `
+                            <div class="item-card" style="${notif.isRead === 0 ? 'background:#f0f9ff;' : ''}">
+                                <h4>${notif.title} ${notif.isRead === 0 ? '<span class="badge">未读</span>' : ''}</h4>
+                                <p>${notif.content}</p>
+                                <div class="item-meta">
+                                    <span>${formatDate(notif.createdAt)}</span>
+                                </div>
+                            </div>
+                        `).join('');
+                        $('#notificationList').html(html);
+                    }
+                }
+            });
+        }
+
+        function markAllRead() {
+            $.ajax({
+                url: '/api/notification/read-all',
+                type: 'PUT',
+                success: function(res) {
+                    if (res.code === 200) {
+                        loadNotifications();
+                        loadUnreadCount();
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+

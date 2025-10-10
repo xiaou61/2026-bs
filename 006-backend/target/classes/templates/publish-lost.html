@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发布失物 - 校园失物招领系统</title>
+    <link rel="stylesheet" href="/css/common.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="nav-left"><h1>校园失物招领系统</h1></div>
+            <div class="nav-right">
+                <span id="username"></span>
+                <a href="/notifications" class="nav-link">通知 <span id="unreadCount" class="badge"></span></a>
+                <a href="/profile" class="nav-link">个人中心</a>
+                <a href="javascript:void(0)" onclick="logout()" class="nav-link">退出</a>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <a href="/home" class="menu-item">首页</a>
+                <a href="/lost" class="menu-item">失物信息</a>
+                <a href="/found" class="menu-item">招领信息</a>
+                <a href="/lost/publish" class="menu-item active">发布失物</a>
+                <a href="/found/publish" class="menu-item">发布招领</a>
+                <a href="/my/lost" class="menu-item">我的失物</a>
+                <a href="/my/found" class="menu-item">我的招领</a>
+                <a href="/claims/sent" class="menu-item">发出的认领</a>
+                <a href="/claims/received" class="menu-item">收到的认领</a>
+                <a href="/favorites" class="menu-item">我的收藏</a>
+                <div id="adminMenu"></div>
+            </div>
+
+            <div class="content">
+                <div class="section">
+                    <h2>发布失物信息</h2>
+                    <form id="publishForm">
+                        <div class="form-group">
+                            <label>标题*</label>
+                            <input type="text" id="title" required>
+                        </div>
+                        <div class="form-group">
+                            <label>分类*</label>
+                            <select id="categoryId" required>
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>详细描述</label>
+                            <textarea id="description" rows="5"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>丢失时间*</label>
+                            <input type="datetime-local" id="lostTime" required>
+                        </div>
+                        <div class="form-group">
+                            <label>丢失地点*</label>
+                            <input type="text" id="lostLocation" required>
+                        </div>
+                        <div class="form-group">
+                            <label>联系人*</label>
+                            <input type="text" id="contactName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>联系电话*</label>
+                            <input type="tel" id="contactPhone" required>
+                        </div>
+                        <div style="margin-top:20px;">
+                            <button type="submit" class="btn">发布</button>
+                            <button type="button" class="btn btn-secondary" onclick="history.back()">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/common.js"></script>
+    <script>
+        loadUser();
+        loadUnreadCount();
+
+        $.get('/api/category/list', function(res) {
+            if (res.code === 200) {
+                res.data.forEach(cat => {
+                    $('#categoryId').append(`<option value="${cat.id}">${cat.name}</option>`);
+                });
+            }
+        });
+
+        $('#publishForm').on('submit', function(e) {
+            e.preventDefault();
+            const data = {
+                title: $('#title').val(),
+                categoryId: $('#categoryId').val(),
+                description: $('#description').val(),
+                lostTime: $('#lostTime').val(),
+                lostLocation: $('#lostLocation').val(),
+                contactName: $('#contactName').val(),
+                contactPhone: $('#contactPhone').val()
+            };
+
+            $.ajax({
+                url: '/api/lost',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    if (res.code === 200) {
+                        alert('发布成功');
+                        window.location.href = '/my/lost';
+                    } else {
+                        alert(res.message);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
