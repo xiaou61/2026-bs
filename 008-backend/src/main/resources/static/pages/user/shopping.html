@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购物清单 - 智能菜谱推荐系统</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/common.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html"><i class="fas fa-utensils"></i>智能菜谱</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-home"></i> 首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="recipes.html"><i class="fas fa-book"></i> 菜谱</a></li>
+                    <li class="nav-item"><a class="nav-link" href="recommend.html"><i class="fas fa-magic"></i> 推荐</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ingredients.html"><i class="fas fa-carrot"></i> 我的食材</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="shopping.html"><i class="fas fa-shopping-cart"></i> 购物清单</a></li>
+                    <li class="nav-item"><a class="nav-link" href="cooking.html"><i class="fas fa-check-circle"></i> 我的打卡</a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle"></i> <span id="userName"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user"></i> 个人中心</a></li>
+                            <li><a class="dropdown-item" href="collect.html"><i class="fas fa-heart"></i> 我的收藏</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> 退出登录</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-shopping-cart"></i> 购物清单</span>
+                <div>
+                    <button class="btn btn-success btn-sm me-2" onclick="addToStock()">
+                        <i class="fas fa-plus"></i> 加入库存
+                    </button>
+                    <button class="btn btn-danger btn-sm" onclick="clearList()">
+                        <i class="fas fa-trash"></i> 清空
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="shoppingList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/layer/3.5.1/layer.min.js"></script>
+    <script src="../../assets/js/config.js"></script>
+    <script src="../../assets/js/request.js"></script>
+    <script>
+        $(document).ready(function() {
+            if (!checkAuth()) return;
+            const user = getUser();
+            $('#userName').text(user.nickname || user.username);
+            loadShoppingList();
+        });
+
+        function loadShoppingList() {
+            request(API_ENDPOINTS.SHOPPING_LIST, { method: 'GET' }).done(function(res) {
+                if (res.code === 200 && res.data.length > 0) {
+                    let html = '<div class="list-group">';
+                    res.data.forEach(item => {
+                        const checked = item.status === 1 ? 'checked' : '';
+                        const textClass = item.status === 1 ? 'text-decoration-line-through text-muted' : '';
+                        html += `
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <input type="checkbox" class="form-check-input me-2" ${checked} onchange="toggleCheck(${item.id})">
+                                    <span class="${textClass}"><strong>${item.ingredientName}</strong> - ${item.quantity}${item.unit}</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+                    $('#shoppingList').html(html);
+                } else {
+                    $('#shoppingList').html('<div class="empty-state"><i class="fas fa-shopping-cart"></i><p>购物清单为空</p></div>');
+                }
+            });
+        }
+
+        function toggleCheck(id) {
+            request(`${API_ENDPOINTS.SHOPPING_CHECK}/${id}/check`, { method: 'PUT' }).done(function(res) {
+                if (res.code === 200) {
+                    loadShoppingList();
+                }
+            });
+        }
+
+        function addToStock() {
+            layer.confirm('确定要将已勾选的食材加入库存吗？', { btn: ['确定', '取消'] }, function(index) {
+                request(API_ENDPOINTS.SHOPPING_ADD_TO_STOCK, { method: 'POST' }).done(function(res) {
+                    if (res.code === 200) {
+                        layer.msg('已加入库存');
+                        loadShoppingList();
+                    }
+                    layer.close(index);
+                });
+            });
+        }
+
+        function clearList() {
+            layer.confirm('确定要清空购物清单吗？', { btn: ['确定', '取消'] }, function(index) {
+                request(API_ENDPOINTS.SHOPPING_CLEAR, { method: 'DELETE' }).done(function(res) {
+                    if (res.code === 200) {
+                        layer.msg('已清空');
+                        loadShoppingList();
+                    }
+                    layer.close(index);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
+

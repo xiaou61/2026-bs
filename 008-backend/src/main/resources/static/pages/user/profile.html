@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 - 智能菜谱推荐系统</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/common.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html"><i class="fas fa-utensils"></i>智能菜谱</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-home"></i> 首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="recipes.html"><i class="fas fa-book"></i> 菜谱</a></li>
+                    <li class="nav-item"><a class="nav-link" href="recommend.html"><i class="fas fa-magic"></i> 推荐</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ingredients.html"><i class="fas fa-carrot"></i> 我的食材</a></li>
+                    <li class="nav-item"><a class="nav-link" href="shopping.html"><i class="fas fa-shopping-cart"></i> 购物清单</a></li>
+                    <li class="nav-item"><a class="nav-link" href="cooking.html"><i class="fas fa-check-circle"></i> 我的打卡</a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle"></i> <span id="userName"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item active" href="profile.html"><i class="fas fa-user"></i> 个人中心</a></li>
+                            <li><a class="dropdown-item" href="collect.html"><i class="fas fa-heart"></i> 我的收藏</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> 退出登录</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header"><i class="fas fa-user"></i> 个人信息</div>
+            <div class="card-body">
+                <form id="profileForm">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">用户名</label>
+                            <input type="text" class="form-control" name="username" disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">昵称</label>
+                            <input type="text" class="form-control" name="nickname" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label">性别</label>
+                            <select class="form-select" name="gender">
+                                <option value="0">女</option>
+                                <option value="1">男</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">年龄</label>
+                            <input type="number" class="form-control" name="age">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">身高(cm)</label>
+                            <input type="number" class="form-control" name="height" step="0.01">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">体重(kg)</label>
+                            <input type="number" class="form-control" name="weight" step="0.01">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">保存修改</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/layer/3.5.1/layer.min.js"></script>
+    <script src="../../assets/js/config.js"></script>
+    <script src="../../assets/js/request.js"></script>
+    <script>
+        $(document).ready(function() {
+            if (!checkAuth()) return;
+            const user = getUser();
+            $('#userName').text(user.nickname || user.username);
+            loadUserInfo();
+        });
+
+        function loadUserInfo() {
+            request(API_ENDPOINTS.USER_INFO, { method: 'GET' }).done(function(res) {
+                if (res.code === 200) {
+                    const user = res.data;
+                    $('input[name="username"]').val(user.username);
+                    $('input[name="nickname"]').val(user.nickname);
+                    $('select[name="gender"]').val(user.gender);
+                    $('input[name="age"]').val(user.age);
+                    $('input[name="height"]').val(user.height);
+                    $('input[name="weight"]').val(user.weight);
+                }
+            });
+        }
+
+        $('#profileForm').on('submit', function(e) {
+            e.preventDefault();
+            const formData = {
+                nickname: $('input[name="nickname"]').val(),
+                gender: parseInt($('select[name="gender"]').val()),
+                age: parseInt($('input[name="age"]').val()) || null,
+                height: parseFloat($('input[name="height"]').val()) || null,
+                weight: parseFloat($('input[name="weight"]').val()) || null
+            };
+
+            request(API_ENDPOINTS.USER_INFO, {
+                method: 'PUT',
+                data: JSON.stringify(formData)
+            }).done(function(res) {
+                if (res.code === 200) {
+                    layer.msg('保存成功');
+                    loadUserInfo();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

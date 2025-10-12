@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>食材管理 - 管理后台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/common.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html"><i class="fas fa-tools"></i> 管理后台</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-chart-line"></i> 数据统计</a></li>
+                    <li class="nav-item"><a class="nav-link" href="recipes.html"><i class="fas fa-book"></i> 菜谱管理</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="ingredients.html"><i class="fas fa-carrot"></i> 食材管理</a></li>
+                    <li class="nav-item"><a class="nav-link" href="users.html"><i class="fas fa-users"></i> 用户管理</a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> 退出登录</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-carrot"></i> 食材管理</span>
+                <button class="btn btn-primary btn-sm" onclick="showAddForm()">
+                    <i class="fas fa-plus"></i> 添加食材
+                </button>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>食材名称</th>
+                            <th>分类</th>
+                            <th>热量(kcal/100g)</th>
+                            <th>蛋白质(g)</th>
+                            <th>单位</th>
+                            <th>保质期(天)</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ingredientList"></tbody>
+                </table>
+                <nav id="pagination"></nav>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/layer/3.5.1/layer.min.js"></script>
+    <script src="../../assets/js/config.js"></script>
+    <script src="../../assets/js/request.js"></script>
+    <script>
+        let currentPage = 1;
+
+        $(document).ready(function() {
+            if (!checkAuth()) return;
+            const user = getUser();
+            if (user.role !== 'ADMIN') {
+                layer.msg('无权限访问');
+                setTimeout(() => window.location.href = '../user/index.html', 1500);
+                return;
+            }
+            loadIngredients();
+        });
+
+        function loadIngredients(page = 1) {
+            currentPage = page;
+            request(`${API_ENDPOINTS.ADMIN_INGREDIENT_LIST}?pageNum=${page}&pageSize=10`, { method: 'GET' }).done(function(res) {
+                if (res.code === 200) {
+                    renderIngredients(res.data.records);
+                    renderPagination(res.data.pages);
+                }
+            });
+        }
+
+        function renderIngredients(ingredients) {
+            let html = '';
+            ingredients.forEach(ing => {
+                html += `
+                    <tr>
+                        <td>${ing.id}</td>
+                        <td>${ing.name}</td>
+                        <td><span class="badge bg-${CATEGORY_MAP[ing.category] || 'secondary'}">${ing.category}</span></td>
+                        <td>${ing.calories}</td>
+                        <td>${ing.protein}</td>
+                        <td>${ing.unit}</td>
+                        <td>${ing.shelfLife}</td>
+                        <td>
+                            <button class="btn btn-sm btn-danger" onclick="deleteIngredient(${ing.id})">删除</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            $('#ingredientList').html(html || '<tr><td colspan="8" class="text-center">暂无数据</td></tr>');
+        }
+
+        function renderPagination(pages) {
+            if (pages <= 1) {
+                $('#pagination').html('');
+                return;
+            }
+            let html = '<ul class="pagination justify-content-center">';
+            for (let i = 1; i <= pages; i++) {
+                html += `<li class="page-item ${i === currentPage ? 'active' : ''}">
+                    <a class="page-link" href="#" onclick="loadIngredients(${i}); return false;">${i}</a>
+                </li>`;
+            }
+            html += '</ul>';
+            $('#pagination').html(html);
+        }
+
+        function showAddForm() {
+            layer.msg('请通过后端接口添加食材，前端简化版暂不支持');
+        }
+
+        function deleteIngredient(id) {
+            layer.confirm('确定要删除此食材吗？', { btn: ['确定', '取消'] }, function(index) {
+                request(`${API_ENDPOINTS.ADMIN_INGREDIENT}/${id}`, { method: 'DELETE' }).done(function(res) {
+                    if (res.code === 200) {
+                        layer.msg('删除成功');
+                        loadIngredients(currentPage);
+                    }
+                    layer.close(index);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,153 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #f5f5f5;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.navbar-brand i {
+    color: #ff6b6b;
+    margin-right: 10px;
+}
+
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background: white;
+    border-bottom: 2px solid #f0f0f0;
+    font-weight: bold;
+    padding: 1rem 1.25rem;
+}
+
+.recipe-card {
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.recipe-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.recipe-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px 12px 0 0;
+}
+
+.recipe-card .card-body {
+    padding: 1rem;
+}
+
+.recipe-card .recipe-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.recipe-meta {
+    display: flex;
+    justify-content: space-between;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.badge-difficulty {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+}
+
+.stat-card {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.stat-card i {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.stat-card h3 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.stat-card p {
+    color: #666;
+    margin: 0;
+}
+
+.btn-primary {
+    background: #ff6b6b;
+    border-color: #ff6b6b;
+}
+
+.btn-primary:hover {
+    background: #ff5252;
+    border-color: #ff5252;
+}
+
+.ingredient-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.ingredient-item:last-child {
+    border-bottom: none;
+}
+
+.ingredient-expiring {
+    background: #fff3cd;
+}
+
+.loading {
+    text-align: center;
+    padding: 3rem;
+    color: #999;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: #999;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.3;
+}
+
+.filter-bar {
+    background: white;
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.pagination {
+    margin-top: 20px;
+}
+

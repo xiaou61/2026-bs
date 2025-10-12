@@ -15,6 +15,7 @@
         <module name="campus-affairs" />
         <module name="004-backend" />
         <module name="002-backend" />
+        <module name="008-backend" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -30,6 +31,7 @@
       <module name="005-backend" options="-parameters" />
       <module name="006-backend" options="-parameters" />
       <module name="007-backend" options="-parameters" />
+      <module name="008-backend" options="-parameters" />
       <module name="campus-affairs" options="-parameters" />
     </option>
   </component>

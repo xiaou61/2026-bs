@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的打卡 - 智能菜谱推荐系统</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/common.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html"><i class="fas fa-utensils"></i>智能菜谱</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-home"></i> 首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="recipes.html"><i class="fas fa-book"></i> 菜谱</a></li>
+                    <li class="nav-item"><a class="nav-link" href="recommend.html"><i class="fas fa-magic"></i> 推荐</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ingredients.html"><i class="fas fa-carrot"></i> 我的食材</a></li>
+                    <li class="nav-item"><a class="nav-link" href="shopping.html"><i class="fas fa-shopping-cart"></i> 购物清单</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="cooking.html"><i class="fas fa-check-circle"></i> 我的打卡</a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle"></i> <span id="userName"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user"></i> 个人中心</a></li>
+                            <li><a class="dropdown-item" href="collect.html"><i class="fas fa-heart"></i> 我的收藏</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> 退出登录</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header"><i class="fas fa-chart-bar"></i> 打卡统计</div>
+                    <div class="card-body">
+                        <div class="stat-card text-primary">
+                            <i class="fas fa-check-circle"></i>
+                            <h3 id="totalCount">0</h3>
+                            <p>累计打卡</p>
+                        </div>
+                        <hr>
+                        <div class="stat-card text-success">
+                            <i class="fas fa-calendar-week"></i>
+                            <h3 id="weekCount">0</h3>
+                            <p>本周打卡</p>
+                        </div>
+                        <hr>
+                        <div class="stat-card text-warning">
+                            <i class="fas fa-calendar-alt"></i>
+                            <h3 id="monthCount">0</h3>
+                            <p>本月打卡</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header"><i class="fas fa-list"></i> 打卡历史</div>
+                    <div class="card-body" id="recordList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/layer/3.5.1/layer.min.js"></script>
+    <script src="../../assets/js/config.js"></script>
+    <script src="../../assets/js/request.js"></script>
+    <script>
+        $(document).ready(function() {
+            if (!checkAuth()) return;
+            const user = getUser();
+            $('#userName').text(user.nickname || user.username);
+            loadStats();
+            loadRecords();
+        });
+
+        function loadStats() {
+            request(API_ENDPOINTS.COOKING_STATS, { method: 'GET' }).done(function(res) {
+                if (res.code === 200) {
+                    $('#totalCount').text(res.data.totalCount || 0);
+                    $('#weekCount').text(res.data.weekCount || 0);
+                    $('#monthCount').text(res.data.monthCount || 0);
+                }
+            });
+        }
+
+        function loadRecords() {
+            request(API_ENDPOINTS.COOKING_RECORD_LIST, { method: 'GET' }).done(function(res) {
+                if (res.code === 200 && res.data.length > 0) {
+                    let html = '';
+                    res.data.forEach(record => {
+                        html += `
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div class="flex-grow-1">
+                                            <h5>${record.recipeName}</h5>
+                                            <p class="text-muted small mb-2">${record.createTime}</p>
+                                            ${record.note ? `<p class="mb-2">${record.note}</p>` : ''}
+                                            <div>
+                                                <span class="badge bg-primary me-1">味道 ${record.tasteRating}分</span>
+                                                <span class="badge bg-warning me-1">难度 ${record.difficultyRating}分</span>
+                                                <span class="badge bg-info">时间 ${record.timeRating}分</span>
+                                            </div>
+                                        </div>
+                                        ${record.image ? `<img src="${record.image}" class="ms-3" style="width:100px;height:100px;object-fit:cover;border-radius:8px;">` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    $('#recordList').html(html);
+                } else {
+                    $('#recordList').html('<div class="empty-state"><i class="fas fa-check-circle"></i><p>暂无打卡记录</p></div>');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+

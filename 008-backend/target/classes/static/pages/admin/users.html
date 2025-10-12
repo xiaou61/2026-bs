@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户管理 - 管理后台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/common.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html"><i class="fas fa-tools"></i> 管理后台</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-chart-line"></i> 数据统计</a></li>
+                    <li class="nav-item"><a class="nav-link" href="recipes.html"><i class="fas fa-book"></i> 菜谱管理</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ingredients.html"><i class="fas fa-carrot"></i> 食材管理</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="users.html"><i class="fas fa-users"></i> 用户管理</a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> 退出登录</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-4">
+        <div class="card">
+            <div class="card-header"><i class="fas fa-users"></i> 用户管理</div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>用户名</th>
+                            <th>昵称</th>
+                            <th>性别</th>
+                            <th>年龄</th>
+                            <th>状态</th>
+                            <th>注册时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userList"></tbody>
+                </table>
+                <nav id="pagination"></nav>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/layer/3.5.1/layer.min.js"></script>
+    <script src="../../assets/js/config.js"></script>
+    <script src="../../assets/js/request.js"></script>
+    <script>
+        let currentPage = 1;
+
+        $(document).ready(function() {
+            if (!checkAuth()) return;
+            const user = getUser();
+            if (user.role !== 'ADMIN') {
+                layer.msg('无权限访问');
+                setTimeout(() => window.location.href = '../user/index.html', 1500);
+                return;
+            }
+            loadUsers();
+        });
+
+        function loadUsers(page = 1) {
+            currentPage = page;
+            request(`${API_ENDPOINTS.ADMIN_USER_LIST}?pageNum=${page}&pageSize=10`, { method: 'GET' }).done(function(res) {
+                if (res.code === 200) {
+                    renderUsers(res.data.records);
+                    renderPagination(res.data.pages);
+                }
+            });
+        }
+
+        function renderUsers(users) {
+            let html = '';
+            users.forEach(user => {
+                const statusBadge = user.status === 1 ? 
+                    '<span class="badge bg-success">正常</span>' : 
+                    '<span class="badge bg-danger">禁用</span>';
+                const statusBtn = user.status === 1 ? 
+                    `<button class="btn btn-sm btn-danger" onclick="toggleStatus(${user.id}, 0)">禁用</button>` :
+                    `<button class="btn btn-sm btn-success" onclick="toggleStatus(${user.id}, 1)">启用</button>`;
+                    
+                html += `
+                    <tr>
+                        <td>${user.id}</td>
+                        <td>${user.username}</td>
+                        <td>${user.nickname || '-'}</td>
+                        <td>${user.gender === 1 ? '男' : '女'}</td>
+                        <td>${user.age || '-'}</td>
+                        <td>${statusBadge}</td>
+                        <td>${user.createTime}</td>
+                        <td>${statusBtn}</td>
+                    </tr>
+                `;
+            });
+            $('#userList').html(html || '<tr><td colspan="8" class="text-center">暂无数据</td></tr>');
+        }
+
+        function renderPagination(pages) {
+            if (pages <= 1) {
+                $('#pagination').html('');
+                return;
+            }
+            let html = '<ul class="pagination justify-content-center">';
+            for (let i = 1; i <= pages; i++) {
+                html += `<li class="page-item ${i === currentPage ? 'active' : ''}">
+                    <a class="page-link" href="#" onclick="loadUsers(${i}); return false;">${i}</a>
+                </li>`;
+            }
+            html += '</ul>';
+            $('#pagination').html(html);
+        }
+
+        function toggleStatus(userId, status) {
+            const action = status === 1 ? '启用' : '禁用';
+            layer.confirm(`确定要${action}该用户吗？`, { btn: ['确定', '取消'] }, function(index) {
+                request(`${API_ENDPOINTS.ADMIN_USER_STATUS}/${userId}/status?status=${status}`, { method: 'PUT' }).done(function(res) {
+                    if (res.code === 200) {
+                        layer.msg(`${action}成功`);
+                        loadUsers(currentPage);
+                    }
+                    layer.close(index);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
+

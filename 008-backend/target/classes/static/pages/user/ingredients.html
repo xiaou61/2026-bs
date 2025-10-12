@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的食材 - 智能菜谱推荐系统</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/common.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html"><i class="fas fa-utensils"></i>智能菜谱</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-home"></i> 首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="recipes.html"><i class="fas fa-book"></i> 菜谱</a></li>
+                    <li class="nav-item"><a class="nav-link" href="recommend.html"><i class="fas fa-magic"></i> 推荐</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="ingredients.html"><i class="fas fa-carrot"></i> 我的食材</a></li>
+                    <li class="nav-item"><a class="nav-link" href="shopping.html"><i class="fas fa-shopping-cart"></i> 购物清单</a></li>
+                    <li class="nav-item"><a class="nav-link" href="cooking.html"><i class="fas fa-check-circle"></i> 我的打卡</a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle"></i> <span id="userName"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user"></i> 个人中心</a></li>
+                            <li><a class="dropdown-item" href="collect.html"><i class="fas fa-heart"></i> 我的收藏</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> 退出登录</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-carrot"></i> 我的食材库存</span>
+                <button class="btn btn-primary btn-sm" onclick="showAddForm()">
+                    <i class="fas fa-plus"></i> 添加食材
+                </button>
+            </div>
+            <div class="card-body">
+                <div id="ingredientList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/layer/3.5.1/layer.min.js"></script>
+    <script src="../../assets/js/config.js"></script>
+    <script src="../../assets/js/request.js"></script>
+    <script>
+        $(document).ready(function() {
+            if (!checkAuth()) return;
+            const user = getUser();
+            $('#userName').text(user.nickname || user.username);
+            loadIngredients();
+        });
+
+        function loadIngredients() {
+            request(API_ENDPOINTS.USER_INGREDIENT_LIST, { method: 'GET' }).done(function(res) {
+                if (res.code === 200 && res.data.length > 0) {
+                    let html = '';
+                    res.data.forEach(item => {
+                        const expiringClass = item.isExpiring ? 'ingredient-expiring' : '';
+                        html += `
+                            <div class="ingredient-item ${expiringClass}">
+                                <div>
+                                    <strong>${item.ingredientName}</strong>
+                                    <span class="badge bg-${CATEGORY_MAP[item.ingredientCategory] || 'secondary'} ms-2">${item.ingredientCategory}</span>
+                                    ${item.isExpiring ? '<span class="badge bg-warning ms-2">即将过期</span>' : ''}
+                                    <div class="text-muted small">
+                                        购买日期：${item.purchaseDate || '未知'} | 过期日期：${item.expireDate || '未知'}
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="me-3"><strong>${item.quantity} ${item.unit}</strong></span>
+                                    <button class="btn btn-sm btn-warning" onclick="editIngredient(${item.id}, ${item.quantity}, '${item.unit}')">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" onclick="deleteIngredient(${item.id})">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    $('#ingredientList').html(html);
+                } else {
+                    $('#ingredientList').html('<div class="empty-state"><i class="fas fa-carrot"></i><p>暂无食材库存</p></div>');
+                }
+            });
+        }
+
+        function showAddForm() {
+            request(API_ENDPOINTS.INGREDIENT_LIST + '?pageNum=1&pageSize=100', { method: 'GET' }).done(function(res) {
+                if (res.code === 200) {
+                    let options = '';
+                    res.data.records.forEach(ing => {
+                        options += `<option value="${ing.id}" data-unit="${ing.unit}">${ing.name} (${ing.category})</option>`;
+                    });
+                    
+                    layer.open({
+                        type: 1,
+                        title: '添加食材',
+                        area: ['500px', '500px'],
+                        content: `
+                            <div class="p-3">
+                                <form id="addIngredientForm">
+                                    <div class="mb-3">
+                                        <label class="form-label">选择食材</label>
+                                        <select class="form-select" name="ingredientId" required onchange="updateUnit(this)">${options}</select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">数量</label>
+                                        <input type="number" class="form-control" name="quantity" step="0.01" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">单位</label>
+                                        <input type="text" class="form-control" name="unit" id="unitInput" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">购买日期</label>
+                                        <input type="date" class="form-control" name="purchaseDate">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">过期日期</label>
+                                        <input type="date" class="form-control" name="expireDate">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">添加</button>
+                                </form>
+                            </div>
+                        `
+                    });
+
+                    $(document).off('submit', '#addIngredientForm').on('submit', '#addIngredientForm', function(e) {
+                        e.preventDefault();
+                        const formData = {
+                            ingredientId: parseInt($('select[name="ingredientId"]', this).val()),
+                            quantity: parseFloat($('input[name="quantity"]', this).val()),
+                            unit: $('input[name="unit"]', this).val(),
+                            purchaseDate: $('input[name="purchaseDate"]', this).val() || null,
+                            expireDate: $('input[name="expireDate"]', this).val() || null
+                        };
+                        request(API_ENDPOINTS.USER_INGREDIENT_ADD, {
+                            method: 'POST',
+                            data: JSON.stringify(formData)
+                        }).done(function(res) {
+                            if (res.code === 200) {
+                                layer.closeAll();
+                                layer.msg('添加成功');
+                                loadIngredients();
+                            }
+                        });
+                    });
+                }
+            });
+        }
+
+        function updateUnit(select) {
+            const selectedOption = $(select).find('option:selected');
+            const unit = selectedOption.data('unit');
+            $('#unitInput').val(unit);
+        }
+
+        function deleteIngredient(id) {
+            layer.confirm('确定要删除这个食材吗？', { btn: ['确定', '取消'] }, function(index) {
+                request(`${API_ENDPOINTS.USER_INGREDIENT_DELETE}/${id}`, { method: 'DELETE' }).done(function(res) {
+                    if (res.code === 200) {
+                        layer.msg('删除成功');
+                        loadIngredients();
+                    }
+                    layer.close(index);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理后台 - 智能菜谱推荐系统</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/common.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html"><i class="fas fa-tools"></i> 管理后台</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link active" href="index.html"><i class="fas fa-chart-line"></i> 数据统计</a></li>
+                    <li class="nav-item"><a class="nav-link" href="recipes.html"><i class="fas fa-book"></i> 菜谱管理</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ingredients.html"><i class="fas fa-carrot"></i> 食材管理</a></li>
+                    <li class="nav-item"><a class="nav-link" href="users.html"><i class="fas fa-users"></i> 用户管理</a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i> 退出登录
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card text-white bg-primary">
+                    <div class="card-body stat-card">
+                        <i class="fas fa-users"></i>
+                        <h3 id="userCount">0</h3>
+                        <p>用户总数</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-success">
+                    <div class="card-body stat-card">
+                        <i class="fas fa-book"></i>
+                        <h3 id="recipeCount">0</h3>
+                        <p>菜谱总数</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-warning">
+                    <div class="card-body stat-card">
+                        <i class="fas fa-carrot"></i>
+                        <h3 id="ingredientCount">0</h3>
+                        <p>食材总数</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-info">
+                    <div class="card-body stat-card">
+                        <i class="fas fa-check-circle"></i>
+                        <h3 id="cookingCount">0</h3>
+                        <p>打卡总数</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header"><i class="fas fa-info-circle"></i> 系统说明</div>
+                    <div class="card-body">
+                        <h5>欢迎使用智能菜谱推荐系统管理后台</h5>
+                        <p>您可以在此管理菜谱、食材、用户等信息。请通过顶部导航栏进入相应的管理页面。</p>
+                        <ul>
+                            <li><strong>菜谱管理：</strong>添加、编辑、删除菜谱信息</li>
+                            <li><strong>食材管理：</strong>维护全局食材库</li>
+                            <li><strong>用户管理：</strong>查看和管理用户账户</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/layer/3.5.1/layer.min.js"></script>
+    <script src="../../assets/js/config.js"></script>
+    <script src="../../assets/js/request.js"></script>
+    <script>
+        $(document).ready(function() {
+            if (!checkAuth()) return;
+            const user = getUser();
+            if (user.role !== 'ADMIN') {
+                layer.msg('无权限访问');
+                setTimeout(() => {
+                    window.location.href = '../user/index.html';
+                }, 1500);
+                return;
+            }
+            loadStats();
+        });
+
+        function loadStats() {
+            request(API_ENDPOINTS.ADMIN_STATS, { method: 'GET' }).done(function(res) {
+                if (res.code === 200) {
+                    $('#userCount').text(res.data.userCount || 0);
+                    $('#recipeCount').text(res.data.recipeCount || 0);
+                    $('#ingredientCount').text(res.data.ingredientCount || 0);
+                    $('#cookingCount').text(res.data.cookingRecordCount || 0);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+
