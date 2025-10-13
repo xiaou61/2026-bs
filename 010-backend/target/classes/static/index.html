@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页 - 图书馆座位预约系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/index.html">
+                <i class="bi bi-book"></i> 图书馆座位预约
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/index.html">
+                            <i class="bi bi-house"></i> 首页
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/booking.html">
+                            <i class="bi bi-calendar-check"></i> 预约座位
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/my-bookings.html">
+                            <i class="bi bi-list-check"></i> 我的预约
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile.html">
+                            <i class="bi bi-person"></i> 个人中心
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="logoutBtn">
+                            <i class="bi bi-box-arrow-right"></i> 退出
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <div class="card stat-card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-person-circle text-primary" style="font-size: 3rem;"></i>
+                        <h5 class="mt-2">欢迎回来</h5>
+                        <p class="mb-0" id="userName"></p>
+                        <small class="text-muted" id="studentNo"></small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card stat-card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-star-fill text-warning" style="font-size: 3rem;"></i>
+                        <h5 class="mt-2">信用分</h5>
+                        <p class="credit-score mb-0" id="creditScore">100</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card stat-card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-calendar-check text-success" style="font-size: 3rem;"></i>
+                        <h5 class="mt-2">今日预约</h5>
+                        <p class="mb-0"><span id="todayBookingCount" style="font-size: 2rem; font-weight: bold;">0</span> 次</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card stat-card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-bell-fill text-info" style="font-size: 3rem;"></i>
+                        <h5 class="mt-2">未读通知</h5>
+                        <p class="mb-0"><span id="unreadCount" style="font-size: 2rem; font-weight: bold;">0</span> 条</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0"><i class="bi bi-clock-history"></i> 当前预约</h5>
+                    </div>
+                    <div class="card-body" id="currentBooking">
+                        <div class="text-center text-muted py-5">
+                            <i class="bi bi-inbox" style="font-size: 3rem;"></i>
+                            <p class="mt-2">暂无进行中的预约</p>
+                            <a href="/booking.html" class="btn btn-primary">立即预约</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-4">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0"><i class="bi bi-bell"></i> 最新通知</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="notifications"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0"><i class="bi bi-info-circle"></i> 使用指南</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item">
+                                <i class="bi bi-1-circle text-primary"></i>
+                                <strong>选择座位</strong>
+                                <p class="mb-0 small text-muted">浏览可用座位并选择合适的位置</p>
+                            </div>
+                            <div class="list-group-item">
+                                <i class="bi bi-2-circle text-success"></i>
+                                <strong>签到使用</strong>
+                                <p class="mb-0 small text-muted">预约开始后15分钟内完成签到</p>
+                            </div>
+                            <div class="list-group-item">
+                                <i class="bi bi-3-circle text-info"></i>
+                                <strong>按时签退</strong>
+                                <p class="mb-0 small text-muted">使用结束后及时签退，获得信用分</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-3">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0"><i class="bi bi-exclamation-triangle"></i> 温馨提示</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li><i class="bi bi-check2 text-success"></i> 预约后15分钟内必须签到</li>
+                            <li><i class="bi bi-check2 text-success"></i> 使用结束后及时签退</li>
+                            <li><i class="bi bi-check2 text-success"></i> 维护良好信用分</li>
+                            <li><i class="bi bi-check2 text-success"></i> 遵守图书馆规定</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/layui@2.8.18/dist/layui.js"></script>
+    <script src="/js/request.js"></script>
+    <script>
+        var layer;
+        layui.use('layer', function(){
+            layer = layui.layer;
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            if (!request.checkLogin()) return;
+
+            const user = request.getUserInfo();
+            if (user.role === 'ADMIN') {
+                window.location.href = '/admin/index.html';
+                return;
+            }
+
+            loadUserInfo();
+            loadCurrentBooking();
+            loadNotifications();
+            loadStatistics();
+
+            $('#logoutBtn').click(function(e) {
+                e.preventDefault();
+                request.logout();
+            });
+        });
+
+        function loadUserInfo() {
+            request.get('/api/user/info').then(data => {
+                $('#userName').text(data.name);
+                $('#studentNo').text(data.studentNo);
+                $('#creditScore').text(data.creditScore);
+                
+                const scoreClass = data.creditScore >= 80 ? 'credit-high' : 
+                                  data.creditScore >= 60 ? 'credit-medium' : 'credit-low';
+                $('#creditScore').addClass(scoreClass);
+            });
+        }
+
+        function loadCurrentBooking() {
+            request.get('/api/booking/current').then(data => {
+                if (data) {
+                    $('#currentBooking').html(`
+                        <div class="alert alert-success">
+                            <h5><i class="bi bi-check-circle"></i> 使用中</h5>
+                            <p><strong>座位编号：</strong><span class="badge bg-primary">${data.seatNo}</span></p>
+                            <p><strong>预约时段：</strong>${formatTime(data.startTime)} - ${formatTime(data.endTime)}</p>
+                            <p><strong>签到时间：</strong>${formatTime(data.checkInTime)}</p>
+                            <div class="mt-3">
+                                <button class="btn btn-sm btn-warning" onclick="markLeave(${data.id})">
+                                    <i class="bi bi-door-open"></i> 临时离开
+                                </button>
+                                <button class="btn btn-sm btn-success" onclick="checkOut(${data.id})">
+                                    <i class="bi bi-box-arrow-right"></i> 签退
+                                </button>
+                            </div>
+                        </div>
+                    `);
+                }
+            });
+        }
+
+        function loadNotifications() {
+            request.get('/api/notification/list').then(data => {
+                const notifications = data.slice(0, 5);
+                if (notifications.length === 0) {
+                    $('#notifications').html('<p class="text-muted text-center">暂无通知</p>');
+                    return;
+                }
+                
+                let html = '<div class="list-group list-group-flush">';
+                notifications.forEach(item => {
+                    html += `
+                        <div class="list-group-item ${item.isRead === 0 ? 'bg-light' : ''}">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="mb-1">${item.title}</h6>
+                                    <p class="mb-1 small">${item.content}</p>
+                                    <small class="text-muted">${formatTime(item.createTime)}</small>
+                                </div>
+                                ${item.isRead === 0 ? '<span class="badge bg-danger">新</span>' : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                $('#notifications').html(html);
+            });
+
+            request.get('/api/notification/unread-count').then(data => {
+                $('#unreadCount').text(data);
+            });
+        }
+
+        function loadStatistics() {
+            request.get('/api/booking/my-list').then(data => {
+                const today = new Date().toISOString().split('T')[0];
+                const todayBookings = data.filter(b => b.bookingDate === today);
+                $('#todayBookingCount').text(todayBookings.length);
+            });
+        }
+
+        function markLeave(id) {
+            layer.confirm('确定要标记临时离开吗？<br>请在30分钟内返回', {icon: 3}, function(index) {
+                request.post(`/api/booking/${id}/leave`).then(() => {
+                    layer.close(index);
+                    layer.msg('已标记临时离开', {icon: 1});
+                    loadCurrentBooking();
+                });
+            });
+        }
+
+        function checkOut(id) {
+            layer.confirm('确定要签退吗？', {icon: 3}, function(index) {
+                request.post(`/api/booking/${id}/check-out`).then(() => {
+                    layer.close(index);
+                    layer.msg('签退成功，信用分+2', {icon: 1});
+                    loadCurrentBooking();
+                    loadUserInfo();
+                });
+            });
+        }
+
+        function formatTime(time) {
+            if (!time) return '-';
+            return time.replace('T', ' ').substring(0, 16);
+        }
+    </script>
+</body>
+</html>
+

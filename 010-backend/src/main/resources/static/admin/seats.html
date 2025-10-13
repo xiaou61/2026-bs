@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>座位管理 - 管理后台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/admin/index.html">
+                <i class="bi bi-shield-check"></i> 管理后台
+            </a>
+            <div class="ms-auto">
+                <span class="navbar-text text-white me-3">
+                    <i class="bi bi-person-circle"></i> <span id="adminName"></span>
+                </span>
+                <a href="#" class="btn btn-outline-light btn-sm" id="logoutBtn">
+                    <i class="bi bi-box-arrow-right"></i> 退出
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 sidebar">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/index.html">
+                            <i class="bi bi-speedometer2"></i> 数据统计
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/admin/seats.html">
+                            <i class="bi bi-grid-3x3"></i> 座位管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/bookings.html">
+                            <i class="bi bi-calendar-check"></i> 预约管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/violations.html">
+                            <i class="bi bi-exclamation-triangle"></i> 违约管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/users.html">
+                            <i class="bi bi-people"></i> 用户管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/config.html">
+                            <i class="bi bi-gear"></i> 系统配置
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-10 p-4">
+                <h4 class="page-header"><i class="bi bi-grid-3x3"></i> 座位管理</h4>
+
+                <ul class="nav nav-tabs mb-3" id="manageTabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#floorTab">
+                            <i class="bi bi-building"></i> 楼层管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#areaTab">
+                            <i class="bi bi-bounding-box"></i> 区域管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#seatTab">
+                            <i class="bi bi-grid-3x3"></i> 座位管理
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="floorTab">
+                        <div class="card">
+                            <div class="card-header bg-white">
+                                <button class="btn btn-primary" onclick="showFloorModal()">
+                                    <i class="bi bi-plus"></i> 添加楼层
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>楼层名称</th>
+                                            <th>描述</th>
+                                            <th>排序</th>
+                                            <th>状态</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="floorList"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="areaTab">
+                        <div class="card">
+                            <div class="card-header bg-white">
+                                <button class="btn btn-primary" onclick="showAreaModal()">
+                                    <i class="bi bi-plus"></i> 添加区域
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>区域名称</th>
+                                            <th>所属楼层</th>
+                                            <th>是否热门</th>
+                                            <th>最低信用分</th>
+                                            <th>状态</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="areaList"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="seatTab">
+                        <div class="card">
+                            <div class="card-header bg-white">
+                                <button class="btn btn-primary" onclick="showSeatModal()">
+                                    <i class="bi bi-plus"></i> 添加座位
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-hover table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>座位编号</th>
+                                            <th>所属区域</th>
+                                            <th>类型</th>
+                                            <th>电源</th>
+                                            <th>台灯</th>
+                                            <th>预约次数</th>
+                                            <th>热度</th>
+                                            <th>状态</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="seatList"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="floorModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">楼层信息</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="floorId">
+                    <div class="mb-3">
+                        <label class="form-label">楼层名称</label>
+                        <input type="text" class="form-control" id="floorName">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">描述</label>
+                        <textarea class="form-control" id="floorDesc" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">排序</label>
+                        <input type="number" class="form-control" id="floorSort" value="0">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="saveFloor()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="areaModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">区域信息</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="areaId">
+                    <div class="mb-3">
+                        <label class="form-label">所属楼层</label>
+                        <select class="form-select" id="areaFloorId"></select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">区域名称</label>
+                        <input type="text" class="form-control" id="areaName">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">描述</label>
+                        <textarea class="form-control" id="areaDesc" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="areaIsHot">
+                            <label class="form-check-label" for="areaIsHot">热门区域</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">最低信用分要求</label>
+                        <input type="number" class="form-control" id="areaMinCredit" value="0">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="saveArea()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="seatModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">座位信息</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="seatId">
+                    <div class="mb-3">
+                        <label class="form-label">所属区域</label>
+                        <select class="form-select" id="seatAreaId"></select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">座位编号</label>
+                        <input type="text" class="form-control" id="seatNo" placeholder="如：A-001">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">座位类型</label>
+                        <select class="form-select" id="seatType">
+                            <option value="单人座">单人座</option>
+                            <option value="双人座">双人座</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="seatHasPower">
+                                <label class="form-check-label" for="seatHasPower">有电源</label>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="seatHasLamp">
+                                <label class="form-check-label" for="seatHasLamp">有台灯</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="saveSeat()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/layui@2.8.18/dist/layui.js"></script>
+    <script src="/js/request.js"></script>
+    <script>
+        var layer;
+        layui.use('layer', function(){
+            layer = layui.layer;
+        });
+    </script>
+    <script>
+        let floorModal, areaModal, seatModal;
+
+        $(document).ready(function() {
+            if (!request.checkLogin()) return;
+
+            const user = request.getUserInfo();
+            if (user.role !== 'ADMIN') {
+                window.location.href = '/index.html';
+                return;
+            }
+
+            $('#adminName').text(user.name);
+
+            floorModal = new bootstrap.Modal(document.getElementById('floorModal'));
+            areaModal = new bootstrap.Modal(document.getElementById('areaModal'));
+            seatModal = new bootstrap.Modal(document.getElementById('seatModal'));
+
+            loadFloors();
+            loadAreas();
+            loadSeats();
+
+            $('#logoutBtn').click(function(e) {
+                e.preventDefault();
+                request.logout();
+            });
+        });
+
+        function loadFloors() {
+            request.get('/api/admin/floor/list').then(data => {
+                renderFloorList(data);
+                renderFloorOptions(data);
+            });
+        }
+
+        function renderFloorList(floors) {
+            let html = '';
+            floors.forEach(floor => {
+                html += `
+                    <tr>
+                        <td>${floor.id}</td>
+                        <td>${floor.name}</td>
+                        <td>${floor.description || '-'}</td>
+                        <td>${floor.sortOrder}</td>
+                        <td><span class="badge ${floor.status === 1 ? 'bg-success' : 'bg-secondary'}">${floor.status === 1 ? '正常' : '禁用'}</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-warning" onclick="editFloor(${floor.id})">编辑</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteFloor(${floor.id})">删除</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            $('#floorList').html(html || '<tr><td colspan="6" class="text-center text-muted">暂无数据</td></tr>');
+        }
+
+        function renderFloorOptions(floors) {
+            let html = '<option value="">请选择</option>';
+            floors.forEach(floor => {
+                html += `<option value="${floor.id}">${floor.name}</option>`;
+            });
+            $('#areaFloorId').html(html);
+        }
+
+        function loadAreas() {
+            request.get('/api/admin/area/list').then(data => {
+                renderAreaList(data);
+                renderAreaOptions(data);
+            });
+        }
+
+        function renderAreaList(areas) {
+            let html = '';
+            areas.forEach(area => {
+                html += `
+                    <tr>
+                        <td>${area.id}</td>
+                        <td>${area.name}</td>
+                        <td>${area.floorId}</td>
+                        <td><span class="badge ${area.isHot ? 'bg-warning' : 'bg-secondary'}">${area.isHot ? '是' : '否'}</span></td>
+                        <td>${area.minCredit}</td>
+                        <td><span class="badge ${area.status === 1 ? 'bg-success' : 'bg-secondary'}">${area.status === 1 ? '正常' : '禁用'}</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-warning" onclick="editArea(${area.id})">编辑</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteArea(${area.id})">删除</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            $('#areaList').html(html || '<tr><td colspan="7" class="text-center text-muted">暂无数据</td></tr>');
+        }
+
+        function renderAreaOptions(areas) {
+            let html = '<option value="">请选择</option>';
+            areas.forEach(area => {
+                html += `<option value="${area.id}">${area.name}</option>`;
+            });
+            $('#seatAreaId').html(html);
+        }
+
+        function loadSeats() {
+            request.get('/api/admin/seat/list').then(data => {
+                let html = '';
+                data.forEach(seat => {
+                    html += `
+                        <tr>
+                            <td><span class="badge bg-primary">${seat.seatNo}</span></td>
+                            <td>${seat.areaId}</td>
+                            <td>${seat.seatType}</td>
+                            <td>${seat.hasPower ? '<i class="bi bi-check-circle text-success"></i>' : '-'}</td>
+                            <td>${seat.hasLamp ? '<i class="bi bi-check-circle text-success"></i>' : '-'}</td>
+                            <td>${seat.totalBookCount}</td>
+                            <td><span class="badge bg-warning">${seat.hotScore}</span></td>
+                            <td><span class="badge ${seat.status === 1 ? 'bg-success' : 'bg-secondary'}">${seat.status === 1 ? '可用' : '禁用'}</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-warning" onclick="editSeat(${seat.id})">编辑</button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteSeat(${seat.id})">删除</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                $('#seatList').html(html || '<tr><td colspan="9" class="text-center text-muted">暂无数据</td></tr>');
+            });
+        }
+
+        function showFloorModal() {
+            $('#floorId').val('');
+            $('#floorName').val('');
+            $('#floorDesc').val('');
+            $('#floorSort').val('0');
+            floorModal.show();
+        }
+
+        function saveFloor() {
+            const data = {
+                id: $('#floorId').val() || null,
+                name: $('#floorName').val(),
+                description: $('#floorDesc').val(),
+                sortOrder: parseInt($('#floorSort').val()),
+                status: 1
+            };
+
+            request.post('/api/admin/floor', data).then(() => {
+                floorModal.hide();
+                layer.msg('保存成功', {icon: 1});
+                loadFloors();
+            });
+        }
+
+        function editFloor(id) {
+            request.get('/api/admin/floor/list').then(data => {
+                const floor = data.find(f => f.id === id);
+                if (floor) {
+                    $('#floorId').val(floor.id);
+                    $('#floorName').val(floor.name);
+                    $('#floorDesc').val(floor.description);
+                    $('#floorSort').val(floor.sortOrder);
+                    floorModal.show();
+                }
+            });
+        }
+
+        function deleteFloor(id) {
+            layer.confirm('确定删除该楼层吗？', {icon: 3}, function(index) {
+                request.delete(`/api/admin/floor/${id}`).then(() => {
+                    layer.close(index);
+                    layer.msg('删除成功', {icon: 1});
+                    loadFloors();
+                });
+            });
+        }
+
+        function showAreaModal() {
+            $('#areaId').val('');
+            $('#areaFloorId').val('');
+            $('#areaName').val('');
+            $('#areaDesc').val('');
+            $('#areaIsHot').prop('checked', false);
+            $('#areaMinCredit').val('0');
+            areaModal.show();
+        }
+
+        function saveArea() {
+            const data = {
+                id: $('#areaId').val() || null,
+                floorId: parseInt($('#areaFloorId').val()),
+                name: $('#areaName').val(),
+                description: $('#areaDesc').val(),
+                isHot: $('#areaIsHot').is(':checked') ? 1 : 0,
+                minCredit: parseInt($('#areaMinCredit').val()),
+                status: 1,
+                sortOrder: 0
+            };
+
+            request.post('/api/admin/area', data).then(() => {
+                areaModal.hide();
+                layer.msg('保存成功', {icon: 1});
+                loadAreas();
+            });
+        }
+
+        function editArea(id) {
+            request.get('/api/admin/area/list').then(data => {
+                const area = data.find(a => a.id === id);
+                if (area) {
+                    $('#areaId').val(area.id);
+                    $('#areaFloorId').val(area.floorId);
+                    $('#areaName').val(area.name);
+                    $('#areaDesc').val(area.description);
+                    $('#areaIsHot').prop('checked', area.isHot === 1);
+                    $('#areaMinCredit').val(area.minCredit);
+                    areaModal.show();
+                }
+            });
+        }
+
+        function deleteArea(id) {
+            layer.confirm('确定删除该区域吗？', {icon: 3}, function(index) {
+                request.delete(`/api/admin/area/${id}`).then(() => {
+                    layer.close(index);
+                    layer.msg('删除成功', {icon: 1});
+                    loadAreas();
+                });
+            });
+        }
+
+        function showSeatModal() {
+            $('#seatId').val('');
+            $('#seatAreaId').val('');
+            $('#seatNo').val('');
+            $('#seatType').val('单人座');
+            $('#seatHasPower').prop('checked', false);
+            $('#seatHasLamp').prop('checked', false);
+            seatModal.show();
+        }
+
+        function saveSeat() {
+            const data = {
+                id: $('#seatId').val() || null,
+                areaId: parseInt($('#seatAreaId').val()),
+                seatNo: $('#seatNo').val(),
+                seatType: $('#seatType').val(),
+                hasPower: $('#seatHasPower').is(':checked') ? 1 : 0,
+                hasLamp: $('#seatHasLamp').is(':checked') ? 1 : 0,
+                status: 1
+            };
+
+            request.post('/api/admin/seat', data).then(() => {
+                seatModal.hide();
+                layer.msg('保存成功', {icon: 1});
+                loadSeats();
+            });
+        }
+
+        function editSeat(id) {
+            request.get('/api/admin/seat/list').then(data => {
+                const seat = data.find(s => s.id === id);
+                if (seat) {
+                    $('#seatId').val(seat.id);
+                    $('#seatAreaId').val(seat.areaId);
+                    $('#seatNo').val(seat.seatNo);
+                    $('#seatType').val(seat.seatType);
+                    $('#seatHasPower').prop('checked', seat.hasPower === 1);
+                    $('#seatHasLamp').prop('checked', seat.hasLamp === 1);
+                    seatModal.show();
+                }
+            });
+        }
+
+        function deleteSeat(id) {
+            layer.confirm('确定删除该座位吗？', {icon: 3}, function(index) {
+                request.delete(`/api/admin/seat/${id}`).then(() => {
+                    layer.close(index);
+                    layer.msg('删除成功', {icon: 1});
+                    loadSeats();
+                });
+            });
+        }
+    </script>
+</body>
+</html>
+

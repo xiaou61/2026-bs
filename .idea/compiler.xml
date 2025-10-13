@@ -9,6 +9,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="003-backend" />
+        <module name="010-backend" />
         <module name="007-backend" />
         <module name="006-backend" />
         <module name="009-backend" />
@@ -34,6 +35,7 @@
       <module name="007-backend" options="-parameters" />
       <module name="008-backend" options="-parameters" />
       <module name="009-backend" options="-parameters" />
+      <module name="010-backend" options="-parameters" />
       <module name="campus-affairs" options="-parameters" />
     </option>
   </component>

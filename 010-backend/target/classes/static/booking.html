@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>预约座位 - 图书馆座位预约系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/index.html">
+                <i class="bi bi-book"></i> 图书馆座位预约
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index.html">
+                            <i class="bi bi-house"></i> 首页
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/booking.html">
+                            <i class="bi bi-calendar-check"></i> 预约座位
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/my-bookings.html">
+                            <i class="bi bi-list-check"></i> 我的预约
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile.html">
+                            <i class="bi bi-person"></i> 个人中心
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="logoutBtn">
+                            <i class="bi bi-box-arrow-right"></i> 退出
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="page-header"><i class="bi bi-calendar-check"></i> 预约座位</h4>
+                
+                <div class="row mb-4">
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">选择日期</label>
+                        <input type="text" class="form-control" id="bookingDate" placeholder="选择日期">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">选择时段</label>
+                        <select class="form-select" id="timeSlot">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">选择楼层</label>
+                        <select class="form-select" id="floor">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">选择区域</label>
+                        <select class="form-select" id="area">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <div class="btn-group" role="group">
+                            <input type="checkbox" class="btn-check" id="filterPower">
+                            <label class="btn btn-outline-primary" for="filterPower">
+                                <i class="bi bi-plug"></i> 有电源
+                            </label>
+                            <input type="checkbox" class="btn-check" id="filterLamp">
+                            <label class="btn btn-outline-primary" for="filterLamp">
+                                <i class="bi bi-lamp"></i> 有台灯
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> 
+                    <span class="badge bg-success">绿色</span> 可预约
+                    <span class="badge bg-danger ms-2">红色</span> 已预约
+                    <span class="badge bg-warning ms-2">黄色</span> 热门座位
+                </div>
+
+                <div id="seatMap" class="seat-map"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/layui@2.8.18/dist/layui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh.js"></script>
+    <script src="/js/request.js"></script>
+    <script>
+        var layer;
+        layui.use('layer', function(){
+            layer = layui.layer;
+        });
+    </script>
+    <script>
+        let selectedSeatId = null;
+        let allSeats = [];
+        let timeSlots = [];
+
+        $(document).ready(function() {
+            if (!request.checkLogin()) return;
+
+            flatpickr('#bookingDate', {
+                locale: 'zh',
+                minDate: 'today',
+                maxDate: new Date().fp_incr(2),
+                dateFormat: 'Y-m-d',
+                defaultDate: 'today'
+            });
+
+            loadTimeSlots();
+            loadFloors();
+
+            $('#floor').change(function() {
+                loadAreas($(this).val());
+            });
+
+            $('#area, #timeSlot, #bookingDate, #filterPower, #filterLamp').change(function() {
+                loadSeats();
+            });
+
+            $('#logoutBtn').click(function(e) {
+                e.preventDefault();
+                request.logout();
+            });
+        });
+
+        function loadTimeSlots() {
+            request.get('/api/timeslot/list').then(data => {
+                timeSlots = data;
+                let html = '<option value="">请选择</option>';
+                data.forEach(slot => {
+                    html += `<option value="${slot.slotCode}">${slot.slotName} (${slot.startTime} - ${slot.endTime})</option>`;
+                });
+                $('#timeSlot').html(html);
+            });
+        }
+
+        function loadFloors() {
+            request.get('/api/seat/floor/list').then(data => {
+                let html = '<option value="">请选择</option>';
+                data.forEach(floor => {
+                    html += `<option value="${floor.id}">${floor.name}</option>`;
+                });
+                $('#floor').html(html);
+            });
+        }
+
+        function loadAreas(floorId) {
+            if (!floorId) {
+                $('#area').html('<option value="">请先选择楼层</option>');
+                return;
+            }
+            request.get('/api/seat/area/list', {floorId: floorId}).then(data => {
+                let html = '<option value="">请选择</option>';
+                data.forEach(area => {
+                    html += `<option value="${area.id}">${area.name}`;
+                    if (area.isHot === 1) {
+                        html += ` (热门区，需信用分${area.minCredit}+)`;
+                    }
+                    html += '</option>';
+                });
+                $('#area').html(html);
+            });
+        }
+
+        function loadSeats() {
+            const areaId = $('#area').val();
+            const timeSlot = $('#timeSlot').val();
+            const bookingDate = $('#bookingDate').val();
+
+            if (!areaId || !timeSlot || !bookingDate) {
+                $('#seatMap').html('<div class="text-center text-muted py-5">请选择日期、时段和区域</div>');
+                return;
+            }
+
+            request.get('/api/seat/list', {areaId: areaId}).then(data => {
+                allSeats = data;
+                renderSeats();
+            });
+        }
+
+        function renderSeats() {
+            const filterPower = $('#filterPower').is(':checked');
+            const filterLamp = $('#filterLamp').is(':checked');
+
+            let filteredSeats = allSeats.filter(seat => {
+                if (filterPower && seat.hasPower === 0) return false;
+                if (filterLamp && seat.hasLamp === 0) return false;
+                return true;
+            });
+
+            if (filteredSeats.length === 0) {
+                $('#seatMap').html('<div class="text-center text-muted py-5">没有符合条件的座位</div>');
+                return;
+            }
+
+            let html = '';
+            filteredSeats.forEach(seat => {
+                const isHot = seat.hotScore > 50;
+                const statusClass = 'available'; // 实际应该检查是否已被预约
+                html += `
+                    <div class="seat-item ${statusClass} ${isHot ? 'seat-hot' : ''}" onclick="selectSeat(${seat.id}, '${seat.seatNo}')">
+                        <div class="seat-icon">
+                            <i class="bi bi-person-workspace"></i>
+                        </div>
+                        <div class="seat-no">${seat.seatNo}</div>
+                        <div style="font-size: 10px;">
+                            ${seat.hasPower ? '<i class="bi bi-plug"></i>' : ''}
+                            ${seat.hasLamp ? '<i class="bi bi-lamp"></i>' : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            $('#seatMap').html(html);
+        }
+
+        function selectSeat(seatId, seatNo) {
+            selectedSeatId = seatId;
+            $('.seat-item').removeClass('selected');
+            event.currentTarget.classList.add('selected');
+
+            layer.confirm(`确定预约座位 ${seatNo} 吗？`, {
+                icon: 3,
+                btn: ['确定', '取消']
+            }, function(index) {
+                createBooking();
+                layer.close(index);
+            });
+        }
+
+        function createBooking() {
+            const data = {
+                seatId: selectedSeatId,
+                bookingDate: $('#bookingDate').val(),
+                timeSlot: $('#timeSlot').val()
+            };
+
+            const loadIndex = layer.load(2);
+            request.post('/api/booking/create', data).then(() => {
+                layer.close(loadIndex);
+                layer.msg('预约成功！请按时签到', {icon: 1, time: 2000}, function() {
+                    window.location.href = '/my-bookings.html';
+                });
+            }).catch(() => {
+                layer.close(loadIndex);
+            });
+        }
+    </script>
+</body>
+</html>
+

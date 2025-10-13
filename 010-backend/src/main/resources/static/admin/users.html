@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户管理 - 管理后台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/admin/index.html">
+                <i class="bi bi-shield-check"></i> 管理后台
+            </a>
+            <div class="ms-auto">
+                <span class="navbar-text text-white me-3">
+                    <i class="bi bi-person-circle"></i> <span id="adminName"></span>
+                </span>
+                <a href="#" class="btn btn-outline-light btn-sm" id="logoutBtn">
+                    <i class="bi bi-box-arrow-right"></i> 退出
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 sidebar">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/index.html">
+                            <i class="bi bi-speedometer2"></i> 数据统计
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/seats.html">
+                            <i class="bi bi-grid-3x3"></i> 座位管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/bookings.html">
+                            <i class="bi bi-calendar-check"></i> 预约管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/violations.html">
+                            <i class="bi bi-exclamation-triangle"></i> 违约管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/admin/users.html">
+                            <i class="bi bi-people"></i> 用户管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/config.html">
+                            <i class="bi bi-gear"></i> 系统配置
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-10 p-4">
+                <h4 class="page-header"><i class="bi bi-people"></i> 用户管理</h4>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>学号</th>
+                                        <th>姓名</th>
+                                        <th>学院</th>
+                                        <th>专业</th>
+                                        <th>信用分</th>
+                                        <th>状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="userList"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/layui@2.8.18/dist/layui.js"></script>
+    <script src="/js/request.js"></script>
+    <script>
+        var layer;
+        layui.use('layer', function(){
+            layer = layui.layer;
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            if (!request.checkLogin()) return;
+            const user = request.getUserInfo();
+            if (user.role !== 'ADMIN') {
+                window.location.href = '/index.html';
+                return;
+            }
+            $('#adminName').text(user.name);
+            loadUsers();
+            $('#logoutBtn').click(function(e) {
+                e.preventDefault();
+                request.logout();
+            });
+        });
+
+        function loadUsers() {
+            request.get('/api/admin/user/list').then(data => {
+                let html = '';
+                data.filter(u => u.role === 'USER').forEach(user => {
+                    html += `
+                        <tr>
+                            <td>${user.studentNo}</td>
+                            <td>${user.name}</td>
+                            <td>${user.college || '-'}</td>
+                            <td>${user.major || '-'}</td>
+                            <td><span class="badge ${user.creditScore >= 80 ? 'bg-success' : user.creditScore >= 60 ? 'bg-warning' : 'bg-danger'}">${user.creditScore}</span></td>
+                            <td><span class="badge ${user.status === 1 ? 'bg-success' : 'bg-secondary'}">${user.status === 1 ? '正常' : '禁用'}</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-warning" onclick="toggleStatus(${user.id}, ${user.status})">
+                                    ${user.status === 1 ? '禁用' : '启用'}
+                                </button>
+                                <button class="btn btn-sm btn-info" onclick="resetCredit(${user.id})">重置信用分</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                $('#userList').html(html);
+            });
+        }
+
+        function toggleStatus(id, currentStatus) {
+            const newStatus = currentStatus === 1 ? 0 : 1;
+            request.put(`/api/admin/user/${id}/status`, {status: newStatus}).then(() => {
+                layer.msg('操作成功', {icon: 1});
+                loadUsers();
+            });
+        }
+
+        function resetCredit(id) {
+            layer.prompt({
+                title: '重置信用分',
+                formType: 0,
+                value: '100'
+            }, function(value, index) {
+                request.put(`/api/admin/user/${id}/credit`, {creditScore: parseInt(value)}).then(() => {
+                    layer.close(index);
+                    layer.msg('重置成功', {icon: 1});
+                    loadUsers();
+                });
+            });
+        }
+    </script>
+</body>
+</html>
+

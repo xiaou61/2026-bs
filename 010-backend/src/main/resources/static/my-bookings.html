@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的预约 - 图书馆座位预约系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/index.html">
+                <i class="bi bi-book"></i> 图书馆座位预约
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index.html">
+                            <i class="bi bi-house"></i> 首页
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/booking.html">
+                            <i class="bi bi-calendar-check"></i> 预约座位
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/my-bookings.html">
+                            <i class="bi bi-list-check"></i> 我的预约
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile.html">
+                            <i class="bi bi-person"></i> 个人中心
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="logoutBtn">
+                            <i class="bi bi-box-arrow-right"></i> 退出
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="page-header"><i class="bi bi-list-check"></i> 我的预约</h4>
+
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <div class="btn-group" role="group">
+                            <input type="radio" class="btn-check" name="statusFilter" id="statusAll" value="" checked>
+                            <label class="btn btn-outline-primary" for="statusAll">全部</label>
+                            
+                            <input type="radio" class="btn-check" name="statusFilter" id="statusWait" value="WAIT_CHECKIN">
+                            <label class="btn btn-outline-warning" for="statusWait">待签到</label>
+                            
+                            <input type="radio" class="btn-check" name="statusFilter" id="statusUsing" value="IN_USE">
+                            <label class="btn btn-outline-success" for="statusUsing">使用中</label>
+                            
+                            <input type="radio" class="btn-check" name="statusFilter" id="statusCompleted" value="COMPLETED">
+                            <label class="btn btn-outline-info" for="statusCompleted">已完成</label>
+                            
+                            <input type="radio" class="btn-check" name="statusFilter" id="statusCanceled" value="CANCELED">
+                            <label class="btn btn-outline-secondary" for="statusCanceled">已取消</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>预约日期</th>
+                                <th>时段</th>
+                                <th>座位编号</th>
+                                <th>签到时间</th>
+                                <th>签退时间</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookingList">
+                            <tr>
+                                <td colspan="7" class="text-center text-muted">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="checkinModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">签到</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">请输入座位编号确认签到</label>
+                        <input type="text" class="form-control" id="seatNoInput" placeholder="例如：A-001">
+                    </div>
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle"></i> 请确认您已到达座位，并输入座位编号进行签到
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="confirmCheckin()">确认签到</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/layui@2.8.18/dist/layui.js"></script>
+    <script src="/js/request.js"></script>
+    <script>
+        var layer;
+        layui.use('layer', function(){
+            layer = layui.layer;
+        });
+    </script>
+    <script>
+        let currentBookingId = null;
+        let checkinModal = null;
+
+        $(document).ready(function() {
+            if (!request.checkLogin()) return;
+
+            checkinModal = new bootstrap.Modal(document.getElementById('checkinModal'));
+
+            loadBookings();
+
+            $('input[name="statusFilter"]').change(function() {
+                loadBookings();
+            });
+
+            $('#logoutBtn').click(function(e) {
+                e.preventDefault();
+                request.logout();
+            });
+        });
+
+        function loadBookings() {
+            const status = $('input[name="statusFilter"]:checked').val();
+            
+            request.get('/api/booking/my-list').then(data => {
+                let filteredData = status ? data.filter(b => b.status === status) : data;
+                renderBookings(filteredData);
+            });
+        }
+
+        function renderBookings(bookings) {
+            if (bookings.length === 0) {
+                $('#bookingList').html('<tr><td colspan="7" class="text-center text-muted">暂无记录</td></tr>');
+                return;
+            }
+
+            let html = '';
+            bookings.forEach(booking => {
+                const statusInfo = getStatusInfo(booking.status);
+                html += `
+                    <tr>
+                        <td>${booking.bookingDate}</td>
+                        <td>${getTimeSlotName(booking.timeSlot)}</td>
+                        <td><span class="badge bg-primary">${booking.seatNo || '-'}</span></td>
+                        <td>${formatTime(booking.checkInTime)}</td>
+                        <td>${formatTime(booking.checkOutTime)}</td>
+                        <td><span class="badge ${statusInfo.class}">${statusInfo.text}</span></td>
+                        <td>
+                            ${getActions(booking)}
+                        </td>
+                    </tr>
+                `;
+            });
+            $('#bookingList').html(html);
+        }
+
+        function getStatusInfo(status) {
+            const map = {
+                'WAIT_CHECKIN': {text: '待签到', class: 'bg-warning'},
+                'IN_USE': {text: '使用中', class: 'bg-success'},
+                'COMPLETED': {text: '已完成', class: 'bg-info'},
+                'CANCELED': {text: '已取消', class: 'bg-secondary'},
+                'RELEASED': {text: '已释放', class: 'bg-danger'}
+            };
+            return map[status] || {text: status, class: 'bg-secondary'};
+        }
+
+        function getTimeSlotName(code) {
+            const map = {
+                'MORNING': '上午',
+                'AFTERNOON': '下午',
+                'EVENING': '晚上',
+                'ALLDAY': '全天'
+            };
+            return map[code] || code;
+        }
+
+        function getActions(booking) {
+            let actions = '';
+            
+            if (booking.status === 'WAIT_CHECKIN') {
+                actions += `<button class="btn btn-sm btn-success" onclick="showCheckinModal(${booking.id})">
+                    <i class="bi bi-check-circle"></i> 签到
+                </button> `;
+                actions += `<button class="btn btn-sm btn-secondary" onclick="cancelBooking(${booking.id})">
+                    <i class="bi bi-x-circle"></i> 取消
+                </button>`;
+            }
+            
+            if (booking.status === 'IN_USE') {
+                if (booking.leaveTime) {
+                    actions += `<button class="btn btn-sm btn-primary" onclick="returnBack(${booking.id})">
+                        <i class="bi bi-arrow-return-left"></i> 返回
+                    </button> `;
+                } else {
+                    actions += `<button class="btn btn-sm btn-warning" onclick="markLeave(${booking.id})">
+                        <i class="bi bi-door-open"></i> 临时离开
+                    </button> `;
+                }
+                actions += `<button class="btn btn-sm btn-success" onclick="checkOut(${booking.id})">
+                    <i class="bi bi-box-arrow-right"></i> 签退
+                </button>`;
+            }
+
+            return actions || '-';
+        }
+
+        function showCheckinModal(id) {
+            currentBookingId = id;
+            $('#seatNoInput').val('');
+            checkinModal.show();
+        }
+
+        function confirmCheckin() {
+            const seatNo = $('#seatNoInput').val().trim();
+            if (!seatNo) {
+                layer.msg('请输入座位编号', {icon: 2});
+                return;
+            }
+
+            const loadIndex = layer.load(2);
+            request.post(`/api/booking/${currentBookingId}/check-in`, {
+                seatNo: seatNo
+            }).then(() => {
+                layer.close(loadIndex);
+                checkinModal.hide();
+                layer.msg('签到成功', {icon: 1});
+                loadBookings();
+            }).catch(() => {
+                layer.close(loadIndex);
+            });
+        }
+
+        function cancelBooking(id) {
+            layer.prompt({
+                title: '取消预约',
+                formType: 2,
+                value: ''
+            }, function(value, index) {
+                const loadIndex = layer.load(2);
+                request.put(`/api/booking/${id}/cancel`, {
+                    reason: value
+                }).then(() => {
+                    layer.close(loadIndex);
+                    layer.close(index);
+                    layer.msg('已取消预约', {icon: 1});
+                    loadBookings();
+                }).catch(() => {
+                    layer.close(loadIndex);
+                });
+            });
+        }
+
+        function markLeave(id) {
+            layer.confirm('确定要标记临时离开吗？<br><small class="text-danger">请在30分钟内返回</small>', {
+                icon: 3
+            }, function(index) {
+                request.post(`/api/booking/${id}/leave`).then(() => {
+                    layer.close(index);
+                    layer.msg('已标记临时离开', {icon: 1});
+                    loadBookings();
+                });
+            });
+        }
+
+        function returnBack(id) {
+            request.post(`/api/booking/${id}/return`).then(() => {
+                layer.msg('已返回座位', {icon: 1});
+                loadBookings();
+            });
+        }
+
+        function checkOut(id) {
+            layer.confirm('确定要签退吗？', {icon: 3}, function(index) {
+                request.post(`/api/booking/${id}/check-out`).then(() => {
+                    layer.close(index);
+                    layer.msg('签退成功，信用分+2', {icon: 1});
+                    loadBookings();
+                });
+            });
+        }
+
+        function formatTime(time) {
+            if (!time) return '-';
+            return time.replace('T', ' ').substring(0, 16);
+        }
+    </script>
+</body>
+</html>
+

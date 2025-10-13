@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理后台 - 图书馆座位预约系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/admin/index.html">
+                <i class="bi bi-shield-check"></i> 管理后台
+            </a>
+            <div class="ms-auto">
+                <span class="navbar-text text-white me-3">
+                    <i class="bi bi-person-circle"></i> <span id="adminName"></span>
+                </span>
+                <a href="#" class="btn btn-outline-light btn-sm" id="logoutBtn">
+                    <i class="bi bi-box-arrow-right"></i> 退出
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 sidebar">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/admin/index.html">
+                            <i class="bi bi-speedometer2"></i> 数据统计
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/seats.html">
+                            <i class="bi bi-grid-3x3"></i> 座位管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/bookings.html">
+                            <i class="bi bi-calendar-check"></i> 预约管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/violations.html">
+                            <i class="bi bi-exclamation-triangle"></i> 违约管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/users.html">
+                            <i class="bi bi-people"></i> 用户管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/config.html">
+                            <i class="bi bi-gear"></i> 系统配置
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-10 p-4">
+                <h4 class="page-header"><i class="bi bi-speedometer2"></i> 数据概览</h4>
+
+                <div class="row mb-4">
+                    <div class="col-md-3 mb-3">
+                        <div class="card stat-card border-start border-primary border-4">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="text-muted small">用户总数</div>
+                                        <h3 class="mb-0" id="userCount">0</h3>
+                                    </div>
+                                    <i class="bi bi-people text-primary" style="font-size: 2.5rem;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card stat-card border-start border-success border-4">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="text-muted small">座位总数</div>
+                                        <h3 class="mb-0" id="seatCount">0</h3>
+                                    </div>
+                                    <i class="bi bi-grid-3x3 text-success" style="font-size: 2.5rem;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card stat-card border-start border-info border-4">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="text-muted small">预约总数</div>
+                                        <h3 class="mb-0" id="bookingCount">0</h3>
+                                    </div>
+                                    <i class="bi bi-calendar-check text-info" style="font-size: 2.5rem;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card stat-card border-start border-danger border-4">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="text-muted small">违约记录</div>
+                                        <h3 class="mb-0" id="violationCount">0</h3>
+                                    </div>
+                                    <i class="bi bi-exclamation-triangle text-danger" style="font-size: 2.5rem;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8 mb-4">
+                        <div class="card">
+                            <div class="card-header bg-white">
+                                <h5 class="mb-0"><i class="bi bi-bar-chart"></i> 预约趋势</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="bookingTrendChart" style="height: 350px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="card-header bg-white">
+                                <h5 class="mb-0"><i class="bi bi-pie-chart"></i> 时段分布</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="timeSlotChart" style="height: 350px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header bg-white">
+                                <h5 class="mb-0"><i class="bi bi-trophy"></i> 热门座位TOP10</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>排名</th>
+                                                <th>座位编号</th>
+                                                <th>预约次数</th>
+                                                <th>热度</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="hotSeats">
+                                            <tr><td colspan="4" class="text-center text-muted">加载中...</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header bg-white">
+                                <h5 class="mb-0"><i class="bi bi-person-check"></i> 活跃用户TOP10</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>排名</th>
+                                                <th>姓名</th>
+                                                <th>学号</th>
+                                                <th>预约次数</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="activeUsers">
+                                            <tr><td colspan="4" class="text-center text-muted">加载中...</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/layui@2.8.18/dist/layui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="/js/request.js"></script>
+    <script>
+        var layer;
+        layui.use('layer', function(){
+            layer = layui.layer;
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            if (!request.checkLogin()) return;
+
+            const user = request.getUserInfo();
+            if (user.role !== 'ADMIN') {
+                layer.msg('权限不足', {icon: 2});
+                setTimeout(() => {
+                    window.location.href = '/index.html';
+                }, 1500);
+                return;
+            }
+
+            $('#adminName').text(user.name);
+
+            loadOverview();
+            initCharts();
+
+            $('#logoutBtn').click(function(e) {
+                e.preventDefault();
+                request.logout();
+            });
+        });
+
+        function loadOverview() {
+            request.get('/api/admin/stats/overview').then(data => {
+                $('#userCount').text(data.userCount || 0);
+                $('#seatCount').text(data.seatCount || 0);
+                $('#bookingCount').text(data.bookingCount || 0);
+                $('#violationCount').text(data.violationCount || 0);
+            });
+
+            request.get('/api/admin/seat/list').then(data => {
+                const sorted = data.sort((a, b) => b.totalBookCount - a.totalBookCount).slice(0, 10);
+                let html = '';
+                sorted.forEach((seat, index) => {
+                    html += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td><span class="badge bg-primary">${seat.seatNo}</span></td>
+                            <td>${seat.totalBookCount}</td>
+                            <td><span class="badge bg-warning">${seat.hotScore}</span></td>
+                        </tr>
+                    `;
+                });
+                $('#hotSeats').html(html || '<tr><td colspan="4" class="text-center text-muted">暂无数据</td></tr>');
+            });
+
+            $('#activeUsers').html('<tr><td colspan="4" class="text-center text-muted">暂无数据</td></tr>');
+        }
+
+        function initCharts() {
+            const trendChart = echarts.init(document.getElementById('bookingTrendChart'));
+            const trendOption = {
+                tooltip: {
+                    trigger: 'axis'
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: [120, 200, 150, 180, 220, 190, 160],
+                    type: 'line',
+                    smooth: true,
+                    areaStyle: {
+                        color: 'rgba(78, 115, 223, 0.2)'
+                    },
+                    itemStyle: {
+                        color: '#4e73df'
+                    }
+                }]
+            };
+            trendChart.setOption(trendOption);
+
+            const slotChart = echarts.init(document.getElementById('timeSlotChart'));
+            const slotOption = {
+                tooltip: {
+                    trigger: 'item'
+                },
+                series: [{
+                    type: 'pie',
+                    radius: '60%',
+                    data: [
+                        {value: 300, name: '上午'},
+                        {value: 450, name: '下午'},
+                        {value: 500, name: '晚上'},
+                        {value: 200, name: '全天'}
+                    ],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }]
+            };
+            slotChart.setOption(slotOption);
+
+            window.addEventListener('resize', function() {
+                trendChart.resize();
+                slotChart.resize();
+            });
+        }
+    </script>
+</body>
+</html>
+
