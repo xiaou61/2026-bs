@@ -163,6 +163,34 @@ D:/collab-board-files/
 4. 启动 `CollabBoardApplication`
 5. 访问 http://localhost:8012
 
+## 前端说明
+
+本项目采用 **Thymeleaf 模板引擎**，前后端一体化部署：
+
+### 访问地址
+- 首页: http://localhost:8012/
+- 登录页: http://localhost:8012/login
+- 工作台: http://localhost:8012/dashboard
+
+### 页面列表
+| 路由 | 功能 |
+|------|------|
+| `/login` | 登录注册 |
+| `/dashboard` | 工作台 |
+| `/documents` | 文档列表 |
+| `/document/{id}` | 文档编辑器 |
+| `/teams` | 团队空间 |
+| `/templates` | 模板市场 |
+| `/profile` | 个人中心 |
+
+### 技术栈
+- Thymeleaf (服务端模板引擎)
+- Bootstrap 5 (UI框架)
+- jQuery + Axios (前端交互)
+- Marked.js (Markdown解析)
+
+详细说明请查看: `THYMELEAF_README.md`
+
 ## 注意事项
 
 1. 所有密码已使用MD5加密，原始密码为 `123456`
