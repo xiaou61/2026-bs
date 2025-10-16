@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工作台 - 协作白板系统</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+            margin: 0;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 250px;
+            background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            font-size: 20px;
+            font-weight: bold;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.2);
+        }
+
+        .sidebar-header i {
+            margin-right: 10px;
+            color: #3498db;
+        }
+
+        .menu-item {
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-left-color: #3498db;
+        }
+
+        .menu-item.active {
+            background: rgba(52, 152, 219, 0.3);
+            color: white;
+            border-left-color: #3498db;
+        }
+
+        .menu-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.2);
+        }
+
+        .main-content {
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+        .top-bar {
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+            padding: 20px 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .content-area {
+            padding: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            border: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            transform: translateY(-4px);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .recent-doc-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s;
+        }
+
+        .recent-doc-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-layer-group"></i>协作白板
+        </div>
+        
+        <div style="padding: 10px 0;">
+            <a href="/dashboard" class="menu-item active">
+                <i class="fas fa-home"></i>
+                <span>工作台</span>
+            </a>
+            <a href="/documents" class="menu-item">
+                <i class="fas fa-folder"></i>
+                <span>我的文档</span>
+            </a>
+            <a href="/teams" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span>团队空间</span>
+            </a>
+            <a href="/templates" class="menu-item">
+                <i class="fas fa-th-large"></i>
+                <span>模板市场</span>
+            </a>
+            <a href="/profile" class="menu-item">
+                <i class="fas fa-user-circle"></i>
+                <span>个人中心</span>
+            </a>
+        </div>
+        
+        <div class="sidebar-footer">
+            <div style="margin-bottom: 10px; color: rgba(255,255,255,0.7);" id="userName">
+                <i class="fas fa-user"></i> 加载中...
+            </div>
+            <button class="btn btn-outline-light btn-sm w-100" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> 退出登录
+            </button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="top-bar">
+            <h4 class="mb-0">工作台</h4>
+        </div>
+
+        <div class="content-area">
+            <div class="row mb-4">
+                <div class="col-md-3 mb-3">
+                    <div class="stat-card">
+                        <div class="d-flex align-items-center">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                                <i class="fas fa-file"></i>
+                            </div>
+                            <div class="ms-3 flex-grow-1">
+                                <div class="text-muted small">文档总数</div>
+                                <h3 class="mb-0" id="docCount">0</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="stat-card">
+                        <div class="d-flex align-items-center">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white;">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="ms-3 flex-grow-1">
+                                <div class="text-muted small">协作次数</div>
+                                <h3 class="mb-0" id="collabCount">0</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="stat-card">
+                        <div class="d-flex align-items-center">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white;">
+                                <i class="fas fa-user-friends"></i>
+                            </div>
+                            <div class="ms-3 flex-grow-1">
+                                <div class="text-muted small">团队数</div>
+                                <h3 class="mb-0" id="teamCount">0</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="stat-card">
+                        <div class="d-flex align-items-center">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white;">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="ms-3 flex-grow-1">
+                                <div class="text-muted small">最近活跃</div>
+                                <h6 class="mb-0">今天</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">最近文档</h5>
+                <a href="/documents" class="btn btn-sm btn-primary">
+                    <i class="fas fa-plus"></i> 新建文档
+                </a>
+            </div>
+
+            <div id="recentDocuments">
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">加载中...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+        const API_BASE_URL = '/api';
+        axios.defaults.baseURL = API_BASE_URL;
+        axios.interceptors.request.use(config => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                config.headers.Authorization = `Bearer ${token}`;
+            }
+            return config;
+        });
+
+        axios.interceptors.response.use(
+            response => response.data,
+            error => {
+                if (error.response?.status === 401) {
+                    localStorage.removeItem('token');
+                    window.location.href = '/login';
+                }
+                return Promise.reject(error);
+            }
+        );
+
+        function logout() {
+            if (confirm('确定要退出登录吗？')) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.href = '/login';
+            }
+        }
+
+        $(document).ready(function() {
+            const token = localStorage.getItem('token');
+            if (!token || token === 'undefined' || token === 'null') {
+                localStorage.clear();
+                window.location.href = '/login';
+                return;
+            }
+            
+            try {
+                const userStr = localStorage.getItem('user');
+                if (userStr && userStr !== 'undefined' && userStr !== 'null') {
+                    const user = JSON.parse(userStr);
+                    if (user && user.nickname) {
+                        $('#userName').html(`<i class="fas fa-user"></i> ${user.nickname}`);
+                    }
+                }
+            } catch (e) {
+                console.error('解析用户信息失败', e);
+            }
+            
+            loadStats();
+            loadRecentDocuments();
+        });
+
+        async function loadStats() {
+            try {
+                const res = await axios.get('/user/stats');
+                $('#docCount').text(res.data.docCount || 0);
+                $('#collabCount').text(res.data.collabCount || 0);
+                $('#teamCount').text(res.data.teamCount || 0);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        async function loadRecentDocuments() {
+            try {
+                const res = await axios.get('/document/recent', {
+                    params: { pageNum: 1, pageSize: 10 }
+                });
+                
+                const documents = res.data.records || [];
+                let html = '';
+                
+                if (documents.length > 0) {
+                    documents.forEach(doc => {
+                        const icon = getDocIcon(doc.docType);
+                        const color = getDocColor(doc.docType);
+                        html += `
+                            <div class="recent-doc-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center flex-grow-1">
+                                        <i class="${icon} fa-2x me-3" style="color: ${color}"></i>
+                                        <div>
+                                            <h6 class="mb-1">${doc.title}</h6>
+                                            <small class="text-muted">${new Date(doc.updateTime).toLocaleString()}</small>
+                                        </div>
+                                    </div>
+                                    <a href="/document/${doc.id}" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-edit"></i> 编辑
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    html = `
+                        <div class="text-center py-5 text-muted">
+                            <i class="fas fa-folder-open fa-5x mb-4" style="color: #ddd;"></i>
+                            <h5>暂无文档</h5>
+                            <p><a href="/documents">立即创建</a>第一个文档</p>
+                        </div>
+                    `;
+                }
+                
+                $('#recentDocuments').html(html);
+            } catch (error) {
+                console.error(error);
+                $('#recentDocuments').html('<div class="alert alert-danger">加载失败</div>');
+            }
+        }
+
+        function getDocIcon(type) {
+            const icons = {
+                'BOARD': 'fas fa-chalkboard',
+                'MINDMAP': 'fas fa-project-diagram',
+                'NOTE': 'fas fa-file-alt'
+            };
+            return icons[type] || 'fas fa-file';
+        }
+
+        function getDocColor(type) {
+            const colors = {
+                'BOARD': '#007bff',
+                'MINDMAP': '#28a745',
+                'NOTE': '#ffc107'
+            };
+            return colors[type] || '#6c757d';
+        }
+    </script>
+</body>
+</html>

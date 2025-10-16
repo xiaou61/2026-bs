@@ -8,8 +8,6 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="003-backend" />
-        <module name="010-backend" />
         <module name="007-backend" />
         <module name="006-backend" />
         <module name="009-backend" />
@@ -17,6 +15,9 @@
         <module name="012-backend" />
         <module name="campus-affairs" />
         <module name="004-backend" />
+        <module name="013-backend" />
+        <module name="003-backend" />
+        <module name="010-backend" />
         <module name="011-backend" />
         <module name="002-backend" />
         <module name="008-backend" />
@@ -40,6 +41,7 @@
       <module name="010-backend" options="-parameters" />
       <module name="011-backend" options="-parameters" />
       <module name="012-backend" options="-parameters" />
+      <module name="013-backend" options="-parameters" />
       <module name="campus-affairs" options="-parameters" />
     </option>
   </component>
