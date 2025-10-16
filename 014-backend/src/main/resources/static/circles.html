@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>兴趣圈子 - 校园社团平台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-people-fill"></i> 校园社团平台
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="clubs.html">社团广场</a></li>
+                    <li class="nav-item"><a class="nav-link" href="activities.html">活动中心</a></li>
+                    <li class="nav-item"><a class="nav-link" href="topics.html">话题广场</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="circles.html">兴趣圈子</a></li>
+                    <li class="nav-item" id="loginNav">
+                        <a class="nav-link" href="login.html">登录</a>
+                    </li>
+                    <li class="nav-item d-none" id="userNav">
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle"></i> <span id="username"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="profile.html">个人中心</a></li>
+                                <li><a class="dropdown-item" href="my-clubs.html">我的社团</a></li>
+                                <li><a class="dropdown-item" href="my-activities.html">我的活动</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="logoutBtn">退出登录</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2><i class="bi bi-stars"></i> 兴趣圈子</h2>
+                    <button class="btn btn-primary" id="createCircleBtn">
+                        <i class="bi bi-plus-circle"></i> 创建圈子
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title"><i class="bi bi-funnel"></i> 分类</h6>
+                        <hr>
+                        <div class="mb-3">
+                            <select class="form-select" id="categoryFilter">
+                                <option value="">全部分类</option>
+                                <option value="学术">学术</option>
+                                <option value="艺术">艺术</option>
+                                <option value="运动">运动</option>
+                                <option value="科技">科技</option>
+                                <option value="公益">公益</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary w-100" id="searchBtn">
+                            <i class="bi bi-search"></i> 搜索
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h6 class="card-title"><i class="bi bi-fire"></i> 推荐圈子</h6>
+                        <hr>
+                        <div id="recommendCircles">
+                            <div class="text-center">
+                                <div class="spinner-border spinner-border-sm text-primary"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <div id="circlesList" class="row g-3">
+                    <div class="col-12 text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">加载中...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="pagination" class="mt-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2024 校园社团与兴趣圈层平台. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        let currentPage = 1;
+        const pageSize = 9;
+
+        $(document).ready(function() {
+            loadCircles();
+            loadRecommendCircles();
+
+            $('#searchBtn').on('click', function() {
+                currentPage = 1;
+                loadCircles();
+            });
+
+            $('#createCircleBtn').on('click', function() {
+                if (!utils.requireAuth()) return;
+                alert('创建圈子功能开发中...');
+            });
+        });
+
+        function loadCircles() {
+            const category = $('#categoryFilter').val();
+
+            request.get('/circles', {
+                page: currentPage,
+                size: pageSize,
+                category: category || undefined
+            })
+            .done(function(res) {
+                if (res.code === 200) {
+                    renderCircles(res.data.records);
+                    renderPagination(res.data.total, res.data.size, res.data.current);
+                } else {
+                    $('#circlesList').html('<div class="col-12 text-center text-danger">加载失败</div>');
+                }
+            })
+            .fail(function() {
+                $('#circlesList').html('<div class="col-12 text-center text-danger">加载失败，请稍后重试</div>');
+            });
+        }
+
+        function loadRecommendCircles() {
+            request.get('/circles/recommend')
+                .done(function(res) {
+                    if (res.code === 200 && res.data.length > 0) {
+                        const html = res.data.slice(0, 5).map(circle => `
+                            <div class="mb-2">
+                                <a href="#" class="text-decoration-none" onclick="joinCircle(${circle.id}); return false;">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-star-fill text-warning me-2"></i>
+                                        <div class="flex-grow-1">
+                                            <div class="small">${circle.name}</div>
+                                            <div class="text-muted" style="font-size: 0.8rem;">
+                                                ${circle.memberCount}人
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        `).join('');
+                        $('#recommendCircles').html(html);
+                    } else {
+                        $('#recommendCircles').html('<small class="text-muted">暂无推荐</small>');
+                    }
+                })
+                .fail(function() {
+                    $('#recommendCircles').html('<small class="text-danger">加载失败</small>');
+                });
+        }
+
+        function renderCircles(circles) {
+            if (circles.length === 0) {
+                $('#circlesList').html('<div class="col-12 text-center text-muted py-5">暂无圈子</div>');
+                return;
+            }
+
+            const html = circles.map(circle => `
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        ${circle.cover ? `<img src="${circle.cover}" class="card-img-top" style="height: 180px; object-fit: cover;" alt="${circle.name}">` : 
+                          `<div class="card-img-top bg-gradient d-flex align-items-center justify-content-center text-white" 
+                               style="height: 180px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                              <i class="bi bi-stars" style="font-size: 3rem;"></i>
+                          </div>`}
+                        <div class="card-body">
+                            <h5 class="card-title">${circle.name}</h5>
+                            <p class="card-text text-muted small">${circle.description ? circle.description.substring(0, 60) + (circle.description.length > 60 ? '...' : '') : '暂无简介'}</p>
+                            <div class="mb-2">
+                                <span class="badge bg-primary">${circle.category}</span>
+                            </div>
+                            <div class="text-muted small">
+                                <i class="bi bi-people"></i> ${circle.memberCount}人
+                                <i class="bi bi-chat ms-2"></i> ${circle.topicCount}话题
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-0">
+                            <button class="btn btn-sm btn-outline-primary w-100" onclick="joinCircle(${circle.id})">
+                                <i class="bi bi-plus-circle"></i> 加入圈子
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            $('#circlesList').html(html);
+        }
+
+        function joinCircle(circleId) {
+            if (!utils.requireAuth()) return;
+
+            request.post('/circles/' + circleId + '/join')
+                .done(function(res) {
+                    if (res.code === 200) {
+                        utils.showToast('加入成功！');
+                        loadCircles();
+                    } else {
+                        utils.showToast(res.message || '加入失败', 'error');
+                    }
+                })
+                .fail(function() {
+                    utils.showToast('加入失败，请稍后重试', 'error');
+                });
+        }
+
+        function renderPagination(total, size, current) {
+            const totalPages = Math.ceil(total / size);
+            
+            if (totalPages <= 1) {
+                $('#pagination').html('');
+                return;
+            }
+
+            let html = '<nav><ul class="pagination justify-content-center">';
+            
+            html += `<li class="page-item ${current <= 1 ? 'disabled' : ''}">
+                <a class="page-link" href="#" data-page="${current - 1}">上一页</a>
+            </li>`;
+            
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= current - 2 && i <= current + 2)) {
+                    html += `<li class="page-item ${i === current ? 'active' : ''}">
+                        <a class="page-link" href="#" data-page="${i}">${i}</a>
+                    </li>`;
+                } else if (i === current - 3 || i === current + 3) {
+                    html += '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                }
+            }
+            
+            html += `<li class="page-item ${current >= totalPages ? 'disabled' : ''}">
+                <a class="page-link" href="#" data-page="${current + 1}">下一页</a>
+            </li>`;
+            
+            html += '</ul></nav>';
+            
+            $('#pagination').html(html);
+            
+            $('#pagination a').on('click', function(e) {
+                e.preventDefault();
+                const page = parseInt($(this).data('page'));
+                if (page && page !== currentPage) {
+                    currentPage = page;
+                    loadCircles();
+                    $('html, body').scrollTop(0);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+

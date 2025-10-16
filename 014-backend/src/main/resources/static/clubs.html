@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社团广场 - 校园社团平台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-people-fill"></i> 校园社团平台
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">首页</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="clubs.html">社团广场</a></li>
+                    <li class="nav-item"><a class="nav-link" href="activities.html">活动中心</a></li>
+                    <li class="nav-item"><a class="nav-link" href="topics.html">话题广场</a></li>
+                    <li class="nav-item"><a class="nav-link" href="circles.html">兴趣圈子</a></li>
+                    <li class="nav-item" id="loginNav">
+                        <a class="nav-link" href="login.html">登录</a>
+                    </li>
+                    <li class="nav-item d-none" id="userNav">
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle"></i> <span id="username"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="profile.html">个人中心</a></li>
+                                <li><a class="dropdown-item" href="my-clubs.html">我的社团</a></li>
+                                <li><a class="dropdown-item" href="my-activities.html">我的活动</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="logoutBtn">退出登录</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2><i class="bi bi-building"></i> 社团广场</h2>
+                    <button class="btn btn-primary" id="createClubBtn">
+                        <i class="bi bi-plus-circle"></i> 创建社团
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title"><i class="bi bi-funnel"></i> 筛选</h6>
+                        <hr>
+                        <div class="mb-3">
+                            <label class="form-label">分类</label>
+                            <select class="form-select" id="categoryFilter">
+                                <option value="">全部分类</option>
+                                <option value="学术">学术</option>
+                                <option value="文艺">文艺</option>
+                                <option value="体育">体育</option>
+                                <option value="公益">公益</option>
+                                <option value="科技">科技</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">搜索</label>
+                            <input type="text" class="form-control" id="searchKeyword" placeholder="搜索社团名称">
+                        </div>
+                        <button class="btn btn-primary w-100" id="searchBtn">
+                            <i class="bi bi-search"></i> 搜索
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <div id="clubsList" class="row g-3">
+                    <div class="col-12 text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">加载中...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="pagination" class="mt-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2024 校园社团与兴趣圈层平台. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/clubs.js"></script>
+</body>
+</html>
+

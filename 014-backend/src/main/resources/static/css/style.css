@@ -1,0 +1,168 @@
+:root {
+    --primary-color: #667eea;
+    --secondary-color: #764ba2;
+}
+
+body {
+    font-family: 'Microsoft YaHei', Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.card {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1) !important;
+}
+
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+}
+
+.badge-custom {
+    font-size: 0.85rem;
+    padding: 0.4em 0.8em;
+}
+
+.club-logo {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.activity-cover {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.topic-card {
+    border-left: 3px solid var(--primary-color);
+}
+
+.comment-box {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.avatar-lg {
+    width: 80px;
+    height: 80px;
+}
+
+.btn-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.status-badge-0 {
+    background-color: #28a745;
+}
+
+.status-badge-1 {
+    background-color: #007bff;
+}
+
+.status-badge-2 {
+    background-color: #6c757d;
+}
+
+.status-badge-3 {
+    background-color: #dc3545;
+}
+
+.interest-tag {
+    display: inline-block;
+    padding: 5px 12px;
+    margin: 3px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.interest-tag:hover {
+    transform: scale(1.05);
+}
+
+.interest-tag.selected {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.points-display {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.badge-item {
+    text-align: center;
+    padding: 15px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.badge-icon {
+    font-size: 3rem;
+}
+
+.member-card {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 30px;
+    padding-bottom: 20px;
+    border-left: 2px solid #dee2e6;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+}
+
+.timeline-item:last-child {
+    border-left: none;
+}
+
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+    
+    .hero-section p {
+        font-size: 1rem;
+    }
+}
+

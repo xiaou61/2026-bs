@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 - 校园社团平台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-people-fill"></i> 校园社团平台
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="clubs.html">社团广场</a></li>
+                    <li class="nav-item"><a class="nav-link" href="activities.html">活动中心</a></li>
+                    <li class="nav-item"><a class="nav-link" href="topics.html">话题广场</a></li>
+                    <li class="nav-item"><a class="nav-link" href="circles.html">兴趣圈子</a></li>
+                    <li class="nav-item" id="userNav">
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle"></i> <span id="username"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item active" href="profile.html">个人中心</a></li>
+                                <li><a class="dropdown-item" href="my-clubs.html">我的社团</a></li>
+                                <li><a class="dropdown-item" href="my-activities.html">我的活动</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="logoutBtn">退出登录</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-body text-center">
+                        <img src="https://via.placeholder.com/100" class="avatar-lg mb-3" id="userAvatar" alt="头像">
+                        <h5 id="userName"></h5>
+                        <p class="text-muted" id="userStudentId"></p>
+                    </div>
+                </div>
+
+                <div class="card mb-3 points-display">
+                    <div class="card-body text-center">
+                        <h2 id="userPoints">0</h2>
+                        <p class="mb-0">我的积分</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h6><i class="bi bi-award"></i> 我的勋章</h6>
+                        <hr>
+                        <div id="badgesList" class="row g-2">
+                            <div class="col-12 text-center">
+                                <div class="spinner-border spinner-border-sm"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5><i class="bi bi-person-fill"></i> 个人资料</h5>
+                        <hr>
+                        <div id="userInfo">
+                            <div class="text-center py-5">
+                                <div class="spinner-border"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2024 校园社团与兴趣圈层平台. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        $(document).ready(function() {
+            if (!utils.requireAuth()) return;
+            loadUserInfo();
+        });
+
+        function loadUserInfo() {
+            request.get('/user/info')
+                .done(function(res) {
+                    if (res.code === 200) {
+                        renderUserInfo(res.data);
+                    } else {
+                        $('#userInfo').html('<div class="alert alert-danger">加载失败</div>');
+                    }
+                })
+                .fail(function() {
+                    $('#userInfo').html('<div class="alert alert-danger">加载失败</div>');
+                });
+        }
+
+        function renderUserInfo(user) {
+            $('#userName').text(user.realName || user.username);
+            $('#userStudentId').text(user.studentId || '未填写学号');
+            $('#userPoints').text(user.points || 0);
+
+            const html = `
+                <table class="table">
+                    <tr>
+                        <th width="120">用户名</th>
+                        <td>${user.username}</td>
+                    </tr>
+                    <tr>
+                        <th>真实姓名</th>
+                        <td>${user.realName || '-'}</td>
+                    </tr>
+                    <tr>
+                        <th>学号</th>
+                        <td>${user.studentId || '-'}</td>
+                    </tr>
+                    <tr>
+                        <th>邮箱</th>
+                        <td>${user.email || '-'}</td>
+                    </tr>
+                    <tr>
+                        <th>专业</th>
+                        <td>${user.major || '-'}</td>
+                    </tr>
+                    <tr>
+                        <th>年级</th>
+                        <td>${user.grade || '-'}</td>
+                    </tr>
+                    <tr>
+                        <th>手机号</th>
+                        <td>${user.phone || '-'}</td>
+                    </tr>
+                    <tr>
+                        <th>等级</th>
+                        <td>Lv.${user.level} ${getLevelName(user.level)}</td>
+                    </tr>
+                    <tr>
+                        <th>注册时间</th>
+                        <td>${utils.formatDate(user.createTime)}</td>
+                    </tr>
+                </table>
+
+                ${user.interests && user.interests.length > 0 ? `
+                    <h6 class="mt-3"><i class="bi bi-tags"></i> 兴趣标签</h6>
+                    <div>
+                        ${user.interests.map(tag => `<span class="badge bg-primary me-1">${tag}</span>`).join('')}
+                    </div>
+                ` : ''}
+            `;
+
+            $('#userInfo').html(html);
+
+            $('#badgesList').html(`
+                <div class="col-12 text-center text-muted">
+                    <i class="bi bi-award" style="font-size: 2rem;"></i>
+                    <p class="small mt-2">暂无勋章</p>
+                </div>
+            `);
+        }
+
+        function getLevelName(level) {
+            const levels = ['', '萌新', '活跃', '达人', '精英', '大神'];
+            return levels[level] || '萌新';
+        }
+    </script>
+</body>
+</html>
+

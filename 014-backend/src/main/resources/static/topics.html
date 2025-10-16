@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>话题广场 - 校园社团平台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-people-fill"></i> 校园社团平台
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="clubs.html">社团广场</a></li>
+                    <li class="nav-item"><a class="nav-link" href="activities.html">活动中心</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="topics.html">话题广场</a></li>
+                    <li class="nav-item"><a class="nav-link" href="circles.html">兴趣圈子</a></li>
+                    <li class="nav-item" id="loginNav">
+                        <a class="nav-link" href="login.html">登录</a>
+                    </li>
+                    <li class="nav-item d-none" id="userNav">
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle"></i> <span id="username"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="profile.html">个人中心</a></li>
+                                <li><a class="dropdown-item" href="my-clubs.html">我的社团</a></li>
+                                <li><a class="dropdown-item" href="my-activities.html">我的活动</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="logoutBtn">退出登录</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2><i class="bi bi-chat-dots"></i> 话题广场</h2>
+                    <button class="btn btn-primary" id="createTopicBtn">
+                        <i class="bi bi-plus-circle"></i> 发布话题
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="topicsList">
+            <div class="text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">加载中...</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="pagination" class="mt-4"></div>
+    </div>
+
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2024 校园社团与兴趣圈层平台. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        let currentPage = 1;
+        const pageSize = 10;
+
+        $(document).ready(function() {
+            loadTopics();
+
+            $('#createTopicBtn').on('click', function() {
+                if (!utils.requireAuth()) return;
+                alert('发布话题功能开发中...');
+            });
+        });
+
+        function loadTopics() {
+            request.get('/topics', {
+                page: currentPage,
+                size: pageSize
+            })
+            .done(function(res) {
+                if (res.code === 200) {
+                    renderTopics(res.data.records);
+                    renderPagination(res.data.total, res.data.size, res.data.current);
+                } else {
+                    $('#topicsList').html('<div class="alert alert-danger">加载失败</div>');
+                }
+            })
+            .fail(function() {
+                $('#topicsList').html('<div class="alert alert-danger">加载失败，请稍后重试</div>');
+            });
+        }
+
+        function renderTopics(topics) {
+            if (topics.length === 0) {
+                $('#topicsList').html('<div class="alert alert-info">暂无话题</div>');
+                return;
+            }
+
+            const html = topics.map(topic => `
+                <div class="card topic-card mb-3 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <img src="${topic.avatar || 'https://via.placeholder.com/40'}" 
+                                 class="avatar me-3" alt="${topic.username}">
+                            <div class="flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <strong>${topic.username || '匿名用户'}</strong>
+                                        ${topic.clubName ? `<span class="badge bg-primary ms-2">${topic.clubName}</span>` : ''}
+                                        ${topic.circleName ? `<span class="badge bg-info ms-2">${topic.circleName}</span>` : ''}
+                                    </div>
+                                    <small class="text-muted">${utils.formatDate(topic.createTime)}</small>
+                                </div>
+                                <h5 class="mb-2">
+                                    <a href="topic-detail.html?id=${topic.id}" class="text-decoration-none text-dark">
+                                        ${topic.title}
+                                    </a>
+                                </h5>
+                                <p class="text-muted mb-3">${topic.content ? topic.content.substring(0, 150) + (topic.content.length > 150 ? '...' : '') : ''}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="text-muted me-3">
+                                            <i class="bi bi-eye"></i> ${topic.viewCount}
+                                        </span>
+                                        <span class="text-muted me-3">
+                                            <i class="bi bi-heart${topic.isLiked ? '-fill text-danger' : ''}"></i> ${topic.likeCount}
+                                        </span>
+                                        <span class="text-muted">
+                                            <i class="bi bi-chat"></i> ${topic.commentCount}
+                                        </span>
+                                    </div>
+                                    <a href="topic-detail.html?id=${topic.id}" class="btn btn-sm btn-outline-primary">
+                                        查看详情 <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            $('#topicsList').html(html);
+        }
+
+        function renderPagination(total, size, current) {
+            const totalPages = Math.ceil(total / size);
+            
+            if (totalPages <= 1) {
+                $('#pagination').html('');
+                return;
+            }
+
+            let html = '<nav><ul class="pagination justify-content-center">';
+            
+            html += `<li class="page-item ${current <= 1 ? 'disabled' : ''}">
+                <a class="page-link" href="#" data-page="${current - 1}">上一页</a>
+            </li>`;
+            
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= current - 2 && i <= current + 2)) {
+                    html += `<li class="page-item ${i === current ? 'active' : ''}">
+                        <a class="page-link" href="#" data-page="${i}">${i}</a>
+                    </li>`;
+                } else if (i === current - 3 || i === current + 3) {
+                    html += '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                }
+            }
+            
+            html += `<li class="page-item ${current >= totalPages ? 'disabled' : ''}">
+                <a class="page-link" href="#" data-page="${current + 1}">下一页</a>
+            </li>`;
+            
+            html += '</ul></nav>';
+            
+            $('#pagination').html(html);
+            
+            $('#pagination a').on('click', function(e) {
+                e.preventDefault();
+                const page = parseInt($(this).data('page'));
+                if (page && page !== currentPage) {
+                    currentPage = page;
+                    loadTopics();
+                    $('html, body').scrollTop(0);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+

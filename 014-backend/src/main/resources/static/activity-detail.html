@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活动详情 - 校园社团平台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-people-fill"></i> 校园社团平台
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="clubs.html">社团广场</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="activities.html">活动中心</a></li>
+                    <li class="nav-item"><a class="nav-link" href="topics.html">话题广场</a></li>
+                    <li class="nav-item"><a class="nav-link" href="circles.html">兴趣圈子</a></li>
+                    <li class="nav-item" id="loginNav">
+                        <a class="nav-link" href="login.html">登录</a>
+                    </li>
+                    <li class="nav-item d-none" id="userNav">
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle"></i> <span id="username"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="profile.html">个人中心</a></li>
+                                <li><a class="dropdown-item" href="my-clubs.html">我的社团</a></li>
+                                <li><a class="dropdown-item" href="my-activities.html">我的活动</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="logoutBtn">退出登录</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <div id="activityDetail">
+            <div class="text-center py-5">
+                <div class="spinner-border text-primary"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2024 校园社团与兴趣圈层平台. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        let activityId = new URLSearchParams(window.location.search).get('id');
+
+        $(document).ready(function() {
+            if (!activityId) {
+                window.location.href = 'activities.html';
+                return;
+            }
+            loadActivityDetail();
+        });
+
+        function loadActivityDetail() {
+            request.get('/activities/' + activityId)
+                .done(function(res) {
+                    if (res.code === 200) {
+                        renderActivityDetail(res.data);
+                    } else {
+                        $('#activityDetail').html('<div class="alert alert-danger">加载失败</div>');
+                    }
+                })
+                .fail(function() {
+                    $('#activityDetail').html('<div class="alert alert-danger">加载失败</div>');
+                });
+        }
+
+        function renderActivityDetail(activity) {
+            const html = `
+                <div class="row">
+                    <div class="col-md-8">
+                        ${activity.cover ? `<img src="${activity.cover}" class="img-fluid rounded mb-4" alt="${activity.title}">` :
+                          `<div class="bg-info rounded mb-4 d-flex align-items-center justify-content-center text-white" style="height: 400px;">
+                              <i class="bi bi-calendar-event" style="font-size: 5rem;"></i>
+                          </div>`}
+                        
+                        <h2>${activity.title}</h2>
+                        <p class="text-muted">
+                            <i class="bi bi-building"></i> ${activity.clubName || '未知社团'}
+                        </p>
+
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5>活动详情</h5>
+                                <hr>
+                                <p style="white-space: pre-wrap;">${activity.description || '暂无详细介绍'}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card mb-3 sticky-top" style="top: 80px;">
+                            <div class="card-body">
+                                <h5 class="card-title">活动信息</h5>
+                                <hr>
+                                <p><i class="bi bi-calendar"></i> 开始时间<br>
+                                   <strong>${utils.formatDate(activity.startTime)}</strong></p>
+                                <p><i class="bi bi-calendar-check"></i> 结束时间<br>
+                                   <strong>${utils.formatDate(activity.endTime)}</strong></p>
+                                <p><i class="bi bi-geo-alt"></i> 活动地点<br>
+                                   <strong>${activity.location || '待定'}</strong></p>
+                                <p><i class="bi bi-people"></i> 参与人数<br>
+                                   <strong>${activity.currentParticipants} / ${activity.maxParticipants}人</strong></p>
+                                <p><i class="bi bi-star"></i> 活动积分<br>
+                                   <strong>+${activity.points}分</strong></p>
+                                <p><i class="bi bi-info-circle"></i> 活动状态<br>
+                                   <span class="badge bg-${utils.getStatusClass(activity.status)}">${utils.getStatusText(activity.status)}</span></p>
+
+                                ${activity.isRegistered ? `
+                                    <button class="btn btn-success w-100 mb-2" disabled>
+                                        <i class="bi bi-check-circle"></i> 已报名
+                                    </button>
+                                    <button class="btn btn-outline-danger w-100 mb-2" id="cancelBtn">
+                                        <i class="bi bi-x-circle"></i> 取消报名
+                                    </button>
+                                    ${activity.status === 1 ? `
+                                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#signModal">
+                                            <i class="bi bi-pencil-square"></i> 签到
+                                        </button>
+                                    ` : ''}
+                                ` : (activity.status === 0 ? `
+                                    <button class="btn btn-primary w-100" id="registerBtn">
+                                        <i class="bi bi-calendar-plus"></i> 立即报名
+                                    </button>
+                                ` : '')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 签到模态框 -->
+                <div class="modal fade" id="signModal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">活动签到</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">签到码</label>
+                                    <input type="text" class="form-control" id="signCode" placeholder="请输入签到码">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                                <button type="button" class="btn btn-primary" id="confirmSignBtn">确认签到</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            $('#activityDetail').html(html);
+
+            $('#registerBtn').on('click', registerActivity);
+            $('#cancelBtn').on('click', cancelRegistration);
+            $('#confirmSignBtn').on('click', signActivity);
+        }
+
+        function registerActivity() {
+            if (!utils.requireAuth()) return;
+
+            request.post('/activities/' + activityId + '/register')
+                .done(function(res) {
+                    if (res.code === 200) {
+                        utils.showToast('报名成功！');
+                        setTimeout(() => location.reload(), 1500);
+                    } else {
+                        utils.showToast(res.message || '报名失败', 'error');
+                    }
+                })
+                .fail(function() {
+                    utils.showToast('报名失败', 'error');
+                });
+        }
+
+        function cancelRegistration() {
+            if (!confirm('确定要取消报名吗？')) return;
+
+            request.delete('/activities/' + activityId + '/register')
+                .done(function(res) {
+                    if (res.code === 200) {
+                        utils.showToast('取消成功');
+                        setTimeout(() => location.reload(), 1500);
+                    } else {
+                        utils.showToast(res.message || '取消失败', 'error');
+                    }
+                })
+                .fail(function() {
+                    utils.showToast('取消失败', 'error');
+                });
+        }
+
+        function signActivity() {
+            const signCode = $('#signCode').val().trim();
+            if (!signCode) {
+                utils.showToast('请输入签到码', 'error');
+                return;
+            }
+
+            $.ajax({
+                url: `/api/activities/${activityId}/sign?signCode=${signCode}`,
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + auth.getToken()
+                }
+            })
+            .done(function(res) {
+                if (res.code === 200) {
+                    utils.showToast('签到成功！');
+                    bootstrap.Modal.getInstance($('#signModal')[0]).hide();
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    utils.showToast(res.message || '签到失败', 'error');
+                }
+            })
+            .fail(function() {
+                utils.showToast('签到失败', 'error');
+            });
+        }
+    </script>
+</body>
+</html>
+
