@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员登录 - 校园社团平台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .login-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-5">
+                    <div class="login-card p-5">
+                        <div class="text-center mb-4">
+                            <i class="bi bi-shield-lock-fill text-danger" style="font-size: 3rem;"></i>
+                            <h3 class="mt-2">管理员登录</h3>
+                            <p class="text-muted">校园社团平台管理后台</p>
+                        </div>
+
+                        <form id="adminLoginForm">
+                            <div class="mb-3">
+                                <label class="form-label">管理员账号</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                                    <input type="text" class="form-control" id="username" name="username" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">密码</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                                    <input type="password" class="form-control" id="password" name="password" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-danger w-100 mb-3">
+                                <i class="bi bi-shield-check"></i> 管理员登录
+                            </button>
+                        </form>
+
+                        <div class="text-center mt-3">
+                            <a href="login.html" class="text-muted text-decoration-none">
+                                <i class="bi bi-arrow-left"></i> 返回用户登录
+                            </a>
+                            <span class="mx-2 text-muted">|</span>
+                            <a href="index.html" class="text-muted text-decoration-none">
+                                返回首页
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        $(document).ready(function() {
+            if (auth.isLoggedIn()) {
+                window.location.href = 'admin-dashboard.html';
+                return;
+            }
+
+            $('#adminLoginForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                const data = {
+                    username: $('#username').val(),
+                    password: $('#password').val()
+                };
+
+                $.ajax({
+                    url: '/api/admin/login',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data)
+                })
+                .done(function(res) {
+                    if (res.code === 200) {
+                        auth.setToken(res.data.token);
+                        auth.setUser({
+                            userId: res.data.userId,
+                            username: res.data.username,
+                            realName: res.data.realName,
+                            role: 'admin'
+                        });
+                        utils.showToast('管理员登录成功！');
+                        setTimeout(() => {
+                            window.location.href = 'admin-dashboard.html';
+                        }, 1000);
+                    } else {
+                        utils.showToast(res.message || '登录失败', 'error');
+                    }
+                })
+                .fail(function(xhr) {
+                    const res = xhr.responseJSON;
+                    utils.showToast(res?.message || '登录失败，请检查账号密码', 'error');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

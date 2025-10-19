@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册 - 校园社团平台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .register-container {
+            min-height: 100vh;
+            padding: 50px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .register-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="register-card p-5">
+                        <div class="text-center mb-4">
+                            <i class="bi bi-person-plus-fill text-primary" style="font-size: 3rem;"></i>
+                            <h3 class="mt-2">创建账户</h3>
+                            <p class="text-muted">加入校园社团平台</p>
+                        </div>
+
+                        <form id="registerForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">用户名 *</label>
+                                    <input type="text" class="form-control" id="username" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">真实姓名 *</label>
+                                    <input type="text" class="form-control" id="realName" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">学号</label>
+                                    <input type="text" class="form-control" id="studentId">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">邮箱</label>
+                                    <input type="email" class="form-control" id="email">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">专业</label>
+                                    <input type="text" class="form-control" id="major">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">年级</label>
+                                    <input type="number" class="form-control" id="grade" placeholder="2024">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">密码 *</label>
+                                <input type="password" class="form-control" id="password" required minlength="6">
+                                <small class="text-muted">至少6个字符</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">确认密码 *</label>
+                                <input type="password" class="form-control" id="confirmPassword" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 mb-3">
+                                <i class="bi bi-check-circle"></i> 注册
+                            </button>
+                        </form>
+
+                        <div class="text-center">
+                            <p class="text-muted mb-2">已有账号？</p>
+                            <a href="login.html" class="btn btn-outline-primary w-100">
+                                <i class="bi bi-box-arrow-in-right"></i> 立即登录
+                            </a>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <a href="index.html" class="text-muted text-decoration-none">
+                                <i class="bi bi-arrow-left"></i> 返回首页
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        $(document).ready(function() {
+            if (auth.isLoggedIn()) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            $('#registerForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                const password = $('#password').val();
+                const confirmPassword = $('#confirmPassword').val();
+                
+                if (password !== confirmPassword) {
+                    utils.showToast('两次密码输入不一致', 'error');
+                    return;
+                }
+
+                const data = {
+                    username: $('#username').val(),
+                    password: password,
+                    studentId: $('#studentId').val() || null,
+                    realName: $('#realName').val(),
+                    email: $('#email').val() || null,
+                    major: $('#major').val() || null,
+                    grade: $('#grade').val() ? parseInt($('#grade').val()) : null
+                };
+
+                $.ajax({
+                    url: '/api/user/register',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data)
+                })
+                .done(function(res) {
+                    if (res.code === 200) {
+                        auth.setToken(res.data.token);
+                        auth.setUser({
+                            userId: res.data.userId,
+                            username: res.data.username,
+                            realName: res.data.realName
+                        });
+                        utils.showToast('注册成功！');
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 1000);
+                    } else {
+                        utils.showToast(res.message || '注册失败', 'error');
+                    }
+                })
+                .fail(function(xhr) {
+                    const res = xhr.responseJSON;
+                    utils.showToast(res?.message || '注册失败，请稍后重试', 'error');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

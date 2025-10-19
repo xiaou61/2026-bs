@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员登录 - 校园表白墙</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .admin-login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .admin-login-card {
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .admin-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .admin-header h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-login-container">
+        <div class="admin-login-card">
+            <div class="admin-header">
+                <h1><i class="bi bi-shield-lock"></i> 管理员登录</h1>
+                <p class="text-muted">校园表白墙后台管理系统</p>
+            </div>
+            
+            <form onsubmit="handleAdminLogin(event)">
+                <div class="mb-3">
+                    <label class="form-label">用户名</label>
+                    <input type="text" class="form-control" id="username" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">密码</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 py-2">登录</button>
+            </form>
+            
+            <div class="text-center mt-4">
+                <a href="/login.html" class="text-muted" style="font-size: 0.9rem;">返回用户登录</a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="/js/common.js"></script>
+    <script>
+        function handleAdminLogin(event) {
+            event.preventDefault();
+            
+            const username = $('#username').val();
+            const password = $('#password').val();
+            
+            request('/auth/admin/login', {
+                method: 'POST',
+                body: JSON.stringify({ username, password })
+            })
+            .then(data => {
+                setToken(data.token);
+                setUserInfo({...data.adminInfo, isAdmin: true});
+                showToast('登录成功', 'success');
+                setTimeout(() => {
+                    window.location.href = '/admin-dashboard.html';
+                }, 500);
+            })
+            .catch(err => {
+                showToast(err.message, 'danger');
+            });
+        }
+        
+        $(document).ready(function() {
+            const token = getToken();
+            const userInfo = getUserInfo();
+            if (token && userInfo && userInfo.isAdmin) {
+                window.location.href = '/admin-dashboard.html';
+            }
+        });
+    </script>
+</body>
+</html>

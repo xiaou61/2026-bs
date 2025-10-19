@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>广场 - 校园表白墙</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body style="padding-bottom: 120px;">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/home.html">
+                <i class="bi bi-heart-fill"></i> 校园表白墙
+            </a>
+            <div class="d-flex align-items-center">
+                <div class="input-group" style="width: 300px;">
+                    <input type="text" class="form-control" id="searchInput" placeholder="搜索...">
+                    <button class="btn btn-outline-secondary" onclick="search()">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="category-tabs">
+                    <div class="category-tab active" data-category="ALL">全部</div>
+                    <div class="category-tab" data-category="CONFESS">表白墙</div>
+                    <div class="category-tab" data-category="COMPLAIN">吐槽墙</div>
+                    <div class="category-tab" data-category="HELP">求助墙</div>
+                    <div class="category-tab" data-category="WHISPER">树洞墙</div>
+                    <div class="category-tab" data-category="CAMPUS">校园墙</div>
+                    <div class="category-tab" data-category="CHAT">闲聊墙</div>
+                </div>
+                
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-primary active" data-order="NEW">最新</button>
+                        <button type="button" class="btn btn-outline-primary" data-order="HOT">热门</button>
+                    </div>
+                </div>
+                
+                <div id="postList"></div>
+                
+                <div class="text-center mt-4">
+                    <button class="btn btn-outline-primary" id="loadMoreBtn" onclick="loadMore()">加载更多</button>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 d-none d-lg-block">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h6 class="card-title">我的信息</h6>
+                        <div id="userInfo"></div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title">使用说明</h6>
+                        <ul class="list-unstyled" style="font-size: 0.9rem;">
+                            <li class="mb-2"><i class="bi bi-check-circle text-success"></i> 匿名发帖，保护隐私</li>
+                            <li class="mb-2"><i class="bi bi-check-circle text-success"></i> 文明发言，理性交流</li>
+                            <li class="mb-2"><i class="bi bi-check-circle text-success"></i> 举报违规，共建和谐</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <button class="floating-btn" onclick="location.href='/create-post.html'">
+        <i class="bi bi-plus"></i>
+    </button>
+    
+    <div class="bottom-nav">
+        <div class="bottom-nav-items">
+            <a href="/home.html" class="nav-item active">
+                <i class="bi bi-house-fill"></i>
+                <span>广场</span>
+            </a>
+            <a href="/messages.html" class="nav-item">
+                <i class="bi bi-chat-dots"></i>
+                <span>消息</span>
+            </a>
+            <a href="/profile.html" class="nav-item">
+                <i class="bi bi-person"></i>
+                <span>我的</span>
+            </a>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="/js/common.js"></script>
+    <script>
+        let currentPage = 1;
+        let currentCategory = 'ALL';
+        let currentOrder = 'NEW';
+        let loading = false;
+        
+        function init() {
+            if (!checkLogin()) return;
+            
+            loadUserInfo();
+            loadPosts();
+            
+            $('.category-tab').click(function() {
+                $('.category-tab').removeClass('active');
+                $(this).addClass('active');
+                currentCategory = $(this).data('category');
+                currentPage = 1;
+                loadPosts();
+            });
+            
+            $('.btn-group button').click(function() {
+                $('.btn-group button').removeClass('active');
+                $(this).addClass('active');
+                currentOrder = $(this).data('order');
+                currentPage = 1;
+                loadPosts();
+            });
+        }
+        
+        function loadUserInfo() {
+            const userInfo = getUserInfo();
+            if (userInfo) {
+                $('#userInfo').html(`
+                    <div class="mb-2"><strong>学号：</strong>${userInfo.studentId}</div>
+                    <div class="mb-2"><strong>积分：</strong>${userInfo.points || 0}</div>
+                    <div class="mb-2"><strong>等级：</strong>LV${userInfo.level || 1}</div>
+                `);
+            }
+        }
+        
+        function loadPosts(append = false) {
+            if (loading) return;
+            loading = true;
+            
+            if (!append) {
+                showLoading('#postList');
+            }
+            
+            const category = currentCategory === 'ALL' ? null : currentCategory;
+            const params = new URLSearchParams({
+                page: currentPage,
+                size: 10,
+                orderBy: currentOrder
+            });
+            if (category) params.append('category', category);
+            
+            request('/posts?' + params.toString())
+                .then(data => {
+                    if (!append) {
+                        $('#postList').empty();
+                    }
+                    
+                    if (data.records && data.records.length > 0) {
+                        data.records.forEach(post => {
+                            $('#postList').append(renderPostCard(post));
+                        });
+                        
+                        if (data.records.length < 10 || currentPage >= data.pages) {
+                            $('#loadMoreBtn').hide();
+                        } else {
+                            $('#loadMoreBtn').show();
+                        }
+                    } else {
+                        if (!append) {
+                            showEmpty('#postList', '暂无帖子');
+                        }
+                        $('#loadMoreBtn').hide();
+                    }
+                })
+                .catch(err => {
+                    showToast(err.message, 'danger');
+                })
+                .finally(() => {
+                    loading = false;
+                });
+        }
+        
+        function loadMore() {
+            currentPage++;
+            loadPosts(true);
+        }
+        
+        function likePost(postId) {
+            request('/like', {
+                method: 'POST',
+                body: JSON.stringify({ targetId: postId, targetType: 1 })
+            })
+            .then(() => {
+                showToast('点赞成功', 'success');
+                loadPosts();
+            })
+            .catch(err => {
+                if (err.message.includes('已点赞')) {
+                    request('/like?targetId=' + postId + '&targetType=1', {
+                        method: 'DELETE'
+                    })
+                    .then(() => {
+                        showToast('取消点赞', 'info');
+                        loadPosts();
+                    });
+                } else {
+                    showToast(err.message, 'danger');
+                }
+            });
+        }
+        
+        function search() {
+            const keyword = $('#searchInput').val().trim();
+            if (!keyword) {
+                showToast('请输入搜索关键词', 'warning');
+                return;
+            }
+            window.location.href = `/search.html?keyword=${encodeURIComponent(keyword)}`;
+        }
+        
+        $('#searchInput').keypress(function(e) {
+            if (e.which === 13) {
+                search();
+            }
+        });
+        
+        $(document).ready(init);
+    </script>
+</body>
+</html>

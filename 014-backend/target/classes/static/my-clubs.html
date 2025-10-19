@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的社团 - 校园社团平台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-people-fill"></i> 校园社团平台
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="clubs.html">社团广场</a></li>
+                    <li class="nav-item"><a class="nav-link" href="activities.html">活动中心</a></li>
+                    <li class="nav-item"><a class="nav-link" href="topics.html">话题广场</a></li>
+                    <li class="nav-item"><a class="nav-link" href="circles.html">兴趣圈子</a></li>
+                    <li class="nav-item" id="userNav">
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle"></i> <span id="username"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="profile.html">个人中心</a></li>
+                                <li><a class="dropdown-item active" href="my-clubs.html">我的社团</a></li>
+                                <li><a class="dropdown-item" href="my-activities.html">我的活动</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="logoutBtn">退出登录</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <h2 class="mb-4"><i class="bi bi-building"></i> 我的社团</h2>
+
+        <div id="myClubsList" class="row g-3">
+            <div class="col-12 text-center py-5">
+                <div class="spinner-border text-primary"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2024 校园社团与兴趣圈层平台. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        $(document).ready(function() {
+            if (!utils.requireAuth()) return;
+            loadMyClubs();
+        });
+
+        function loadMyClubs() {
+            request.get('/clubs/my')
+                .done(function(res) {
+                    if (res.code === 200) {
+                        renderClubs(res.data);
+                    } else {
+                        $('#myClubsList').html('<div class="col-12"><div class="alert alert-danger">加载失败</div></div>');
+                    }
+                })
+                .fail(function() {
+                    $('#myClubsList').html('<div class="col-12"><div class="alert alert-danger">加载失败</div></div>');
+                });
+        }
+
+        function renderClubs(clubs) {
+            if (clubs.length === 0) {
+                $('#myClubsList').html(`
+                    <div class="col-12">
+                        <div class="alert alert-info text-center">
+                            <i class="bi bi-inbox" style="font-size: 3rem;"></i>
+                            <p class="mt-3">你还没有加入任何社团</p>
+                            <a href="clubs.html" class="btn btn-primary">去社团广场看看</a>
+                        </div>
+                    </div>
+                `);
+                return;
+            }
+
+            const html = clubs.map(club => `
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        ${club.cover ? `<img src="${club.cover}" class="card-img-top club-logo" alt="${club.name}">` : 
+                          `<div class="card-img-top club-logo bg-secondary d-flex align-items-center justify-content-center text-white">
+                              <i class="bi bi-building" style="font-size: 3rem;"></i>
+                          </div>`}
+                        <div class="card-body">
+                            <h5 class="card-title">${club.name}</h5>
+                            <p class="card-text text-muted small">${club.description ? club.description.substring(0, 80) : '暂无简介'}</p>
+                            <div class="mb-2">
+                                <span class="badge bg-primary">${club.category}</span>
+                                ${club.isMember ? '<span class="badge bg-success">已加入</span>' : ''}
+                            </div>
+                            <div class="text-muted small">
+                                <i class="bi bi-people"></i> ${club.memberCount}人
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-0">
+                            <a href="club-detail.html?id=${club.id}" class="btn btn-sm btn-outline-primary w-100">
+                                <i class="bi bi-eye"></i> 查看详情
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            $('#myClubsList').html(html);
+        }
+    </script>
+</body>
+</html>
+

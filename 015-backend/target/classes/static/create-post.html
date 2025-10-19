@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发帖 - 校园表白墙</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-light bg-white shadow-sm">
+        <div class="container">
+            <button class="btn btn-link" onclick="history.back()">
+                <i class="bi bi-x-lg"></i> 取消
+            </button>
+            <span class="navbar-text">发帖</span>
+            <button class="btn btn-link text-primary" onclick="submitPost()">
+                发布
+            </button>
+        </div>
+    </nav>
+    
+    <div class="container mt-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">选择分类</label>
+                    <div class="btn-group w-100" role="group">
+                        <input type="radio" class="btn-check" name="category" id="confess" value="CONFESS" checked>
+                        <label class="btn btn-outline-primary" for="confess">表白</label>
+                        
+                        <input type="radio" class="btn-check" name="category" id="complain" value="COMPLAIN">
+                        <label class="btn btn-outline-primary" for="complain">吐槽</label>
+                        
+                        <input type="radio" class="btn-check" name="category" id="help" value="HELP">
+                        <label class="btn btn-outline-primary" for="help">求助</label>
+                    </div>
+                    <div class="btn-group w-100 mt-2" role="group">
+                        <input type="radio" class="btn-check" name="category" id="whisper" value="WHISPER">
+                        <label class="btn btn-outline-primary" for="whisper">树洞</label>
+                        
+                        <input type="radio" class="btn-check" name="category" id="campus" value="CAMPUS">
+                        <label class="btn btn-outline-primary" for="campus">校园</label>
+                        
+                        <input type="radio" class="btn-check" name="category" id="chat" value="CHAT">
+                        <label class="btn btn-outline-primary" for="chat">闲聊</label>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">标题（选填）</label>
+                    <input type="text" class="form-control" id="postTitle" placeholder="给你的帖子起个标题">
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">内容</label>
+                    <textarea class="form-control" id="postContent" rows="8" placeholder="说说你的心里话..." required></textarea>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">话题标签（选填）</label>
+                    <input type="text" class="form-control" id="postTags" placeholder="用逗号分隔，如：表白,暗恋">
+                    <small class="text-muted">使用话题标签可以让更多人看到你的帖子</small>
+                </div>
+                
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> 
+                    发帖后将使用随机匿名身份，保护你的隐私
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="/js/common.js"></script>
+    <script>
+        function init() {
+            if (!checkLogin()) return;
+        }
+        
+        function submitPost() {
+            const category = $('input[name="category"]:checked').val();
+            const title = $('#postTitle').val().trim();
+            const content = $('#postContent').val().trim();
+            const tags = $('#postTags').val().trim();
+            
+            if (!content) {
+                showToast('请输入内容', 'warning');
+                return;
+            }
+            
+            const data = {
+                category,
+                title: title || null,
+                content,
+                images: null,
+                tags: tags || null
+            };
+            
+            request('/posts', {
+                method: 'POST',
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                showToast('发布成功！', 'success');
+                setTimeout(() => {
+                    window.location.href = '/home.html';
+                }, 1000);
+            })
+            .catch(err => {
+                showToast(err.message, 'danger');
+            });
+        }
+        
+        $(document).ready(init);
+    </script>
+</body>
+</html>

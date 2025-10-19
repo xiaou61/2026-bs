@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>话题详情 - 校园社团平台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-people-fill"></i> 校园社团平台
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="clubs.html">社团广场</a></li>
+                    <li class="nav-item"><a class="nav-link" href="activities.html">活动中心</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="topics.html">话题广场</a></li>
+                    <li class="nav-item"><a class="nav-link" href="circles.html">兴趣圈子</a></li>
+                    <li class="nav-item" id="loginNav">
+                        <a class="nav-link" href="login.html">登录</a>
+                    </li>
+                    <li class="nav-item d-none" id="userNav">
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle"></i> <span id="username"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="profile.html">个人中心</a></li>
+                                <li><a class="dropdown-item" href="my-clubs.html">我的社团</a></li>
+                                <li><a class="dropdown-item" href="my-activities.html">我的活动</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="logoutBtn">退出登录</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <div id="topicDetail">
+            <div class="text-center py-5">
+                <div class="spinner-border text-primary"></div>
+            </div>
+        </div>
+
+        <div id="commentSection" class="d-none">
+            <hr class="my-4">
+            <h5><i class="bi bi-chat-dots"></i> 评论区</h5>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <textarea class="form-control mb-2" id="commentContent" rows="3" placeholder="发表你的看法..."></textarea>
+                    <button class="btn btn-primary btn-sm" id="submitCommentBtn">
+                        <i class="bi bi-send"></i> 发表评论
+                    </button>
+                </div>
+            </div>
+
+            <div id="commentsList">
+                <div class="text-center py-3">
+                    <div class="spinner-border spinner-border-sm text-primary"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2024 校园社团与兴趣圈层平台. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        let topicId = new URLSearchParams(window.location.search).get('id');
+        let currentTopic = null;
+
+        $(document).ready(function() {
+            if (!topicId) {
+                window.location.href = 'topics.html';
+                return;
+            }
+
+            loadTopicDetail();
+            loadComments();
+
+            $('#submitCommentBtn').on('click', submitComment);
+        });
+
+        function loadTopicDetail() {
+            request.get('/topics/' + topicId)
+                .done(function(res) {
+                    if (res.code === 200) {
+                        currentTopic = res.data;
+                        renderTopicDetail(res.data);
+                        $('#commentSection').removeClass('d-none');
+                    } else {
+                        $('#topicDetail').html('<div class="alert alert-danger">加载失败</div>');
+                    }
+                })
+                .fail(function() {
+                    $('#topicDetail').html('<div class="alert alert-danger">加载失败</div>');
+                });
+        }
+
+        function renderTopicDetail(topic) {
+            const html = `
+                <div class="card topic-card">
+                    <div class="card-body">
+                        <div class="d-flex mb-3">
+                            <img src="${topic.avatar || 'https://via.placeholder.com/50'}" 
+                                 class="avatar-lg me-3" alt="${topic.username}">
+                            <div class="flex-grow-1">
+                                <h5 class="mb-1">${topic.username || '匿名用户'}</h5>
+                                <div class="text-muted small">
+                                    ${utils.formatDate(topic.createTime)}
+                                    ${topic.clubName ? `<span class="badge bg-primary ms-2">${topic.clubName}</span>` : ''}
+                                    ${topic.circleName ? `<span class="badge bg-info ms-2">${topic.circleName}</span>` : ''}
+                                </div>
+                            </div>
+                        </div>
+
+                        <h2 class="mb-3">${topic.title}</h2>
+                        <div class="mb-3" style="white-space: pre-wrap;">${topic.content || ''}</div>
+
+                        ${topic.images && topic.images.length > 0 ? `
+                            <div class="row g-2 mb-3">
+                                ${topic.images.map(img => `
+                                    <div class="col-md-4">
+                                        <img src="${img}" class="img-fluid rounded" alt="图片">
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+
+                        <div class="d-flex justify-content-between align-items-center border-top pt-3">
+                            <div>
+                                <span class="text-muted me-3">
+                                    <i class="bi bi-eye"></i> ${topic.viewCount} 浏览
+                                </span>
+                                <span class="text-muted me-3">
+                                    <i class="bi bi-chat"></i> ${topic.commentCount} 评论
+                                </span>
+                            </div>
+                            <div>
+                                <button class="btn btn-sm ${topic.isLiked ? 'btn-danger' : 'btn-outline-danger'}" 
+                                        id="likeBtn" onclick="toggleLike()">
+                                    <i class="bi bi-heart${topic.isLiked ? '-fill' : ''}"></i> 
+                                    <span id="likeCount">${topic.likeCount}</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            $('#topicDetail').html(html);
+        }
+
+        function toggleLike() {
+            if (!auth.isLoggedIn()) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const action = currentTopic.isLiked ? 'delete' : 'post';
+            const method = action.toUpperCase();
+
+            $.ajax({
+                url: `/api/topics/${topicId}/like`,
+                method: method,
+                headers: {
+                    'Authorization': 'Bearer ' + auth.getToken()
+                }
+            })
+            .done(function(res) {
+                if (res.code === 200) {
+                    currentTopic.isLiked = !currentTopic.isLiked;
+                    currentTopic.likeCount += currentTopic.isLiked ? 1 : -1;
+                    $('#likeCount').text(currentTopic.likeCount);
+                    $('#likeBtn').toggleClass('btn-danger btn-outline-danger');
+                    $('#likeBtn i').toggleClass('bi-heart bi-heart-fill');
+                }
+            });
+        }
+
+        function loadComments() {
+            request.get('/topics/' + topicId + '/comments')
+                .done(function(res) {
+                    if (res.code === 200) {
+                        renderComments(res.data);
+                    } else {
+                        $('#commentsList').html('<div class="alert alert-info">暂无评论</div>');
+                    }
+                })
+                .fail(function() {
+                    $('#commentsList').html('<div class="alert alert-danger">加载评论失败</div>');
+                });
+        }
+
+        function renderComments(comments) {
+            if (comments.length === 0) {
+                $('#commentsList').html('<div class="alert alert-info">暂无评论，快来抢沙发吧！</div>');
+                return;
+            }
+
+            const html = comments.map(comment => `
+                <div class="card mb-3 comment-box">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <img src="${comment.avatar || 'https://via.placeholder.com/40'}" 
+                                 class="avatar me-3" alt="${comment.username}">
+                            <div class="flex-grow-1">
+                                <div class="d-flex justify-content-between">
+                                    <strong>${comment.username || '匿名'}</strong>
+                                    <small class="text-muted">${utils.formatDate(comment.createTime)}</small>
+                                </div>
+                                ${comment.replyToUsername ? `
+                                    <small class="text-muted">回复 @${comment.replyToUsername}</small>
+                                ` : ''}
+                                <p class="mb-2 mt-2">${comment.content}</p>
+                                <div class="d-flex gap-3">
+                                    <button class="btn btn-sm btn-link text-muted p-0">
+                                        <i class="bi bi-heart"></i> ${comment.likeCount}
+                                    </button>
+                                    <button class="btn btn-sm btn-link text-muted p-0" onclick="replyComment(${comment.id}, '${comment.username}')">
+                                        <i class="bi bi-reply"></i> 回复
+                                    </button>
+                                </div>
+                                ${comment.replies && comment.replies.length > 0 ? `
+                                    <div class="mt-2 ms-4">
+                                        ${comment.replies.map(reply => `
+                                            <div class="mb-2 p-2 bg-light rounded">
+                                                <small>
+                                                    <strong>${reply.username}</strong>
+                                                    ${reply.replyToUsername ? `回复 <strong>@${reply.replyToUsername}</strong>` : ''}
+                                                    : ${reply.content}
+                                                </small>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            $('#commentsList').html(html);
+        }
+
+        function submitComment() {
+            if (!auth.isLoggedIn()) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const content = $('#commentContent').val().trim();
+            if (!content) {
+                utils.showToast('请输入评论内容', 'error');
+                return;
+            }
+
+            request.post('/topics/' + topicId + '/comments', {
+                topicId: parseInt(topicId),
+                parentId: 0,
+                content: content
+            })
+            .done(function(res) {
+                if (res.code === 200) {
+                    utils.showToast('评论成功');
+                    $('#commentContent').val('');
+                    loadComments();
+                    loadTopicDetail();
+                } else {
+                    utils.showToast(res.message || '评论失败', 'error');
+                }
+            })
+            .fail(function() {
+                utils.showToast('评论失败', 'error');
+            });
+        }
+
+        function replyComment(parentId, username) {
+            if (!auth.isLoggedIn()) {
+                window.location.href = 'login.html';
+                return;
+            }
+            alert('回复 @' + username + ' 功能开发中...');
+        }
+    </script>
+</body>
+</html>
+

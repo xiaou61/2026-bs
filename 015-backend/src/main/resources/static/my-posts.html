@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的发帖 - 校园表白墙</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-light bg-white shadow-sm">
+        <div class="container">
+            <button class="btn btn-link" onclick="history.back()">
+                <i class="bi bi-arrow-left"></i> 返回
+            </button>
+            <span class="navbar-text">我的发帖</span>
+            <div></div>
+        </div>
+    </nav>
+    
+    <div class="container mt-3">
+        <div id="myPostsList"></div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="/js/common.js"></script>
+    <script>
+        function init() {
+            if (!checkLogin()) return;
+            loadMyPosts();
+        }
+        
+        function loadMyPosts() {
+            showLoading('#myPostsList');
+            
+            request('/posts/my?page=1&size=50')
+                .then(data => {
+                    if (data.records && data.records.length > 0) {
+                        $('#myPostsList').empty();
+                        data.records.forEach(post => {
+                            $('#myPostsList').append(renderPostCard(post));
+                        });
+                    } else {
+                        showEmpty('#myPostsList', '还没有发帖哦');
+                    }
+                })
+                .catch(err => {
+                    showToast(err.message, 'danger');
+                });
+        }
+        
+        $(document).ready(init);
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理后台 - 校园表白墙</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-3 col-lg-2 d-md-block admin-sidebar p-0">
+                <div class="p-3">
+                    <h4 class="text-white mb-4"><i class="bi bi-heart-fill"></i> 管理后台</h4>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" onclick="loadStats()">
+                                <i class="bi bi-speedometer2"></i> 数据概览
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="loadUsers()">
+                                <i class="bi bi-people"></i> 用户管理
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="loadPendingPosts()">
+                                <i class="bi bi-file-earmark-text"></i> 内容审核
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="loadReports()">
+                                <i class="bi bi-flag"></i> 举报管理
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="loadSensitiveWords()">
+                                <i class="bi bi-shield-exclamation"></i> 敏感词管理
+                            </a>
+                        </li>
+                        <li class="nav-item mt-4">
+                            <a class="nav-link" href="#" onclick="logout()">
+                                <i class="bi bi-box-arrow-right"></i> 退出登录
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="admin-header">
+                    <h2 id="pageTitle">数据概览</h2>
+                </div>
+                
+                <div id="mainContent"></div>
+            </main>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="/js/common.js"></script>
+    <script>
+        function init() {
+            const token = getToken();
+            const userInfo = getUserInfo();
+            if (!token || !userInfo || !userInfo.isAdmin) {
+                window.location.href = '/admin-login.html';
+                return;
+            }
+            
+            loadStats();
+            
+            $('.admin-sidebar .nav-link').click(function(e) {
+                e.preventDefault();
+                $('.admin-sidebar .nav-link').removeClass('active');
+                $(this).addClass('active');
+            });
+        }
+        
+        function loadStats() {
+            $('#pageTitle').text('数据概览');
+            showLoading('#mainContent');
+            
+            request('/admin/stats/overview')
+                .then(data => {
+                    const html = `
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="card stats-card">
+                                    <div class="stats-number">${data.userCount || 0}</div>
+                                    <div class="stats-label">用户总数</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card stats-card">
+                                    <div class="stats-number">${data.postCount || 0}</div>
+                                    <div class="stats-label">帖子总数</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card stats-card">
+                                    <div class="stats-number">${data.commentCount || 0}</div>
+                                    <div class="stats-label">评论总数</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card stats-card">
+                                    <div class="stats-number text-danger">${data.reportCount || 0}</div>
+                                    <div class="stats-label">待处理举报</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">最新用户</h5>
+                                        <div id="recentUsers"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">最新帖子</h5>
+                                        <div id="recentPosts"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    $('#mainContent').html(html);
+                })
+                .catch(err => {
+                    showToast(err.message, 'danger');
+                });
+        }
+        
+        function loadUsers() {
+            $('#pageTitle').text('用户管理');
+            showLoading('#mainContent');
+            
+            request('/admin/users?page=1&size=50')
+                .then(data => {
+                    if (data.records && data.records.length > 0) {
+                        let html = `
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>学号</th>
+                                                    <th>姓名</th>
+                                                    <th>手机号</th>
+                                                    <th>学校</th>
+                                                    <th>认证状态</th>
+                                                    <th>状态</th>
+                                                    <th>操作</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                        `;
+                        
+                        data.records.forEach(user => {
+                            const authStatus = ['未认证', '审核中', '已认证', '未通过'][user.authStatus];
+                            const statusText = ['正常', '禁言', '封号'][user.status];
+                            const statusClass = user.status === 0 ? 'success' : 'danger';
+                            
+                            html += `
+                                <tr>
+                                    <td>${user.studentId}</td>
+                                    <td>${user.realName}</td>
+                                    <td>${user.phone}</td>
+                                    <td>${user.school}</td>
+                                    <td>${authStatus}</td>
+                                    <td><span class="badge bg-${statusClass}">${statusText}</span></td>
+                                    <td>
+                                        ${user.status === 0 ? `
+                                            <button class="btn btn-sm btn-warning" onclick="banUser(${user.id})">禁言</button>
+                                        ` : `
+                                            <button class="btn btn-sm btn-success" onclick="unbanUser(${user.id})">解除</button>
+                                        `}
+                                    </td>
+                                </tr>
+                            `;
+                        });
+                        
+                        html += '</tbody></table></div></div></div>';
+                        $('#mainContent').html(html);
+                    } else {
+                        showEmpty('#mainContent', '暂无用户');
+                    }
+                })
+                .catch(err => {
+                    showToast(err.message, 'danger');
+                });
+        }
+        
+        function banUser(userId) {
+            if (!confirm('确定要禁言该用户吗？')) return;
+            
+            request(`/admin/users/${userId}/status`, {
+                method: 'PUT',
+                body: JSON.stringify({ status: 1, reason: '违规发言', days: 3 })
+            })
+            .then(() => {
+                showToast('操作成功', 'success');
+                loadUsers();
+            })
+            .catch(err => {
+                showToast(err.message, 'danger');
+            });
+        }
+        
+        function unbanUser(userId) {
+            request(`/admin/users/${userId}/status`, {
+                method: 'PUT',
+                body: JSON.stringify({ status: 0, reason: null, days: 0 })
+            })
+            .then(() => {
+                showToast('操作成功', 'success');
+                loadUsers();
+            })
+            .catch(err => {
+                showToast(err.message, 'danger');
+            });
+        }
+        
+        function loadPendingPosts() {
+            $('#pageTitle').text('内容审核');
+            showLoading('#mainContent');
+            
+            request('/admin/posts/pending?page=1&size=50')
+                .then(data => {
+                    if (data.records && data.records.length > 0) {
+                        let html = '<div class="row">';
+                        data.records.forEach(post => {
+                            html += `
+                                <div class="col-md-6 mb-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h6>${post.title || '无标题'}</h6>
+                                            <p>${post.content.substring(0, 100)}...</p>
+                                            <div class="text-muted small mb-2">
+                                                触发敏感词：${post.sensitiveWords || '无'}
+                                            </div>
+                                            <button class="btn btn-sm btn-success" onclick="approvePost(${post.id})">通过</button>
+                                            <button class="btn btn-sm btn-danger" onclick="rejectPost(${post.id})">拒绝</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        html += '</div>';
+                        $('#mainContent').html(html);
+                    } else {
+                        showEmpty('#mainContent', '暂无待审核内容');
+                    }
+                })
+                .catch(err => {
+                    showToast(err.message, 'danger');
+                });
+        }
+        
+        function approvePost(postId) {
+            request(`/admin/posts/${postId}/audit`, {
+                method: 'PUT',
+                body: JSON.stringify({ status: 1, reason: null })
+            })
+            .then(() => {
+                showToast('审核通过', 'success');
+                loadPendingPosts();
+            })
+            .catch(err => {
+                showToast(err.message, 'danger');
+            });
+        }
+        
+        function rejectPost(postId) {
+            request(`/admin/posts/${postId}/audit`, {
+                method: 'PUT',
+                body: JSON.stringify({ status: 3, reason: '内容违规' })
+            })
+            .then(() => {
+                showToast('已拒绝', 'success');
+                loadPendingPosts();
+            })
+            .catch(err => {
+                showToast(err.message, 'danger');
+            });
+        }
+        
+        function loadReports() {
+            $('#pageTitle').text('举报管理');
+            showLoading('#mainContent');
+            
+            request('/admin/reports?page=1&size=50&status=0')
+                .then(data => {
+                    if (data.records && data.records.length > 0) {
+                        let html = '<div class="row">';
+                        data.records.forEach(report => {
+                            html += `
+                                <div class="col-md-6 mb-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h6>举报类型：${getReportTypeName(report.reportType)}</h6>
+                                            <p><strong>原因：</strong>${report.reason}</p>
+                                            <div class="text-muted small mb-2">
+                                                ${formatTime(report.createTime)}
+                                            </div>
+                                            <button class="btn btn-sm btn-success" onclick="handleReport(${report.id}, 1)">确认违规</button>
+                                            <button class="btn btn-sm btn-secondary" onclick="handleReport(${report.id}, 2)">驳回</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        html += '</div>';
+                        $('#mainContent').html(html);
+                    } else {
+                        showEmpty('#mainContent', '暂无待处理举报');
+                    }
+                })
+                .catch(err => {
+                    showToast(err.message, 'danger');
+                });
+        }
+        
+        function handleReport(reportId, status) {
+            const result = status === 1 ? '已处理，内容已删除' : '举报无效';
+            
+            request(`/admin/reports/${reportId}/handle`, {
+                method: 'PUT',
+                body: JSON.stringify({ status, result })
+            })
+            .then(() => {
+                showToast('操作成功', 'success');
+                loadReports();
+            })
+            .catch(err => {
+                showToast(err.message, 'danger');
+            });
+        }
+        
+        function loadSensitiveWords() {
+            $('#pageTitle').text('敏感词管理');
+            showLoading('#mainContent');
+            
+            request('/admin/sensitive-words?page=1&size=100')
+                .then(data => {
+                    let html = `
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h6>添加敏感词</h6>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" id="newWord" placeholder="敏感词">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select class="form-select" id="newLevel">
+                                            <option value="1">轻度</option>
+                                            <option value="2">中度</option>
+                                            <option value="3">重度</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select class="form-select" id="newCategory">
+                                            <option value="POLITICS">政治</option>
+                                            <option value="PORN">色情</option>
+                                            <option value="VIOLENCE">暴力</option>
+                                            <option value="AD">广告</option>
+                                            <option value="ATTACK">攻击</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-primary w-100" onclick="addSensitiveWord()">添加</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>敏感词</th>
+                                                <th>等级</th>
+                                                <th>分类</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="wordList">
+                    `;
+                    
+                    if (data.records && data.records.length > 0) {
+                        data.records.forEach(word => {
+                            const levelText = ['', '轻度', '中度', '重度'][word.level];
+                            html += `
+                                <tr>
+                                    <td>${word.word}</td>
+                                    <td>${levelText}</td>
+                                    <td>${word.category}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-danger" onclick="deleteSensitiveWord(${word.id})">删除</button>
+                                    </td>
+                                </tr>
+                            `;
+                        });
+                    }
+                    
+                    html += '</tbody></table></div></div></div>';
+                    $('#mainContent').html(html);
+                })
+                .catch(err => {
+                    showToast(err.message, 'danger');
+                });
+        }
+        
+        function addSensitiveWord() {
+            const word = $('#newWord').val().trim();
+            const level = parseInt($('#newLevel').val());
+            const category = $('#newCategory').val();
+            
+            if (!word) {
+                showToast('请输入敏感词', 'warning');
+                return;
+            }
+            
+            request('/admin/sensitive-words', {
+                method: 'POST',
+                body: JSON.stringify({ word, level, category })
+            })
+            .then(() => {
+                showToast('添加成功', 'success');
+                $('#newWord').val('');
+                loadSensitiveWords();
+            })
+            .catch(err => {
+                showToast(err.message, 'danger');
+            });
+        }
+        
+        function deleteSensitiveWord(wordId) {
+            if (!confirm('确定要删除这个敏感词吗？')) return;
+            
+            request(`/admin/sensitive-words/${wordId}`, {
+                method: 'DELETE'
+            })
+            .then(() => {
+                showToast('删除成功', 'success');
+                loadSensitiveWords();
+            })
+            .catch(err => {
+                showToast(err.message, 'danger');
+            });
+        }
+        
+        $(document).ready(init);
+    </script>
+</body>
+</html>

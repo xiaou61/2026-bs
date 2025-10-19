@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理后台 - 校园社团平台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-danger sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-shield-lock-fill"></i> 管理后台
+            </a>
+            <div class="d-flex align-items-center">
+                <span class="text-white me-3">
+                    <i class="bi bi-person-badge"></i> <span id="adminName"></span>
+                </span>
+                <button class="btn btn-outline-light btn-sm" id="logoutBtn">
+                    <i class="bi bi-box-arrow-right"></i> 退出
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 bg-light min-vh-100 p-3">
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action active" data-tab="statistics">
+                        <i class="bi bi-graph-up"></i> 数据统计
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action" data-tab="users">
+                        <i class="bi bi-people"></i> 用户管理
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action" data-tab="clubs">
+                        <i class="bi bi-building"></i> 社团审核
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action" data-tab="topics">
+                        <i class="bi bi-chat-dots"></i> 话题管理
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-10 p-4">
+                <div id="statistics" class="tab-content active">
+                    <h4 class="mb-4">数据统计</h4>
+                    <div class="row" id="statsCards">
+                        <div class="col-12 text-center py-5">
+                            <div class="spinner-border text-primary"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="users" class="tab-content d-none">
+                    <h4 class="mb-4">用户管理</h4>
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="userSearch" placeholder="搜索用户名、姓名或学号">
+                            <button class="btn btn-primary" id="searchUserBtn">
+                                <i class="bi bi-search"></i> 搜索
+                            </button>
+                        </div>
+                    </div>
+                    <div id="usersList" class="table-responsive">
+                        <div class="text-center py-5">
+                            <div class="spinner-border text-primary"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="clubs" class="tab-content d-none">
+                    <h4 class="mb-4">待审核社团</h4>
+                    <div id="clubsList">
+                        <div class="text-center py-5">
+                            <div class="spinner-border text-primary"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="topics" class="tab-content d-none">
+                    <h4 class="mb-4">话题管理</h4>
+                    <div id="topicsList">
+                        <div class="text-center py-5">
+                            <div class="spinner-border text-primary"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
+

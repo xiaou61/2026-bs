@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社团详情 - 校园社团平台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-people-fill"></i> 校园社团平台
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">首页</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="clubs.html">社团广场</a></li>
+                    <li class="nav-item"><a class="nav-link" href="activities.html">活动中心</a></li>
+                    <li class="nav-item"><a class="nav-link" href="topics.html">话题广场</a></li>
+                    <li class="nav-item"><a class="nav-link" href="circles.html">兴趣圈子</a></li>
+                    <li class="nav-item" id="loginNav">
+                        <a class="nav-link" href="login.html">登录</a>
+                    </li>
+                    <li class="nav-item d-none" id="userNav">
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle"></i> <span id="username"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="profile.html">个人中心</a></li>
+                                <li><a class="dropdown-item" href="my-clubs.html">我的社团</a></li>
+                                <li><a class="dropdown-item" href="my-activities.html">我的活动</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="logoutBtn">退出登录</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <div id="clubDetail">
+            <div class="text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">加载中...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2024 校园社团与兴趣圈层平台. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        let clubId = new URLSearchParams(window.location.search).get('id');
+
+        $(document).ready(function() {
+            if (!clubId) {
+                window.location.href = 'clubs.html';
+                return;
+            }
+            loadClubDetail();
+        });
+
+        function loadClubDetail() {
+            request.get('/clubs/' + clubId)
+                .done(function(res) {
+                    if (res.code === 200) {
+                        renderClubDetail(res.data);
+                    } else {
+                        $('#clubDetail').html('<div class="alert alert-danger">加载失败</div>');
+                    }
+                })
+                .fail(function() {
+                    $('#clubDetail').html('<div class="alert alert-danger">加载失败，请稍后重试</div>');
+                });
+        }
+
+        function renderClubDetail(club) {
+            const html = `
+                <div class="row">
+                    <div class="col-md-4">
+                        ${club.cover ? `<img src="${club.cover}" class="img-fluid rounded mb-3" alt="${club.name}">` :
+                          `<div class="bg-secondary rounded mb-3 d-flex align-items-center justify-content-center text-white" style="height: 300px;">
+                              <i class="bi bi-building" style="font-size: 5rem;"></i>
+                          </div>`}
+                        
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h6 class="card-title">社团信息</h6>
+                                <hr>
+                                <p><i class="bi bi-tag"></i> 分类：<span class="badge bg-primary">${club.category}</span></p>
+                                <p><i class="bi bi-people"></i> 成员：${club.memberCount}/${club.maxMembers}人</p>
+                                <p><i class="bi bi-person-badge"></i> 社长：${club.presidentName || '未知'}</p>
+                                <p><i class="bi bi-calendar"></i> 创建时间：${utils.formatDate(club.createTime)}</p>
+                                <p><i class="bi bi-info-circle"></i> 状态：
+                                    <span class="badge bg-${utils.getStatusClass(club.status)}">
+                                        ${utils.getStatusText(club.status, 'club')}
+                                    </span>
+                                </p>
+                                ${club.isRecruiting === 1 ? '<p class="mb-0"><span class="badge bg-success"><i class="bi bi-megaphone"></i> 正在招新</span></p>' : ''}
+                            </div>
+                        </div>
+
+                        ${club.isMember ? 
+                            '<button class="btn btn-secondary w-100 mb-2" disabled><i class="bi bi-check-circle"></i> 已加入</button>' :
+                            (club.status === 1 ? '<button class="btn btn-primary w-100 mb-2" id="joinClubBtn"><i class="bi bi-plus-circle"></i> 申请加入</button>' : '')
+                        }
+                    </div>
+
+                    <div class="col-md-8">
+                        <h2>${club.name}</h2>
+                        <p class="text-muted">${club.description || '暂无简介'}</p>
+
+                        ${club.isRecruiting === 1 && club.recruitInfo ? `
+                            <div class="alert alert-success">
+                                <h5><i class="bi bi-megaphone"></i> 招新信息</h5>
+                                <p class="mb-0">${club.recruitInfo}</p>
+                            </div>
+                        ` : ''}
+
+                        <ul class="nav nav-tabs mt-4" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#activities" type="button">
+                                    <i class="bi bi-calendar-event"></i> 活动
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#members" type="button">
+                                    <i class="bi bi-people"></i> 成员
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#topics" type="button">
+                                    <i class="bi bi-chat"></i> 话题
+                                </button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content mt-3">
+                            <div class="tab-pane fade show active" id="activities">
+                                <p class="text-muted">社团活动列表...</p>
+                            </div>
+                            <div class="tab-pane fade" id="members">
+                                <p class="text-muted">成员列表...</p>
+                            </div>
+                            <div class="tab-pane fade" id="topics">
+                                <p class="text-muted">话题列表...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            $('#clubDetail').html(html);
+
+            $('#joinClubBtn').on('click', function() {
+                if (!utils.requireAuth()) return;
+                
+                request.post('/clubs/' + clubId + '/join')
+                    .done(function(res) {
+                        if (res.code === 200) {
+                            utils.showToast('申请已提交，等待审核');
+                            setTimeout(() => location.reload(), 1500);
+                        } else {
+                            utils.showToast(res.message || '申请失败', 'error');
+                        }
+                    })
+                    .fail(function() {
+                        utils.showToast('申请失败，请稍后重试', 'error');
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
+

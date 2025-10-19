@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帖子详情 - 校园表白墙</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body style="padding-bottom: 80px;">
+    <nav class="navbar navbar-light bg-white shadow-sm">
+        <div class="container">
+            <button class="btn btn-link" onclick="history.back()">
+                <i class="bi bi-arrow-left"></i> 返回
+            </button>
+            <span class="navbar-text">帖子详情</span>
+            <button class="btn btn-link" onclick="reportPost()">
+                <i class="bi bi-flag"></i>
+            </button>
+        </div>
+    </nav>
+    
+    <div class="container mt-3">
+        <div id="postDetail"></div>
+        
+        <div class="card mt-3">
+            <div class="card-body">
+                <h6 class="mb-3">评论 <span id="commentCount">0</span></h6>
+                
+                <div class="mb-3">
+                    <textarea class="form-control" id="commentInput" rows="3" placeholder="说点什么..."></textarea>
+                    <button class="btn btn-primary mt-2" onclick="submitComment()">发表评论</button>
+                </div>
+                
+                <div id="commentList"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="/js/common.js"></script>
+    <script>
+        let postId;
+        let post;
+        
+        function init() {
+            if (!checkLogin()) return;
+            
+            const params = new URLSearchParams(window.location.search);
+            postId = params.get('id');
+            
+            if (!postId) {
+                showToast('帖子不存在', 'danger');
+                setTimeout(() => history.back(), 1000);
+                return;
+            }
+            
+            loadPost();
+            loadComments();
+        }
+        
+        function loadPost() {
+            request(`/posts/${postId}`)
+                .then(data => {
+                    post = data;
+                    renderPost(data);
+                })
+                .catch(err => {
+                    showToast(err.message, 'danger');
+                    setTimeout(() => history.back(), 1000);
+                });
+        }
+        
+        function renderPost(post) {
+            const images = parseImages(post.images);
+            const imagesHtml = images.length > 0 ? `
+                <div class="post-images">
+                    ${images.map(img => `<img src="${img}" class="post-image" onclick="viewImage('${img}')">`).join('')}
+                </div>
+            ` : '';
+            
+            const tags = post.tags ? post.tags.split(',').filter(t => t.trim()) : [];
+            const tagsHtml = tags.length > 0 ? `
+                <div class="post-tags">
+                    ${tags.map(tag => `<span class="post-tag">${tag}</span>`).join('')}
+                </div>
+            ` : '';
+            
+            const html = `
+                <div class="card post-card">
+                    <div class="post-header">
+                        <img src="${post.anonymousAvatar || '/img/avatar.png'}" class="post-avatar">
+                        <div class="post-info">
+                            <div class="post-nickname">${post.anonymousNickname || '匿名用户'}</div>
+                            <div class="post-meta">
+                                ${formatTime(post.createTime)}
+                                <span class="post-category ${getCategoryClass(post.category)}">${getCategoryName(post.category)}</span>
+                            </div>
+                        </div>
+                    </div>
+                    ${post.title ? `<h5 class="mb-3">${post.title}</h5>` : ''}
+                    <div class="post-content">${post.content}</div>
+                    ${imagesHtml}
+                    ${tagsHtml}
+                    <div class="post-stats">
+                        <span class="post-stat"><i class="bi bi-eye"></i> ${post.viewCount || 0}</span>
+                        <span class="post-stat"><i class="bi bi-heart"></i> ${post.likeCount || 0}</span>
+                        <span class="post-stat"><i class="bi bi-chat"></i> ${post.commentCount || 0}</span>
+                        <div class="post-actions">
+                            <button class="action-btn" onclick="likePost()">
+                                <i class="bi bi-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            $('#postDetail').html(html);
+        }
+        
+        function loadComments() {
+            request(`/posts/${postId}/comments?page=1&size=100`)
+                .then(data => {
+                    $('#commentCount').text(data.total || 0);
+                    if (data.records && data.records.length > 0) {
+                        renderComments(data.records);
+                    } else {
+                        $('#commentList').html('<div class="text-center text-muted py-4">暂无评论</div>');
+                    }
+                })
+                .catch(err => {
+                    showToast(err.message, 'danger');
+                });
+        }
+        
+        function renderComments(comments) {
+            const mainComments = comments.filter(c => c.parentId === 0);
+            const replyMap = {};
+            comments.forEach(c => {
+                if (c.parentId !== 0) {
+                    if (!replyMap[c.parentId]) replyMap[c.parentId] = [];
+                    replyMap[c.parentId].push(c);
+                }
+            });
+            
+            let html = '';
+            mainComments.forEach(comment => {
+                html += `
+                    <div class="comment-item">
+                        <div class="comment-header">
+                            <img src="${comment.anonymousAvatar || '/img/avatar.png'}" class="comment-avatar">
+                            <span class="comment-nickname">${comment.anonymousNickname}</span>
+                            ${comment.isAuthor ? '<span class="badge bg-primary ms-2">楼主</span>' : ''}
+                            <span class="comment-time">${formatTime(comment.createTime)}</span>
+                        </div>
+                        <div class="comment-content">${comment.content}</div>
+                        <div class="comment-actions">
+                            <button class="comment-btn" onclick="replyComment(${comment.id}, '${comment.anonymousNickname}')">
+                                <i class="bi bi-reply"></i> 回复
+                            </button>
+                            <button class="comment-btn" onclick="likeComment(${comment.id})">
+                                <i class="bi bi-heart"></i> ${comment.likeCount || 0}
+                            </button>
+                        </div>
+                        ${replyMap[comment.id] ? renderReplies(replyMap[comment.id]) : ''}
+                    </div>
+                `;
+            });
+            $('#commentList').html(html);
+        }
+        
+        function renderReplies(replies) {
+            let html = '<div class="reply-section">';
+            replies.forEach(reply => {
+                html += `
+                    <div class="mb-2">
+                        <strong>${reply.anonymousNickname}</strong> 
+                        ${reply.replyToNickname ? `回复 <strong>${reply.replyToNickname}</strong>` : ''}: 
+                        ${reply.content}
+                    </div>
+                `;
+            });
+            html += '</div>';
+            return html;
+        }
+        
+        function submitComment(parentId = 0, replyToNickname = '') {
+            const content = $('#commentInput').val().trim();
+            if (!content) {
+                showToast('请输入评论内容', 'warning');
+                return;
+            }
+            
+            request(`/posts/${postId}/comments`, {
+                method: 'POST',
+                body: JSON.stringify({ content, parentId, replyToNickname })
+            })
+            .then(() => {
+                showToast('评论成功', 'success');
+                $('#commentInput').val('');
+                loadComments();
+                loadPost();
+            })
+            .catch(err => {
+                showToast(err.message, 'danger');
+            });
+        }
+        
+        function replyComment(parentId, nickname) {
+            $('#commentInput').val(`回复 @${nickname}: `).focus();
+            $('#commentInput').data('parent-id', parentId);
+            $('#commentInput').data('reply-to', nickname);
+        }
+        
+        function likePost() {
+            request('/like', {
+                method: 'POST',
+                body: JSON.stringify({ targetId: postId, targetType: 1 })
+            })
+            .then(() => {
+                showToast('点赞成功', 'success');
+                loadPost();
+            })
+            .catch(err => {
+                showToast(err.message, 'danger');
+            });
+        }
+        
+        function likeComment(commentId) {
+            request('/like', {
+                method: 'POST',
+                body: JSON.stringify({ targetId: commentId, targetType: 2 })
+            })
+            .then(() => {
+                showToast('点赞成功', 'success');
+                loadComments();
+            })
+            .catch(err => {
+                showToast(err.message, 'danger');
+            });
+        }
+        
+        function reportPost() {
+            const types = [
+                { value: 'PORN', label: '色情低俗' },
+                { value: 'VIOLENCE', label: '暴力血腥' },
+                { value: 'AD', label: '广告营销' },
+                { value: 'FRAUD', label: '诈骗信息' },
+                { value: 'ATTACK', label: '人身攻击' },
+                { value: 'OTHER', label: '其他' }
+            ];
+            
+            const options = types.map(t => `<option value="${t.value}">${t.label}</option>`).join('');
+            
+            const modal = `
+                <div class="modal fade" id="reportModal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">举报</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">举报类型</label>
+                                    <select class="form-select" id="reportType">${options}</select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">举报原因</label>
+                                    <textarea class="form-control" id="reportReason" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                                <button type="button" class="btn btn-primary" onclick="submitReport()">提交</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            $(modal).appendTo('body');
+            const reportModal = new bootstrap.Modal(document.getElementById('reportModal'));
+            reportModal.show();
+            $('#reportModal').on('hidden.bs.modal', function() {
+                $(this).remove();
+            });
+        }
+        
+        function submitReport() {
+            const reportType = $('#reportType').val();
+            const reason = $('#reportReason').val().trim();
+            
+            if (!reason) {
+                showToast('请填写举报原因', 'warning');
+                return;
+            }
+            
+            request('/report', {
+                method: 'POST',
+                body: JSON.stringify({
+                    targetId: postId,
+                    targetType: 1,
+                    reportType,
+                    reason,
+                    evidence: null
+                })
+            })
+            .then(() => {
+                showToast('举报成功，我们会尽快处理', 'success');
+                bootstrap.Modal.getInstance(document.getElementById('reportModal')).hide();
+            })
+            .catch(err => {
+                showToast(err.message, 'danger');
+            });
+        }
+        
+        $(document).ready(init);
+    </script>
+</body>
+</html>
