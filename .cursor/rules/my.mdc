@@ -8,3 +8,4 @@ alwaysApply: true
  5.mybati-plus的依赖是mybatis-plus-spring-boot3-starter 一定要记着
  6.后端创建后需要给我一个账户密码的md文档，密码一般是加密的，你同时给我生成一个test方法，来让我测试你生成的加密方法对不对
  7.前端的样式可以联网去搜一些组件库，随便选一个
+ 8.密码加密的时候用hutool相关的就可以了

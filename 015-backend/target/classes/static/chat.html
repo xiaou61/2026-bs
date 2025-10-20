@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>私信 - 校园表白墙</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-light bg-white shadow-sm">
+        <div class="container">
+            <button class="btn btn-link" onclick="history.back()">
+                <i class="bi bi-arrow-left"></i>
+            </button>
+            <span class="navbar-text" id="chatNickname">匿名用户</span>
+            <button class="btn btn-link">
+                <i class="bi bi-three-dots-vertical"></i>
+            </button>
+        </div>
+    </nav>
+    
+    <div class="chat-container">
+        <div class="chat-messages" id="chatMessages"></div>
+        
+        <div class="chat-input-area">
+            <div class="input-group">
+                <input type="text" class="form-control" id="messageInput" placeholder="输入消息..." onkeypress="handleEnter(event)">
+                <button class="btn btn-primary" onclick="sendMessage()">
+                    <i class="bi bi-send"></i> 发送
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="/js/common.js"></script>
+    <script>
+        let conversationId;
+        let otherUserId;
+        let otherNickname;
+        let currentUserId;
+        
+        function init() {
+            if (!checkLogin()) return;
+            
+            const userInfo = getUserInfo();
+            currentUserId = userInfo.id;
+            
+            const params = new URLSearchParams(window.location.search);
+            conversationId = params.get('conversationId');
+            otherUserId = params.get('userId');
+            otherNickname = decodeURIComponent(params.get('nickname'));
+            
+            if (!conversationId || !otherUserId) {
+                showToast('参数错误', 'danger');
+                setTimeout(() => history.back(), 1000);
+                return;
+            }
+            
+            $('#chatNickname').text(otherNickname);
+            loadMessages();
+            
+            setInterval(loadMessages, 5000);
+        }
+        
+        function loadMessages() {
+            request(`/messages/conversation/${conversationId}?page=1&size=100`)
+                .then(data => {
+                    if (data.records && data.records.length > 0) {
+                        renderMessages(data.records.reverse());
+                    } else {
+                        $('#chatMessages').html('<div class="text-center text-muted py-4">开始对话吧</div>');
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                });
+        }
+        
+        function renderMessages(messages) {
+            let html = '';
+            messages.forEach(msg => {
+                const isSent = msg.senderId === currentUserId;
+                const className = isSent ? 'chat-message sent' : 'chat-message';
+                
+                html += `
+                    <div class="${className}">
+                        <img src="/img/avatar.png" class="chat-message-avatar">
+                        <div class="chat-message-content">${msg.content}</div>
+                    </div>
+                `;
+            });
+            $('#chatMessages').html(html);
+            
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function sendMessage() {
+            const content = $('#messageInput').val().trim();
+            if (!content) {
+                showToast('请输入消息内容', 'warning');
+                return;
+            }
+            
+            request('/messages', {
+                method: 'POST',
+                body: JSON.stringify({ receiverId: otherUserId, content })
+            })
+            .then(() => {
+                $('#messageInput').val('');
+                loadMessages();
+            })
+            .catch(err => {
+                showToast(err.message, 'danger');
+            });
+        }
+        
+        function handleEnter(event) {
+            if (event.which === 13) {
+                sendMessage();
+            }
+        }
+        
+        $(document).ready(init);
+    </script>
+</body>
+</html>
+

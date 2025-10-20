@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>消息 - 校园表白墙</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body style="padding-bottom: 80px;">
+    <nav class="navbar navbar-light bg-white shadow-sm">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1">消息中心</span>
+        </div>
+    </nav>
+    
+    <div class="container mt-3">
+        <ul class="nav nav-tabs mb-3" id="messageTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="private-tab" data-bs-toggle="tab" data-bs-target="#private" type="button">
+                    私信 <span class="badge bg-danger ms-1" id="unreadBadge" style="display:none;">0</span>
+                </button>
+            </li>
+        </ul>
+        
+        <div class="tab-content" id="messageTabContent">
+            <div class="tab-pane fade show active" id="private">
+                <div id="conversationList"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bottom-nav">
+        <div class="bottom-nav-items">
+            <a href="/home.html" class="nav-item">
+                <i class="bi bi-house"></i>
+                <span>广场</span>
+            </a>
+            <a href="/messages.html" class="nav-item active">
+                <i class="bi bi-chat-dots-fill"></i>
+                <span>消息</span>
+            </a>
+            <a href="/profile.html" class="nav-item">
+                <i class="bi bi-person"></i>
+                <span>我的</span>
+            </a>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="/js/common.js"></script>
+    <script>
+        function init() {
+            if (!checkLogin()) return;
+            loadConversations();
+            loadUnreadCount();
+        }
+        
+        function loadConversations() {
+            showLoading('#conversationList');
+            
+            request('/messages/conversations?page=1&size=50')
+                .then(data => {
+                    if (data.conversations && data.conversations.length > 0) {
+                        renderConversations(data.conversations);
+                    } else {
+                        showEmpty('#conversationList', '暂无消息');
+                    }
+                })
+                .catch(err => {
+                    showToast(err.message, 'danger');
+                });
+        }
+        
+        function renderConversations(conversations) {
+            let html = '';
+            conversations.forEach(conv => {
+                const unreadHtml = conv.unreadCount > 0 ? 
+                    `<span class="unread-badge">${conv.unreadCount}</span>` : '';
+                
+                html += `
+                    <div class="message-list-item" onclick="openChat('${conv.conversationId}', ${conv.otherUserId}, '${conv.otherNickname}')">
+                        <img src="/img/avatar.png" class="message-avatar">
+                        <div class="message-info">
+                            <div class="message-nickname">${conv.otherNickname}</div>
+                            <div class="message-preview">${conv.lastMessage.content}</div>
+                        </div>
+                        <div class="message-meta">
+                            <span class="message-time">${formatTime(conv.lastMessage.createTime)}</span>
+                            ${unreadHtml}
+                        </div>
+                    </div>
+                `;
+            });
+            $('#conversationList').html(html);
+        }
+        
+        function loadUnreadCount() {
+            request('/messages/unread-count')
+                .then(count => {
+                    if (count > 0) {
+                        $('#unreadBadge').text(count).show();
+                    } else {
+                        $('#unreadBadge').hide();
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                });
+        }
+        
+        function openChat(conversationId, userId, nickname) {
+            window.location.href = `/chat.html?conversationId=${conversationId}&userId=${userId}&nickname=${encodeURIComponent(nickname)}`;
+        }
+        
+        $(document).ready(init);
+    </script>
+</body>
+</html>
+
