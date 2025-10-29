@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @MapperScan("com.xiaou.ordering.mapper")
 public class OrderingApplication {
     public static void main(String[] args) {
-        SpringApplication.run(OrderingApplication.java, args);
+        SpringApplication.run(OrderingApplication.class, args);
     }
 }
 
