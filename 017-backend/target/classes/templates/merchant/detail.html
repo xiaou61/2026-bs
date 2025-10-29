@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${merchant.merchantName} + ' - 校园点餐系统'">商家详情</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .merchant-header { background-color: #f8f9fa; padding: 30px 0; }
+        .dish-card { transition: transform 0.2s; }
+        .dish-card:hover { transform: translateY(-3px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .cart-float { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a href="/merchant/list" class="btn btn-outline-secondary"><i class="fas fa-arrow-left"></i> 返回列表</a>
+            <a class="navbar-brand"><i class="fas fa-utensils text-primary"></i> 校园点餐</a>
+        </div>
+    </nav>
+
+    <!-- 商家信息 -->
+    <div class="merchant-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h2 th:text="${merchant.merchantName}">商家名称</h2>
+                    <p class="text-muted mb-2" th:text="${merchant.description}">商家描述</p>
+                    <p class="mb-2">
+                        <span class="badge bg-primary" th:text="${merchant.category}">分类</span>
+                        <span class="ms-2"><i class="fas fa-map-marker-alt"></i> <span th:text="${merchant.location}">位置</span></span>
+                    </p>
+                    <div>
+                        <span class="text-warning"><i class="fas fa-star"></i> <span th:text="${merchant.rating}">5.0</span></span>
+                        <span class="text-muted ms-3">月售 <span th:text="${merchant.monthSales}">100</span></span>
+                        <span class="text-muted ms-3">起送 ¥<span th:text="${merchant.minPrice}">10</span></span>
+                        <span class="text-muted ms-3">配送费 ¥<span th:text="${merchant.deliveryFee}">2</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-info mt-3" th:if="${merchant.notice}" th:text="'公告：' + ${merchant.notice}"></div>
+        </div>
+    </div>
+
+    <!-- 菜品列表 -->
+    <div class="container my-4">
+        <h4 class="mb-3">菜品列表</h4>
+        <div class="row g-4">
+            <div class="col-md-4 col-sm-6" th:each="dish : ${dishes}">
+                <div class="card dish-card h-100">
+                    <div class="position-relative">
+                        <img th:src="${dish.image}" class="card-img-top" style="height: 180px; object-fit: cover;" alt="菜品图片">
+                        <span class="badge bg-danger position-absolute top-0 end-0 m-2" th:if="${dish.isRecommend == 1}">推荐</span>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-title" th:text="${dish.dishName}">菜品名称</h6>
+                        <p class="card-text text-muted small" th:text="${dish.description}">描述</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="text-danger fw-bold">¥<span th:text="${dish.price}">18</span></span>
+                                <small class="text-muted text-decoration-line-through ms-1" th:if="${dish.originalPrice != null}">
+                                    ¥<span th:text="${dish.originalPrice}">22</span>
+                                </small>
+                            </div>
+                            <button class="btn btn-sm btn-primary add-to-cart" 
+                                    th:attr="data-id=${dish.id},data-name=${dish.dishName},data-price=${dish.price}">
+                                <i class="fas fa-plus"></i> 加入
+                            </button>
+                        </div>
+                        <small class="text-muted d-block mt-1">月售 <span th:text="${dish.monthSales}">100</span></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${#lists.isEmpty(dishes)}" class="text-center py-5">
+            <p class="text-muted">暂无菜品</p>
+        </div>
+    </div>
+
+    <!-- 购物车悬浮按钮 -->
+    <button class="btn btn-primary btn-lg cart-float" id="cartBtn" style="display: none;">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="badge bg-danger" id="cartCount">0</span>
+    </button>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            let cart = [];
+
+            $('.add-to-cart').click(function() {
+                const dishId = $(this).data('id');
+                const dishName = $(this).data('name');
+                const price = $(this).data('price');
+
+                const existItem = cart.find(item => item.dishId === dishId);
+                if (existItem) {
+                    existItem.quantity++;
+                } else {
+                    cart.push({ dishId, dishName, price, quantity: 1 });
+                }
+
+                updateCart();
+                alert(dishName + ' 已添加到购物车');
+            });
+
+            function updateCart() {
+                const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+                $('#cartCount').text(count);
+                if (count > 0) {
+                    $('#cartBtn').show();
+                } else {
+                    $('#cartBtn').hide();
+                }
+            }
+
+            $('#cartBtn').click(function() {
+                alert('购物车功能开发中...\n当前购物车：\n' + JSON.stringify(cart, null, 2));
+            });
+        });
+    </script>
+</body>
+</html>
+

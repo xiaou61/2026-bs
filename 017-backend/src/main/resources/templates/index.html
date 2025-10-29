@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>校园自助点餐系统</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background-color: #f8f9fa; }
+        .hero-section { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 60px 0; }
+        .merchant-card { transition: transform 0.3s, box-shadow 0.3s; cursor: pointer; }
+        .merchant-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .dish-card { height: 100%; }
+        .dish-img { height: 200px; object-fit: cover; }
+        .badge-recommend { background-color: #ff6b6b; }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="/index">
+                <i class="fas fa-utensils text-primary"></i> 校园点餐
+            </a>
+            <div class="ms-auto">
+                <a href="/user/login" class="btn btn-outline-primary me-2">学生登录</a>
+                <a href="/merchant/login" class="btn btn-outline-success me-2">商家登录</a>
+                <a href="/admin/login" class="btn btn-outline-warning">管理员</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-4 mb-3">校园自助点餐系统</h1>
+            <p class="lead mb-4">在线点餐，到店取餐，省时省心</p>
+            <a href="/user/register" class="btn btn-light btn-lg">立即注册</a>
+        </div>
+    </div>
+
+    <!-- 推荐商家 -->
+    <div class="container my-5">
+        <h2 class="mb-4"><i class="fas fa-star text-warning"></i> 推荐商家</h2>
+        <div class="row g-4">
+            <div class="col-md-4" th:each="merchant : ${merchants}">
+                <div class="card merchant-card" th:onclick="'location.href=\'/merchant/detail/' + ${merchant.id} + '\''">
+                    <img th:src="${merchant.image}" class="card-img-top" style="height: 200px; object-fit: cover;" alt="商家图片">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${merchant.merchantName}">商家名称</h5>
+                        <p class="card-text text-muted mb-2">
+                            <i class="fas fa-map-marker-alt"></i> <span th:text="${merchant.location}">位置</span>
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-primary" th:text="${merchant.category}">分类</span>
+                            <div>
+                                <span class="text-warning">
+                                    <i class="fas fa-star"></i> <span th:text="${merchant.rating}">5.0</span>
+                                </span>
+                                <span class="text-muted ms-2">
+                                    月售 <span th:text="${merchant.monthSales}">100</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <small class="text-muted">
+                                起送 ¥<span th:text="${merchant.minPrice}">10</span>
+                                | 配送费 ¥<span th:text="${merchant.deliveryFee}">2</span>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <a href="/merchant/list" class="btn btn-primary">查看更多商家</a>
+        </div>
+    </div>
+
+    <!-- 推荐菜品 -->
+    <div class="container my-5">
+        <h2 class="mb-4"><i class="fas fa-fire text-danger"></i> 热门菜品</h2>
+        <div class="row g-4">
+            <div class="col-md-3 col-sm-6" th:each="dish : ${dishes}">
+                <div class="card dish-card">
+                    <div class="position-relative">
+                        <img th:src="${dish.image}" class="card-img-top dish-img" alt="菜品图片">
+                        <span class="badge badge-recommend position-absolute top-0 end-0 m-2" th:if="${dish.isRecommend == 1}">推荐</span>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-title" th:text="${dish.dishName}">菜品名称</h6>
+                        <p class="card-text text-muted small" th:text="${dish.description}">菜品描述</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="text-danger fw-bold">¥<span th:text="${dish.price}">18</span></span>
+                                <small class="text-muted text-decoration-line-through ms-1" th:if="${dish.originalPrice != null}">
+                                    ¥<span th:text="${dish.originalPrice}">22</span>
+                                </small>
+                            </div>
+                            <small class="text-muted">月售 <span th:text="${dish.monthSales}">100</span></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2024 校园自助点餐系统 | 让点餐更简单</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

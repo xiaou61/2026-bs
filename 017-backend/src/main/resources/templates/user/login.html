@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生登录 - 校园点餐系统</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; }
+        .login-card { max-width: 400px; margin: 0 auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-card">
+            <div class="card shadow-lg">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <h3>学生登录</h3>
+                        <p class="text-muted">欢迎回来</p>
+                    </div>
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label class="form-label">学号/手机号</label>
+                            <input type="text" class="form-control" name="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">密码</label>
+                            <input type="password" class="form-control" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 mb-3">登录</button>
+                        <div class="text-center">
+                            <span class="text-muted">还没有账号？</span>
+                            <a href="/user/register">立即注册</a>
+                        </div>
+                        <div class="text-center mt-3">
+                            <a href="/index" class="text-muted">返回首页</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#loginForm').submit(function(e) {
+                e.preventDefault();
+                
+                $.ajax({
+                    url: '/api/auth/user/login',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        username: $('input[name="username"]').val(),
+                        password: $('input[name="password"]').val()
+                    }),
+                    success: function(res) {
+                        if (res.code === 200) {
+                            localStorage.setItem('token', res.data.token);
+                            localStorage.setItem('userType', 'user');
+                            alert('登录成功！');
+                            window.location.href = '/merchant/list';
+                        } else {
+                            alert(res.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        alert(xhr.responseJSON?.message || '登录失败');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

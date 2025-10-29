@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商家列表 - 校园点餐系统</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .merchant-card { transition: transform 0.3s; cursor: pointer; }
+        .merchant-card:hover { transform: translateY(-5px); }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="/index"><i class="fas fa-utensils text-primary"></i> 校园点餐</a>
+            <div class="ms-auto">
+                <a href="/index" class="btn btn-outline-secondary">返回首页</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 筛选栏 -->
+    <div class="bg-light py-3">
+        <div class="container">
+            <div class="btn-group" role="group">
+                <a href="/merchant/list" class="btn btn-outline-primary" th:classappend="${category == null} ? 'active' : ''">全部</a>
+                <a href="/merchant/list?category=中餐" class="btn btn-outline-primary" th:classappend="${category == '中餐'} ? 'active' : ''">中餐</a>
+                <a href="/merchant/list?category=西餐" class="btn btn-outline-primary" th:classappend="${category == '西餐'} ? 'active' : ''">西餐</a>
+                <a href="/merchant/list?category=小吃" class="btn btn-outline-primary" th:classappend="${category == '小吃'} ? 'active' : ''">小吃</a>
+                <a href="/merchant/list?category=饮品" class="btn btn-outline-primary" th:classappend="${category == '饮品'} ? 'active' : ''">饮品</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 商家列表 -->
+    <div class="container my-4">
+        <div class="row g-4">
+            <div class="col-md-4" th:each="merchant : ${page.records}">
+                <div class="card merchant-card h-100" th:onclick="'location.href=\'/merchant/detail/' + ${merchant.id} + '\''">
+                    <img th:src="${merchant.image}" class="card-img-top" style="height: 200px; object-fit: cover;" alt="商家图片">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${merchant.merchantName}">商家名称</h5>
+                        <p class="text-muted mb-2"><i class="fas fa-map-marker-alt"></i> <span th:text="${merchant.location}">位置</span></p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-primary" th:text="${merchant.category}">分类</span>
+                            <div>
+                                <span class="text-warning"><i class="fas fa-star"></i> <span th:text="${merchant.rating}">5.0</span></span>
+                                <span class="text-muted ms-2">月售 <span th:text="${merchant.monthSales}">100</span></span>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <small class="text-muted">
+                                起送 ¥<span th:text="${merchant.minPrice}">10</span> | 配送费 ¥<span th:text="${merchant.deliveryFee}">2</span>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 分页 -->
+        <nav class="mt-4" th:if="${page.pages > 1}">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${page.current == 1} ? 'disabled' : ''">
+                    <a class="page-link" th:href="@{/merchant/list(page=${page.current - 1}, category=${category})}">上一页</a>
+                </li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(1, page.pages)}" 
+                    th:classappend="${i == page.current} ? 'active' : ''">
+                    <a class="page-link" th:href="@{/merchant/list(page=${i}, category=${category})}" th:text="${i}">1</a>
+                </li>
+                <li class="page-item" th:classappend="${page.current == page.pages} ? 'disabled' : ''">
+                    <a class="page-link" th:href="@{/merchant/list(page=${page.current + 1}, category=${category})}">下一页</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
