@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.mapper.ProductMapper">
+
+    <select id="getProductList" resultType="com.xiaou.vo.ProductVO">
+        SELECT
+            p.id,
+            p.seller_id,
+            p.category_id,
+            p.title,
+            p.description,
+            p.price,
+            p.original_price,
+            p.condition,
+            p.images,
+            p.status,
+            p.view_count,
+            p.favorite_count,
+            p.create_time,
+            u.real_name as seller_name,
+            u.avatar as seller_avatar,
+            u.credit_score as seller_credit_score,
+            c.category_name
+        FROM product p
+        LEFT JOIN user u ON p.seller_id = u.id
+        LEFT JOIN category c ON p.category_id = c.id
+        WHERE p.deleted = 0 AND p.status = 'on_sale'
+        <if test="categoryId != null">
+            AND p.category_id = #{categoryId}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND (p.title LIKE CONCAT('%', #{keyword}, '%') OR p.description LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        <if test="condition != null and condition != ''">
+            AND p.condition = #{condition}
+        </if>
+        <choose>
+            <when test="sortBy == 'price' and sortOrder == 'asc'">
+                ORDER BY p.price ASC
+            </when>
+            <when test="sortBy == 'price' and sortOrder == 'desc'">
+                ORDER BY p.price DESC
+            </when>
+            <when test="sortBy == 'viewCount'">
+                ORDER BY p.view_count DESC
+            </when>
+            <when test="sortBy == 'favoriteCount'">
+                ORDER BY p.favorite_count DESC
+            </when>
+            <otherwise>
+                ORDER BY p.create_time DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="getProductDetail" resultType="com.xiaou.vo.ProductDetailVO">
+        SELECT
+            p.id,
+            p.seller_id,
+            p.category_id,
+            p.title,
+            p.description,
+            p.price,
+            p.original_price,
+            p.condition,
+            p.images,
+            p.status,
+            p.view_count,
+            p.favorite_count,
+            p.create_time,
+            u.real_name as seller_name,
+            u.avatar as seller_avatar,
+            u.credit_score as seller_credit_score,
+            u.college as seller_college,
+            u.dorm as seller_dorm,
+            u.phone as seller_phone,
+            c.category_name
+        FROM product p
+        LEFT JOIN user u ON p.seller_id = u.id
+        LEFT JOIN category c ON p.category_id = c.id
+        WHERE p.id = #{productId} AND p.deleted = 0
+    </select>
+
+    <select id="getMyProducts" resultType="com.xiaou.vo.ProductVO">
+        SELECT
+            p.id,
+            p.seller_id,
+            p.category_id,
+            p.title,
+            p.description,
+            p.price,
+            p.original_price,
+            p.condition,
+            p.images,
+            p.status,
+            p.view_count,
+            p.favorite_count,
+            p.create_time,
+            u.real_name as seller_name,
+            u.avatar as seller_avatar,
+            u.credit_score as seller_credit_score,
+            c.category_name
+        FROM product p
+        LEFT JOIN user u ON p.seller_id = u.id
+        LEFT JOIN category c ON p.category_id = c.id
+        WHERE p.seller_id = #{sellerId} AND p.deleted = 0
+        ORDER BY p.create_time DESC
+    </select>
+
+</mapper>
