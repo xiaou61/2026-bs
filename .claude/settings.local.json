@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(mvn clean compile:*)",
-      "Bash(mvn spring-boot:run:*)"
+      "Bash(mvn spring-boot:run:*)",
+      "Bash(mkdir:*)"
     ],
     "deny": [],
     "ask": []
