@@ -20,6 +20,7 @@
         <module name="campus-affairs" />
         <module name="004-backend" />
         <module name="013-backend" />
+        <module name="022-backend" />
         <module name="019-backend" />
         <module name="003-backend" />
         <module name="010-backend" />
@@ -33,7 +34,6 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="001-backend" target="17" />
-      <module name="022-backend" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -59,6 +59,7 @@
       <module name="019-backend" options="-parameters" />
       <module name="020-backend" options="-parameters" />
       <module name="021-backend" options="-parameters" />
+      <module name="022-backend" options="-parameters" />
       <module name="campus-affairs" options="-parameters" />
     </option>
   </component>
