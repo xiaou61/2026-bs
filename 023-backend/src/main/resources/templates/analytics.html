@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html}">
+<head>
+    <title>学习分析 - AI智能学习助手</title>
+    <style>
+        .analytics-hero {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.9), rgba(67, 160, 71, 0.9)),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 300"><defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:rgba(255,255,255,0.1)"/><stop offset="100%" style="stop-color:rgba(255,255,255,0)"/></linearGradient></defs><rect width="100%" height="100%" fill="url(%23grad)"/></svg>');
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 30px 30px;
+        }
+        
+        .analytics-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border: none;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .analytics-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        .chart-container {
+            height: 400px;
+            position: relative;
+        }
+        
+        .chart-container.large {
+            height: 500px;
+        }
+        
+        .metric-card {
+            text-align: center;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .metric-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .metric-trend {
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+        }
+        
+        .trend-up { color: #28a745; }
+        .trend-down { color: #dc3545; }
+        .trend-stable { color: #6c757d; }
+        
+        .period-selector {
+            background: white;
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .period-btn {
+            padding: 0.5rem 1.5rem;
+            border: 1px solid #e9ecef;
+            background: white;
+            border-radius: 20px;
+            margin-right: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .period-btn.active {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+        
+        .period-btn:hover {
+            background: #f8f9fa;
+        }
+        
+        .period-btn.active:hover {
+            background: #45a049;
+        }
+        
+        .progress-ring-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+        }
+        
+        .progress-ring {
+            width: 150px;
+            height: 150px;
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring circle {
+            fill: none;
+            stroke-width: 12;
+        }
+        
+        .progress-ring .bg {
+            stroke: #e9ecef;
+        }
+        
+        .progress-ring .progress {
+            stroke: #4CAF50;
+            stroke-linecap: round;
+            transition: stroke-dasharray 0.5s ease;
+        }
+        
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+        .progress-text .value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        
+        .progress-text .label {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        
+        .knowledge-heatmap {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 3px;
+            margin: 1rem 0;
+        }
+        
+        .heatmap-cell {
+            aspect-ratio: 1;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .heatmap-cell:hover {
+            transform: scale(1.2);
+            z-index: 2;
+        }
+        
+        .mastery-level-0 { background: #ebedf0; }
+        .mastery-level-1 { background: #c6e48b; }
+        .mastery-level-2 { background: #7bc96f; }
+        .mastery-level-3 { background: #239a3b; }
+        .mastery-level-4 { background: #196127; }
+        
+        .study-calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            margin: 1rem 0;
+        }
+        
+        .calendar-cell {
+            aspect-ratio: 1;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .calendar-cell:hover {
+            transform: scale(1.1);
+        }
+        
+        .calendar-cell.no-data { background: #f8f9fa; color: #6c757d; }
+        .calendar-cell.low-activity { background: #c6e48b; color: #2d5016; }
+        .calendar-cell.medium-activity { background: #7bc96f; color: white; }
+        .calendar-cell.high-activity { background: #239a3b; color: white; }
+        
+        .insight-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .insight-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-bottom: 0.75rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .insight-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .weakness-analysis {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .weakness-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .weakness-item:hover {
+            border-color: #dc3545;
+            transform: translateX(5px);
+        }
+        
+        .weakness-level {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .weakness-critical { background: #dc3545; color: white; }
+        .weakness-warning { background: #ffc107; color: #212529; }
+        .weakness-info { background: #17a2b8; color: white; }
+        
+        .recommendation-panel {
+            background: linear-gradient(135deg, #f8f9ff, #fff5f5);
+            border: 1px solid #e3e6ff;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .recommendation-item {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .recommendation-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .comparison-chart {
+            position: relative;
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .comparison-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .comparison-label {
+            width: 120px;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .comparison-bar {
+            flex: 1;
+            height: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            position: relative;
+            margin: 0 1rem;
+        }
+        
+        .comparison-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #81C784);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+        
+        .comparison-value {
+            font-weight: bold;
+            min-width: 50px;
+            text-align: right;
+            font-size: 0.9rem;
+        }
+        
+        .export-options {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        }
+        
+        .floating-export {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 20px rgba(76, 175, 80, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .floating-export:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(76, 175, 80, 0.6);
+        }
+        
+        .insights-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .summary-item {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .summary-item:hover {
+            border-color: #4CAF50;
+        }
+        
+        .summary-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem auto;
+        }
+        
+        .time-distribution {
+            display: flex;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .time-segment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .segment-study { background: #4CAF50; }
+        .segment-review { background: #2196F3; }
+        .segment-practice { background: #FF9800; }
+        .segment-idle { background: #9E9E9E; }
+        
+        .achievement-timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .achievement-timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #4CAF50, #81C784);
+        }
+        
+        .achievement-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .achievement-item::before {
+            content: '';
+            position: absolute;
+            left: -22px;
+            top: 1rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #4CAF50;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div th:fragment="content">
+        <!-- 页面头部 -->
+        <div class="analytics-hero">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <h1 class="mb-3"><i class="fas fa-chart-line me-2"></i>学习分析报告</h1>
+                        <p class="lead mb-4">深度分析您的学习数据，发现学习模式，优化学习效果</p>
+                        <div class="d-flex gap-3">
+                            <button class="btn btn-light btn-lg" onclick="exportReport()">
+                                <i class="fas fa-download me-2"></i>导出报告
+                            </button>
+                            <button class="btn btn-outline-light btn-lg" onclick="shareReport()">
+                                <i class="fas fa-share me-2"></i>分享报告
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-center">
+                        <i class="fas fa-brain fa-8x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <!-- 时间周期选择器 -->
+            <div class="period-selector">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="mb-2">分析周期</h6>
+                        <div class="period-buttons">
+                            <button class="period-btn" data-period="7" onclick="changePeriod(7)">近7天</button>
+                            <button class="period-btn" data-period="30" onclick="changePeriod(30)">近30天</button>
+                            <button class="period-btn active" data-period="90" onclick="changePeriod(90)">近3个月</button>
+                            <button class="period-btn" data-period="365" onclick="changePeriod(365)">近1年</button>
+                            <button class="period-btn" data-period="all" onclick="changePeriod('all')">全部</button>
+                        </div>
+                    </div>
+                    <div class="export-options">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle btn-sm" data-bs-toggle="dropdown">
+                                <i class="fas fa-download me-1"></i>导出
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#" onclick="exportData('pdf')">
+                                    <i class="fas fa-file-pdf me-2"></i>PDF报告
+                                </a>
+                                <a class="dropdown-item" href="#" onclick="exportData('excel')">
+                                    <i class="fas fa-file-excel me-2"></i>Excel数据
+                                </a>
+                                <a class="dropdown-item" href="#" onclick="exportData('image')">
+                                    <i class="fas fa-image me-2"></i>图表图片
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 关键指标概览 -->
+            <div class="row mb-4">
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="metric-card">
+                        <div class="metric-value" id="totalStudyTime">0h</div>
+                        <div class="metric-label">总学习时长</div>
+                        <div class="metric-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span id="studyTimeTrend">+15% 本周</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="metric-card">
+                        <div class="metric-value" id="completionRate">0%</div>
+                        <div class="metric-label">平均完成率</div>
+                        <div class="metric-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span id="completionTrend">+8% 本月</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="metric-card">
+                        <div class="metric-value" id="masteryScore">0%</div>
+                        <div class="metric-label">知识掌握度</div>
+                        <div class="metric-trend trend-stable">
+                            <i class="fas fa-minus"></i>
+                            <span id="masteryTrend">稳定</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="metric-card">
+                        <div class="metric-value" id="studyStreak">0</div>
+                        <div class="metric-label">连续学习天数</div>
+                        <div class="metric-trend trend-up">
+                            <i class="fas fa-fire"></i>
+                            <span id="streakTrend">保持中</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- 主要分析区域 -->
+                <div class="col-lg-8">
+                    <!-- 学习时长趋势 -->
+                    <div class="analytics-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5><i class="fas fa-clock me-2"></i>学习时长趋势</h5>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <input type="radio" class="btn-check" name="timeChart" id="daily" checked>
+                                <label class="btn btn-outline-primary" for="daily">按天</label>
+                                <input type="radio" class="btn-check" name="timeChart" id="weekly">
+                                <label class="btn btn-outline-primary" for="weekly">按周</label>
+                                <input type="radio" class="btn-check" name="timeChart" id="monthly">
+                                <label class="btn btn-outline-primary" for="monthly">按月</label>
+                            </div>
+                        </div>
+                        <div class="chart-container" id="studyTimeChart"></div>
+                    </div>
+
+                    <!-- 学习效果分析 -->
+                    <div class="analytics-card">
+                        <h5 class="mb-3"><i class="fas fa-chart-area me-2"></i>学习效果分析</h5>
+                        <div class="chart-container" id="effectivenessChart"></div>
+                    </div>
+
+                    <!-- 知识点掌握热图 -->
+                    <div class="analytics-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5><i class="fas fa-th me-2"></i>知识点掌握热图</h5>
+                            <select class="form-select form-select-sm" style="width: auto;" id="subjectFilter">
+                                <option value="all">全部学科</option>
+                                <option value="programming">编程开发</option>
+                                <option value="data">数据分析</option>
+                                <option value="ai">人工智能</option>
+                            </select>
+                        </div>
+                        <div class="knowledge-heatmap" id="knowledgeHeatmap">
+                            <!-- 热图将动态生成 -->
+                        </div>
+                        <div class="d-flex justify-content-between mt-2">
+                            <small class="text-muted">掌握程度：</small>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="heatmap-cell mastery-level-0" style="width: 12px; height: 12px;"></span>
+                                <small class="text-muted">未掌握</small>
+                                <span class="heatmap-cell mastery-level-4" style="width: 12px; height: 12px; margin-left: 1rem;"></span>
+                                <small class="text-muted">完全掌握</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 学习行为模式 -->
+                    <div class="analytics-card">
+                        <h5 class="mb-3"><i class="fas fa-user-clock me-2"></i>学习行为模式</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="mb-3">时间分布</h6>
+                                <div class="chart-container" id="timeDistributionChart" style="height: 300px;"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="mb-3">学习活跃时段</h6>
+                                <div class="chart-container" id="activityHeatmap" style="height: 300px;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 学习日历 -->
+                    <div class="analytics-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5><i class="fas fa-calendar-alt me-2"></i>学习日历</h5>
+                            <div>
+                                <button class="btn btn-sm btn-outline-secondary" onclick="prevCalendarMonth()">&lt;</button>
+                                <span class="mx-2" id="calendarMonth">2024年11月</span>
+                                <button class="btn btn-sm btn-outline-secondary" onclick="nextCalendarMonth()">&gt;</button>
+                            </div>
+                        </div>
+                        <div class="study-calendar" id="studyCalendar">
+                            <!-- 日历将动态生成 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右侧分析面板 -->
+                <div class="col-lg-4">
+                    <!-- 整体学习进度 -->
+                    <div class="analytics-card text-center">
+                        <h6 class="mb-3"><i class="fas fa-target me-2"></i>整体学习进度</h6>
+                        <div class="progress-ring-container">
+                            <svg class="progress-ring">
+                                <circle class="bg" cx="75" cy="75" r="65"></circle>
+                                <circle class="progress" cx="75" cy="75" r="65" 
+                                        stroke-dasharray="0 408" id="overallProgressCircle"></circle>
+                            </svg>
+                            <div class="progress-text">
+                                <div class="value" id="overallProgressText">0%</div>
+                                <div class="label">总体进度</div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <small class="text-muted">预计完成时间：<span id="estimatedCompletion">--</span></small>
+                        </div>
+                    </div>
+
+                    <!-- AI学习洞察 -->
+                    <div class="insight-card">
+                        <h6 class="mb-3"><i class="fas fa-lightbulb me-2"></i>AI学习洞察</h6>
+                        <div id="aiInsights">
+                            <!-- AI洞察内容 -->
+                        </div>
+                    </div>
+
+                    <!-- 薄弱知识点分析 -->
+                    <div class="weakness-analysis">
+                        <h6 class="mb-3"><i class="fas fa-exclamation-triangle me-2"></i>需要加强的知识点</h6>
+                        <div id="weaknessAnalysis">
+                            <!-- 薄弱点分析 -->
+                        </div>
+                    </div>
+
+                    <!-- AI推荐改进方案 -->
+                    <div class="recommendation-panel">
+                        <h6 class="mb-3"><i class="fas fa-magic me-2"></i>AI推荐改进</h6>
+                        <div id="improvementRecommendations">
+                            <!-- 改进建议 -->
+                        </div>
+                    </div>
+
+                    <!-- 与同龄人对比 -->
+                    <div class="comparison-chart">
+                        <h6 class="mb-3"><i class="fas fa-users me-2"></i>与同龄人对比</h6>
+                        <div id="peerComparison">
+                            <!-- 对比数据 -->
+                        </div>
+                    </div>
+
+                    <!-- 最近成就 -->
+                    <div class="analytics-card">
+                        <h6 class="mb-3"><i class="fas fa-trophy me-2"></i>最近成就</h6>
+                        <div class="achievement-timeline" id="recentAchievements">
+                            <!-- 成就时间线 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 浮动导出按钮 -->
+        <button class="floating-export" onclick="quickExport()" title="快速导出报告">
+            <i class="fas fa-download"></i>
+        </button>
+    </div>
+
+    <script>
+        let currentPeriod = 90;
+        let currentCalendarDate = new Date();
+        let studyTimeChart, effectivenessChart, timeDistributionChart, activityHeatmap;
+
+        $(document).ready(function() {
+            initializeCharts();
+            loadAnalyticsData();
+            generateStudyCalendar();
+        });
+
+        function initializeCharts() {
+            // 初始化学习时长趋势图
+            studyTimeChart = echarts.init(document.getElementById('studyTimeChart'));
+            
+            // 初始化学习效果分析图
+            effectivenessChart = echarts.init(document.getElementById('effectivenessChart'));
+            
+            // 初始化时间分布图
+            timeDistributionChart = echarts.init(document.getElementById('timeDistributionChart'));
+            
+            // 初始化活跃时段热图
+            activityHeatmap = echarts.init(document.getElementById('activityHeatmap'));
+
+            // 响应式处理
+            window.addEventListener('resize', function() {
+                studyTimeChart.resize();
+                effectivenessChart.resize();
+                timeDistributionChart.resize();
+                activityHeatmap.resize();
+            });
+        }
+
+        function loadAnalyticsData() {
+            Promise.all([
+                loadKeyMetrics(),
+                loadStudyTimeData(),
+                loadEffectivenessData(),
+                loadKnowledgeHeatmap(),
+                loadTimeDistribution(),
+                loadActivityPattern(),
+                loadAIInsights(),
+                loadWeaknessAnalysis(),
+                loadRecommendations(),
+                loadPeerComparison(),
+                loadRecentAchievements()
+            ]).then(() => {
+                console.log('分析数据加载完成');
+            });
+        }
+
+        function loadKeyMetrics() {
+            return $.ajax({
+                url: '/api/analysis/key-metrics',
+                type: 'GET',
+                data: { period: currentPeriod },
+                success: function(response) {
+                    if (response.success) {
+                        const metrics = response.data;
+                        $('#totalStudyTime').text(Math.round(metrics.totalStudyTime / 60) + 'h');
+                        $('#completionRate').text(Math.round(metrics.avgCompletionRate * 100) + '%');
+                        $('#masteryScore').text(Math.round(metrics.avgMasteryLevel * 100) + '%');
+                        $('#studyStreak').text(metrics.studyStreak || 0);
+                        
+                        // 更新整体进度环形图
+                        updateOverallProgress(metrics.overallProgress || 0);
+                        
+                        // 更新趋势
+                        updateTrends(metrics.trends);
+                    }
+                },
+                error: function() {
+                    console.log('关键指标加载失败');
+                }
+            });
+        }
+
+        function loadStudyTimeData() {
+            return $.ajax({
+                url: '/api/analysis/study-time-trend',
+                type: 'GET',
+                data: { period: currentPeriod, granularity: 'daily' },
+                success: function(response) {
+                    if (response.success) {
+                        renderStudyTimeChart(response.data);
+                    }
+                },
+                error: function() {
+                    console.log('学习时长数据加载失败');
+                }
+            });
+        }
+
+        function renderStudyTimeChart(data) {
+            const option = {
+                title: {
+                    text: '学习时长变化',
+                    textStyle: { fontSize: 14 }
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: function(params) {
+                        const param = params[0];
+                        return `${param.name}<br/>学习时长: ${param.value} 分钟`;
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: data.dates
+                },
+                yAxis: {
+                    type: 'value',
+                    name: '分钟'
+                },
+                series: [{
+                    name: '学习时长',
+                    type: 'line',
+                    smooth: true,
+                    data: data.values,
+                    itemStyle: { color: '#4CAF50' },
+                    areaStyle: {
+                        color: {
+                            type: 'linear',
+                            x: 0, y: 0, x2: 0, y2: 1,
+                            colorStops: [
+                                { offset: 0, color: 'rgba(76, 175, 80, 0.3)' },
+                                { offset: 1, color: 'rgba(76, 175, 80, 0.1)' }
+                            ]
+                        }
+                    }
+                }]
+            };
+            
+            studyTimeChart.setOption(option);
+        }
+
+        function loadEffectivenessData() {
+            return $.ajax({
+                url: '/api/analysis/effectiveness',
+                type: 'GET',
+                data: { period: currentPeriod },
+                success: function(response) {
+                    if (response.success) {
+                        renderEffectivenessChart(response.data);
+                    }
+                },
+                error: function() {
+                    console.log('学习效果数据加载失败');
+                }
+            });
+        }
+
+        function renderEffectivenessChart(data) {
+            const option = {
+                title: {
+                    text: '学习效果综合分析',
+                    textStyle: { fontSize: 14 }
+                },
+                tooltip: { trigger: 'axis' },
+                legend: {
+                    data: ['掌握度', '完成率', '专注度', '效率指数']
+                },
+                radar: {
+                    indicator: [
+                        { name: '知识掌握', max: 100 },
+                        { name: '任务完成', max: 100 },
+                        { name: '学习专注', max: 100 },
+                        { name: '学习效率', max: 100 },
+                        { name: '持续性', max: 100 },
+                        { name: '准确性', max: 100 }
+                    ],
+                    radius: '60%'
+                },
+                series: [{
+                    type: 'radar',
+                    data: [{
+                        value: data.currentPeriod,
+                        name: '当前周期',
+                        itemStyle: { color: '#4CAF50' },
+                        areaStyle: { color: 'rgba(76, 175, 80, 0.3)' }
+                    }, {
+                        value: data.previousPeriod,
+                        name: '上个周期',
+                        itemStyle: { color: '#2196F3' },
+                        areaStyle: { color: 'rgba(33, 150, 243, 0.2)' }
+                    }]
+                }]
+            };
+            
+            effectivenessChart.setOption(option);
+        }
+
+        function loadKnowledgeHeatmap() {
+            return $.ajax({
+                url: '/api/analysis/knowledge-heatmap',
+                type: 'GET',
+                data: { 
+                    period: currentPeriod,
+                    subject: $('#subjectFilter').val()
+                },
+                success: function(response) {
+                    if (response.success) {
+                        renderKnowledgeHeatmap(response.data);
+                    }
+                },
+                error: function() {
+                    console.log('知识热图数据加载失败');
+                }
+            });
+        }
+
+        function renderKnowledgeHeatmap(data) {
+            let html = '';
+            data.forEach(point => {
+                const level = Math.floor(point.masteryLevel * 5);
+                html += `<div class="heatmap-cell mastery-level-${level}" 
+                               title="${point.name}: ${Math.round(point.masteryLevel * 100)}%"
+                               onclick="viewKnowledgeDetail(${point.id})"></div>`;
+            });
+            
+            $('#knowledgeHeatmap').html(html);
+        }
+
+        function loadTimeDistribution() {
+            return $.ajax({
+                url: '/api/analysis/time-distribution',
+                type: 'GET',
+                data: { period: currentPeriod },
+                success: function(response) {
+                    if (response.success) {
+                        renderTimeDistributionChart(response.data);
+                    }
+                },
+                error: function() {
+                    console.log('时间分布数据加载失败');
+                }
+            });
+        }
+
+        function renderTimeDistributionChart(data) {
+            const option = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b}: {c}小时 ({d}%)'
+                },
+                series: [{
+                    name: '学习时间分布',
+                    type: 'pie',
+                    radius: ['30%', '70%'],
+                    data: [
+                        { value: data.study, name: '专注学习', itemStyle: { color: '#4CAF50' } },
+                        { value: data.review, name: '复习巩固', itemStyle: { color: '#2196F3' } },
+                        { value: data.practice, name: '练习测试', itemStyle: { color: '#FF9800' } },
+                        { value: data.break, name: '休息间隔', itemStyle: { color: '#9E9E9E' } }
+                    ],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }]
+            };
+            
+            timeDistributionChart.setOption(option);
+        }
+
+        function loadActivityPattern() {
+            return $.ajax({
+                url: '/api/analysis/activity-pattern',
+                type: 'GET',
+                data: { period: currentPeriod },
+                success: function(response) {
+                    if (response.success) {
+                        renderActivityHeatmap(response.data);
+                    }
+                },
+                error: function() {
+                    console.log('活跃模式数据加载失败');
+                }
+            });
+        }
+
+        function renderActivityHeatmap(data) {
+            const hours = Array.from({length: 24}, (_, i) => i + '时');
+            const days = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+            
+            const option = {
+                tooltip: {
+                    position: 'top',
+                    formatter: function(params) {
+                        return `${days[params.data[1]]} ${hours[params.data[0]]}<br/>活跃度: ${params.data[2]}%`;
+                    }
+                },
+                grid: {
+                    height: '60%',
+                    top: '10%'
+                },
+                xAxis: {
+                    type: 'category',
+                    data: hours,
+                    splitArea: { show: true }
+                },
+                yAxis: {
+                    type: 'category',
+                    data: days,
+                    splitArea: { show: true }
+                },
+                visualMap: {
+                    min: 0,
+                    max: 100,
+                    calculable: true,
+                    orient: 'horizontal',
+                    left: 'center',
+                    bottom: '5%',
+                    inRange: {
+                        color: ['#ebedf0', '#c6e48b', '#7bc96f', '#239a3b', '#196127']
+                    }
+                },
+                series: [{
+                    type: 'heatmap',
+                    data: data.heatmapData,
+                    label: {
+                        show: false
+                    },
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }]
+            };
+            
+            activityHeatmap.setOption(option);
+        }
+
+        function loadAIInsights() {
+            return $.ajax({
+                url: '/api/analysis/ai-insights',
+                type: 'GET',
+                data: { period: currentPeriod },
+                success: function(response) {
+                    if (response.success) {
+                        displayAIInsights(response.data);
+                    }
+                },
+                error: function() {
+                    $('#aiInsights').html('<p class="mb-0">AI洞察暂不可用</p>');
+                }
+            });
+        }
+
+        function displayAIInsights(insights) {
+            let html = '';
+            insights.forEach(insight => {
+                const iconClass = getInsightIcon(insight.type);
+                html += `
+                    <div class="insight-item">
+                        <div class="insight-icon">
+                            <i class="fas ${iconClass}"></i>
+                        </div>
+                        <div>
+                            <div class="fw-bold">${insight.title}</div>
+                            <small>${insight.description}</small>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            $('#aiInsights').html(html || '<p class="mb-0">暂无AI洞察</p>');
+        }
+
+        function loadWeaknessAnalysis() {
+            return $.ajax({
+                url: '/api/analysis/weakness',
+                type: 'GET',
+                data: { period: currentPeriod },
+                success: function(response) {
+                    if (response.success) {
+                        displayWeaknessAnalysis(response.data);
+                    }
+                },
+                error: function() {
+                    $('#weaknessAnalysis').html('<p class="text-muted">薄弱点分析暂不可用</p>');
+                }
+            });
+        }
+
+        function displayWeaknessAnalysis(weaknesses) {
+            let html = '';
+            weaknesses.forEach(weakness => {
+                const levelClass = getWeaknessLevelClass(weakness.severity);
+                const levelText = getWeaknessLevelText(weakness.severity);
+                
+                html += `
+                    <div class="weakness-item" onclick="viewWeaknessDetail(${weakness.knowledgePointId})">
+                        <div class="weakness-level ${levelClass}">
+                            ${levelText}
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">${weakness.knowledgePointName}</h6>
+                            <p class="text-muted small mb-1">${weakness.description}</p>
+                            <small class="text-muted">
+                                掌握度: ${Math.round(weakness.masteryLevel * 100)}% | 
+                                错误率: ${Math.round(weakness.errorRate * 100)}%
+                            </small>
+                        </div>
+                        <i class="fas fa-chevron-right text-muted"></i>
+                    </div>
+                `;
+            });
+            
+            $('#weaknessAnalysis').html(html || '<p class="text-muted">暂无需要加强的知识点</p>');
+        }
+
+        function loadRecommendations() {
+            return $.ajax({
+                url: '/api/analysis/recommendations',
+                type: 'GET',
+                data: { period: currentPeriod },
+                success: function(response) {
+                    if (response.success) {
+                        displayRecommendations(response.data);
+                    }
+                },
+                error: function() {
+                    $('#improvementRecommendations').html('<p class="text-muted">推荐建议暂不可用</p>');
+                }
+            });
+        }
+
+        function displayRecommendations(recommendations) {
+            let html = '';
+            recommendations.forEach(rec => {
+                html += `
+                    <div class="recommendation-item" onclick="handleRecommendation('${rec.action}', '${rec.params}')">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">${rec.title}</h6>
+                                <small class="text-muted">${rec.description}</small>
+                            </div>
+                            <i class="fas fa-chevron-right text-muted"></i>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            $('#improvementRecommendations').html(html || '<p class="text-muted">暂无改进建议</p>');
+        }
+
+        function loadPeerComparison() {
+            return $.ajax({
+                url: '/api/analysis/peer-comparison',
+                type: 'GET',
+                data: { period: currentPeriod },
+                success: function(response) {
+                    if (response.success) {
+                        displayPeerComparison(response.data);
+                    }
+                },
+                error: function() {
+                    $('#peerComparison').html('<p class="text-muted">对比数据暂不可用</p>');
+                }
+            });
+        }
+
+        function displayPeerComparison(comparison) {
+            let html = '';
+            Object.keys(comparison).forEach(metric => {
+                const data = comparison[metric];
+                const percentage = Math.round(data.userValue / data.avgValue * 100);
+                
+                html += `
+                    <div class="comparison-item">
+                        <div class="comparison-label">${data.label}</div>
+                        <div class="comparison-bar">
+                            <div class="comparison-fill" style="width: ${Math.min(percentage, 100)}%"></div>
+                        </div>
+                        <div class="comparison-value">${percentage}%</div>
+                    </div>
+                `;
+            });
+            
+            $('#peerComparison').html(html);
+        }
+
+        function loadRecentAchievements() {
+            return $.ajax({
+                url: '/api/user/achievements/recent',
+                type: 'GET',
+                data: { limit: 5 },
+                success: function(response) {
+                    if (response.success) {
+                        displayRecentAchievements(response.data);
+                    }
+                },
+                error: function() {
+                    $('#recentAchievements').html('<p class="text-muted">暂无最近成就</p>');
+                }
+            });
+        }
+
+        function displayRecentAchievements(achievements) {
+            let html = '';
+            achievements.forEach(achievement => {
+                html += `
+                    <div class="achievement-item">
+                        <h6 class="mb-1">${achievement.name}</h6>
+                        <p class="text-muted small mb-1">${achievement.description}</p>
+                        <small class="text-muted">${formatDate(achievement.earnedTime)}</small>
+                    </div>
+                `;
+            });
+            
+            $('#recentAchievements').html(html || '<p class="text-muted">暂无最近成就</p>');
+        }
+
+        function generateStudyCalendar() {
+            const year = currentCalendarDate.getFullYear();
+            const month = currentCalendarDate.getMonth();
+            
+            // 生成日历网格
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            
+            let html = '';
+            const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
+            
+            // 添加星期标题
+            weekDays.forEach(day => {
+                html += `<div class="calendar-cell" style="font-weight: bold; background: #f8f9fa;">${day}</div>`;
+            });
+            
+            // 添加空白日期
+            for (let i = 0; i < firstDay.getDay(); i++) {
+                html += `<div class="calendar-cell no-data"></div>`;
+            }
+            
+            // 添加日期（这里应该从API加载实际的学习数据）
+            for (let day = 1; day <= lastDay.getDate(); day++) {
+                const activityLevel = Math.floor(Math.random() * 4); // 模拟数据
+                const activityClass = ['no-data', 'low-activity', 'medium-activity', 'high-activity'][activityLevel];
+                html += `<div class="calendar-cell ${activityClass}" onclick="viewDayDetail(${year}, ${month + 1}, ${day})">${day}</div>`;
+            }
+            
+            $('#studyCalendar').html(html);
+            $('#calendarMonth').text(`${year}年${month + 1}月`);
+        }
+
+        // 工具函数
+        function updateOverallProgress(progress) {
+            const circle = $('#overallProgressCircle');
+            const circumference = 2 * Math.PI * 65;
+            const strokeDasharray = (progress / 100) * circumference;
+            
+            circle.css('stroke-dasharray', `${strokeDasharray} ${circumference}`);
+            $('#overallProgressText').text(Math.round(progress) + '%');
+        }
+
+        function updateTrends(trends) {
+            if (trends.studyTime > 0) {
+                $('#studyTimeTrend').text(`+${Math.round(trends.studyTime)}% 本周`);
+            } else if (trends.studyTime < 0) {
+                $('#studyTimeTrend').text(`${Math.round(trends.studyTime)}% 本周`)
+                    .parent().removeClass('trend-up').addClass('trend-down')
+                    .find('i').removeClass('fa-arrow-up').addClass('fa-arrow-down');
+            }
+        }
+
+        function getInsightIcon(type) {
+            const icons = {
+                'improvement': 'fa-arrow-up',
+                'warning': 'fa-exclamation-triangle',
+                'achievement': 'fa-trophy',
+                'suggestion': 'fa-lightbulb'
+            };
+            return icons[type] || 'fa-info-circle';
+        }
+
+        function getWeaknessLevelClass(severity) {
+            if (severity >= 0.7) return 'weakness-critical';
+            if (severity >= 0.4) return 'weakness-warning';
+            return 'weakness-info';
+        }
+
+        function getWeaknessLevelText(severity) {
+            if (severity >= 0.7) return '紧急';
+            if (severity >= 0.4) return '重要';
+            return '一般';
+        }
+
+        // 操作函数
+        function changePeriod(period) {
+            currentPeriod = period;
+            
+            $('.period-btn').removeClass('active');
+            $(`.period-btn[data-period="${period}"]`).addClass('active');
+            
+            loadAnalyticsData();
+        }
+
+        function prevCalendarMonth() {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
+            generateStudyCalendar();
+        }
+
+        function nextCalendarMonth() {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
+            generateStudyCalendar();
+        }
+
+        function viewKnowledgeDetail(knowledgeId) {
+            window.location.href = `/knowledge/${knowledgeId}`;
+        }
+
+        function viewWeaknessDetail(knowledgePointId) {
+            window.location.href = `/knowledge/${knowledgePointId}?focus=weakness`;
+        }
+
+        function viewDayDetail(year, month, day) {
+            const date = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+            console.log('查看日期详情:', date);
+        }
+
+        function handleRecommendation(action, params) {
+            switch(action) {
+                case 'study_course':
+                    window.location.href = `/courses/${params}`;
+                    break;
+                case 'review_knowledge':
+                    window.location.href = `/knowledge/${params}`;
+                    break;
+                case 'take_quiz':
+                    window.location.href = `/quiz/${params}`;
+                    break;
+                default:
+                    console.log('未知操作:', action);
+            }
+        }
+
+        function exportReport() {
+            exportData('pdf');
+        }
+
+        function shareReport() {
+            const url = `${window.location.origin}/analytics/shared/${Date.now()}`;
+            navigator.clipboard.writeText(url).then(() => {
+                showMessage('分享链接已复制到剪贴板', 'success');
+            });
+        }
+
+        function quickExport() {
+            exportData('pdf');
+        }
+
+        function exportData(format) {
+            const url = `/api/analysis/export?format=${format}&period=${currentPeriod}`;
+            window.open(url, '_blank');
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('zh-CN');
+        }
+
+        // 监听图表类型切换
+        $('input[name="timeChart"]').on('change', function() {
+            const granularity = $(this).attr('id');
+            loadStudyTimeData();
+        });
+
+        // 监听学科筛选
+        $('#subjectFilter').on('change', function() {
+            loadKnowledgeHeatmap();
+        });
+    </script>
+</body>
+</html>

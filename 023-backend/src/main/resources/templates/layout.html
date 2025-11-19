@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle ?: 'AI智能学习助手'}">AI智能学习助手</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- ECharts -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- Animate.css -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-brain me-2"></i>AI智能学习助手
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard"><i class="fas fa-tachometer-alt me-1"></i>学习台</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/courses"><i class="fas fa-book me-1"></i>课程</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/qa"><i class="fas fa-comments me-1"></i>智能问答</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/learning-path"><i class="fas fa-route me-1"></i>学习路径</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/analytics"><i class="fas fa-chart-line me-1"></i>学习分析</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown" th:if="${session.user}">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle me-1"></i><span th:text="${session.user.realName}">用户</span>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/profile"><i class="fas fa-user me-2"></i>个人信息</a>
+                            <a class="dropdown-item" href="/settings"><i class="fas fa-cog me-2"></i>设置</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt me-2"></i>退出</a>
+                        </div>
+                    </li>
+                    <li class="nav-item" th:unless="${session.user}">
+                        <a class="nav-link" href="/login">登录</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容区域 -->
+    <main class="main-content">
+        <!-- 面包屑导航 -->
+        <div class="container mt-4" th:if="${breadcrumbs}">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item" th:each="item : ${breadcrumbs}" 
+                        th:class="${item.active ? 'breadcrumb-item active' : 'breadcrumb-item'}">
+                        <a th:unless="${item.active}" th:href="${item.url}" th:text="${item.title}"></a>
+                        <span th:if="${item.active}" th:text="${item.title}"></span>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+
+        <!-- 页面内容插槽 -->
+        <div class="container-fluid">
+            <div th:fragment="content">
+                <!-- 页面内容将在这里插入 -->
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-light mt-5 py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>AI智能学习助手</h5>
+                    <p class="text-muted">基于人工智能的个性化教育平台</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <p class="text-muted">&copy; 2024 AI Learning Platform. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 全局加载指示器 -->
+    <div id="loadingIndicator" class="loading-overlay" style="display: none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">加载中...</span>
+        </div>
+    </div>
+
+    <!-- 全局消息提示 -->
+    <div id="messageContainer" class="position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+        <!-- 消息提示将动态插入到这里 -->
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="/js/common.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>

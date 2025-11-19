@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html}">
+<head>
+    <title>学习台 - AI智能学习助手</title>
+    <style>
+        .dashboard-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 30px 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border: none;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-icon.primary { background: linear-gradient(135deg, #007bff, #0056b3); }
+        .stat-icon.success { background: linear-gradient(135deg, #28a745, #1e7e34); }
+        .stat-icon.warning { background: linear-gradient(135deg, #ffc107, #e0a800); }
+        .stat-icon.info { background: linear-gradient(135deg, #17a2b8, #117a8b); }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-trend {
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .trend-up { color: #28a745; }
+        .trend-down { color: #dc3545; }
+        
+        .progress-ring {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+        }
+        
+        .progress-ring svg {
+            width: 120px;
+            height: 120px;
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring circle {
+            fill: none;
+            stroke: #e9ecef;
+            stroke-width: 8;
+        }
+        
+        .progress-ring .progress-bar {
+            stroke: #007bff;
+            stroke-linecap: round;
+            transition: stroke-dasharray 0.5s ease;
+        }
+        
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+        .quick-action-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .quick-action-card:hover {
+            border-color: #007bff;
+            transform: scale(1.02);
+        }
+        
+        .learning-calendar {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            font-size: 0.875rem;
+        }
+        
+        .calendar-day.has-study {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .calendar-day.streak {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .calendar-day.today {
+            border: 2px solid #007bff;
+            font-weight: bold;
+        }
+        
+        .recommendation-card {
+            background: linear-gradient(135deg, #f8f9ff, #fff5f5);
+            border: 1px solid #e3e6ff;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .course-progress-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .course-progress-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .course-progress-item .progress {
+            height: 6px;
+            border-radius: 3px;
+            margin-top: 0.5rem;
+        }
+        
+        .achievement-badge {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffd700, #ffb347);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+        
+        .weather-widget {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            border-radius: 15px;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .ai-suggestions {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .suggestion-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .suggestion-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .floating-assistant {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .floating-assistant:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+        }
+        
+        .recent-activity {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f1f3f4;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 0.875rem;
+            color: white;
+        }
+        
+        .learning-streak {
+            text-align: center;
+            background: linear-gradient(135deg, #ff7675, #fd79a8);
+            color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .streak-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div th:fragment="content">
+        <!-- 仪表盘头部 -->
+        <div class="dashboard-header">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <h1 class="mb-2">
+                            <span id="greeting">早上好</span>，<span th:text="${session.user?.realName}" id="userName">学习者</span>！
+                        </h1>
+                        <p class="lead mb-3">让我们一起开始今天的学习之旅</p>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-calendar-check me-2"></i>
+                            <span id="currentDate"></span>
+                            <span class="mx-3">|</span>
+                            <i class="fas fa-fire me-2"></i>
+                            <span>学习连续 <strong id="studyStreak">0</strong> 天</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-end">
+                        <div class="weather-widget">
+                            <i class="fas fa-sun fa-2x mb-2"></i>
+                            <div>适宜学习的好天气</div>
+                            <small>专注学习，收获知识</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <!-- 统计卡片 -->
+            <div class="row mb-4">
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="stat-card">
+                        <div class="stat-icon primary">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-number" id="todayStudyTime">0</div>
+                        <div class="stat-label">今日学习时长(分钟)</div>
+                        <div class="stat-trend trend-up">
+                            <i class="fas fa-arrow-up me-1"></i>
+                            <span id="studyTimeTrend">较昨日增长 15%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="stat-card">
+                        <div class="stat-icon success">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-number" id="completedTasks">0</div>
+                        <div class="stat-label">已完成任务</div>
+                        <div class="stat-trend trend-up">
+                            <i class="fas fa-arrow-up me-1"></i>
+                            <span id="taskTrend">本周完成 12 个</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="stat-card">
+                        <div class="stat-icon warning">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="stat-number" id="masteryLevel">0%</div>
+                        <div class="stat-label">平均掌握度</div>
+                        <div class="stat-trend trend-up">
+                            <i class="fas fa-arrow-up me-1"></i>
+                            <span id="masteryTrend">稳步提升</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="stat-card">
+                        <div class="stat-icon info">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-number" id="totalPoints">0</div>
+                        <div class="stat-label">学习积分</div>
+                        <div class="stat-trend trend-up">
+                            <i class="fas fa-arrow-up me-1"></i>
+                            <span id="pointsTrend">本月获得 200 分</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- 左侧主要内容 -->
+                <div class="col-lg-8">
+                    <!-- AI智能建议 -->
+                    <div class="ai-suggestions">
+                        <h5 class="mb-3"><i class="fas fa-magic me-2"></i>AI智能建议</h5>
+                        <div id="aiSuggestions">
+                            <!-- AI建议将动态加载 -->
+                        </div>
+                    </div>
+
+                    <!-- 学习进度概览 -->
+                    <div class="card stat-card mb-4">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>学习进度概览</h5>
+                            <a href="/analytics" class="btn btn-sm btn-outline-primary">查看详细分析</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 text-center">
+                                    <div class="progress-ring">
+                                        <svg>
+                                            <circle cx="60" cy="60" r="50" stroke="#e9ecef" stroke-width="8" fill="none"/>
+                                            <circle id="weekProgressCircle" cx="60" cy="60" r="50" stroke="#007bff" 
+                                                    stroke-width="8" fill="none" stroke-linecap="round" 
+                                                    stroke-dasharray="0 314"/>
+                                        </svg>
+                                        <div class="progress-text">
+                                            <div class="h4 mb-0" id="weekProgressText">0%</div>
+                                            <small class="text-muted">本周进度</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div id="courseProgressList">
+                                        <!-- 课程进度列表 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 学习数据可视化 -->
+                    <div class="chart-container">
+                        <h5 class="mb-3"><i class="fas fa-chart-bar me-2"></i>学习数据分析</h5>
+                        <div id="studyChart"></div>
+                    </div>
+
+                    <!-- 最近活动 -->
+                    <div class="card stat-card">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-history me-2"></i>最近活动</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="recent-activity" id="recentActivities">
+                                <!-- 活动列表 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右侧边栏 -->
+                <div class="col-lg-4">
+                    <!-- 学习连续天数 -->
+                    <div class="learning-streak">
+                        <i class="fas fa-fire fa-2x mb-2"></i>
+                        <div class="streak-number" id="streakDays">0</div>
+                        <div>连续学习天数</div>
+                        <small>保持学习习惯，继续加油！</small>
+                    </div>
+
+                    <!-- 快速操作 -->
+                    <div class="card stat-card mb-3">
+                        <div class="card-header">
+                            <h6 class="mb-0"><i class="fas fa-rocket me-2"></i>快速操作</h6>
+                        </div>
+                        <div class="card-body p-2">
+                            <div class="quick-action-card" onclick="quickStart()">
+                                <div class="d-flex align-items-center">
+                                    <div class="stat-icon primary me-3" style="width: 40px; height: 40px; font-size: 1rem;">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-1">继续学习</h6>
+                                        <small class="text-muted">从上次停止的地方继续</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="quick-action-card" onclick="openAIChat()">
+                                <div class="d-flex align-items-center">
+                                    <div class="stat-icon success me-3" style="width: 40px; height: 40px; font-size: 1rem;">
+                                        <i class="fas fa-comments"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-1">AI问答</h6>
+                                        <small class="text-muted">有问题随时问我</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="quick-action-card" onclick="browseRecommendations()">
+                                <div class="d-flex align-items-center">
+                                    <div class="stat-icon warning me-3" style="width: 40px; height: 40px; font-size: 1rem;">
+                                        <i class="fas fa-magic"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-1">智能推荐</h6>
+                                        <small class="text-muted">发现适合你的内容</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 学习日历 -->
+                    <div class="learning-calendar">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="mb-0"><i class="fas fa-calendar me-2"></i>学习日历</h6>
+                            <div>
+                                <button class="btn btn-sm btn-outline-secondary" onclick="prevMonth()">&lt;</button>
+                                <span class="mx-2" id="calendarMonth">11月</span>
+                                <button class="btn btn-sm btn-outline-secondary" onclick="nextMonth()">&gt;</button>
+                            </div>
+                        </div>
+                        
+                        <div class="calendar-grid" id="calendarGrid">
+                            <!-- 日历网格 -->
+                        </div>
+                        
+                        <div class="mt-2 d-flex justify-content-between">
+                            <small class="text-muted">
+                                <span class="badge bg-success me-1"></span>有学习
+                            </small>
+                            <small class="text-muted">
+                                <span class="badge bg-primary me-1"></span>今天
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- 推荐课程 -->
+                    <div class="recommendation-card">
+                        <h6 class="mb-3"><i class="fas fa-star me-2"></i>推荐课程</h6>
+                        <div id="recommendedCourses">
+                            <!-- 推荐课程列表 -->
+                        </div>
+                    </div>
+
+                    <!-- 成就徽章 -->
+                    <div class="card stat-card">
+                        <div class="card-header">
+                            <h6 class="mb-0"><i class="fas fa-medal me-2"></i>最新成就</h6>
+                        </div>
+                        <div class="card-body">
+                            <div id="achievements">
+                                <!-- 成就列表 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI助手浮动按钮 -->
+        <button class="floating-assistant" onclick="toggleAIAssistant()" title="AI学习助手">
+            <i class="fas fa-robot"></i>
+        </button>
+    </div>
+
+    <script>
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let studyChart;
+
+        $(document).ready(function() {
+            initializeDashboard();
+            updateGreeting();
+            loadDashboardData();
+            renderCalendar();
+            initializeChart();
+        });
+
+        function initializeDashboard() {
+            // 设置当前日期
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('zh-CN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                weekday: 'long'
+            });
+            $('#currentDate').text(dateStr);
+        }
+
+        function updateGreeting() {
+            const hour = new Date().getHours();
+            let greeting = '早上好';
+            
+            if (hour >= 12 && hour < 18) {
+                greeting = '下午好';
+            } else if (hour >= 18) {
+                greeting = '晚上好';
+            }
+            
+            $('#greeting').text(greeting);
+        }
+
+        function loadDashboardData() {
+            // 并行加载各种数据
+            Promise.all([
+                loadStudyStats(),
+                loadAISuggestions(),
+                loadCourseProgress(),
+                loadRecentActivities(),
+                loadRecommendations(),
+                loadAchievements(),
+                loadStudyCalendar()
+            ]).then(() => {
+                console.log('仪表盘数据加载完成');
+            });
+        }
+
+        function loadStudyStats() {
+            return $.ajax({
+                url: '/api/analysis/dashboard-stats',
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        const stats = response.data;
+                        $('#todayStudyTime').text(stats.todayStudyTime || 0);
+                        $('#completedTasks').text(stats.completedTasks || 0);
+                        $('#masteryLevel').text(Math.round((stats.avgMasteryLevel || 0) * 100) + '%');
+                        $('#totalPoints').text(stats.totalPoints || 0);
+                        $('#studyStreak').text(stats.studyStreak || 0);
+                        $('#streakDays').text(stats.studyStreak || 0);
+                        
+                        // 更新趋势
+                        updateTrends(stats);
+                        
+                        // 更新周进度
+                        updateWeekProgress(stats.weekProgress || 0);
+                    }
+                },
+                error: function() {
+                    console.log('学习统计加载失败');
+                }
+            });
+        }
+
+        function updateTrends(stats) {
+            if (stats.studyTimeTrend > 0) {
+                $('#studyTimeTrend').html(`较昨日增长 ${Math.round(stats.studyTimeTrend)}%`);
+            } else if (stats.studyTimeTrend < 0) {
+                $('#studyTimeTrend').html(`较昨日减少 ${Math.round(-stats.studyTimeTrend)}%`)
+                    .parent().removeClass('trend-up').addClass('trend-down')
+                    .find('i').removeClass('fa-arrow-up').addClass('fa-arrow-down');
+            }
+        }
+
+        function updateWeekProgress(progress) {
+            const circle = $('#weekProgressCircle');
+            const circumference = 2 * Math.PI * 50;
+            const strokeDasharray = (progress / 100) * circumference;
+            
+            circle.css('stroke-dasharray', `${strokeDasharray} ${circumference}`);
+            $('#weekProgressText').text(Math.round(progress) + '%');
+        }
+
+        function loadAISuggestions() {
+            return $.ajax({
+                url: '/api/recommendation/ai-suggestions',
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        displayAISuggestions(response.data);
+                    }
+                },
+                error: function() {
+                    $('#aiSuggestions').html('<p class="mb-0">暂无AI建议</p>');
+                }
+            });
+        }
+
+        function displayAISuggestions(suggestions) {
+            let html = '';
+            suggestions.forEach(suggestion => {
+                html += `
+                    <div class="suggestion-item" onclick="handleSuggestion('${suggestion.action}', '${suggestion.params}')">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="fw-bold">${suggestion.title}</div>
+                                <small>${suggestion.description}</small>
+                            </div>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            $('#aiSuggestions').html(html || '<p class="mb-0">暂无AI建议</p>');
+        }
+
+        function loadCourseProgress() {
+            return $.ajax({
+                url: '/api/course/progress',
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        displayCourseProgress(response.data);
+                    }
+                },
+                error: function() {
+                    $('#courseProgressList').html('<p class="text-muted">课程进度加载失败</p>');
+                }
+            });
+        }
+
+        function displayCourseProgress(courses) {
+            let html = '';
+            courses.forEach(course => {
+                const progress = Math.round(course.progress || 0);
+                html += `
+                    <div class="course-progress-item" onclick="continueCourse(${course.id})">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">${course.courseName}</h6>
+                            <div class="progress">
+                                <div class="progress-bar bg-primary" style="width: ${progress}%"></div>
+                            </div>
+                            <div class="d-flex justify-content-between mt-1">
+                                <small class="text-muted">${progress}% 完成</small>
+                                <small class="text-muted">${course.lastStudyTime || '未开始'}</small>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <i class="fas fa-play text-primary"></i>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            $('#courseProgressList').html(html || '<p class="text-muted">暂无进行中的课程</p>');
+        }
+
+        function loadRecentActivities() {
+            return $.ajax({
+                url: '/api/user-behavior/recent',
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        displayRecentActivities(response.data);
+                    }
+                },
+                error: function() {
+                    $('#recentActivities').html('<p class="text-muted">活动记录加载失败</p>');
+                }
+            });
+        }
+
+        function displayRecentActivities(activities) {
+            let html = '';
+            activities.forEach(activity => {
+                const iconClass = getActivityIcon(activity.behaviorType);
+                const iconColor = getActivityColor(activity.behaviorType);
+                
+                html += `
+                    <div class="activity-item">
+                        <div class="activity-icon" style="background: ${iconColor};">
+                            <i class="fas ${iconClass}"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <div>${activity.description}</div>
+                            <small class="text-muted">${formatRelativeTime(activity.createTime)}</small>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            $('#recentActivities').html(html || '<p class="text-muted text-center">暂无最近活动</p>');
+        }
+
+        function getActivityIcon(behaviorType) {
+            const icons = {
+                'study': 'fa-book-open',
+                'complete': 'fa-check-circle',
+                'quiz': 'fa-question-circle',
+                'login': 'fa-sign-in-alt',
+                'comment': 'fa-comment'
+            };
+            return icons[behaviorType] || 'fa-circle';
+        }
+
+        function getActivityColor(behaviorType) {
+            const colors = {
+                'study': '#007bff',
+                'complete': '#28a745',
+                'quiz': '#ffc107',
+                'login': '#17a2b8',
+                'comment': '#6f42c1'
+            };
+            return colors[behaviorType] || '#6c757d';
+        }
+
+        function loadRecommendations() {
+            return $.ajax({
+                url: '/api/recommendation/courses?limit=3',
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        displayRecommendations(response.data);
+                    }
+                },
+                error: function() {
+                    $('#recommendedCourses').html('<p class="text-muted small">推荐内容加载失败</p>');
+                }
+            });
+        }
+
+        function displayRecommendations(courses) {
+            let html = '';
+            courses.forEach(course => {
+                html += `
+                    <div class="course-progress-item" onclick="viewCourse(${course.id})">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">${course.courseName}</h6>
+                            <small class="text-muted">${course.description}</small>
+                            <div class="mt-1">
+                                <span class="badge bg-primary">难度${course.difficultyLevel}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            $('#recommendedCourses').html(html || '<p class="text-muted small">暂无推荐</p>');
+        }
+
+        function loadAchievements() {
+            return $.ajax({
+                url: '/api/user/achievements/recent',
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        displayAchievements(response.data);
+                    }
+                },
+                error: function() {
+                    $('#achievements').html('<p class="text-muted">成就加载失败</p>');
+                }
+            });
+        }
+
+        function displayAchievements(achievements) {
+            let html = '';
+            achievements.forEach(achievement => {
+                html += `
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="achievement-badge me-2" style="width: 40px; height: 40px; font-size: 1rem;">
+                            <i class="fas ${achievement.icon}"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0">${achievement.name}</h6>
+                            <small class="text-muted">${achievement.description}</small>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            $('#achievements').html(html || '<p class="text-muted">暂无最新成就</p>');
+        }
+
+        function loadStudyCalendar() {
+            return $.ajax({
+                url: '/api/learning-record/calendar',
+                type: 'GET',
+                data: {
+                    year: currentYear,
+                    month: currentMonth + 1
+                },
+                success: function(response) {
+                    if (response.success) {
+                        renderCalendar(response.data);
+                    }
+                },
+                error: function() {
+                    renderCalendar();
+                }
+            });
+        }
+
+        function renderCalendar(studyDays = []) {
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            const lastDay = new Date(currentYear, currentMonth + 1, 0);
+            const startDate = new Date(firstDay);
+            startDate.setDate(startDate.getDate() - firstDay.getDay());
+            
+            let html = '';
+            const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
+            
+            // 添加星期标题
+            weekDays.forEach(day => {
+                html += `<div class="text-center fw-bold text-muted py-2">${day}</div>`;
+            });
+            
+            // 渲染日期
+            for (let i = 0; i < 42; i++) {
+                const currentDate = new Date(startDate);
+                currentDate.setDate(startDate.getDate() + i);
+                
+                const isCurrentMonth = currentDate.getMonth() === currentMonth;
+                const isToday = isCurrentMonth && currentDate.toDateString() === new Date().toDateString();
+                const hasStudy = studyDays.includes(currentDate.getDate());
+                
+                let classes = 'calendar-day';
+                if (isToday) classes += ' today';
+                if (hasStudy) classes += ' has-study';
+                if (!isCurrentMonth) classes += ' text-muted';
+                
+                html += `<div class="${classes}">${currentDate.getDate()}</div>`;
+            }
+            
+            $('#calendarGrid').html(html);
+            $('#calendarMonth').text(new Date(currentYear, currentMonth).toLocaleDateString('zh-CN', { month: 'long' }));
+        }
+
+        function initializeChart() {
+            studyChart = echarts.init(document.getElementById('studyChart'));
+            
+            // 模拟数据 - 实际应该从API加载
+            const option = {
+                title: {
+                    text: '近7天学习时长',
+                    left: 'center',
+                    textStyle: { fontSize: 16 }
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: '{b}: {c} 分钟'
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+                },
+                yAxis: {
+                    type: 'value',
+                    name: '时长(分钟)'
+                },
+                series: [{
+                    data: [80, 65, 90, 75, 95, 45, 60],
+                    type: 'line',
+                    smooth: true,
+                    itemStyle: { color: '#007bff' },
+                    areaStyle: { 
+                        color: {
+                            type: 'linear',
+                            x: 0, y: 0, x2: 0, y2: 1,
+                            colorStops: [
+                                { offset: 0, color: 'rgba(0, 123, 255, 0.3)' },
+                                { offset: 1, color: 'rgba(0, 123, 255, 0.1)' }
+                            ]
+                        }
+                    }
+                }]
+            };
+            
+            studyChart.setOption(option);
+            
+            // 响应式
+            window.addEventListener('resize', function() {
+                studyChart.resize();
+            });
+        }
+
+        // 操作函数
+        function quickStart() {
+            window.location.href = '/courses';
+        }
+
+        function openAIChat() {
+            window.location.href = '/qa';
+        }
+
+        function browseRecommendations() {
+            window.location.href = '/courses?recommended=true';
+        }
+
+        function continueCourse(courseId) {
+            window.location.href = `/courses/${courseId}`;
+        }
+
+        function viewCourse(courseId) {
+            window.location.href = `/courses/${courseId}`;
+        }
+
+        function handleSuggestion(action, params) {
+            // 根据AI建议执行相应操作
+            switch(action) {
+                case 'continue_course':
+                    window.location.href = `/courses/${params}`;
+                    break;
+                case 'take_quiz':
+                    window.location.href = `/quiz/${params}`;
+                    break;
+                case 'review_topic':
+                    window.location.href = `/review/${params}`;
+                    break;
+                default:
+                    console.log('未知操作:', action);
+            }
+        }
+
+        function toggleAIAssistant() {
+            window.location.href = '/qa';
+        }
+
+        function prevMonth() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            loadStudyCalendar();
+        }
+
+        function nextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            loadStudyCalendar();
+        }
+
+        function formatRelativeTime(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffTime = now - date;
+            const diffMinutes = Math.floor(diffTime / (1000 * 60));
+            const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+            if (diffMinutes < 1) return '刚刚';
+            if (diffMinutes < 60) return `${diffMinutes}分钟前`;
+            if (diffHours < 24) return `${diffHours}小时前`;
+            if (diffDays < 7) return `${diffDays}天前`;
+            return date.toLocaleDateString('zh-CN');
+        }
+    </script>
+</body>
+</html>

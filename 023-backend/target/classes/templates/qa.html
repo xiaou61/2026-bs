@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html}">
+<head>
+    <title>智能问答 - AI智能学习助手</title>
+    <style>
+        .qa-container {
+            height: calc(100vh - 150px);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background: #f8f9fa;
+            max-height: 500px;
+        }
+        
+        .chat-input-area {
+            padding: 1rem;
+            background: white;
+            border-radius: 0 0 15px 15px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .message {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            animation: fadeInUp 0.3s ease;
+        }
+        
+        .message.user {
+            justify-content: flex-end;
+        }
+        
+        .message.ai {
+            justify-content: flex-start;
+        }
+        
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            margin: 0 10px;
+        }
+        
+        .message-avatar.user {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+        
+        .message-avatar.ai {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+        
+        .message-content {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            position: relative;
+        }
+        
+        .message-content.user {
+            background: #007bff;
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .message-content.ai {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .message-time {
+            font-size: 0.75rem;
+            color: #6c757d;
+            margin-top: 0.25rem;
+            text-align: center;
+        }
+        
+        .message-actions {
+            margin-top: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .message-actions button {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+        }
+        
+        .input-group {
+            position: relative;
+        }
+        
+        .chat-input {
+            border-radius: 25px;
+            border: 1px solid #e9ecef;
+            padding: 12px 60px 12px 20px;
+            resize: none;
+            max-height: 100px;
+        }
+        
+        .chat-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .send-btn {
+            position: absolute;
+            right: 8px;
+            top: 8px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .send-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .send-btn:disabled {
+            background: #6c757d;
+            transform: none;
+        }
+        
+        .quick-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .quick-question {
+            background: #e9ecef;
+            border: none;
+            border-radius: 15px;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quick-question:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .typing-dots {
+            display: flex;
+            gap: 0.25rem;
+            margin-left: 1rem;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #6c757d;
+            animation: typing 1.5s infinite;
+        }
+        
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            30% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .knowledge-suggestions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .suggestion-item {
+            display: block;
+            padding: 0.5rem;
+            margin: 0.25rem 0;
+            background: white;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #495057;
+            transition: all 0.3s ease;
+        }
+        
+        .suggestion-item:hover {
+            background: #f8f9fa;
+            color: #007bff;
+        }
+        
+        .chat-sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .session-history {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .session-item {
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 3px solid #e9ecef;
+        }
+        
+        .session-item:hover {
+            background: #f8f9fa;
+            border-left-color: #667eea;
+        }
+        
+        .session-item.active {
+            background: #f0f4ff;
+            border-left-color: #667eea;
+        }
+        
+        .session-time {
+            font-size: 0.75rem;
+            color: #6c757d;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #6c757d;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        
+        .related-links {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .related-link {
+            display: inline-block;
+            margin: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            background: #e9ecef;
+            color: #495057;
+            text-decoration: none;
+            border-radius: 15px;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+        
+        .related-link:hover {
+            background: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div th:fragment="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- 主聊天区域 -->
+                <div class="col-lg-8">
+                    <div class="card qa-container">
+                        <div class="chat-header">
+                            <h5 class="mb-2"><i class="fas fa-robot me-2"></i>AI学习助手</h5>
+                            <p class="mb-0 small">我是您的智能学习伙伴，随时为您答疑解惑</p>
+                        </div>
+                        
+                        <div class="chat-messages" id="chatMessages">
+                            <!-- 欢迎消息 -->
+                            <div class="empty-state" id="welcomeMessage">
+                                <i class="fas fa-comments"></i>
+                                <h5>欢迎使用AI智能问答</h5>
+                                <p>我可以帮助您解答学习中的各种问题，请选择下方的快捷问题开始对话，或直接输入您的问题。</p>
+                            </div>
+                            
+                            <!-- 消息列表 -->
+                            <div id="messagesList"></div>
+                            
+                            <!-- 打字指示器 -->
+                            <div class="typing-indicator" id="typingIndicator">
+                                <div class="message-avatar ai">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div class="typing-dots">
+                                    <div class="typing-dot"></div>
+                                    <div class="typing-dot"></div>
+                                    <div class="typing-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-input-area">
+                            <!-- 快捷问题 -->
+                            <div class="quick-questions" id="quickQuestions">
+                                <button class="quick-question" onclick="askQuickQuestion('如何制定学习计划？')">如何制定学习计划？</button>
+                                <button class="quick-question" onclick="askQuickQuestion('推荐适合我的课程')">推荐适合我的课程</button>
+                                <button class="quick-question" onclick="askQuickQuestion('如何提高学习效率？')">如何提高学习效率？</button>
+                                <button class="quick-question" onclick="askQuickQuestion('学习遇到困难怎么办？')">学习遇到困难怎么办？</button>
+                            </div>
+                            
+                            <!-- 输入区域 -->
+                            <div class="input-group">
+                                <textarea class="form-control chat-input" 
+                                         id="messageInput" 
+                                         placeholder="请输入您的问题..." 
+                                         rows="1"></textarea>
+                                <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- 输入提示 -->
+                            <div class="mt-2 text-center">
+                                <small class="text-muted">
+                                    <i class="fas fa-lightbulb me-1"></i>
+                                    按 Ctrl+Enter 快速发送，支持语音输入
+                                    <button class="btn btn-link btn-sm p-0 ms-2" onclick="toggleVoiceInput()" id="voiceBtn">
+                                        <i class="fas fa-microphone"></i>
+                                    </button>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 侧边栏 -->
+                <div class="col-lg-4">
+                    <!-- 会话历史 -->
+                    <div class="chat-sidebar">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="mb-0"><i class="fas fa-history me-2"></i>对话历史</h6>
+                            <button class="btn btn-outline-primary btn-sm" onclick="newSession()">
+                                <i class="fas fa-plus me-1"></i>新对话
+                            </button>
+                        </div>
+                        
+                        <div class="session-history" id="sessionHistory">
+                            <!-- 会话历史列表 -->
+                        </div>
+                    </div>
+                    
+                    <!-- 知识推荐 -->
+                    <div class="chat-sidebar">
+                        <h6 class="mb-3"><i class="fas fa-lightbulb me-2"></i>相关知识推荐</h6>
+                        <div id="knowledgeRecommendations">
+                            <!-- 知识推荐列表 -->
+                        </div>
+                    </div>
+                    
+                    <!-- 学习统计 -->
+                    <div class="chat-sidebar">
+                        <h6 class="mb-3"><i class="fas fa-chart-bar me-2"></i>问答统计</h6>
+                        <div class="row text-center">
+                            <div class="col-6">
+                                <h5 class="mb-1 text-primary" id="totalQuestions">0</h5>
+                                <small class="text-muted">总提问数</small>
+                            </div>
+                            <div class="col-6">
+                                <h5 class="mb-1 text-success" id="solvedQuestions">0</h5>
+                                <small class="text-muted">已解决数</small>
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-outline-primary btn-sm" onclick="viewQAHistory()">
+                                <i class="fas fa-eye me-1"></i>查看详细历史
+                            </button>
+                            <button class="btn btn-outline-success btn-sm" onclick="exportQAHistory()">
+                                <i class="fas fa-download me-1"></i>导出问答记录
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSessionId = null;
+        let isWaitingResponse = false;
+        let voiceRecognition = null;
+        let isVoiceActive = false;
+
+        $(document).ready(function() {
+            initializeChat();
+            initializeVoiceRecognition();
+            loadSessionHistory();
+            loadQAStats();
+            
+            // 自动调整输入框高度
+            $('#messageInput').on('input', function() {
+                adjustTextareaHeight(this);
+            });
+            
+            // 键盘快捷键
+            $('#messageInput').on('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        });
+
+        function initializeChat() {
+            // 检查URL参数，看是否有上下文信息
+            const urlParams = new URLSearchParams(window.location.search);
+            const context = urlParams.get('context');
+            const contextId = urlParams.get('contextId');
+            
+            if (context && contextId) {
+                // 如果有上下文，显示相关的快捷问题
+                updateQuickQuestions(context, contextId);
+            }
+            
+            // 创建新会话
+            newSession();
+        }
+
+        function initializeVoiceRecognition() {
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                voiceRecognition = new SpeechRecognition();
+                voiceRecognition.continuous = false;
+                voiceRecognition.interimResults = false;
+                voiceRecognition.lang = 'zh-CN';
+
+                voiceRecognition.onstart = function() {
+                    isVoiceActive = true;
+                    $('#voiceBtn').html('<i class="fas fa-microphone text-danger"></i>');
+                };
+
+                voiceRecognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    $('#messageInput').val(transcript);
+                    adjustTextareaHeight($('#messageInput')[0]);
+                };
+
+                voiceRecognition.onend = function() {
+                    isVoiceActive = false;
+                    $('#voiceBtn').html('<i class="fas fa-microphone"></i>');
+                };
+
+                voiceRecognition.onerror = function() {
+                    isVoiceActive = false;
+                    $('#voiceBtn').html('<i class="fas fa-microphone"></i>');
+                    showMessage('语音识别失败', 'error');
+                };
+            } else {
+                $('#voiceBtn').hide();
+            }
+        }
+
+        function updateQuickQuestions(context, contextId) {
+            let questions = [];
+            
+            if (context === 'course') {
+                questions = [
+                    '这门课程的重点是什么？',
+                    '如何更好地理解这门课程？',
+                    '推荐相关的学习资源',
+                    '这门课程适合什么基础的学习者？'
+                ];
+            } else {
+                questions = [
+                    '如何制定学习计划？',
+                    '推荐适合我的课程',
+                    '如何提高学习效率？',
+                    '学习遇到困难怎么办？'
+                ];
+            }
+            
+            let html = '';
+            questions.forEach(question => {
+                html += `<button class="quick-question" onclick="askQuickQuestion('${question}')">${question}</button>`;
+            });
+            
+            $('#quickQuestions').html(html);
+        }
+
+        function newSession() {
+            currentSessionId = 'session_' + Date.now();
+            $('#messagesList').empty();
+            $('#welcomeMessage').show();
+            
+            // 发送会话开始请求
+            $.post('/api/qa/session/start', {
+                sessionId: currentSessionId
+            }, function(response) {
+                if (response.success) {
+                    console.log('新会话已创建');
+                }
+            });
+        }
+
+        function askQuickQuestion(question) {
+            $('#messageInput').val(question);
+            sendMessage();
+        }
+
+        function sendMessage() {
+            const message = $('#messageInput').val().trim();
+            if (!message || isWaitingResponse) return;
+
+            // 显示用户消息
+            addMessage('user', message);
+            $('#messageInput').val('');
+            adjustTextareaHeight($('#messageInput')[0]);
+            $('#welcomeMessage').hide();
+
+            // 显示AI思考中
+            showTypingIndicator();
+            isWaitingResponse = true;
+            updateSendButton();
+
+            // 发送到后端
+            $.ajax({
+                url: '/api/qa/ask',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    question: message,
+                    sessionId: currentSessionId
+                }),
+                success: function(response) {
+                    hideTypingIndicator();
+                    isWaitingResponse = false;
+                    updateSendButton();
+
+                    if (response.success) {
+                        // 显示AI回答
+                        addMessage('ai', response.data.answer, {
+                            confidence: response.data.confidence,
+                            relatedTopics: response.data.relatedTopics,
+                            sources: response.data.sources
+                        });
+                        
+                        // 更新知识推荐
+                        updateKnowledgeRecommendations(response.data.relatedTopics);
+                    } else {
+                        addMessage('ai', '抱歉，我现在无法回答您的问题，请稍后再试。', {
+                            isError: true
+                        });
+                    }
+                },
+                error: function() {
+                    hideTypingIndicator();
+                    isWaitingResponse = false;
+                    updateSendButton();
+                    addMessage('ai', '网络连接出现问题，请检查网络后重试。', {
+                        isError: true
+                    });
+                }
+            });
+        }
+
+        function addMessage(type, content, options = {}) {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('zh-CN', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            const messageHtml = `
+                <div class="message ${type}">
+                    <div class="message-avatar ${type}">
+                        <i class="fas ${type === 'user' ? 'fa-user' : 'fa-robot'}"></i>
+                    </div>
+                    <div class="message-content ${type}">
+                        <div class="message-text">${formatMessageContent(content)}</div>
+                        <div class="message-time">${timeStr}</div>
+                        ${type === 'ai' && !options.isError ? generateMessageActions(content, options) : ''}
+                    </div>
+                </div>
+            `;
+
+            $('#messagesList').append(messageHtml);
+            scrollToBottom();
+        }
+
+        function formatMessageContent(content) {
+            // 处理markdown格式
+            return content
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/`(.*?)`/g, '<code>$1</code>')
+                .replace(/\n/g, '<br>');
+        }
+
+        function generateMessageActions(content, options) {
+            let html = '<div class="message-actions">';
+            
+            // 复制按钮
+            html += `<button class="btn btn-outline-secondary btn-sm" onclick="copyMessage('${encodeURIComponent(content)}')">
+                        <i class="fas fa-copy me-1"></i>复制
+                     </button>`;
+            
+            // 点赞/点踩按钮
+            html += `<button class="btn btn-outline-success btn-sm" onclick="rateMessage(true)">
+                        <i class="fas fa-thumbs-up me-1"></i>有用
+                     </button>`;
+            html += `<button class="btn btn-outline-danger btn-sm" onclick="rateMessage(false)">
+                        <i class="fas fa-thumbs-down me-1"></i>无用
+                     </button>`;
+            
+            // 继续提问按钮
+            html += `<button class="btn btn-outline-primary btn-sm" onclick="continueAsking()">
+                        <i class="fas fa-plus me-1"></i>继续提问
+                     </button>`;
+            
+            html += '</div>';
+
+            // 相关链接
+            if (options.relatedTopics && options.relatedTopics.length > 0) {
+                html += '<div class="related-links">';
+                options.relatedTopics.forEach(topic => {
+                    html += `<a href="#" class="related-link" onclick="askQuickQuestion('${topic}')">${topic}</a>`;
+                });
+                html += '</div>';
+            }
+
+            return html;
+        }
+
+        function showTypingIndicator() {
+            $('#typingIndicator').show();
+            scrollToBottom();
+        }
+
+        function hideTypingIndicator() {
+            $('#typingIndicator').hide();
+        }
+
+        function updateSendButton() {
+            const sendBtn = $('#sendBtn');
+            if (isWaitingResponse) {
+                sendBtn.prop('disabled', true);
+                sendBtn.html('<i class="fas fa-spinner fa-spin"></i>');
+            } else {
+                sendBtn.prop('disabled', false);
+                sendBtn.html('<i class="fas fa-paper-plane"></i>');
+            }
+        }
+
+        function scrollToBottom() {
+            const chatMessages = $('#chatMessages');
+            chatMessages.scrollTop(chatMessages[0].scrollHeight);
+        }
+
+        function adjustTextareaHeight(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 100) + 'px';
+        }
+
+        function toggleVoiceInput() {
+            if (!voiceRecognition) {
+                showMessage('您的浏览器不支持语音识别', 'warning');
+                return;
+            }
+
+            if (isVoiceActive) {
+                voiceRecognition.stop();
+            } else {
+                voiceRecognition.start();
+            }
+        }
+
+        function copyMessage(encodedContent) {
+            const content = decodeURIComponent(encodedContent);
+            navigator.clipboard.writeText(content).then(function() {
+                showMessage('内容已复制到剪贴板', 'success');
+            });
+        }
+
+        function rateMessage(isPositive) {
+            // 发送评价到后端
+            $.post('/api/qa/rate', {
+                sessionId: currentSessionId,
+                rating: isPositive ? 1 : -1
+            }, function(response) {
+                if (response.success) {
+                    showMessage(isPositive ? '感谢您的反馈！' : '已记录您的反馈，我们会持续改进', 'info');
+                }
+            });
+        }
+
+        function continueAsking() {
+            $('#messageInput').focus();
+        }
+
+        function loadSessionHistory() {
+            $.get('/api/qa/sessions', function(response) {
+                if (response.success) {
+                    displaySessionHistory(response.data);
+                }
+            });
+        }
+
+        function displaySessionHistory(sessions) {
+            let html = '';
+            sessions.forEach(session => {
+                html += `
+                    <div class="session-item" onclick="loadSession('${session.sessionId}')">
+                        <div class="small">${session.lastQuestion || '新对话'}</div>
+                        <div class="session-time">${formatDate(session.updateTime)}</div>
+                    </div>
+                `;
+            });
+
+            $('#sessionHistory').html(html || '<p class="text-muted small text-center">暂无历史会话</p>');
+        }
+
+        function loadSession(sessionId) {
+            // 加载指定会话的消息
+            $.get(`/api/qa/sessions/${sessionId}/messages`, function(response) {
+                if (response.success) {
+                    currentSessionId = sessionId;
+                    $('#messagesList').empty();
+                    $('#welcomeMessage').hide();
+
+                    response.data.forEach(message => {
+                        addMessage(message.type, message.content);
+                    });
+
+                    // 更新会话高亮状态
+                    $('.session-item').removeClass('active');
+                    $(event.target).closest('.session-item').addClass('active');
+                }
+            });
+        }
+
+        function updateKnowledgeRecommendations(topics) {
+            if (!topics || topics.length === 0) {
+                $('#knowledgeRecommendations').html('<p class="text-muted small">暂无推荐</p>');
+                return;
+            }
+
+            let html = '';
+            topics.forEach(topic => {
+                html += `
+                    <a href="#" class="suggestion-item d-block" onclick="askQuickQuestion('${topic}')">
+                        <i class="fas fa-lightbulb me-2 text-warning"></i>${topic}
+                    </a>
+                `;
+            });
+
+            $('#knowledgeRecommendations').html(html);
+        }
+
+        function loadQAStats() {
+            $.get('/api/qa/stats', function(response) {
+                if (response.success) {
+                    const stats = response.data;
+                    $('#totalQuestions').text(stats.totalQuestions || 0);
+                    $('#solvedQuestions').text(stats.solvedQuestions || 0);
+                }
+            });
+        }
+
+        function viewQAHistory() {
+            window.location.href = '/qa/history';
+        }
+
+        function exportQAHistory() {
+            window.open('/api/qa/export', '_blank');
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffTime = now - date;
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+            if (diffDays === 0) {
+                return '今天 ' + date.toLocaleTimeString('zh-CN', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            } else if (diffDays === 1) {
+                return '昨天';
+            } else if (diffDays < 7) {
+                return `${diffDays}天前`;
+            } else {
+                return date.toLocaleDateString('zh-CN');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html}">
+<head>
+    <title>课程详情 - AI智能学习助手</title>
+    <style>
+        .course-hero {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9)),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 300"><defs><pattern id="pattern" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="2" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect x="0" y="0" width="100%" height="100%" fill="url(%23pattern)"/></svg>');
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 30px 30px;
+        }
+        
+        .course-preview {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .course-stats {
+            display: flex;
+            gap: 2rem;
+            margin: 1rem 0;
+        }
+        
+        .course-stat {
+            text-align: center;
+        }
+        
+        .course-stat .number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+        
+        .course-stat .label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        
+        .knowledge-points {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .knowledge-point {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .knowledge-point:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .knowledge-point.completed {
+            border-left-color: #28a745;
+            background: #f8fff9;
+        }
+        
+        .knowledge-point.learning {
+            border-left-color: #ffc107;
+            background: #fffcf0;
+        }
+        
+        .point-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: white;
+        }
+        
+        .point-icon.completed {
+            background: #28a745;
+        }
+        
+        .point-icon.learning {
+            background: #ffc107;
+        }
+        
+        .point-icon.not-started {
+            background: #6c757d;
+        }
+        
+        .learning-path-card {
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .learning-path-card.active {
+            border-color: #007bff;
+            background: #f8f9ff;
+        }
+        
+        .path-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+        
+        .step-number.active {
+            background: #007bff;
+            color: white;
+        }
+        
+        .step-number.completed {
+            background: #28a745;
+            color: white;
+        }
+        
+        .course-progress-detail {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .progress-ring {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+        }
+        
+        .progress-circle {
+            fill: none;
+            stroke: #e9ecef;
+            stroke-width: 8;
+        }
+        
+        .progress-circle.active {
+            stroke: #007bff;
+            stroke-linecap: round;
+            transition: stroke-dasharray 0.3s ease;
+        }
+        
+        .comments-section {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .comment-item {
+            border-bottom: 1px solid #e9ecef;
+            padding: 1rem 0;
+        }
+        
+        .comment-item:last-child {
+            border-bottom: none;
+        }
+        
+        .comment-author {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 1rem;
+        }
+        
+        .ai-assistant {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .ai-assistant:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+        }
+        
+        .recommendation-card {
+            background: linear-gradient(135deg, #f8f9ff, #fff5f5);
+            border: 1px solid #e3e6ff;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .recommendation-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .recommendation-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sticky-actions {
+            position: sticky;
+            top: 80px;
+            z-index: 100;
+        }
+        
+        .course-tabs {
+            border-bottom: 2px solid #e9ecef;
+            margin-bottom: 2rem;
+        }
+        
+        .course-tabs .nav-link {
+            border: none;
+            border-radius: 0;
+            padding: 1rem 1.5rem;
+            color: #6c757d;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .course-tabs .nav-link.active {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            background: none;
+        }
+        
+        .tab-content {
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div th:fragment="content">
+        <!-- 课程头部信息 -->
+        <div class="course-hero">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <nav class="mb-3">
+                            <ol class="breadcrumb text-white">
+                                <li class="breadcrumb-item"><a href="/courses" class="text-white-50">课程中心</a></li>
+                                <li class="breadcrumb-item"><a href="#" class="text-white-50" id="courseCategoryBreadcrumb">编程开发</a></li>
+                                <li class="breadcrumb-item active text-white">课程详情</li>
+                            </ol>
+                        </nav>
+                        
+                        <h1 class="mb-3" id="courseTitle">加载中...</h1>
+                        <p class="lead mb-3" id="courseDescription">课程描述加载中...</p>
+                        
+                        <div class="course-stats">
+                            <div class="course-stat">
+                                <div class="number" id="courseDifficulty">-</div>
+                                <div class="label">难度等级</div>
+                            </div>
+                            <div class="course-stat">
+                                <div class="number" id="courseDuration">-</div>
+                                <div class="label">学习时长</div>
+                            </div>
+                            <div class="course-stat">
+                                <div class="number" id="courseStudents">-</div>
+                                <div class="label">学习人数</div>
+                            </div>
+                            <div class="course-stat">
+                                <div class="number" id="courseProgress">0%</div>
+                                <div class="label">学习进度</div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <button class="btn btn-light btn-lg me-3" id="startLearningBtn" onclick="startLearning()">
+                                <i class="fas fa-play me-2"></i>开始学习
+                            </button>
+                            <button class="btn btn-outline-light btn-lg me-2" onclick="addToFavorites()">
+                                <i class="fas fa-heart me-2"></i>收藏
+                            </button>
+                            <button class="btn btn-outline-light btn-lg" onclick="shareCourse()">
+                                <i class="fas fa-share me-2"></i>分享
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <div class="course-preview text-center">
+                            <div class="course-progress-detail">
+                                <div class="progress-ring">
+                                    <svg width="120" height="120">
+                                        <circle class="progress-circle" cx="60" cy="60" r="52"></circle>
+                                        <circle class="progress-circle active" cx="60" cy="60" r="52" 
+                                                stroke-dasharray="0 327" id="progressCircle"></circle>
+                                    </svg>
+                                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 1.5rem; font-weight: bold;" id="progressText">0%</div>
+                                </div>
+                                <p class="mt-3 mb-0">学习进度</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- 课程标签页 -->
+                    <ul class="nav nav-tabs course-tabs" id="courseTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" 
+                                    data-bs-target="#overview" type="button" role="tab">
+                                <i class="fas fa-info-circle me-2"></i>课程概述
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="content-tab" data-bs-toggle="tab" 
+                                    data-bs-target="#content" type="button" role="tab">
+                                <i class="fas fa-list me-2"></i>课程内容
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="path-tab" data-bs-toggle="tab" 
+                                    data-bs-target="#path" type="button" role="tab">
+                                <i class="fas fa-route me-2"></i>学习路径
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="comments-tab" data-bs-toggle="tab" 
+                                    data-bs-target="#comments" type="button" role="tab">
+                                <i class="fas fa-comments me-2"></i>学习讨论
+                            </button>
+                        </li>
+                    </ul>
+
+                    <!-- 标签页内容 -->
+                    <div class="tab-content" id="courseTabContent">
+                        <!-- 课程概述 -->
+                        <div class="tab-pane fade show active" id="overview" role="tabpanel">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5><i class="fas fa-bullseye me-2 text-primary"></i>学习目标</h5>
+                                    <div id="learningObjectives" class="mb-4">
+                                        <!-- 学习目标内容 -->
+                                    </div>
+
+                                    <h5><i class="fas fa-users me-2 text-primary"></i>适用人群</h5>
+                                    <div id="targetAudience" class="mb-4">
+                                        <!-- 适用人群内容 -->
+                                    </div>
+
+                                    <h5><i class="fas fa-book me-2 text-primary"></i>课程简介</h5>
+                                    <div id="courseIntro" class="mb-4">
+                                        <!-- 课程简介内容 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 课程内容 -->
+                        <div class="tab-pane fade" id="content" role="tabpanel">
+                            <div class="knowledge-points">
+                                <h5><i class="fas fa-brain me-2 text-primary"></i>知识点列表</h5>
+                                <div id="knowledgePointsList">
+                                    <!-- 知识点列表将动态加载 -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 学习路径 -->
+                        <div class="tab-pane fade" id="path" role="tabpanel">
+                            <div id="learningPathContainer">
+                                <!-- 学习路径将动态加载 -->
+                            </div>
+                        </div>
+
+                        <!-- 学习讨论 -->
+                        <div class="tab-pane fade" id="comments" role="tabpanel">
+                            <div class="comments-section">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5><i class="fas fa-comments me-2 text-primary"></i>学习讨论</h5>
+                                    <button class="btn btn-primary" onclick="showCommentForm()">
+                                        <i class="fas fa-plus me-2"></i>发表评论
+                                    </button>
+                                </div>
+
+                                <!-- 评论表单 -->
+                                <div id="commentForm" class="mb-4" style="display: none;">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <textarea class="form-control mb-3" id="commentContent" rows="3" 
+                                                    placeholder="分享您的学习心得或提出问题..."></textarea>
+                                            <div class="d-flex justify-content-end">
+                                                <button class="btn btn-outline-secondary me-2" onclick="hideCommentForm()">取消</button>
+                                                <button class="btn btn-primary" onclick="submitComment()">发表评论</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 评论列表 -->
+                                <div id="commentsList">
+                                    <!-- 评论列表将动态加载 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="sticky-actions">
+                        <!-- AI推荐相关课程 -->
+                        <div class="recommendation-card">
+                            <h6><i class="fas fa-magic me-2"></i>AI推荐相关课程</h6>
+                            <div id="recommendedCourses">
+                                <!-- 推荐课程将动态加载 -->
+                            </div>
+                        </div>
+
+                        <!-- 学习统计 -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="mb-0"><i class="fas fa-chart-bar me-2"></i>学习统计</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row text-center">
+                                    <div class="col-6">
+                                        <div class="border-end">
+                                            <h5 class="mb-1" id="totalLearningTime">0</h5>
+                                            <small class="text-muted">学习时长(分钟)</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <h5 class="mb-1" id="masteryLevel">0%</h5>
+                                        <small class="text-muted">掌握程度</small>
+                                    </div>
+                                </div>
+                                
+                                <hr>
+                                
+                                <div class="d-grid">
+                                    <button class="btn btn-outline-primary btn-sm" onclick="viewDetailedStats()">
+                                        查看详细统计
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 快速操作 -->
+                        <div class="card mt-3">
+                            <div class="card-header">
+                                <h6 class="mb-0"><i class="fas fa-tools me-2"></i>快速操作</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-outline-primary btn-sm" onclick="askQuestion()">
+                                        <i class="fas fa-question-circle me-2"></i>提问AI助手
+                                    </button>
+                                    <button class="btn btn-outline-success btn-sm" onclick="takeNotes()">
+                                        <i class="fas fa-edit me-2"></i>记录笔记
+                                    </button>
+                                    <button class="btn btn-outline-warning btn-sm" onclick="reportIssue()">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>反馈问题
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI助手浮动按钮 -->
+        <button class="ai-assistant" onclick="toggleAIAssistant()" title="AI学习助手">
+            <i class="fas fa-robot"></i>
+        </button>
+    </div>
+
+    <script>
+        let courseId;
+        let courseData;
+        let currentProgress = 0;
+
+        $(document).ready(function() {
+            // 从URL获取课程ID
+            courseId = getCourseIdFromURL();
+            if (courseId) {
+                loadCourseData();
+                loadKnowledgePoints();
+                loadLearningPath();
+                loadComments();
+                loadRecommendedCourses();
+                loadLearningStats();
+            } else {
+                showMessage('课程ID无效', 'error');
+                window.location.href = '/courses';
+            }
+        });
+
+        function getCourseIdFromURL() {
+            const pathArray = window.location.pathname.split('/');
+            return pathArray[pathArray.length - 1];
+        }
+
+        function loadCourseData() {
+            $.ajax({
+                url: `/api/course/detail/${courseId}`,
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        courseData = response.data;
+                        displayCourseInfo(courseData);
+                    } else {
+                        showMessage('课程信息加载失败', 'error');
+                    }
+                },
+                error: function() {
+                    showMessage('课程信息加载失败，请稍后重试', 'error');
+                }
+            });
+        }
+
+        function displayCourseInfo(course) {
+            $('#courseTitle').text(course.courseName);
+            $('#courseDescription').text(course.description || '暂无课程描述');
+            $('#courseCategoryBreadcrumb').text(course.categoryName || '未分类');
+
+            const difficultyText = ['', '入门', '初级', '中级', '高级', '专家'][course.difficultyLevel || 1];
+            $('#courseDifficulty').text(difficultyText);
+            $('#courseDuration').text((course.durationMinutes || 0) + '分钟');
+            $('#courseStudents').text((course.studentCount || 0) + '人');
+
+            currentProgress = course.progress || 0;
+            $('#courseProgress').text(Math.round(currentProgress) + '%');
+            updateProgressCircle(currentProgress);
+
+            // 更新按钮状态
+            if (currentProgress > 0) {
+                $('#startLearningBtn').html('<i class="fas fa-play me-2"></i>继续学习');
+            }
+
+            // 显示课程详细信息
+            $('#learningObjectives').html(course.learningObjectives || '暂无学习目标');
+            $('#targetAudience').html(course.targetAudience || '适合所有学习者');
+            $('#courseIntro').html(course.courseIntro || course.description || '暂无课程简介');
+        }
+
+        function updateProgressCircle(progress) {
+            const circle = $('#progressCircle');
+            const radius = 52;
+            const circumference = 2 * Math.PI * radius;
+            const strokeDasharray = (progress / 100) * circumference;
+            
+            circle.css('stroke-dasharray', `${strokeDasharray} ${circumference}`);
+            $('#progressText').text(Math.round(progress) + '%');
+        }
+
+        function loadKnowledgePoints() {
+            $.ajax({
+                url: `/api/course/${courseId}/knowledge-points`,
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        displayKnowledgePoints(response.data);
+                    }
+                },
+                error: function() {
+                    $('#knowledgePointsList').html('<p class="text-muted">知识点加载失败</p>');
+                }
+            });
+        }
+
+        function displayKnowledgePoints(knowledgePoints) {
+            let html = '';
+            knowledgePoints.forEach((point, index) => {
+                const status = point.masteryLevel > 0.8 ? 'completed' : 
+                              point.masteryLevel > 0 ? 'learning' : 'not-started';
+                
+                html += `
+                    <div class="knowledge-point ${status}" onclick="studyKnowledgePoint(${point.id})">
+                        <div class="point-icon ${status}">
+                            <i class="fas ${status === 'completed' ? 'fa-check' : 
+                                           status === 'learning' ? 'fa-play' : 'fa-circle'}"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">${point.pointName}</h6>
+                            <p class="text-muted small mb-0">${point.description || '暂无描述'}</p>
+                            ${point.masteryLevel > 0 ? 
+                                `<div class="progress mt-2" style="height: 4px;">
+                                    <div class="progress-bar" style="width: ${Math.round(point.masteryLevel * 100)}%"></div>
+                                 </div>` : ''
+                            }
+                        </div>
+                        <div class="text-end">
+                            <small class="text-muted">${point.learningTimeEstimate || 0}分钟</small>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            $('#knowledgePointsList').html(html || '<p class="text-muted">暂无知识点</p>');
+        }
+
+        function loadLearningPath() {
+            $.ajax({
+                url: `/api/course/${courseId}/learning-path`,
+                type: 'GET',
+                success: function(response) {
+                    if (response.success && response.data) {
+                        displayLearningPath(response.data);
+                    } else {
+                        $('#learningPathContainer').html('<p class="text-muted">暂无学习路径</p>');
+                    }
+                },
+                error: function() {
+                    $('#learningPathContainer').html('<p class="text-muted">学习路径加载失败</p>');
+                }
+            });
+        }
+
+        function displayLearningPath(pathData) {
+            let html = '<div class="learning-path-card active">';
+            html += `<h6><i class="fas fa-route me-2"></i>${pathData.pathName}</h6>`;
+            html += '<div class="path-steps">';
+            
+            pathData.steps.forEach((step, index) => {
+                const isActive = index === pathData.currentStep;
+                const isCompleted = index < pathData.currentStep;
+                
+                html += `
+                    <div class="path-step">
+                        <div class="step-number ${isCompleted ? 'completed' : isActive ? 'active' : ''}">${index + 1}</div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">${step.stepName}</h6>
+                            <p class="text-muted small mb-0">${step.description}</p>
+                        </div>
+                        <div class="text-end">
+                            <small class="text-muted">${step.estimatedTime}分钟</small>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div></div>';
+            $('#learningPathContainer').html(html);
+        }
+
+        function loadComments() {
+            $.ajax({
+                url: `/api/course/${courseId}/comments`,
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        displayComments(response.data);
+                    }
+                },
+                error: function() {
+                    $('#commentsList').html('<p class="text-muted">评论加载失败</p>');
+                }
+            });
+        }
+
+        function displayComments(comments) {
+            let html = '';
+            comments.forEach(comment => {
+                html += `
+                    <div class="comment-item">
+                        <div class="comment-author">
+                            <div class="author-avatar">
+                                ${comment.authorName.charAt(0).toUpperCase()}
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-0">${comment.authorName}</h6>
+                                <small class="text-muted">${formatDate(comment.createTime)}</small>
+                            </div>
+                        </div>
+                        <p class="mb-0">${comment.content}</p>
+                        <div class="mt-2">
+                            <button class="btn btn-link btn-sm p-0 me-3" onclick="likeComment(${comment.id})">
+                                <i class="fas fa-thumbs-up me-1"></i>${comment.likes || 0}
+                            </button>
+                            <button class="btn btn-link btn-sm p-0" onclick="replyComment(${comment.id})">
+                                <i class="fas fa-reply me-1"></i>回复
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            $('#commentsList').html(html || '<p class="text-muted text-center">暂无评论，快来发表第一个评论吧！</p>');
+        }
+
+        function loadRecommendedCourses() {
+            $.ajax({
+                url: `/api/recommendation/related-courses/${courseId}`,
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        displayRecommendedCourses(response.data);
+                    }
+                },
+                error: function() {
+                    $('#recommendedCourses').html('<p class="text-muted small">推荐课程加载失败</p>');
+                }
+            });
+        }
+
+        function displayRecommendedCourses(courses) {
+            let html = '';
+            courses.forEach(course => {
+                html += `
+                    <div class="recommendation-item" onclick="viewCourse(${course.id})">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">${course.courseName}</h6>
+                            <small class="text-muted">${course.description}</small>
+                        </div>
+                        <div class="text-end">
+                            <small class="badge bg-primary">${course.difficultyLevel}级</small>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            $('#recommendedCourses').html(html || '<p class="text-muted small">暂无推荐</p>');
+        }
+
+        function loadLearningStats() {
+            $.ajax({
+                url: `/api/learning-record/course/${courseId}/stats`,
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        const stats = response.data;
+                        $('#totalLearningTime').text(stats.totalLearningTime || 0);
+                        $('#masteryLevel').text(Math.round((stats.avgMasteryLevel || 0) * 100) + '%');
+                    }
+                },
+                error: function() {
+                    console.log('学习统计加载失败');
+                }
+            });
+        }
+
+        // 操作函数
+        function startLearning() {
+            // 记录学习开始
+            $.post(`/api/learning-record/start`, {
+                courseId: courseId
+            }, function(response) {
+                if (response.success) {
+                    // 跳转到学习页面
+                    window.location.href = `/learn/${courseId}`;
+                } else {
+                    showMessage('开始学习失败', 'error');
+                }
+            });
+        }
+
+        function studyKnowledgePoint(pointId) {
+            window.location.href = `/learn/${courseId}/knowledge-point/${pointId}`;
+        }
+
+        function addToFavorites() {
+            $.post(`/api/user/favorites/course/${courseId}`, function(response) {
+                if (response.success) {
+                    showMessage('已添加到收藏', 'success');
+                } else {
+                    showMessage(response.message || '收藏失败', 'error');
+                }
+            });
+        }
+
+        function shareCourse() {
+            // 复制链接到剪贴板
+            const url = window.location.href;
+            navigator.clipboard.writeText(url).then(function() {
+                showMessage('链接已复制到剪贴板', 'success');
+            }, function() {
+                showMessage('复制失败', 'error');
+            });
+        }
+
+        function showCommentForm() {
+            $('#commentForm').slideDown();
+        }
+
+        function hideCommentForm() {
+            $('#commentForm').slideUp();
+            $('#commentContent').val('');
+        }
+
+        function submitComment() {
+            const content = $('#commentContent').val().trim();
+            if (!content) {
+                showMessage('请输入评论内容', 'warning');
+                return;
+            }
+
+            $.post(`/api/course/${courseId}/comments`, {
+                content: content
+            }, function(response) {
+                if (response.success) {
+                    showMessage('评论发表成功', 'success');
+                    hideCommentForm();
+                    loadComments();
+                } else {
+                    showMessage(response.message || '评论发表失败', 'error');
+                }
+            });
+        }
+
+        function likeComment(commentId) {
+            $.post(`/api/course/comments/${commentId}/like`, function(response) {
+                if (response.success) {
+                    loadComments();
+                }
+            });
+        }
+
+        function askQuestion() {
+            window.location.href = `/qa?courseId=${courseId}`;
+        }
+
+        function takeNotes() {
+            // 打开笔记功能
+            showMessage('笔记功能开发中', 'info');
+        }
+
+        function reportIssue() {
+            // 打开问题反馈
+            showMessage('问题反馈功能开发中', 'info');
+        }
+
+        function toggleAIAssistant() {
+            // 打开AI助手对话
+            window.location.href = `/qa?context=course&contextId=${courseId}`;
+        }
+
+        function viewCourse(courseId) {
+            window.location.href = `/courses/${courseId}`;
+        }
+
+        function viewDetailedStats() {
+            window.location.href = `/analytics?courseId=${courseId}`;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('zh-CN') + ' ' + date.toLocaleTimeString('zh-CN', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+    </script>
+</body>
+</html>

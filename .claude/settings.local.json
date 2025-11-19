@@ -3,7 +3,8 @@
     "allow": [
       "Bash(mvn clean compile:*)",
       "Bash(mvn spring-boot:run:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []

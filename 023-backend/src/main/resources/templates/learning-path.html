@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html}">
+<head>
+    <title>学习路径 - AI智能学习助手</title>
+    <style>
+        .path-hero {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9)),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 300"><defs><pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 30px 30px;
+        }
+        
+        .path-container {
+            position: relative;
+            padding: 2rem 0;
+        }
+        
+        .path-timeline {
+            position: relative;
+            padding-left: 3rem;
+        }
+        
+        .path-timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #007bff, #28a745);
+            border-radius: 2px;
+        }
+        
+        .path-step {
+            position: relative;
+            margin-bottom: 2rem;
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .path-step:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .path-step::before {
+            content: '';
+            position: absolute;
+            left: -58px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e9ecef;
+            border: 4px solid white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+        }
+        
+        .path-step.completed::before {
+            background: #28a745;
+        }
+        
+        .path-step.current::before {
+            background: #007bff;
+            animation: pulse 2s infinite;
+        }
+        
+        .path-step.locked::before {
+            background: #6c757d;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+            }
+        }
+        
+        .step-icon {
+            position: absolute;
+            left: -52px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            z-index: 3;
+            font-size: 1rem;
+        }
+        
+        .step-header {
+            display: flex;
+            justify-content: between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .step-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #495057;
+        }
+        
+        .step-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .step-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .badge-difficulty {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .badge-time {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+        
+        .badge-type {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .step-description {
+            color: #6c757d;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        .step-progress {
+            margin-bottom: 1rem;
+        }
+        
+        .progress {
+            height: 8px;
+            border-radius: 4px;
+            background: #f8f9fa;
+        }
+        
+        .progress-bar {
+            border-radius: 4px;
+        }
+        
+        .step-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .knowledge-prerequisites {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .prerequisite-item {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 15px;
+            margin: 0.25rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .prerequisite-item:hover {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        
+        .prerequisite-item.mastered {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+        
+        .path-sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 100px;
+        }
+        
+        .path-overview {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .overview-stat {
+            display: inline-block;
+            text-align: center;
+            margin: 0 1rem;
+        }
+        
+        .overview-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #007bff;
+        }
+        
+        .overview-label {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+        
+        .path-actions {
+            display: grid;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+        
+        .ai-recommendations {
+            background: linear-gradient(135deg, #f8f9ff, #fff5f5);
+            border: 1px solid #e3e6ff;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .recommendation-item {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .recommendation-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .path-creation-wizard {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .wizard-step {
+            display: none;
+        }
+        
+        .wizard-step.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .skill-tree {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1rem;
+        }
+        
+        .skill-level {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .skill-node {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            border: 3px solid transparent;
+        }
+        
+        .skill-node.unlocked {
+            background: #007bff;
+            color: white;
+        }
+        
+        .skill-node.mastered {
+            background: #28a745;
+            color: white;
+        }
+        
+        .skill-node:hover {
+            transform: scale(1.1);
+        }
+        
+        .skill-connection {
+            width: 2px;
+            height: 20px;
+            background: #dee2e6;
+            margin: 0 auto;
+        }
+        
+        .skill-connection.active {
+            background: #007bff;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #6c757d;
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        
+        .floating-create-path {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 20px rgba(40, 167, 69, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .floating-create-path:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(40, 167, 69, 0.6);
+        }
+        
+        .path-filter-tabs {
+            background: white;
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .filter-tab {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: transparent;
+            border-radius: 10px;
+            margin-right: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-tab.active {
+            background: #007bff;
+            color: white;
+        }
+        
+        .filter-tab:hover {
+            background: #f8f9fa;
+        }
+        
+        .filter-tab.active:hover {
+            background: #0056b3;
+        }
+        
+        .difficulty-indicator {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+        
+        .difficulty-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #dee2e6;
+        }
+        
+        .difficulty-dot.filled {
+            background: #ffc107;
+        }
+        
+        .mastery-indicator {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: white;
+            margin-left: auto;
+        }
+        
+        .mastery-low {
+            background: #dc3545;
+        }
+        
+        .mastery-medium {
+            background: #ffc107;
+        }
+        
+        .mastery-high {
+            background: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div th:fragment="content">
+        <!-- 页面头部 -->
+        <div class="path-hero">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <h1 class="mb-3"><i class="fas fa-route me-2"></i>智能学习路径</h1>
+                        <p class="lead mb-4">AI为您量身定制的个性化学习路径，循序渐进达成学习目标</p>
+                        <div class="d-flex gap-3">
+                            <button class="btn btn-light btn-lg" onclick="createNewPath()">
+                                <i class="fas fa-plus me-2"></i>创建新路径
+                            </button>
+                            <button class="btn btn-outline-light btn-lg" onclick="exploreRecommended()">
+                                <i class="fas fa-magic me-2"></i>智能推荐路径
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-center">
+                        <i class="fas fa-map fa-8x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <!-- 筛选标签 -->
+            <div class="path-filter-tabs">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <button class="filter-tab active" data-filter="my-paths" onclick="filterPaths('my-paths')">
+                            我的路径
+                        </button>
+                        <button class="filter-tab" data-filter="recommended" onclick="filterPaths('recommended')">
+                            推荐路径
+                        </button>
+                        <button class="filter-tab" data-filter="popular" onclick="filterPaths('popular')">
+                            热门路径
+                        </button>
+                        <button class="filter-tab" data-filter="completed" onclick="filterPaths('completed')">
+                            已完成
+                        </button>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <select class="form-select form-select-sm" id="difficultyFilter">
+                            <option value="">所有难度</option>
+                            <option value="1">入门</option>
+                            <option value="2">初级</option>
+                            <option value="3">中级</option>
+                            <option value="4">高级</option>
+                            <option value="5">专家</option>
+                        </select>
+                        <select class="form-select form-select-sm" id="subjectFilter">
+                            <option value="">所有学科</option>
+                            <option value="programming">编程开发</option>
+                            <option value="design">设计创作</option>
+                            <option value="data">数据分析</option>
+                            <option value="ai">人工智能</option>
+                            <option value="business">商业管理</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- 主要内容区域 -->
+                <div class="col-lg-8">
+                    <!-- 当前学习路径 -->
+                    <div id="currentPathContainer" style="display: none;">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4><i class="fas fa-play-circle me-2 text-primary"></i>当前学习路径</h4>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                                    <i class="fas fa-cog me-1"></i>路径设置
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#" onclick="editPath()">
+                                        <i class="fas fa-edit me-2"></i>编辑路径
+                                    </a>
+                                    <a class="dropdown-item" href="#" onclick="optimizePath()">
+                                        <i class="fas fa-magic me-2"></i>AI优化
+                                    </a>
+                                    <a class="dropdown-item" href="#" onclick="sharePath()">
+                                        <i class="fas fa-share me-2"></i>分享路径
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item text-danger" href="#" onclick="deletePath()">
+                                        <i class="fas fa-trash me-2"></i>删除路径
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="path-container">
+                            <div class="path-timeline" id="pathTimeline">
+                                <!-- 路径步骤将动态加载 -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 路径列表 -->
+                    <div id="pathListContainer">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 id="pathListTitle">我的学习路径</h4>
+                            <span class="text-muted" id="pathCount">加载中...</span>
+                        </div>
+                        
+                        <div id="pathList">
+                            <!-- 路径列表将动态加载 -->
+                        </div>
+                    </div>
+
+                    <!-- 空状态 -->
+                    <div class="empty-state" id="emptyState" style="display: none;">
+                        <i class="fas fa-route"></i>
+                        <h5>暂无学习路径</h5>
+                        <p>创建您的第一个学习路径，开始个性化学习之旅</p>
+                        <button class="btn btn-primary" onclick="createNewPath()">
+                            <i class="fas fa-plus me-2"></i>创建学习路径
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 侧边栏 -->
+                <div class="col-lg-4">
+                    <!-- 路径概览 -->
+                    <div class="path-sidebar">
+                        <h6 class="mb-3"><i class="fas fa-chart-pie me-2"></i>学习概览</h6>
+                        
+                        <div class="path-overview">
+                            <div class="overview-stat">
+                                <div class="overview-number" id="totalPaths">0</div>
+                                <div class="overview-label">总路径数</div>
+                            </div>
+                            <div class="overview-stat">
+                                <div class="overview-number" id="completedPaths">0</div>
+                                <div class="overview-label">已完成</div>
+                            </div>
+                            <div class="overview-stat">
+                                <div class="overview-number" id="totalHours">0h</div>
+                                <div class="overview-label">总时长</div>
+                            </div>
+                        </div>
+
+                        <div class="path-actions">
+                            <button class="btn btn-primary" onclick="createNewPath()">
+                                <i class="fas fa-plus me-2"></i>创建新路径
+                            </button>
+                            <button class="btn btn-outline-primary" onclick="importPath()">
+                                <i class="fas fa-download me-2"></i>导入路径
+                            </button>
+                            <button class="btn btn-outline-success" onclick="generateAIPath()">
+                                <i class="fas fa-robot me-2"></i>AI生成路径
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- AI推荐 -->
+                    <div class="ai-recommendations">
+                        <h6 class="mb-3"><i class="fas fa-magic me-2"></i>AI推荐</h6>
+                        <div id="aiRecommendations">
+                            <!-- AI推荐内容 -->
+                        </div>
+                    </div>
+
+                    <!-- 技能树 -->
+                    <div class="path-sidebar">
+                        <h6 class="mb-3"><i class="fas fa-sitemap me-2"></i>技能树</h6>
+                        <div class="skill-tree" id="skillTree">
+                            <!-- 技能树结构 -->
+                        </div>
+                    </div>
+
+                    <!-- 学习统计 -->
+                    <div class="path-sidebar">
+                        <h6 class="mb-3"><i class="fas fa-chart-line me-2"></i>学习统计</h6>
+                        <div class="row text-center">
+                            <div class="col-6">
+                                <div class="h5 mb-1 text-primary" id="weeklyProgress">0%</div>
+                                <small class="text-muted">本周进度</small>
+                            </div>
+                            <div class="col-6">
+                                <div class="h5 mb-1 text-success" id="averageMastery">0%</div>
+                                <small class="text-muted">平均掌握度</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 浮动创建按钮 -->
+        <button class="floating-create-path" onclick="createNewPath()" title="创建新学习路径">
+            <i class="fas fa-plus"></i>
+        </button>
+
+        <!-- 创建路径模态框 -->
+        <div class="modal fade" id="createPathModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">创建学习路径</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="path-creation-wizard">
+                            <!-- 步骤1：基本信息 -->
+                            <div class="wizard-step active" id="step1">
+                                <h6 class="mb-3">步骤1：设置路径目标</h6>
+                                <div class="mb-3">
+                                    <label class="form-label">路径名称</label>
+                                    <input type="text" class="form-control" id="pathName" placeholder="为您的学习路径起个名字">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">学习目标</label>
+                                    <textarea class="form-control" id="pathGoal" rows="3" placeholder="描述您希望通过这个路径达成的学习目标"></textarea>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">预期完成时间</label>
+                                        <select class="form-select" id="pathDuration">
+                                            <option value="1">1周内</option>
+                                            <option value="2">2-4周</option>
+                                            <option value="8" selected>1-2个月</option>
+                                            <option value="12">3个月</option>
+                                            <option value="24">6个月</option>
+                                            <option value="52">1年</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">难度等级</label>
+                                        <select class="form-select" id="pathDifficulty">
+                                            <option value="1">入门</option>
+                                            <option value="2">初级</option>
+                                            <option value="3" selected>中级</option>
+                                            <option value="4">高级</option>
+                                            <option value="5">专家</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 步骤2：选择内容 -->
+                            <div class="wizard-step" id="step2">
+                                <h6 class="mb-3">步骤2：选择学习内容</h6>
+                                <div class="mb-3">
+                                    <label class="form-label">学习领域</label>
+                                    <div class="row">
+                                        <div class="col-md-4 mb-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="field1">
+                                                <label class="form-check-label" for="field1">编程开发</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="field2">
+                                                <label class="form-check-label" for="field2">数据分析</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="field3">
+                                                <label class="form-check-label" for="field3">人工智能</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">已有基础（可选）</label>
+                                    <textarea class="form-control" id="pathPrerequisites" rows="2" placeholder="描述您在相关领域的已有知识和技能"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- 步骤3：确认创建 -->
+                            <div class="wizard-step" id="step3">
+                                <h6 class="mb-3">步骤3：确认创建</h6>
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    AI将根据您的设置生成个性化的学习路径，您可以在创建后随时调整。
+                                </div>
+                                <div id="pathPreview">
+                                    <!-- 路径预览 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" id="prevWizardBtn" onclick="prevWizardStep()" style="display: none;">上一步</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" id="nextWizardBtn" onclick="nextWizardStep()">下一步</button>
+                        <button type="button" class="btn btn-success" id="createPathBtn" onclick="submitCreatePath()" style="display: none;">创建路径</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentFilter = 'my-paths';
+        let currentWizardStep = 1;
+        let totalWizardSteps = 3;
+        let currentPathId = null;
+
+        $(document).ready(function() {
+            loadPathData();
+            loadAIRecommendations();
+            loadSkillTree();
+            loadLearningStats();
+        });
+
+        function loadPathData() {
+            Promise.all([
+                loadPathList(),
+                loadCurrentPath(),
+                loadPathStats()
+            ]).then(() => {
+                console.log('路径数据加载完成');
+            });
+        }
+
+        function loadPathList() {
+            return $.ajax({
+                url: '/api/learning-path/list',
+                type: 'GET',
+                data: {
+                    filter: currentFilter,
+                    difficulty: $('#difficultyFilter').val(),
+                    subject: $('#subjectFilter').val()
+                },
+                success: function(response) {
+                    if (response.success) {
+                        displayPathList(response.data);
+                        updatePathCount(response.data.length);
+                    } else {
+                        showEmptyState();
+                    }
+                },
+                error: function() {
+                    showEmptyState();
+                }
+            });
+        }
+
+        function loadCurrentPath() {
+            return $.ajax({
+                url: '/api/learning-path/current',
+                type: 'GET',
+                success: function(response) {
+                    if (response.success && response.data) {
+                        displayCurrentPath(response.data);
+                        $('#currentPathContainer').show();
+                        currentPathId = response.data.id;
+                    }
+                },
+                error: function() {
+                    console.log('当前路径加载失败');
+                }
+            });
+        }
+
+        function displayPathList(paths) {
+            if (paths.length === 0) {
+                showEmptyState();
+                return;
+            }
+
+            $('#emptyState').hide();
+            $('#pathListContainer').show();
+
+            let html = '';
+            paths.forEach(path => {
+                html += generatePathCard(path);
+            });
+
+            $('#pathList').html(html);
+        }
+
+        function generatePathCard(path) {
+            const progress = Math.round(path.progressRate || 0);
+            const difficultyStars = generateDifficultyIndicator(path.difficulty || 1);
+            const estimatedHours = Math.round((path.estimatedDuration || 0) / 60);
+
+            return `
+                <div class="card mb-3 path-card" onclick="selectPath(${path.id})">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h5 class="card-title mb-2">${path.pathName}</h5>
+                                <p class="card-text text-muted mb-2">${path.targetKnowledgePoint || '暂无描述'}</p>
+                                
+                                <div class="d-flex gap-2 mb-2">
+                                    <span class="badge badge-difficulty">${difficultyStars}</span>
+                                    <span class="badge badge-time">
+                                        <i class="fas fa-clock me-1"></i>${estimatedHours}小时
+                                    </span>
+                                    <span class="badge badge-type">
+                                        <i class="fas fa-list me-1"></i>${(path.pathSteps || []).length}步骤
+                                    </span>
+                                </div>
+
+                                ${progress > 0 ? `
+                                    <div class="step-progress">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <small class="text-muted">学习进度</small>
+                                            <small class="fw-bold">${progress}%</small>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-primary" style="width: ${progress}%"></div>
+                                        </div>
+                                    </div>
+                                ` : ''}
+                            </div>
+                            
+                            <div class="col-md-4 text-end">
+                                <div class="mastery-indicator ${getMasteryClass(path.optimizationScore)}">
+                                    ${Math.round((path.optimizationScore || 0) * 100)}%
+                                </div>
+                                <div class="mt-2">
+                                    ${progress > 0 ? 
+                                        '<button class="btn btn-primary btn-sm">继续学习</button>' : 
+                                        '<button class="btn btn-outline-primary btn-sm">开始学习</button>'
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function displayCurrentPath(path) {
+            const steps = path.pathSteps || [];
+            let html = '';
+
+            steps.forEach((step, index) => {
+                const isCompleted = step.completed;
+                const isCurrent = index === path.currentStep;
+                const isLocked = index > path.currentStep;
+
+                let stepClass = 'path-step';
+                if (isCompleted) stepClass += ' completed';
+                else if (isCurrent) stepClass += ' current';
+                else if (isLocked) stepClass += ' locked';
+
+                const iconClass = isCompleted ? 'fa-check' : 
+                                 isCurrent ? 'fa-play' : 
+                                 'fa-lock';
+
+                html += `
+                    <div class="${stepClass}" onclick="startStep(${step.id})">
+                        <i class="fas ${iconClass} step-icon"></i>
+                        
+                        <div class="step-header">
+                            <div class="flex-grow-1">
+                                <h6 class="step-title">${step.stepName}</h6>
+                                <div class="step-meta">
+                                    <span class="step-badge badge-difficulty">${generateDifficultyIndicator(step.difficulty)}</span>
+                                    <span class="step-badge badge-time">
+                                        <i class="fas fa-clock me-1"></i>${step.estimatedTime}分钟
+                                    </span>
+                                    <span class="step-badge badge-type">${step.stepType}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step-description">${step.description}</div>
+
+                        ${step.progress > 0 ? `
+                            <div class="step-progress">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <small class="text-muted">完成进度</small>
+                                    <small class="fw-bold">${Math.round(step.progress)}%</small>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: ${step.progress}%"></div>
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        ${step.prerequisites && step.prerequisites.length > 0 ? `
+                            <div class="knowledge-prerequisites">
+                                <small class="text-muted mb-2 d-block">前置知识：</small>
+                                ${step.prerequisites.map(prereq => 
+                                    `<span class="prerequisite-item ${prereq.mastered ? 'mastered' : ''}">${prereq.name}</span>`
+                                ).join('')}
+                            </div>
+                        ` : ''}
+
+                        <div class="step-actions">
+                            ${!isLocked ? `
+                                <button class="btn btn-primary btn-sm" onclick="startStep(${step.id}); event.stopPropagation();">
+                                    ${isCompleted ? '复习' : isCurrent ? '继续' : '开始'}
+                                </button>
+                            ` : ''}
+                            <button class="btn btn-outline-secondary btn-sm" onclick="viewStepDetail(${step.id}); event.stopPropagation();">
+                                <i class="fas fa-info-circle me-1"></i>详情
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            $('#pathTimeline').html(html);
+        }
+
+        function loadPathStats() {
+            return $.ajax({
+                url: '/api/learning-path/stats',
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        const stats = response.data;
+                        $('#totalPaths').text(stats.totalPaths || 0);
+                        $('#completedPaths').text(stats.completedPaths || 0);
+                        $('#totalHours').text((stats.totalHours || 0) + 'h');
+                    }
+                },
+                error: function() {
+                    console.log('路径统计加载失败');
+                }
+            });
+        }
+
+        function loadAIRecommendations() {
+            $.ajax({
+                url: '/api/recommendation/learning-paths',
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        displayAIRecommendations(response.data);
+                    }
+                },
+                error: function() {
+                    $('#aiRecommendations').html('<p class="text-muted small">推荐内容加载失败</p>');
+                }
+            });
+        }
+
+        function displayAIRecommendations(recommendations) {
+            let html = '';
+            recommendations.forEach(rec => {
+                html += `
+                    <div class="recommendation-item" onclick="handleRecommendation('${rec.type}', '${rec.id}')">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">${rec.title}</h6>
+                                <small class="text-muted">${rec.description}</small>
+                            </div>
+                            <i class="fas fa-chevron-right text-muted"></i>
+                        </div>
+                    </div>
+                `;
+            });
+
+            $('#aiRecommendations').html(html || '<p class="text-muted small">暂无推荐</p>');
+        }
+
+        function loadSkillTree() {
+            $.ajax({
+                url: '/api/user/skill-tree',
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        displaySkillTree(response.data);
+                    }
+                },
+                error: function() {
+                    $('#skillTree').html('<p class="text-muted small text-center">技能树加载失败</p>');
+                }
+            });
+        }
+
+        function displaySkillTree(skills) {
+            // 简化的技能树显示
+            let html = '';
+            skills.forEach(skill => {
+                const skillClass = skill.mastered ? 'mastered' : skill.unlocked ? 'unlocked' : '';
+                html += `
+                    <div class="skill-level">
+                        <div class="skill-node ${skillClass}" onclick="viewSkill(${skill.id})">
+                            <i class="fas ${skill.icon}"></i>
+                        </div>
+                    </div>
+                `;
+            });
+
+            $('#skillTree').html(html || '<p class="text-muted small text-center">暂无技能数据</p>');
+        }
+
+        function loadLearningStats() {
+            $.ajax({
+                url: '/api/analysis/learning-path-stats',
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        const stats = response.data;
+                        $('#weeklyProgress').text(Math.round(stats.weeklyProgress || 0) + '%');
+                        $('#averageMastery').text(Math.round(stats.averageMastery || 0) + '%');
+                    }
+                },
+                error: function() {
+                    console.log('学习统计加载失败');
+                }
+            });
+        }
+
+        // 筛选和操作函数
+        function filterPaths(filter) {
+            currentFilter = filter;
+            
+            // 更新按钮状态
+            $('.filter-tab').removeClass('active');
+            $(`.filter-tab[data-filter="${filter}"]`).addClass('active');
+            
+            // 更新标题
+            const titles = {
+                'my-paths': '我的学习路径',
+                'recommended': '推荐路径',
+                'popular': '热门路径',
+                'completed': '已完成路径'
+            };
+            $('#pathListTitle').text(titles[filter]);
+            
+            loadPathList();
+        }
+
+        function updatePathCount(count) {
+            $('#pathCount').text(`共 ${count} 个路径`);
+        }
+
+        function showEmptyState() {
+            $('#pathListContainer').hide();
+            $('#emptyState').show();
+        }
+
+        function generateDifficultyIndicator(level) {
+            let html = '<div class="difficulty-indicator">';
+            for (let i = 1; i <= 5; i++) {
+                html += `<div class="difficulty-dot ${i <= level ? 'filled' : ''}"></div>`;
+            }
+            html += '</div>';
+            return html;
+        }
+
+        function getMasteryClass(score) {
+            if (score >= 0.8) return 'mastery-high';
+            if (score >= 0.5) return 'mastery-medium';
+            return 'mastery-low';
+        }
+
+        // 路径操作函数
+        function selectPath(pathId) {
+            window.location.href = `/learning-path/${pathId}`;
+        }
+
+        function startStep(stepId) {
+            window.location.href = `/learn/step/${stepId}`;
+        }
+
+        function viewStepDetail(stepId) {
+            // 显示步骤详情模态框
+            console.log('查看步骤详情:', stepId);
+        }
+
+        function createNewPath() {
+            $('#createPathModal').modal('show');
+            resetWizard();
+        }
+
+        function resetWizard() {
+            currentWizardStep = 1;
+            $('.wizard-step').removeClass('active');
+            $('#step1').addClass('active');
+            updateWizardButtons();
+        }
+
+        function nextWizardStep() {
+            if (currentWizardStep < totalWizardSteps) {
+                $('.wizard-step').removeClass('active');
+                currentWizardStep++;
+                $(`#step${currentWizardStep}`).addClass('active');
+                updateWizardButtons();
+                
+                if (currentWizardStep === totalWizardSteps) {
+                    generatePathPreview();
+                }
+            }
+        }
+
+        function prevWizardStep() {
+            if (currentWizardStep > 1) {
+                $('.wizard-step').removeClass('active');
+                currentWizardStep--;
+                $(`#step${currentWizardStep}`).addClass('active');
+                updateWizardButtons();
+            }
+        }
+
+        function updateWizardButtons() {
+            $('#prevWizardBtn').toggle(currentWizardStep > 1);
+            $('#nextWizardBtn').toggle(currentWizardStep < totalWizardSteps);
+            $('#createPathBtn').toggle(currentWizardStep === totalWizardSteps);
+        }
+
+        function generatePathPreview() {
+            const pathName = $('#pathName').val();
+            const pathGoal = $('#pathGoal').val();
+            const duration = $('#pathDuration option:selected').text();
+            const difficulty = $('#pathDifficulty option:selected').text();
+
+            const html = `
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title">${pathName}</h6>
+                        <p class="card-text">${pathGoal}</p>
+                        <div class="d-flex gap-2">
+                            <span class="badge badge-time">${duration}</span>
+                            <span class="badge badge-difficulty">${difficulty}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            $('#pathPreview').html(html);
+        }
+
+        function submitCreatePath() {
+            const pathData = {
+                pathName: $('#pathName').val(),
+                targetKnowledgePoint: $('#pathGoal').val(),
+                estimatedDuration: parseInt($('#pathDuration').val()) * 7 * 24 * 60, // 转换为分钟
+                difficulty: parseInt($('#pathDifficulty').val()),
+                prerequisites: $('#pathPrerequisites').val()
+            };
+
+            $.ajax({
+                url: '/api/learning-path/create',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(pathData),
+                success: function(response) {
+                    if (response.success) {
+                        showMessage('学习路径创建成功！', 'success');
+                        $('#createPathModal').modal('hide');
+                        loadPathData();
+                    } else {
+                        showMessage(response.message || '创建失败', 'error');
+                    }
+                },
+                error: function() {
+                    showMessage('创建失败，请稍后重试', 'error');
+                }
+            });
+        }
+
+        function generateAIPath() {
+            showMessage('AI正在为您生成学习路径...', 'info');
+            
+            $.ajax({
+                url: '/api/learning-path/generate-ai',
+                type: 'POST',
+                success: function(response) {
+                    if (response.success) {
+                        showMessage('AI学习路径生成成功！', 'success');
+                        loadPathData();
+                    } else {
+                        showMessage(response.message || 'AI生成失败', 'error');
+                    }
+                },
+                error: function() {
+                    showMessage('AI生成失败，请稍后重试', 'error');
+                }
+            });
+        }
+
+        function optimizePath() {
+            if (!currentPathId) return;
+            
+            $.ajax({
+                url: `/api/learning-path/${currentPathId}/optimize`,
+                type: 'POST',
+                success: function(response) {
+                    if (response.success) {
+                        showMessage('路径优化成功！', 'success');
+                        loadCurrentPath();
+                    } else {
+                        showMessage(response.message || '优化失败', 'error');
+                    }
+                },
+                error: function() {
+                    showMessage('优化失败，请稍后重试', 'error');
+                }
+            });
+        }
+
+        function editPath() {
+            if (currentPathId) {
+                window.location.href = `/learning-path/${currentPathId}/edit`;
+            }
+        }
+
+        function sharePath() {
+            if (currentPathId) {
+                const url = `${window.location.origin}/learning-path/${currentPathId}`;
+                navigator.clipboard.writeText(url).then(() => {
+                    showMessage('路径链接已复制到剪贴板', 'success');
+                });
+            }
+        }
+
+        function deletePath() {
+            if (!currentPathId) return;
+            
+            if (confirm('确定要删除这个学习路径吗？此操作无法恢复。')) {
+                $.ajax({
+                    url: `/api/learning-path/${currentPathId}`,
+                    type: 'DELETE',
+                    success: function(response) {
+                        if (response.success) {
+                            showMessage('路径删除成功', 'success');
+                            $('#currentPathContainer').hide();
+                            loadPathData();
+                        } else {
+                            showMessage(response.message || '删除失败', 'error');
+                        }
+                    },
+                    error: function() {
+                        showMessage('删除失败，请稍后重试', 'error');
+                    }
+                });
+            }
+        }
+
+        function exploreRecommended() {
+            filterPaths('recommended');
+        }
+
+        function importPath() {
+            showMessage('路径导入功能开发中', 'info');
+        }
+
+        function handleRecommendation(type, id) {
+            // 处理AI推荐点击
+            switch(type) {
+                case 'path':
+                    selectPath(id);
+                    break;
+                case 'course':
+                    window.location.href = `/courses/${id}`;
+                    break;
+                default:
+                    console.log('未知推荐类型:', type);
+            }
+        }
+
+        function viewSkill(skillId) {
+            console.log('查看技能:', skillId);
+        }
+
+        // 监听筛选器变化
+        $('#difficultyFilter, #subjectFilter').on('change', function() {
+            loadPathList();
+        });
+    </script>
+</body>
+</html>

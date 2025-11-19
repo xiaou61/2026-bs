@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户登录 - AI智能学习助手</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="/css/style.css" rel="stylesheet">
+    
+    <style>
+        .login-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .login-header i {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        .form-floating input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .btn-login {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+        
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #dee2e6;
+        }
+        
+        .divider span {
+            background: white;
+            padding: 0 1rem;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        
+        .quick-login {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .quick-login-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 1px solid #dee2e6;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .quick-login-btn:hover {
+            background: #f8f9fa;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card login-card p-4 animate__animated animate__fadeInUp">
+                        <div class="login-header">
+                            <i class="fas fa-brain fa-3x mb-3"></i>
+                            <h3 class="mb-2">欢迎回来</h3>
+                            <p class="text-muted">登录您的AI学习助手账户</p>
+                        </div>
+
+                        <form id="loginForm">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="username" name="username" placeholder="用户名" required>
+                                <label for="username"><i class="fas fa-user me-2"></i>用户名</label>
+                            </div>
+                            
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="密码" required>
+                                <label for="password"><i class="fas fa-lock me-2"></i>密码</label>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="rememberMe" name="rememberMe">
+                                        <label class="form-check-label" for="rememberMe">
+                                            记住我
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col text-end">
+                                    <a href="/forgot-password" class="text-decoration-none">忘记密码？</a>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-login w-100 text-white">
+                                <span class="spinner-border spinner-border-sm d-none me-2" id="loginSpinner"></span>
+                                <i class="fas fa-sign-in-alt me-2"></i>登录
+                            </button>
+                        </form>
+
+                        <div class="divider">
+                            <span>或者使用快速登录</span>
+                        </div>
+
+                        <div class="quick-login mb-4">
+                            <button type="button" class="quick-login-btn" onclick="quickLogin('student')" title="学生身份登录">
+                                <i class="fas fa-user-graduate text-primary"></i>
+                            </button>
+                            <button type="button" class="quick-login-btn" onclick="quickLogin('teacher')" title="教师身份登录">
+                                <i class="fas fa-chalkboard-teacher text-success"></i>
+                            </button>
+                            <button type="button" class="quick-login-btn" onclick="quickLogin('admin')" title="管理员登录">
+                                <i class="fas fa-user-shield text-warning"></i>
+                            </button>
+                        </div>
+
+                        <div class="text-center">
+                            <p class="mb-0">还没有账户？
+                                <a href="/register" class="text-decoration-none fw-bold">立即注册</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 返回首页链接 -->
+                    <div class="text-center mt-3">
+                        <a href="/" class="text-white text-decoration-none">
+                            <i class="fas fa-arrow-left me-2"></i>返回首页
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 消息提示区域 -->
+    <div id="messageContainer" class="position-fixed top-0 end-0 p-3" style="z-index: 9999;"></div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="/js/common.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // 检查是否已经登录
+            checkLoginStatus();
+            
+            // 表单提交处理
+            $('#loginForm').on('submit', function(e) {
+                e.preventDefault();
+                handleLogin();
+            });
+            
+            // 添加输入框动画效果
+            $('.form-control').on('focus', function() {
+                $(this).parent().addClass('animate__animated animate__pulse');
+            }).on('blur', function() {
+                $(this).parent().removeClass('animate__animated animate__pulse');
+            });
+        });
+
+        function checkLoginStatus() {
+            const token = localStorage.getItem('token');
+            if (token) {
+                window.location.href = '/dashboard';
+            }
+        }
+
+        function handleLogin() {
+            const username = $('#username').val().trim();
+            const password = $('#password').val().trim();
+            const rememberMe = $('#rememberMe').is(':checked');
+
+            if (!username || !password) {
+                showMessage('请输入用户名和密码', 'warning');
+                return;
+            }
+
+            // 显示加载状态
+            setLoginLoading(true);
+
+            const loginData = {
+                username: username,
+                password: password,
+                rememberMe: rememberMe
+            };
+
+            $.ajax({
+                url: '/api/user/login',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(loginData),
+                success: function(response) {
+                    if (response.success) {
+                        // 保存token和用户信息
+                        localStorage.setItem('token', response.data.token);
+                        localStorage.setItem('userInfo', JSON.stringify(response.data.userInfo));
+                        
+                        showMessage('登录成功！', 'success');
+                        
+                        // 延迟跳转，让用户看到成功消息
+                        setTimeout(function() {
+                            window.location.href = '/dashboard';
+                        }, 1000);
+                    } else {
+                        showMessage(response.message || '登录失败', 'error');
+                    }
+                },
+                error: function(xhr) {
+                    const response = xhr.responseJSON;
+                    showMessage(response?.message || '登录失败，请稍后重试', 'error');
+                },
+                complete: function() {
+                    setLoginLoading(false);
+                }
+            });
+        }
+
+        function setLoginLoading(loading) {
+            const submitBtn = $('#loginForm button[type="submit"]');
+            const spinner = $('#loginSpinner');
+            
+            if (loading) {
+                submitBtn.prop('disabled', true);
+                spinner.removeClass('d-none');
+                submitBtn.find('i.fa-sign-in-alt').addClass('d-none');
+            } else {
+                submitBtn.prop('disabled', false);
+                spinner.addClass('d-none');
+                submitBtn.find('i.fa-sign-in-alt').removeClass('d-none');
+            }
+        }
+
+        function quickLogin(type) {
+            let username, password;
+            
+            switch(type) {
+                case 'student':
+                    username = 'student';
+                    password = '123456';
+                    break;
+                case 'teacher':
+                    username = 'teacher';
+                    password = '123456';
+                    break;
+                case 'admin':
+                    username = 'admin';
+                    password = '123456';
+                    break;
+                default:
+                    return;
+            }
+            
+            $('#username').val(username);
+            $('#password').val(password);
+            
+            // 添加动画效果
+            $('.form-floating').addClass('animate__animated animate__bounceIn');
+            
+            setTimeout(function() {
+                $('.form-floating').removeClass('animate__animated animate__bounceIn');
+            }, 1000);
+        }
+
+        function showMessage(message, type = 'info') {
+            const alertClass = {
+                'success': 'alert-success',
+                'error': 'alert-danger',
+                'warning': 'alert-warning',
+                'info': 'alert-info'
+            }[type] || 'alert-info';
+
+            const alertHtml = `
+                <div class="alert ${alertClass} alert-dismissible fade show animate__animated animate__fadeInRight" role="alert">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : type === 'warning' ? 'fa-exclamation-triangle' : 'fa-info-circle'} me-2"></i>
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+
+            $('#messageContainer').html(alertHtml);
+
+            // 3秒后自动消失
+            setTimeout(function() {
+                $('.alert').addClass('animate__fadeOutRight');
+                setTimeout(function() {
+                    $('.alert').remove();
+                }, 500);
+            }, 3000);
+        }
+
+        // 键盘事件处理
+        $(document).on('keypress', function(e) {
+            if (e.which === 13) { // Enter键
+                $('#loginForm').submit();
+            }
+        });
+    </script>
+</body>
+</html>

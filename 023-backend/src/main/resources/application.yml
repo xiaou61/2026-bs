@@ -1,0 +1,76 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/ai_learning_db?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  
+  redis:
+    host: localhost
+    port: 6379
+    password:
+    timeout: 10000ms
+    lettuce:
+      pool:
+        min-idle: 5
+        max-idle: 10
+        max-active: 8
+        max-wait: 1ms
+        
+  thymeleaf:
+    mode: HTML
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    cache: false
+    
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    auto-mapping-behavior: partial
+    auto-mapping-unknown-column-behavior: none
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: com.xiaou.ailearning.entity
+  global-config:
+    banner: false
+    db-config:
+      id-type: ASSIGN_ID
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+# JWT配置
+jwt:
+  secret: ai-learning-secret-key-2024
+  expiration: 86400000 # 24小时，单位毫秒
+
+# AI算法配置
+ai:
+  recommendation:
+    # 协同过滤参数
+    similarity-threshold: 0.1
+    top-k-users: 20
+    top-n-items: 10
+    # 内容推荐参数
+    content-weight: 0.6
+    popularity-weight: 0.4
+  
+  path:
+    # 学习路径算法参数
+    max-path-length: 20
+    difficulty-factor: 0.7
+    time-factor: 0.3
+
+# 日志配置
+logging:
+  level:
+    com.xiaou.ailearning: debug
+    com.baomidou.mybatisplus: debug

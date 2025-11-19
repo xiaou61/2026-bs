@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html}">
+<head>
+    <title>课程列表 - AI智能学习助手</title>
+    <style>
+        .course-filters {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .course-card {
+            border: none;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            height: 100%;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .course-card .card-img-top {
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+        
+        .course-progress {
+            height: 6px;
+            border-radius: 3px;
+        }
+        
+        .difficulty-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 2;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+            color: #6c757d;
+            margin-top: 0.5rem;
+        }
+        
+        .filter-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: #e9ecef;
+            border: 1px solid #dee2e6;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            margin: 0.25rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-tag.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        
+        .filter-tag:hover {
+            background: #007bff;
+            color: white;
+        }
+        
+        .search-box {
+            position: relative;
+        }
+        
+        .search-box .fas {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+        
+        .search-box input {
+            padding-left: 45px;
+            border-radius: 25px;
+        }
+        
+        .sort-dropdown {
+            min-width: 200px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #6c757d;
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        
+        .loading-skeleton {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .floating-action {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .floating-action:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+        }
+        
+        .course-category-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .category-pill {
+            padding: 0.25rem 0.75rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .category-pill:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div th:fragment="content">
+        <div class="container-fluid">
+            <!-- 页面标题 -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h3 mb-2"><i class="fas fa-book me-2 text-primary"></i>课程中心</h1>
+                    <p class="text-muted mb-0">探索丰富的AI驱动学习内容</p>
+                </div>
+                <div>
+                    <button class="btn btn-outline-primary me-2" onclick="toggleMyCoursesOnly()">
+                        <i class="fas fa-bookmark me-1"></i>我的课程
+                    </button>
+                    <button class="btn btn-primary" onclick="showRecommendedCourses()">
+                        <i class="fas fa-magic me-1"></i>智能推荐
+                    </button>
+                </div>
+            </div>
+
+            <!-- 搜索和筛选区域 -->
+            <div class="course-filters">
+                <div class="row">
+                    <!-- 搜索框 -->
+                    <div class="col-md-6 mb-3">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" class="form-control" id="searchInput" placeholder="搜索课程名称、描述、关键词...">
+                        </div>
+                    </div>
+                    
+                    <!-- 排序选择 -->
+                    <div class="col-md-3 mb-3">
+                        <select class="form-select" id="sortSelect">
+                            <option value="recommended">智能推荐</option>
+                            <option value="latest">最新发布</option>
+                            <option value="popular">热门课程</option>
+                            <option value="rating">评分最高</option>
+                            <option value="difficulty_asc">难度从低到高</option>
+                            <option value="difficulty_desc">难度从高到低</option>
+                        </select>
+                    </div>
+                    
+                    <!-- 显示数量 -->
+                    <div class="col-md-3 mb-3">
+                        <select class="form-select" id="limitSelect">
+                            <option value="12">每页12个</option>
+                            <option value="24">每页24个</option>
+                            <option value="48">每页48个</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 快速筛选标签 -->
+                <div class="course-category-pills" id="categoryPills">
+                    <span class="category-pill active" data-category="all">全部</span>
+                    <span class="category-pill" data-category="programming">编程开发</span>
+                    <span class="category-pill" data-category="design">设计创作</span>
+                    <span class="category-pill" data-category="data">数据分析</span>
+                    <span class="category-pill" data-category="ai">人工智能</span>
+                    <span class="category-pill" data-category="business">商业管理</span>
+                    <span class="category-pill" data-category="language">语言学习</span>
+                    <span class="category-pill" data-category="science">科学研究</span>
+                </div>
+
+                <!-- 高级筛选 -->
+                <div class="row">
+                    <div class="col-md-3">
+                        <label class="form-label small text-muted">难度等级</label>
+                        <div id="difficultyFilters">
+                            <div class="filter-tag" data-difficulty="1">入门</div>
+                            <div class="filter-tag" data-difficulty="2">初级</div>
+                            <div class="filter-tag" data-difficulty="3">中级</div>
+                            <div class="filter-tag" data-difficulty="4">高级</div>
+                            <div class="filter-tag" data-difficulty="5">专家</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label small text-muted">学习时长</label>
+                        <div id="durationFilters">
+                            <div class="filter-tag" data-duration="short">短期(< 2小时)</div>
+                            <div class="filter-tag" data-duration="medium">中期(2-10小时)</div>
+                            <div class="filter-tag" data-duration="long">长期(> 10小时)</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label small text-muted">学习状态</label>
+                        <div id="statusFilters">
+                            <div class="filter-tag" data-status="not_started">未开始</div>
+                            <div class="filter-tag" data-status="in_progress">学习中</div>
+                            <div class="filter-tag" data-status="completed">已完成</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button class="btn btn-outline-secondary btn-sm" onclick="clearFilters()">
+                            <i class="fas fa-times me-1"></i>清除筛选
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 课程统计 -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="text-muted">
+                    <span id="courseCount">加载中...</span>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-outline-secondary active" onclick="setViewMode('grid')">
+                        <i class="fas fa-th"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="setViewMode('list')">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 课程列表 -->
+            <div id="courseList" class="row">
+                <!-- 骨架屏加载 -->
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 loading-skeleton" th:each="i : ${#numbers.sequence(1,8)}">
+                    <div class="card course-card">
+                        <div class="card-img-top bg-light" style="height: 200px;"></div>
+                        <div class="card-body">
+                            <div class="bg-light rounded" style="height: 20px; margin-bottom: 10px;"></div>
+                            <div class="bg-light rounded" style="height: 15px; width: 80%; margin-bottom: 10px;"></div>
+                            <div class="bg-light rounded" style="height: 15px; width: 60%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 空状态 -->
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h5>没有找到相关课程</h5>
+                <p>请尝试调整搜索关键词或筛选条件</p>
+                <button class="btn btn-primary" onclick="clearFilters()">
+                    <i class="fas fa-refresh me-2"></i>重置筛选
+                </button>
+            </div>
+
+            <!-- 分页 -->
+            <nav id="pagination" class="mt-4">
+                <!-- 分页按钮将动态生成 -->
+            </nav>
+        </div>
+
+        <!-- 浮动操作按钮 -->
+        <button class="floating-action" onclick="scrollToTop()" title="回到顶部">
+            <i class="fas fa-chevron-up"></i>
+        </button>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        let currentFilters = {
+            search: '',
+            category: 'all',
+            difficulty: [],
+            duration: [],
+            status: [],
+            sort: 'recommended',
+            limit: 12
+        };
+        let isMyCoursesOnly = false;
+        let viewMode = 'grid';
+
+        $(document).ready(function() {
+            initializeEventListeners();
+            loadCourses();
+        });
+
+        function initializeEventListeners() {
+            // 搜索框
+            $('#searchInput').on('input debounce', function() {
+                currentFilters.search = $(this).val().trim();
+                currentPage = 1;
+                loadCourses();
+            });
+
+            // 排序和显示数量
+            $('#sortSelect, #limitSelect').on('change', function() {
+                currentFilters.sort = $('#sortSelect').val();
+                currentFilters.limit = parseInt($('#limitSelect').val());
+                currentPage = 1;
+                loadCourses();
+            });
+
+            // 分类筛选
+            $('.category-pill').on('click', function() {
+                $('.category-pill').removeClass('active');
+                $(this).addClass('active');
+                currentFilters.category = $(this).data('category');
+                currentPage = 1;
+                loadCourses();
+            });
+
+            // 难度筛选
+            $('#difficultyFilters .filter-tag').on('click', function() {
+                $(this).toggleClass('active');
+                updateArrayFilter('difficulty', $(this).data('difficulty'));
+            });
+
+            // 时长筛选
+            $('#durationFilters .filter-tag').on('click', function() {
+                $(this).toggleClass('active');
+                updateArrayFilter('duration', $(this).data('duration'));
+            });
+
+            // 状态筛选
+            $('#statusFilters .filter-tag').on('click', function() {
+                $(this).toggleClass('active');
+                updateArrayFilter('status', $(this).data('status'));
+            });
+        }
+
+        function updateArrayFilter(type, value) {
+            const index = currentFilters[type].indexOf(value);
+            if (index > -1) {
+                currentFilters[type].splice(index, 1);
+            } else {
+                currentFilters[type].push(value);
+            }
+            currentPage = 1;
+            loadCourses();
+        }
+
+        function loadCourses() {
+            showLoading();
+
+            // 构建查询参数
+            const params = new URLSearchParams({
+                page: currentPage,
+                limit: currentFilters.limit,
+                sort: currentFilters.sort
+            });
+
+            if (currentFilters.search) params.append('search', currentFilters.search);
+            if (currentFilters.category !== 'all') params.append('category', currentFilters.category);
+            if (currentFilters.difficulty.length > 0) params.append('difficulty', currentFilters.difficulty.join(','));
+            if (currentFilters.duration.length > 0) params.append('duration', currentFilters.duration.join(','));
+            if (currentFilters.status.length > 0) params.append('status', currentFilters.status.join(','));
+            if (isMyCoursesOnly) params.append('myOnly', 'true');
+
+            $.ajax({
+                url: '/api/course/list?' + params.toString(),
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        displayCourses(response.data.list);
+                        updatePagination(response.data.pagination);
+                        updateCourseCount(response.data.pagination.total);
+                        hideLoading();
+                    } else {
+                        showMessage('加载课程失败', 'error');
+                        hideLoading();
+                    }
+                },
+                error: function() {
+                    showMessage('加载课程失败，请稍后重试', 'error');
+                    hideLoading();
+                }
+            });
+        }
+
+        function displayCourses(courses) {
+            const courseList = $('#courseList');
+            
+            if (courses.length === 0) {
+                courseList.hide();
+                $('#emptyState').show();
+                return;
+            }
+
+            $('#emptyState').hide();
+            courseList.show();
+
+            let html = '';
+            courses.forEach(course => {
+                html += generateCourseCard(course);
+            });
+            
+            courseList.html(html);
+        }
+
+        function generateCourseCard(course) {
+            const progressPercentage = course.progress || 0;
+            const difficultyText = ['', '入门', '初级', '中级', '高级', '专家'][course.difficultyLevel || 1];
+            const difficultyColor = ['', 'success', 'info', 'warning', 'danger', 'dark'][course.difficultyLevel || 1];
+
+            return `
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card course-card position-relative" onclick="viewCourse(${course.id})">
+                        <span class="badge bg-${difficultyColor} difficulty-badge">${difficultyText}</span>
+                        <div class="card-img-top">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title mb-2">${course.courseName}</h6>
+                            <p class="card-text text-muted small mb-3" style="height: 40px; overflow: hidden;">
+                                ${course.description || '暂无描述'}
+                            </p>
+                            
+                            ${progressPercentage > 0 ? `
+                                <div class="mb-2">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <small class="text-muted">学习进度</small>
+                                        <small class="fw-bold">${Math.round(progressPercentage)}%</small>
+                                    </div>
+                                    <div class="progress course-progress">
+                                        <div class="progress-bar bg-primary" style="width: ${progressPercentage}%"></div>
+                                    </div>
+                                </div>
+                            ` : ''}
+                            
+                            <div class="course-stats">
+                                <small><i class="fas fa-clock me-1"></i>${course.durationMinutes || 0}分钟</small>
+                                <small><i class="fas fa-users me-1"></i>${course.studentCount || 0}人学习</small>
+                            </div>
+                            
+                            <div class="mt-3">
+                                ${progressPercentage > 0 ? 
+                                    '<button class="btn btn-primary btn-sm w-100">继续学习</button>' : 
+                                    '<button class="btn btn-outline-primary btn-sm w-100">开始学习</button>'
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updatePagination(pagination) {
+            const paginationContainer = $('#pagination');
+            
+            if (pagination.totalPages <= 1) {
+                paginationContainer.empty();
+                return;
+            }
+
+            let html = '<ul class="pagination justify-content-center">';
+            
+            // 上一页
+            html += `<li class="page-item ${pagination.currentPage === 1 ? 'disabled' : ''}">
+                        <a class="page-link" href="#" onclick="changePage(${pagination.currentPage - 1})">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                     </li>`;
+            
+            // 页码
+            for (let i = Math.max(1, pagination.currentPage - 2); 
+                 i <= Math.min(pagination.totalPages, pagination.currentPage + 2); 
+                 i++) {
+                html += `<li class="page-item ${i === pagination.currentPage ? 'active' : ''}">
+                            <a class="page-link" href="#" onclick="changePage(${i})">${i}</a>
+                         </li>`;
+            }
+            
+            // 下一页
+            html += `<li class="page-item ${pagination.currentPage === pagination.totalPages ? 'disabled' : ''}">
+                        <a class="page-link" href="#" onclick="changePage(${pagination.currentPage + 1})">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                     </li>`;
+            
+            html += '</ul>';
+            paginationContainer.html(html);
+        }
+
+        function updateCourseCount(total) {
+            $('#courseCount').text(`共找到 ${total} 门课程`);
+        }
+
+        function changePage(page) {
+            currentPage = page;
+            loadCourses();
+            scrollToTop();
+        }
+
+        function showLoading() {
+            $('.loading-skeleton').show();
+            $('#courseList .col-lg-3:not(.loading-skeleton)').remove();
+        }
+
+        function hideLoading() {
+            $('.loading-skeleton').hide();
+        }
+
+        function clearFilters() {
+            // 重置所有筛选条件
+            currentFilters = {
+                search: '',
+                category: 'all',
+                difficulty: [],
+                duration: [],
+                status: [],
+                sort: 'recommended',
+                limit: 12
+            };
+            currentPage = 1;
+            isMyCoursesOnly = false;
+
+            // 重置UI状态
+            $('#searchInput').val('');
+            $('#sortSelect').val('recommended');
+            $('#limitSelect').val('12');
+            $('.category-pill').removeClass('active').first().addClass('active');
+            $('.filter-tag').removeClass('active');
+
+            loadCourses();
+        }
+
+        function toggleMyCoursesOnly() {
+            isMyCoursesOnly = !isMyCoursesOnly;
+            currentPage = 1;
+            loadCourses();
+            
+            const btn = $('button[onclick="toggleMyCoursesOnly()"]');
+            if (isMyCoursesOnly) {
+                btn.removeClass('btn-outline-primary').addClass('btn-primary');
+            } else {
+                btn.removeClass('btn-primary').addClass('btn-outline-primary');
+            }
+        }
+
+        function showRecommendedCourses() {
+            currentFilters.sort = 'recommended';
+            $('#sortSelect').val('recommended');
+            currentPage = 1;
+            loadCourses();
+        }
+
+        function setViewMode(mode) {
+            viewMode = mode;
+            $('.btn-group button').removeClass('active');
+            $(`button[onclick="setViewMode('${mode}')"]`).addClass('active');
+            
+            // 这里可以添加列表/网格视图的切换逻辑
+        }
+
+        function viewCourse(courseId) {
+            window.location.href = `/courses/${courseId}`;
+        }
+
+        function scrollToTop() {
+            $('html, body').animate({ scrollTop: 0 }, 500);
+        }
+
+        // 防抖函数
+        $.fn.debounce = function(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }('input', 500);
+    </script>
+</body>
+</html>

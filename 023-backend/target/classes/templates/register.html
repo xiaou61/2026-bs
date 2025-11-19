@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户注册 - AI智能学习助手</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="/css/style.css" rel="stylesheet">
+    
+    <style>
+        .register-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+        
+        .register-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .register-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .register-header i {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        .form-floating input:focus,
+        .form-floating select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .btn-register {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        
+        .step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #dee2e6;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .step.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .step.completed {
+            background: #28a745;
+            color: white;
+        }
+        
+        .step-connector {
+            width: 50px;
+            height: 2px;
+            background: #dee2e6;
+            margin-top: 19px;
+            transition: all 0.3s ease;
+        }
+        
+        .step-connector.completed {
+            background: #28a745;
+        }
+        
+        .form-step {
+            display: none;
+        }
+        
+        .form-step.active {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+        
+        .password-strength {
+            margin-top: 5px;
+        }
+        
+        .strength-bar {
+            height: 4px;
+            border-radius: 2px;
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .strength-weak { background: #dc3545; width: 33%; }
+        .strength-medium { background: #ffc107; width: 66%; }
+        .strength-strong { background: #28a745; width: 100%; }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="card register-card p-4 animate__animated animate__fadeInUp">
+                        <div class="register-header">
+                            <i class="fas fa-user-plus fa-3x mb-3"></i>
+                            <h3 class="mb-2">加入AI学习大家庭</h3>
+                            <p class="text-muted">创建您的智能学习账户</p>
+                        </div>
+
+                        <!-- 步骤指示器 -->
+                        <div class="step-indicator">
+                            <div class="step active" id="step1">1</div>
+                            <div class="step-connector" id="connector1"></div>
+                            <div class="step" id="step2">2</div>
+                            <div class="step-connector" id="connector2"></div>
+                            <div class="step" id="step3">3</div>
+                        </div>
+
+                        <form id="registerForm">
+                            <!-- 第一步：基本信息 -->
+                            <div class="form-step active" id="formStep1">
+                                <h5 class="mb-3"><i class="fas fa-user me-2"></i>基本信息</h5>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="username" name="username" placeholder="用户名" required>
+                                            <label for="username"><i class="fas fa-user me-2"></i>用户名</label>
+                                            <div class="invalid-feedback" id="usernameError"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="realName" name="realName" placeholder="真实姓名" required>
+                                            <label for="realName"><i class="fas fa-id-card me-2"></i>真实姓名</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="email" class="form-control" id="email" name="email" placeholder="邮箱">
+                                            <label for="email"><i class="fas fa-envelope me-2"></i>邮箱</label>
+                                            <div class="invalid-feedback" id="emailError"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="tel" class="form-control" id="phone" name="phone" placeholder="手机号">
+                                            <label for="phone"><i class="fas fa-phone me-2"></i>手机号</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 第二步：学习信息 -->
+                            <div class="form-step" id="formStep2">
+                                <h5 class="mb-3"><i class="fas fa-graduation-cap me-2"></i>学习信息</h5>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <select class="form-select" id="grade" name="grade">
+                                                <option value="">选择年级</option>
+                                                <option value="大一">大一</option>
+                                                <option value="大二">大二</option>
+                                                <option value="大三">大三</option>
+                                                <option value="大四">大四</option>
+                                                <option value="研一">研一</option>
+                                                <option value="研二">研二</option>
+                                                <option value="研三">研三</option>
+                                                <option value="其他">其他</option>
+                                            </select>
+                                            <label for="grade"><i class="fas fa-layer-group me-2"></i>年级</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="major" name="major" placeholder="专业">
+                                            <label for="major"><i class="fas fa-book me-2"></i>专业</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <select class="form-select" id="learningStyle" name="learningStyle">
+                                                <option value="1">视觉型学习</option>
+                                                <option value="2">听觉型学习</option>
+                                                <option value="3">动觉型学习</option>
+                                            </select>
+                                            <label for="learningStyle"><i class="fas fa-brain me-2"></i>学习风格</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <select class="form-select" id="difficultyPreference" name="difficultyPreference">
+                                                <option value="1">简单</option>
+                                                <option value="2" selected>中等</option>
+                                                <option value="3">困难</option>
+                                            </select>
+                                            <label for="difficultyPreference"><i class="fas fa-signal me-2"></i>难度偏好</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="studyTimePreference" name="studyTimePreference" placeholder="学习时间偏好">
+                                    <label for="studyTimePreference"><i class="fas fa-clock me-2"></i>学习时间偏好 (如：早上8-10点)</label>
+                                </div>
+                            </div>
+
+                            <!-- 第三步：密码设置 -->
+                            <div class="form-step" id="formStep3">
+                                <h5 class="mb-3"><i class="fas fa-lock me-2"></i>密码设置</h5>
+                                
+                                <div class="form-floating mb-3">
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="密码" required>
+                                    <label for="password"><i class="fas fa-lock me-2"></i>密码</label>
+                                    <div class="password-strength">
+                                        <div class="strength-bar" id="strengthBar"></div>
+                                        <small class="text-muted" id="strengthText">密码强度：请输入密码</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-floating mb-4">
+                                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="确认密码" required>
+                                    <label for="confirmPassword"><i class="fas fa-lock me-2"></i>确认密码</label>
+                                    <div class="invalid-feedback" id="confirmPasswordError"></div>
+                                </div>
+
+                                <div class="form-check mb-4">
+                                    <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                                    <label class="form-check-label" for="agreeTerms">
+                                        我已阅读并同意 <a href="/terms" target="_blank">用户协议</a> 和 <a href="/privacy" target="_blank">隐私政策</a>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- 按钮区域 -->
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-outline-secondary" id="prevBtn" onclick="changeStep(-1)" style="display: none;">
+                                    <i class="fas fa-arrow-left me-2"></i>上一步
+                                </button>
+                                <div></div>
+                                <button type="button" class="btn btn-primary" id="nextBtn" onclick="changeStep(1)">
+                                    下一步<i class="fas fa-arrow-right ms-2"></i>
+                                </button>
+                                <button type="submit" class="btn btn-primary btn-register text-white" id="submitBtn" style="display: none;">
+                                    <span class="spinner-border spinner-border-sm d-none me-2" id="registerSpinner"></span>
+                                    <i class="fas fa-user-plus me-2"></i>注册账户
+                                </button>
+                            </div>
+                        </form>
+
+                        <div class="text-center mt-4">
+                            <p class="mb-0">已有账户？
+                                <a href="/login" class="text-decoration-none fw-bold">立即登录</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 返回首页链接 -->
+                    <div class="text-center mt-3">
+                        <a href="/" class="text-white text-decoration-none">
+                            <i class="fas fa-arrow-left me-2"></i>返回首页
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 消息提示区域 -->
+    <div id="messageContainer" class="position-fixed top-0 end-0 p-3" style="z-index: 9999;"></div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="/js/common.js"></script>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 3;
+
+        $(document).ready(function() {
+            // 检查是否已经登录
+            checkLoginStatus();
+            
+            // 表单提交处理
+            $('#registerForm').on('submit', function(e) {
+                e.preventDefault();
+                handleRegister();
+            });
+
+            // 用户名检查
+            $('#username').on('blur', function() {
+                checkUsername();
+            });
+
+            // 邮箱检查
+            $('#email').on('blur', function() {
+                checkEmail();
+            });
+
+            // 密码强度检查
+            $('#password').on('input', function() {
+                checkPasswordStrength();
+            });
+
+            // 确认密码检查
+            $('#confirmPassword').on('input', function() {
+                checkPasswordMatch();
+            });
+        });
+
+        function checkLoginStatus() {
+            const token = localStorage.getItem('token');
+            if (token) {
+                window.location.href = '/dashboard';
+            }
+        }
+
+        function changeStep(direction) {
+            if (direction === 1) {
+                // 验证当前步骤
+                if (!validateCurrentStep()) {
+                    return;
+                }
+                currentStep++;
+            } else {
+                currentStep--;
+            }
+
+            // 更新步骤指示器
+            updateStepIndicator();
+
+            // 显示对应的表单步骤
+            $('.form-step').removeClass('active');
+            $(`#formStep${currentStep}`).addClass('active');
+
+            // 更新按钮状态
+            updateButtons();
+        }
+
+        function validateCurrentStep() {
+            const step = currentStep;
+            let isValid = true;
+
+            if (step === 1) {
+                // 验证基本信息
+                const username = $('#username').val().trim();
+                const realName = $('#realName').val().trim();
+
+                if (!username) {
+                    showFieldError('username', '请输入用户名');
+                    isValid = false;
+                }
+                if (!realName) {
+                    showFieldError('realName', '请输入真实姓名');
+                    isValid = false;
+                }
+            } else if (step === 2) {
+                // 学习信息验证（可选）
+                // 这里可以添加必要的验证
+            } else if (step === 3) {
+                // 验证密码
+                const password = $('#password').val();
+                const confirmPassword = $('#confirmPassword').val();
+                const agreeTerms = $('#agreeTerms').is(':checked');
+
+                if (!password) {
+                    showFieldError('password', '请输入密码');
+                    isValid = false;
+                }
+                if (password !== confirmPassword) {
+                    showFieldError('confirmPassword', '两次输入的密码不一致');
+                    isValid = false;
+                }
+                if (!agreeTerms) {
+                    showMessage('请阅读并同意用户协议和隐私政策', 'warning');
+                    isValid = false;
+                }
+            }
+
+            return isValid;
+        }
+
+        function updateStepIndicator() {
+            for (let i = 1; i <= totalSteps; i++) {
+                const step = $(`#step${i}`);
+                const connector = $(`#connector${i}`);
+                
+                if (i < currentStep) {
+                    step.removeClass('active').addClass('completed');
+                    connector.addClass('completed');
+                } else if (i === currentStep) {
+                    step.removeClass('completed').addClass('active');
+                } else {
+                    step.removeClass('active completed');
+                    connector.removeClass('completed');
+                }
+            }
+        }
+
+        function updateButtons() {
+            $('#prevBtn').toggle(currentStep > 1);
+            $('#nextBtn').toggle(currentStep < totalSteps);
+            $('#submitBtn').toggle(currentStep === totalSteps);
+        }
+
+        function checkUsername() {
+            const username = $('#username').val().trim();
+            if (!username) return;
+
+            $.get(`/api/user/check-username?username=${encodeURIComponent(username)}`, function(response) {
+                if (!response.success) {
+                    showFieldError('username', response.message);
+                } else {
+                    clearFieldError('username');
+                }
+            });
+        }
+
+        function checkEmail() {
+            const email = $('#email').val().trim();
+            if (!email) return;
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showFieldError('email', '邮箱格式不正确');
+                return;
+            }
+
+            $.get(`/api/user/check-email?email=${encodeURIComponent(email)}`, function(response) {
+                if (!response.success) {
+                    showFieldError('email', response.message);
+                } else {
+                    clearFieldError('email');
+                }
+            });
+        }
+
+        function checkPasswordStrength() {
+            const password = $('#password').val();
+            const strengthBar = $('#strengthBar');
+            const strengthText = $('#strengthText');
+
+            if (!password) {
+                strengthBar.removeClass().addClass('strength-bar');
+                strengthText.text('密码强度：请输入密码');
+                return;
+            }
+
+            let score = 0;
+            if (password.length >= 8) score++;
+            if (/[a-z]/.test(password)) score++;
+            if (/[A-Z]/.test(password)) score++;
+            if (/[0-9]/.test(password)) score++;
+            if (/[^A-Za-z0-9]/.test(password)) score++;
+
+            if (score < 2) {
+                strengthBar.removeClass().addClass('strength-bar strength-weak');
+                strengthText.text('密码强度：弱');
+            } else if (score < 4) {
+                strengthBar.removeClass().addClass('strength-bar strength-medium');
+                strengthText.text('密码强度：中等');
+            } else {
+                strengthBar.removeClass().addClass('strength-bar strength-strong');
+                strengthText.text('密码强度：强');
+            }
+        }
+
+        function checkPasswordMatch() {
+            const password = $('#password').val();
+            const confirmPassword = $('#confirmPassword').val();
+
+            if (confirmPassword && password !== confirmPassword) {
+                showFieldError('confirmPassword', '两次输入的密码不一致');
+            } else {
+                clearFieldError('confirmPassword');
+            }
+        }
+
+        function showFieldError(fieldId, message) {
+            const field = $(`#${fieldId}`);
+            const errorDiv = $(`#${fieldId}Error`);
+            
+            field.addClass('is-invalid');
+            errorDiv.text(message);
+        }
+
+        function clearFieldError(fieldId) {
+            const field = $(`#${fieldId}`);
+            const errorDiv = $(`#${fieldId}Error`);
+            
+            field.removeClass('is-invalid');
+            errorDiv.text('');
+        }
+
+        function handleRegister() {
+            if (!validateCurrentStep()) {
+                return;
+            }
+
+            // 显示加载状态
+            setRegisterLoading(true);
+
+            const registerData = {
+                username: $('#username').val().trim(),
+                realName: $('#realName').val().trim(),
+                email: $('#email').val().trim(),
+                phone: $('#phone').val().trim(),
+                grade: $('#grade').val(),
+                major: $('#major').val().trim(),
+                learningStyle: parseInt($('#learningStyle').val()),
+                difficultyPreference: parseInt($('#difficultyPreference').val()),
+                studyTimePreference: $('#studyTimePreference').val().trim(),
+                password: $('#password').val()
+            };
+
+            $.ajax({
+                url: '/api/user/register',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(registerData),
+                success: function(response) {
+                    if (response.success) {
+                        showMessage('注册成功！正在跳转到登录页面...', 'success');
+                        
+                        setTimeout(function() {
+                            window.location.href = '/login';
+                        }, 2000);
+                    } else {
+                        showMessage(response.message || '注册失败', 'error');
+                    }
+                },
+                error: function(xhr) {
+                    const response = xhr.responseJSON;
+                    showMessage(response?.message || '注册失败，请稍后重试', 'error');
+                },
+                complete: function() {
+                    setRegisterLoading(false);
+                }
+            });
+        }
+
+        function setRegisterLoading(loading) {
+            const submitBtn = $('#submitBtn');
+            const spinner = $('#registerSpinner');
+            
+            if (loading) {
+                submitBtn.prop('disabled', true);
+                spinner.removeClass('d-none');
+                submitBtn.find('i.fa-user-plus').addClass('d-none');
+            } else {
+                submitBtn.prop('disabled', false);
+                spinner.addClass('d-none');
+                submitBtn.find('i.fa-user-plus').removeClass('d-none');
+            }
+        }
+
+        function showMessage(message, type = 'info') {
+            const alertClass = {
+                'success': 'alert-success',
+                'error': 'alert-danger',
+                'warning': 'alert-warning',
+                'info': 'alert-info'
+            }[type] || 'alert-info';
+
+            const alertHtml = `
+                <div class="alert ${alertClass} alert-dismissible fade show animate__animated animate__fadeInRight" role="alert">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : type === 'warning' ? 'fa-exclamation-triangle' : 'fa-info-circle'} me-2"></i>
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+
+            $('#messageContainer').html(alertHtml);
+
+            // 3秒后自动消失
+            setTimeout(function() {
+                $('.alert').addClass('animate__fadeOutRight');
+                setTimeout(function() {
+                    $('.alert').remove();
+                }, 500);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
