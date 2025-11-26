@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.community.mapper.RepairMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO repair(owner_id, content, image, status, create_time)
+        VALUES(#{ownerId}, #{content}, #{image}, #{status}, NOW())
+    </insert>
+    <update id="update">
+        UPDATE repair SET status = #{status}, finish_time = #{finishTime} WHERE id = #{id}
+    </update>
+    <select id="findById" resultType="com.xiaou.community.entity.Repair">
+        SELECT r.*, o.name as ownerName 
+        FROM repair r 
+        LEFT JOIN owner o ON r.owner_id = o.id 
+        WHERE r.id = #{id}
+    </select>
+    <select id="findByOwnerId" resultType="com.xiaou.community.entity.Repair">
+        SELECT r.*, o.name as ownerName 
+        FROM repair r 
+        LEFT JOIN owner o ON r.owner_id = o.id 
+        WHERE r.owner_id = #{ownerId}
+        ORDER BY r.create_time DESC
+    </select>
+    <select id="findAll" resultType="com.xiaou.community.entity.Repair">
+        SELECT r.*, o.name as ownerName 
+        FROM repair r 
+        LEFT JOIN owner o ON r.owner_id = o.id 
+        ORDER BY r.create_time DESC
+    </select>
+</mapper>

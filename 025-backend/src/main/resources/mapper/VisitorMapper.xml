@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.community.mapper.VisitorMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO visitor(owner_id, visitor_name, visit_time, plate_number, status)
+        VALUES(#{ownerId}, #{visitorName}, #{visitTime}, #{plateNumber}, #{status})
+    </insert>
+    <update id="update">
+        UPDATE visitor SET status = #{status} WHERE id = #{id}
+    </update>
+    <select id="findById" resultType="com.xiaou.community.entity.Visitor">
+        SELECT v.*, o.name as ownerName 
+        FROM visitor v 
+        LEFT JOIN owner o ON v.owner_id = o.id 
+        WHERE v.id = #{id}
+    </select>
+    <select id="findByOwnerId" resultType="com.xiaou.community.entity.Visitor">
+        SELECT v.*, o.name as ownerName 
+        FROM visitor v 
+        LEFT JOIN owner o ON v.owner_id = o.id 
+        WHERE v.owner_id = #{ownerId}
+        ORDER BY v.visit_time DESC
+    </select>
+    <select id="findAll" resultType="com.xiaou.community.entity.Visitor">
+        SELECT v.*, o.name as ownerName 
+        FROM visitor v 
+        LEFT JOIN owner o ON v.owner_id = o.id 
+        ORDER BY v.visit_time DESC
+    </select>
+</mapper>

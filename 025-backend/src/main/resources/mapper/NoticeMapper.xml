@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.community.mapper.NoticeMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO notice(title, content, create_time)
+        VALUES(#{title}, #{content}, NOW())
+    </insert>
+    <update id="update">
+        UPDATE notice SET title = #{title}, content = #{content} WHERE id = #{id}
+    </update>
+    <delete id="deleteById">
+        DELETE FROM notice WHERE id = #{id}
+    </delete>
+    <select id="findById" resultType="com.xiaou.community.entity.Notice">
+        SELECT * FROM notice WHERE id = #{id}
+    </select>
+    <select id="findAll" resultType="com.xiaou.community.entity.Notice">
+        SELECT * FROM notice ORDER BY create_time DESC
+    </select>
+</mapper>

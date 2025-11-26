@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.community.mapper.OwnerMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO owner(user_id, name, phone, building, unit, room, check_in_time)
+        VALUES(#{userId}, #{name}, #{phone}, #{building}, #{unit}, #{room}, #{checkInTime})
+    </insert>
+    <select id="findById" resultType="com.xiaou.community.entity.Owner">
+        SELECT * FROM owner WHERE id = #{id}
+    </select>
+    <select id="findByUserId" resultType="com.xiaou.community.entity.Owner">
+        SELECT * FROM owner WHERE user_id = #{userId}
+    </select>
+    <update id="update">
+        UPDATE owner SET name = #{name}, phone = #{phone}, building = #{building},
+        unit = #{unit}, room = #{room}, check_in_time = #{checkInTime}
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteById">
+        DELETE FROM owner WHERE id = #{id}
+    </delete>
+    <select id="findAll" resultType="com.xiaou.community.entity.Owner">
+        SELECT * FROM owner
+    </select>
+</mapper>
