@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.pet.mapper.PetMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO pet_info (name, type, breed, age, gender, status, description, image_url, health_status, vaccine_status, create_time, update_time)
+        VALUES (#{name}, #{type}, #{breed}, #{age}, #{gender}, #{status}, #{description}, #{imageUrl}, #{healthStatus}, #{vaccineStatus}, NOW(), NOW())
+    </insert>
+
+    <update id="update">
+        UPDATE pet_info
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="breed != null">breed = #{breed},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="imageUrl != null">image_url = #{imageUrl},</if>
+            <if test="healthStatus != null">health_status = #{healthStatus},</if>
+            <if test="vaccineStatus != null">vaccine_status = #{vaccineStatus},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM pet_info WHERE id = #{id}
+    </delete>
+
+    <select id="selectById" resultType="com.xiaou.pet.entity.Pet">
+        SELECT * FROM pet_info WHERE id = #{id}
+    </select>
+
+    <select id="selectAll" resultType="com.xiaou.pet.entity.Pet">
+        SELECT * FROM pet_info
+        <where>
+            <if test="type != null and type != ''">
+                AND type = #{type}
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+</mapper>

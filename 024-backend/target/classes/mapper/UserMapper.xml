@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.pet.mapper.UserMapper">
+
+    <select id="selectByUsername" resultType="com.xiaou.pet.entity.User">
+        SELECT * FROM sys_user WHERE username = #{username}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sys_user (username, password, nickname, role, phone, avatar, create_time, update_time)
+        VALUES (#{username}, #{password}, #{nickname}, #{role}, #{phone}, #{avatar}, NOW(), NOW())
+    </insert>
+
+    <select id="selectById" resultType="com.xiaou.pet.entity.User">
+        SELECT * FROM sys_user WHERE id = #{id}
+    </select>
+
+    <update id="update">
+        UPDATE sys_user
+        <set>
+            <if test="password != null">password = #{password},</if>
+            <if test="nickname != null">nickname = #{nickname},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectAll" resultType="com.xiaou.pet.entity.User">
+        SELECT * FROM sys_user ORDER BY create_time DESC
+    </select>
+
+</mapper>
