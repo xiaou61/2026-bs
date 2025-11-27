@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.artist.mapper.UserMapper">
+    
+    <select id="selectById" resultType="User">
+        SELECT * FROM user WHERE id = #{id}
+    </select>
+    
+    <select id="selectByUsername" resultType="User">
+        SELECT * FROM user WHERE username = #{username}
+    </select>
+    
+    <select id="selectAll" resultType="User">
+        SELECT * FROM user ORDER BY create_time DESC
+    </select>
+    
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user (username, password, email, phone, avatar, nickname, bio, role, status)
+        VALUES (#{username}, #{password}, #{email}, #{phone}, #{avatar}, #{nickname}, #{bio}, #{role}, #{status})
+    </insert>
+    
+    <update id="update">
+        UPDATE user 
+        SET 
+            email = #{email},
+            phone = #{phone},
+            avatar = #{avatar},
+            nickname = #{nickname},
+            bio = #{bio},
+            status = #{status}
+        WHERE id = #{id}
+    </update>
+    
+    <delete id="deleteById">
+        DELETE FROM user WHERE id = #{id}
+    </delete>
+    
+    <update id="updatePassword">
+        UPDATE user SET password = #{password} WHERE id = #{id}
+    </update>
+    
+    <update id="updateBalance">
+        UPDATE user SET balance = balance + #{amount} WHERE id = #{id}
+    </update>
+</mapper>

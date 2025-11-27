@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.artist.mapper.ArtistMapper">
+    
+    <resultMap id="ArtistMap" type="Artist">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="realName" column="real_name"/>
+        <result property="idCard" column="id_card"/>
+        <result property="priceMin" column="price_min"/>
+        <result property="priceMax" column="price_max"/>
+        <result property="deliveryDays" column="delivery_days"/>
+        <result property="acceptTypes" column="accept_types"/>
+        <result property="orderCount" column="order_count"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="username" column="username"/>
+        <result property="avatar" column="avatar"/>
+        <result property="nickname" column="nickname"/>
+    </resultMap>
+    
+    <select id="selectById" resultMap="ArtistMap">
+        SELECT a.*, u.username, u.avatar, u.nickname
+        FROM artist a
+        LEFT JOIN user u ON a.user_id = u.id
+        WHERE a.id = #{id}
+    </select>
+    
+    <select id="selectByUserId" resultMap="ArtistMap">
+        SELECT a.*, u.username, u.avatar, u.nickname
+        FROM artist a
+        LEFT JOIN user u ON a.user_id = u.id
+        WHERE a.user_id = #{userId}
+    </select>
+    
+    <select id="selectAll" resultMap="ArtistMap">
+        SELECT a.*, u.username, u.avatar, u.nickname
+        FROM artist a
+        LEFT JOIN user u ON a.user_id = u.id
+        ORDER BY a.create_time DESC
+    </select>
+    
+    <select id="selectByStatus" resultMap="ArtistMap">
+        SELECT a.*, u.username, u.avatar, u.nickname
+        FROM artist a
+        LEFT JOIN user u ON a.user_id = u.id
+        WHERE a.status = #{status}
+        ORDER BY a.create_time DESC
+    </select>
+    
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO artist (user_id, real_name, id_card, style, price_min, price_max, 
+                           delivery_days, accept_types, status)
+        VALUES (#{userId}, #{realName}, #{idCard}, #{style}, #{priceMin}, #{priceMax}, 
+                #{deliveryDays}, #{acceptTypes}, #{status})
+    </insert>
+    
+    <update id="update">
+        UPDATE artist 
+        SET style = #{style},
+            price_min = #{priceMin},
+            price_max = #{priceMax},
+            delivery_days = #{deliveryDays},
+            accept_types = #{acceptTypes}
+        WHERE id = #{id}
+    </update>
+    
+    <update id="updateStatus">
+        UPDATE artist SET status = #{status} WHERE id = #{id}
+    </update>
+    
+    <update id="updateRating">
+        UPDATE artist SET rating = #{rating} WHERE id = #{id}
+    </update>
+    
+    <update id="incrementOrderCount">
+        UPDATE artist SET order_count = order_count + 1 WHERE id = #{id}
+    </update>
+</mapper>

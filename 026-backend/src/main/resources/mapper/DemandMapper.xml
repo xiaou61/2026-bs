@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.artist.mapper.DemandMapper">
+    
+    <resultMap id="DemandMap" type="Demand">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="budgetMin" column="budget_min"/>
+        <result property="budgetMax" column="budget_max"/>
+        <result property="refImages" column="ref_images"/>
+        <result property="targetArtistId" column="target_artist_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="username" column="username"/>
+        <result property="targetArtistName" column="target_artist_name"/>
+    </resultMap>
+    
+    <select id="selectById" resultMap="DemandMap">
+        SELECT d.*, u.username, u2.nickname AS targetArtistName
+        FROM demand d
+        LEFT JOIN user u ON d.user_id = u.id
+        LEFT JOIN artist a ON d.target_artist_id = a.id
+        LEFT JOIN user u2 ON a.user_id = u2.id
+        WHERE d.id = #{id}
+    </select>
+    
+    <select id="selectByUserId" resultMap="DemandMap">
+        SELECT d.*, u.username
+        FROM demand d
+        LEFT JOIN user u ON d.user_id = u.id
+        WHERE d.user_id = #{userId}
+        ORDER BY d.create_time DESC
+    </select>
+    
+    <select id="selectAll" resultMap="DemandMap">
+        SELECT d.*, u.username
+        FROM demand d
+        LEFT JOIN user u ON d.user_id = u.id
+        ORDER BY d.create_time DESC
+    </select>
+    
+    <select id="selectOpenDemands" resultMap="DemandMap">
+        SELECT d.*, u.username
+        FROM demand d
+        LEFT JOIN user u ON d.user_id = u.id
+        WHERE d.status = 'OPEN' AND d.target_artist_id IS NULL
+        ORDER BY d.create_time DESC
+    </select>
+    
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO demand (user_id, title, description, type, size, style, budget_min, budget_max, 
+                           deadline, ref_images, target_artist_id, status)
+        VALUES (#{userId}, #{title}, #{description}, #{type}, #{size}, #{style}, #{budgetMin}, #{budgetMax}, 
+                #{deadline}, #{refImages}, #{targetArtistId}, #{status})
+    </insert>
+    
+    <update id="update">
+        UPDATE demand 
+        SET title = #{title},
+            description = #{description},
+            type = #{type},
+            size = #{size},
+            style = #{style},
+            budget_min = #{budgetMin},
+            budget_max = #{budgetMax},
+            deadline = #{deadline}
+        WHERE id = #{id}
+    </update>
+    
+    <update id="updateStatus">
+        UPDATE demand SET status = #{status} WHERE id = #{id}
+    </update>
+    
+    <delete id="deleteById">
+        DELETE FROM demand WHERE id = #{id}
+    </delete>
+</mapper>

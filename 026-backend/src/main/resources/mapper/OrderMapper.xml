@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.artist.mapper.OrderMapper">
+    
+    <resultMap id="OrderMap" type="Order">
+        <id property="id" column="id"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="demandId" column="demand_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="artistId" column="artist_id"/>
+        <result property="totalPrice" column="total_price"/>
+        <result property="finalPayment" column="final_payment"/>
+        <result property="draftUrl" column="draft_url"/>
+        <result property="finalUrl" column="final_url"/>
+        <result property="reviseCount" column="revise_count"/>
+        <result property="maxRevise" column="max_revise"/>
+        <result property="commissionRate" column="commission_rate"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="username" column="username"/>
+        <result property="artistName" column="artistName"/>
+    </resultMap>
+    
+    <select id="selectById" resultMap="OrderMap">
+        SELECT o.*, u.username, u2.nickname AS artistName
+        FROM `order` o
+        LEFT JOIN user u ON o.user_id = u.id
+        LEFT JOIN artist a ON o.artist_id = a.id
+        LEFT JOIN user u2 ON a.user_id = u2.id
+        WHERE o.id = #{id}
+    </select>
+    
+    <select id="selectByOrderNo" resultMap="OrderMap">
+        SELECT o.*, u.username, u2.nickname AS artistName
+        FROM `order` o
+        LEFT JOIN user u ON o.user_id = u.id
+        LEFT JOIN artist a ON o.artist_id = a.id
+        LEFT JOIN user u2 ON a.user_id = u2.id
+        WHERE o.order_no = #{orderNo}
+    </select>
+    
+    <select id="selectByUserId" resultMap="OrderMap">
+        SELECT o.*, u2.nickname AS artistName
+        FROM `order` o
+        LEFT JOIN artist a ON o.artist_id = a.id
+        LEFT JOIN user u2 ON a.user_id = u2.id
+        WHERE o.user_id = #{userId}
+        ORDER BY o.create_time DESC
+    </select>
+    
+    <select id="selectByArtistId" resultMap="OrderMap">
+        SELECT o.*, u.username
+        FROM `order` o
+        LEFT JOIN user u ON o.user_id = u.id
+        WHERE o.artist_id = #{artistId}
+        ORDER BY o.create_time DESC
+    </select>
+    
+    <select id="selectAll" resultMap="OrderMap">
+        SELECT o.*, u.username, u2.nickname AS artistName
+        FROM `order` o
+        LEFT JOIN user u ON o.user_id = u.id
+        LEFT JOIN artist a ON o.artist_id = a.id
+        LEFT JOIN user u2 ON a.user_id = u2.id
+        ORDER BY o.create_time DESC
+    </select>
+    
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `order` (order_no, demand_id, user_id, artist_id, title, description, 
+                            total_price, deposit, final_payment, status, max_revise, commission_rate)
+        VALUES (#{orderNo}, #{demandId}, #{userId}, #{artistId}, #{title}, #{description}, 
+                #{totalPrice}, #{deposit}, #{finalPayment}, #{status}, #{maxRevise}, #{commissionRate})
+    </insert>
+    
+    <update id="update">
+        UPDATE `order` 
+        SET title = #{title},
+            description = #{description},
+            total_price = #{totalPrice},
+            deposit = #{deposit},
+            final_payment = #{finalPayment}
+        WHERE id = #{id}
+    </update>
+    
+    <update id="updateStatus">
+        UPDATE `order` SET status = #{status} WHERE id = #{id}
+    </update>
+    
+    <update id="updateDraftUrl">
+        UPDATE `order` SET draft_url = #{url} WHERE id = #{id}
+    </update>
+    
+    <update id="updateFinalUrl">
+        UPDATE `order` SET final_url = #{url} WHERE id = #{id}
+    </update>
+    
+    <update id="incrementReviseCount">
+        UPDATE `order` SET revise_count = revise_count + 1 WHERE id = #{id}
+    </update>
+</mapper>

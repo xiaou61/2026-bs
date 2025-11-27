@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.artist.mapper.PortfolioMapper">
+    
+    <select id="selectById" resultType="Portfolio">
+        SELECT p.*, u.nickname AS artistName
+        FROM portfolio p
+        LEFT JOIN artist a ON p.artist_id = a.id
+        LEFT JOIN user u ON a.user_id = u.id
+        WHERE p.id = #{id}
+    </select>
+    
+    <select id="selectByArtistId" resultType="Portfolio">
+        SELECT * FROM portfolio WHERE artist_id = #{artistId} ORDER BY create_time DESC
+    </select>
+    
+    <select id="selectAll" resultType="Portfolio">
+        SELECT p.*, u.nickname AS artistName
+        FROM portfolio p
+        LEFT JOIN artist a ON p.artist_id = a.id
+        LEFT JOIN user u ON a.user_id = u.id
+        ORDER BY p.create_time DESC
+    </select>
+    
+    <select id="selectFeatured" resultType="Portfolio">
+        SELECT p.*, u.nickname AS artistName
+        FROM portfolio p
+        LEFT JOIN artist a ON p.artist_id = a.id
+        LEFT JOIN user u ON a.user_id = u.id
+        WHERE p.is_featured = 1
+        ORDER BY p.create_time DESC
+    </select>
+    
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO portfolio (artist_id, title, description, image_url, category, tags, is_featured)
+        VALUES (#{artistId}, #{title}, #{description}, #{imageUrl}, #{category}, #{tags}, #{isFeatured})
+    </insert>
+    
+    <update id="update">
+        UPDATE portfolio 
+        SET title = #{title},
+            description = #{description},
+            image_url = #{imageUrl},
+            category = #{category},
+            tags = #{tags},
+            is_featured = #{isFeatured}
+        WHERE id = #{id}
+    </update>
+    
+    <delete id="deleteById">
+        DELETE FROM portfolio WHERE id = #{id}
+    </delete>
+    
+    <update id="incrementViewCount">
+        UPDATE portfolio SET view_count = view_count + 1 WHERE id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.artist.mapper.ReviewMapper">
+    
+    <resultMap id="ReviewMap" type="Review">
+        <id property="id" column="id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="fromUserId" column="from_user_id"/>
+        <result property="toUserId" column="to_user_id"/>
+        <result property="qualityRating" column="quality_rating"/>
+        <result property="attitudeRating" column="attitude_rating"/>
+        <result property="speedRating" column="speed_rating"/>
+        <result property="createTime" column="create_time"/>
+        <result property="fromUsername" column="from_username"/>
+        <result property="toUsername" column="to_username"/>
+        <result property="orderTitle" column="order_title"/>
+    </resultMap>
+    
+    <select id="selectById" resultMap="ReviewMap">
+        SELECT r.*, u1.username AS from_username, u2.username AS to_username, o.title AS order_title
+        FROM review r
+        LEFT JOIN user u1 ON r.from_user_id = u1.id
+        LEFT JOIN user u2 ON r.to_user_id = u2.id
+        LEFT JOIN `order` o ON r.order_id = o.id
+        WHERE r.id = #{id}
+    </select>
+    
+    <select id="selectByOrderId" resultMap="ReviewMap">
+        SELECT r.*, u1.username AS from_username, u2.username AS to_username
+        FROM review r
+        LEFT JOIN user u1 ON r.from_user_id = u1.id
+        LEFT JOIN user u2 ON r.to_user_id = u2.id
+        WHERE r.order_id = #{orderId}
+    </select>
+    
+    <select id="selectByToUserId" resultMap="ReviewMap">
+        SELECT r.*, u1.username AS from_username, o.title AS order_title
+        FROM review r
+        LEFT JOIN user u1 ON r.from_user_id = u1.id
+        LEFT JOIN `order` o ON r.order_id = o.id
+        WHERE r.to_user_id = #{toUserId}
+        ORDER BY r.create_time DESC
+    </select>
+    
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO review (order_id, from_user_id, to_user_id, rating, quality_rating, 
+                           attitude_rating, speed_rating, content, tags)
+        VALUES (#{orderId}, #{fromUserId}, #{toUserId}, #{rating}, #{qualityRating}, 
+                #{attitudeRating}, #{speedRating}, #{content}, #{tags})
+    </insert>
+</mapper>
