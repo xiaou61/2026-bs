@@ -9,29 +9,32 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="007-backend" />
-        <module name="014-backend" />
         <module name="021-backend" />
         <module name="006-backend" />
         <module name="020-backend" />
-        <module name="015-backend" />
         <module name="009-backend" />
         <module name="023-backend" />
         <module name="005-backend" />
-        <module name="012-backend" />
         <module name="campus-affairs" />
         <module name="004-backend" />
-        <module name="013-backend" />
         <module name="022-backend" />
         <module name="019-backend" />
         <module name="003-backend" />
-        <module name="010-backend" />
         <module name="018-backend" />
-        <module name="024-backend" />
-        <module name="011-backend" />
         <module name="017-backend" />
         <module name="002-backend" />
-        <module name="008-backend" />
         <module name="016-backend" />
+        <module name="014-backend" />
+        <module name="015-backend" />
+        <module name="012-backend" />
+        <module name="013-backend" />
+        <module name="027-backend" />
+        <module name="026-backend" />
+        <module name="010-backend" />
+        <module name="024-backend" />
+        <module name="011-backend" />
+        <module name="025-backend" />
+        <module name="008-backend" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -64,6 +67,8 @@
       <module name="022-backend" options="-parameters" />
       <module name="023-backend" options="-parameters" />
       <module name="024-backend" options="-parameters" />
+      <module name="025-backend" options="-parameters" />
+      <module name="027-backend" options="-parameters" />
       <module name="campus-affairs" options="-parameters" />
     </option>
   </component>
