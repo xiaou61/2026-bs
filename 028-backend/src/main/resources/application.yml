@@ -1,0 +1,64 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: campus-bike
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/campus_bike?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  mapper-locations: classpath:mapper/*.xml
+
+# JWT配置
+jwt:
+  secret: xiaou-campus-bike-secret-key-2024-very-long-secret
+  expiration: 604800000  # 7天，单位毫秒
+
+# 文件上传路径
+file:
+  upload-path: ./uploads/
+  max-size: 10485760  # 10MB
+
+# 计费配置
+billing:
+  price-per-30min: 1.0  # 每30分钟1元
+  daily-cap: 20.0  # 日封顶20元
+  deposit: 99.0  # 押金
+  free-deposit-credit: 600  # 免押金信用分
+  night-discount: 0.8  # 夜间折扣
+  night-start: 22  # 夜间开始时间
+  night-end: 6  # 夜间结束时间
+
+# 信用分配置
+credit:
+  initial: 100  # 初始信用分
+  normal-return: 1  # 正常还车
+  proper-parking: 2  # 规范停车
+  report-fault: 5  # 上报故障
+  overtime-penalty: -10  # 超时未还
+  illegal-parking: -5  # 违规停车
+  damage-penalty: -20  # 损坏车辆
