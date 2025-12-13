@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册 - 球赛订票系统</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-body p-4">
+                        <h3 class="card-title text-center mb-4">用户注册</h3>
+                        <form hx-post="/api/auth/register" hx-target="#register-result" hx-swap="innerHTML">
+                            <div class="mb-3">
+                                <label class="form-label">用户名</label>
+                                <input type="text" name="username" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">密码</label>
+                                <input type="password" name="password" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">确认密码</label>
+                                <input type="password" name="confirmPassword" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">手机号</label>
+                                <input type="tel" name="phone" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">邮箱</label>
+                                <input type="email" name="email" class="form-control">
+                            </div>
+                            <div id="register-result" class="mb-3"></div>
+                            <button type="submit" class="btn btn-primary w-100">注册</button>
+                        </form>
+                        <div class="text-center mt-3">
+                            <a href="login.html">已有账号？立即登录</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

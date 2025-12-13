@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的订单 - 球赛订票系统</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-futbol"></i> 球赛订票系统
+            </a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="matches.html">赛事列表</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="my-orders.html">我的订单</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav" id="nav-user"></ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <h2 class="mb-4">我的订单</h2>
+        
+        <div class="card">
+            <div class="card-body">
+                <ul class="nav nav-tabs mb-3" id="orderTabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#all">全部订单</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#pending">待支付</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#paid">已支付</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#cancelled">已取消</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="all">
+                        <div id="orders-list"></div>
+                    </div>
+                    <div class="tab-pane fade" id="pending"></div>
+                    <div class="tab-pane fade" id="paid"></div>
+                    <div class="tab-pane fade" id="cancelled"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="js/app.js"></script>
+    <script src="js/orders.js"></script>
+</body>
+</html>

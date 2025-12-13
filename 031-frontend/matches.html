@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>赛事列表 - 球赛订票系统</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-futbol"></i> 球赛订票系统
+            </a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="matches.html">赛事列表</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="my-orders.html">我的订单</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <h2 class="mb-4">所有赛事</h2>
+        
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="搜索比赛...">
+            </div>
+            <div class="col-md-3">
+                <select class="form-select">
+                    <option>所有赛事</option>
+                    <option>中超</option>
+                    <option>足协杯</option>
+                    <option>亚冠</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="matches-list" class="row g-4"
+             hx-get="/api/matches"
+             hx-trigger="load"
+             hx-swap="innerHTML">
+            <div class="col-12 text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">加载中...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

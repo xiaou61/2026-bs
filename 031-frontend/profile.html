@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 - 球赛订票系统</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-futbol"></i> 球赛订票系统
+            </a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="matches.html">赛事列表</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="my-orders.html">我的订单</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav" id="nav-user"></ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>个人中心</h5>
+                        <div class="list-group list-group-flush">
+                            <a href="#info" class="list-group-item list-group-item-action active">基本信息</a>
+                            <a href="#balance" class="list-group-item list-group-item-action">账户余额</a>
+                            <a href="#password" class="list-group-item list-group-item-action">修改密码</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>基本信息</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="profile-form">
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label">用户名</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="username" readonly>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label">手机号</label>
+                                <div class="col-sm-9">
+                                    <input type="tel" class="form-control" id="phone">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label">邮箱</label>
+                                <div class="col-sm-9">
+                                    <input type="email" class="form-control" id="email">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label">真实姓名</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="realName">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label">身份证号</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="idCard">
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-primary">保存修改</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h5>账户余额</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            <h3 id="balance-amount">¥0.00</h3>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">充值金额</span>
+                            <input type="number" class="form-control" id="recharge-amount" placeholder="请输入充值金额">
+                            <button class="btn btn-primary" onclick="recharge()">充值</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="js/app.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+</html>

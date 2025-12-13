@@ -1,0 +1,105 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+}
+
+.match-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    border-radius: 10px;
+}
+
+.match-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.match-date {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.team-vs {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.team-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.vs-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #6c757d;
+}
+
+.price-tag {
+    background-color: #28a745;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    display: inline-block;
+    font-weight: bold;
+}
+
+.seat-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 5px;
+    margin: 20px 0;
+}
+
+.seat {
+    aspect-ratio: 1;
+    border: 2px solid #dee2e6;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.3s;
+}
+
+.seat.available {
+    background-color: #28a745;
+    color: white;
+}
+
+.seat.available:hover {
+    background-color: #218838;
+    transform: scale(1.1);
+}
+
+.seat.selected {
+    background-color: #007bff;
+    color: white;
+    border-color: #0056b3;
+}
+
+.seat.occupied {
+    background-color: #dc3545;
+    color: white;
+    cursor: not-allowed;
+}
+
+.ticket-summary {
+    position: sticky;
+    top: 20px;
+}

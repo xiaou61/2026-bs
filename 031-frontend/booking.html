@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>订票 - 球赛订票系统</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-futbol"></i> 球赛订票系统
+            </a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="matches.html">赛事列表</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="my-orders.html">我的订单</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav" id="nav-user"></ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>比赛信息</h5>
+                    </div>
+                    <div class="card-body" id="match-info"></div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>选择票价分区</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="pricing-list" class="row g-3"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5>选择座位</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <span class="badge bg-success">可选</span>
+                            <span class="badge bg-primary">已选</span>
+                            <span class="badge bg-danger">已售</span>
+                        </div>
+                        <div id="seat-grid" class="seat-grid"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card ticket-summary">
+                    <div class="card-header">
+                        <h5>订单摘要</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="selected-seats">
+                            <p class="text-muted">暂未选择座位</p>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>总价：</span>
+                            <strong id="total-price">¥0</strong>
+                        </div>
+                        <button class="btn btn-primary w-100" onclick="submitOrder()">
+                            确认下单
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="js/app.js"></script>
+    <script src="js/booking.js"></script>
+</body>
+</html>
