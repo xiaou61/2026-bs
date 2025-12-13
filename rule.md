@@ -1,4 +1,20 @@
-不需要有任何的注释
-中文回答我的问题就可以了
-不需要给每个项目创建readme除非我要求
-不需要验证是否可以编译
+不需要有任何的注释  不需要给每个项目创建readme除非我要求  不需要验证是否可以编译
+然后下面是一些技术选择范围你可以自由选择。顺便看看其他项目用的什么，尽量多元化一点，并且结合以下这个选题
+SpringBoot ORM
+MyBatis
+MyBatis-Plus
+JPA / Hibernate
+Spring Data JPA
+Spring Data JDBC
+jOOQ
+QueryDSL
+Ebean
+ActiveJDBC
+Exposed
+数据库
+MySQL
+PostgreSQL
+前端
+Vue
+React
+htmx
