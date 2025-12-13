@@ -29,6 +29,7 @@
         <module name="029-backend" />
         <module name="012-backend" />
         <module name="028-backend" />
+        <module name="031-backend" />
         <module name="013-backend" />
         <module name="027-backend" />
         <module name="030-backend" />
@@ -75,6 +76,7 @@
       <module name="028-backend" options="-parameters" />
       <module name="029-backend" options="-parameters" />
       <module name="030-backend" options="-parameters" />
+      <module name="031-backend" options="-parameters" />
       <module name="campus-affairs" options="-parameters" />
     </option>
   </component>
