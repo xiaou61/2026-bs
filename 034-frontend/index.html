@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>零食铺子仓储管理前端</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+  <style>
+    body { margin: 0; background: #f6f8fb; font-family: "Segoe UI", "PingFang SC", sans-serif; }
+    .app-shell { min-height: 100vh; }
+    .header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+    .title { font-size: 20px; font-weight: 700; color: #1f2f3d; }
+    .subtitle { color: #64748b; font-size: 13px; margin-top: 4px; }
+    .header-right { display: flex; align-items: center; gap: 8px; }
+    .card-title { font-weight: 600; margin-bottom: 12px; }
+    .mt16 { margin-top: 16px; }
+    .items-table { margin-top: 12px; }
+    .section-row { margin-top: 12px; }
+    .token-input { margin-top: 8px; }
+    .stat-grid { margin-top: 12px; }
+    .stat-card { padding: 12px 14px; background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; }
+    .stat-label { color: #64748b; font-size: 12px; }
+    .stat-value { font-size: 20px; font-weight: 700; color: #1f2f3d; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <el-container class="app-shell">
+      <el-header height="92px">
+        <div class="header">
+          <div>
+            <div class="title">零食铺子仓储管理前端</div>
+            <div class="subtitle">登录、SKU、库存、入出库、调拨、盘点一页搞定</div>
+          </div>
+          <div class="header-right">
+            <el-input v-model="state.baseUrl" placeholder="API 地址，例如 http://localhost:8080" style="width: 320px" size="small"></el-input>
+            <el-button size="small" type="primary" @click="persistBaseUrl">保存地址</el-button>
+            <el-button v-if="state.token" size="small" @click="copyToken">复制 Token</el-button>
+            <el-tag v-if="state.token" type="success" effect="dark">令牌已就绪</el-tag>
+            <el-button v-if="state.token" size="small" type="warning" @click="logout">退出</el-button>
+          </div>
+        </div>
+      </el-header>
+      <el-main v-loading="busy">
+        <el-row :gutter="16">
+          <el-col :span="8">
+            <el-card shadow="never">
+              <div class="card-title">登录</div>
+              <el-form :model="state.loginForm" label-width="90px">
+                <el-form-item label="用户名">
+                  <el-input v-model="state.loginForm.username" autocomplete="username"></el-input>
+                </el-form-item>
+                <el-form-item label="密码">
+                  <el-input v-model="state.loginForm.password" type="password" autocomplete="current-password"></el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="primary" @click="login">登录获取 Token</el-button>
+                  <el-button @click="fillDefault">填充默认账号</el-button>
+                </el-form-item>
+              </el-form>
+              <div class="token-input">
+                <el-input v-model="state.token" readonly placeholder="登录成功后显示 token" size="small"></el-input>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col :span="16">
+            <el-card shadow="never">
+              <div class="card-title">快捷提示</div>
+              <el-descriptions :column="2" border size="small">
+                <el-descriptions-item label="默认账号">admin / admin</el-descriptions-item>
+                <el-descriptions-item label="鉴权">Authorization: Bearer {token}</el-descriptions-item>
+                <el-descriptions-item label="接口返回">{ code, message, data }</el-descriptions-item>
+                <el-descriptions-item label="提示">先登录再进行业务操作</el-descriptions-item>
+              </el-descriptions>
+              <div class="section-row">
+                <el-space wrap>
+                  <el-button type="success" @click="loadSkus" :disabled="!state.token">刷新 SKU</el-button>
+                  <el-button @click="loadInventory" :disabled="!state.token">刷新库存</el-button>
+                  <el-button @click="loadLogs" :disabled="!state.token">刷新库存日志</el-button>
+                  <el-button @click="fillSamples" :disabled="!state.token">填充示例单据</el-button>
+                </el-space>
+              </div>
+            </el-card>
+          </el-col>
+        </el-row>
+
+        <el-tabs v-model="state.activeTab" class="mt16">
+          <el-tab-pane label="SKU 管理" name="sku">
+            <el-row :gutter="16">
+              <el-col :span="14">
+                <el-table :data="state.skus" border size="small" height="360px" @row-dblclick="editSku">
+                  <el-table-column prop="id" label="ID" width="70"></el-table-column>
+                  <el-table-column prop="code" label="编码" width="120"></el-table-column>
+                  <el-table-column prop="name" label="名称" width="140"></el-table-column>
+                  <el-table-column prop="spec" label="规格"></el-table-column>
+                  <el-table-column prop="shelfLifeDays" label="保质期(天)" width="110"></el-table-column>
+                  <el-table-column prop="barcode" label="条码" width="140"></el-table-column>
+                  <el-table-column prop="supplierId" label="供应商ID" width="110"></el-table-column>
+                  <el-table-column label="操作" width="120">
+                    <template #default="scope">
+                      <el-button size="small" @click="editSku(scope.row)">编辑</el-button>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-col>
+              <el-col :span="10">
+                <el-card shadow="never">
+                  <div class="card-title">{{ state.skuForm.id ? '编辑 SKU' : '新增 SKU' }}</div>
+                  <el-form :model="state.skuForm" label-width="110px" size="small">
+                    <el-form-item label="编码">
+                      <el-input v-model="state.skuForm.code"></el-input>
+                    </el-form-item>
+                    <el-form-item label="名称">
+                      <el-input v-model="state.skuForm.name"></el-input>
+                    </el-form-item>
+                    <el-form-item label="规格">
+                      <el-input v-model="state.skuForm.spec"></el-input>
+                    </el-form-item>
+                    <el-form-item label="保质期(天)">
+                      <el-input-number v-model="state.skuForm.shelfLifeDays" :min="0" :max="3650" style="width: 160px"></el-input-number>
+                    </el-form-item>
+                    <el-form-item label="条码">
+                      <el-input v-model="state.skuForm.barcode"></el-input>
+                    </el-form-item>
+                    <el-form-item label="供应商ID">
+                      <el-input-number v-model="state.skuForm.supplierId" :min="1" style="width: 160px"></el-input-number>
+                    </el-form-item>
+                    <el-form-item>
+                      <el-button type="primary" @click="submitSku">{{ state.skuForm.id ? '更新' : '创建' }}</el-button>
+                      <el-button @click="resetSkuForm" v-if="state.skuForm.id">取消编辑</el-button>
+                    </el-form-item>
+                  </el-form>
+                </el-card>
+              </el-col>
+            </el-row>
+          </el-tab-pane>
+
+          <el-tab-pane label="库存与日志" name="inventory">
+            <el-form :inline="true" size="small" class="section-row">
+              <el-form-item label="SKU ID">
+                <el-input v-model="state.inventoryFilter.skuId" style="width: 180px" placeholder="可选过滤"></el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" @click="loadInventory">查询库存</el-button>
+                <el-button @click="loadLogs">查询日志</el-button>
+                <el-button type="success" plain @click="exportInventoryCsv" :disabled="!state.inventory.length">导出库存CSV</el-button>
+                <el-button type="success" plain @click="exportLogsCsv" :disabled="!state.logs.length">导出日志CSV</el-button>
+              </el-form-item>
+            </el-form>
+            <el-row :gutter="12" class="stat-grid">
+              <el-col :span="6">
+                <div class="stat-card">
+                  <div class="stat-label">SKU 数</div>
+                  <div class="stat-value">{{ state.inventorySummary.totalSkus }}</div>
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <div class="stat-card">
+                  <div class="stat-label">可用总数</div>
+                  <div class="stat-value">{{ state.inventorySummary.totalAvailable }}</div>
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <div class="stat-card">
+                  <div class="stat-label">锁定总数</div>
+                  <div class="stat-value">{{ state.inventorySummary.totalLocked }}</div>
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <div class="stat-card">
+                  <div class="stat-label">冻结总数</div>
+                  <div class="stat-value">{{ state.inventorySummary.totalFrozen }}</div>
+                </div>
+              </el-col>
+            </el-row>
+            <el-row :gutter="16" class="section-row">
+              <el-col :span="14">
+                <el-table :data="state.inventory" border size="small" height="360px">
+                  <el-table-column prop="id" label="ID" width="60"></el-table-column>
+                  <el-table-column prop="skuId" label="SKU" width="80"></el-table-column>
+                  <el-table-column prop="warehouseId" label="仓库" width="80"></el-table-column>
+                  <el-table-column prop="locationId" label="库位" width="80"></el-table-column>
+                  <el-table-column prop="batchId" label="批次ID" width="90"></el-table-column>
+                  <el-table-column prop="quantityAvailable" label="可用" width="80"></el-table-column>
+                  <el-table-column prop="quantityLocked" label="锁定" width="80"></el-table-column>
+                  <el-table-column prop="quantityFrozen" label="冻结" width="80"></el-table-column>
+                </el-table>
+              </el-col>
+              <el-col :span="10">
+                <el-table :data="state.logs" border size="small" height="360px">
+                  <el-table-column prop="id" label="ID" width="60"></el-table-column>
+                  <el-table-column prop="changeType" label="类型" width="110"></el-table-column>
+                  <el-table-column prop="changeQty" label="数量" width="80"></el-table-column>
+                  <el-table-column prop="refType" label="来源" width="100"></el-table-column>
+                  <el-table-column prop="refId" label="单号ID" width="90"></el-table-column>
+                  <el-table-column prop="createdAt" label="时间"></el-table-column>
+                </el-table>
+              </el-col>
+            </el-row>
+          </el-tab-pane>
+
+          <el-tab-pane label="入库 / 出库 / 调拨" name="io">
+            <el-collapse v-model="state.collapseActive" accordion>
+              <el-collapse-item name="inbound" title="入库单">
+                <el-form :model="state.inbound" label-width="110px" size="small">
+                  <el-form-item label="入库单号">
+                    <el-input v-model="state.inbound.orderNo"></el-input>
+                  </el-form-item>
+                  <el-form-item label="仓库ID">
+                    <el-input-number v-model="state.inbound.warehouseId" :min="1" style="width: 180px"></el-input-number>
+                  </el-form-item>
+                  <el-form-item label="供应商ID">
+                    <el-input-number v-model="state.inbound.supplierId" :min="1" style="width: 180px"></el-input-number>
+                  </el-form-item>
+                </el-form>
+                <el-table :data="state.inbound.items" border size="small" class="items-table">
+                  <el-table-column label="#" type="index" width="50"></el-table-column>
+                  <el-table-column label="SKU">
+                    <template #default="scope">
+                      <el-input-number v-model="scope.row.skuId" :min="1" size="small"></el-input-number>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="批次号">
+                    <template #default="scope">
+                      <el-input v-model="scope.row.batchNo" size="small"></el-input>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="数量">
+                    <template #default="scope">
+                      <el-input-number v-model="scope.row.quantity" :min="0" size="small"></el-input-number>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="库位">
+                    <template #default="scope">
+                      <el-input-number v-model="scope.row.locationId" :min="1" size="small"></el-input-number>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="生产日">
+                    <template #default="scope">
+                      <el-date-picker v-model="scope.row.productionDate" type="date" value-format="YYYY-MM-DD" size="small"></el-date-picker>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="到期日">
+                    <template #default="scope">
+                      <el-date-picker v-model="scope.row.expireDate" type="date" value-format="YYYY-MM-DD" size="small"></el-date-picker>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="操作" width="90">
+                    <template #default="scope">
+                      <el-button size="small" type="danger" @click="removeItem(state.inbound.items, scope.$index)">删除</el-button>
+                    </template>
+                  </el-table-column>
+                </el-table>
+                <div class="section-row">
+                  <el-space>
+                    <el-button @click="addInboundItem">新增明细</el-button>
+                    <el-button type="primary" @click="submitInbound">提交入库</el-button>
+                  </el-space>
+                </div>
+              </el-collapse-item>
+
+              <el-collapse-item name="outbound" title="出库单">
+                <el-form :model="state.outbound" label-width="110px" size="small">
+                  <el-form-item label="出库单号">
+                    <el-input v-model="state.outbound.orderNo"></el-input>
+                  </el-form-item>
+                  <el-form-item label="仓库ID">
+                    <el-input-number v-model="state.outbound.warehouseId" :min="1" style="width: 180px"></el-input-number>
+                  </el-form-item>
+                  <el-form-item label="客户ID">
+                    <el-input-number v-model="state.outbound.customerId" :min="1" style="width: 180px"></el-input-number>
+                  </el-form-item>
+                </el-form>
+                <el-table :data="state.outbound.items" border size="small" class="items-table">
+                  <el-table-column type="index" width="50" label="#"></el-table-column>
+                  <el-table-column label="SKU">
+                    <template #default="scope">
+                      <el-input-number v-model="scope.row.skuId" :min="1" size="small"></el-input-number>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="批次ID">
+                    <template #default="scope">
+                      <el-input-number v-model="scope.row.batchId" :min="1" size="small"></el-input-number>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="数量">
+                    <template #default="scope">
+                      <el-input-number v-model="scope.row.quantity" :min="0" size="small"></el-input-number>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="库位">
+                    <template #default="scope">
+                      <el-input-number v-model="scope.row.locationId" :min="1" size="small"></el-input-number>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="操作" width="90">
+                    <template #default="scope">
+                      <el-button size="small" type="danger" @click="removeItem(state.outbound.items, scope.$index)">删除</el-button>
+                    </template>
+                  </el-table-column>
+                </el-table>
+                <div class="section-row">
+                  <el-space>
+                    <el-button @click="addOutboundItem">新增明细</el-button>
+                    <el-button type="primary" @click="submitOutbound">提交出库</el-button>
+                  </el-space>
+                </div>
+              </el-collapse-item>
+
+              <el-collapse-item name="transfer" title="调拨单">
+                <el-form :model="state.transfer" label-width="110px" size="small">
+                  <el-form-item label="调拨单号">
+                    <el-input v-model="state.transfer.orderNo"></el-input>
+                  </el-form-item>
+                  <el-form-item label="从仓库">
+                    <el-input-number v-model="state.transfer.fromWarehouseId" :min="1" style="width: 180px"></el-input-number>
+                  </el-form-item>
+                  <el-form-item label="到仓库">
+                    <el-input-number v-model="state.transfer.toWarehouseId" :min="1" style="width: 180px"></el-input-number>
+                  </el-form-item>
+                </el-form>
+                <el-table :data="state.transfer.items" border size="small" class="items-table">
+                  <el-table-column type="index" width="50" label="#"></el-table-column>
+                  <el-table-column label="SKU">
+                    <template #default="scope">
+                      <el-input-number v-model="scope.row.skuId" :min="1" size="small"></el-input-number>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="批次ID">
+                    <template #default="scope">
+                      <el-input-number v-model="scope.row.batchId" :min="1" size="small"></el-input-number>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="数量">
+                    <template #default="scope">
+                      <el-input-number v-model="scope.row.quantity" :min="0" size="small"></el-input-number>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="从库位">
+                    <template #default="scope">
+                      <el-input-number v-model="scope.row.fromLocationId" :min="1" size="small"></el-input-number>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="到库位">
+                    <template #default="scope">
+                      <el-input-number v-model="scope.row.toLocationId" :min="1" size="small"></el-input-number>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="操作" width="90">
+                    <template #default="scope">
+                      <el-button size="small" type="danger" @click="removeItem(state.transfer.items, scope.$index)">删除</el-button>
+                    </template>
+                  </el-table-column>
+                </el-table>
+                <div class="section-row">
+                  <el-space>
+                    <el-button @click="addTransferItem">新增明细</el-button>
+                    <el-button type="primary" @click="submitTransfer">提交调拨</el-button>
+                  </el-space>
+                </div>
+              </el-collapse-item>
+            </el-collapse>
+          </el-tab-pane>
+
+          <el-tab-pane label="盘点" name="stock">
+            <el-form :model="state.stockCheck" label-width="110px" size="small">
+              <el-form-item label="盘点单号">
+                <el-input v-model="state.stockCheck.orderNo"></el-input>
+              </el-form-item>
+              <el-form-item label="仓库ID">
+                <el-input-number v-model="state.stockCheck.warehouseId" :min="1" style="width: 180px"></el-input-number>
+              </el-form-item>
+            </el-form>
+            <el-table :data="state.stockCheck.items" border size="small" class="items-table">
+              <el-table-column type="index" width="50" label="#"></el-table-column>
+              <el-table-column label="SKU">
+                <template #default="scope">
+                  <el-input-number v-model="scope.row.skuId" :min="1" size="small" @change="() => syncDiff(scope.row)"></el-input-number>
+                </template>
+              </el-table-column>
+              <el-table-column label="批次ID">
+                <template #default="scope">
+                  <el-input-number v-model="scope.row.batchId" :min="1" size="small" @change="() => syncDiff(scope.row)"></el-input-number>
+                </template>
+              </el-table-column>
+              <el-table-column label="库位">
+                <template #default="scope">
+                  <el-input-number v-model="scope.row.locationId" :min="1" size="small" @change="() => syncDiff(scope.row)"></el-input-number>
+                </template>
+              </el-table-column>
+              <el-table-column label="系统数量">
+                <template #default="scope">
+                  <el-input-number v-model="scope.row.systemQty" :min="0" size="small" @change="() => syncDiff(scope.row)"></el-input-number>
+                </template>
+              </el-table-column>
+              <el-table-column label="实盘数量">
+                <template #default="scope">
+                  <el-input-number v-model="scope.row.countedQty" :min="0" size="small" @change="() => syncDiff(scope.row)"></el-input-number>
+                </template>
+              </el-table-column>
+              <el-table-column label="差异">
+                <template #default="scope">
+                  <el-tag :type="scope.row.diffQty > 0 ? 'success' : (scope.row.diffQty < 0 ? 'danger' : 'info')">{{ scope.row.diffQty }}</el-tag>
+                </template>
+              </el-table-column>
+              <el-table-column label="操作" width="90">
+                <template #default="scope">
+                  <el-button size="small" type="danger" @click="removeItem(state.stockCheck.items, scope.$index)">删除</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <div class="section-row">
+              <el-space>
+                <el-button @click="addStockItem">新增明细</el-button>
+                <el-button type="primary" @click="submitStockCheck">提交盘点</el-button>
+              </el-space>
+            </div>
+          </el-tab-pane>
+        </el-tabs>
+      </el-main>
+    </el-container>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <script src="https://unpkg.com/element-plus/dist/index.full.min.js"></script>
+  <script>
+    const { createApp, reactive, ref } = Vue;
+    const app = createApp({
+      setup() {
+        const state = reactive({
+          baseUrl: localStorage.getItem('wms_base_url') || 'http://localhost:8080',
+          token: localStorage.getItem('wms_token') || '',
+          activeTab: 'sku',
+          collapseActive: 'inbound',
+          loginForm: { username: 'admin', password: 'admin' },
+          skus: [],
+          skuForm: { id: null, code: '', name: '', spec: '', shelfLifeDays: 0, barcode: '', supplierId: null },
+          inventory: [],
+          logs: [],
+          inventoryFilter: { skuId: '' },
+          inbound: { orderNo: '', warehouseId: '', supplierId: '', items: [{ skuId: '', batchNo: '', quantity: 0, locationId: '', productionDate: '', expireDate: '' }] },
+          outbound: { orderNo: '', warehouseId: '', customerId: '', items: [{ skuId: '', batchId: '', quantity: 0, locationId: '' }] },
+          transfer: { orderNo: '', fromWarehouseId: '', toWarehouseId: '', items: [{ skuId: '', batchId: '', quantity: 0, fromLocationId: '', toLocationId: '' }] },
+          stockCheck: { orderNo: '', warehouseId: '', items: [{ skuId: '', batchId: '', locationId: '', systemQty: 0, countedQty: 0, diffQty: 0 }] },
+          inventorySummary: { totalSkus: 0, totalAvailable: 0, totalLocked: 0, totalFrozen: 0 }
+        });
+        const busy = ref(false);
+
+        const toNumber = (v) => v === '' || v === null || v === undefined ? null : Number(v);
+        const msg = (text, type = 'success') => ElementPlus.ElMessage({ message: text, type });
+
+        const persistBaseUrl = () => {
+          localStorage.setItem('wms_base_url', state.baseUrl);
+          msg('已保存接口地址');
+        };
+
+        const ensureToken = () => {
+          if (!state.token) {
+            msg('请先登录', 'warning');
+            return false;
+          }
+          return true;
+        };
+
+        const copyToken = async () => {
+          if (!state.token) return msg('暂无 token', 'warning');
+          try {
+            await navigator.clipboard.writeText(state.token);
+            msg('已复制 token');
+          } catch (_) {
+            msg('复制失败，请手动选择', 'error');
+          }
+        };
+
+        const logout = () => {
+          state.token = '';
+          localStorage.removeItem('wms_token');
+        };
+
+        const request = async (path, options = {}) => {
+          busy.value = true;
+          try {
+            const headers = options.headers ? { ...options.headers } : {};
+            if (state.token) headers.Authorization = 'Bearer ' + state.token;
+            if (options.body && !headers['Content-Type']) headers['Content-Type'] = 'application/json';
+            const resp = await fetch(state.baseUrl + path, { ...options, headers });
+            const json = await resp.json();
+            if (json.code !== 200) throw new Error(json.message || '接口错误');
+            return json.data;
+          } finally {
+            busy.value = false;
+          }
+        };
+
+        const login = async () => {
+          try {
+            const data = await request('/auth/login', { method: 'POST', body: JSON.stringify(state.loginForm) });
+            state.token = data.token;
+            localStorage.setItem('wms_token', state.token);
+            msg('登录成功');
+            loadSkus();
+          } catch (e) {
+            msg(e.message || '登录失败', 'error');
+          }
+        };
+
+        const loadSkus = async () => {
+          if (!ensureToken()) return;
+          try {
+            state.skus = await request('/sku');
+          } catch (e) {
+            msg(e.message, 'error');
+          }
+        };
+
+        const resetSkuForm = () => {
+          state.skuForm = { id: null, code: '', name: '', spec: '', shelfLifeDays: 0, barcode: '', supplierId: null };
+        };
+
+        const editSku = (row) => {
+          state.skuForm = { ...row };
+        };
+
+        const submitSku = async () => {
+          if (!ensureToken()) return;
+          if (!state.skuForm.code || !state.skuForm.name) return msg('编码和名称必填', 'warning');
+          const payload = {
+            code: state.skuForm.code,
+            name: state.skuForm.name,
+            spec: state.skuForm.spec,
+            shelfLifeDays: toNumber(state.skuForm.shelfLifeDays),
+            barcode: state.skuForm.barcode,
+            supplierId: toNumber(state.skuForm.supplierId)
+          };
+          try {
+            if (state.skuForm.id) {
+              await request('/sku/' + state.skuForm.id, { method: 'PUT', body: JSON.stringify({ ...payload, id: state.skuForm.id }) });
+              msg('SKU 已更新');
+            } else {
+              await request('/sku', { method: 'POST', body: JSON.stringify(payload) });
+              msg('SKU 已创建');
+            }
+            resetSkuForm();
+            loadSkus();
+          } catch (e) {
+            msg(e.message, 'error');
+          }
+        };
+
+        const updateInventorySummary = (list) => {
+          const skuSet = new Set();
+          let totalAvailable = 0;
+          let totalLocked = 0;
+          let totalFrozen = 0;
+          list.forEach(i => {
+            if (i && i.skuId !== undefined && i.skuId !== null) skuSet.add(i.skuId);
+            totalAvailable += Number(i.quantityAvailable || 0);
+            totalLocked += Number(i.quantityLocked || 0);
+            totalFrozen += Number(i.quantityFrozen || 0);
+          });
+          state.inventorySummary = {
+            totalSkus: skuSet.size,
+            totalAvailable,
+            totalLocked,
+            totalFrozen
+          };
+        };
+
+        const loadInventory = async () => {
+          if (!ensureToken()) return;
+          try {
+            const params = state.inventoryFilter.skuId ? `?skuId=${state.inventoryFilter.skuId}` : '';
+            state.inventory = await request('/inventory' + params);
+            updateInventorySummary(state.inventory);
+          } catch (e) {
+            msg(e.message, 'error');
+          }
+        };
+
+        const loadLogs = async () => {
+          if (!ensureToken()) return;
+          try {
+            const params = state.inventoryFilter.skuId ? `?skuId=${state.inventoryFilter.skuId}` : '';
+            state.logs = await request('/inventory/logs' + params);
+          } catch (e) {
+            msg(e.message, 'error');
+          }
+        };
+
+        const removeItem = (list, index) => {
+          list.splice(index, 1);
+          if (!list.length) list.push({});
+        };
+
+        const addInboundItem = () => {
+          state.inbound.items.push({ skuId: '', batchNo: '', quantity: 0, locationId: '', productionDate: '', expireDate: '' });
+        };
+
+        const addOutboundItem = () => {
+          state.outbound.items.push({ skuId: '', batchId: '', quantity: 0, locationId: '' });
+        };
+
+        const addTransferItem = () => {
+          state.transfer.items.push({ skuId: '', batchId: '', quantity: 0, fromLocationId: '', toLocationId: '' });
+        };
+
+        const addStockItem = () => {
+          state.stockCheck.items.push({ skuId: '', batchId: '', locationId: '', systemQty: 0, countedQty: 0, diffQty: 0 });
+        };
+
+        const submitInbound = async () => {
+          if (!ensureToken()) return;
+          if (!state.inbound.orderNo || !toNumber(state.inbound.warehouseId)) return msg('入库单号和仓库ID必填', 'warning');
+          const payload = {
+            order: {
+              orderNo: state.inbound.orderNo,
+              warehouseId: toNumber(state.inbound.warehouseId),
+              supplierId: toNumber(state.inbound.supplierId)
+            },
+            items: state.inbound.items.map(i => ({
+              skuId: toNumber(i.skuId),
+              batchNo: i.batchNo,
+              quantity: toNumber(i.quantity) || 0,
+              locationId: toNumber(i.locationId),
+              productionDate: i.productionDate || null,
+              expireDate: i.expireDate || null
+            }))
+          };
+          const invalid = payload.items.find(i => !i.skuId || i.quantity === null || i.locationId === null);
+          if (invalid) return msg('入库明细需填 SKU/数量/库位', 'warning');
+          try {
+            await request('/inbound', { method: 'POST', body: JSON.stringify(payload) });
+            msg('入库单已提交');
+          } catch (e) {
+            msg(e.message, 'error');
+          }
+        };
+
+        const submitOutbound = async () => {
+          if (!ensureToken()) return;
+          if (!state.outbound.orderNo || !toNumber(state.outbound.warehouseId)) return msg('出库单号和仓库ID必填', 'warning');
+          const payload = {
+            order: {
+              orderNo: state.outbound.orderNo,
+              warehouseId: toNumber(state.outbound.warehouseId),
+              customerId: toNumber(state.outbound.customerId)
+            },
+            items: state.outbound.items.map(i => ({
+              skuId: toNumber(i.skuId),
+              batchId: toNumber(i.batchId),
+              quantity: toNumber(i.quantity) || 0,
+              locationId: toNumber(i.locationId)
+            }))
+          };
+          const invalid = payload.items.find(i => !i.skuId || !i.batchId || i.quantity === null || i.locationId === null);
+          if (invalid) return msg('出库明细需填 SKU/批次/数量/库位', 'warning');
+          try {
+            await request('/outbound', { method: 'POST', body: JSON.stringify(payload) });
+            msg('出库单已提交');
+          } catch (e) {
+            msg(e.message, 'error');
+          }
+        };
+
+        const submitTransfer = async () => {
+          if (!ensureToken()) return;
+          if (!state.transfer.orderNo || !toNumber(state.transfer.fromWarehouseId) || !toNumber(state.transfer.toWarehouseId)) return msg('调拨单号、出入仓必填', 'warning');
+          const payload = {
+            order: {
+              orderNo: state.transfer.orderNo,
+              fromWarehouseId: toNumber(state.transfer.fromWarehouseId),
+              toWarehouseId: toNumber(state.transfer.toWarehouseId)
+            },
+            items: state.transfer.items.map(i => ({
+              skuId: toNumber(i.skuId),
+              batchId: toNumber(i.batchId),
+              quantity: toNumber(i.quantity) || 0,
+              fromLocationId: toNumber(i.fromLocationId),
+              toLocationId: toNumber(i.toLocationId)
+            }))
+          };
+          const invalid = payload.items.find(i => !i.skuId || !i.batchId || i.quantity === null || i.fromLocationId === null || i.toLocationId === null);
+          if (invalid) return msg('调拨明细需填 SKU/批次/数量/库位', 'warning');
+          try {
+            await request('/transfer', { method: 'POST', body: JSON.stringify(payload) });
+            msg('调拨单已提交');
+          } catch (e) {
+            msg(e.message, 'error');
+          }
+        };
+
+        const syncDiff = (item) => {
+          const sys = toNumber(item.systemQty) || 0;
+          const cnt = toNumber(item.countedQty) || 0;
+          item.diffQty = cnt - sys;
+        };
+
+        const submitStockCheck = async () => {
+          if (!ensureToken()) return;
+          if (!state.stockCheck.orderNo || !toNumber(state.stockCheck.warehouseId)) return msg('盘点单号和仓库ID必填', 'warning');
+          const payload = {
+            check: {
+              orderNo: state.stockCheck.orderNo,
+              warehouseId: toNumber(state.stockCheck.warehouseId)
+            },
+            items: state.stockCheck.items.map(i => {
+              const systemQty = toNumber(i.systemQty) || 0;
+              const countedQty = toNumber(i.countedQty) || 0;
+              return {
+                skuId: toNumber(i.skuId),
+                batchId: toNumber(i.batchId),
+                locationId: toNumber(i.locationId),
+                systemQty,
+                countedQty,
+                diffQty: countedQty - systemQty
+              };
+            })
+          };
+          const invalid = payload.items.find(i => !i.skuId || !i.batchId || i.locationId === null);
+          if (invalid) return msg('盘点明细需填 SKU/批次/库位', 'warning');
+          try {
+            await request('/stock-check', { method: 'POST', body: JSON.stringify(payload) });
+            msg('盘点单已提交');
+          } catch (e) {
+            msg(e.message, 'error');
+          }
+        };
+
+        const fillDefault = () => {
+          state.loginForm = { username: 'admin', password: 'admin' };
+        };
+
+        const exportCsv = (filename, headers, rows) => {
+          const csv = [headers.join(',')].concat(rows.map(r => headers.map(h => JSON.stringify(r[h] ?? '')).join(','))).join('\n');
+          const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(blob);
+          link.download = filename;
+          link.click();
+          URL.revokeObjectURL(link.href);
+        };
+
+        const exportInventoryCsv = () => {
+          if (!state.inventory.length) return msg('无库存数据', 'warning');
+          exportCsv('inventory.csv', ['id', 'skuId', 'warehouseId', 'locationId', 'batchId', 'quantityAvailable', 'quantityLocked', 'quantityFrozen'], state.inventory);
+        };
+
+        const exportLogsCsv = () => {
+          if (!state.logs.length) return msg('无日志数据', 'warning');
+          exportCsv('inventory_logs.csv', ['id', 'changeType', 'changeQty', 'refType', 'refId', 'createdAt', 'skuId', 'batchId', 'warehouseId', 'locationId'], state.logs);
+        };
+
+        const fillSamples = () => {
+          const now = Date.now();
+          state.inbound.orderNo = 'IN' + now;
+          state.outbound.orderNo = 'OUT' + now;
+          state.transfer.orderNo = 'TR' + now;
+          state.stockCheck.orderNo = 'CHK' + now;
+          state.inbound.items = [{ skuId: 1, batchNo: 'B' + now, quantity: 100, locationId: 1, productionDate: '2024-01-01', expireDate: '2024-12-31' }];
+          state.outbound.items = [{ skuId: 1, batchId: 1, quantity: 20, locationId: 1 }];
+          state.transfer.items = [{ skuId: 1, batchId: 1, quantity: 10, fromLocationId: 1, toLocationId: 2 }];
+          state.stockCheck.items = [{ skuId: 1, batchId: 1, locationId: 1, systemQty: 80, countedQty: 78, diffQty: -2 }];
+        };
+
+        if (state.token) {
+          loadSkus();
+          loadInventory();
+          loadLogs();
+        }
+
+        return {
+          state,
+          busy,
+          persistBaseUrl,
+          ensureToken,
+          copyToken,
+          logout,
+          login,
+          loadSkus,
+          submitSku,
+          resetSkuForm,
+          editSku,
+          loadInventory,
+          loadLogs,
+          exportInventoryCsv,
+          exportLogsCsv,
+          addInboundItem,
+          addOutboundItem,
+          addTransferItem,
+          addStockItem,
+          removeItem,
+          submitInbound,
+          submitOutbound,
+          submitTransfer,
+          submitStockCheck,
+          syncDiff,
+          fillDefault,
+          fillSamples
+        };
+      }
+    });
+    app.use(ElementPlus);
+    app.mount('#app');
+  </script>
+</body>
+</html>

@@ -20,5 +20,4 @@ MySQL
 PostgreSQL
 前端
 Vue
-html
 微信小程序
