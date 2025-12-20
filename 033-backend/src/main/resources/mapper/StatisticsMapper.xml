@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.wedding.mapper.StatisticsMapper">
+
+    <select id="countCustomer" resultType="int">
+        SELECT COUNT(1) FROM customer WHERE deleted = 0
+    </select>
+
+    <select id="countOrder" resultType="int">
+        SELECT COUNT(1) FROM `order` WHERE deleted = 0
+    </select>
+
+    <select id="sumOrderAmount" resultType="java.math.BigDecimal">
+        SELECT COALESCE(SUM(total_amount),0) FROM `order` WHERE deleted = 0
+    </select>
+
+    <select id="countAppointmentByDate" resultType="int">
+        SELECT COUNT(1) FROM appointment WHERE appointment_date = #{date}
+    </select>
+</mapper>

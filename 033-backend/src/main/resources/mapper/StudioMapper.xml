@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.wedding.mapper.StudioMapper">
+
+    <resultMap id="BaseResultMap" type="com.xiaou.wedding.entity.Studio">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="area" column="area"/>
+        <result property="style" column="style"/>
+        <result property="equipment" column="equipment"/>
+        <result property="description" column="description"/>
+        <result property="images" column="images"/>
+        <result property="status" column="status"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT * FROM studio WHERE id = #{id} AND deleted = 0
+    </select>
+
+    <select id="list" resultMap="BaseResultMap">
+        SELECT * FROM studio WHERE deleted = 0 ORDER BY id DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO studio (name, area, style, equipment, description, images, status)
+        VALUES (#{name}, #{area}, #{style}, #{equipment}, #{description}, #{images}, #{status})
+    </insert>
+
+    <update id="update">
+        UPDATE studio
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="area != null">area = #{area},</if>
+            <if test="style != null">style = #{style},</if>
+            <if test="equipment != null">equipment = #{equipment},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="images != null">images = #{images},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="logicDelete">
+        UPDATE studio SET deleted = 1 WHERE id = #{id}
+    </update>
+</mapper>

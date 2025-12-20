@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.wedding.mapper.OrderMapper">
+
+    <resultMap id="BaseResultMap" type="com.xiaou.wedding.entity.Order">
+        <id property="id" column="id"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="packageId" column="package_id"/>
+        <result property="photographerId" column="photographer_id"/>
+        <result property="appointmentId" column="appointment_id"/>
+        <result property="totalAmount" column="total_amount"/>
+        <result property="depositAmount" column="deposit_amount"/>
+        <result property="balanceAmount" column="balance_amount"/>
+        <result property="paidAmount" column="paid_amount"/>
+        <result property="status" column="status"/>
+        <result property="paymentMethod" column="payment_method"/>
+        <result property="shootingDate" column="shooting_date"/>
+        <result property="photoSelectionDate" column="photo_selection_date"/>
+        <result property="pickupDate" column="pickup_date"/>
+        <result property="remark" column="remark"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT * FROM `order` WHERE id = #{id} AND deleted = 0
+    </select>
+
+    <select id="list" resultMap="BaseResultMap">
+        SELECT * FROM `order`
+        WHERE deleted = 0
+        <if test="customerId != null">AND customer_id = #{customerId}</if>
+        <if test="status != null and status != ''">AND status = #{status}</if>
+        ORDER BY created_at DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `order` (order_no, customer_id, package_id, photographer_id, appointment_id, total_amount, deposit_amount, balance_amount, paid_amount, status, payment_method, shooting_date, photo_selection_date, pickup_date, remark, created_by)
+        VALUES (#{orderNo}, #{customerId}, #{packageId}, #{photographerId}, #{appointmentId}, #{totalAmount}, #{depositAmount}, #{balanceAmount}, #{paidAmount}, #{status}, #{paymentMethod}, #{shootingDate}, #{photoSelectionDate}, #{pickupDate}, #{remark}, #{createdBy})
+    </insert>
+
+    <update id="update">
+        UPDATE `order`
+        <set>
+            <if test="packageId != null">package_id = #{packageId},</if>
+            <if test="photographerId != null">photographer_id = #{photographerId},</if>
+            <if test="appointmentId != null">appointment_id = #{appointmentId},</if>
+            <if test="totalAmount != null">total_amount = #{totalAmount},</if>
+            <if test="depositAmount != null">deposit_amount = #{depositAmount},</if>
+            <if test="balanceAmount != null">balance_amount = #{balanceAmount},</if>
+            <if test="paidAmount != null">paid_amount = #{paidAmount},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="paymentMethod != null">payment_method = #{paymentMethod},</if>
+            <if test="shootingDate != null">shooting_date = #{shootingDate},</if>
+            <if test="photoSelectionDate != null">photo_selection_date = #{photoSelectionDate},</if>
+            <if test="pickupDate != null">pickup_date = #{pickupDate},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="deleted != null">deleted = #{deleted},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>

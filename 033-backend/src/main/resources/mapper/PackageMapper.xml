@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.wedding.mapper.PackageMapper">
+
+    <resultMap id="BaseResultMap" type="com.xiaou.wedding.entity.Package">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="category" column="category"/>
+        <result property="price" column="price"/>
+        <result property="description" column="description"/>
+        <result property="content" column="content"/>
+        <result property="costumeCount" column="costume_count"/>
+        <result property="refinedPhotoCount" column="refined_photo_count"/>
+        <result property="shootingDuration" column="shooting_duration"/>
+        <result property="makeupCount" column="makeup_count"/>
+        <result property="sceneCount" column="scene_count"/>
+        <result property="gift" column="gift"/>
+        <result property="coverImage" column="cover_image"/>
+        <result property="images" column="images"/>
+        <result property="status" column="status"/>
+        <result property="sortOrder" column="sort_order"/>
+        <result property="salesCount" column="sales_count"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT * FROM package WHERE id = #{id} AND deleted = 0
+    </select>
+
+    <select id="findList" resultMap="BaseResultMap">
+        SELECT * FROM package
+        WHERE deleted = 0
+        <if test="category != null and category != ''">
+            AND category = #{category}
+        </if>
+        ORDER BY sort_order ASC, id DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO package (name, category, price, description, content, costume_count, refined_photo_count, shooting_duration, makeup_count, scene_count, gift, cover_image, images, status, sort_order, sales_count)
+        VALUES (#{name}, #{category}, #{price}, #{description}, #{content}, #{costumeCount}, #{refinedPhotoCount}, #{shootingDuration}, #{makeupCount}, #{sceneCount}, #{gift}, #{coverImage}, #{images}, #{status}, #{sortOrder}, #{salesCount})
+    </insert>
+
+    <update id="update">
+        UPDATE package
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="category != null">category = #{category},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="costumeCount != null">costume_count = #{costumeCount},</if>
+            <if test="refinedPhotoCount != null">refined_photo_count = #{refinedPhotoCount},</if>
+            <if test="shootingDuration != null">shooting_duration = #{shootingDuration},</if>
+            <if test="makeupCount != null">makeup_count = #{makeupCount},</if>
+            <if test="sceneCount != null">scene_count = #{sceneCount},</if>
+            <if test="gift != null">gift = #{gift},</if>
+            <if test="coverImage != null">cover_image = #{coverImage},</if>
+            <if test="images != null">images = #{images},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="sortOrder != null">sort_order = #{sortOrder},</if>
+            <if test="salesCount != null">sales_count = #{salesCount},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="logicDelete">
+        UPDATE package SET deleted = 1 WHERE id = #{id}
+    </update>
+</mapper>

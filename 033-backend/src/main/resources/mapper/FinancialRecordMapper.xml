@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.wedding.mapper.FinancialRecordMapper">
+
+    <resultMap id="BaseResultMap" type="com.xiaou.wedding.entity.FinancialRecord">
+        <id property="id" column="id"/>
+        <result property="recordType" column="record_type"/>
+        <result property="orderId" column="order_id"/>
+        <result property="amount" column="amount"/>
+        <result property="paymentMethod" column="payment_method"/>
+        <result property="category" column="category"/>
+        <result property="description" column="description"/>
+        <result property="recordDate" column="record_date"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+    <select id="list" resultMap="BaseResultMap">
+        SELECT * FROM financial_record
+        WHERE deleted = 0
+        <if test="recordType != null and recordType != ''">AND record_type = #{recordType}</if>
+        <if test="date != null and date != ''">AND record_date = #{date}</if>
+        ORDER BY record_date DESC, id DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO financial_record (record_type, order_id, amount, payment_method, category, description, record_date, created_by)
+        VALUES (#{recordType}, #{orderId}, #{amount}, #{paymentMethod}, #{category}, #{description}, #{recordDate}, #{createdBy})
+    </insert>
+
+    <select id="sumAmount" resultType="java.math.BigDecimal">
+        SELECT COALESCE(SUM(amount),0) FROM financial_record WHERE deleted = 0
+        <if test="recordType != null and recordType != ''">AND record_type = #{recordType}</if>
+    </select>
+</mapper>

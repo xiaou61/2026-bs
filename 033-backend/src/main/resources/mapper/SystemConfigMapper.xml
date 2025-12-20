@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.wedding.mapper.SystemConfigMapper">
+
+    <resultMap id="BaseResultMap" type="com.xiaou.wedding.entity.SystemConfig">
+        <id property="id" column="id"/>
+        <result property="configKey" column="config_key"/>
+        <result property="configValue" column="config_value"/>
+        <result property="configType" column="config_type"/>
+        <result property="description" column="description"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <select id="findByKey" resultMap="BaseResultMap">
+        SELECT * FROM system_config WHERE config_key = #{configKey}
+    </select>
+
+    <select id="list" resultMap="BaseResultMap">
+        SELECT * FROM system_config ORDER BY id DESC
+    </select>
+
+    <insert id="upsert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO system_config (config_key, config_value, config_type, description)
+        VALUES (#{configKey}, #{configValue}, #{configType}, #{description})
+        ON DUPLICATE KEY UPDATE config_value = VALUES(config_value), config_type = VALUES(config_type), description = VALUES(description)
+    </insert>
+</mapper>

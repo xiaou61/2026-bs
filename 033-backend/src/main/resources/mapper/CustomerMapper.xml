@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.wedding.mapper.CustomerMapper">
+
+    <resultMap id="BaseResultMap" type="com.xiaou.wedding.entity.Customer">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="name" column="name"/>
+        <result property="gender" column="gender"/>
+        <result property="age" column="age"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="address" column="address"/>
+        <result property="customerType" column="customer_type"/>
+        <result property="source" column="source"/>
+        <result property="tags" column="tags"/>
+        <result property="birthday" column="birthday"/>
+        <result property="remark" column="remark"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT * FROM customer WHERE id = #{id} AND deleted = 0
+    </select>
+
+    <select id="search" resultMap="BaseResultMap">
+        SELECT * FROM customer
+        WHERE deleted = 0
+        <if test="keyword != null and keyword != ''">
+            AND (name LIKE CONCAT('%', #{keyword}, '%') OR phone LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        ORDER BY id DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO customer (user_id, name, gender, age, phone, email, address, customer_type, source, tags, birthday, remark)
+        VALUES (#{userId}, #{name}, #{gender}, #{age}, #{phone}, #{email}, #{address}, #{customerType}, #{source}, #{tags}, #{birthday}, #{remark})
+    </insert>
+
+    <update id="update">
+        UPDATE customer
+        <set>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="customerType != null">customer_type = #{customerType},</if>
+            <if test="source != null">source = #{source},</if>
+            <if test="tags != null">tags = #{tags},</if>
+            <if test="birthday != null">birthday = #{birthday},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="logicDelete">
+        UPDATE customer SET deleted = 1 WHERE id = #{id}
+    </update>
+</mapper>

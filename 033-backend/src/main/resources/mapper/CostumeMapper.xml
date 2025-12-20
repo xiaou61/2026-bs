@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.wedding.mapper.CostumeMapper">
+
+    <resultMap id="BaseResultMap" type="com.xiaou.wedding.entity.Costume">
+        <id property="id" column="id"/>
+        <result property="code" column="code"/>
+        <result property="name" column="name"/>
+        <result property="category" column="category"/>
+        <result property="size" column="size"/>
+        <result property="color" column="color"/>
+        <result property="images" column="images"/>
+        <result property="status" column="status"/>
+        <result property="purchaseDate" column="purchase_date"/>
+        <result property="purchasePrice" column="purchase_price"/>
+        <result property="remark" column="remark"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+    <resultMap id="BorrowResultMap" type="com.xiaou.wedding.entity.CostumeBorrow">
+        <id property="id" column="id"/>
+        <result property="costumeId" column="costume_id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="borrowDate" column="borrow_date"/>
+        <result property="returnDate" column="return_date"/>
+        <result property="status" column="status"/>
+        <result property="remark" column="remark"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT * FROM costume WHERE id = #{id} AND deleted = 0
+    </select>
+
+    <select id="list" resultMap="BaseResultMap">
+        SELECT * FROM costume
+        WHERE deleted = 0
+        <if test="category != null and category != ''">AND category = #{category}</if>
+        <if test="status != null and status != ''">AND status = #{status}</if>
+        ORDER BY id DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO costume (code, name, category, size, color, images, status, purchase_date, purchase_price, remark)
+        VALUES (#{code}, #{name}, #{category}, #{size}, #{color}, #{images}, #{status}, #{purchaseDate}, #{purchasePrice}, #{remark})
+    </insert>
+
+    <update id="update">
+        UPDATE costume
+        <set>
+            <if test="code != null">code = #{code},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="category != null">category = #{category},</if>
+            <if test="size != null">size = #{size},</if>
+            <if test="color != null">color = #{color},</if>
+            <if test="images != null">images = #{images},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="purchaseDate != null">purchase_date = #{purchaseDate},</if>
+            <if test="purchasePrice != null">purchase_price = #{purchasePrice},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="logicDelete">
+        UPDATE costume SET deleted = 1 WHERE id = #{id}
+    </update>
+
+    <insert id="insertBorrow" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO costume_borrow (costume_id, order_id, customer_id, borrow_date, return_date, status, remark)
+        VALUES (#{costumeId}, #{orderId}, #{customerId}, #{borrowDate}, #{returnDate}, #{status}, #{remark})
+    </insert>
+
+    <update id="updateBorrowReturn">
+        UPDATE costume_borrow SET return_date = #{returnDate}, status = #{status}
+        WHERE id = #{id}
+    </update>
+
+    <select id="borrowList" resultMap="BorrowResultMap">
+        SELECT * FROM costume_borrow
+        WHERE 1=1
+        <if test="costumeId != null">AND costume_id = #{costumeId}</if>
+        <if test="status != null and status != ''">AND status = #{status}</if>
+        ORDER BY borrow_date DESC
+    </select>
+</mapper>

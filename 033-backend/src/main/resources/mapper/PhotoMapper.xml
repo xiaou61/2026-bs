@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaou.wedding.mapper.PhotoMapper">
+
+    <resultMap id="BaseResultMap" type="com.xiaou.wedding.entity.Photo">
+        <id property="id" column="id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="photographerId" column="photographer_id"/>
+        <result property="fileName" column="file_name"/>
+        <result property="filePath" column="file_path"/>
+        <result property="fileSize" column="file_size"/>
+        <result property="fileType" column="file_type"/>
+        <result property="isSelected" column="is_selected"/>
+        <result property="isRefined" column="is_refined"/>
+        <result property="refinedStatus" column="refined_status"/>
+        <result property="uploadTime" column="upload_time"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+    <select id="listByOrder" resultMap="BaseResultMap">
+        SELECT * FROM photo WHERE order_id = #{orderId} AND deleted = 0 ORDER BY upload_time DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO photo (order_id, customer_id, photographer_id, file_name, file_path, file_size, file_type, is_selected, is_refined, refined_status, upload_time)
+        VALUES (#{orderId}, #{customerId}, #{photographerId}, #{fileName}, #{filePath}, #{fileSize}, #{fileType}, #{isSelected}, #{isRefined}, #{refinedStatus}, #{uploadTime})
+    </insert>
+
+    <update id="update">
+        UPDATE photo
+        <set>
+            <if test="isSelected != null">is_selected = #{isSelected},</if>
+            <if test="isRefined != null">is_refined = #{isRefined},</if>
+            <if test="refinedStatus != null">refined_status = #{refinedStatus},</if>
+            <if test="filePath != null">file_path = #{filePath},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>
