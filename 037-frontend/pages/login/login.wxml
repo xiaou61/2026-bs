@@ -1,0 +1,32 @@
+<!--pages/login/login.wxml-->
+<view class="login-container">
+  <!-- 顶部Logo -->
+  <view class="logo-section">
+    <image class="logo" src="/images/logo.png" mode="aspectFit"></image>
+    <text class="app-name">编程学习交流平台</text>
+    <text class="slogan">让学习编程变得更简单</text>
+  </view>
+
+  <!-- 登录按钮区域 -->
+  <view class="login-section">
+    <button class="login-btn" type="primary" bindtap="handleWxLogin">
+      <image class="wx-icon" src="/images/wechat.png"></image>
+      微信一键登录
+    </button>
+    
+    <view class="agreement">
+      <checkbox-group bindchange="handleAgreeChange">
+        <checkbox value="agree" checked="{{agreed}}"/>
+      </checkbox-group>
+      <text>我已阅读并同意</text>
+      <text class="link" bindtap="handleViewAgreement">《用户协议》</text>
+      <text>和</text>
+      <text class="link" bindtap="handleViewPrivacy">《隐私政策》</text>
+    </view>
+  </view>
+
+  <!-- 底部装饰 -->
+  <view class="bottom-decoration">
+    <text class="version">v1.0.0</text>
+  </view>
+</view>

@@ -1,0 +1,72 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/login/login",
+    "pages/course/course",
+    "pages/course-detail/course-detail",
+    "pages/chapter-detail/chapter-detail",
+    "pages/question/question",
+    "pages/question-detail/question-detail",
+    "pages/article/article",
+    "pages/article-detail/article-detail",
+    "pages/code/code",
+    "pages/code-detail/code-detail",
+    "pages/checkin/checkin",
+    "pages/mine/mine",
+    "pages/publish-question/publish-question",
+    "pages/publish-article/publish-article",
+    "pages/publish-code/publish-code"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#409EFF",
+    "navigationBarTitleText": "编程学习交流平台",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F5F5F5"
+  },
+  "tabBar": {
+    "color": "#666666",
+    "selectedColor": "#409EFF",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "images/tab/home.png",
+        "selectedIconPath": "images/tab/home-active.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/course/course",
+        "iconPath": "images/tab/course.png",
+        "selectedIconPath": "images/tab/course-active.png",
+        "text": "课程"
+      },
+      {
+        "pagePath": "pages/question/question",
+        "iconPath": "images/tab/question.png",
+        "selectedIconPath": "images/tab/question-active.png",
+        "text": "问答"
+      },
+      {
+        "pagePath": "pages/article/article",
+        "iconPath": "images/tab/article.png",
+        "selectedIconPath": "images/tab/article-active.png",
+        "text": "文章"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "iconPath": "images/tab/mine.png",
+        "selectedIconPath": "images/tab/mine-active.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序定位"
+    }
+  },
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

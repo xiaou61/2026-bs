@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: dream-donation-platform
+  datasource:
+    url: jdbc:postgresql://localhost:5432/dream_donation
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
+server:
+  port: 8036
+
+logging:
+  level:
+    com.xiaou.dreamdonation: debug
+    org.hibernate.SQL: debug

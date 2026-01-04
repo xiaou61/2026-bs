@@ -1,0 +1,128 @@
+===================================================================
+编程学习交流平台 - 后端启动说明
+===================================================================
+
+一、项目简介
+-----------
+项目名称：基于SpringBoot的编程学习交流平台的设计与实现
+后端端口：8037
+前端类型：微信小程序
+数据库：MySQL 8.0 + Redis 6.0+
+
+二、技术栈
+-----------
+- Spring Boot 3.2.0
+- MyBatis 3.0.3（注意：使用MyBatis而不是MyBatis-Plus）
+- MySQL 8.0
+- Redis 6.0+
+- Spring Security + JWT 0.11.5
+- Knife4j 4.3.0（API文档）
+- Druid 1.2.20（数据库连接池）
+- 微信小程序SDK 4.5.0
+
+三、环境准备
+-----------
+1. JDK 17
+2. Maven 3.6+
+3. MySQL 8.0
+4. Redis 6.0+
+5. IDE（推荐IntelliJ IDEA）
+
+四、数据库配置
+-----------
+1. 创建数据库
+   执行 src/main/resources/sql/schema.sql 创建数据库和表结构
+
+2. 初始化数据
+   执行 src/main/resources/sql/data.sql 插入测试数据
+
+3. 修改配置文件
+   在 src/main/resources/application.yml 中修改数据库连接信息：
+   - spring.datasource.url（数据库地址）
+   - spring.datasource.username（用户名）
+   - spring.datasource.password（密码）
+
+五、Redis配置
+-----------
+1. 启动Redis服务
+   Windows: redis-server.exe
+   Linux/Mac: redis-server
+
+2. 修改配置文件（如有需要）
+   在 src/main/resources/application.yml 中修改Redis连接信息
+
+六、微信小程序配置
+-----------
+在 src/main/resources/application.yml 中配置：
+wechat:
+  miniapp:
+    app-id: your-app-id
+    app-secret: your-app-secret
+
+注意：需要在微信公众平台申请小程序并获取appId和appSecret
+
+七、启动步骤
+-----------
+1. 确保MySQL和Redis服务已启动
+
+2. 使用Maven构建项目
+   mvn clean install
+
+3. 启动Spring Boot应用
+   方式1：在IDE中运行 ProgrammingLearningApplication.java
+   方式2：命令行运行 mvn spring-boot:run
+
+4. 访问接口文档
+   - Knife4j文档：http://localhost:8037/api/doc.html
+   - Druid监控：http://localhost:8037/api/druid（用户名/密码：admin/admin）
+
+八、核心接口
+-----------
+1. 认证接口
+   POST /api/auth/wxlogin - 微信小程序登录
+   GET  /api/auth/userinfo - 获取用户信息
+
+2. 课程接口
+   GET  /api/course/list - 获取课程列表
+   GET  /api/course/{id} - 获取课程详情
+
+3. 问答接口
+   GET  /api/question/list - 获取问题列表
+   POST /api/question - 发布问题
+
+4. 文章接口
+   GET  /api/article/list - 获取文章列表
+   POST /api/article - 发布文章
+
+九、注意事项
+-----------
+1. 本项目使用MyBatis而不是MyBatis-Plus，XML映射文件位于 src/main/resources/mapper/
+
+2. JWT Token过期时间默认为7天，可在application.yml中修改
+
+3. 文件上传路径默认为 D:/upload/programming-learning/，可在application.yml中修改
+
+4. 首次启动前请确保执行了数据库脚本
+
+5. 测试账号：
+   - 管理员：open_id=admin_open_id, 手机号=13800138000
+   - 教师：open_id=teacher_open_id, 手机号=13800138001
+   - 普通用户：open_id=user1_open_id, 手机号=13800138002
+
+十、常见问题
+-----------
+Q1: 启动时提示数据库连接失败？
+A1: 检查MySQL服务是否启动，配置文件中的数据库信息是否正确
+
+Q2: 访问接口返回401？
+A2: 检查是否携带了有效的JWT Token
+
+Q3: Mapper接口找不到？
+A3: 检查@MapperScan注解是否正确配置，XML文件路径是否正确
+
+Q4: Redis连接失败？
+A4: 检查Redis服务是否启动，配置信息是否正确
+
+===================================================================
+如有问题，请查看日志文件：logs/programming-learning.log
+===================================================================

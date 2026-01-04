@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.programming.learning.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.programming.learning.entity.User">
+        <id column="id" property="id"/>
+        <result column="open_id" property="openId"/>
+        <result column="union_id" property="unionId"/>
+        <result column="nickname" property="nickname"/>
+        <result column="avatar" property="avatar"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="role" property="role"/>
+        <result column="status" property="status"/>
+        <result column="score" property="score"/>
+        <result column="level" property="level"/>
+        <result column="bio" property="bio"/>
+        <result column="last_login_time" property="lastLoginTime"/>
+        <result column="last_login_ip" property="lastLoginIp"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, open_id, union_id, nickname, avatar, phone, email, role, status,
+        score, level, bio, last_login_time, last_login_ip, create_time, update_time
+    </sql>
+
+    <insert id="insert" parameterType="com.programming.learning.entity.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users (
+            open_id, union_id, nickname, avatar, phone, email, role, status,
+            score, level, bio, last_login_time, last_login_ip, create_time, update_time
+        ) VALUES (
+            #{openId}, #{unionId}, #{nickname}, #{avatar}, #{phone}, #{email}, #{role}, #{status},
+            #{score}, #{level}, #{bio}, #{lastLoginTime}, #{lastLoginIp}, NOW(), NOW()
+        )
+    </insert>
+
+    <delete id="deleteById">
+        DELETE FROM users WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.programming.learning.entity.User">
+        UPDATE users
+        <set>
+            <if test="nickname != null">nickname = #{nickname},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="role != null">role = #{role},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="score != null">score = #{score},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="bio != null">bio = #{bio},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM users
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectByOpenId" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM users
+        WHERE open_id = #{openId}
+    </select>
+
+    <select id="selectByPhone" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM users
+        WHERE phone = #{phone}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM users
+        ORDER BY create_time DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="countAll" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM users
+    </select>
+
+    <update id="updateScore">
+        UPDATE users
+        SET score = #{score}, update_time = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateLevel">
+        UPDATE users
+        SET level = #{level}, update_time = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateLastLogin">
+        UPDATE users
+        SET last_login_time = NOW(), last_login_ip = #{lastLoginIp}, update_time = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectByScoreRank" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM users
+        WHERE status = 'NORMAL'
+        ORDER BY score DESC
+        LIMIT #{limit}
+    </select>
+
+</mapper>

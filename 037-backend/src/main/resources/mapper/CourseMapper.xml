@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.programming.learning.mapper.CourseMapper">
+
+    <resultMap id="BaseResultMap" type="com.programming.learning.entity.Course">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="cover" property="cover"/>
+        <result column="description" property="description"/>
+        <result column="category" property="category"/>
+        <result column="level" property="level"/>
+        <result column="status" property="status"/>
+        <result column="teacher_id" property="teacherId"/>
+        <result column="teacher_name" property="teacherName"/>
+        <result column="student_count" property="studentCount"/>
+        <result column="chapter_count" property="chapterCount"/>
+        <result column="duration" property="duration"/>
+        <result column="view_count" property="viewCount"/>
+        <result column="like_count" property="likeCount"/>
+        <result column="favorite_count" property="favoriteCount"/>
+        <result column="sort_order" property="sortOrder"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, title, cover, description, category, level, status, teacher_id, teacher_name,
+        student_count, chapter_count, duration, view_count, like_count, favorite_count,
+        sort_order, create_time, update_time
+    </sql>
+
+    <insert id="insert" parameterType="com.programming.learning.entity.Course" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO courses (
+            title, cover, description, category, level, status, teacher_id, teacher_name,
+            student_count, chapter_count, duration, view_count, like_count, favorite_count,
+            sort_order, create_time, update_time
+        ) VALUES (
+            #{title}, #{cover}, #{description}, #{category}, #{level}, #{status}, #{teacherId}, #{teacherName},
+            #{studentCount}, #{chapterCount}, #{duration}, #{viewCount}, #{likeCount}, #{favoriteCount},
+            #{sortOrder}, NOW(), NOW()
+        )
+    </insert>
+
+    <delete id="deleteById">
+        DELETE FROM courses WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.programming.learning.entity.Course">
+        UPDATE courses
+        <set>
+            <if test="title != null">title = #{title},</if>
+            <if test="cover != null">cover = #{cover},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="category != null">category = #{category},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="sortOrder != null">sort_order = #{sortOrder},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM courses
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM courses
+        WHERE status = 'PUBLISHED'
+        ORDER BY sort_order ASC, create_time DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="countAll" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM courses WHERE status = 'PUBLISHED'
+    </select>
+
+    <select id="selectByCategory" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM courses
+        WHERE category = #{category} AND status = 'PUBLISHED'
+        ORDER BY sort_order ASC, create_time DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="selectByTeacherId" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM courses
+        WHERE teacher_id = #{teacherId}
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="selectHot" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM courses
+        WHERE status = 'PUBLISHED'
+        ORDER BY (view_count * 0.3 + student_count * 0.5 + like_count * 0.2) DESC
+        LIMIT #{limit}
+    </select>
+
+    <update id="incrementViewCount">
+        UPDATE courses SET view_count = view_count + 1 WHERE id = #{id}
+    </update>
+
+    <update id="incrementLikeCount">
+        UPDATE courses SET like_count = like_count + 1 WHERE id = #{id}
+    </update>
+
+    <update id="decrementLikeCount">
+        UPDATE courses SET like_count = like_count - 1 WHERE id = #{id} AND like_count > 0
+    </update>
+
+    <update id="incrementFavoriteCount">
+        UPDATE courses SET favorite_count = favorite_count + 1 WHERE id = #{id}
+    </update>
+
+    <update id="decrementFavoriteCount">
+        UPDATE courses SET favorite_count = favorite_count - 1 WHERE id = #{id} AND favorite_count > 0
+    </update>
+
+    <update id="incrementStudentCount">
+        UPDATE courses SET student_count = student_count + 1 WHERE id = #{id}
+    </update>
+
+</mapper>

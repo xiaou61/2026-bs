@@ -1,0 +1,142 @@
+server:
+  port: 8037
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: programming-learning
+  
+  # 数据源配置
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/programming_learning?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      filters: stat,wall
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        login-username: admin
+        login-password: admin
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+
+  # Redis配置
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+      database: 0
+      timeout: 10000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-wait: -1ms
+          max-idle: 8
+          min-idle: 0
+
+  # 文件上传配置
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 50MB
+
+# MyBatis配置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.programming.learning.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true
+    lazy-loading-enabled: true
+    aggressive-lazy-loading: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# Knife4j配置
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+  openapi:
+    title: 编程学习交流平台API文档
+    description: 基于SpringBoot的编程学习交流平台API接口文档
+    version: 1.0.0
+    concat: 开发团队
+    email: dev@programming-learning.com
+    group:
+      default:
+        group-name: 默认分组
+        api-rule: package
+        api-rule-resources:
+          - com.programming.learning.controller
+
+# JWT配置
+jwt:
+  secret: programming-learning-secret-key-2026-graduation-project
+  expiration: 604800000  # 7天，单位毫秒
+  header: Authorization
+  prefix: Bearer 
+
+# 微信小程序配置
+wechat:
+  miniapp:
+    app-id: your-app-id
+    app-secret: your-app-secret
+
+# 日志配置
+logging:
+  level:
+    root: INFO
+    com.programming.learning: DEBUG
+    com.programming.learning.mapper: DEBUG
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n'
+    file: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n'
+  file:
+    name: logs/programming-learning.log
+    max-size: 10MB
+    max-history: 30
+
+# 项目自定义配置
+app:
+  # 积分配置
+  score:
+    check-in: 5           # 每日签到
+    publish-tutorial: 20  # 发布教程
+    publish-question: 3   # 发布问题
+    answer-question: 5    # 回答问题
+    answer-accepted: 20   # 答案被采纳
+    post-liked: 2         # 帖子被点赞
+    complete-course: 10   # 完成课程
+  
+  # 等级配置
+  level:
+    lv1: 0      # Lv1 新手村民 0-99分
+    lv2: 100    # Lv2 代码学徒 100-499分
+    lv3: 500    # Lv3 编程骑士 500-1499分
+    lv4: 1500   # Lv4 技术大师 1500-4999分
+    lv5: 5000   # Lv5 代码传说 5000+分
+  
+  # 上传路径
+  upload:
+    path: D:/upload/programming-learning/
+    url-prefix: /upload/

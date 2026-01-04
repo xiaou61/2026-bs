@@ -1,0 +1,54 @@
+036-小梦想全球公益捐赠平台 启动说明
+
+一、环境要求
+1. JDK 17+
+2. Maven 3.6+
+3. PostgreSQL 12+
+
+二、数据库配置
+1. 创建数据库：
+   CREATE DATABASE dream_donation;
+
+2. 修改 src/main/resources/application.yml 中的数据库连接信息：
+   - url: jdbc:postgresql://localhost:5432/dream_donation
+   - username: postgres
+   - password: postgres
+
+3. 应用启动时会自动创建表结构（ddl-auto: update）
+   也可以手动执行 schema.sql 和 data.sql
+
+三、后端启动
+1. 进入 036-backend 目录
+2. 执行命令：mvn spring-boot:run
+3. 访问：http://localhost:8036
+
+四、前端启动
+1. 进入 036-frontend 目录
+2. 安装依赖：npm install
+3. 启动开发服务器：npm run dev
+4. 访问：http://localhost:3036
+
+五、默认账号
+管理员：
+  用户名：admin
+  密码：123456
+
+普通用户：
+  用户名：user1
+  密码：123456
+
+组织账号：
+  用户名：org1
+  密码：123456
+
+六、主要功能
+1. 用户注册登录
+2. 公益项目浏览
+3. 在线捐赠
+4. 项目创建与管理
+5. 捐赠记录查询
+6. 项目进度更新
+
+七、技术栈
+后端：Spring Boot 3.2.0 + Spring Data JPA + PostgreSQL + JWT
+前端：Vue 3 + Element Plus + Pinia + Vite
