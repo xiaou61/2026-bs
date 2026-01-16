@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: parking-management
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/parking_management?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+      enabled: true
+
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
+server:
+  port: 8040
+
+jwt:
+  secret: community-parking-management-system-secret-key-2026
+  expiration: 86400000
+
+file:
+  upload-dir: D:/upload/parking
+  access-url: http://localhost:8040/files

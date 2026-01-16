@@ -9,6 +9,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="037-backend" />
+        <module name="038-backend" />
         <module name="007-backend" />
         <module name="021-backend" />
         <module name="006-backend" />
@@ -18,6 +19,7 @@
         <module name="005-backend" />
         <module name="campus-affairs" />
         <module name="035-backend" />
+        <module name="folksong-platform" />
         <module name="004-backend" />
         <module name="022-backend" />
         <module name="036-backend" />
@@ -42,6 +44,7 @@
         <module name="026-backend" />
         <module name="010-backend" />
         <module name="024-backend" />
+        <module name="parking-management" />
         <module name="011-backend" />
         <module name="025-backend" />
         <module name="008-backend" />
@@ -49,6 +52,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="001-backend" target="17" />
+      <module name="040-backend" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -89,7 +93,10 @@
       <module name="035-backend" options="-parameters" />
       <module name="036-backend" options="-parameters" />
       <module name="037-backend" options="-parameters" />
+      <module name="038-backend" options="-parameters" />
       <module name="campus-affairs" options="-parameters" />
+      <module name="folksong-platform" options="-parameters" />
+      <module name="parking-management" options="-parameters" />
     </option>
   </component>
   <component name="TypeScriptCompiler">
