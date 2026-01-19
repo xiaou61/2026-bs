@@ -8,6 +8,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="psychology-system" />
         <module name="037-backend" />
         <module name="038-backend" />
         <module name="007-backend" />
@@ -97,6 +98,7 @@
       <module name="campus-affairs" options="-parameters" />
       <module name="folksong-platform" options="-parameters" />
       <module name="parking-management" options="-parameters" />
+      <module name="psychology-system" options="-parameters" />
     </option>
   </component>
   <component name="TypeScriptCompiler">
