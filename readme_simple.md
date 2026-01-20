@@ -1,6 +1,6 @@
 # 2026年计算机毕业设计项目合集
 
-## 📚 项目标题速览（共42个）
+## 📚 项目标题速览（共44个）
 
 ### 001 - 校园事务管理系统
 基于 Spring Boot + Vue 的校园事务管理系统
@@ -127,6 +127,12 @@ AI智能学习助手与个性化教育平台（个性化推荐+智能问答+学�
 
 ### 042 - 房屋租赁管理系统 🔥最新
 基于SpringBoot的房屋租赁管理系统的设计与实现（三角色+房源管理+预约看房+合同账单）
+
+### 043 - 宠物寄养服务系统 🔥
+基于SpringBoot的宠物寄养服务系统的设计与实现（Spring Boot 3.2 + MyBatis-Plus 3.5.5 + Vue3 + TypeScript + Element Plus）
+
+### 044 - 特色民宿预订平台 🔥最新
+基于SpringBoot的特色民宿预订平台的设计与实现（Spring Boot 3.2 + MyBatis-Plus 3.5.5 + Vue3 + TypeScript + Element Plus + 双角色系统）
 
 ---
 

@@ -36,6 +36,7 @@
         <module name="014-backend" />
         <module name="015-backend" />
         <module name="029-backend" />
+        <module name="043-backend" />
         <module name="012-backend" />
         <module name="028-backend" />
         <module name="031-backend" />
@@ -44,6 +45,7 @@
         <module name="030-backend" />
         <module name="026-backend" />
         <module name="010-backend" />
+        <module name="042-backend" />
         <module name="024-backend" />
         <module name="parking-management" />
         <module name="011-backend" />
@@ -95,6 +97,8 @@
       <module name="036-backend" options="-parameters" />
       <module name="037-backend" options="-parameters" />
       <module name="038-backend" options="-parameters" />
+      <module name="042-backend" options="-parameters" />
+      <module name="043-backend" options="-parameters" />
       <module name="campus-affairs" options="-parameters" />
       <module name="folksong-platform" options="-parameters" />
       <module name="parking-management" options="-parameters" />
