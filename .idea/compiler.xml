@@ -33,6 +33,7 @@
         <module name="002-backend" />
         <module name="016-backend" />
         <module name="033-backend" />
+        <module name="044-backend" />
         <module name="014-backend" />
         <module name="015-backend" />
         <module name="029-backend" />
@@ -99,6 +100,7 @@
       <module name="038-backend" options="-parameters" />
       <module name="042-backend" options="-parameters" />
       <module name="043-backend" options="-parameters" />
+      <module name="044-backend" options="-parameters" />
       <module name="campus-affairs" options="-parameters" />
       <module name="folksong-platform" options="-parameters" />
       <module name="parking-management" options="-parameters" />
