@@ -8,51 +8,70 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="psychology-system" />
-        <module name="037-backend" />
         <module name="038-backend" />
-        <module name="007-backend" />
         <module name="021-backend" />
         <module name="006-backend" />
-        <module name="020-backend" />
-        <module name="009-backend" />
+        <module name="campus-bike" />
+        <module name="rice-harvest" />
         <module name="023-backend" />
-        <module name="005-backend" />
-        <module name="campus-affairs" />
-        <module name="035-backend" />
         <module name="folksong-platform" />
         <module name="004-backend" />
-        <module name="022-backend" />
         <module name="036-backend" />
         <module name="019-backend" />
-        <module name="003-backend" />
         <module name="034-backend" />
-        <module name="018-backend" />
         <module name="032-backend" />
         <module name="047-backend" />
+        <module name="nursing-home (4)" />
         <module name="017-backend" />
         <module name="002-backend" />
-        <module name="016-backend" />
-        <module name="033-backend" />
-        <module name="044-backend" />
+        <module name="snack-warehouse" />
         <module name="045-backend" />
         <module name="014-backend" />
-        <module name="015-backend" />
-        <module name="029-backend" />
+        <module name="nursing-home (3)" />
         <module name="043-backend" />
-        <module name="046-backend" />
         <module name="012-backend" />
         <module name="028-backend" />
         <module name="031-backend" />
-        <module name="013-backend" />
-        <module name="027-backend" />
-        <module name="030-backend" />
         <module name="026-backend" />
         <module name="010-backend" />
-        <module name="042-backend" />
+        <module name="programming-learning" />
+        <module name="nursing-home" />
         <module name="024-backend" />
+        <module name="wedding-photo-studio" />
+        <module name="psychology-system" />
+        <module name="037-backend" />
+        <module name="007-backend" />
+        <module name="020-backend" />
+        <module name="009-backend" />
+        <module name="nursing-home (2)" />
+        <module name="005-backend" />
+        <module name="campus-affairs" />
+        <module name="035-backend" />
+        <module name="house-rental" />
+        <module name="022-backend" />
+        <module name="003-backend" />
+        <module name="health-management-platform" />
+        <module name="018-backend" />
+        <module name="016-backend" />
+        <module name="033-backend" />
+        <module name="hair-salon" />
+        <module name="044-backend" />
+        <module name="nursing-home (1)" />
+        <module name="015-backend" />
+        <module name="029-backend" />
+        <module name="046-backend" />
+        <module name="ticket-booking" />
+        <module name="013-backend" />
+        <module name="027-backend" />
+        <module name="herbal-food-platform" />
+        <module name="senior-health" />
+        <module name="ai-learning-assistant" />
+        <module name="030-backend" />
+        <module name="pet-boarding" />
+        <module name="042-backend" />
         <module name="parking-management" />
         <module name="011-backend" />
+        <module name="diet-management" />
         <module name="025-backend" />
         <module name="008-backend" />
       </profile>
@@ -106,10 +125,30 @@
       <module name="044-backend" options="-parameters" />
       <module name="045-backend" options="-parameters" />
       <module name="046-backend" options="-parameters" />
+      <module name="047-backend" options="-parameters" />
+      <module name="ai-learning-assistant" options="-parameters" />
       <module name="campus-affairs" options="-parameters" />
+      <module name="campus-bike" options="-parameters" />
+      <module name="diet-management" options="-parameters" />
       <module name="folksong-platform" options="-parameters" />
+      <module name="hair-salon" options="-parameters" />
+      <module name="health-management-platform" options="-parameters" />
+      <module name="herbal-food-platform" options="-parameters" />
+      <module name="house-rental" options="-parameters" />
+      <module name="nursing-home" options="-parameters" />
+      <module name="nursing-home (1)" options="-parameters" />
+      <module name="nursing-home (2)" options="-parameters" />
+      <module name="nursing-home (3)" options="-parameters" />
+      <module name="nursing-home (4)" options="-parameters" />
       <module name="parking-management" options="-parameters" />
+      <module name="pet-boarding" options="-parameters" />
+      <module name="programming-learning" options="-parameters" />
       <module name="psychology-system" options="-parameters" />
+      <module name="rice-harvest" options="-parameters" />
+      <module name="senior-health" options="-parameters" />
+      <module name="snack-warehouse" options="-parameters" />
+      <module name="ticket-booking" options="-parameters" />
+      <module name="wedding-photo-studio" options="-parameters" />
     </option>
   </component>
   <component name="TypeScriptCompiler">
