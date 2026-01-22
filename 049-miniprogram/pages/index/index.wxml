@@ -1,0 +1,111 @@
+<view class="container">
+  <!-- 用户信息 -->
+  <view class="user-card card" wx:if="{{userInfo}}">
+    <view class="flex">
+      <image class="avatar" src="{{userInfo.avatar || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+      <view class="user-info flex-1">
+        <view class="nickname">{{userInfo.nickname}}</view>
+        <view class="target text-gray text-small">目标: {{userInfo.targetSchool || '未设置'}} · {{userInfo.targetMajor || '未设置'}}</view>
+      </view>
+      <view class="study-days">
+        <view class="days text-primary text-large text-bold">{{userInfo.studyDays || 0}}</view>
+        <view class="text-gray text-small">连续学习</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 未登录提示 -->
+  <view class="card" wx:else>
+    <view class="text-center">
+      <view class="text-gray mb-20">登录后查看学习数据</view>
+      <navigator url="/pages/login/login" class="btn-primary" style="display:inline-block;padding:16rpx 60rpx;">立即登录</navigator>
+    </view>
+  </view>
+
+  <!-- 快捷功能 -->
+  <view class="quick-nav card">
+    <view class="nav-item" bindtap="goToCheckin">
+      <view class="nav-icon checkin-icon">📅</view>
+      <view class="nav-text">每日打卡</view>
+    </view>
+    <view class="nav-item" bindtap="goToPlan">
+      <view class="nav-icon plan-icon">📋</view>
+      <view class="nav-text">学习计划</view>
+    </view>
+    <view class="nav-item" bindtap="goToWrongBook">
+      <view class="nav-icon wrong-icon">📕</view>
+      <view class="nav-text">错题本</view>
+    </view>
+    <view class="nav-item" bindtap="goToNote">
+      <view class="nav-icon note-icon">📝</view>
+      <view class="nav-text">我的笔记</view>
+    </view>
+  </view>
+
+  <!-- 公告 -->
+  <view class="card" wx:if="{{notices.length}}">
+    <view class="section-title">
+      <text>📢 最新公告</text>
+    </view>
+    <view class="notice-item" wx:for="{{notices}}" wx:key="id" bindtap="goToNotice" data-id="{{item.id}}">
+      <view class="notice-title">{{item.title}}</view>
+      <view class="notice-time text-gray text-small">{{item.createTime}}</view>
+    </view>
+  </view>
+
+  <!-- 科目分类 -->
+  <view class="card">
+    <view class="section-title">📚 科目分类</view>
+    <view class="subject-grid">
+      <view class="subject-item" wx:for="{{subjects}}" wx:key="id" bindtap="goToSubject" data-id="{{item.id}}">
+        <view class="subject-icon">{{item.icon || '📖'}}</view>
+        <view class="subject-name">{{item.name}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 热门课程 -->
+  <view class="card">
+    <view class="section-title flex-between">
+      <text>🔥 热门课程</text>
+      <navigator url="/pages/course/course" class="text-primary text-small">更多</navigator>
+    </view>
+    <view class="course-list">
+      <view class="course-item" wx:for="{{hotCourses}}" wx:key="id" bindtap="goToCourse" data-id="{{item.id}}">
+        <image class="course-cover" src="{{item.coverImage || '/images/course-default.png'}}" mode="aspectFill"></image>
+        <view class="course-info">
+          <view class="course-title">{{item.title}}</view>
+          <view class="course-teacher text-gray text-small">{{item.teacherName}}</view>
+          <view class="course-meta flex-between">
+            <text class="tag tag-blue" wx:if="{{item.isFree}}">免费</text>
+            <text class="text-danger" wx:else>¥{{item.price}}</text>
+            <text class="text-gray text-small">{{item.studentCount}}人学习</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 学习统计 -->
+  <view class="stats-card card" wx:if="{{userInfo}}">
+    <view class="section-title">📊 学习统计</view>
+    <view class="stats-grid">
+      <view class="stat-item">
+        <view class="stat-value text-primary">{{stats.totalStudyDuration || 0}}</view>
+        <view class="stat-label text-gray text-small">学习时长(h)</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-value text-success">{{stats.totalQuestions || 0}}</view>
+        <view class="stat-label text-gray text-small">做题数</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-value text-warning">{{stats.correctRate || 0}}%</view>
+        <view class="stat-label text-gray text-small">正确率</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-value" style="color:{{stats.todayChecked ? '#4CAF50' : '#999'}}">{{stats.todayChecked ? '已打卡' : '未打卡'}}</view>
+        <view class="stat-label text-gray text-small">今日状态</view>
+      </view>
+    </view>
+  </view>
+</view>

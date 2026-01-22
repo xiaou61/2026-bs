@@ -1,0 +1,65 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/course/course",
+    "pages/course-detail/course-detail",
+    "pages/question/question",
+    "pages/practice/practice",
+    "pages/wrong-book/wrong-book",
+    "pages/community/community",
+    "pages/post-detail/post-detail",
+    "pages/my/my",
+    "pages/login/login",
+    "pages/register/register",
+    "pages/study-plan/study-plan",
+    "pages/checkin/checkin",
+    "pages/note/note",
+    "pages/favorite/favorite",
+    "pages/notice/notice"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#2196F3",
+    "navigationBarTitleText": "考研学习",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#999",
+    "selectedColor": "#2196F3",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/tab-home.png",
+        "selectedIconPath": "images/tab-home-active.png"
+      },
+      {
+        "pagePath": "pages/course/course",
+        "text": "课程",
+        "iconPath": "images/tab-course.png",
+        "selectedIconPath": "images/tab-course-active.png"
+      },
+      {
+        "pagePath": "pages/question/question",
+        "text": "刷题",
+        "iconPath": "images/tab-question.png",
+        "selectedIconPath": "images/tab-question-active.png"
+      },
+      {
+        "pagePath": "pages/community/community",
+        "text": "社区",
+        "iconPath": "images/tab-community.png",
+        "selectedIconPath": "images/tab-community-active.png"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "images/tab-my.png",
+        "selectedIconPath": "images/tab-my-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

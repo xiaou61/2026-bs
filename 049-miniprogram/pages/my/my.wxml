@@ -1,0 +1,66 @@
+<view class="container">
+  <!-- 用户信息 -->
+  <view class="user-section card" wx:if="{{userInfo}}" bindtap="goToPage" data-page="profile">
+    <image class="avatar" src="{{userInfo.avatar || '/images/default-avatar.png'}}"></image>
+    <view class="user-info">
+      <view class="nickname">{{userInfo.nickname}}</view>
+      <view class="target text-gray text-small">{{userInfo.targetSchool || '未设置目标院校'}} · {{userInfo.targetMajor || '未设置专业'}}</view>
+    </view>
+    <view class="arrow">›</view>
+  </view>
+
+  <view class="user-section card login-card" wx:else bindtap="goToLogin">
+    <view class="login-text">点击登录</view>
+  </view>
+
+  <!-- 学习数据 -->
+  <view class="stats-section card" wx:if="{{userInfo}}">
+    <view class="stat-item">
+      <view class="stat-value text-primary">{{userInfo.points || 0}}</view>
+      <view class="stat-label text-gray text-small">积分</view>
+    </view>
+    <view class="stat-item">
+      <view class="stat-value text-success">{{userInfo.studyDays || 0}}</view>
+      <view class="stat-label text-gray text-small">连续学习</view>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="menu-section card">
+    <view class="menu-item" bindtap="goToPage" data-page="study-plan">
+      <text class="menu-icon">📋</text>
+      <text class="menu-text">我的学习计划</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="goToPage" data-page="checkin">
+      <text class="menu-icon">📅</text>
+      <text class="menu-text">打卡记录</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="goToPage" data-page="wrong-book">
+      <text class="menu-icon">📕</text>
+      <text class="menu-text">错题本</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="goToPage" data-page="note">
+      <text class="menu-icon">📝</text>
+      <text class="menu-text">我的笔记</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="goToPage" data-page="favorite">
+      <text class="menu-icon">⭐</text>
+      <text class="menu-text">我的收藏</text>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="menu-section card">
+    <view class="menu-item" bindtap="goToPage" data-page="notice">
+      <text class="menu-icon">📢</text>
+      <text class="menu-text">系统公告</text>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="logout-btn" wx:if="{{userInfo}}" bindtap="logout">退出登录</view>
+</view>

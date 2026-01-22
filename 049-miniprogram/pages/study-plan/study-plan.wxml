@@ -1,0 +1,16 @@
+<view class="container">
+  <view class="btn-primary mb-20" bindtap="createPlan">+ 创建计划</view>
+  <view class="plan-item card" wx:for="{{plans}}" wx:key="id">
+    <view class="plan-content">{{item.content}}</view>
+    <view class="plan-progress mt-10">
+      <view class="progress-bar">
+        <view class="progress" style="width:{{item.progress}}%"></view>
+      </view>
+      <text class="progress-text">{{item.progress}}%</text>
+    </view>
+    <view class="btn-outline mt-10" style="padding:10rpx 0" bindtap="updateProgress" data-id="{{item.id}}" data-progress="{{item.progress}}">
+      更新进度 +10%
+    </view>
+  </view>
+  <view class="empty" wx:if="{{!plans.length}}">暂无学习计划</view>
+</view>

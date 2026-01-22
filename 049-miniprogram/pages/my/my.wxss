@@ -1,0 +1,85 @@
+.user-section {
+  display: flex;
+  align-items: center;
+}
+
+.user-section .avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  margin-right: 24rpx;
+}
+
+.user-info {
+  flex: 1;
+}
+
+.nickname {
+  font-size: 34rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.arrow {
+  font-size: 36rpx;
+  color: #999;
+}
+
+.login-card {
+  justify-content: center;
+  padding: 60rpx;
+}
+
+.login-text {
+  font-size: 32rpx;
+  color: #2196F3;
+}
+
+.stats-section {
+  display: flex;
+  justify-content: space-around;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 40rpx;
+  font-weight: bold;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-icon {
+  font-size: 36rpx;
+  margin-right: 20rpx;
+}
+
+.menu-text {
+  flex: 1;
+  font-size: 28rpx;
+}
+
+.menu-arrow {
+  font-size: 32rpx;
+  color: #999;
+}
+
+.logout-btn {
+  margin-top: 40rpx;
+  padding: 24rpx;
+  text-align: center;
+  color: #F44336;
+  background: #fff;
+  border-radius: 16rpx;
+}

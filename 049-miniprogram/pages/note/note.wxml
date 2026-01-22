@@ -1,0 +1,9 @@
+<view class="container">
+  <view class="btn-primary mb-20" bindtap="createNote">+ 新建笔记</view>
+  <view class="note-item card" wx:for="{{notes}}" wx:key="id">
+    <view class="note-title">{{item.title}}</view>
+    <view class="note-content text-gray text-small mt-10">{{item.content}}</view>
+    <view class="note-time text-gray text-small mt-10">{{item.createTime}}</view>
+  </view>
+  <view class="empty" wx:if="{{!notes.length && !loading}}">暂无笔记</view>
+</view>

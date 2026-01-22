@@ -1,0 +1,60 @@
+.quick-section {
+  display: flex;
+  justify-content: space-around;
+}
+
+.quick-item {
+  text-align: center;
+  padding: 20rpx;
+}
+
+.quick-item .icon {
+  font-size: 48rpx;
+  margin-bottom: 10rpx;
+}
+
+.quick-item .text {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.subject-tabs {
+  white-space: nowrap;
+  margin-bottom: 20rpx;
+}
+
+.tab-item {
+  display: inline-block;
+  padding: 12rpx 28rpx;
+  margin-right: 16rpx;
+  background: #fff;
+  border-radius: 30rpx;
+  font-size: 26rpx;
+}
+
+.tab-item.active {
+  background: #2196F3;
+  color: #fff;
+}
+
+.section-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+  color: #333;
+}
+
+.category-item {
+  display: flex;
+  align-items: center;
+}
+
+.category-name {
+  flex: 1;
+  font-size: 28rpx;
+}
+
+.arrow {
+  font-size: 32rpx;
+  color: #999;
+}

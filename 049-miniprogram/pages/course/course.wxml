@@ -1,0 +1,44 @@
+<view class="container">
+  <!-- 搜索 -->
+  <view class="search-bar">
+    <input placeholder="搜索课程" value="{{keyword}}" bindconfirm="onSearch" />
+  </view>
+
+  <!-- 科目筛选 -->
+  <scroll-view class="subject-tabs" scroll-x>
+    <view class="tab-item {{currentSubject === item.id ? 'active' : ''}}" 
+          wx:for="{{subjects}}" wx:key="id" 
+          bindtap="onSubjectChange" data-index="{{index}}">
+      {{item.name}}
+    </view>
+  </scroll-view>
+
+  <!-- 筛选标签 -->
+  <view class="filter-bar">
+    <view class="filter-item {{isFree === null ? 'active' : ''}}" bindtap="onFilterChange" data-type="all">全部</view>
+    <view class="filter-item {{isFree === 1 ? 'active' : ''}}" bindtap="onFilterChange" data-type="free">免费</view>
+    <view class="filter-item {{isFree === 0 ? 'active' : ''}}" bindtap="onFilterChange" data-type="paid">付费</view>
+  </view>
+
+  <!-- 课程列表 -->
+  <view class="course-list">
+    <view class="course-item card" wx:for="{{courses}}" wx:key="id" bindtap="goToDetail" data-id="{{item.id}}">
+      <image class="cover" src="{{item.coverImage || '/images/course-default.png'}}" mode="aspectFill"></image>
+      <view class="info">
+        <view class="title">{{item.title}}</view>
+        <view class="teacher text-gray text-small">讲师: {{item.teacherName || '未知'}}</view>
+        <view class="meta flex-between">
+          <view>
+            <text class="tag tag-blue" wx:if="{{item.isFree}}">免费</text>
+            <text class="price text-danger" wx:else>¥{{item.price}}</text>
+          </view>
+          <text class="text-gray text-small">{{item.studentCount || 0}}人学习</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{!courses.length && !loading}}">暂无课程</view>
+  <view class="loading text-center text-gray p-20" wx:if="{{loading}}">加载中...</view>
+  <view class="no-more text-center text-gray p-20" wx:if="{{!hasMore && courses.length}}">没有更多了</view>
+</view>

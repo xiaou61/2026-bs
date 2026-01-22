@@ -1,0 +1,16 @@
+<view class="container">
+  <!-- 列表 -->
+  <block wx:if="{{!noticeDetail}}">
+    <view class="notice-item card" wx:for="{{notices}}" wx:key="id" bindtap="goToDetail" data-id="{{item.id}}">
+      <view class="notice-title">{{item.title}}</view>
+      <view class="notice-time text-gray text-small mt-10">{{item.createTime}}</view>
+    </view>
+    <view class="empty" wx:if="{{!notices.length}}">暂无公告</view>
+  </block>
+  <!-- 详情 -->
+  <view class="detail-card card" wx:if="{{noticeDetail}}">
+    <view class="detail-title">{{noticeDetail.title}}</view>
+    <view class="detail-time text-gray text-small mt-10">{{noticeDetail.createTime}}</view>
+    <view class="detail-content mt-20">{{noticeDetail.content}}</view>
+  </view>
+</view>

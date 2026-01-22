@@ -1,0 +1,2 @@
+.fav-item { display: flex; align-items: center; gap: 16rpx; }
+.fav-id { flex: 1; }

@@ -1,0 +1,30 @@
+<view class="container" wx:if="{{postInfo}}">
+  <view class="post-card card">
+    <view class="post-header flex">
+      <image class="avatar" src="{{postInfo.authorAvatar || '/images/default-avatar.png'}}"></image>
+      <view class="flex-1">
+        <view class="author-name">{{postInfo.authorName || '匿名用户'}}</view>
+        <view class="post-time text-gray text-small">{{postInfo.createTime}}</view>
+      </view>
+    </view>
+    <view class="post-title">{{postInfo.title}}</view>
+    <view class="post-content">{{postInfo.content}}</view>
+    <view class="post-stats text-gray text-small mt-20">
+      👍 {{postInfo.likeCount || 0}} 💬 {{postInfo.commentCount || 0}} 👁 {{postInfo.viewCount || 0}}
+    </view>
+  </view>
+
+  <view class="section-title">评论 ({{comments.length}})</view>
+  <view class="comment-list">
+    <view class="comment-item card" wx:for="{{comments}}" wx:key="id">
+      <view class="comment-content">{{item.content}}</view>
+      <view class="comment-time text-gray text-small mt-10">{{item.createTime}}</view>
+    </view>
+  </view>
+  <view class="empty" wx:if="{{!comments.length}}">暂无评论</view>
+
+  <view class="comment-input-bar">
+    <input class="comment-input" placeholder="写评论..." value="{{commentContent}}" bindinput="onCommentInput" />
+    <view class="send-btn" bindtap="submitComment">发送</view>
+  </view>
+</view>

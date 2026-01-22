@@ -1,0 +1,131 @@
+.user-card .avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+}
+
+.user-info .nickname {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}
+
+.study-days {
+  text-align: center;
+}
+
+.study-days .days {
+  font-size: 48rpx;
+}
+
+.quick-nav {
+  display: flex;
+  justify-content: space-around;
+}
+
+.nav-item {
+  text-align: center;
+  padding: 20rpx;
+}
+
+.nav-icon {
+  font-size: 48rpx;
+  margin-bottom: 10rpx;
+}
+
+.nav-text {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+}
+
+.notice-item {
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid #eee;
+}
+
+.notice-item:last-child {
+  border-bottom: none;
+}
+
+.notice-title {
+  margin-bottom: 8rpx;
+}
+
+.subject-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.subject-item {
+  width: 25%;
+  text-align: center;
+  padding: 20rpx 0;
+}
+
+.subject-icon {
+  font-size: 48rpx;
+  margin-bottom: 10rpx;
+}
+
+.subject-name {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.course-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -10rpx;
+}
+
+.course-item {
+  width: calc(50% - 20rpx);
+  margin: 10rpx;
+  background: #f9f9f9;
+  border-radius: 12rpx;
+  overflow: hidden;
+}
+
+.course-cover {
+  width: 100%;
+  height: 180rpx;
+}
+
+.course-info {
+  padding: 16rpx;
+}
+
+.course-title {
+  font-size: 26rpx;
+  font-weight: 500;
+  margin-bottom: 8rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.course-teacher {
+  margin-bottom: 8rpx;
+}
+
+.stats-grid {
+  display: flex;
+  justify-content: space-around;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}

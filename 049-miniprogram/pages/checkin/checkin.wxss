@@ -1,0 +1,4 @@
+.stats-grid { display: flex; justify-content: space-around; margin-bottom: 20rpx; }
+.stat-item { text-align: center; }
+.stat-value { font-size: 48rpx; font-weight: bold; }
+.section-title { font-size: 28rpx; font-weight: bold; margin: 20rpx 0; }

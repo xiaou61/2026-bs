@@ -1,0 +1,65 @@
+<view class="container" wx:if="{{currentQuestion}}">
+  <!-- 进度 -->
+  <view class="progress-bar">
+    <view class="progress" style="width: {{(currentIndex + 1) * 100 / totalCount}}%"></view>
+  </view>
+  <view class="progress-text text-gray text-small">
+    {{currentIndex + 1}} / {{totalCount}}
+  </view>
+
+  <!-- 题目 -->
+  <view class="question-card card">
+    <view class="question-type">
+      <text class="tag tag-blue" wx:if="{{currentQuestion.type === 1}}">单选题</text>
+      <text class="tag tag-green" wx:elif="{{currentQuestion.type === 2}}">多选题</text>
+      <text class="tag tag-orange" wx:elif="{{currentQuestion.type === 3}}">判断题</text>
+    </view>
+    <view class="question-content">{{currentQuestion.content}}</view>
+
+    <!-- 选项 -->
+    <view class="options">
+      <view class="option-item {{selectedAnswer.includes('A') ? 'selected' : ''}} {{showAnswer && currentQuestion.answer.includes('A') ? 'correct' : ''}} {{showAnswer && selectedAnswer.includes('A') && !currentQuestion.answer.includes('A') ? 'wrong' : ''}}"
+            bindtap="selectOption" data-option="A">
+        <view class="option-label">A</view>
+        <view class="option-text">{{currentQuestion.optionA}}</view>
+      </view>
+      <view class="option-item {{selectedAnswer.includes('B') ? 'selected' : ''}} {{showAnswer && currentQuestion.answer.includes('B') ? 'correct' : ''}} {{showAnswer && selectedAnswer.includes('B') && !currentQuestion.answer.includes('B') ? 'wrong' : ''}}"
+            bindtap="selectOption" data-option="B">
+        <view class="option-label">B</view>
+        <view class="option-text">{{currentQuestion.optionB}}</view>
+      </view>
+      <view class="option-item {{selectedAnswer.includes('C') ? 'selected' : ''}} {{showAnswer && currentQuestion.answer.includes('C') ? 'correct' : ''}} {{showAnswer && selectedAnswer.includes('C') && !currentQuestion.answer.includes('C') ? 'wrong' : ''}}"
+            bindtap="selectOption" data-option="C" wx:if="{{currentQuestion.optionC}}">
+        <view class="option-label">C</view>
+        <view class="option-text">{{currentQuestion.optionC}}</view>
+      </view>
+      <view class="option-item {{selectedAnswer.includes('D') ? 'selected' : ''}} {{showAnswer && currentQuestion.answer.includes('D') ? 'correct' : ''}} {{showAnswer && selectedAnswer.includes('D') && !currentQuestion.answer.includes('D') ? 'wrong' : ''}}"
+            bindtap="selectOption" data-option="D" wx:if="{{currentQuestion.optionD}}">
+        <view class="option-label">D</view>
+        <view class="option-text">{{currentQuestion.optionD}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 解析 -->
+  <view class="analysis-card card" wx:if="{{showAnswer}}">
+    <view class="analysis-title">
+      <text class="text-success" wx:if="{{selectedAnswer === currentQuestion.answer}}">✓ 回答正确</text>
+      <text class="text-danger" wx:else>✗ 回答错误</text>
+    </view>
+    <view class="analysis-answer">正确答案: {{currentQuestion.answer}}</view>
+    <view class="analysis-content" wx:if="{{currentQuestion.analysis}}">
+      解析: {{currentQuestion.analysis}}
+    </view>
+  </view>
+
+  <!-- 按钮 -->
+  <view class="btn-area">
+    <view class="btn-primary" bindtap="submitAnswer" wx:if="{{!showAnswer}}">提交答案</view>
+    <view class="btn-primary" bindtap="nextQuestion" wx:else>
+      {{currentIndex + 1 >= totalCount ? '查看结果' : '下一题'}}
+    </view>
+  </view>
+</view>
+
+<view class="empty" wx:if="{{!currentQuestion}}">暂无题目</view>

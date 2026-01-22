@@ -1,0 +1,48 @@
+<view class="container" wx:if="{{course}}">
+  <!-- 封面 -->
+  <image class="cover" src="{{course.coverImage || '/images/course-default.png'}}" mode="aspectFill"></image>
+
+  <!-- 基本信息 -->
+  <view class="info-section card">
+    <view class="title">{{course.title}}</view>
+    <view class="meta flex-between mt-10">
+      <view>
+        <text class="price text-danger" wx:if="{{!course.isFree}}">¥{{course.price}}</text>
+        <text class="tag tag-blue" wx:else>免费</text>
+      </view>
+      <text class="text-gray text-small">{{course.studentCount || 0}}人学习</text>
+    </view>
+    <view class="teacher mt-10 text-gray">
+      讲师: {{course.teacherName || '未知'}} | 共{{course.chapterCount || 0}}节
+    </view>
+  </view>
+
+  <!-- Tab切换 -->
+  <view class="tabs">
+    <view class="tab {{activeTab === 'intro' ? 'active' : ''}}" bindtap="switchTab" data-tab="intro">课程介绍</view>
+    <view class="tab {{activeTab === 'chapter' ? 'active' : ''}}" bindtap="switchTab" data-tab="chapter">课程目录</view>
+  </view>
+
+  <!-- 课程介绍 -->
+  <view class="tab-content card" wx:if="{{activeTab === 'intro'}}">
+    <view class="content">{{course.description || '暂无介绍'}}</view>
+  </view>
+
+  <!-- 课程目录 -->
+  <view class="tab-content" wx:if="{{activeTab === 'chapter'}}">
+    <view class="chapter-item card" wx:for="{{chapters}}" wx:key="id" bindtap="playChapter" data-chapter="{{item}}">
+      <view class="chapter-info flex-1">
+        <view class="chapter-title">
+          <text class="chapter-num">{{index + 1}}.</text>
+          {{item.title}}
+        </view>
+        <view class="chapter-meta text-gray text-small mt-10">
+          时长: {{item.duration || 0}}分钟
+          <text class="tag tag-green ml-10" wx:if="{{item.isFree}}">试看</text>
+        </view>
+      </view>
+      <view class="play-btn">▶</view>
+    </view>
+    <view class="empty" wx:if="{{!chapters.length}}">暂无章节</view>
+  </view>
+</view>

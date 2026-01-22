@@ -1,0 +1,31 @@
+<view class="container">
+  <!-- 发布按钮 -->
+  <view class="publish-btn" bindtap="createPost">✏️ 发布</view>
+
+  <!-- 帖子列表 -->
+  <view class="post-item card" wx:for="{{posts}}" wx:key="id" bindtap="goToDetail" data-id="{{item.id}}">
+    <view class="post-header flex">
+      <image class="avatar" src="{{item.authorAvatar || '/images/default-avatar.png'}}"></image>
+      <view class="author-info flex-1">
+        <view class="author-name">{{item.authorName || '匿名用户'}}</view>
+        <view class="post-time text-gray text-small">{{item.createTime}}</view>
+      </view>
+    </view>
+    <view class="post-title">{{item.title}}</view>
+    <view class="post-content text-gray">{{item.content}}</view>
+    <view class="post-footer flex-between mt-10">
+      <view class="stat-item" catchtap="likePost" data-id="{{item.id}}">
+        <text>👍</text> {{item.likeCount || 0}}
+      </view>
+      <view class="stat-item">
+        <text>💬</text> {{item.commentCount || 0}}
+      </view>
+      <view class="stat-item">
+        <text>👁</text> {{item.viewCount || 0}}
+      </view>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{!posts.length && !loading}}">暂无帖子</view>
+  <view class="loading text-center text-gray p-20" wx:if="{{loading}}">加载中...</view>
+</view>

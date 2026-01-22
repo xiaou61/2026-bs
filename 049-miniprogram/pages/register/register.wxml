@@ -1,0 +1,32 @@
+<view class="container">
+  <view class="form-section">
+    <view class="input-item">
+      <input placeholder="用户名 *" value="{{username}}" bindinput="onInput" data-field="username" />
+    </view>
+    <view class="input-item">
+      <input placeholder="密码 *" password="true" value="{{password}}" bindinput="onInput" data-field="password" />
+    </view>
+    <view class="input-item">
+      <input placeholder="确认密码 *" password="true" value="{{confirmPassword}}" bindinput="onInput" data-field="confirmPassword" />
+    </view>
+    <view class="input-item">
+      <input placeholder="昵称" value="{{nickname}}" bindinput="onInput" data-field="nickname" />
+    </view>
+    <view class="input-item">
+      <input placeholder="手机号" type="number" value="{{phone}}" bindinput="onInput" data-field="phone" />
+    </view>
+    <view class="input-item">
+      <input placeholder="目标院校" value="{{targetSchool}}" bindinput="onInput" data-field="targetSchool" />
+    </view>
+    <view class="input-item">
+      <input placeholder="目标专业" value="{{targetMajor}}" bindinput="onInput" data-field="targetMajor" />
+    </view>
+    <view class="input-item">
+      <input placeholder="考研年份 (如2026)" type="number" value="{{examYear}}" bindinput="onInput" data-field="examYear" />
+    </view>
+    <view class="btn-primary mt-20" bindtap="register">注册</view>
+    <view class="text-center mt-20 text-gray">
+      已有账号？<navigator url="/pages/login/login" class="text-primary" open-type="redirect">去登录</navigator>
+    </view>
+  </view>
+</view>

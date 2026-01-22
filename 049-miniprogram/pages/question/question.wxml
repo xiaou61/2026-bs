@@ -1,0 +1,43 @@
+<view class="container">
+  <!-- 快捷入口 -->
+  <view class="quick-section card">
+    <view class="quick-item" bindtap="goToRandom">
+      <view class="icon">🎲</view>
+      <view class="text">随机刷题</view>
+    </view>
+    <view class="quick-item" bindtap="goToWrongBook">
+      <view class="icon">📕</view>
+      <view class="text">错题本</view>
+    </view>
+    <view class="quick-item" bindtap="startPractice" data-type="1">
+      <view class="icon">✅</view>
+      <view class="text">单选题</view>
+    </view>
+    <view class="quick-item" bindtap="startPractice" data-type="2">
+      <view class="icon">☑️</view>
+      <view class="text">多选题</view>
+    </view>
+  </view>
+
+  <!-- 科目选择 -->
+  <scroll-view class="subject-tabs" scroll-x>
+    <view class="tab-item {{currentSubject === item.id ? 'active' : ''}}" 
+          wx:for="{{subjects}}" wx:key="id" 
+          bindtap="onSubjectChange" data-id="{{item.id}}">
+      {{item.name}}
+    </view>
+  </scroll-view>
+
+  <!-- 题目分类 -->
+  <view class="section-title">选择分类开始练习</view>
+  <view class="category-list">
+    <view class="category-item card" wx:for="{{categories}}" wx:key="id" 
+          bindtap="startPractice" data-category-id="{{item.id}}" data-subject-id="{{item.subjectId}}">
+      <view class="category-name">{{item.name}}</view>
+      <view class="category-count text-gray text-small">共{{item.questionCount || 0}}题</view>
+      <view class="arrow">›</view>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{!categories.length}}">暂无分类</view>
+</view>

@@ -1,0 +1,10 @@
+<view class="container">
+  <view class="fav-item card" wx:for="{{favorites}}" wx:key="id">
+    <view class="fav-type tag tag-blue">
+      {{item.targetType === 1 ? '课程' : item.targetType === 2 ? '题目' : '笔记'}}
+    </view>
+    <view class="fav-id">ID: {{item.targetId}}</view>
+    <view class="fav-time text-gray text-small">{{item.createTime}}</view>
+  </view>
+  <view class="empty" wx:if="{{!favorites.length && !loading}}">暂无收藏</view>
+</view>

@@ -1,0 +1,13 @@
+<view class="container">
+  <view class="question-item card" wx:for="{{questions}}" wx:key="id">
+    <view class="question-content">{{item.content}}</view>
+    <view class="question-meta text-gray text-small mt-10">
+      正确答案: {{item.answer}} | 你的答案: {{item.userAnswer}}
+    </view>
+    <view class="btn-outline mt-10" style="padding:12rpx 0;" bindtap="markMastered" data-id="{{item.questionId}}">
+      标记为已掌握
+    </view>
+  </view>
+  <view class="empty" wx:if="{{!questions.length && !loading}}">暂无错题，继续加油！</view>
+  <view class="loading text-center text-gray p-20" wx:if="{{loading}}">加载中...</view>
+</view>

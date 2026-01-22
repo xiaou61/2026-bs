@@ -1,0 +1,20 @@
+<view class="container">
+  <view class="logo-section">
+    <view class="logo">📚</view>
+    <view class="title">考研学习平台</view>
+    <view class="subtitle text-gray">开启你的考研之旅</view>
+  </view>
+
+  <view class="form-section">
+    <view class="input-item">
+      <input placeholder="请输入用户名" value="{{username}}" bindinput="onUsernameInput" />
+    </view>
+    <view class="input-item">
+      <input placeholder="请输入密码" password="true" value="{{password}}" bindinput="onPasswordInput" />
+    </view>
+    <view class="btn-primary mt-20" bindtap="login">登录</view>
+    <view class="register-link text-center mt-20">
+      还没有账号？<text class="text-primary" bindtap="goToRegister">立即注册</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,4 @@
+.plan-progress { display: flex; align-items: center; }
+.progress-bar { flex: 1; height: 16rpx; background: #e0e0e0; border-radius: 8rpx; margin-right: 16rpx; }
+.progress { height: 100%; background: #2196F3; border-radius: 8rpx; }
+.progress-text { font-size: 24rpx; color: #2196F3; }

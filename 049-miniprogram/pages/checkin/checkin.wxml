@@ -1,0 +1,23 @@
+<view class="container">
+  <view class="stats-card card">
+    <view class="stats-grid">
+      <view class="stat-item">
+        <view class="stat-value text-primary">{{stats.totalDays || 0}}</view>
+        <view class="stat-label text-gray text-small">累计打卡</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-value text-success">{{stats.continuousDays || 0}}</view>
+        <view class="stat-label text-gray text-small">连续打卡</view>
+      </view>
+    </view>
+    <view class="btn-primary mt-20" bindtap="checkin">今日打卡</view>
+  </view>
+  <view class="section-title">打卡记录</view>
+  <view class="record-item card" wx:for="{{records}}" wx:key="id">
+    <view class="flex-between">
+      <text>{{item.checkinDate}}</text>
+      <text class="text-gray text-small">学习{{item.studyDuration}}分钟</text>
+    </view>
+  </view>
+  <view class="empty" wx:if="{{!records.length}}">暂无打卡记录</view>
+</view>

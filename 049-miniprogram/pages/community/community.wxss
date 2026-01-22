@@ -1,0 +1,53 @@
+.publish-btn {
+  position: fixed;
+  right: 30rpx;
+  bottom: 200rpx;
+  width: 100rpx;
+  height: 100rpx;
+  background: #2196F3;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  box-shadow: 0 4rpx 20rpx rgba(33, 150, 243, 0.4);
+  z-index: 100;
+}
+
+.post-header .avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin-right: 16rpx;
+}
+
+.author-name {
+  font-weight: 500;
+}
+
+.post-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  margin: 16rpx 0 10rpx;
+}
+
+.post-content {
+  font-size: 26rpx;
+  line-height: 1.6;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.post-footer {
+  padding-top: 16rpx;
+  border-top: 1rpx solid #eee;
+}
+
+.stat-item {
+  color: #666;
+  font-size: 24rpx;
+}
