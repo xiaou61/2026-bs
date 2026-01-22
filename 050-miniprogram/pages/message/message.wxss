@@ -1,0 +1,40 @@
+.action-bar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10rpx 0;
+  margin-bottom: 10rpx;
+}
+
+.card.unread {
+  border-left: 6rpx solid #4A90E2;
+}
+
+.msg-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.msg-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  flex: 1;
+}
+
+.unread-dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background: #f44336;
+}
+
+.msg-content {
+  color: #666;
+  font-size: 26rpx;
+  margin-bottom: 16rpx;
+  line-height: 1.5;
+}
+
+.msg-time {
+  text-align: right;
+}

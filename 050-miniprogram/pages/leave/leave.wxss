@@ -1,0 +1,25 @@
+.leave-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16rpx;
+}
+
+.leave-title {
+  font-size: 28rpx;
+  flex: 1;
+  margin-right: 20rpx;
+}
+
+.leave-info {
+  margin-bottom: 20rpx;
+}
+
+.leave-action {
+  display: flex;
+  gap: 20rpx;
+}
+
+.leave-action button {
+  margin: 0;
+}

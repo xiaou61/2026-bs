@@ -1,0 +1,19 @@
+<view class="container">
+  <view class="card" wx:for="{{list}}" wx:key="id">
+    <view class="leave-header">
+      <text class="leave-title">{{item.reason}}</text>
+      <text class="tag {{statusClass[item.status]}}">{{statusText[item.status]}}</text>
+    </view>
+    <view class="leave-info">
+      <text class="text-gray text-small">{{item.createTime}}</text>
+    </view>
+    <view class="leave-action" wx:if="{{mode == 'approve' && item.status == 0}}">
+      <button class="btn-secondary" size="mini" bindtap="approve" data-id="{{item.id}}" data-status="1">批准</button>
+      <button class="btn-secondary" size="mini" bindtap="approve" data-id="{{item.id}}" data-status="2">拒绝</button>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{list.length == 0}}">
+    <text>暂无{{type == 'makeup' ? '补签' : '请假'}}记录</text>
+  </view>
+</view>

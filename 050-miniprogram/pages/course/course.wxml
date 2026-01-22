@@ -1,0 +1,30 @@
+<view class="container">
+  <view class="card" wx:for="{{courses}}" wx:key="id">
+    <view class="course-header">
+      <text class="course-name">{{item.name}}</text>
+      <text class="course-code text-gray text-small">{{item.courseCode}}</text>
+    </view>
+    <view class="course-info">
+      <view class="info-item">
+        <text class="label">学分</text>
+        <text class="value">{{item.credit}}</text>
+      </view>
+      <view class="info-item">
+        <text class="label">学时</text>
+        <text class="value">{{item.hours}}</text>
+      </view>
+      <view class="info-item">
+        <text class="label">人数</text>
+        <text class="value">{{item.studentCount}}</text>
+      </view>
+    </view>
+    <view class="course-action">
+      <button class="btn-secondary" size="mini" bindtap="viewDetail" data-id="{{item.id}}">查看详情</button>
+      <button class="btn-secondary" size="mini" bindtap="viewRecord" data-id="{{item.id}}">考勤记录</button>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{courses.length == 0}}">
+    <text>暂无课程</text>
+  </view>
+</view>

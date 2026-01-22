@@ -1,0 +1,108 @@
+<view class="container">
+  <!-- 用户信息 -->
+  <view class="card user-card" wx:if="{{userInfo}}">
+    <view class="user-info">
+      <view class="avatar">{{userInfo.realName ? userInfo.realName[0] : '用'}}</view>
+      <view class="info">
+        <text class="name">{{userInfo.realName || userInfo.username}}</text>
+        <text class="role">{{userInfo.role == 0 ? '学生' : (userInfo.role == 1 ? '教师' : '管理员')}}</text>
+      </view>
+    </view>
+    <view class="unread" wx:if="{{unreadCount > 0}}" bindtap="goMessage">
+      <text>{{unreadCount}}</text>
+    </view>
+  </view>
+
+  <!-- 待签到任务（学生） -->
+  <view class="card" wx:if="{{userInfo && userInfo.role == 0}}">
+    <view class="card-header">
+      <text class="card-title">待签到</text>
+      <text class="text-gray text-small">{{activeTasks.length}}个任务</text>
+    </view>
+    <view wx:if="{{activeTasks.length > 0}}">
+      <view class="task-item" wx:for="{{activeTasks}}" wx:key="id" bindtap="goSign" data-task="{{item}}">
+        <view class="task-info">
+          <text class="task-title">{{item.title}}</text>
+          <text class="task-time text-gray text-small">截止: {{item.endTime}}</text>
+        </view>
+        <view class="sign-type">
+          <text class="tag tag-info">{{signTypeText[item.signType]}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="empty" wx:else>
+      <text>暂无待签到任务</text>
+    </view>
+  </view>
+
+  <!-- 今日课表 -->
+  <view class="card">
+    <view class="card-header">
+      <text class="card-title">今日课表</text>
+      <text class="text-primary text-small" bindtap="goCourse">查看全部</text>
+    </view>
+    <view wx:if="{{todaySchedules.length > 0}}">
+      <view class="schedule-item" wx:for="{{todaySchedules}}" wx:key="id">
+        <view class="time">
+          <text>{{item.startTime}}</text>
+          <text class="text-gray">-</text>
+          <text>{{item.endTime}}</text>
+        </view>
+        <view class="course-info">
+          <text class="course-name">{{item.courseName || '课程'}}</text>
+          <text class="text-gray text-small">{{item.classroom}} {{item.building}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="empty" wx:else>
+      <text>今日无课程安排</text>
+    </view>
+  </view>
+
+  <!-- 快捷入口 -->
+  <view class="card">
+    <view class="quick-menu">
+      <view class="menu-item" bindtap="goCourse">
+        <view class="menu-icon">📚</view>
+        <text>我的课程</text>
+      </view>
+      <view class="menu-item" bindtap="goRecord">
+        <view class="menu-icon">📊</view>
+        <text>考勤记录</text>
+      </view>
+      <view class="menu-item" bindtap="goLeave">
+        <view class="menu-icon">📝</view>
+        <text>请假申请</text>
+      </view>
+      <view class="menu-item" bindtap="goMessage">
+        <view class="menu-icon">🔔</view>
+        <text>消息通知</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 教师入口 -->
+  <view class="card" wx:if="{{userInfo && userInfo.role == 1}}">
+    <view class="card-header">
+      <text class="card-title">教师功能</text>
+    </view>
+    <view class="quick-menu">
+      <view class="menu-item" bindtap="goCreateTask">
+        <view class="menu-icon">✅</view>
+        <text>发起签到</text>
+      </view>
+      <view class="menu-item" bindtap="goTaskList">
+        <view class="menu-icon">📋</view>
+        <text>签到任务</text>
+      </view>
+      <view class="menu-item" bindtap="goApprove">
+        <view class="menu-icon">✍️</view>
+        <text>审批管理</text>
+      </view>
+      <view class="menu-item" bindtap="goStats">
+        <view class="menu-icon">📈</view>
+        <text>考勤统计</text>
+      </view>
+    </view>
+  </view>
+</view>

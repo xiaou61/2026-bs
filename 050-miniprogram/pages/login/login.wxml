@@ -1,0 +1,38 @@
+<view class="login-page">
+  <view class="logo-area">
+    <view class="logo">📋</view>
+    <text class="title">课堂考勤签到</text>
+    <text class="subtitle">便捷签到 高效管理</text>
+  </view>
+
+  <view class="form-area">
+    <view class="input-group">
+      <input 
+        placeholder="请输入用户名" 
+        value="{{username}}"
+        bindinput="onUsernameInput"
+      />
+    </view>
+    
+    <view class="input-group">
+      <input 
+        placeholder="请输入密码" 
+        password="true"
+        value="{{password}}"
+        bindinput="onPasswordInput"
+      />
+    </view>
+
+    <button class="btn-primary login-btn" bindtap="onLogin">
+      登录
+    </button>
+
+    <view class="wx-login" bindtap="onWxLogin">
+      <text>微信快捷登录</text>
+    </view>
+  </view>
+
+  <view class="footer">
+    <text class="text-gray text-small">首次使用请使用账号密码登录后绑定微信</text>
+  </view>
+</view>

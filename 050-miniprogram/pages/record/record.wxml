@@ -1,0 +1,48 @@
+<view class="container">
+  <!-- 统计卡片 -->
+  <view class="card stat-card" wx:if="{{stat}}">
+    <view class="stat-header">
+      <text class="stat-title">考勤统计</text>
+      <text class="stat-rate">出勤率 {{stat.attendanceRate}}%</text>
+    </view>
+    <view class="stat-items">
+      <view class="stat-item">
+        <text class="stat-num text-success">{{stat.normalCount}}</text>
+        <text class="stat-label">正常</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-num text-warning">{{stat.lateCount}}</text>
+        <text class="stat-label">迟到</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-num text-danger">{{stat.absentCount}}</text>
+        <text class="stat-label">缺勤</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-num text-gray">{{stat.leaveCount}}</text>
+        <text class="stat-label">请假</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 记录列表 -->
+  <view class="card">
+    <view class="card-header">
+      <text class="card-title">签到记录</text>
+    </view>
+    <view wx:if="{{records.length > 0}}">
+      <view class="record-item" wx:for="{{records}}" wx:key="id">
+        <view class="record-info">
+          <text class="record-title">{{item.taskTitle || '签到'}}</text>
+          <text class="record-time text-gray text-small">{{item.signTime || item.createTime}}</text>
+        </view>
+        <view class="record-status">
+          <text class="tag {{statusClass[item.status]}}">{{statusText[item.status]}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="empty" wx:else>
+      <text>暂无签到记录</text>
+    </view>
+  </view>
+</view>

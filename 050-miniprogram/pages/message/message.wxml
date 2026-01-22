@@ -1,0 +1,22 @@
+<view class="container">
+  <view class="action-bar" wx:if="{{messages.length > 0}}">
+    <text class="text-primary" bindtap="markAllRead">全部已读</text>
+  </view>
+
+  <view class="card {{item.isRead == 0 ? 'unread' : ''}}" wx:for="{{messages}}" wx:key="id" bindtap="readMessage" data-item="{{item}}">
+    <view class="msg-header">
+      <text class="msg-title">{{item.title}}</text>
+      <view class="unread-dot" wx:if="{{item.isRead == 0}}"></view>
+    </view>
+    <view class="msg-content">
+      <text>{{item.content}}</text>
+    </view>
+    <view class="msg-time">
+      <text class="text-gray text-small">{{item.createTime}}</text>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{messages.length == 0}}">
+    <text>暂无消息</text>
+  </view>
+</view>

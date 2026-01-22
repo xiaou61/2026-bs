@@ -1,0 +1,74 @@
+.user-card {
+  display: flex;
+  align-items: center;
+  padding: 40rpx;
+}
+
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4A90E2, #357ABD);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48rpx;
+  font-weight: bold;
+  margin-right: 30rpx;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}
+
+.role {
+  font-size: 26rpx;
+  color: #4A90E2;
+  margin-bottom: 8rpx;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 0;
+  border-bottom: 1rpx solid #eee;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-text {
+  flex: 1;
+  margin-left: 20rpx;
+}
+
+.badge {
+  background: #f44336;
+  color: #fff;
+  font-size: 22rpx;
+  min-width: 36rpx;
+  height: 36rpx;
+  border-radius: 18rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10rpx;
+  margin-right: 10rpx;
+}
+
+.arrow {
+  color: #ccc;
+}
+
+.logout-btn {
+  margin-top: 40rpx;
+}

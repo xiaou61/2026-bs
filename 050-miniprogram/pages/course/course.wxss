@@ -1,0 +1,46 @@
+.course-header {
+  margin-bottom: 20rpx;
+}
+
+.course-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-right: 16rpx;
+}
+
+.course-info {
+  display: flex;
+  padding: 20rpx 0;
+  border-top: 1rpx solid #eee;
+  border-bottom: 1rpx solid #eee;
+}
+
+.info-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info-item .label {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 8rpx;
+}
+
+.info-item .value {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #4A90E2;
+}
+
+.course-action {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20rpx;
+  margin-top: 20rpx;
+}
+
+.course-action button {
+  margin: 0;
+}

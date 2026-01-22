@@ -1,0 +1,69 @@
+<view class="container">
+  <!-- 任务信息 -->
+  <view class="card">
+    <view class="task-header">
+      <text class="task-title">{{task.title}}</text>
+      <text class="tag tag-info">{{signTypeText[task.signType]}}</text>
+    </view>
+    <view class="task-detail">
+      <view class="detail-item">
+        <text class="label">课程</text>
+        <text class="value">{{task.courseName || '课程'}}</text>
+      </view>
+      <view class="detail-item">
+        <text class="label">截止时间</text>
+        <text class="value">{{task.endTime}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 普通签到 -->
+  <view class="card sign-card" wx:if="{{task.signType == 1}}">
+    <view class="sign-icon">✅</view>
+    <text class="sign-tip">点击下方按钮完成签到</text>
+    <button class="btn-primary sign-btn" bindtap="doSign">立即签到</button>
+  </view>
+
+  <!-- 定位签到 -->
+  <view class="card sign-card" wx:if="{{task.signType == 2}}">
+    <view class="sign-icon">📍</view>
+    <text class="sign-tip">需要在指定位置范围内签到</text>
+    <view class="location-info" wx:if="{{location}}">
+      <text class="text-small text-gray">当前位置: {{location.address || '获取中...'}}</text>
+    </view>
+    <button class="btn-primary sign-btn" bindtap="getLocationAndSign">定位签到</button>
+  </view>
+
+  <!-- 二维码签到 -->
+  <view class="card sign-card" wx:if="{{task.signType == 3}}">
+    <view class="sign-icon">📷</view>
+    <text class="sign-tip">扫描教师展示的二维码</text>
+    <button class="btn-primary sign-btn" bindtap="scanQrCode">扫码签到</button>
+  </view>
+
+  <!-- 数字签到 -->
+  <view class="card sign-card" wx:if="{{task.signType == 4}}">
+    <view class="sign-icon">🔢</view>
+    <text class="sign-tip">输入6位签到码</text>
+    <view class="code-input">
+      <input 
+        type="number" 
+        maxlength="6" 
+        placeholder="请输入签到码"
+        value="{{signCode}}"
+        bindinput="onCodeInput"
+      />
+    </view>
+    <button class="btn-primary sign-btn" bindtap="doSign" disabled="{{signCode.length != 6}}">确认签到</button>
+  </view>
+
+  <!-- 签到成功 -->
+  <view class="card sign-card success-card" wx:if="{{signSuccess}}">
+    <view class="success-icon">🎉</view>
+    <text class="success-text">签到成功！</text>
+    <text class="success-status tag {{signResult.status == 1 ? 'tag-success' : 'tag-warning'}}">
+      {{signResult.status == 1 ? '正常签到' : '迟到'}}
+    </text>
+    <button class="btn-secondary" bindtap="goBack">返回首页</button>
+  </view>
+</view>

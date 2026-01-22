@@ -1,0 +1,77 @@
+.stat-card {
+  background: linear-gradient(135deg, #4A90E2, #357ABD);
+  color: #fff;
+}
+
+.stat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30rpx;
+}
+
+.stat-title {
+  font-size: 30rpx;
+}
+
+.stat-rate {
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.stat-items {
+  display: flex;
+}
+
+.stat-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-num {
+  font-size: 40rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}
+
+.stat-card .stat-num {
+  color: #fff;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  opacity: 0.8;
+}
+
+.card-header {
+  margin-bottom: 20rpx;
+}
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: bold;
+}
+
+.record-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #eee;
+}
+
+.record-item:last-child {
+  border-bottom: none;
+}
+
+.record-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.record-title {
+  font-size: 28rpx;
+  margin-bottom: 8rpx;
+}

@@ -1,0 +1,40 @@
+<view class="container">
+  <view class="card user-card">
+    <view class="avatar">{{userInfo.realName ? userInfo.realName[0] : '用'}}</view>
+    <view class="user-info">
+      <text class="name">{{userInfo.realName || userInfo.username}}</text>
+      <text class="role">{{userInfo.role == 0 ? '学生' : (userInfo.role == 1 ? '教师' : '管理员')}}</text>
+      <text class="no text-gray text-small" wx:if="{{userInfo.studentNo}}">学号: {{userInfo.studentNo}}</text>
+      <text class="no text-gray text-small" wx:if="{{userInfo.teacherNo}}">工号: {{userInfo.teacherNo}}</text>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="menu-item" bindtap="goMessage">
+      <text>📬</text>
+      <text class="menu-text">消息通知</text>
+      <view class="badge" wx:if="{{unreadCount > 0}}">{{unreadCount}}</view>
+      <text class="arrow">></text>
+    </view>
+    <view class="menu-item" bindtap="goLeave">
+      <text>📝</text>
+      <text class="menu-text">请假记录</text>
+      <text class="arrow">></text>
+    </view>
+    <view class="menu-item" bindtap="goMakeup">
+      <text>✍️</text>
+      <text class="menu-text">补签记录</text>
+      <text class="arrow">></text>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="menu-item" bindtap="goAbout">
+      <text>ℹ️</text>
+      <text class="menu-text">关于系统</text>
+      <text class="arrow">></text>
+    </view>
+  </view>
+
+  <button class="btn-secondary logout-btn" bindtap="logout">退出登录</button>
+</view>

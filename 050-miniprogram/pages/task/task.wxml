@@ -1,0 +1,66 @@
+<view class="container">
+  <!-- 创建签到 -->
+  <view wx:if="{{mode == 'create'}}">
+    <view class="card">
+      <view class="form-title">发起签到</view>
+      
+      <view class="form-item">
+        <text class="label">选择课程</text>
+        <picker bindchange="onCourseChange" value="{{courseIndex}}" range="{{courses}}" range-key="name">
+          <view class="picker">{{courses[courseIndex].name || '请选择课程'}}</view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <text class="label">签到标题</text>
+        <input placeholder="请输入签到标题" value="{{title}}" bindinput="onTitleInput"/>
+      </view>
+
+      <view class="form-item">
+        <text class="label">签到方式</text>
+        <picker bindchange="onTypeChange" value="{{signTypeIndex}}" range="{{signTypes}}" range-key="name">
+          <view class="picker">{{signTypes[signTypeIndex].name}}</view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <text class="label">签到时长(分钟)</text>
+        <input type="number" placeholder="请输入时长" value="{{duration}}" bindinput="onDurationInput"/>
+      </view>
+
+      <view class="form-item">
+        <text class="label">迟到判定(分钟)</text>
+        <input type="number" placeholder="超过此时间算迟到" value="{{lateMinutes}}" bindinput="onLateInput"/>
+      </view>
+
+      <view class="form-item" wx:if="{{signTypes[signTypeIndex].type == 2}}">
+        <text class="label">签到范围(米)</text>
+        <input type="number" placeholder="定位签到范围" value="{{distance}}" bindinput="onDistanceInput"/>
+      </view>
+
+      <button class="btn-primary" bindtap="createTask">发起签到</button>
+    </view>
+  </view>
+
+  <!-- 签到任务列表 -->
+  <view wx:if="{{mode == 'list'}}">
+    <view class="card" wx:for="{{tasks}}" wx:key="id">
+      <view class="task-header">
+        <text class="task-title">{{item.title}}</text>
+        <text class="tag {{item.status == 1 ? 'tag-success' : 'tag-info'}}">
+          {{item.status == 1 ? '进行中' : '已结束'}}
+        </text>
+      </view>
+      <view class="task-info">
+        <text class="text-gray text-small">{{signTypeText[item.signType]}} | {{item.startTime}}</text>
+      </view>
+      <view class="task-action" wx:if="{{item.status == 1}}">
+        <button class="btn-secondary" size="mini" bindtap="endTask" data-id="{{item.id}}">结束签到</button>
+        <button class="btn-secondary" size="mini" bindtap="viewStats" data-id="{{item.id}}">查看统计</button>
+      </view>
+    </view>
+    <view class="empty" wx:if="{{tasks.length == 0}}">
+      <text>暂无签到任务</text>
+    </view>
+  </view>
+</view>
