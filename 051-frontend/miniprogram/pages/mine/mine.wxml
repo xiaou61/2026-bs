@@ -1,0 +1,54 @@
+<view class="container">
+  <view class="user-card card">
+    <view class="user-info" wx:if="{{userInfo}}">
+      <image class="avatar" src="{{userInfo.avatar || '/static/default-avatar.png'}}"></image>
+      <view class="user-detail">
+        <view class="nickname">{{userInfo.nickname}}</view>
+        <view class="level text-small">{{userInfo.levelName}} · {{userInfo.points}}积分</view>
+      </view>
+    </view>
+    <view class="login-btn" wx:else bindtap="handleLogin">
+      <image class="avatar" src="/static/default-avatar.png"></image>
+      <view class="login-text">点击登录</view>
+    </view>
+  </view>
+
+  <view class="stats-card card" wx:if="{{stats}}">
+    <view class="stat-item">
+      <view class="stat-value">{{stats.learnedCount}}</view>
+      <view class="stat-label text-small text-gray">已学习</view>
+    </view>
+    <view class="stat-item">
+      <view class="stat-value">{{stats.questionCount}}</view>
+      <view class="stat-label text-small text-gray">已答题</view>
+    </view>
+    <view class="stat-item">
+      <view class="stat-value">{{stats.correctCount}}</view>
+      <view class="stat-label text-small text-gray">正确数</view>
+    </view>
+    <view class="stat-item">
+      <view class="stat-value">{{stats.rank}}</view>
+      <view class="stat-label text-small text-gray">排名</view>
+    </view>
+  </view>
+
+  <view class="menu-list card">
+    <view class="menu-item" bindtap="goFavorite">
+      <text class="menu-icon">⭐</text>
+      <text class="menu-text">我的收藏</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="goWrongList">
+      <text class="menu-icon">📝</text>
+      <text class="menu-text">错题本</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="goRank">
+      <text class="menu-icon">🏆</text>
+      <text class="menu-text">排行榜</text>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="logout-btn" wx:if="{{userInfo}}" bindtap="handleLogout">退出登录</view>
+</view>

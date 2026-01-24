@@ -1,0 +1,11 @@
+<view class="container">
+  <view class="rank-item card {{index < 3 ? 'top' + (index + 1) : ''}}" wx:for="{{rankList}}" wx:key="userId">
+    <view class="rank-num">{{item.rank}}</view>
+    <image class="avatar-small" src="{{item.avatar || '/static/default-avatar.png'}}"></image>
+    <view class="rank-info">
+      <view class="rank-name">{{item.nickname}}</view>
+    </view>
+    <view class="rank-points">{{item.points}}分</view>
+  </view>
+  <view class="empty" wx:if="{{rankList.length === 0}}">暂无数据</view>
+</view>

@@ -1,0 +1,7 @@
+<view class="container">
+  <view class="question-item card" wx:for="{{questions}}" wx:key="id">
+    <view class="question-content">{{item.content}}</view>
+    <view class="question-category text-small text-gray">{{item.categoryName}}</view>
+  </view>
+  <view class="empty" wx:if="{{questions.length === 0}}">暂无错题</view>
+</view>

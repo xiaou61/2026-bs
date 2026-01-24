@@ -1,0 +1,88 @@
+.user-card {
+  padding: 40rpx;
+}
+
+.user-info, .login-btn {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+}
+
+.user-detail {
+  margin-left: 30rpx;
+}
+
+.nickname {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}
+
+.login-text {
+  margin-left: 30rpx;
+  font-size: 32rpx;
+  color: #666;
+}
+
+.stats-card {
+  display: flex;
+  padding: 30rpx;
+}
+
+.stat-item {
+  flex: 1;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #1890ff;
+}
+
+.stat-label {
+  margin-top: 8rpx;
+}
+
+.menu-list {
+  padding: 0;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 24rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-icon {
+  font-size: 40rpx;
+  margin-right: 20rpx;
+}
+
+.menu-text {
+  flex: 1;
+}
+
+.menu-arrow {
+  color: #ccc;
+  font-size: 36rpx;
+}
+
+.logout-btn {
+  margin-top: 40rpx;
+  text-align: center;
+  padding: 24rpx;
+  background-color: #fff;
+  color: #ff4d4f;
+  border-radius: 16rpx;
+}

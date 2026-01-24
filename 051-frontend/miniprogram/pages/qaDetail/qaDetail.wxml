@@ -1,0 +1,19 @@
+<view class="container" wx:if="{{post}}">
+  <view class="card">
+    <view class="post-title">{{post.title}}</view>
+    <view class="post-user"><image class="avatar-small" src="{{post.avatar || '/static/default-avatar.png'}}"></image><text>{{post.nickname}}</text></view>
+    <view class="post-content">{{post.content}}</view>
+  </view>
+  <view class="reply-section">
+    <view class="section-title">回复 ({{post.replies.length}})</view>
+    <view class="reply-item card" wx:for="{{post.replies}}" wx:key="id">
+      <view class="reply-user"><image class="avatar-small" src="{{item.avatar || '/static/default-avatar.png'}}"></image><text>{{item.nickname}}</text></view>
+      <view class="reply-content">{{item.content}}</view>
+      <view class="reply-actions"><text bindtap="likeReply" data-id="{{item.id}}">👍 {{item.likeCount}}</text></view>
+    </view>
+  </view>
+  <view class="reply-input">
+    <input placeholder="写回复..." bindinput="inputReply" value="{{replyContent}}"/>
+    <view class="btn-primary" bindtap="submitReply">发送</view>
+  </view>
+</view>

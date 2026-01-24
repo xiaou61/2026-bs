@@ -1,0 +1,30 @@
+<view class="container">
+  <view class="quiz-header card">
+    <view class="quiz-title">每日答题挑战</view>
+    <view class="quiz-desc text-gray">每天5道题，答对获取积分</view>
+    <view class="btn-primary" bindtap="startDaily">开始答题</view>
+  </view>
+
+  <view class="section-title">分类答题</view>
+  <view class="category-list">
+    <view class="category-item card" wx:for="{{categories}}" wx:key="id" bindtap="startCategory" data-id="{{item.id}}" data-name="{{item.name}}">
+      <image src="{{item.icon || '/static/icons/default.png'}}"></image>
+      <view class="category-info">
+        <view class="category-name">{{item.name}}</view>
+        <view class="category-desc text-small text-gray">专项测验</view>
+      </view>
+      <view class="arrow">›</view>
+    </view>
+  </view>
+
+  <view class="quick-links">
+    <view class="link-item card" bindtap="goWrongList">
+      <text class="link-icon">📝</text>
+      <text>错题本</text>
+    </view>
+    <view class="link-item card" bindtap="goRank">
+      <text class="link-icon">🏆</text>
+      <text>排行榜</text>
+    </view>
+  </view>
+</view>

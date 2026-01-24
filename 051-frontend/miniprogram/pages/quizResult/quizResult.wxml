@@ -1,0 +1,29 @@
+<view class="container">
+  <view class="question-card card" wx:if="{{!finished && currentQuestion}}">
+    <view class="progress">{{currentIndex + 1}} / {{questions.length}}</view>
+    <view class="question-content">{{currentQuestion.content}}</view>
+    <view class="options">
+      <view class="option-item {{selectedAnswer === item ? (showResult ? (item === result.correctAnswer ? 'correct' : 'wrong') : 'selected') : ''}} {{showResult && item === result.correctAnswer ? 'correct' : ''}}" 
+        wx:for="{{currentQuestion.options}}" wx:key="*this" 
+        bindtap="selectOption" data-option="{{item}}">
+        {{item}}
+      </view>
+    </view>
+    <view class="result-info" wx:if="{{showResult}}">
+      <view class="{{result.isCorrect ? 'text-success' : 'text-danger'}}">
+        {{result.isCorrect ? '回答正确！' : '回答错误'}} {{result.points > 0 ? '+' + result.points + '积分' : ''}}
+      </view>
+      <view class="explanation text-gray">{{result.explanation}}</view>
+    </view>
+    <view class="btn-primary" wx:if="{{showResult}}" bindtap="nextQuestion">
+      {{currentIndex < questions.length - 1 ? '下一题' : '查看结果'}}
+    </view>
+  </view>
+
+  <view class="result-card card" wx:if="{{finished}}">
+    <view class="result-title">答题完成</view>
+    <view class="result-score">{{correctCount}} / {{questions.length}}</view>
+    <view class="result-desc">获得 {{totalPoints}} 积分</view>
+    <view class="btn-primary" bindtap="goBack">返回</view>
+  </view>
+</view>

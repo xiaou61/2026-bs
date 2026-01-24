@@ -1,0 +1,4 @@
+.article-item { display: flex; padding: 20rpx; }
+.article-cover { width: 200rpx; height: 140rpx; border-radius: 8rpx; flex-shrink: 0; }
+.article-info { flex: 1; margin-left: 20rpx; display: flex; flex-direction: column; justify-content: space-between; }
+.article-title { font-size: 28rpx; font-weight: 500; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }

@@ -1,0 +1,25 @@
+<view class="container" wx:if="{{article}}">
+  <view class="article-header card">
+    <view class="article-title">{{article.title}}</view>
+    <view class="article-meta text-small text-gray">
+      <text>{{article.categoryName}}</text>
+      <text>浏览 {{article.viewCount}}</text>
+      <text>点赞 {{article.likeCount}}</text>
+    </view>
+  </view>
+
+  <view class="article-content card">
+    <rich-text nodes="{{article.content}}"></rich-text>
+  </view>
+
+  <view class="article-actions">
+    <view class="action-item {{article.isLiked ? 'active' : ''}}" bindtap="handleLike">
+      <text class="iconfont">👍</text>
+      <text>{{article.isLiked ? '已点赞' : '点赞'}}</text>
+    </view>
+    <view class="action-item {{article.isFavorite ? 'active' : ''}}" bindtap="handleFavorite">
+      <text class="iconfont">⭐</text>
+      <text>{{article.isFavorite ? '已收藏' : '收藏'}}</text>
+    </view>
+  </view>
+</view>

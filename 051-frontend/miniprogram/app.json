@@ -1,0 +1,57 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/category/category",
+    "pages/article/article",
+    "pages/quiz/quiz",
+    "pages/quizResult/quizResult",
+    "pages/wrongList/wrongList",
+    "pages/rank/rank",
+    "pages/news/news",
+    "pages/newsDetail/newsDetail",
+    "pages/qa/qa",
+    "pages/qaDetail/qaDetail",
+    "pages/qaPost/qaPost",
+    "pages/mine/mine",
+    "pages/favorite/favorite"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#1890ff",
+    "navigationBarTitleText": "网络安全科普",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#1890ff",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/tab/home.png",
+        "selectedIconPath": "static/tab/home-active.png"
+      },
+      {
+        "pagePath": "pages/quiz/quiz",
+        "text": "答题",
+        "iconPath": "static/tab/quiz.png",
+        "selectedIconPath": "static/tab/quiz-active.png"
+      },
+      {
+        "pagePath": "pages/news/news",
+        "text": "资讯",
+        "iconPath": "static/tab/news.png",
+        "selectedIconPath": "static/tab/news-active.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "static/tab/mine.png",
+        "selectedIconPath": "static/tab/mine-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

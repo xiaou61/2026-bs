@@ -1,0 +1,65 @@
+.quiz-header {
+  text-align: center;
+  padding: 40rpx;
+}
+
+.quiz-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.quiz-desc {
+  margin-bottom: 30rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin: 30rpx 0 20rpx;
+}
+
+.category-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx;
+}
+
+.category-item image {
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.category-info {
+  flex: 1;
+  margin-left: 20rpx;
+}
+
+.category-name {
+  font-size: 30rpx;
+  font-weight: 500;
+}
+
+.arrow {
+  font-size: 40rpx;
+  color: #ccc;
+}
+
+.quick-links {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 30rpx;
+}
+
+.link-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30rpx;
+}
+
+.link-icon {
+  font-size: 50rpx;
+  margin-bottom: 10rpx;
+}

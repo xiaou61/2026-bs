@@ -1,0 +1,7 @@
+<view class="container" wx:if="{{news}}">
+  <view class="card">
+    <view class="news-title">{{news.title}}</view>
+    <view class="news-meta text-small text-gray">{{news.source}} · 浏览{{news.viewCount}}</view>
+    <view class="news-content"><rich-text nodes="{{news.content}}"></rich-text></view>
+  </view>
+</view>

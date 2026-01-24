@@ -1,0 +1,34 @@
+<view class="container">
+  <view class="tabs">
+    <view class="tab-item {{tabIndex === 0 ? 'active' : ''}}" bindtap="switchTab" data-index="0">资讯</view>
+    <view class="tab-item {{tabIndex === 1 ? 'active' : ''}}" bindtap="switchTab" data-index="1">问答</view>
+  </view>
+
+  <view wx:if="{{tabIndex === 0}}">
+    <view class="news-item card" wx:for="{{newsList}}" wx:key="id" bindtap="goNewsDetail" data-id="{{item.id}}">
+      <image class="news-cover" src="{{item.cover || '/static/default.png'}}" mode="aspectFill"></image>
+      <view class="news-info">
+        <view class="news-title">{{item.title}}</view>
+        <view class="news-meta text-small text-gray">
+          <text>{{item.source}}</text>
+          <text>浏览 {{item.viewCount}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{tabIndex === 1}}">
+    <view class="qa-item card" wx:for="{{qaList}}" wx:key="id" bindtap="goQaDetail" data-id="{{item.id}}">
+      <view class="qa-title">{{item.title}}</view>
+      <view class="qa-content text-gray">{{item.content}}</view>
+      <view class="qa-meta text-small text-gray">
+        <text>{{item.nickname}}</text>
+        <text>回复 {{item.replyCount}}</text>
+        <text>浏览 {{item.viewCount}}</text>
+      </view>
+    </view>
+    <view class="fab" bindtap="goQaPost">+</view>
+  </view>
+
+  <view class="empty" wx:if="{{(tabIndex === 0 && newsList.length === 0) || (tabIndex === 1 && qaList.length === 0)}}">暂无数据</view>
+</view>

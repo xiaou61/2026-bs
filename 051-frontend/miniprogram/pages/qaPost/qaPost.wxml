@@ -1,0 +1,7 @@
+<view class="container">
+  <view class="card">
+    <input class="title-input" placeholder="请输入标题" bindinput="inputTitle" value="{{title}}"/>
+    <textarea class="content-input" placeholder="请输入内容" bindinput="inputContent" value="{{content}}"/>
+  </view>
+  <view class="btn-primary submit-btn" bindtap="submit">发布</view>
+</view>

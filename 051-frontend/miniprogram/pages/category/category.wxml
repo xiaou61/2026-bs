@@ -1,0 +1,20 @@
+<view class="container">
+  <scroll-view class="category-tabs" scroll-x>
+    <view class="tab-item {{currentCategoryId === '' ? 'active' : ''}}" bindtap="switchCategory" data-id="">全部</view>
+    <view class="tab-item {{currentCategoryId === item.id ? 'active' : ''}}" wx:for="{{categories}}" wx:key="id" bindtap="switchCategory" data-id="{{item.id}}">{{item.name}}</view>
+  </scroll-view>
+
+  <view class="article-list">
+    <view class="article-item card" wx:for="{{articles}}" wx:key="id" bindtap="goArticle" data-id="{{item.id}}">
+      <image class="article-cover" src="{{item.cover || '/static/default.png'}}" mode="aspectFill"></image>
+      <view class="article-info">
+        <view class="article-title">{{item.title}}</view>
+        <view class="article-meta text-small text-gray">
+          <text>{{item.categoryName}}</text>
+          <text>浏览 {{item.viewCount}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="empty" wx:if="{{articles.length === 0}}">暂无文章</view>
+  </view>
+</view>

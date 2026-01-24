@@ -1,0 +1,8 @@
+.rank-item { display: flex; align-items: center; padding: 24rpx; }
+.rank-num { width: 60rpx; text-align: center; font-weight: bold; color: #999; }
+.rank-item.top1 .rank-num { color: #ffd700; font-size: 36rpx; }
+.rank-item.top2 .rank-num { color: #c0c0c0; font-size: 32rpx; }
+.rank-item.top3 .rank-num { color: #cd7f32; font-size: 30rpx; }
+.rank-info { flex: 1; margin-left: 16rpx; }
+.rank-name { font-size: 28rpx; }
+.rank-points { color: #1890ff; font-weight: bold; }

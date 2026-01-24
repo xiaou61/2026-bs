@@ -1,0 +1,44 @@
+.article-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+}
+
+.article-meta {
+  display: flex;
+  gap: 30rpx;
+}
+
+.article-content {
+  line-height: 1.8;
+}
+
+.article-actions {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  background-color: #fff;
+  border-top: 1rpx solid #eee;
+  padding: 20rpx 0;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+}
+
+.action-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 24rpx;
+  color: #666;
+}
+
+.action-item.active {
+  color: #1890ff;
+}
+
+.action-item .iconfont {
+  font-size: 40rpx;
+  margin-bottom: 8rpx;
+}

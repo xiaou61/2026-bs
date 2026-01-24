@@ -1,0 +1,2 @@
+.question-item { padding: 24rpx; }
+.question-content { font-size: 28rpx; margin-bottom: 12rpx; }

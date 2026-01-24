@@ -1,0 +1,10 @@
+<view class="container">
+  <view class="article-item card" wx:for="{{articles}}" wx:key="id" bindtap="goArticle" data-id="{{item.id}}">
+    <image class="article-cover" src="{{item.cover || '/static/default.png'}}" mode="aspectFill"></image>
+    <view class="article-info">
+      <view class="article-title">{{item.title}}</view>
+      <view class="article-meta text-small text-gray">{{item.categoryName}}</view>
+    </view>
+  </view>
+  <view class="empty" wx:if="{{articles.length === 0}}">暂无收藏</view>
+</view>
