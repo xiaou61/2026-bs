@@ -42,6 +42,7 @@
         <module name="wedding-photo-studio" />
         <module name="psychology-system" />
         <module name="037-backend" />
+        <module name="052-backend" />
         <module name="007-backend" />
         <module name="020-backend" />
         <module name="009-backend" />
@@ -130,6 +131,7 @@
       <module name="047-backend" options="-parameters" />
       <module name="049-backend" options="-parameters" />
       <module name="051-backend" options="-parameters" />
+      <module name="052-backend" options="-parameters" />
       <module name="ai-learning-assistant" options="-parameters" />
       <module name="campus-affairs" options="-parameters" />
       <module name="campus-bike" options="-parameters" />
