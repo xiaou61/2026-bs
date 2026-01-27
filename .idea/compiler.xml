@@ -18,6 +18,7 @@
         <module name="folksong-platform" />
         <module name="004-backend" />
         <module name="036-backend" />
+        <module name="053-backend" />
         <module name="019-backend" />
         <module name="049-backend" />
         <module name="034-backend" />
@@ -132,6 +133,7 @@
       <module name="049-backend" options="-parameters" />
       <module name="051-backend" options="-parameters" />
       <module name="052-backend" options="-parameters" />
+      <module name="053-backend" options="-parameters" />
       <module name="ai-learning-assistant" options="-parameters" />
       <module name="campus-affairs" options="-parameters" />
       <module name="campus-bike" options="-parameters" />
