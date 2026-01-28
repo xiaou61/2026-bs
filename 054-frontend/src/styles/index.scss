@@ -1,0 +1,37 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #app {
+  height: 100%;
+  font-family: 'Microsoft YaHei', sans-serif;
+}
+
+.page-container {
+  padding: 20px;
+}
+
+.search-form {
+  margin-bottom: 20px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 4px;
+}
+
+.table-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.pagination-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.dialog-footer {
+  text-align: right;
+}
