@@ -72,6 +72,7 @@
         <module name="ai-learning-assistant" />
         <module name="030-backend" />
         <module name="pet-boarding" />
+        <module name="056-backend" />
         <module name="042-backend" />
         <module name="parking-management" />
         <module name="011-backend" />
@@ -134,6 +135,7 @@
       <module name="051-backend" options="-parameters" />
       <module name="052-backend" options="-parameters" />
       <module name="053-backend" options="-parameters" />
+      <module name="056-backend" options="-parameters" />
       <module name="ai-learning-assistant" options="-parameters" />
       <module name="campus-affairs" options="-parameters" />
       <module name="campus-bike" options="-parameters" />

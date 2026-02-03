@@ -1,0 +1,18 @@
+{
+  "name": "短文写作竞赛",
+  "appid": "__UNI__WRITING",
+  "description": "短文写作竞赛管理小程序",
+  "versionName": "1.0.0",
+  "versionCode": "100",
+  "transformPx": false,
+  "mp-weixin": {
+    "appid": "wx1234567890",
+    "setting": {
+      "urlCheck": false
+    },
+    "usingComponents": true
+  },
+  "uniStatistics": {
+    "enable": false
+  }
+}

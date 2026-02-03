@@ -1,0 +1,33 @@
+{
+  "pages": [
+    { "path": "pages/index/index", "style": { "navigationBarTitleText": "首页" } },
+    { "path": "pages/login/login", "style": { "navigationBarTitleText": "登录" } },
+    { "path": "pages/competition/list", "style": { "navigationBarTitleText": "竞赛列表" } },
+    { "path": "pages/competition/detail", "style": { "navigationBarTitleText": "竞赛详情" } },
+    { "path": "pages/work/submit", "style": { "navigationBarTitleText": "提交作品" } },
+    { "path": "pages/work/list", "style": { "navigationBarTitleText": "我的作品" } },
+    { "path": "pages/work/detail", "style": { "navigationBarTitleText": "作品详情" } },
+    { "path": "pages/notice/list", "style": { "navigationBarTitleText": "公告通知" } },
+    { "path": "pages/notice/detail", "style": { "navigationBarTitleText": "公告详情" } },
+    { "path": "pages/award/list", "style": { "navigationBarTitleText": "获奖名单" } },
+    { "path": "pages/my/index", "style": { "navigationBarTitleText": "个人中心" } },
+    { "path": "pages/my/info", "style": { "navigationBarTitleText": "个人信息" } }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "短文写作竞赛",
+    "navigationBarBackgroundColor": "#ffffff",
+    "backgroundColor": "#f5f5f5"
+  },
+  "tabBar": {
+    "color": "#999",
+    "selectedColor": "#409EFF",
+    "backgroundColor": "#fff",
+    "list": [
+      { "pagePath": "pages/index/index", "text": "首页", "iconPath": "static/tab/home.png", "selectedIconPath": "static/tab/home-active.png" },
+      { "pagePath": "pages/competition/list", "text": "竞赛", "iconPath": "static/tab/competition.png", "selectedIconPath": "static/tab/competition-active.png" },
+      { "pagePath": "pages/work/list", "text": "作品", "iconPath": "static/tab/work.png", "selectedIconPath": "static/tab/work-active.png" },
+      { "pagePath": "pages/my/index", "text": "我的", "iconPath": "static/tab/my.png", "selectedIconPath": "static/tab/my-active.png" }
+    ]
+  }
+}

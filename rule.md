@@ -4,7 +4,7 @@
 当前我的环境是windows 所以你的指令也可以用windows的
 然后是创建前端的时候不需要用npx等指令
 然后是技术选型方面
-数据库操作用mybatis或者是mybatis-plus
-缓存操作用redis
+数据库操作用mybatis或者是mybatis-plus 俩者随机一下，不要每个项目都一样
+缓存操作用redis或者其他技术都可以
 前端用vue
 后端springboot
