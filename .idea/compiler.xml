@@ -38,6 +38,7 @@
         <module name="026-backend" />
         <module name="010-backend" />
         <module name="programming-learning" />
+        <module name="057-backend" />
         <module name="nursing-home" />
         <module name="024-backend" />
         <module name="wedding-photo-studio" />
@@ -136,6 +137,7 @@
       <module name="052-backend" options="-parameters" />
       <module name="053-backend" options="-parameters" />
       <module name="056-backend" options="-parameters" />
+      <module name="057-backend" options="-parameters" />
       <module name="ai-learning-assistant" options="-parameters" />
       <module name="campus-affairs" options="-parameters" />
       <module name="campus-bike" options="-parameters" />
