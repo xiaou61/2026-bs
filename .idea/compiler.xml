@@ -66,6 +66,7 @@
         <module name="029-backend" />
         <module name="046-backend" />
         <module name="ticket-booking" />
+        <module name="058-backend" />
         <module name="013-backend" />
         <module name="027-backend" />
         <module name="herbal-food-platform" />
