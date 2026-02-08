@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.movie.mapper.MovieMapper">
+
+    <select id="selectPage" resultType="Movie">
+        SELECT m.*, mc.name AS category_name
+        FROM movie m LEFT JOIN movie_category mc ON m.category_id = mc.id
+        <where>
+            <if test="title != null and title != ''">
+                AND m.title LIKE CONCAT('%', #{title}, '%')
+            </if>
+            <if test="categoryId != null">
+                AND m.category_id = #{categoryId}
+            </if>
+        </where>
+        ORDER BY m.create_time DESC
+    </select>
+
+    <select id="selectById" resultType="Movie">
+        SELECT m.*, mc.name AS category_name
+        FROM movie m LEFT JOIN movie_category mc ON m.category_id = mc.id
+        WHERE m.id = #{id}
+    </select>
+
+    <select id="selectHot" resultType="Movie">
+        SELECT m.*, mc.name AS category_name
+        FROM movie m LEFT JOIN movie_category mc ON m.category_id = mc.id
+        WHERE m.status = 1
+        ORDER BY m.score DESC
+        LIMIT 10
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO movie (title, poster, director, actors, category_id, duration, release_date, description, score, status)
+        VALUES (#{title}, #{poster}, #{director}, #{actors}, #{categoryId}, #{duration}, #{releaseDate}, #{description}, #{score}, #{status})
+    </insert>
+
+    <update id="update">
+        UPDATE movie
+        <set>
+            <if test="title != null">title = #{title},</if>
+            <if test="poster != null">poster = #{poster},</if>
+            <if test="director != null">director = #{director},</if>
+            <if test="actors != null">actors = #{actors},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="duration != null">duration = #{duration},</if>
+            <if test="releaseDate != null">release_date = #{releaseDate},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM movie WHERE id = #{id}
+    </delete>
+
+    <select id="count" resultType="int">
+        SELECT COUNT(*) FROM movie
+    </select>
+
+    <update id="updateScore">
+        UPDATE movie SET score = #{score} WHERE id = #{id}
+    </update>
+
+    <select id="selectCategoryStats" resultType="map">
+        SELECT mc.name AS name, COUNT(m.id) AS value
+        FROM movie_category mc LEFT JOIN movie m ON mc.id = m.category_id
+        GROUP BY mc.id, mc.name
+        ORDER BY value DESC
+    </select>
+</mapper>

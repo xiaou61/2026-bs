@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.movie.mapper.TicketOrderMapper">
+
+    <select id="selectPage" resultType="TicketOrder">
+        SELECT o.*, u.username, m.title AS movie_title, c.name AS cinema_name,
+               h.name AS hall_name, s.show_date, s.start_time
+        FROM ticket_order o
+        LEFT JOIN user u ON o.user_id = u.id
+        LEFT JOIN showtime s ON o.showtime_id = s.id
+        LEFT JOIN movie m ON s.movie_id = m.id
+        LEFT JOIN cinema c ON s.cinema_id = c.id
+        LEFT JOIN hall h ON s.hall_id = h.id
+        <where>
+            <if test="orderNo != null and orderNo != ''">
+                AND o.order_no LIKE CONCAT('%', #{orderNo}, '%')
+            </if>
+            <if test="status != null">
+                AND o.status = #{status}
+            </if>
+        </where>
+        ORDER BY o.create_time DESC
+    </select>
+
+    <select id="selectByUserId" resultType="TicketOrder">
+        SELECT o.*, u.username, m.title AS movie_title, c.name AS cinema_name,
+               h.name AS hall_name, s.show_date, s.start_time
+        FROM ticket_order o
+        LEFT JOIN user u ON o.user_id = u.id
+        LEFT JOIN showtime s ON o.showtime_id = s.id
+        LEFT JOIN movie m ON s.movie_id = m.id
+        LEFT JOIN cinema c ON s.cinema_id = c.id
+        LEFT JOIN hall h ON s.hall_id = h.id
+        WHERE o.user_id = #{userId}
+        ORDER BY o.create_time DESC
+    </select>
+
+    <select id="selectById" resultType="TicketOrder">
+        SELECT o.*, u.username, m.title AS movie_title, c.name AS cinema_name,
+               h.name AS hall_name, s.show_date, s.start_time
+        FROM ticket_order o
+        LEFT JOIN user u ON o.user_id = u.id
+        LEFT JOIN showtime s ON o.showtime_id = s.id
+        LEFT JOIN movie m ON s.movie_id = m.id
+        LEFT JOIN cinema c ON s.cinema_id = c.id
+        LEFT JOIN hall h ON s.hall_id = h.id
+        WHERE o.id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO ticket_order (order_no, user_id, showtime_id, seats, seat_count, total_price, status)
+        VALUES (#{orderNo}, #{userId}, #{showtimeId}, #{seats}, #{seatCount}, #{totalPrice}, #{status})
+    </insert>
+
+    <update id="updateStatus">
+        UPDATE ticket_order SET status = #{status} WHERE id = #{id}
+    </update>
+
+    <update id="updatePayTime">
+        UPDATE ticket_order SET status = 1, pay_time = NOW() WHERE id = #{id}
+    </update>
+
+    <select id="count" resultType="int">
+        SELECT COUNT(*) FROM ticket_order
+    </select>
+
+    <select id="sumTotalPrice" resultType="java.lang.Double">
+        SELECT IFNULL(SUM(total_price), 0) FROM ticket_order WHERE status = 1
+    </select>
+
+    <select id="selectOrderTrend" resultType="map">
+        SELECT DATE_FORMAT(create_time, '%m-%d') AS date, COUNT(*) AS count
+        FROM ticket_order
+        WHERE create_time >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+        GROUP BY DATE_FORMAT(create_time, '%m-%d')
+        ORDER BY date ASC
+    </select>
+
+    <select id="selectBoxOfficeRank" resultType="map">
+        SELECT m.title AS name, IFNULL(SUM(o.total_price), 0) AS value
+        FROM ticket_order o
+        LEFT JOIN showtime s ON o.showtime_id = s.id
+        LEFT JOIN movie m ON s.movie_id = m.id
+        WHERE o.status = 1
+        GROUP BY m.id, m.title
+        ORDER BY value DESC
+        LIMIT 6
+    </select>
+</mapper>

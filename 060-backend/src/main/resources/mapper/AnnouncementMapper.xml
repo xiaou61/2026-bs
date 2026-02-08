@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.movie.mapper.AnnouncementMapper">
+
+    <select id="selectPage" resultType="Announcement">
+        SELECT * FROM announcement
+        <where>
+            <if test="title != null and title != ''">
+                AND title LIKE CONCAT('%', #{title}, '%')
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="selectLatest" resultType="Announcement">
+        SELECT * FROM announcement WHERE status = 1 ORDER BY create_time DESC LIMIT 5
+    </select>
+
+    <select id="selectById" resultType="Announcement">
+        SELECT * FROM announcement WHERE id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO announcement (title, content, admin_id, status)
+        VALUES (#{title}, #{content}, #{adminId}, #{status})
+    </insert>
+
+    <update id="update">
+        UPDATE announcement SET title = #{title}, content = #{content}, status = #{status} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM announcement WHERE id = #{id}
+    </delete>
+</mapper>

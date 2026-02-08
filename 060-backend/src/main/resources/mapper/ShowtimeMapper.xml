@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.movie.mapper.ShowtimeMapper">
+
+    <select id="selectPage" resultType="Showtime">
+        SELECT s.*, m.title AS movie_title, c.name AS cinema_name, h.name AS hall_name
+        FROM showtime s
+        LEFT JOIN movie m ON s.movie_id = m.id
+        LEFT JOIN cinema c ON s.cinema_id = c.id
+        LEFT JOIN hall h ON s.hall_id = h.id
+        <where>
+            <if test="movieId != null">
+                AND s.movie_id = #{movieId}
+            </if>
+            <if test="cinemaId != null">
+                AND s.cinema_id = #{cinemaId}
+            </if>
+            <if test="showDate != null and showDate != ''">
+                AND s.show_date = #{showDate}
+            </if>
+        </where>
+        ORDER BY s.show_date ASC, s.start_time ASC
+    </select>
+
+    <select id="selectByMovieId" resultType="Showtime">
+        SELECT s.*, m.title AS movie_title, c.name AS cinema_name, h.name AS hall_name
+        FROM showtime s
+        LEFT JOIN movie m ON s.movie_id = m.id
+        LEFT JOIN cinema c ON s.cinema_id = c.id
+        LEFT JOIN hall h ON s.hall_id = h.id
+        WHERE s.movie_id = #{movieId} AND s.status = 1 AND s.show_date >= CURDATE()
+        ORDER BY s.show_date ASC, s.start_time ASC
+    </select>
+
+    <select id="selectById" resultType="Showtime">
+        SELECT s.*, m.title AS movie_title, c.name AS cinema_name, h.name AS hall_name
+        FROM showtime s
+        LEFT JOIN movie m ON s.movie_id = m.id
+        LEFT JOIN cinema c ON s.cinema_id = c.id
+        LEFT JOIN hall h ON s.hall_id = h.id
+        WHERE s.id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO showtime (movie_id, cinema_id, hall_id, show_date, start_time, end_time, price, available_seats, status)
+        VALUES (#{movieId}, #{cinemaId}, #{hallId}, #{showDate}, #{startTime}, #{endTime}, #{price}, #{availableSeats}, #{status})
+    </insert>
+
+    <update id="update">
+        UPDATE showtime SET movie_id = #{movieId}, cinema_id = #{cinemaId}, hall_id = #{hallId},
+        show_date = #{showDate}, start_time = #{startTime}, end_time = #{endTime},
+        price = #{price}, available_seats = #{availableSeats}, status = #{status}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateAvailableSeats">
+        UPDATE showtime SET available_seats = available_seats - #{count} WHERE id = #{id} AND available_seats >= #{count}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM showtime WHERE id = #{id}
+    </delete>
+</mapper>

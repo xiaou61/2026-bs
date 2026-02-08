@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.movie.mapper.ReviewMapper">
+
+    <select id="selectByMovieId" resultType="Review">
+        SELECT r.*, u.username FROM review r
+        LEFT JOIN user u ON r.user_id = u.id
+        WHERE r.movie_id = #{movieId} AND r.status = 1
+        ORDER BY r.create_time DESC
+    </select>
+
+    <select id="selectPage" resultType="Review">
+        SELECT r.*, u.username, m.title AS movie_title
+        FROM review r
+        LEFT JOIN user u ON r.user_id = u.id
+        LEFT JOIN movie m ON r.movie_id = m.id
+        <where>
+            <if test="movieTitle != null and movieTitle != ''">
+                AND m.title LIKE CONCAT('%', #{movieTitle}, '%')
+            </if>
+        </where>
+        ORDER BY r.create_time DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO review (user_id, movie_id, rating, content, status)
+        VALUES (#{userId}, #{movieId}, #{rating}, #{content}, #{status})
+    </insert>
+
+    <delete id="deleteById">
+        DELETE FROM review WHERE id = #{id}
+    </delete>
+
+    <select id="selectAvgRatingByMovieId" resultType="java.lang.Double">
+        SELECT AVG(rating) FROM review WHERE movie_id = #{movieId} AND status = 1
+    </select>
+</mapper>

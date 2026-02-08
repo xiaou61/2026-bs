@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.movie.mapper.CinemaMapper">
+
+    <select id="selectPage" resultType="Cinema">
+        SELECT * FROM cinema
+        <where>
+            <if test="name != null and name != ''">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="selectAll" resultType="Cinema">
+        SELECT * FROM cinema WHERE status = 1 ORDER BY name ASC
+    </select>
+
+    <select id="selectById" resultType="Cinema">
+        SELECT * FROM cinema WHERE id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO cinema (name, address, phone, description, status)
+        VALUES (#{name}, #{address}, #{phone}, #{description}, #{status})
+    </insert>
+
+    <update id="update">
+        UPDATE cinema SET name = #{name}, address = #{address}, phone = #{phone},
+        description = #{description}, status = #{status} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM cinema WHERE id = #{id}
+    </delete>
+</mapper>

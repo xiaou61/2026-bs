@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.movie.mapper.FavoriteMapper">
+
+    <select id="selectByUserId" resultType="Favorite">
+        SELECT f.*, m.title AS movie_title, m.director, m.poster
+        FROM favorite f LEFT JOIN movie m ON f.movie_id = m.id
+        WHERE f.user_id = #{userId}
+        ORDER BY f.create_time DESC
+    </select>
+
+    <select id="selectByUserAndMovie" resultType="Favorite">
+        SELECT * FROM favorite WHERE user_id = #{userId} AND movie_id = #{movieId}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO favorite (user_id, movie_id) VALUES (#{userId}, #{movieId})
+    </insert>
+
+    <delete id="deleteByUserAndMovie">
+        DELETE FROM favorite WHERE user_id = #{userId} AND movie_id = #{movieId}
+    </delete>
+</mapper>

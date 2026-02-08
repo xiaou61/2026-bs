@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.movie.mapper.HallMapper">
+
+    <select id="selectPage" resultType="Hall">
+        SELECT h.*, c.name AS cinema_name
+        FROM hall h LEFT JOIN cinema c ON h.cinema_id = c.id
+        <where>
+            <if test="cinemaId != null">
+                AND h.cinema_id = #{cinemaId}
+            </if>
+            <if test="name != null and name != ''">
+                AND h.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+        </where>
+        ORDER BY h.cinema_id ASC, h.name ASC
+    </select>
+
+    <select id="selectByCinemaId" resultType="Hall">
+        SELECT * FROM hall WHERE cinema_id = #{cinemaId} AND status = 1 ORDER BY name ASC
+    </select>
+
+    <select id="selectById" resultType="Hall">
+        SELECT h.*, c.name AS cinema_name
+        FROM hall h LEFT JOIN cinema c ON h.cinema_id = c.id
+        WHERE h.id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO hall (cinema_id, name, seat_rows, seat_cols, hall_type, status)
+        VALUES (#{cinemaId}, #{name}, #{seatRows}, #{seatCols}, #{hallType}, #{status})
+    </insert>
+
+    <update id="update">
+        UPDATE hall SET cinema_id = #{cinemaId}, name = #{name}, seat_rows = #{seatRows},
+        seat_cols = #{seatCols}, hall_type = #{hallType}, status = #{status} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM hall WHERE id = #{id}
+    </delete>
+</mapper>
