@@ -1,6 +1,6 @@
 # 2026年计算机毕业设计项目合集
 
-## 📚 项目标题速览（共60个）
+## 📚 项目标题速览（共66个）
 
 ### 001 - 校园事务管理系统
 基于 Spring Boot + Vue 的校园事务管理系统
@@ -179,8 +179,26 @@ AI智能学习助手与个性化教育平台（个性化推荐+智能问答+学�
 ### 059 - 制造装备物联及生产管理ERP系统 🔥最新
 基于SpringBoot+Vue3的制造装备物联及生产管理ERP系统（Spring Boot 2.7.18 + MyBatis-Plus 3.5.4 + Redis + Vue3 + Element Plus + ECharts + 四角色：管理员/生产经理/操作员/质检员 + 设备管理+物联监控+生产工单+物料管理+质量检测+维保管理+数据看板）
 
-### 060 - 电影订票及评论网站 🔥最新
+### 060 - 电影订票及评论网站 🔥
 基于SpringBoot+Vue3的电影订票及评论网站（Spring Boot 2.7.18 + MyBatis 3.5.13原生XML + PageHelper + Redis + Vue3 + Element Plus + ECharts + 双角色：管理员/用户 + 电影管理+影院排片+在线购票+影评系统+收藏+票房统计）
+
+### 061 - 游戏交易系统
+基于SpringBoot+Vue3的游戏交易系统（Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + Redis + Vue3 + Element Plus + ECharts + 双角色：管理员/用户 + 商品发布+下单支付+收藏评价+申诉处理+运营看板）
+
+### 062 - 反欺诈平台
+基于SpringBoot+Vue3的反欺诈平台（Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + Redis + Vue3 + Element Plus + ECharts + 三角色：管理员/分析员/用户 + 风险事件上报+规则命中+预警处置+案件管理+申诉复核+风控看板+操作审计）
+
+### 063 - 进销存管理系统
+基于SpringBoot+Vue3的进销存管理系统（Spring Boot 2.7.18 + MyBatis + PageHelper + Redis + Vue3 + Element Plus + ECharts + 双角色：管理员/业务员 + 用户管理+供应商客户+商品分类+采购销售审核+库存流水+公告中心+经营看板）
+
+### 064 - 经方药食两用服务平台
+基于SpringBoot+Vue3的经方药食两用服务平台（Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + Redis + Vue3 + Element Plus + ECharts + 双角色：管理员/用户 + 食材分类+经方库+药膳方案+体质记录+服务预约+收藏中心+公告看板）
+
+### 065 - 名城小区物业管理系统
+基于SpringBoot+Vue3的名城小区物业管理系统（Spring Boot 2.7.18 + MyBatis + PageHelper + Redis + Vue3 + Element Plus + ECharts + 三角色：管理员/物业人员/业主 + 楼栋房屋管理+物业缴费+报修工单+投诉建议+访客登记+车位管理+运营看板）
+
+### 066 - 精简博客系统 🔥最新
+基于SpringBoot+Vue3的精简博客系统（Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + Redis + Vue3 + Element Plus + ECharts + 双角色：管理员/用户 + 文章发布+分类标签+评论审核+公告管理+博客前台浏览+数据看板）
 
 ---
 

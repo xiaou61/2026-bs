@@ -1,0 +1,38 @@
+package com.game.controller;
+
+import com.game.common.Result;
+import com.game.service.FavoriteService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+@RestController
+@RequestMapping("/api/favorite")
+public class FavoriteController {
+
+    @Resource
+    private FavoriteService favoriteService;
+
+    @PostMapping("/{itemId}")
+    public Result<?> toggle(@PathVariable Long itemId, HttpServletRequest request) {
+        Long userId = (Long) request.getAttribute("userId");
+        return Result.success(favoriteService.toggle(userId, itemId));
+    }
+
+    @GetMapping("/my")
+    public Result<?> my(HttpServletRequest request) {
+        Long userId = (Long) request.getAttribute("userId");
+        return Result.success(favoriteService.myFavorites(userId));
+    }
+
+    @GetMapping("/check/{itemId}")
+    public Result<?> check(@PathVariable Long itemId, HttpServletRequest request) {
+        Long userId = (Long) request.getAttribute("userId");
+        return Result.success(favoriteService.check(userId, itemId));
+    }
+}
