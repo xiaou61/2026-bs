@@ -1,0 +1,67 @@
+import request from './request'
+
+export const login = (data) => request.post('/api/auth/login', data)
+export const register = (data) => request.post('/api/auth/register', data)
+export const getUserInfo = () => request.get('/api/auth/info')
+export const updatePassword = (data) => request.put('/api/auth/password', data)
+export const logout = () => request.post('/api/auth/logout')
+
+export const getUserPage = (params) => request.get('/api/user/page', { params })
+export const getOwnerList = () => request.get('/api/user/owner-list')
+export const addUser = (data) => request.post('/api/user', data)
+export const updateUser = (data) => request.put('/api/user', data)
+export const updateUserStatus = (data) => request.put('/api/user/status', data)
+export const updateProfile = (data) => request.put('/api/user/profile', data)
+export const deleteUser = (id) => request.delete(`/api/user/${id}`)
+
+export const getBuildingList = () => request.get('/api/building/list')
+export const getBuildingPage = (params) => request.get('/api/building/page', { params })
+export const addBuilding = (data) => request.post('/api/building', data)
+export const updateBuilding = (data) => request.put('/api/building', data)
+export const deleteBuilding = (id) => request.delete(`/api/building/${id}`)
+
+export const getHouseList = () => request.get('/api/house/list')
+export const getHousePage = (params) => request.get('/api/house/page', { params })
+export const addHouse = (data) => request.post('/api/house', data)
+export const updateHouse = (data) => request.put('/api/house', data)
+export const deleteHouse = (id) => request.delete(`/api/house/${id}`)
+
+export const getMyFeePage = (params) => request.get('/api/fee/my-page', { params })
+export const getFeePage = (params) => request.get('/api/fee/page', { params })
+export const addFee = (data) => request.post('/api/fee', data)
+export const updateFee = (data) => request.put('/api/fee', data)
+export const payFee = (id) => request.put(`/api/fee/pay/${id}`)
+export const deleteFee = (id) => request.delete(`/api/fee/${id}`)
+
+export const getMyRepairPage = (params) => request.get('/api/repair/my-page', { params })
+export const getRepairPage = (params) => request.get('/api/repair/page', { params })
+export const addRepair = (data) => request.post('/api/repair', data)
+export const updateRepairStatus = (data) => request.put('/api/repair/status', data)
+export const deleteRepair = (id) => request.delete(`/api/repair/${id}`)
+
+export const getMyComplaintPage = (params) => request.get('/api/complaint/my-page', { params })
+export const getComplaintPage = (params) => request.get('/api/complaint/page', { params })
+export const addComplaint = (data) => request.post('/api/complaint', data)
+export const replyComplaint = (data) => request.put('/api/complaint/reply', data)
+export const deleteComplaint = (id) => request.delete(`/api/complaint/${id}`)
+
+export const getMyVisitorPage = (params) => request.get('/api/visitor/my-page', { params })
+export const getVisitorPage = (params) => request.get('/api/visitor/page', { params })
+export const addVisitor = (data) => request.post('/api/visitor', data)
+export const updateVisitorStatus = (data) => request.put('/api/visitor/status', data)
+export const deleteVisitor = (id) => request.delete(`/api/visitor/${id}`)
+
+export const getParkingList = () => request.get('/api/parking/list')
+export const getParkingPage = (params) => request.get('/api/parking/page', { params })
+export const addParking = (data) => request.post('/api/parking', data)
+export const updateParking = (data) => request.put('/api/parking', data)
+export const deleteParking = (id) => request.delete(`/api/parking/${id}`)
+
+export const getAnnouncementList = () => request.get('/api/announcement/list')
+export const getAnnouncementPage = (params) => request.get('/api/announcement/page', { params })
+export const addAnnouncement = (data) => request.post('/api/announcement', data)
+export const updateAnnouncement = (data) => request.put('/api/announcement', data)
+export const deleteAnnouncement = (id) => request.delete(`/api/announcement/${id}`)
+
+export const getDashboardStats = () => request.get('/api/dashboard/stats')
+export const getDashboardTrend = () => request.get('/api/dashboard/trend')

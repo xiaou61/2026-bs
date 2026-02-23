@@ -1,0 +1,67 @@
+import request from './request'
+
+export const login = (data) => request.post('/api/auth/login', data)
+export const register = (data) => request.post('/api/auth/register', data)
+export const getUserInfo = () => request.get('/api/auth/info')
+export const updatePassword = (data) => request.put('/api/auth/password', data)
+export const logout = () => request.post('/api/auth/logout')
+
+export const getUserPage = (params) => request.get('/api/user/page', { params })
+export const getTeacherList = () => request.get('/api/user/teacher-list')
+export const getStudentList = () => request.get('/api/user/student-list')
+export const addUser = (data) => request.post('/api/user', data)
+export const updateUser = (data) => request.put('/api/user', data)
+export const updateUserStatus = (data) => request.put('/api/user/status', data)
+export const updateProfile = (data) => request.put('/api/user/profile', data)
+export const deleteUser = (id) => request.delete(`/api/user/${id}`)
+
+export const getCourseList = (params) => request.get('/api/course/list', { params })
+export const getCoursePage = (params) => request.get('/api/course/page', { params })
+export const addCourse = (data) => request.post('/api/course', data)
+export const updateCourse = (data) => request.put('/api/course', data)
+export const deleteCourse = (id) => request.delete(`/api/course/${id}`)
+
+export const getEnrollPage = (params) => request.get('/api/enroll/page', { params })
+export const getMyEnrollPage = (params) => request.get('/api/enroll/my-page', { params })
+export const addEnroll = (data) => request.post('/api/enroll', data)
+export const updateEnrollStatus = (data) => request.put('/api/enroll/status', data)
+export const deleteEnroll = (id) => request.delete(`/api/enroll/${id}`)
+
+export const getActivityList = (params) => request.get('/api/activity/list', { params })
+export const getActivityPage = (params) => request.get('/api/activity/page', { params })
+export const addActivity = (data) => request.post('/api/activity', data)
+export const updateActivity = (data) => request.put('/api/activity', data)
+export const deleteActivity = (id) => request.delete(`/api/activity/${id}`)
+
+export const getSignupPage = (params) => request.get('/api/signup/page', { params })
+export const getMySignupPage = (params) => request.get('/api/signup/my-page', { params })
+export const addSignup = (data) => request.post('/api/signup', data)
+export const updateSignupStatus = (data) => request.put('/api/signup/status', data)
+export const deleteSignup = (id) => request.delete(`/api/signup/${id}`)
+
+export const getJobList = (params) => request.get('/api/job/list', { params })
+export const getJobPage = (params) => request.get('/api/job/page', { params })
+export const addJob = (data) => request.post('/api/job', data)
+export const updateJob = (data) => request.put('/api/job', data)
+export const deleteJob = (id) => request.delete(`/api/job/${id}`)
+
+export const getApplyPage = (params) => request.get('/api/apply/page', { params })
+export const getMyApplyPage = (params) => request.get('/api/apply/my-page', { params })
+export const addApply = (data) => request.post('/api/apply', data)
+export const reviewApply = (data) => request.put('/api/apply/review', data)
+export const deleteApply = (id) => request.delete(`/api/apply/${id}`)
+
+export const getLostPage = (params) => request.get('/api/lost/page', { params })
+export const addLost = (data) => request.post('/api/lost', data)
+export const updateLost = (data) => request.put('/api/lost', data)
+export const updateLostStatus = (data) => request.put('/api/lost/status', data)
+export const deleteLost = (id) => request.delete(`/api/lost/${id}`)
+
+export const getNoticeList = () => request.get('/api/notice/list')
+export const getNoticePage = (params) => request.get('/api/notice/page', { params })
+export const addNotice = (data) => request.post('/api/notice', data)
+export const updateNotice = (data) => request.put('/api/notice', data)
+export const deleteNotice = (id) => request.delete(`/api/notice/${id}`)
+
+export const getDashboardStats = () => request.get('/api/dashboard/stats')
+export const getDashboardTrend = () => request.get('/api/dashboard/trend')

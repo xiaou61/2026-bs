@@ -1,6 +1,6 @@
 # 2026年计算机毕业设计项目合集
 
-## 📚 项目标题速览（共66个）
+## 📚 项目标题速览（共68个）
 
 ### 001 - 校园事务管理系统
 基于 Spring Boot + Vue 的校园事务管理系统
@@ -200,8 +200,14 @@ AI智能学习助手与个性化教育平台（个性化推荐+智能问答+学�
 ### 066 - 精简博客系统 🔥最新
 基于SpringBoot+Vue3的精简博客系统（Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + Redis + Vue3 + Element Plus + ECharts + 双角色：管理员/用户 + 文章发布+分类标签+评论审核+公告管理+博客前台浏览+数据看板）
 
----
+### 067 - 大学生一体化服务平台 🔥最新
+基于SpringBoot+Vue3的大学生一体化服务平台（Spring Boot 2.7.18 + MyBatis + PageHelper + Redis + Vue3 + Element Plus + ECharts + 三角色：管理员/教师/学生 + 课程选课+活动报名+岗位投递+失物招领+公告中心+运营看板）
 
+### 068 - 周边游平台个人管理模块 🔥最新
+基于SpringBoot+Vue3的周边游平台个人管理模块（Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + Redis + Vue3 + Element Plus + ECharts + 双角色：管理员/用户 + 景点图片上传+投诉附件上传+订单导出+评价审核+运营趋势看板）
+
+---
 **🎯 查看完整详情，请返回 [README.md](README.md)**
 
 **📞 联系QQ: 3153566913**
+

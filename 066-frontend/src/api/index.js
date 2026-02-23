@@ -1,0 +1,50 @@
+import request from './request'
+
+export const login = (data) => request.post('/api/auth/login', data)
+export const register = (data) => request.post('/api/auth/register', data)
+export const getUserInfo = () => request.get('/api/auth/info')
+export const updatePassword = (data) => request.put('/api/auth/password', data)
+export const logout = () => request.post('/api/auth/logout')
+
+export const getUserPage = (params) => request.get('/api/user/page', { params })
+export const addUser = (data) => request.post('/api/user', data)
+export const updateUser = (data) => request.put('/api/user', data)
+export const updateUserStatus = (data) => request.put('/api/user/status', data)
+export const updateProfile = (data) => request.put('/api/user/profile', data)
+export const deleteUser = (id) => request.delete(`/api/user/${id}`)
+
+export const getCategoryList = () => request.get('/api/category/list')
+export const getCategoryPage = (params) => request.get('/api/category/page', { params })
+export const addCategory = (data) => request.post('/api/category', data)
+export const updateCategory = (data) => request.put('/api/category', data)
+export const deleteCategory = (id) => request.delete(`/api/category/${id}`)
+
+export const getTagList = () => request.get('/api/tag/list')
+export const getTagPage = (params) => request.get('/api/tag/page', { params })
+export const addTag = (data) => request.post('/api/tag', data)
+export const updateTag = (data) => request.put('/api/tag', data)
+export const deleteTag = (id) => request.delete(`/api/tag/${id}`)
+
+export const getPublicPostPage = (params) => request.get('/api/post/public-page', { params })
+export const getPostPage = (params) => request.get('/api/post/page', { params })
+export const getPostDetail = (id) => request.get(`/api/post/detail/${id}`)
+export const addPost = (data) => request.post('/api/post', data)
+export const updatePost = (data) => request.put('/api/post', data)
+export const updatePostStatus = (data) => request.put('/api/post/status', data)
+export const updatePostTop = (data) => request.put('/api/post/top', data)
+export const deletePost = (id) => request.delete(`/api/post/${id}`)
+
+export const getPostCommentPage = (params) => request.get('/api/comment/post-page', { params })
+export const getCommentPage = (params) => request.get('/api/comment/page', { params })
+export const addComment = (data) => request.post('/api/comment', data)
+export const reviewComment = (data) => request.put('/api/comment/review', data)
+export const deleteComment = (id) => request.delete(`/api/comment/${id}`)
+
+export const getNoticeList = () => request.get('/api/notice/list')
+export const getNoticePage = (params) => request.get('/api/notice/page', { params })
+export const addNotice = (data) => request.post('/api/notice', data)
+export const updateNotice = (data) => request.put('/api/notice', data)
+export const deleteNotice = (id) => request.delete(`/api/notice/${id}`)
+
+export const getDashboardStats = () => request.get('/api/dashboard/stats')
+export const getDashboardTrend = () => request.get('/api/dashboard/trend')
