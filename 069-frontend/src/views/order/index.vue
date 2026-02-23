@@ -2,46 +2,53 @@
   <div class="page-container">
     <el-card>
       <div class="search-bar">
-        <el-input v-model="query.orderNo" placeholder="订单号" clearable style="width: 220px" />
+        <el-input v-model="query.taskName" placeholder="任务名称" clearable style="width: 180px" />
         <el-select v-model="query.status" placeholder="状态" clearable style="width: 140px">
-          <el-option label="待支付" value="WAIT_PAY" />
-          <el-option label="已支付" value="PAID" />
-          <el-option label="已取消" value="CANCELED" />
-          <el-option label="已完成" value="FINISHED" />
+          <el-option label="草稿" value="DRAFT" />
+          <el-option label="进行中" value="OPEN" />
+          <el-option label="已结束" value="CLOSED" />
         </el-select>
-        <el-input v-if="isAdmin" v-model.number="query.userId" placeholder="用户ID" clearable style="width: 120px" />
         <el-button type="primary" @click="loadData">查询</el-button>
-        <el-button type="info" @click="handleExport">导出CSV</el-button>
-        <el-button v-if="isUser" type="success" @click="openAddDialog">新建订单</el-button>
+        <el-button v-if="isAdmin" type="success" @click="handleAdd">新增任务</el-button>
       </div>
-      <el-table :data="tableData" v-loading="loading" border>
-        <el-table-column prop="orderNo" label="订单号" min-width="160" />
-        <el-table-column v-if="isAdmin" prop="userName" label="用户" min-width="110" />
-        <el-table-column prop="spotName" label="景点" min-width="140" />
-        <el-table-column prop="travelerName" label="出行人" min-width="110" />
-        <el-table-column prop="travelDate" label="出行日期" width="120" />
-        <el-table-column prop="quantity" label="人数" width="80" />
-        <el-table-column prop="totalAmount" label="金额" width="100" />
+
+      <el-table :data="tableData" border v-loading="loading">
+        <el-table-column prop="id" label="ID" width="70" />
+        <el-table-column prop="taskName" label="任务名称" min-width="190" />
+        <el-table-column prop="termName" label="学期" min-width="170" />
+        <el-table-column prop="className" label="班级" min-width="120" />
+        <el-table-column prop="teacherName" label="教师" min-width="120" />
+        <el-table-column prop="startTime" label="开始时间" min-width="170" />
+        <el-table-column prop="endTime" label="结束时间" min-width="170" />
         <el-table-column label="状态" width="100">
           <template #default="{ row }">
             <el-tag :type="statusType(row.status)">{{ statusText(row.status) }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" label="创建时间" min-width="170" />
-        <el-table-column label="操作" width="210" fixed="right">
+        <el-table-column v-if="isAdmin" label="操作" width="220">
           <template #default="{ row }">
-            <el-button v-if="row.status === 'WAIT_PAY'" link type="warning" @click="handleCancel(row)">取消</el-button>
-            <el-button v-if="isUser && row.status === 'WAIT_PAY'" link type="primary" @click="handlePay(row)">支付</el-button>
-            <el-button v-if="isUser && row.status === 'PAID'" link type="success" @click="handleFinish(row)">完成</el-button>
+            <el-button link type="primary" @click="handleEdit(row)">编辑</el-button>
+            <el-dropdown @command="val => handleStatusChange(row, val)">
+              <el-button link>状态</el-button>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item command="DRAFT">草稿</el-dropdown-item>
+                  <el-dropdown-item command="OPEN">进行中</el-dropdown-item>
+                  <el-dropdown-item command="CLOSED">已结束</el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+            <el-button link type="danger" @click="handleDelete(row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
+
       <div class="pager">
         <el-pagination
           v-model:current-page="query.pageNum"
           v-model:page-size="query.pageSize"
           :total="total"
-          :page-sizes="[10, 20, 30]"
+          :page-sizes="[10, 20, 50]"
           layout="total, sizes, prev, pager, next, jumper"
           @current-change="loadData"
           @size-change="loadData"
@@ -49,31 +56,37 @@
       </div>
     </el-card>
 
-    <el-dialog v-model="dialogVisible" title="新建订单" width="560px">
+    <el-dialog v-model="dialogVisible" :title="form.id ? '编辑任务' : '新增任务'" width="560px">
       <el-form ref="formRef" :model="form" :rules="rules" label-width="90px">
-        <el-form-item label="景点" prop="spotId">
-          <el-select v-model="form.spotId" filterable style="width: 100%">
-            <el-option v-for="item in spots" :key="item.id" :label="`${item.name}（¥${item.price}）`" :value="item.id" />
+        <el-form-item label="任务名称" prop="taskName"><el-input v-model="form.taskName" maxlength="100" /></el-form-item>
+        <el-form-item label="学期" prop="termName"><el-input v-model="form.termName" maxlength="30" /></el-form-item>
+        <el-form-item label="班级" prop="classId">
+          <el-select v-model="form.classId" style="width: 100%">
+            <el-option v-for="item in classOptions" :key="item.id" :label="`${item.gradeName}${item.className}`" :value="item.id" />
           </el-select>
         </el-form-item>
-        <el-form-item label="出行人" prop="travelerId">
-          <el-select v-model="form.travelerId" filterable style="width: 100%">
-            <el-option v-for="item in travelers" :key="item.id" :label="`${item.name} ${item.phone}`" :value="item.id" />
+        <el-form-item label="教师" prop="teacherId">
+          <el-select v-model="form.teacherId" style="width: 100%">
+            <el-option v-for="item in teacherOptions" :key="item.id" :label="`${item.teacherName}-${item.teacherNo}`" :value="item.id" />
           </el-select>
         </el-form-item>
-        <el-form-item label="出行日期" prop="travelDate">
-          <el-date-picker v-model="form.travelDate" type="date" value-format="YYYY-MM-DD" style="width: 100%" />
+        <el-form-item label="开始时间" prop="startTime">
+          <el-date-picker v-model="form.startTime" type="datetime" value-format="YYYY-MM-DDTHH:mm:ss" style="width: 100%" />
         </el-form-item>
-        <el-form-item label="人数" prop="quantity">
-          <el-input-number v-model="form.quantity" :min="1" :max="10" />
+        <el-form-item label="结束时间" prop="endTime">
+          <el-date-picker v-model="form.endTime" type="datetime" value-format="YYYY-MM-DDTHH:mm:ss" style="width: 100%" />
         </el-form-item>
-        <el-form-item label="联系人" prop="contactName"><el-input v-model="form.contactName" maxlength="50" /></el-form-item>
-        <el-form-item label="联系电话" prop="contactPhone"><el-input v-model="form.contactPhone" maxlength="20" /></el-form-item>
-        <el-form-item label="备注"><el-input v-model="form.remark" type="textarea" :rows="3" maxlength="500" /></el-form-item>
+        <el-form-item label="状态" prop="status">
+          <el-select v-model="form.status" style="width: 100%">
+            <el-option label="草稿" value="DRAFT" />
+            <el-option label="进行中" value="OPEN" />
+            <el-option label="已结束" value="CLOSED" />
+          </el-select>
+        </el-form-item>
       </el-form>
       <template #footer>
         <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="handleSubmit">提交订单</el-button>
+        <el-button type="primary" @click="handleSubmit">保存</el-button>
       </template>
     </el-dialog>
   </div>
@@ -81,53 +94,42 @@
 
 <script setup>
 import { computed, onMounted, reactive, ref } from 'vue'
-import { ElMessage } from 'element-plus'
-import { addOrder, cancelOrder, exportOrder, finishOrder, getMyOrderPage, getOrderPage, getSpotList, getTravelerList, payOrder } from '../../api'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { addTask, deleteTask, getClassList, getMyTaskPage, getTaskPage, getTeacherList, updateTask, updateTaskStatus } from '../../api'
 import { useUserStore } from '../../store/user'
 
 const userStore = useUserStore()
 const isAdmin = computed(() => userStore.user?.role === 'ADMIN')
-const isUser = computed(() => userStore.user?.role === 'USER')
-
 const loading = ref(false)
-const total = ref(0)
 const tableData = ref([])
+const total = ref(0)
 const dialogVisible = ref(false)
 const formRef = ref()
-const spots = ref([])
-const travelers = ref([])
+const classOptions = ref([])
+const teacherOptions = ref([])
 
-const query = reactive({
-  pageNum: 1,
-  pageSize: 10,
-  orderNo: '',
-  status: '',
-  userId: null
-})
-
-const form = reactive({
-  spotId: null,
-  travelerId: null,
-  travelDate: '',
-  quantity: 1,
-  contactName: '',
-  contactPhone: '',
-  remark: ''
-})
-
+const query = reactive({ pageNum: 1, pageSize: 10, taskName: '', status: '' })
+const form = reactive({ id: null, taskName: '', termName: '', classId: null, teacherId: null, startTime: '', endTime: '', status: 'DRAFT' })
 const rules = {
-  spotId: [{ required: true, message: '请选择景点', trigger: 'change' }],
-  travelerId: [{ required: true, message: '请选择出行人', trigger: 'change' }],
-  travelDate: [{ required: true, message: '请选择日期', trigger: 'change' }],
-  quantity: [{ required: true, message: '请输入人数', trigger: 'change' }],
-  contactName: [{ required: true, message: '请输入联系人', trigger: 'blur' }],
-  contactPhone: [{ required: true, message: '请输入联系电话', trigger: 'blur' }]
+  taskName: [{ required: true, message: '请输入任务名称', trigger: 'blur' }],
+  termName: [{ required: true, message: '请输入学期', trigger: 'blur' }],
+  classId: [{ required: true, message: '请选择班级', trigger: 'change' }],
+  teacherId: [{ required: true, message: '请选择教师', trigger: 'change' }],
+  startTime: [{ required: true, message: '请选择开始时间', trigger: 'change' }],
+  endTime: [{ required: true, message: '请选择结束时间', trigger: 'change' }],
+  status: [{ required: true, message: '请选择状态', trigger: 'change' }]
+}
+
+const loadOptions = async () => {
+  const [classRes, teacherRes] = await Promise.all([getClassList(), getTeacherList()])
+  classOptions.value = classRes.data || []
+  teacherOptions.value = teacherRes.data || []
 }
 
 const loadData = async () => {
   loading.value = true
   try {
-    const res = isAdmin.value ? await getOrderPage(query) : await getMyOrderPage(query)
+    const res = isAdmin.value ? await getTaskPage(query) : await getMyTaskPage(query)
     tableData.value = res.data.records || []
     total.value = res.data.total || 0
   } finally {
@@ -135,99 +137,76 @@ const loadData = async () => {
   }
 }
 
-const loadOptions = async () => {
-  const [spotRes, travelerRes] = await Promise.all([getSpotList({}), getTravelerList()])
-  spots.value = spotRes.data || []
-  travelers.value = travelerRes.data || []
+const statusText = (status) => {
+  if (status === 'DRAFT') return '草稿'
+  if (status === 'OPEN') return '进行中'
+  if (status === 'CLOSED') return '已结束'
+  return status
+}
+
+const statusType = (status) => {
+  if (status === 'DRAFT') return 'info'
+  if (status === 'OPEN') return 'success'
+  if (status === 'CLOSED') return 'warning'
+  return ''
 }
 
 const resetForm = () => {
-  Object.assign(form, { spotId: null, travelerId: null, travelDate: '', quantity: 1, contactName: '', contactPhone: '', remark: '' })
+  Object.assign(form, { id: null, taskName: '', termName: '', classId: null, teacherId: null, startTime: '', endTime: '', status: 'DRAFT' })
 }
 
-const openAddDialog = async () => {
-  await loadOptions()
-  if (!travelers.value.length) {
-    ElMessage.warning('请先在常用出行人模块添加出行人')
-    return
-  }
+const handleAdd = () => {
   resetForm()
+  dialogVisible.value = true
+}
+
+const handleEdit = (row) => {
+  Object.assign(form, {
+    id: row.id,
+    taskName: row.taskName,
+    termName: row.termName,
+    classId: row.classId,
+    teacherId: row.teacherId,
+    startTime: row.startTime,
+    endTime: row.endTime,
+    status: row.status
+  })
   dialogVisible.value = true
 }
 
 const handleSubmit = async () => {
   await formRef.value.validate()
-  await addOrder(form)
-  ElMessage.success('创建成功')
+  if (form.id) {
+    await updateTask(form)
+  } else {
+    await addTask(form)
+  }
+  ElMessage.success('操作成功')
   dialogVisible.value = false
   loadData()
 }
 
-const handleCancel = async (row) => {
-  await cancelOrder({ id: row.id })
-  ElMessage.success('订单已取消')
+const handleDelete = async (row) => {
+  await ElMessageBox.confirm(`确定删除任务 ${row.taskName} 吗？`, '提示', { type: 'warning' })
+  await deleteTask(row.id)
+  ElMessage.success('删除成功')
   loadData()
 }
 
-const handlePay = async (row) => {
-  await payOrder({ id: row.id })
-  ElMessage.success('支付成功')
-  loadData()
+const handleStatusChange = async (row, status) => {
+  await updateTaskStatus({ id: row.id, status })
+  row.status = status
+  ElMessage.success('状态已更新')
 }
 
-const handleFinish = async (row) => {
-  await finishOrder({ id: row.id })
-  ElMessage.success('订单已完成')
-  loadData()
-}
-
-const handleExport = async () => {
-  const params = { ...query }
-  if (!isAdmin.value) {
-    delete params.userId
-  }
-  const res = await exportOrder(params)
-  const content = res.data || ''
-  const blob = new Blob(['\uFEFF' + content], { type: 'text/csv;charset=utf-8;' })
-  const url = window.URL.createObjectURL(blob)
-  const link = document.createElement('a')
-  link.href = url
-  link.download = `orders_${Date.now()}.csv`
-  link.click()
-  window.URL.revokeObjectURL(url)
-  ElMessage.success('导出成功')
-}
-
-const statusText = (status) => {
-  if (status === 'WAIT_PAY') return '待支付'
-  if (status === 'PAID') return '已支付'
-  if (status === 'CANCELED') return '已取消'
-  if (status === 'FINISHED') return '已完成'
-  return status
-}
-
-const statusType = (status) => {
-  if (status === 'WAIT_PAY') return 'warning'
-  if (status === 'PAID') return 'primary'
-  if (status === 'CANCELED') return 'info'
-  if (status === 'FINISHED') return 'success'
-  return ''
-}
-
-onMounted(loadData)
+onMounted(async () => {
+  await loadOptions()
+  await loadData()
+})
 </script>
 
 <style scoped>
-.search-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-
-.pager {
-  margin-top: 14px;
-  display: flex;
-  justify-content: flex-end;
-}
+.page-container { padding: 10px; }
+.search-bar { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+.pager { margin-top: 12px; display: flex; justify-content: flex-end; }
 </style>

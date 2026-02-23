@@ -1,16 +1,18 @@
 <template>
   <el-container style="height: 100vh">
     <el-aside :width="collapse ? '64px' : '240px'" class="aside">
-      <div class="logo">{{ collapse ? '周边游' : '周边游个人管理' }}</div>
-      <el-menu :default-active="$route.path" :collapse="collapse" router background-color="#0f172a" text-color="#cbd5e1" active-text-color="#5eead4">
+      <div class="logo">{{ collapse ? '考评' : '科任教师考评系统' }}</div>
+      <el-menu :default-active="$route.path" :collapse="collapse" router background-color="#0f172a" text-color="#cbd5e1" active-text-color="#67e8f9">
         <el-menu-item index="/dashboard">数据看板</el-menu-item>
         <el-menu-item v-if="isAdmin" index="/user">用户管理</el-menu-item>
-        <el-menu-item v-if="isAdmin" index="/spot">景点管理</el-menu-item>
-        <el-menu-item v-if="isUser" index="/traveler">常用出行人</el-menu-item>
-        <el-menu-item v-if="isUser" index="/favorite">我的收藏</el-menu-item>
-        <el-menu-item index="/order">{{ isAdmin ? '订单管理' : '我的订单' }}</el-menu-item>
-        <el-menu-item index="/review">{{ isAdmin ? '评价管理' : '我的评价' }}</el-menu-item>
-        <el-menu-item index="/complaint">{{ isAdmin ? '投诉处理' : '我的投诉' }}</el-menu-item>
+        <el-menu-item v-if="isAdmin" index="/subject">科目管理</el-menu-item>
+        <el-menu-item v-if="isAdmin" index="/class">班级管理</el-menu-item>
+        <el-menu-item v-if="isAdmin" index="/teacher">教师档案</el-menu-item>
+        <el-menu-item v-if="isAdmin" index="/indicator">评价指标</el-menu-item>
+        <el-menu-item index="/task">{{ isAdmin ? '任务管理' : '我的任务' }}</el-menu-item>
+        <el-menu-item index="/record">{{ isAdmin ? '评教记录' : isTeacher ? '我的被评' : '我的评教' }}</el-menu-item>
+        <el-menu-item index="/appeal">{{ isAdmin ? '申诉处理' : '申诉中心' }}</el-menu-item>
+        <el-menu-item index="/notice">{{ isAdmin ? '公告管理' : '公告中心' }}</el-menu-item>
         <el-menu-item index="/profile">个人中心</el-menu-item>
       </el-menu>
     </el-aside>
@@ -40,8 +42,12 @@ const router = useRouter()
 const userStore = useUserStore()
 const collapse = ref(false)
 const isAdmin = computed(() => userStore.user?.role === 'ADMIN')
-const isUser = computed(() => userStore.user?.role === 'USER')
-const roleText = computed(() => (isAdmin.value ? '管理员' : '普通用户'))
+const isTeacher = computed(() => userStore.user?.role === 'TEACHER')
+const roleText = computed(() => {
+  if (isAdmin.value) return '管理员'
+  if (isTeacher.value) return '教师'
+  return '学生'
+})
 
 const handleLogout = async () => {
   try {

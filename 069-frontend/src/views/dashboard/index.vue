@@ -11,24 +11,17 @@
     <el-row :gutter="14" class="chart-row">
       <el-col :xs="24" :md="16">
         <el-card>
-          <template #header>近7日订单趋势</template>
+          <template #header>近7日评教趋势</template>
           <div ref="trendRef" class="chart"></div>
         </el-card>
       </el-col>
       <el-col :xs="24" :md="8">
         <el-card>
-          <template #header>订单状态分布</template>
+          <template #header>任务状态分布</template>
           <div ref="statusRef" class="chart"></div>
         </el-card>
       </el-col>
     </el-row>
-    <el-card>
-      <template #header>模块说明</template>
-      <div class="tips">
-        <p>1. 用户端可管理个人资料、出行人、收藏、订单、评价和投诉。</p>
-        <p>2. 管理员端可进行用户维护、订单监管、评价审核回复和投诉处理。</p>
-      </div>
-    </el-card>
   </div>
 </template>
 
@@ -41,29 +34,40 @@ import { useUserStore } from '../../store/user'
 const userStore = useUserStore()
 const stats = ref({})
 const trend = ref({ daily: [], status: [] })
-const isAdmin = computed(() => userStore.user?.role === 'ADMIN')
 const trendRef = ref()
 const statusRef = ref()
 let trendChart
 let statusChart
 
+const role = computed(() => userStore.user?.role)
+
 const cards = computed(() => {
-  if (isAdmin.value) {
+  if (role.value === 'ADMIN') {
     return [
       { label: '用户总数', value: stats.value.userCount || 0 },
-      { label: '订单总数', value: stats.value.orderCount || 0 },
-      { label: '评价总数', value: stats.value.reviewCount || 0 },
-      { label: '待处理投诉', value: stats.value.pendingComplaintCount || 0 },
-      { label: '景点总数', value: stats.value.spotCount || 0 }
+      { label: '教师账号', value: stats.value.teacherUserCount || 0 },
+      { label: '学生账号', value: stats.value.studentUserCount || 0 },
+      { label: '考评任务', value: stats.value.taskCount || 0 },
+      { label: '评教记录', value: stats.value.recordCount || 0 },
+      { label: '待处理申诉', value: stats.value.pendingAppealCount || 0 }
+    ]
+  }
+  if (role.value === 'TEACHER') {
+    return [
+      { label: '我的任务', value: stats.value.myTaskCount || 0 },
+      { label: '被评记录', value: stats.value.myRecordCount || 0 },
+      { label: '平均分', value: stats.value.myAverageScore || 0 },
+      { label: '我的申诉', value: stats.value.myAppealCount || 0 },
+      { label: '待处理申诉', value: stats.value.myPendingAppealCount || 0 },
+      { label: '有效公告', value: stats.value.noticeCount || 0 }
     ]
   }
   return [
-    { label: '我的订单', value: stats.value.myOrderCount || 0 },
-    { label: '待支付订单', value: stats.value.myWaitPayCount || 0 },
-    { label: '已完成订单', value: stats.value.myFinishedCount || 0 },
-    { label: '我的收藏', value: stats.value.myFavoriteCount || 0 },
-    { label: '我的投诉', value: stats.value.myComplaintCount || 0 },
-    { label: '常用出行人', value: stats.value.myTravelerCount || 0 }
+    { label: '我的任务', value: stats.value.myTaskCount || 0 },
+    { label: '我的评教', value: stats.value.myRecordCount || 0 },
+    { label: '未完成任务', value: stats.value.unfinishedTaskCount || 0 },
+    { label: '进行中任务', value: stats.value.openTaskCount || 0 },
+    { label: '有效公告', value: stats.value.noticeCount || 0 }
   ]
 })
 
@@ -88,15 +92,15 @@ const renderCharts = () => {
   const daily = trend.value.daily || []
   trendChart.setOption({
     tooltip: { trigger: 'axis' },
-    legend: { data: ['订单数', '金额'] },
+    legend: { data: ['评教次数', '平均分'] },
     xAxis: { type: 'category', data: daily.map(item => item.day) },
     yAxis: [
-      { type: 'value', name: '订单数' },
-      { type: 'value', name: '金额' }
+      { type: 'value', name: '次数' },
+      { type: 'value', name: '平均分' }
     ],
     series: [
-      { name: '订单数', type: 'line', smooth: true, data: daily.map(item => item.orderCount || 0) },
-      { name: '金额', type: 'line', smooth: true, yAxisIndex: 1, data: daily.map(item => Number(item.totalAmount || 0)) }
+      { name: '评教次数', type: 'line', smooth: true, data: daily.map(item => Number(item.recordCount || 0)) },
+      { name: '平均分', type: 'line', smooth: true, yAxisIndex: 1, data: daily.map(item => Number(item.avgScore || 0)) }
     ]
   })
 
@@ -108,17 +112,16 @@ const renderCharts = () => {
       {
         type: 'pie',
         radius: ['35%', '65%'],
-        data: status.map(item => ({ name: statusText(item.status), value: item.count || 0 }))
+        data: status.map(item => ({ name: statusText(item.status), value: Number(item.count || 0) }))
       }
     ]
   })
 }
 
 const statusText = (status) => {
-  if (status === 'WAIT_PAY') return '待支付'
-  if (status === 'PAID') return '已支付'
-  if (status === 'FINISHED') return '已完成'
-  if (status === 'CANCELED') return '已取消'
+  if (status === 'DRAFT') return '草稿'
+  if (status === 'OPEN') return '进行中'
+  if (status === 'CLOSED') return '已结束'
   return status
 }
 
@@ -146,14 +149,6 @@ onBeforeUnmount(() => {
   gap: 14px;
 }
 
-.card-row {
-  margin-bottom: 0;
-}
-
-.chart-row {
-  margin-top: 0;
-}
-
 .stat-card {
   border-radius: 12px;
   background: linear-gradient(145deg, #ecfeff, #f0fdfa);
@@ -169,11 +164,6 @@ onBeforeUnmount(() => {
   font-size: 28px;
   color: #0f172a;
   font-weight: 700;
-}
-
-.tips {
-  color: #334155;
-  line-height: 1.9;
 }
 
 .chart {

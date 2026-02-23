@@ -1,13 +1,15 @@
-DROP DATABASE IF EXISTS nearby_travel_068;
-CREATE DATABASE nearby_travel_068 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE nearby_travel_068;
+DROP DATABASE IF EXISTS teacher_eval_069;
+CREATE DATABASE teacher_eval_069 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE teacher_eval_069;
 
-DROP TABLE IF EXISTS user_complaint;
-DROP TABLE IF EXISTS travel_review;
-DROP TABLE IF EXISTS travel_order;
-DROP TABLE IF EXISTS user_favorite;
-DROP TABLE IF EXISTS traveler;
-DROP TABLE IF EXISTS scenic_spot;
+DROP TABLE IF EXISTS evaluation_appeal;
+DROP TABLE IF EXISTS evaluation_record;
+DROP TABLE IF EXISTS evaluation_task;
+DROP TABLE IF EXISTS evaluation_notice;
+DROP TABLE IF EXISTS evaluation_indicator;
+DROP TABLE IF EXISTS teacher_profile;
+DROP TABLE IF EXISTS teaching_class;
+DROP TABLE IF EXISTS subject_info;
 DROP TABLE IF EXISTS sys_user;
 
 CREATE TABLE sys_user (
@@ -17,132 +19,168 @@ CREATE TABLE sys_user (
   nickname VARCHAR(50) NOT NULL,
   phone VARCHAR(20) DEFAULT '',
   email VARCHAR(100) DEFAULT '',
-  avatar VARCHAR(255) DEFAULT '',
-  profile VARCHAR(500) DEFAULT '',
   role VARCHAR(20) NOT NULL,
+  class_id BIGINT NULL,
   status TINYINT NOT NULL DEFAULT 1,
   last_login_time DATETIME NULL,
   create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  UNIQUE KEY uk_username (username)
+  UNIQUE KEY uk_username (username),
+  KEY idx_user_class_id (class_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE scenic_spot (
+CREATE TABLE subject_info (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  name VARCHAR(100) NOT NULL,
-  city VARCHAR(50) NOT NULL,
-  tags VARCHAR(255) DEFAULT '',
-  price DECIMAL(10,2) NOT NULL DEFAULT 0,
-  cover LONGTEXT,
-  intro VARCHAR(1000) DEFAULT '',
+  subject_name VARCHAR(50) NOT NULL,
+  subject_code VARCHAR(30) NOT NULL,
   status TINYINT NOT NULL DEFAULT 1,
   create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE traveler (
-  id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  user_id BIGINT NOT NULL,
-  name VARCHAR(50) NOT NULL,
-  cert_type VARCHAR(20) NOT NULL DEFAULT '身份证',
-  cert_no VARCHAR(50) NOT NULL,
-  phone VARCHAR(20) NOT NULL,
-  is_default TINYINT NOT NULL DEFAULT 0,
-  create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  KEY idx_traveler_user_id (user_id)
+  UNIQUE KEY uk_subject_code (subject_code)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE user_favorite (
+CREATE TABLE teaching_class (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  user_id BIGINT NOT NULL,
-  spot_id BIGINT NOT NULL,
-  create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  UNIQUE KEY uk_user_spot (user_id, spot_id),
-  KEY idx_favorite_user_id (user_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE travel_order (
-  id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  order_no VARCHAR(40) NOT NULL,
-  user_id BIGINT NOT NULL,
-  traveler_id BIGINT NOT NULL,
-  spot_id BIGINT NOT NULL,
-  travel_date DATE NOT NULL,
-  quantity INT NOT NULL DEFAULT 1,
-  total_amount DECIMAL(10,2) NOT NULL DEFAULT 0,
-  status VARCHAR(20) NOT NULL,
-  contact_name VARCHAR(50) NOT NULL,
-  contact_phone VARCHAR(20) NOT NULL,
-  remark VARCHAR(500) DEFAULT '',
-  pay_time DATETIME NULL,
-  finish_time DATETIME NULL,
-  create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  UNIQUE KEY uk_order_no (order_no),
-  KEY idx_order_user_id (user_id),
-  KEY idx_order_spot_id (spot_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE travel_review (
-  id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  order_id BIGINT NOT NULL,
-  user_id BIGINT NOT NULL,
-  spot_id BIGINT NOT NULL,
-  score TINYINT NOT NULL,
-  content VARCHAR(1000) NOT NULL,
+  grade_name VARCHAR(30) NOT NULL,
+  class_name VARCHAR(30) NOT NULL,
+  head_teacher VARCHAR(50) DEFAULT '',
   status TINYINT NOT NULL DEFAULT 1,
-  reply_content VARCHAR(1000) DEFAULT '',
   create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  UNIQUE KEY uk_review_order_id (order_id),
-  KEY idx_review_spot_id (spot_id)
+  UNIQUE KEY uk_grade_class (grade_name, class_name)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE user_complaint (
+CREATE TABLE teacher_profile (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
   user_id BIGINT NOT NULL,
-  order_id BIGINT NOT NULL,
-  type VARCHAR(50) NOT NULL,
-  content VARCHAR(1000) NOT NULL,
-  attachment_urls LONGTEXT,
+  teacher_no VARCHAR(30) NOT NULL,
+  subject_id BIGINT NOT NULL,
+  title_name VARCHAR(30) DEFAULT '教师',
+  status TINYINT NOT NULL DEFAULT 1,
+  create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uk_teacher_user (user_id),
+  UNIQUE KEY uk_teacher_no (teacher_no),
+  KEY idx_teacher_subject_id (subject_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE evaluation_indicator (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  indicator_name VARCHAR(50) NOT NULL,
+  dimension_name VARCHAR(50) NOT NULL,
+  weight_value DECIMAL(5,2) NOT NULL,
+  sort_no INT NOT NULL DEFAULT 1,
+  status TINYINT NOT NULL DEFAULT 1,
+  create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  KEY idx_indicator_dimension (dimension_name),
+  KEY idx_indicator_sort (sort_no)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE evaluation_task (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  task_name VARCHAR(100) NOT NULL,
+  term_name VARCHAR(30) NOT NULL,
+  class_id BIGINT NOT NULL,
+  teacher_id BIGINT NOT NULL,
+  start_time DATETIME NOT NULL,
+  end_time DATETIME NOT NULL,
+  status VARCHAR(20) NOT NULL DEFAULT 'DRAFT',
+  creator_id BIGINT NOT NULL,
+  create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  KEY idx_task_class_id (class_id),
+  KEY idx_task_teacher_id (teacher_id),
+  KEY idx_task_status (status)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE evaluation_record (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  task_id BIGINT NOT NULL,
+  evaluator_id BIGINT NOT NULL,
+  teacher_id BIGINT NOT NULL,
+  class_id BIGINT NOT NULL,
+  attitude_score DECIMAL(5,2) NOT NULL,
+  content_score DECIMAL(5,2) NOT NULL,
+  method_score DECIMAL(5,2) NOT NULL,
+  manage_score DECIMAL(5,2) NOT NULL,
+  homework_score DECIMAL(5,2) NOT NULL,
+  total_score DECIMAL(6,2) NOT NULL,
+  comment_text VARCHAR(1000) DEFAULT '',
+  create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uk_task_evaluator (task_id, evaluator_id),
+  KEY idx_record_teacher_id (teacher_id),
+  KEY idx_record_class_id (class_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE evaluation_appeal (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  record_id BIGINT NOT NULL,
+  task_id BIGINT NOT NULL,
+  teacher_id BIGINT NOT NULL,
+  reason_text VARCHAR(1000) NOT NULL,
+  reply_text VARCHAR(1000) DEFAULT '',
   status VARCHAR(20) NOT NULL DEFAULT 'WAITING',
-  handle_result VARCHAR(1000) DEFAULT '',
   handle_by BIGINT NULL,
   handle_time DATETIME NULL,
   create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  KEY idx_complaint_user_id (user_id),
-  KEY idx_complaint_status (status)
+  KEY idx_appeal_teacher_id (teacher_id),
+  KEY idx_appeal_status (status)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO sys_user (id, username, password, nickname, phone, email, avatar, profile, role, status, last_login_time) VALUES
-(1, 'admin', '123456', '平台管理员', '13800000000', 'admin@travel.com', '', '负责平台运营管理', 'ADMIN', 1, NOW()),
-(2, 'user', '123456', '周边游用户', '13900000000', 'user@travel.com', '', '热爱周末出行', 'USER', 1, NOW());
+CREATE TABLE evaluation_notice (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  title VARCHAR(100) NOT NULL,
+  content_text VARCHAR(2000) NOT NULL,
+  status TINYINT NOT NULL DEFAULT 1,
+  publish_time DATETIME NULL,
+  creator_id BIGINT NOT NULL,
+  create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  KEY idx_notice_status (status),
+  KEY idx_notice_publish_time (publish_time)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO scenic_spot (id, name, city, tags, price, cover, intro, status) VALUES
-(1, '云湖湿地公园', '杭州', '亲子,骑行,自然风光', 88.00, 'https://picsum.photos/seed/spot1/400/240', '城市近郊湿地生态游，适合周末半日出行。', 1),
-(2, '青山古镇', '苏州', '古镇,美食,摄影', 68.00, 'https://picsum.photos/seed/spot2/400/240', '古街夜景和非遗手作体验结合。', 1),
-(3, '松林露营地', '南京', '露营,团建,烧烤', 128.00, 'https://picsum.photos/seed/spot3/400/240', '配置完善的露营营地，支持拎包露营。', 1),
-(4, '西坡温泉谷', '无锡', '温泉,康养,情侣', 188.00, 'https://picsum.photos/seed/spot4/400/240', '周边游热门温泉打卡地。', 1),
-(5, '花海田园小镇', '常州', '赏花,拍照,亲子', 99.00, 'https://picsum.photos/seed/spot5/400/240', '四季花田与乡野研学体验。', 1),
-(6, '山野徒步线', '宁波', '徒步,轻运动,自然', 59.00, 'https://picsum.photos/seed/spot6/400/240', '新手友好的轻徒步路线。', 1);
+INSERT INTO subject_info (id, subject_name, subject_code, status) VALUES
+(1, '语文', 'SUB-CHN', 1),
+(2, '数学', 'SUB-MATH', 1),
+(3, '英语', 'SUB-ENG', 1),
+(4, '物理', 'SUB-PHY', 1);
 
-INSERT INTO traveler (id, user_id, name, cert_type, cert_no, phone, is_default) VALUES
-(1, 2, '张三', '身份证', '330102199901010011', '13900000000', 1),
-(2, 2, '李四', '身份证', '330102199902020022', '13700000000', 0);
+INSERT INTO teaching_class (id, grade_name, class_name, head_teacher, status) VALUES
+(1, '高一', '1班', '王芳', 1),
+(2, '高一', '2班', '李敏', 1);
 
-INSERT INTO user_favorite (id, user_id, spot_id) VALUES
-(1, 2, 1),
-(2, 2, 3);
+INSERT INTO sys_user (id, username, password, nickname, phone, email, role, class_id, status, last_login_time) VALUES
+(1, 'admin', '123456', '系统管理员', '13800000000', 'admin@school.com', 'ADMIN', NULL, 1, NOW()),
+(2, 'teacher1', '123456', '王芳', '13800000001', 'teacher1@school.com', 'TEACHER', NULL, 1, NOW()),
+(3, 'teacher2', '123456', '李敏', '13800000002', 'teacher2@school.com', 'TEACHER', NULL, 1, NOW()),
+(4, 'student1', '123456', '张三', '13900000001', 'student1@school.com', 'STUDENT', 1, 1, NOW()),
+(5, 'student2', '123456', '李四', '13900000002', 'student2@school.com', 'STUDENT', 2, 1, NOW());
 
-INSERT INTO travel_order (id, order_no, user_id, traveler_id, spot_id, travel_date, quantity, total_amount, status, contact_name, contact_phone, remark, pay_time, finish_time, create_time, update_time) VALUES
-(1, 'TR202602140001', 2, 1, 1, '2026-02-20', 2, 176.00, 'WAIT_PAY', '张三', '13900000000', '周末上午出发', NULL, NULL, NOW(), NOW()),
-(2, 'TR202602140002', 2, 2, 3, '2026-02-08', 1, 128.00, 'FINISHED', '李四', '13700000000', '已完成露营', NOW(), NOW(), NOW(), NOW()),
-(3, 'TR202602140003', 2, 1, 4, '2026-02-12', 1, 188.00, 'PAID', '张三', '13900000000', '待出行', NOW(), NULL, NOW(), NOW());
+INSERT INTO teacher_profile (id, user_id, teacher_no, subject_id, title_name, status) VALUES
+(1, 2, 'T2026001', 2, '高级教师', 1),
+(2, 3, 'T2026002', 3, '一级教师', 1);
 
-INSERT INTO travel_review (id, order_id, user_id, spot_id, score, content, status, reply_content, create_time, update_time) VALUES
-(1, 2, 2, 3, 5, '营地环境非常好，服务人员也很专业。', 1, '感谢反馈，欢迎再次预订。', NOW(), NOW());
+INSERT INTO evaluation_indicator (id, indicator_name, dimension_name, weight_value, sort_no, status) VALUES
+(1, '教学态度', '课堂表现', 20.00, 1, 1),
+(2, '教学内容', '课堂表现', 20.00, 2, 1),
+(3, '教学方法', '课堂表现', 20.00, 3, 1),
+(4, '课堂管理', '课堂表现', 20.00, 4, 1),
+(5, '作业反馈', '课后指导', 20.00, 5, 1);
 
-INSERT INTO user_complaint (id, user_id, order_id, type, content, attachment_urls, status, handle_result, handle_by, handle_time, create_time, update_time) VALUES
-(1, 2, 3, '行程变更', '希望支持更灵活的改签时间。', '[]', 'WAITING', '', NULL, NULL, NOW(), NOW());
+INSERT INTO evaluation_task (id, task_name, term_name, class_id, teacher_id, start_time, end_time, status, creator_id, create_time, update_time) VALUES
+(1, '高一数学第一阶段评教', '2025-2026学年第一学期', 1, 1, '2026-02-01 08:00:00', '2026-03-01 23:59:59', 'OPEN', 1, NOW(), NOW()),
+(2, '高一英语第一阶段评教', '2025-2026学年第一学期', 2, 2, '2026-01-01 08:00:00', '2026-01-20 23:59:59', 'CLOSED', 1, NOW(), NOW());
+
+INSERT INTO evaluation_record (id, task_id, evaluator_id, teacher_id, class_id, attitude_score, content_score, method_score, manage_score, homework_score, total_score, comment_text, create_time, update_time) VALUES
+(1, 2, 5, 2, 2, 90.00, 92.00, 91.00, 88.00, 90.00, 90.20, '课堂讲解清晰，互动性很好。', NOW(), NOW());
+
+INSERT INTO evaluation_appeal (id, record_id, task_id, teacher_id, reason_text, reply_text, status, handle_by, handle_time, create_time, update_time) VALUES
+(1, 1, 2, 2, '希望补充说明该次课堂为复习课，评分依据应区分课堂类型。', '', 'WAITING', NULL, NULL, NOW(), NOW());
+
+INSERT INTO evaluation_notice (id, title, content_text, status, publish_time, creator_id, create_time, update_time) VALUES
+(1, '本周评教任务提醒', '请各班同学在截止时间前完成科任教师评教。', 1, NOW(), 1, NOW(), NOW()),
+(2, '教师申诉流程说明', '教师可在记录页面针对异常评分提交申诉，由管理员统一处理。', 1, NOW(), 1, NOW(), NOW());

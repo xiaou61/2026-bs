@@ -9,12 +9,14 @@ const routes = [
     children: [
       { path: 'dashboard', component: () => import('../views/dashboard/index.vue') },
       { path: 'user', component: () => import('../views/user/index.vue'), meta: { roles: ['ADMIN'] } },
-      { path: 'spot', component: () => import('../views/spot/index.vue'), meta: { roles: ['ADMIN'] } },
-      { path: 'traveler', component: () => import('../views/traveler/index.vue'), meta: { roles: ['USER'] } },
-      { path: 'favorite', component: () => import('../views/favorite/index.vue'), meta: { roles: ['USER'] } },
-      { path: 'order', component: () => import('../views/order/index.vue') },
-      { path: 'review', component: () => import('../views/review/index.vue') },
-      { path: 'complaint', component: () => import('../views/complaint/index.vue') },
+      { path: 'subject', component: () => import('../views/spot/index.vue'), meta: { roles: ['ADMIN'] } },
+      { path: 'class', component: () => import('../views/traveler/index.vue'), meta: { roles: ['ADMIN'] } },
+      { path: 'teacher', component: () => import('../views/favorite/index.vue'), meta: { roles: ['ADMIN'] } },
+      { path: 'indicator', component: () => import('../views/indicator/index.vue'), meta: { roles: ['ADMIN'] } },
+      { path: 'task', component: () => import('../views/order/index.vue') },
+      { path: 'record', component: () => import('../views/review/index.vue') },
+      { path: 'appeal', component: () => import('../views/complaint/index.vue') },
+      { path: 'notice', component: () => import('../views/notice/index.vue') },
       { path: 'profile', component: () => import('../views/profile/index.vue') }
     ]
   }

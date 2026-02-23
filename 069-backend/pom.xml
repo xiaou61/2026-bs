@@ -11,8 +11,8 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.travel</groupId>
-    <artifactId>nearby-travel-personal</artifactId>
+    <groupId>com.teacher</groupId>
+    <artifactId>teacher-evaluation-069</artifactId>
     <version>1.0.0</version>
 
     <properties>

@@ -2,7 +2,7 @@
   <div class="login-wrap">
     <div class="bg-panel"></div>
     <el-card class="login-card">
-      <h2 class="title">周边游平台个人管理模块</h2>
+      <h2 class="title">科任教师考评系统</h2>
       <el-tabs v-model="tab">
         <el-tab-pane label="登录" name="login">
           <el-form ref="loginRef" :model="loginForm" :rules="loginRules">
@@ -11,18 +11,18 @@
             <el-button type="primary" style="width: 100%" :loading="loading" @click="handleLogin">登录</el-button>
           </el-form>
         </el-tab-pane>
-        <el-tab-pane label="注册" name="register">
+        <el-tab-pane label="学生注册" name="register">
           <el-form ref="regRef" :model="regForm" :rules="regRules">
             <el-form-item prop="username"><el-input v-model="regForm.username" placeholder="用户名" maxlength="50" /></el-form-item>
             <el-form-item prop="password"><el-input v-model="regForm.password" type="password" show-password placeholder="密码" maxlength="100" /></el-form-item>
-            <el-form-item prop="nickname"><el-input v-model="regForm.nickname" placeholder="昵称" maxlength="50" /></el-form-item>
+            <el-form-item prop="nickname"><el-input v-model="regForm.nickname" placeholder="姓名" maxlength="50" /></el-form-item>
             <el-form-item prop="phone"><el-input v-model="regForm.phone" placeholder="手机号" maxlength="20" /></el-form-item>
             <el-form-item prop="email"><el-input v-model="regForm.email" placeholder="邮箱" maxlength="100" /></el-form-item>
-            <el-button type="success" style="width: 100%" :loading="loading" @click="handleRegister">注册用户</el-button>
+            <el-button type="success" style="width: 100%" :loading="loading" @click="handleRegister">注册</el-button>
           </el-form>
         </el-tab-pane>
       </el-tabs>
-      <div class="hint">默认账号：admin/123456 或 user/123456</div>
+      <div class="hint">默认账号：admin/123456、teacher1/123456、student1/123456</div>
     </el-card>
   </div>
 </template>
@@ -52,7 +52,7 @@ const loginRules = {
 const regRules = {
   username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
   password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-  nickname: [{ required: true, message: '请输入昵称', trigger: 'blur' }]
+  nickname: [{ required: true, message: '请输入姓名', trigger: 'blur' }]
 }
 
 const handleLogin = async () => {
@@ -88,26 +88,26 @@ const handleRegister = async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at 20% 20%, #fef3c7 0%, transparent 35%),
-    radial-gradient(circle at 80% 10%, #d9f99d 0%, transparent 32%),
-    linear-gradient(135deg, #0f766e, #14b8a6, #0ea5e9);
+  background: radial-gradient(circle at 20% 20%, #dbeafe 0%, transparent 35%),
+    radial-gradient(circle at 80% 10%, #a7f3d0 0%, transparent 32%),
+    linear-gradient(135deg, #0f766e, #0ea5e9, #1d4ed8);
   position: relative;
   overflow: hidden;
 }
 
 .bg-panel {
   position: absolute;
-  width: 900px;
-  height: 900px;
+  width: 920px;
+  height: 920px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.08);
-  filter: blur(8px);
-  top: -350px;
-  right: -280px;
+  filter: blur(10px);
+  top: -360px;
+  right: -300px;
 }
 
 .login-card {
-  width: 460px;
+  width: 470px;
   border-radius: 14px;
   box-shadow: 0 18px 40px rgba(15, 23, 42, 0.22);
   z-index: 1;
