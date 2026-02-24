@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bike.mapper.PricingRuleMapper">
+
+    <resultMap id="BaseResultMap" type="com.bike.entity.PricingRule">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="bike_type" property="bikeType"/>
+        <result column="base_price" property="basePrice"/>
+        <result column="base_duration" property="baseDuration"/>
+        <result column="extra_price" property="extraPrice"/>
+        <result column="daily_cap" property="dailyCap"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, name, bike_type, base_price, base_duration, extra_price, daily_cap, status, create_time
+    </sql>
+
+    <select id="findList" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM pricing_rule ORDER BY create_time DESC
+    </select>
+
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM pricing_rule WHERE id = #{id}
+    </select>
+
+    <select id="findByBikeType" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM pricing_rule WHERE bike_type = #{bikeType} AND status = 1 LIMIT 1
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO pricing_rule (name, bike_type, base_price, base_duration, extra_price, daily_cap, status)
+        VALUES (#{name}, #{bikeType}, #{basePrice}, #{baseDuration}, #{extraPrice}, #{dailyCap}, #{status})
+    </insert>
+
+    <update id="update">
+        UPDATE pricing_rule
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="bikeType != null">bike_type = #{bikeType},</if>
+            <if test="basePrice != null">base_price = #{basePrice},</if>
+            <if test="baseDuration != null">base_duration = #{baseDuration},</if>
+            <if test="extraPrice != null">extra_price = #{extraPrice},</if>
+            <if test="dailyCap != null">daily_cap = #{dailyCap},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM pricing_rule WHERE id = #{id}
+    </delete>
+
+</mapper>

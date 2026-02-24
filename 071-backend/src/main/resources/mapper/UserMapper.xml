@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bike.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.bike.entity.User">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="phone" property="phone"/>
+        <result column="real_name" property="realName"/>
+        <result column="avatar" property="avatar"/>
+        <result column="role" property="role"/>
+        <result column="credit_score" property="creditScore"/>
+        <result column="balance" property="balance"/>
+        <result column="deposit_paid" property="depositPaid"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, username, password, phone, real_name, avatar, role, credit_score, balance, deposit_paid, status, create_time, update_time
+    </sql>
+
+    <select id="findByUsername" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM user WHERE username = #{username}
+    </select>
+
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM user WHERE id = #{id}
+    </select>
+
+    <select id="findList" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM user
+        <where>
+            <if test="username != null and username != ''">
+                AND username LIKE CONCAT('%', #{username}, '%')
+            </if>
+            <if test="role != null and role != ''">
+                AND role = #{role}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user (username, password, phone, real_name, avatar, role, credit_score, balance, deposit_paid, status)
+        VALUES (#{username}, #{password}, #{phone}, #{realName}, #{avatar}, #{role}, #{creditScore}, #{balance}, #{depositPaid}, #{status})
+    </insert>
+
+    <update id="update">
+        UPDATE user
+        <set>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="realName != null">real_name = #{realName},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateStatus">
+        UPDATE user SET status = #{status} WHERE id = #{id}
+    </update>
+
+    <update id="updatePassword">
+        UPDATE user SET password = #{password} WHERE id = #{id}
+    </update>
+
+    <update id="updateBalance">
+        UPDATE user SET balance = balance + #{amount} WHERE id = #{id}
+    </update>
+
+    <update id="updateDeposit">
+        UPDATE user SET deposit_paid = #{depositPaid} WHERE id = #{id}
+    </update>
+
+    <update id="updateCreditScore">
+        UPDATE user SET credit_score = #{creditScore} WHERE id = #{id}
+    </update>
+
+    <select id="countTotal" resultType="int">
+        SELECT COUNT(*) FROM user WHERE role = 'user'
+    </select>
+
+</mapper>

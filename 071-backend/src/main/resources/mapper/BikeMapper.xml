@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bike.mapper.BikeMapper">
+
+    <resultMap id="BaseResultMap" type="com.bike.entity.Bike">
+        <id column="id" property="id"/>
+        <result column="bike_no" property="bikeNo"/>
+        <result column="type" property="type"/>
+        <result column="status" property="status"/>
+        <result column="station_id" property="stationId"/>
+        <result column="battery_level" property="batteryLevel"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="station_name" property="stationName"/>
+    </resultMap>
+
+    <select id="findList" resultMap="BaseResultMap">
+        SELECT b.*, s.name AS station_name FROM bike b LEFT JOIN station s ON b.station_id = s.id
+        <where>
+            <if test="bikeNo != null and bikeNo != ''">
+                AND b.bike_no LIKE CONCAT('%', #{bikeNo}, '%')
+            </if>
+            <if test="type != null">
+                AND b.type = #{type}
+            </if>
+            <if test="status != null">
+                AND b.status = #{status}
+            </if>
+            <if test="stationId != null">
+                AND b.station_id = #{stationId}
+            </if>
+        </where>
+        ORDER BY b.create_time DESC
+    </select>
+
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT b.*, s.name AS station_name FROM bike b LEFT JOIN station s ON b.station_id = s.id WHERE b.id = #{id}
+    </select>
+
+    <select id="findAvailableByStation" resultMap="BaseResultMap">
+        SELECT b.*, s.name AS station_name FROM bike b LEFT JOIN station s ON b.station_id = s.id
+        WHERE b.station_id = #{stationId} AND b.status = 1
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO bike (bike_no, type, status, station_id, battery_level)
+        VALUES (#{bikeNo}, #{type}, #{status}, #{stationId}, #{batteryLevel})
+    </insert>
+
+    <update id="update">
+        UPDATE bike
+        <set>
+            <if test="bikeNo != null">bike_no = #{bikeNo},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="stationId != null">station_id = #{stationId},</if>
+            <if test="batteryLevel != null">battery_level = #{batteryLevel},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateStatus">
+        UPDATE bike SET status = #{status} WHERE id = #{id}
+    </update>
+
+    <update id="updateStation">
+        UPDATE bike SET station_id = #{stationId} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM bike WHERE id = #{id}
+    </delete>
+
+    <select id="countTotal" resultType="int">
+        SELECT COUNT(*) FROM bike
+    </select>
+
+    <select id="countByStatus" resultType="int">
+        SELECT COUNT(*) FROM bike WHERE status = #{status}
+    </select>
+
+    <select id="countByType" resultType="map">
+        SELECT type AS name, COUNT(*) AS value FROM bike GROUP BY type
+    </select>
+
+</mapper>

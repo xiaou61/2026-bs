@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bike.mapper.FaultReportMapper">
+
+    <resultMap id="BaseResultMap" type="com.bike.entity.FaultReport">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="bike_id" property="bikeId"/>
+        <result column="type" property="type"/>
+        <result column="description" property="description"/>
+        <result column="status" property="status"/>
+        <result column="handler_id" property="handlerId"/>
+        <result column="handle_result" property="handleResult"/>
+        <result column="handle_time" property="handleTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="username" property="username"/>
+        <result column="bike_no" property="bikeNo"/>
+        <result column="handler_name" property="handlerName"/>
+    </resultMap>
+
+    <sql id="Join_Query">
+        SELECT fr.*, u.username, b.bike_no, h.username AS handler_name
+        FROM fault_report fr
+        LEFT JOIN user u ON fr.user_id = u.id
+        LEFT JOIN bike b ON fr.bike_id = b.id
+        LEFT JOIN user h ON fr.handler_id = h.id
+    </sql>
+
+    <select id="findList" resultMap="BaseResultMap">
+        <include refid="Join_Query"/>
+        <where>
+            <if test="status != null">
+                AND fr.status = #{status}
+            </if>
+            <if test="type != null">
+                AND fr.type = #{type}
+            </if>
+        </where>
+        ORDER BY fr.create_time DESC
+    </select>
+
+    <select id="findByUserId" resultMap="BaseResultMap">
+        <include refid="Join_Query"/>
+        WHERE fr.user_id = #{userId} ORDER BY fr.create_time DESC
+    </select>
+
+    <select id="findById" resultMap="BaseResultMap">
+        <include refid="Join_Query"/>
+        WHERE fr.id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO fault_report (user_id, bike_id, type, description, status)
+        VALUES (#{userId}, #{bikeId}, #{type}, #{description}, 0)
+    </insert>
+
+    <update id="update">
+        UPDATE fault_report
+        <set>
+            <if test="status != null">status = #{status},</if>
+            <if test="handlerId != null">handler_id = #{handlerId},</if>
+            <if test="handleResult != null">handle_result = #{handleResult},</if>
+            <if test="handleTime != null">handle_time = #{handleTime},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+</mapper>

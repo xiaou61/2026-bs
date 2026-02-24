@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bike.mapper.CreditRecordMapper">
+
+    <resultMap id="BaseResultMap" type="com.bike.entity.CreditRecord">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="type" property="type"/>
+        <result column="score_change" property="scoreChange"/>
+        <result column="score_after" property="scoreAfter"/>
+        <result column="description" property="description"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <select id="findByUserId" resultMap="BaseResultMap">
+        SELECT * FROM credit_record WHERE user_id = #{userId} ORDER BY create_time DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO credit_record (user_id, type, score_change, score_after, description)
+        VALUES (#{userId}, #{type}, #{scoreChange}, #{scoreAfter}, #{description})
+    </insert>
+
+</mapper>

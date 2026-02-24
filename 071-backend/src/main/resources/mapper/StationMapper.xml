@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bike.mapper.StationMapper">
+
+    <resultMap id="BaseResultMap" type="com.bike.entity.Station">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="address" property="address"/>
+        <result column="longitude" property="longitude"/>
+        <result column="latitude" property="latitude"/>
+        <result column="capacity" property="capacity"/>
+        <result column="current_count" property="currentCount"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, name, address, longitude, latitude, capacity, current_count, status, create_time, update_time
+    </sql>
+
+    <select id="findList" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM station
+        <where>
+            <if test="name != null and name != ''">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM station WHERE status = 1 ORDER BY name
+    </select>
+
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM station WHERE id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO station (name, address, longitude, latitude, capacity, current_count, status)
+        VALUES (#{name}, #{address}, #{longitude}, #{latitude}, #{capacity}, #{currentCount}, #{status})
+    </insert>
+
+    <update id="update">
+        UPDATE station
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="longitude != null">longitude = #{longitude},</if>
+            <if test="latitude != null">latitude = #{latitude},</if>
+            <if test="capacity != null">capacity = #{capacity},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM station WHERE id = #{id}
+    </delete>
+
+    <update id="updateCurrentCount">
+        UPDATE station SET current_count = current_count + #{delta} WHERE id = #{id}
+    </update>
+
+    <select id="stationRank" resultType="map">
+        SELECT s.name, COUNT(ro.id) AS value FROM station s
+        LEFT JOIN ride_order ro ON s.id = ro.start_station_id
+        GROUP BY s.id, s.name ORDER BY value DESC LIMIT 10
+    </select>
+
+</mapper>

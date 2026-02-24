@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bike.mapper.RideOrderMapper">
+
+    <resultMap id="BaseResultMap" type="com.bike.entity.RideOrder">
+        <id column="id" property="id"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="user_id" property="userId"/>
+        <result column="bike_id" property="bikeId"/>
+        <result column="start_station_id" property="startStationId"/>
+        <result column="end_station_id" property="endStationId"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="duration" property="duration"/>
+        <result column="distance" property="distance"/>
+        <result column="amount" property="amount"/>
+        <result column="status" property="status"/>
+        <result column="pay_status" property="payStatus"/>
+        <result column="create_time" property="createTime"/>
+        <result column="username" property="username"/>
+        <result column="bike_no" property="bikeNo"/>
+        <result column="start_station_name" property="startStationName"/>
+        <result column="end_station_name" property="endStationName"/>
+    </resultMap>
+
+    <sql id="Join_Query">
+        SELECT ro.*, u.username, b.bike_no,
+        ss.name AS start_station_name, es.name AS end_station_name
+        FROM ride_order ro
+        LEFT JOIN user u ON ro.user_id = u.id
+        LEFT JOIN bike b ON ro.bike_id = b.id
+        LEFT JOIN station ss ON ro.start_station_id = ss.id
+        LEFT JOIN station es ON ro.end_station_id = es.id
+    </sql>
+
+    <select id="findList" resultMap="BaseResultMap">
+        <include refid="Join_Query"/>
+        <where>
+            <if test="orderNo != null and orderNo != ''">
+                AND ro.order_no LIKE CONCAT('%', #{orderNo}, '%')
+            </if>
+            <if test="userId != null">
+                AND ro.user_id = #{userId}
+            </if>
+            <if test="status != null">
+                AND ro.status = #{status}
+            </if>
+        </where>
+        ORDER BY ro.create_time DESC
+    </select>
+
+    <select id="findByUserId" resultMap="BaseResultMap">
+        <include refid="Join_Query"/>
+        WHERE ro.user_id = #{userId} ORDER BY ro.create_time DESC
+    </select>
+
+    <select id="findById" resultMap="BaseResultMap">
+        <include refid="Join_Query"/>
+        WHERE ro.id = #{id}
+    </select>
+
+    <select id="findCurrentByUserId" resultMap="BaseResultMap">
+        <include refid="Join_Query"/>
+        WHERE ro.user_id = #{userId} AND ro.status = 1 LIMIT 1
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO ride_order (order_no, user_id, bike_id, start_station_id, start_time, status, pay_status)
+        VALUES (#{orderNo}, #{userId}, #{bikeId}, #{startStationId}, #{startTime}, #{status}, #{payStatus})
+    </insert>
+
+    <update id="update">
+        UPDATE ride_order
+        <set>
+            <if test="endStationId != null">end_station_id = #{endStationId},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="duration != null">duration = #{duration},</if>
+            <if test="distance != null">distance = #{distance},</if>
+            <if test="amount != null">amount = #{amount},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="payStatus != null">pay_status = #{payStatus},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="countToday" resultType="int">
+        SELECT COUNT(*) FROM ride_order WHERE DATE(create_time) = CURDATE()
+    </select>
+
+    <select id="sumTodayIncome" resultType="java.math.BigDecimal">
+        SELECT COALESCE(SUM(amount), 0) FROM ride_order WHERE DATE(create_time) = CURDATE() AND pay_status = 1
+    </select>
+
+    <select id="rideTrend" resultType="map">
+        SELECT DATE(create_time) AS date, COUNT(*) AS count
+        FROM ride_order
+        WHERE create_time >= DATE_SUB(CURDATE(), INTERVAL #{days} DAY)
+        GROUP BY DATE(create_time) ORDER BY date
+    </select>
+
+    <select id="incomeTrend" resultType="map">
+        SELECT DATE(create_time) AS date, COALESCE(SUM(amount), 0) AS income
+        FROM ride_order
+        WHERE create_time >= DATE_SUB(CURDATE(), INTERVAL #{days} DAY) AND pay_status = 1
+        GROUP BY DATE(create_time) ORDER BY date
+    </select>
+
+</mapper>

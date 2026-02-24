@@ -1,0 +1,66 @@
+import request from './request'
+
+export const login = (data) => request.post('/api/user/login', data)
+export const register = (data) => request.post('/api/user/register', data)
+export const getUserInfo = () => request.get('/api/user/info')
+export const updateUserInfo = (data) => request.put('/api/user/info', data)
+export const updatePassword = (data) => request.put('/api/user/password', data)
+export const getUserList = (params) => request.get('/api/user/list', { params })
+export const updateUserStatus = (id, data) => request.put(`/api/user/status/${id}`, data)
+
+export const getBikeList = (params) => request.get('/api/bike/list', { params })
+export const getBikeById = (id) => request.get(`/api/bike/${id}`)
+export const addBike = (data) => request.post('/api/bike', data)
+export const updateBike = (id, data) => request.put(`/api/bike/${id}`, data)
+export const deleteBike = (id) => request.delete(`/api/bike/${id}`)
+export const getAvailableBikes = (stationId) => request.get(`/api/bike/available/${stationId}`)
+export const dispatchBike = (data) => request.put('/api/bike/dispatch', data)
+
+export const getStationList = (params) => request.get('/api/station/list', { params })
+export const getAllStations = () => request.get('/api/station/all')
+export const getStationById = (id) => request.get(`/api/station/${id}`)
+export const addStation = (data) => request.post('/api/station', data)
+export const updateStation = (id, data) => request.put(`/api/station/${id}`, data)
+export const deleteStation = (id) => request.delete(`/api/station/${id}`)
+
+export const startRide = (data) => request.post('/api/ride/start', data)
+export const endRide = (data) => request.post('/api/ride/end', data)
+export const getCurrentRide = () => request.get('/api/ride/current')
+export const getMyRides = (params) => request.get('/api/ride/list', { params })
+export const getAllRides = (params) => request.get('/api/ride/all', { params })
+export const getRideById = (id) => request.get(`/api/ride/${id}`)
+
+export const getPricingList = () => request.get('/api/pricing/list')
+export const addPricing = (data) => request.post('/api/pricing', data)
+export const updatePricing = (id, data) => request.put(`/api/pricing/${id}`, data)
+export const deletePricing = (id) => request.delete(`/api/pricing/${id}`)
+
+export const rechargeWallet = (data) => request.post('/api/wallet/recharge', data)
+export const getWalletRecords = (params) => request.get('/api/wallet/records', { params })
+export const payDeposit = () => request.post('/api/wallet/deposit')
+export const refundDeposit = () => request.post('/api/wallet/deposit/refund')
+
+export const reportFault = (data) => request.post('/api/fault', data)
+export const getFaultList = (params) => request.get('/api/fault/list', { params })
+export const getMyFaults = (params) => request.get('/api/fault/my', { params })
+export const handleFault = (id, data) => request.put(`/api/fault/handle/${id}`, data)
+
+export const getCreditScore = () => request.get('/api/credit/score')
+export const getCreditRecords = (params) => request.get('/api/credit/records', { params })
+export const adjustCredit = (data) => request.post('/api/credit/adjust', data)
+
+export const getAnnouncementList = (params) => request.get('/api/announcement/list', { params })
+export const addAnnouncement = (data) => request.post('/api/announcement', data)
+export const updateAnnouncement = (id, data) => request.put(`/api/announcement/${id}`, data)
+export const deleteAnnouncement = (id) => request.delete(`/api/announcement/${id}`)
+
+export const addFeedback = (data) => request.post('/api/feedback', data)
+export const getFeedbackList = (params) => request.get('/api/feedback/list', { params })
+export const getMyFeedbacks = (params) => request.get('/api/feedback/my', { params })
+export const replyFeedback = (id, data) => request.put(`/api/feedback/reply/${id}`, data)
+
+export const getOverview = () => request.get('/api/statistics/overview')
+export const getRideTrend = (params) => request.get('/api/statistics/ride-trend', { params })
+export const getIncomeTrend = (params) => request.get('/api/statistics/income-trend', { params })
+export const getStationRank = () => request.get('/api/statistics/station-rank')
+export const getBikeTypeRatio = () => request.get('/api/statistics/bike-type-ratio')
