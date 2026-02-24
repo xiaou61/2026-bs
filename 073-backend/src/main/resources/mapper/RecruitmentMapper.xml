@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.mapper.RecruitmentMapper">
+    <resultMap id="BaseResultMap" type="com.hrm.entity.Recruitment">
+        <id column="id" property="id"/>
+        <result column="position_id" property="positionId"/>
+        <result column="department_id" property="departmentId"/>
+        <result column="count" property="count"/>
+        <result column="salary_range" property="salaryRange"/>
+        <result column="requirements" property="requirements"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="position_name" property="positionName"/>
+        <result column="department_name" property="departmentName"/>
+    </resultMap>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT r.*, p.name as position_name, d.name as department_name
+        FROM recruitment r
+        LEFT JOIN position p ON r.position_id = p.id
+        LEFT JOIN department d ON r.department_id = d.id
+        WHERE r.id = #{id}
+    </select>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        SELECT r.*, p.name as position_name, d.name as department_name
+        FROM recruitment r
+        LEFT JOIN position p ON r.position_id = p.id
+        LEFT JOIN department d ON r.department_id = d.id
+        <where>
+            <if test="positionId != null">
+                AND r.position_id = #{positionId}
+            </if>
+            <if test="departmentId != null">
+                AND r.department_id = #{departmentId}
+            </if>
+            <if test="status != null and status != ''">
+                AND r.status = #{status}
+            </if>
+        </where>
+        ORDER BY r.create_time DESC
+    </select>
+
+    <select id="selectOpen" resultMap="BaseResultMap">
+        SELECT r.*, p.name as position_name, d.name as department_name
+        FROM recruitment r
+        LEFT JOIN position p ON r.position_id = p.id
+        LEFT JOIN department d ON r.department_id = d.id
+        WHERE r.status = 'open'
+        ORDER BY r.create_time DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO recruitment (position_id, department_id, count, salary_range, requirements, status, create_time)
+        VALUES (#{positionId}, #{departmentId}, #{count}, #{salaryRange}, #{requirements}, #{status}, NOW())
+    </insert>
+
+    <update id="update">
+        UPDATE recruitment
+        <set>
+            <if test="positionId != null">position_id = #{positionId},</if>
+            <if test="departmentId != null">department_id = #{departmentId},</if>
+            <if test="count != null">count = #{count},</if>
+            <if test="salaryRange != null">salary_range = #{salaryRange},</if>
+            <if test="requirements != null">requirements = #{requirements},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM recruitment WHERE id = #{id}
+    </delete>
+
+    <select id="countByStatus" resultType="int">
+        SELECT COUNT(*) FROM recruitment WHERE status = #{status}
+    </select>
+</mapper>

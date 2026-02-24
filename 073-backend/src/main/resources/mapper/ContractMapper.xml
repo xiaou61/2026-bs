@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.mapper.ContractMapper">
+    <resultMap id="BaseResultMap" type="com.hrm.entity.Contract">
+        <id column="id" property="id"/>
+        <result column="employee_id" property="employeeId"/>
+        <result column="contract_no" property="contractNo"/>
+        <result column="type" property="type"/>
+        <result column="start_date" property="startDate"/>
+        <result column="end_date" property="endDate"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="employee_name" property="employeeName"/>
+        <result column="emp_no" property="empNo"/>
+    </resultMap>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT c.*, e.name as employee_name, e.emp_no
+        FROM contract c
+        LEFT JOIN employee e ON c.employee_id = e.id
+        WHERE c.id = #{id}
+    </select>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        SELECT c.*, e.name as employee_name, e.emp_no
+        FROM contract c
+        LEFT JOIN employee e ON c.employee_id = e.id
+        <where>
+            <if test="employeeId != null">
+                AND c.employee_id = #{employeeId}
+            </if>
+            <if test="employeeName != null and employeeName != ''">
+                AND e.name LIKE CONCAT('%', #{employeeName}, '%')
+            </if>
+            <if test="type != null and type != ''">
+                AND c.type = #{type}
+            </if>
+            <if test="status != null and status != ''">
+                AND c.status = #{status}
+            </if>
+        </where>
+        ORDER BY c.create_time DESC
+    </select>
+
+    <select id="selectByEmployeeId" resultMap="BaseResultMap">
+        SELECT c.*, e.name as employee_name, e.emp_no
+        FROM contract c
+        LEFT JOIN employee e ON c.employee_id = e.id
+        WHERE c.employee_id = #{employeeId} AND c.status = 'active'
+        ORDER BY c.create_time DESC
+        LIMIT 1
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO contract (employee_id, contract_no, type, start_date, end_date, status, create_time)
+        VALUES (#{employeeId}, #{contractNo}, #{type}, #{startDate}, #{endDate}, #{status}, NOW())
+    </insert>
+
+    <update id="update">
+        UPDATE contract
+        <set>
+            <if test="contractNo != null">contract_no = #{contractNo},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="startDate != null">start_date = #{startDate},</if>
+            <if test="endDate != null">end_date = #{endDate},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM contract WHERE id = #{id}
+    </delete>
+</mapper>

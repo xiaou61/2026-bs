@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.mapper.AttendanceMapper">
+    <resultMap id="BaseResultMap" type="com.hrm.entity.Attendance">
+        <id column="id" property="id"/>
+        <result column="employee_id" property="employeeId"/>
+        <result column="date" property="date"/>
+        <result column="clock_in" property="clockIn"/>
+        <result column="clock_out" property="clockOut"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
+        <result column="create_time" property="createTime"/>
+        <result column="employee_name" property="employeeName"/>
+        <result column="emp_no" property="empNo"/>
+    </resultMap>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT a.*, e.name as employee_name, e.emp_no
+        FROM attendance a
+        LEFT JOIN employee e ON a.employee_id = e.id
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="selectByEmployeeAndDate" resultMap="BaseResultMap">
+        SELECT a.*, e.name as employee_name, e.emp_no
+        FROM attendance a
+        LEFT JOIN employee e ON a.employee_id = e.id
+        WHERE a.employee_id = #{employeeId} AND a.date = #{date}
+    </select>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        SELECT a.*, e.name as employee_name, e.emp_no
+        FROM attendance a
+        LEFT JOIN employee e ON a.employee_id = e.id
+        <where>
+            <if test="employeeId != null">
+                AND a.employee_id = #{employeeId}
+            </if>
+            <if test="employeeName != null and employeeName != ''">
+                AND e.name LIKE CONCAT('%', #{employeeName}, '%')
+            </if>
+            <if test="startDate != null">
+                AND a.date &gt;= #{startDate}
+            </if>
+            <if test="endDate != null">
+                AND a.date &lt;= #{endDate}
+            </if>
+            <if test="status != null and status != ''">
+                AND a.status = #{status}
+            </if>
+        </where>
+        ORDER BY a.date DESC, a.create_time DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO attendance (employee_id, date, clock_in, clock_out, status, remark, create_time)
+        VALUES (#{employeeId}, #{date}, #{clockIn}, #{clockOut}, #{status}, #{remark}, NOW())
+    </insert>
+
+    <update id="update">
+        UPDATE attendance
+        <set>
+            <if test="clockIn != null">clock_in = #{clockIn},</if>
+            <if test="clockOut != null">clock_out = #{clockOut},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM attendance WHERE id = #{id}
+    </delete>
+
+    <select id="countByStatus" resultType="int">
+        SELECT COUNT(*) FROM attendance WHERE status = #{status} AND date = #{date}
+    </select>
+
+    <select id="countByDate" resultType="int">
+        SELECT COUNT(*) FROM attendance WHERE date = #{date}
+    </select>
+</mapper>

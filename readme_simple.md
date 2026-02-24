@@ -1,6 +1,6 @@
 # 2026年计算机毕业设计项目合集
 
-## 📚 项目标题速览（共72个）
+## 📚 项目标题速览（共74个）
 
 ### 001 - 校园事务管理系统
 基于 Spring Boot + Vue 的校园事务管理系统
@@ -216,11 +216,18 @@ AI智能学习助手与个性化教育平台（个性化推荐+智能问答+学�
 ### 071 - 基于SpringBoot和Vue的共享单车系统
 基于SpringBoot+Vue3的共享单车系统（Spring Boot 2.7.18 + MyBatis 3.5.13原生XML + PageHelper + Redis + Vue3 + Element Plus + ECharts + 三角色：管理员/运维人员/用户 + 扫码骑行+分段阶梯计费+信用体系+电子钱包+押金管理+站点车辆管理+故障上报+运营看板）
 
-### 072 - 基于SpringBoot和Vue的哈尔滨文旅系统 🔥最新
+### 072 - 基于SpringBoot和Vue的哈尔滨文旅系统
 基于SpringBoot+Vue3的哈尔滨文旅系统（Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + Redis + Vue3 + Element Plus + ECharts + 双角色：管理员/用户 + 冰雪旅游+景点门票预订+路线规划+酒店餐厅推荐+活动报名+游记分享+评价收藏+钱包支付+运营看板）
+
+### 073 - 基于SpringBoot和Vue的人事管理系统 🔥最新
+基于SpringBoot+Vue3的人事管理系统（Spring Boot 2.7.18 + MyBatis原生XML + PageHelper + Redis + Vue3 + Element Plus + ECharts + 三角色：管理员/HR/员工 + 员工档案+部门职位+考勤打卡+请假审批+薪资核算+招聘管理+简历库+培训计划+合同管理+数据看板）
+
+### 074 - 基于SpringBoot和Vue的手工艺品销售系统 🔥最新
+基于SpringBoot+Vue3的手工艺品销售系统（Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + Redis + Vue3 + Element Plus + ECharts + 双角色：管理员/用户 + 工艺分类+作品发布+在线下单+收藏评价+售后申诉+运营看板）
 
 ---
 **🎯 查看完整详情，请返回 [README.md](README.md)**
 
 **📞 联系QQ: 3153566913**
 ---
+

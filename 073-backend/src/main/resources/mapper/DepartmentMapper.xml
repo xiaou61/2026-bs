@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.mapper.DepartmentMapper">
+    <resultMap id="BaseResultMap" type="com.hrm.entity.Department">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="leader_id" property="leaderId"/>
+        <result column="sort" property="sort"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="leader_name" property="leaderName"/>
+        <result column="parent_name" property="parentName"/>
+    </resultMap>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT d.*, e.name as leader_name, p.name as parent_name
+        FROM department d
+        LEFT JOIN employee e ON d.leader_id = e.id
+        LEFT JOIN department p ON d.parent_id = p.id
+        WHERE d.id = #{id}
+    </select>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        SELECT d.*, e.name as leader_name, p.name as parent_name
+        FROM department d
+        LEFT JOIN employee e ON d.leader_id = e.id
+        LEFT JOIN department p ON d.parent_id = p.id
+        <where>
+            <if test="name != null and name != ''">
+                AND d.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="status != null">
+                AND d.status = #{status}
+            </if>
+        </where>
+        ORDER BY d.sort, d.create_time
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT * FROM department WHERE status = 1 ORDER BY sort
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO department (name, parent_id, leader_id, sort, status, create_time)
+        VALUES (#{name}, #{parentId}, #{leaderId}, #{sort}, #{status}, NOW())
+    </insert>
+
+    <update id="update">
+        UPDATE department
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="leaderId != null">leader_id = #{leaderId},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM department WHERE id = #{id}
+    </delete>
+
+    <select id="countByParentId" resultType="int">
+        SELECT COUNT(*) FROM department WHERE parent_id = #{parentId}
+    </select>
+</mapper>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.mapper.LeaveRequestMapper">
+    <resultMap id="BaseResultMap" type="com.hrm.entity.LeaveRequest">
+        <id column="id" property="id"/>
+        <result column="employee_id" property="employeeId"/>
+        <result column="type" property="type"/>
+        <result column="start_date" property="startDate"/>
+        <result column="end_date" property="endDate"/>
+        <result column="days" property="days"/>
+        <result column="reason" property="reason"/>
+        <result column="status" property="status"/>
+        <result column="approver_id" property="approverId"/>
+        <result column="approve_time" property="approveTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="employee_name" property="employeeName"/>
+        <result column="approver_name" property="approverName"/>
+    </resultMap>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT l.*, e.name as employee_name, a.name as approver_name
+        FROM leave_request l
+        LEFT JOIN employee e ON l.employee_id = e.id
+        LEFT JOIN user a ON l.approver_id = a.id
+        WHERE l.id = #{id}
+    </select>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        SELECT l.*, e.name as employee_name, a.name as approver_name
+        FROM leave_request l
+        LEFT JOIN employee e ON l.employee_id = e.id
+        LEFT JOIN user a ON l.approver_id = a.id
+        <where>
+            <if test="employeeId != null">
+                AND l.employee_id = #{employeeId}
+            </if>
+            <if test="employeeName != null and employeeName != ''">
+                AND e.name LIKE CONCAT('%', #{employeeName}, '%')
+            </if>
+            <if test="type != null and type != ''">
+                AND l.type = #{type}
+            </if>
+            <if test="status != null and status != ''">
+                AND l.status = #{status}
+            </if>
+        </where>
+        ORDER BY l.create_time DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO leave_request (employee_id, type, start_date, end_date, days, reason, status, create_time)
+        VALUES (#{employeeId}, #{type}, #{startDate}, #{endDate}, #{days}, #{reason}, #{status}, NOW())
+    </insert>
+
+    <update id="update">
+        UPDATE leave_request
+        <set>
+            <if test="type != null">type = #{type},</if>
+            <if test="startDate != null">start_date = #{startDate},</if>
+            <if test="endDate != null">end_date = #{endDate},</if>
+            <if test="days != null">days = #{days},</if>
+            <if test="reason != null">reason = #{reason},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="approverId != null">approver_id = #{approverId},</if>
+            <if test="approveTime != null">approve_time = #{approveTime},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM leave_request WHERE id = #{id}
+    </delete>
+
+    <select id="countByStatus" resultType="int">
+        SELECT COUNT(*) FROM leave_request WHERE status = #{status}
+    </select>
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.mapper.SalaryMapper">
+    <resultMap id="BaseResultMap" type="com.hrm.entity.Salary">
+        <id column="id" property="id"/>
+        <result column="employee_id" property="employeeId"/>
+        <result column="year_month" property="yearMonth"/>
+        <result column="base_salary" property="baseSalary"/>
+        <result column="performance" property="performance"/>
+        <result column="allowance" property="allowance"/>
+        <result column="deduction" property="deduction"/>
+        <result column="actual_salary" property="actualSalary"/>
+        <result column="status" property="status"/>
+        <result column="pay_date" property="payDate"/>
+        <result column="create_time" property="createTime"/>
+        <result column="employee_name" property="employeeName"/>
+        <result column="emp_no" property="empNo"/>
+    </resultMap>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT s.*, e.name as employee_name, e.emp_no
+        FROM salary s
+        LEFT JOIN employee e ON s.employee_id = e.id
+        WHERE s.id = #{id}
+    </select>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        SELECT s.*, e.name as employee_name, e.emp_no
+        FROM salary s
+        LEFT JOIN employee e ON s.employee_id = e.id
+        <where>
+            <if test="employeeId != null">
+                AND s.employee_id = #{employeeId}
+            </if>
+            <if test="employeeName != null and employeeName != ''">
+                AND e.name LIKE CONCAT('%', #{employeeName}, '%')
+            </if>
+            <if test="yearMonth != null and yearMonth != ''">
+                AND s.year_month = #{yearMonth}
+            </if>
+            <if test="status != null and status != ''">
+                AND s.status = #{status}
+            </if>
+        </where>
+        ORDER BY s.year_month DESC, s.create_time DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO salary (employee_id, year_month, base_salary, performance, allowance, deduction, actual_salary, status, pay_date, create_time)
+        VALUES (#{employeeId}, #{yearMonth}, #{baseSalary}, #{performance}, #{allowance}, #{deduction}, #{actualSalary}, #{status}, #{payDate}, NOW())
+    </insert>
+
+    <update id="update">
+        UPDATE salary
+        <set>
+            <if test="yearMonth != null">year_month = #{yearMonth},</if>
+            <if test="baseSalary != null">base_salary = #{baseSalary},</if>
+            <if test="performance != null">performance = #{performance},</if>
+            <if test="allowance != null">allowance = #{allowance},</if>
+            <if test="deduction != null">deduction = #{deduction},</if>
+            <if test="actualSalary != null">actual_salary = #{actualSalary},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="payDate != null">pay_date = #{payDate},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM salary WHERE id = #{id}
+    </delete>
+</mapper>

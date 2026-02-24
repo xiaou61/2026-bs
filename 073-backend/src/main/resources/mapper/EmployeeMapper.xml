@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.mapper.EmployeeMapper">
+    <resultMap id="BaseResultMap" type="com.hrm.entity.Employee">
+        <id column="id" property="id"/>
+        <result column="emp_no" property="empNo"/>
+        <result column="name" property="name"/>
+        <result column="gender" property="gender"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="id_card" property="idCard"/>
+        <result column="birthday" property="birthday"/>
+        <result column="address" property="address"/>
+        <result column="department_id" property="departmentId"/>
+        <result column="position_id" property="positionId"/>
+        <result column="entry_date" property="entryDate"/>
+        <result column="leave_date" property="leaveDate"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="department_name" property="departmentName"/>
+        <result column="position_name" property="positionName"/>
+    </resultMap>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT e.*, d.name as department_name, p.name as position_name
+        FROM employee e
+        LEFT JOIN department d ON e.department_id = d.id
+        LEFT JOIN position p ON e.position_id = p.id
+        WHERE e.id = #{id}
+    </select>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        SELECT e.*, d.name as department_name, p.name as position_name
+        FROM employee e
+        LEFT JOIN department d ON e.department_id = d.id
+        LEFT JOIN position p ON e.position_id = p.id
+        <where>
+            <if test="name != null and name != ''">
+                AND e.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="empNo != null and empNo != ''">
+                AND e.emp_no LIKE CONCAT('%', #{empNo}, '%')
+            </if>
+            <if test="departmentId != null">
+                AND e.department_id = #{departmentId}
+            </if>
+            <if test="status != null and status != ''">
+                AND e.status = #{status}
+            </if>
+        </where>
+        ORDER BY e.create_time DESC
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT * FROM employee WHERE status != 'resigned' ORDER BY emp_no
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO employee (emp_no, name, gender, phone, email, id_card, birthday, address,
+                              department_id, position_id, entry_date, leave_date, status, create_time)
+        VALUES (#{empNo}, #{name}, #{gender}, #{phone}, #{email}, #{idCard}, #{birthday}, #{address},
+                #{departmentId}, #{positionId}, #{entryDate}, #{leaveDate}, #{status}, NOW())
+    </insert>
+
+    <update id="update">
+        UPDATE employee
+        <set>
+            <if test="empNo != null">emp_no = #{empNo},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="idCard != null">id_card = #{idCard},</if>
+            <if test="birthday != null">birthday = #{birthday},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="departmentId != null">department_id = #{departmentId},</if>
+            <if test="positionId != null">position_id = #{positionId},</if>
+            <if test="entryDate != null">entry_date = #{entryDate},</if>
+            <if test="leaveDate != null">leave_date = #{leaveDate},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM employee WHERE id = #{id}
+    </delete>
+
+    <select id="selectMaxEmpNo" resultType="string">
+        SELECT MAX(emp_no) FROM employee
+    </select>
+
+    <select id="countByDepartmentId" resultType="int">
+        SELECT COUNT(*) FROM employee WHERE department_id = #{departmentId} AND status != 'resigned'
+    </select>
+
+    <select id="countByPositionId" resultType="int">
+        SELECT COUNT(*) FROM employee WHERE position_id = #{positionId} AND status != 'resigned'
+    </select>
+
+    <select id="countByStatus" resultType="int">
+        SELECT COUNT(*) FROM employee WHERE status = #{status}
+    </select>
+
+    <select id="countAll" resultType="int">
+        SELECT COUNT(*) FROM employee WHERE status != 'resigned'
+    </select>
+</mapper>
