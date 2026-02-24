@@ -1,6 +1,6 @@
 # 2026年计算机毕业设计项目合集
 
-## 📚 项目标题速览（共74个）
+## 📚 项目标题速览（共75个）
 
 ### 001 - 校园事务管理系统
 基于 Spring Boot + Vue 的校园事务管理系统
@@ -224,6 +224,9 @@ AI智能学习助手与个性化教育平台（个性化推荐+智能问答+学�
 
 ### 074 - 基于SpringBoot和Vue的手工艺品销售系统 🔥最新
 基于SpringBoot+Vue3的手工艺品销售系统（Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + Redis + Vue3 + Element Plus + ECharts + 双角色：管理员/用户 + 工艺分类+作品发布+在线下单+收藏评价+售后申诉+运营看板）
+
+### 075 - 基于SpringBoot和Vue的汽车维修预约服务系统 🔥最新
+基于SpringBoot+Vue3的汽车维修预约服务系统（Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + Redis + Vue3 + Element Plus + ECharts + 双角色：管理员/用户 + 维修分类+项目发布+在线预约+预约支付+收藏评价+申诉处理+运营看板）
 
 ---
 **🎯 查看完整详情，请返回 [README.md](README.md)**
