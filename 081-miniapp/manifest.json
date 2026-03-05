@@ -1,0 +1,18 @@
+{
+  "name": "电器维修服务",
+  "appid": "__UNI__REPAIR081",
+  "description": "电器维修系统小程序",
+  "versionName": "1.0.0",
+  "versionCode": "100",
+  "transformPx": false,
+  "mp-weixin": {
+    "appid": "wx1234567890",
+    "setting": {
+      "urlCheck": false
+    },
+    "usingComponents": true
+  },
+  "uniStatistics": {
+    "enable": false
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "repair-miniapp",
+  "version": "1.0.0",
+  "description": "电器维修系统小程序",
+  "main": "main.js",
+  "scripts": {
+    "dev": "uni"
+  },
+  "dependencies": {
+    "pinia": "^2.1.7"
+  }
+}
