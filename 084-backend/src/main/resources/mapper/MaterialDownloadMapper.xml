@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.teachres.mapper.MaterialDownloadMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO material_download (material_id, user_id, source, create_time)
+        VALUES (#{materialId}, #{userId}, #{source}, NOW())
+    </insert>
+
+    <select id="countAll" resultType="long">
+        SELECT COUNT(*) FROM material_download
+    </select>
+
+    <select id="selectMonthTrend" resultType="map">
+        SELECT DATE_FORMAT(create_time, '%Y-%m') AS month, COUNT(*) AS value
+        FROM material_download
+        GROUP BY DATE_FORMAT(create_time, '%Y-%m')
+        ORDER BY month ASC
+    </select>
+
+    <select id="selectHotTop5" resultType="map">
+        SELECT mi.title AS name, COUNT(md.id) AS value
+        FROM material_download md
+        LEFT JOIN material_info mi ON mi.id = md.material_id
+        GROUP BY md.material_id
+        ORDER BY value DESC
+        LIMIT 5
+    </select>
+
+</mapper>

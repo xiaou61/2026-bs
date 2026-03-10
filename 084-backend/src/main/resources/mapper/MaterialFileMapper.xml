@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.teachres.mapper.MaterialFileMapper">
+
+    <select id="selectByMaterialId" resultType="com.teachres.entity.MaterialFile">
+        SELECT * FROM material_file WHERE material_id = #{materialId} LIMIT 1
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO material_file (material_id, file_name, file_path, file_size, file_type, create_time)
+        VALUES (#{materialId}, #{fileName}, #{filePath}, #{fileSize}, #{fileType}, NOW())
+    </insert>
+
+    <update id="update">
+        UPDATE material_file
+        <set>
+            <if test="fileName != null">file_name = #{fileName},</if>
+            <if test="filePath != null">file_path = #{filePath},</if>
+            <if test="fileSize != null">file_size = #{fileSize},</if>
+            <if test="fileType != null">file_type = #{fileType},</if>
+            create_time = create_time
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteByMaterialId">
+        DELETE FROM material_file WHERE material_id = #{materialId}
+    </delete>
+
+</mapper>

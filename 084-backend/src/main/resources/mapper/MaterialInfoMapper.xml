@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.teachres.mapper.MaterialInfoMapper">
+
+    <select id="selectById" resultType="com.teachres.entity.MaterialInfo">
+        SELECT * FROM material_info WHERE id = #{id}
+    </select>
+
+    <select id="selectList" resultType="com.teachres.entity.MaterialInfo">
+        SELECT * FROM material_info
+        <where>
+            <if test="title != null and title != ''">
+                AND title LIKE CONCAT('%', #{title}, '%')
+            </if>
+            <if test="categoryId != null">
+                AND category_id = #{categoryId}
+            </if>
+            <if test="auditStatus != null">
+                AND audit_status = #{auditStatus}
+            </if>
+            <if test="publishStatus != null">
+                AND publish_status = #{publishStatus}
+            </if>
+            <if test="uploaderId != null">
+                AND uploader_id = #{uploaderId}
+            </if>
+            AND status = 1
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="selectPublicList" resultType="com.teachres.entity.MaterialInfo">
+        SELECT * FROM material_info
+        <where>
+            <if test="title != null and title != ''">
+                AND title LIKE CONCAT('%', #{title}, '%')
+            </if>
+            <if test="categoryId != null">
+                AND category_id = #{categoryId}
+            </if>
+            AND status = 1
+            AND audit_status = 1
+            AND publish_status = 1
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO material_info
+        (title, summary, category_id, grade, subject, keyword, uploader_id, audit_status, publish_status,
+         download_count, favorite_count, status, create_time, update_time)
+        VALUES
+        (#{title}, #{summary}, #{categoryId}, #{grade}, #{subject}, #{keyword}, #{uploaderId}, #{auditStatus}, #{publishStatus},
+         #{downloadCount}, #{favoriteCount}, #{status}, NOW(), NOW())
+    </insert>
+
+    <update id="update">
+        UPDATE material_info
+        <set>
+            <if test="title != null and title != ''">title = #{title},</if>
+            <if test="summary != null">summary = #{summary},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="grade != null">grade = #{grade},</if>
+            <if test="subject != null">subject = #{subject},</if>
+            <if test="keyword != null">keyword = #{keyword},</if>
+            <if test="auditStatus != null">audit_status = #{auditStatus},</if>
+            <if test="publishStatus != null">publish_status = #{publishStatus},</if>
+            <if test="status != null">status = #{status},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM material_info WHERE id = #{id}
+    </delete>
+
+    <update id="incrementDownloadCount">
+        UPDATE material_info SET download_count = download_count + 1, update_time = NOW() WHERE id = #{id}
+    </update>
+
+    <update id="incrementFavoriteCount">
+        UPDATE material_info SET favorite_count = favorite_count + 1, update_time = NOW() WHERE id = #{id}
+    </update>
+
+    <update id="decrementFavoriteCount">
+        UPDATE material_info SET favorite_count = IF(favorite_count &gt; 0, favorite_count - 1, 0), update_time = NOW() WHERE id = #{id}
+    </update>
+
+    <select id="countAll" resultType="long">
+        SELECT COUNT(*) FROM material_info WHERE status = 1
+    </select>
+
+    <select id="countByAuditStatus" resultType="long">
+        SELECT COUNT(*) FROM material_info WHERE status = 1 AND audit_status = #{auditStatus}
+    </select>
+
+</mapper>

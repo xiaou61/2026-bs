@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.teachres.mapper.StudyListMapper">
+
+    <select id="selectByUserAndMaterial" resultType="com.teachres.entity.StudyList">
+        SELECT * FROM study_list WHERE user_id = #{userId} AND material_id = #{materialId} LIMIT 1
+    </select>
+
+    <select id="selectByUserId" resultType="com.teachres.entity.StudyList">
+        SELECT * FROM study_list WHERE user_id = #{userId} ORDER BY update_time DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO study_list (user_id, material_id, progress, note, status, create_time, update_time)
+        VALUES (#{userId}, #{materialId}, #{progress}, #{note}, #{status}, NOW(), NOW())
+    </insert>
+
+    <update id="update">
+        UPDATE study_list
+        <set>
+            <if test="progress != null">progress = #{progress},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="status != null">status = #{status},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM study_list WHERE id = #{id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.teachres.mapper.MaterialAuditMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO material_audit (material_id, audit_status, audit_remark, auditor_id, audit_time)
+        VALUES (#{materialId}, #{auditStatus}, #{auditRemark}, #{auditorId}, NOW())
+    </insert>
+
+    <select id="selectList" resultType="com.teachres.entity.MaterialAudit">
+        SELECT * FROM material_audit
+        <where>
+            <if test="materialId != null">
+                AND material_id = #{materialId}
+            </if>
+        </where>
+        ORDER BY audit_time DESC
+    </select>
+
+</mapper>
