@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.course.mapper.ScoreRecordMapper">
+
+    <select id="selectList" resultType="ScoreRecord">
+        select s.*,
+               c.course_name,
+               u.real_name as student_name
+        from score_record s
+                 left join course_info c on s.course_id = c.id
+                 left join sys_user u on s.student_id = u.id
+        <where>
+            <if test="scheduleId != null">
+                and s.schedule_id = #{scheduleId}
+            </if>
+            <if test="studentId != null">
+                and s.student_id = #{studentId}
+            </if>
+            <if test="teacherId != null">
+                and s.teacher_id = #{teacherId}
+            </if>
+        </where>
+        order by s.id desc
+    </select>
+
+    <select id="selectBySelectionId" resultType="ScoreRecord">
+        select * from score_record where selection_id = #{selectionId} limit 1
+    </select>
+
+    <insert id="insert" parameterType="ScoreRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into score_record (selection_id, schedule_id, course_id, student_id, teacher_id, usual_score, exam_score, total_score, grade_level, remark)
+        values (#{selectionId}, #{scheduleId}, #{courseId}, #{studentId}, #{teacherId}, #{usualScore}, #{examScore}, #{totalScore}, #{gradeLevel}, #{remark})
+    </insert>
+
+    <update id="update" parameterType="ScoreRecord">
+        update score_record
+        <set>
+            <if test="usualScore != null">usual_score = #{usualScore},</if>
+            <if test="examScore != null">exam_score = #{examScore},</if>
+            <if test="totalScore != null">total_score = #{totalScore},</if>
+            <if test="gradeLevel != null">grade_level = #{gradeLevel},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </set>
+        where selection_id = #{selectionId}
+    </update>
+
+</mapper>

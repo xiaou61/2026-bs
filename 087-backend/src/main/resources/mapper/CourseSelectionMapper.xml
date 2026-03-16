@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.course.mapper.CourseSelectionMapper">
+
+    <select id="selectList" resultType="CourseSelection">
+        select cs.*,
+               c.course_name,
+               u.real_name as student_name,
+               concat(s.week_day, ' ', s.start_section, '-', s.end_section, '节') as schedule_info
+        from course_selection cs
+                 left join course_info c on cs.course_id = c.id
+                 left join sys_user u on cs.student_id = u.id
+                 left join course_schedule s on cs.schedule_id = s.id
+        <where>
+            <if test="scheduleId != null">
+                and cs.schedule_id = #{scheduleId}
+            </if>
+            <if test="studentId != null">
+                and cs.student_id = #{studentId}
+            </if>
+            <if test="selectStatus != null">
+                and cs.select_status = #{selectStatus}
+            </if>
+            <if test="teacherId != null">
+                and s.teacher_id = #{teacherId}
+            </if>
+        </where>
+        order by cs.id desc
+    </select>
+
+    <select id="selectById" resultType="CourseSelection">
+        select * from course_selection where id = #{id}
+    </select>
+
+    <select id="selectByScheduleAndStudent" resultType="CourseSelection">
+        select * from course_selection where schedule_id = #{scheduleId} and student_id = #{studentId} limit 1
+    </select>
+
+    <select id="countAll" resultType="long">
+        select count(*) from course_selection
+    </select>
+
+    <insert id="insert" parameterType="CourseSelection" useGeneratedKeys="true" keyProperty="id">
+        insert into course_selection (schedule_id, course_id, student_id, select_status)
+        values (#{scheduleId}, #{courseId}, #{studentId}, #{selectStatus})
+    </insert>
+
+    <update id="update" parameterType="CourseSelection">
+        update course_selection
+        <set>
+            <if test="selectStatus != null">select_status = #{selectStatus},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from course_selection where id = #{id}
+    </delete>
+
+</mapper>

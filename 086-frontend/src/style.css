@@ -1,0 +1,60 @@
+:root {
+  --bg-main: #07111f;
+  --bg-soft: #0f1d33;
+  --card-bg: rgba(14, 25, 43, 0.78);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --text-main: #f8fafc;
+  --text-sub: #9fb0c7;
+  --accent: #7dd3fc;
+  --accent-strong: #f59e0b;
+  --success: #34d399;
+  --danger: #fb7185;
+  --shadow-main: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 360px;
+  color: var(--text-main);
+  background:
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.22), transparent 34%),
+    radial-gradient(circle at top right, rgba(245, 158, 11, 0.18), transparent 28%),
+    linear-gradient(180deg, #07111f 0%, #0b1424 45%, #08101c 100%);
+  font-family: "Trebuchet MS", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+.page-shell {
+  width: min(1200px, calc(100vw - 48px));
+  margin: 0 auto;
+}
+
+.glass-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow-main);
+  backdrop-filter: blur(18px);
+}
+
+.display-title {
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 900px) {
+  .page-shell {
+    width: calc(100vw - 24px);
+  }
+}

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.course.mapper.CourseResourceMapper">
+
+    <select id="selectList" resultType="CourseResource">
+        select r.*,
+               c.course_name,
+               u.real_name as teacher_name
+        from course_resource r
+                 left join course_info c on r.course_id = c.id
+                 left join sys_user u on r.teacher_id = u.id
+        <where>
+            <if test="scheduleId != null">
+                and r.schedule_id = #{scheduleId}
+            </if>
+            <if test="teacherId != null">
+                and r.teacher_id = #{teacherId}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                and r.title like concat('%', #{keyword}, '%')
+            </if>
+        </where>
+        order by r.id desc
+    </select>
+
+    <select id="selectStudentList" resultType="CourseResource">
+        select r.*,
+               c.course_name,
+               u.real_name as teacher_name
+        from course_resource r
+                 inner join course_selection cs on r.schedule_id = cs.schedule_id
+                 left join course_info c on r.course_id = c.id
+                 left join sys_user u on r.teacher_id = u.id
+        where cs.student_id = #{studentId}
+        <if test="keyword != null and keyword != ''">
+            and r.title like concat('%', #{keyword}, '%')
+        </if>
+        order by r.id desc
+    </select>
+
+    <select id="selectById" resultType="CourseResource">
+        select * from course_resource where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="CourseResource" useGeneratedKeys="true" keyProperty="id">
+        insert into course_resource (schedule_id, course_id, teacher_id, title, resource_type, resource_url, content_desc, status)
+        values (#{scheduleId}, #{courseId}, #{teacherId}, #{title}, #{resourceType}, #{resourceUrl}, #{contentDesc}, #{status})
+    </insert>
+
+    <update id="update" parameterType="CourseResource">
+        update course_resource
+        <set>
+            <if test="scheduleId != null">schedule_id = #{scheduleId},</if>
+            <if test="courseId != null">course_id = #{courseId},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="resourceType != null">resource_type = #{resourceType},</if>
+            <if test="resourceUrl != null">resource_url = #{resourceUrl},</if>
+            <if test="contentDesc != null">content_desc = #{contentDesc},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from course_resource where id = #{id}
+    </delete>
+
+</mapper>

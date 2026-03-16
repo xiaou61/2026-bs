@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.teachres.mapper.EvalRecordMapper">
+
+    <select id="selectById" resultType="com.teachres.entity.EvalRecord">
+        SELECT * FROM eval_record WHERE id = #{id}
+    </select>
+
+    <select id="selectByTaskAndStudent" resultType="com.teachres.entity.EvalRecord">
+        SELECT * FROM eval_record WHERE task_id = #{taskId} AND student_id = #{studentId}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO eval_record (task_id, course_id, student_id, total_score, comment_content, submit_time, create_time, update_time)
+        VALUES (#{taskId}, #{courseId}, #{studentId}, #{totalScore}, #{commentContent}, #{submitTime}, NOW(), NOW())
+    </insert>
+
+    <select id="selectMyList" resultType="map">
+        SELECT
+            er.id,
+            er.task_id AS taskId,
+            et.task_name AS taskName,
+            er.course_id AS courseId,
+            mc.course_name AS courseName,
+            er.total_score AS totalScore,
+            er.comment_content AS commentContent,
+            er.submit_time AS submitTime
+        FROM eval_record er
+                 LEFT JOIN eval_task et ON et.id = er.task_id
+                 LEFT JOIN math_course mc ON mc.id = er.course_id
+        <where>
+            er.student_id = #{studentId}
+            <if test="taskId != null">
+                AND er.task_id = #{taskId}
+            </if>
+            <if test="courseId != null">
+                AND er.course_id = #{courseId}
+            </if>
+        </where>
+        ORDER BY er.submit_time DESC
+    </select>
+
+    <select id="selectTaskRecordList" resultType="map">
+        SELECT
+            er.id,
+            er.task_id AS taskId,
+            er.course_id AS courseId,
+            mc.course_name AS courseName,
+            er.student_id AS studentId,
+            su.real_name AS studentName,
+            er.total_score AS totalScore,
+            er.comment_content AS commentContent,
+            er.submit_time AS submitTime
+        FROM eval_record er
+                 LEFT JOIN sys_user su ON su.id = er.student_id
+                 LEFT JOIN math_course mc ON mc.id = er.course_id
+        WHERE er.task_id = #{taskId}
+        ORDER BY er.submit_time DESC
+    </select>
+
+    <select id="countAll" resultType="long">
+        SELECT COUNT(*) FROM eval_record
+    </select>
+
+    <select id="avgScoreAll" resultType="java.math.BigDecimal">
+        SELECT IFNULL(AVG(total_score), 0) FROM eval_record
+    </select>
+
+    <select id="selectMonthTrend" resultType="map">
+        SELECT DATE_FORMAT(submit_time, '%Y-%m') AS month, COUNT(*) AS value
+        FROM eval_record
+        GROUP BY DATE_FORMAT(submit_time, '%Y-%m')
+        ORDER BY month ASC
+    </select>
+
+    <select id="selectCourseTop5" resultType="map">
+        SELECT mc.course_name AS name, ROUND(AVG(er.total_score), 2) AS value
+        FROM eval_record er
+                 LEFT JOIN math_course mc ON mc.id = er.course_id
+        GROUP BY er.course_id
+        ORDER BY value DESC
+        LIMIT 5
+    </select>
+
+</mapper>

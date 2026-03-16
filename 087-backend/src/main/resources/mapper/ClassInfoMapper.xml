@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.course.mapper.ClassInfoMapper">
+
+    <select id="selectList" resultType="ClassInfo">
+        select * from class_info
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%', #{name}, '%')
+            </if>
+            <if test="majorId != null">
+                and major_id = #{majorId}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectEnabled" resultType="ClassInfo">
+        select * from class_info where status = 1 order by id desc
+    </select>
+
+    <select id="selectById" resultType="ClassInfo">
+        select * from class_info where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="ClassInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into class_info (major_id, name, counselor_name, student_count, status)
+        values (#{majorId}, #{name}, #{counselorName}, #{studentCount}, #{status})
+    </insert>
+
+    <update id="update" parameterType="ClassInfo">
+        update class_info
+        <set>
+            <if test="majorId != null">major_id = #{majorId},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="counselorName != null">counselor_name = #{counselorName},</if>
+            <if test="studentCount != null">student_count = #{studentCount},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from class_info where id = #{id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.teachres.mapper.EvalIndicatorMapper">
+
+    <select id="selectById" resultType="com.teachres.entity.EvalIndicator">
+        SELECT * FROM eval_indicator WHERE id = #{id}
+    </select>
+
+    <select id="selectList" resultType="com.teachres.entity.EvalIndicator">
+        SELECT * FROM eval_indicator
+        <where>
+            <if test="indicatorName != null and indicatorName != ''">
+                AND indicator_name LIKE CONCAT('%', #{indicatorName}, '%')
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+        ORDER BY sort ASC, id DESC
+    </select>
+
+    <select id="selectEnabledList" resultType="com.teachres.entity.EvalIndicator">
+        SELECT * FROM eval_indicator WHERE status = 1 ORDER BY sort ASC, id DESC
+    </select>
+
+    <select id="sumEnabledWeight" resultType="java.math.BigDecimal">
+        SELECT IFNULL(SUM(weight), 0) FROM eval_indicator WHERE status = 1
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO eval_indicator (indicator_name, weight, sort, status, description, create_time, update_time)
+        VALUES (#{indicatorName}, #{weight}, #{sort}, #{status}, #{description}, NOW(), NOW())
+    </insert>
+
+    <update id="update">
+        UPDATE eval_indicator
+        <set>
+            <if test="indicatorName != null and indicatorName != ''">indicator_name = #{indicatorName},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="description != null">description = #{description},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM eval_indicator WHERE id = #{id}
+    </delete>
+
+</mapper>

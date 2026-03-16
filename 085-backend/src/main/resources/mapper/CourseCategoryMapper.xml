@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.teachres.mapper.CourseCategoryMapper">
+
+    <select id="selectById" resultType="com.teachres.entity.CourseCategory">
+        SELECT * FROM course_category WHERE id = #{id}
+    </select>
+
+    <select id="selectList" resultType="com.teachres.entity.CourseCategory">
+        SELECT * FROM course_category
+        <where>
+            <if test="name != null and name != ''">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+        ORDER BY sort ASC, id DESC
+    </select>
+
+    <select id="selectEnabledList" resultType="com.teachres.entity.CourseCategory">
+        SELECT * FROM course_category WHERE status = 1 ORDER BY sort ASC, id DESC
+    </select>
+
+    <select id="countByCode" resultType="int">
+        SELECT COUNT(*) FROM course_category WHERE code = #{code}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO course_category (parent_id, name, code, sort, status, create_time, update_time)
+        VALUES (#{parentId}, #{name}, #{code}, #{sort}, #{status}, NOW(), NOW())
+    </insert>
+
+    <update id="update">
+        UPDATE course_category
+        <set>
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="code != null and code != ''">code = #{code},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="status != null">status = #{status},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM course_category WHERE id = #{id}
+    </delete>
+
+</mapper>

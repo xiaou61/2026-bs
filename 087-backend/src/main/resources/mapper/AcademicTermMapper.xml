@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.course.mapper.AcademicTermMapper">
+
+    <select id="selectList" resultType="AcademicTerm">
+        select * from academic_term
+        <where>
+            <if test="termName != null and termName != ''">
+                and term_name like concat('%', #{termName}, '%')
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="currentFlag != null">
+                and current_flag = #{currentFlag}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectEnabled" resultType="AcademicTerm">
+        select * from academic_term where status = 1 order by current_flag desc, id desc
+    </select>
+
+    <select id="selectById" resultType="AcademicTerm">
+        select * from academic_term where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="AcademicTerm" useGeneratedKeys="true" keyProperty="id">
+        insert into academic_term (term_name, start_date, end_date, current_flag, status)
+        values (#{termName}, #{startDate}, #{endDate}, #{currentFlag}, #{status})
+    </insert>
+
+    <update id="update" parameterType="AcademicTerm">
+        update academic_term
+        <set>
+            <if test="termName != null">term_name = #{termName},</if>
+            <if test="startDate != null">start_date = #{startDate},</if>
+            <if test="endDate != null">end_date = #{endDate},</if>
+            <if test="currentFlag != null">current_flag = #{currentFlag},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from academic_term where id = #{id}
+    </delete>
+
+</mapper>

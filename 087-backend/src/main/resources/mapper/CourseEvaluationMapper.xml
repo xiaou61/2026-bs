@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.course.mapper.CourseEvaluationMapper">
+
+    <select id="selectList" resultType="CourseEvaluation">
+        select e.*,
+               c.course_name,
+               u.real_name as student_name
+        from course_evaluation e
+                 left join course_info c on e.course_id = c.id
+                 left join sys_user u on e.student_id = u.id
+        <where>
+            <if test="scheduleId != null">
+                and e.schedule_id = #{scheduleId}
+            </if>
+            <if test="studentId != null">
+                and e.student_id = #{studentId}
+            </if>
+            <if test="teacherId != null">
+                and e.teacher_id = #{teacherId}
+            </if>
+        </where>
+        order by e.id desc
+    </select>
+
+    <select id="selectByScheduleAndStudent" resultType="CourseEvaluation">
+        select * from course_evaluation where schedule_id = #{scheduleId} and student_id = #{studentId} limit 1
+    </select>
+
+    <select id="selectTeacherResult" resultType="CourseEvaluation">
+        select e.*,
+               c.course_name,
+               u.real_name as student_name
+        from course_evaluation e
+                 left join course_info c on e.course_id = c.id
+                 left join sys_user u on e.student_id = u.id
+        where e.teacher_id = #{teacherId}
+        order by e.id desc
+    </select>
+
+    <insert id="insert" parameterType="CourseEvaluation" useGeneratedKeys="true" keyProperty="id">
+        insert into course_evaluation (schedule_id, course_id, student_id, teacher_id, evaluation_score, evaluation_content)
+        values (#{scheduleId}, #{courseId}, #{studentId}, #{teacherId}, #{evaluationScore}, #{evaluationContent})
+    </insert>
+
+</mapper>

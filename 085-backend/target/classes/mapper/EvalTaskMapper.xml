@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.teachres.mapper.EvalTaskMapper">
+
+    <select id="selectById" resultType="com.teachres.entity.EvalTask">
+        SELECT * FROM eval_task WHERE id = #{id}
+    </select>
+
+    <select id="selectList" resultType="com.teachres.entity.EvalTask">
+        SELECT * FROM eval_task
+        <where>
+            <if test="taskName != null and taskName != ''">
+                AND task_name LIKE CONCAT('%', #{taskName}, '%')
+            </if>
+            <if test="courseId != null">
+                AND course_id = #{courseId}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+            <if test="term != null and term != ''">
+                AND term = #{term}
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="selectActiveList" resultType="com.teachres.entity.EvalTask">
+        SELECT * FROM eval_task
+        WHERE status = 1
+          AND (start_time IS NULL OR start_time &lt;= NOW())
+          AND (end_time IS NULL OR end_time &gt;= NOW())
+        ORDER BY create_time DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO eval_task (task_name, course_id, term, start_time, end_time, status, creator_id, create_time, update_time)
+        VALUES (#{taskName}, #{courseId}, #{term}, #{startTime}, #{endTime}, #{status}, #{creatorId}, NOW(), NOW())
+    </insert>
+
+    <update id="update">
+        UPDATE eval_task
+        <set>
+            <if test="taskName != null and taskName != ''">task_name = #{taskName},</if>
+            <if test="courseId != null">course_id = #{courseId},</if>
+            <if test="term != null">term = #{term},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="status != null">status = #{status},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM eval_task WHERE id = #{id}
+    </delete>
+
+    <select id="countAll" resultType="long">
+        SELECT COUNT(*) FROM eval_task
+    </select>
+
+</mapper>
