@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.opera.mapper.SystemNoticeMapper">
+
+    <select id="selectList" resultType="SystemNotice">
+        select * from system_notice
+        <where>
+            <if test="title != null and title != ''">
+                and title like concat('%', #{title}, '%')
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectPublicList" resultType="SystemNotice">
+        select * from system_notice where status = 1 order by publish_time desc, id desc
+    </select>
+
+    <select id="countAll" resultType="long">
+        select count(*) from system_notice
+    </select>
+
+    <insert id="insert" parameterType="SystemNotice" useGeneratedKeys="true" keyProperty="id">
+        insert into system_notice (title, content, type, status, publisher_id, publish_time, view_count)
+        values (#{title}, #{content}, #{type}, #{status}, #{publisherId}, #{publishTime}, #{viewCount})
+    </insert>
+
+    <update id="update" parameterType="SystemNotice">
+        update system_notice
+        <set>
+            <if test="title != null">title = #{title},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="publishTime != null">publish_time = #{publishTime},</if>
+            <if test="viewCount != null">view_count = #{viewCount},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from system_notice where id = #{id}
+    </delete>
+
+</mapper>
+

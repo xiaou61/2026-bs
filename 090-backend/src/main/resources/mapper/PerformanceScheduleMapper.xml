@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.opera.mapper.PerformanceScheduleMapper">
+
+    <select id="selectList" resultType="PerformanceSchedule">
+        select s.*,
+               c.course_name,
+               u.real_name as artist_name,
+               t.term_name,
+               cl.name as class_name
+        from performance_schedule s
+                 left join repertoire_info c on s.course_id = c.id
+                 left join sys_user u on s.artist_id = u.id
+                 left join cultural_season t on s.term_id = t.id
+                 left join venue_info cl on s.class_id = cl.id
+        <where>
+            <if test="courseName != null and courseName != ''">
+                and c.course_name like concat('%', #{courseName}, '%')
+            </if>
+            <if test="artistId != null">
+                and s.artist_id = #{artistId}
+            </if>
+            <if test="termId != null">
+                and s.term_id = #{termId}
+            </if>
+            <if test="classId != null">
+                and s.class_id = #{classId}
+            </if>
+            <if test="status != null">
+                and s.status = #{status}
+            </if>
+        </where>
+        order by s.id desc
+    </select>
+
+    <select id="selectTeacherList" resultType="PerformanceSchedule">
+        select s.*,
+               c.course_name,
+               u.real_name as artist_name,
+               t.term_name,
+               cl.name as class_name
+        from performance_schedule s
+                 left join repertoire_info c on s.course_id = c.id
+                 left join sys_user u on s.artist_id = u.id
+                 left join cultural_season t on s.term_id = t.id
+                 left join venue_info cl on s.class_id = cl.id
+        where s.artist_id = #{artistId}
+        order by s.id desc
+    </select>
+
+    <select id="selectStudentList" resultType="PerformanceSchedule">
+        select s.*,
+               c.course_name,
+               u.real_name as artist_name,
+               t.term_name,
+               cl.name as class_name
+        from booking_record cs
+                 inner join performance_schedule s on cs.schedule_id = s.id
+                 left join repertoire_info c on s.course_id = c.id
+                 left join sys_user u on s.artist_id = u.id
+                 left join cultural_season t on s.term_id = t.id
+                 left join venue_info cl on s.class_id = cl.id
+        where cs.member_id = #{memberId}
+        order by s.id desc
+    </select>
+
+    <select id="selectById" resultType="PerformanceSchedule">
+        select s.*,
+               c.course_name,
+               u.real_name as artist_name,
+               t.term_name,
+               cl.name as class_name
+        from performance_schedule s
+                 left join repertoire_info c on s.course_id = c.id
+                 left join sys_user u on s.artist_id = u.id
+                 left join cultural_season t on s.term_id = t.id
+                 left join venue_info cl on s.class_id = cl.id
+        where s.id = #{id}
+    </select>
+
+    <select id="countAll" resultType="long">
+        select count(*) from performance_schedule
+    </select>
+
+    <insert id="insert" parameterType="PerformanceSchedule" useGeneratedKeys="true" keyProperty="id">
+        insert into performance_schedule (course_id, term_id, artist_id, class_id, classroom, week_day, start_section, end_section, max_member_count, selected_count, status)
+        values (#{courseId}, #{termId}, #{artistId}, #{classId}, #{classroom}, #{weekDay}, #{startSection}, #{endSection}, #{maxStudentCount}, #{selectedCount}, #{status})
+    </insert>
+
+    <update id="update" parameterType="PerformanceSchedule">
+        update performance_schedule
+        <set>
+            <if test="courseId != null">course_id = #{courseId},</if>
+            <if test="termId != null">term_id = #{termId},</if>
+            <if test="artistId != null">artist_id = #{artistId},</if>
+            <if test="classId != null">class_id = #{classId},</if>
+            <if test="classroom != null">classroom = #{classroom},</if>
+            <if test="weekDay != null">week_day = #{weekDay},</if>
+            <if test="startSection != null">start_section = #{startSection},</if>
+            <if test="endSection != null">end_section = #{endSection},</if>
+            <if test="maxStudentCount != null">max_member_count = #{maxStudentCount},</if>
+            <if test="selectedCount != null">selected_count = #{selectedCount},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from performance_schedule where id = #{id}
+    </delete>
+
+    <update id="increaseSelectedCount">
+        update performance_schedule set selected_count = selected_count + 1 where id = #{id}
+    </update>
+
+</mapper>
+

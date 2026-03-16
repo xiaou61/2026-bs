@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.opera.mapper.RepertoireInfoMapper">
+
+    <select id="selectList" resultType="RepertoireInfo">
+        select c.*,
+               d.name as department_name,
+               u.real_name as artist_name
+        from repertoire_info c
+                 left join opera_category d on c.department_id = d.id
+                 left join sys_user u on c.artist_id = u.id
+        <where>
+            <if test="courseName != null and courseName != ''">
+                and c.course_name like concat('%', #{courseName}, '%')
+            </if>
+            <if test="artistId != null">
+                and c.artist_id = #{artistId}
+            </if>
+            <if test="status != null">
+                and c.status = #{status}
+            </if>
+        </where>
+        order by c.id desc
+    </select>
+
+    <select id="selectById" resultType="RepertoireInfo">
+        select c.*,
+               d.name as department_name,
+               u.real_name as artist_name
+        from repertoire_info c
+                 left join opera_category d on c.department_id = d.id
+                 left join sys_user u on c.artist_id = u.id
+        where c.id = #{id}
+    </select>
+
+    <select id="selectEnabled" resultType="RepertoireInfo">
+        select c.*,
+               d.name as department_name,
+               u.real_name as artist_name
+        from repertoire_info c
+                 left join opera_category d on c.department_id = d.id
+                 left join sys_user u on c.artist_id = u.id
+        where c.status = 1
+        order by c.id desc
+    </select>
+
+    <select id="countAll" resultType="long">
+        select count(*) from repertoire_info
+    </select>
+
+    <insert id="insert" parameterType="RepertoireInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into repertoire_info (course_name, course_code, department_id, artist_id, credit, course_type, course_hours, course_desc, status)
+        values (#{courseName}, #{courseCode}, #{departmentId}, #{artistId}, #{credit}, #{courseType}, #{courseHours}, #{courseDesc}, #{status})
+    </insert>
+
+    <update id="update" parameterType="RepertoireInfo">
+        update repertoire_info
+        <set>
+            <if test="courseName != null">course_name = #{courseName},</if>
+            <if test="courseCode != null">course_code = #{courseCode},</if>
+            <if test="departmentId != null">department_id = #{departmentId},</if>
+            <if test="artistId != null">artist_id = #{artistId},</if>
+            <if test="credit != null">credit = #{credit},</if>
+            <if test="courseType != null">course_type = #{courseType},</if>
+            <if test="courseHours != null">course_hours = #{courseHours},</if>
+            <if test="courseDesc != null">course_desc = #{courseDesc},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from repertoire_info where id = #{id}
+    </delete>
+
+</mapper>
+

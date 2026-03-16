@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.opera.mapper.CheckinRecordMapper">
+
+    <select id="selectList" resultType="CheckinRecord">
+        select a.*,
+               c.course_name,
+               u.real_name as member_name
+        from checkin_record a
+                 left join repertoire_info c on a.course_id = c.id
+                 left join sys_user u on a.member_id = u.id
+        <where>
+            <if test="scheduleId != null">
+                and a.schedule_id = #{scheduleId}
+            </if>
+            <if test="memberId != null">
+                and a.member_id = #{memberId}
+            </if>
+            <if test="artistId != null">
+                and a.artist_id = #{artistId}
+            </if>
+        </where>
+        order by a.id desc
+    </select>
+
+    <select id="selectById" resultType="CheckinRecord">
+        select * from checkin_record where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="CheckinRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into checkin_record (schedule_id, course_id, member_id, artist_id, attendance_date, attendance_status, remark)
+        values (#{scheduleId}, #{courseId}, #{memberId}, #{artistId}, #{attendanceDate}, #{attendanceStatus}, #{remark})
+    </insert>
+
+    <update id="update" parameterType="CheckinRecord">
+        update checkin_record
+        <set>
+            <if test="attendanceDate != null">attendance_date = #{attendanceDate},</if>
+            <if test="attendanceStatus != null">attendance_status = #{attendanceStatus},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from checkin_record where id = #{id}
+    </delete>
+
+</mapper>
+

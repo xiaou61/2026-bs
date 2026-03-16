@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.opera.mapper.AppreciationCommentMapper">
+
+    <select id="selectList" resultType="AppreciationComment">
+        select e.*,
+               c.course_name,
+               u.real_name as member_name
+        from appreciation_comment e
+                 left join repertoire_info c on e.course_id = c.id
+                 left join sys_user u on e.member_id = u.id
+        <where>
+            <if test="scheduleId != null">
+                and e.schedule_id = #{scheduleId}
+            </if>
+            <if test="memberId != null">
+                and e.member_id = #{memberId}
+            </if>
+            <if test="artistId != null">
+                and e.artist_id = #{artistId}
+            </if>
+        </where>
+        order by e.id desc
+    </select>
+
+    <select id="selectByScheduleAndStudent" resultType="AppreciationComment">
+        select * from appreciation_comment where schedule_id = #{scheduleId} and member_id = #{memberId} limit 1
+    </select>
+
+    <select id="selectTeacherResult" resultType="AppreciationComment">
+        select e.*,
+               c.course_name,
+               u.real_name as member_name
+        from appreciation_comment e
+                 left join repertoire_info c on e.course_id = c.id
+                 left join sys_user u on e.member_id = u.id
+        where e.artist_id = #{artistId}
+        order by e.id desc
+    </select>
+
+    <insert id="insert" parameterType="AppreciationComment" useGeneratedKeys="true" keyProperty="id">
+        insert into appreciation_comment (schedule_id, course_id, member_id, artist_id, evaluation_score, evaluation_content)
+        values (#{scheduleId}, #{courseId}, #{memberId}, #{artistId}, #{evaluationScore}, #{evaluationContent})
+    </insert>
+
+</mapper>
+

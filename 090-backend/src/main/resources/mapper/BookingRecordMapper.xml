@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.opera.mapper.BookingRecordMapper">
+
+    <select id="selectList" resultType="BookingRecord">
+        select cs.*,
+               c.course_name,
+               u.real_name as member_name,
+               concat(s.week_day, ' ', s.start_section, '-', s.end_section, '节') as schedule_info
+        from booking_record cs
+                 left join repertoire_info c on cs.course_id = c.id
+                 left join sys_user u on cs.member_id = u.id
+                 left join performance_schedule s on cs.schedule_id = s.id
+        <where>
+            <if test="scheduleId != null">
+                and cs.schedule_id = #{scheduleId}
+            </if>
+            <if test="memberId != null">
+                and cs.member_id = #{memberId}
+            </if>
+            <if test="selectStatus != null">
+                and cs.select_status = #{selectStatus}
+            </if>
+            <if test="artistId != null">
+                and s.artist_id = #{artistId}
+            </if>
+        </where>
+        order by cs.id desc
+    </select>
+
+    <select id="selectById" resultType="BookingRecord">
+        select * from booking_record where id = #{id}
+    </select>
+
+    <select id="selectByScheduleAndStudent" resultType="BookingRecord">
+        select * from booking_record where schedule_id = #{scheduleId} and member_id = #{memberId} limit 1
+    </select>
+
+    <select id="countAll" resultType="long">
+        select count(*) from booking_record
+    </select>
+
+    <insert id="insert" parameterType="BookingRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into booking_record (schedule_id, course_id, member_id, select_status)
+        values (#{scheduleId}, #{courseId}, #{memberId}, #{selectStatus})
+    </insert>
+
+    <update id="update" parameterType="BookingRecord">
+        update booking_record
+        <set>
+            <if test="selectStatus != null">select_status = #{selectStatus},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from booking_record where id = #{id}
+    </delete>
+
+</mapper>
+

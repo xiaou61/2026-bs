@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.opera.mapper.MediaResourceMapper">
+
+    <select id="selectList" resultType="MediaResource">
+        select r.*,
+               c.course_name,
+               u.real_name as artist_name
+        from media_resource r
+                 left join repertoire_info c on r.course_id = c.id
+                 left join sys_user u on r.artist_id = u.id
+        <where>
+            <if test="scheduleId != null">
+                and r.schedule_id = #{scheduleId}
+            </if>
+            <if test="artistId != null">
+                and r.artist_id = #{artistId}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                and r.title like concat('%', #{keyword}, '%')
+            </if>
+        </where>
+        order by r.id desc
+    </select>
+
+    <select id="selectStudentList" resultType="MediaResource">
+        select r.*,
+               c.course_name,
+               u.real_name as artist_name
+        from media_resource r
+                 inner join booking_record cs on r.schedule_id = cs.schedule_id
+                 left join repertoire_info c on r.course_id = c.id
+                 left join sys_user u on r.artist_id = u.id
+        where cs.member_id = #{memberId}
+        <if test="keyword != null and keyword != ''">
+            and r.title like concat('%', #{keyword}, '%')
+        </if>
+        order by r.id desc
+    </select>
+
+    <select id="selectById" resultType="MediaResource">
+        select * from media_resource where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="MediaResource" useGeneratedKeys="true" keyProperty="id">
+        insert into media_resource (schedule_id, course_id, artist_id, title, resource_type, resource_url, content_desc, status)
+        values (#{scheduleId}, #{courseId}, #{artistId}, #{title}, #{resourceType}, #{resourceUrl}, #{contentDesc}, #{status})
+    </insert>
+
+    <update id="update" parameterType="MediaResource">
+        update media_resource
+        <set>
+            <if test="scheduleId != null">schedule_id = #{scheduleId},</if>
+            <if test="courseId != null">course_id = #{courseId},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="resourceType != null">resource_type = #{resourceType},</if>
+            <if test="resourceUrl != null">resource_url = #{resourceUrl},</if>
+            <if test="contentDesc != null">content_desc = #{contentDesc},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from media_resource where id = #{id}
+    </delete>
+
+</mapper>
+

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.opera.mapper.OperaCategoryMapper">
+
+    <select id="selectList" resultType="OperaCategory">
+        select * from opera_category
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%', #{name}, '%')
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectEnabled" resultType="OperaCategory">
+        select * from opera_category where status = 1 order by id desc
+    </select>
+
+    <select id="selectById" resultType="OperaCategory">
+        select * from opera_category where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="OperaCategory" useGeneratedKeys="true" keyProperty="id">
+        insert into opera_category (name, code, dean_name, status)
+        values (#{name}, #{code}, #{deanName}, #{status})
+    </insert>
+
+    <update id="update" parameterType="OperaCategory">
+        update opera_category
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="code != null">code = #{code},</if>
+            <if test="deanName != null">dean_name = #{deanName},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from opera_category where id = #{id}
+    </delete>
+
+</mapper>
+
