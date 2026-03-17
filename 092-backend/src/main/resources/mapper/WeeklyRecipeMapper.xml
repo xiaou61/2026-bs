@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kindergarten.mapper.WeeklyRecipeMapper">
+
+    <select id="selectList" resultType="WeeklyRecipe">
+        select r.*,
+               c.course_name,
+               u.real_name as teacher_name
+        from weekly_recipe r
+                 left join activity_info c on r.course_id = c.id
+                 left join sys_user u on r.teacher_id = u.id
+        <where>
+            <if test="scheduleId != null">
+                and r.schedule_id = #{scheduleId}
+            </if>
+            <if test="teacherId != null">
+                and r.teacher_id = #{teacherId}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                and r.title like concat('%', #{keyword}, '%')
+            </if>
+        </where>
+        order by r.id desc
+    </select>
+
+    <select id="selectStudentList" resultType="WeeklyRecipe">
+        select r.*,
+               c.course_name,
+               u.real_name as teacher_name
+        from weekly_recipe r
+                 inner join child_profile cp on cp.parent_id = #{studentId}
+                 inner join activity_schedule s on s.class_id = cp.class_id and s.id = r.schedule_id
+                 left join activity_info c on r.course_id = c.id
+                 left join sys_user u on r.teacher_id = u.id
+        where 1 = 1
+        <if test="keyword != null and keyword != ''">
+            and r.title like concat('%', #{keyword}, '%')
+        </if>
+        order by r.id desc
+    </select>
+
+    <select id="selectById" resultType="WeeklyRecipe">
+        select * from weekly_recipe where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="WeeklyRecipe" useGeneratedKeys="true" keyProperty="id">
+        insert into weekly_recipe (schedule_id, course_id, teacher_id, title, resource_type, resource_url, content_desc, status)
+        values (#{scheduleId}, #{courseId}, #{teacherId}, #{title}, #{resourceType}, #{resourceUrl}, #{contentDesc}, #{status})
+    </insert>
+
+    <update id="update" parameterType="WeeklyRecipe">
+        update weekly_recipe
+        <set>
+            <if test="scheduleId != null">schedule_id = #{scheduleId},</if>
+            <if test="courseId != null">course_id = #{courseId},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="resourceType != null">resource_type = #{resourceType},</if>
+            <if test="resourceUrl != null">resource_url = #{resourceUrl},</if>
+            <if test="contentDesc != null">content_desc = #{contentDesc},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from weekly_recipe where id = #{id}
+    </delete>
+
+</mapper>

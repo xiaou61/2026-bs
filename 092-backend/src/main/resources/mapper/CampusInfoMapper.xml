@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kindergarten.mapper.CampusInfoMapper">
+
+    <select id="selectList" resultType="CampusInfo">
+        select * from campus_info
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%', #{name}, '%')
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectEnabled" resultType="CampusInfo">
+        select * from campus_info where status = 1 order by id desc
+    </select>
+
+    <select id="selectById" resultType="CampusInfo">
+        select * from campus_info where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="CampusInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into campus_info (name, code, dean_name, status)
+        values (#{name}, #{code}, #{deanName}, #{status})
+    </insert>
+
+    <update id="update" parameterType="CampusInfo">
+        update campus_info
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="code != null">code = #{code},</if>
+            <if test="deanName != null">dean_name = #{deanName},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from campus_info where id = #{id}
+    </delete>
+
+</mapper>

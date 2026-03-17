@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kindergarten.mapper.ParentFeedbackMapper">
+
+    <select id="selectList" resultType="ParentFeedback">
+        select pf.*,
+               cp.child_name,
+               p.real_name as parent_name,
+               t.real_name as teacher_name
+        from parent_feedback pf
+                 left join child_profile cp on pf.child_id = cp.id
+                 left join sys_user p on pf.parent_id = p.id
+                 left join sys_user t on pf.teacher_id = t.id
+        <where>
+            <if test="childId != null">
+                and pf.child_id = #{childId}
+            </if>
+            <if test="parentId != null">
+                and pf.parent_id = #{parentId}
+            </if>
+            <if test="teacherId != null">
+                and pf.teacher_id = #{teacherId}
+            </if>
+        </where>
+        order by pf.id desc
+    </select>
+
+    <select id="selectById" resultType="ParentFeedback">
+        select * from parent_feedback where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="ParentFeedback" useGeneratedKeys="true" keyProperty="id">
+        insert into parent_feedback (child_id, parent_id, teacher_id, feedback_type, feedback_score, feedback_content, reply_content)
+        values (#{childId}, #{parentId}, #{teacherId}, #{feedbackType}, #{feedbackScore}, #{feedbackContent}, #{replyContent})
+    </insert>
+
+    <update id="update" parameterType="ParentFeedback">
+        update parent_feedback
+        <set>
+            <if test="teacherId != null">teacher_id = #{teacherId},</if>
+            <if test="replyContent != null">reply_content = #{replyContent},</if>
+            <if test="feedbackType != null">feedback_type = #{feedbackType},</if>
+            <if test="feedbackScore != null">feedback_score = #{feedbackScore},</if>
+            <if test="feedbackContent != null">feedback_content = #{feedbackContent},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

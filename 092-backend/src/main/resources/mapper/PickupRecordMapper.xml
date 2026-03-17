@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kindergarten.mapper.PickupRecordMapper">
+
+    <insert id="insert" parameterType="PickupRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into pickup_record (child_id, parent_id, pickup_person, pickup_time, pickup_status, remark)
+        values (#{childId}, #{parentId}, #{pickupPerson}, #{pickupTime}, #{pickupStatus}, #{remark})
+    </insert>
+
+</mapper>

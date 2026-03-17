@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kindergarten.mapper.SysUserMapper">
+
+    <select id="selectByUsername" resultType="SysUser">
+        select * from sys_user where username = #{username} limit 1
+    </select>
+
+    <select id="selectById" resultType="SysUser">
+        select * from sys_user where id = #{id}
+    </select>
+
+    <select id="selectEnabledByRole" resultType="SysUser">
+        select id, username, null as password, real_name, phone, role, department_id, major_id, class_id, status, create_time, update_time
+        from sys_user
+        where role = #{role} and status = 1
+        order by id desc
+    </select>
+
+    <select id="countAll" resultType="long">
+        select count(*) from sys_user
+    </select>
+
+    <select id="countByRole" resultType="long">
+        select count(*) from sys_user where role = #{role}
+    </select>
+
+</mapper>
