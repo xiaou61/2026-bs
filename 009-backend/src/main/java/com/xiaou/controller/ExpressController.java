@@ -362,18 +362,6 @@ public class ExpressController {
                     if (recipient != null) {
                         express.setRecipientId(recipient.getId());
                         express.setRecipientName(recipient.getRealName());
-
-                        Notification notification = new Notification();
-                        notification.setUserId(recipient.getId());
-                        notification.setType("ARRIVAL");
-                        notification.setTitle("快递到达通知");
-                        notification.setContent(String.format("您的%s快递(%s)已到达，取件码：%s，请及时取件。",
-                                expressCompany, trackingNumber, express.getPickupCode()));
-                        notification.setExpressId(express.getId());
-                        notification.setIsRead(0);
-                        notification.setSendMethod("SYSTEM");
-                        notification.setSendStatus(1);
-                        notificationService.save(notification);
                     }
 
                     expressService.save(express);
@@ -382,6 +370,20 @@ public class ExpressController {
                     if (station != null) {
                         station.setCurrentStock(station.getCurrentStock() + 1);
                         stationService.updateById(station);
+                    }
+
+                    if (recipient != null) {
+                        Notification notification = new Notification();
+                        notification.setUserId(recipient.getId());
+                        notification.setType("ARRIVAL");
+                        notification.setTitle("快递到达通知");
+                        notification.setContent(String.format("您的%s快递(%s)已到达%s，取件码：%s，请及时取件。",
+                                expressCompany, trackingNumber, station != null ? station.getName() : "", express.getPickupCode()));
+                        notification.setExpressId(express.getId());
+                        notification.setIsRead(0);
+                        notification.setSendMethod("SYSTEM");
+                        notification.setSendStatus(1);
+                        notificationService.save(notification);
                     }
 
                     Map<String, Object> successItem = new HashMap<>();

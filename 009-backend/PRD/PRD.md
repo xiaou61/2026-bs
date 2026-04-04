@@ -902,7 +902,7 @@ Response: {
 ## 十二、测试数据
 
 ### 12.1 初始用户
-- 管理员：admin / admin123 （角色：ADMIN）
+- 管理员：admin / 123456 （角色：ADMIN）
 - 代收点管理员：station1 / 123456 （角色：STATION_ADMIN）
 - 快递员：courier1 / 123456 （角色：COURIER）
 - 学生1：student1 / 123456 （角色：STUDENT）

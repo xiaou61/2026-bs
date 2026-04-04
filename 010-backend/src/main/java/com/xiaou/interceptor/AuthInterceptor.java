@@ -21,8 +21,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         String token = request.getHeader("Authorization");
         if (token == null || token.isEmpty()) {
-            response.setStatus(401);
-            response.getWriter().write("{\"code\":401,\"message\":\"未登录\"}");
+            writeJson(response, 401, "未登录");
             return false;
         }
 
@@ -32,14 +31,23 @@ public class AuthInterceptor implements HandlerInterceptor {
             }
             Long userId = jwtUtil.getUserId(token);
             String role = jwtUtil.getRole(token);
+            if (request.getRequestURI().startsWith("/api/admin/") && !"ADMIN".equals(role)) {
+                writeJson(response, 403, "无权访问管理员接口");
+                return false;
+            }
             request.setAttribute("userId", userId);
             request.setAttribute("role", role);
             return true;
         } catch (Exception e) {
-            response.setStatus(401);
-            response.getWriter().write("{\"code\":401,\"message\":\"token无效\"}");
+            writeJson(response, 401, "token无效");
             return false;
         }
+    }
+
+    private void writeJson(HttpServletResponse response, int status, String message) throws Exception {
+        response.setStatus(status);
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(String.format("{\"code\":%d,\"message\":\"%s\"}", status, message));
     }
 }
 

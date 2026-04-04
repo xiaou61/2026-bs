@@ -412,10 +412,10 @@ update_time     DATETIME        更新时间
 
 ### 5.2 座位接口
 
-#### GET /api/floor/list
+#### GET /api/seat/floor/list
 获取楼层列表
 
-#### GET /api/area/list
+#### GET /api/seat/area/list
 获取区域列表（可按楼层筛选）
 
 #### GET /api/seat/list
@@ -461,7 +461,7 @@ update_time     DATETIME        更新时间
 
 ### 5.4 统计接口
 
-#### GET /api/stats/overview
+#### GET /api/admin/stats/overview
 数据概览（座位总数、今日预约数、使用中、签到率等）
 
 #### GET /api/stats/heat-map
@@ -836,10 +836,10 @@ update_time     DATETIME        更新时间
 - 打包成jar文件，一键启动
 
 ### 13.2 访问地址
-- 学生端：http://localhost:8080/
-- 管理员端：http://localhost:8080/admin/
+- 学生端：http://localhost:8010/
+- 管理员端：http://localhost:8010/admin/index.html
 
 ### 13.3 初始账户
-- 管理员：admin / admin123
+- 管理员：admin / 123456
 - 学生测试账户：20240001 / 123456
 

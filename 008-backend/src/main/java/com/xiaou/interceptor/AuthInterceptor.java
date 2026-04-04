@@ -1,12 +1,13 @@
 package com.xiaou.interceptor;
 
-import com.xiaou.exception.BusinessException;
 import com.xiaou.utils.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+
+import java.io.IOException;
 
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
@@ -23,7 +24,8 @@ public class AuthInterceptor implements HandlerInterceptor {
         String token = request.getHeader("Authorization");
         
         if (token == null || token.isEmpty()) {
-            throw new BusinessException("未登录");
+            writeUnauthorized(response, "未登录");
+            return false;
         }
 
         if (token.startsWith("Bearer ")) {
@@ -35,7 +37,17 @@ public class AuthInterceptor implements HandlerInterceptor {
             request.setAttribute("userId", userId);
             return true;
         } catch (Exception e) {
-            throw new BusinessException("token无效或已过期");
+            writeUnauthorized(response, "token无效或已过期");
+            return false;
+        }
+    }
+
+    private void writeUnauthorized(HttpServletResponse response, String message) {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("application/json;charset=UTF-8");
+        try {
+            response.getWriter().write("{\"code\":401,\"message\":\"" + message + "\",\"data\":null}");
+        } catch (IOException ignored) {
         }
     }
 }

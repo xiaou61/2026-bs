@@ -91,7 +91,7 @@ public class BookingService {
         seatService.updateHotScore(booking.getSeatId());
         
         notificationService.sendNotification(userId, "预约成功", "您已成功预约座位，请在预约开始后15分钟内签到", "BOOKING");
-        
+        fillSeatInfo(booking);
         return booking;
     }
 
@@ -99,11 +99,15 @@ public class BookingService {
         LambdaQueryWrapper<Booking> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Booking::getUserId, userId);
         wrapper.orderByDesc(Booking::getCreateTime);
-        return bookingMapper.selectList(wrapper);
+        List<Booking> bookings = bookingMapper.selectList(wrapper);
+        bookings.forEach(this::fillSeatInfo);
+        return bookings;
     }
 
     public Booking getById(Long id) {
-        return bookingMapper.selectById(id);
+        Booking booking = bookingMapper.selectById(id);
+        fillSeatInfo(booking);
+        return booking;
     }
 
     @Transactional
@@ -198,7 +202,9 @@ public class BookingService {
         wrapper.eq(Booking::getStatus, "IN_USE");
         wrapper.orderByDesc(Booking::getCreateTime);
         wrapper.last("LIMIT 1");
-        return bookingMapper.selectOne(wrapper);
+        Booking booking = bookingMapper.selectOne(wrapper);
+        fillSeatInfo(booking);
+        return booking;
     }
 
     @Transactional
@@ -247,7 +253,19 @@ public class BookingService {
     public List<Booking> listAllBookings() {
         LambdaQueryWrapper<Booking> wrapper = new LambdaQueryWrapper<>();
         wrapper.orderByDesc(Booking::getCreateTime);
-        return bookingMapper.selectList(wrapper);
+        List<Booking> bookings = bookingMapper.selectList(wrapper);
+        bookings.forEach(this::fillSeatInfo);
+        return bookings;
+    }
+
+    private void fillSeatInfo(Booking booking) {
+        if (booking == null || booking.getSeatId() == null) {
+            return;
+        }
+        Seat seat = seatMapper.selectById(booking.getSeatId());
+        if (seat != null) {
+            booking.setSeatNo(seat.getSeatNo());
+        }
     }
 }
 

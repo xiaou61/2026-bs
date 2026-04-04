@@ -77,7 +77,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/express_system?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
-    password: root  # 修改为你的数据库密码
+    password: 1234  # 默认配置为 1234，如本机数据库密码不同请改成你的实际密码
 ```
 
 ### 4. 启动项目

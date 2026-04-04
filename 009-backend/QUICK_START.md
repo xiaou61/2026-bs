@@ -38,7 +38,7 @@ source D:/毕业设计/2026-biyesheji/009-backend/src/main/resources/sql/express
 spring:
   datasource:
     username: root
-    password: root  # 修改为你的数据库密码
+    password: 1234  # 默认配置为 1234，如本机数据库密码不同请改成你的实际密码
 ```
 
 ### 2.3 启动后端
