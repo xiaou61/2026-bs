@@ -24,6 +24,11 @@ public class JwtInterceptor implements HandlerInterceptor {
             return true;
         }
 
+        String requestUri = request.getRequestURI();
+        if ("GET".equals(request.getMethod()) && requestUri.matches(".*/product/\\d+$")) {
+            return true;
+        }
+
         // 从请求头获取token
         String token = request.getHeader("Authorization");
         if (token == null || !token.startsWith("Bearer ")) {

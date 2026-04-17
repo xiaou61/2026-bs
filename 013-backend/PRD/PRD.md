@@ -1592,7 +1592,7 @@ create_time       DATETIME        创建时间
 - 数据库备份：/data/backup/
 
 ### 11.4 初始账户
-- 管理员：admin / admin123
+- 管理员：admin / 123456
 - 运营方：operator / 123456
 - 测试用户1：test1 / 123456
 - 测试用户2：test2 / 123456

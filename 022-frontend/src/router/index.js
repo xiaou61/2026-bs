@@ -138,16 +138,27 @@ const router = createRouter({
 })
 
 // 路由守卫
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
-  
+
+  if (userStore.token && !userStore.userInfo) {
+    userStore.initUserInfo()
+    if (!userStore.userInfo) {
+      try {
+        await userStore.fetchUserInfo()
+      } catch (error) {
+        userStore.logout()
+      }
+    }
+  }
+
   if (to.meta.requiresAuth) {
     if (!userStore.isLoggedIn) {
       ElMessage.warning('请先登录')
       next('/login')
-    } else if (to.meta.role && userStore.userInfo.role !== to.meta.role) {
+    } else if (to.meta.role && userStore.userInfo?.role !== to.meta.role) {
       ElMessage.error('无权访问该页面')
-      next(from.path)
+      next(userStore.isAdmin ? '/admin/dashboard' : '/student/home')
     } else {
       next()
     }

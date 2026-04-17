@@ -63,8 +63,19 @@ const unreadCount = ref(0)
 
 const activeMenu = computed(() => {
   const path = route.path
-  if (path.startsWith('/user/') || path.startsWith('/video/') || path.startsWith('/topic/')) {
+  if (
+    path.startsWith('/user/') ||
+    path.startsWith('/video/') ||
+    path.startsWith('/topic/')
+  ) {
     return '/'
+  }
+  if (
+    path.startsWith('/drafts') ||
+    path.startsWith('/creator-center') ||
+    path.startsWith('/points-mall')
+  ) {
+    return '/profile'
   }
   return path
 })

@@ -51,6 +51,9 @@ public class UserController {
     @GetMapping("/points")
     public Result<Integer> getPoints(@RequestAttribute Long userId) {
         User user = userService.getUserInfo(userId);
+        if (user == null) {
+            return Result.error(404, "用户不存在");
+        }
         return Result.success(user.getPoints());
     }
 }

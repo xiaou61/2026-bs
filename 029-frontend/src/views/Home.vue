@@ -76,12 +76,12 @@
           <div class="recipe-card" @click="goToRecipeDetail(recipe.id)">
             <div class="recipe-image">
               <el-image
-                :src="recipe.image || 'https://via.placeholder.com/300x200?text=Recipe'"
+                :src="recipe.coverImage || 'https://via.placeholder.com/300x200?text=Recipe'"
                 fit="cover"
               />
             </div>
             <div class="recipe-info">
-              <h4>{{ recipe.name }}</h4>
+              <h4>{{ recipe.title }}</h4>
               <p class="description">{{ recipe.description }}</p>
               <div class="recipe-meta">
                 <span>👁️ {{ recipe.views || 0 }} 次浏览</span>
@@ -107,7 +107,6 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/user'
 import * as recipeApi from '../api/recipe'
-import { ElMessage } from 'element-plus'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -127,10 +126,6 @@ const goToTopics = () => {
 
 const goToRegister = () => {
   router.push({ name: 'register' })
-}
-
-const goToLogin = () => {
-  router.push({ name: 'login' })
 }
 
 const goToProfile = () => {

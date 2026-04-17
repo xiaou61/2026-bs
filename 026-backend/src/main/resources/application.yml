@@ -1,20 +1,25 @@
 spring:
   application:
     name: artist-platform
-  
+
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/026_artist_platform?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
-    username: root
-    password: password
-  
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:./data/026-artist-platform;MODE=MySQL;AUTO_SERVER=TRUE;NON_KEYWORDS=USER,ORDER
+    username: sa
+    password:
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
+      schema-locations: classpath:sql/schema-h2.sql
+      data-locations: classpath:sql/data-h2.sql
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
 
 server:
-  port: 8082
+  port: 8026
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
@@ -22,3 +27,7 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+logging:
+  level:
+    com.xiaou.artist.mapper: debug

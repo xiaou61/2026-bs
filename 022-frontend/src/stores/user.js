@@ -2,11 +2,19 @@ import { defineStore } from 'pinia'
 import { login, register, getUserInfo } from '@/api/user'
 import { ElMessage } from 'element-plus'
 
+const normalizeUser = (user) => {
+  if (!user) return null
+  return {
+    ...user,
+    role: user.role || (user.username === 'admin' ? 'admin' : 'student')
+  }
+}
+
 export const useUserStore = defineStore('user', {
   state: () => ({
     token: localStorage.getItem('token') || '',
-    userInfo: null,
-    creditScore: 100
+    userInfo: normalizeUser(JSON.parse(localStorage.getItem('userInfo') || 'null')),
+    creditScore: JSON.parse(localStorage.getItem('userInfo') || 'null')?.creditScore || 100
   }),
 
   getters: {
@@ -17,46 +25,34 @@ export const useUserStore = defineStore('user', {
 
   actions: {
     async login(loginForm) {
-      try {
-        const res = await login(loginForm)
-        this.token = res.data.token
-        this.userInfo = res.data.user
-        this.creditScore = res.data.user.creditScore
-        localStorage.setItem('token', this.token)
-        localStorage.setItem('userInfo', JSON.stringify(this.userInfo))
-        return res
-      } catch (error) {
-        throw error
-      }
+      const res = await login(loginForm)
+      this.token = res.data.token
+      this.userInfo = normalizeUser(res.data.user)
+      this.creditScore = this.userInfo?.creditScore || 100
+      localStorage.setItem('token', this.token)
+      localStorage.setItem('userInfo', JSON.stringify(this.userInfo))
+      return res
     },
 
     async register(registerForm) {
-      try {
-        const res = await register(registerForm)
-        ElMessage.success('注册成功，请登录')
-        return res
-      } catch (error) {
-        throw error
-      }
+      const res = await register(registerForm)
+      ElMessage.success('注册成功，请登录')
+      return res
     },
 
     async fetchUserInfo() {
-      try {
-        const res = await getUserInfo()
-        this.userInfo = res.data
-        this.creditScore = res.data.creditScore
-        localStorage.setItem('userInfo', JSON.stringify(this.userInfo))
-        return res
-      } catch (error) {
-        throw error
-      }
+      const res = await getUserInfo()
+      this.userInfo = normalizeUser(res.data)
+      this.creditScore = this.userInfo?.creditScore || 100
+      localStorage.setItem('userInfo', JSON.stringify(this.userInfo))
+      return res
     },
 
     initUserInfo() {
       const userInfo = localStorage.getItem('userInfo')
       if (userInfo) {
-        this.userInfo = JSON.parse(userInfo)
-        this.creditScore = this.userInfo.creditScore
+        this.userInfo = normalizeUser(JSON.parse(userInfo))
+        this.creditScore = this.userInfo?.creditScore || 100
       }
     },
 

@@ -8,6 +8,7 @@ const router = createRouter({
             path: '/',
             name: 'home',
             component: Home,
+            redirect: '/pet/list',
             children: [
                 {
                     path: 'pet/list',
@@ -30,6 +31,11 @@ const router = createRouter({
             path: '/login',
             name: 'login',
             component: () => import('../views/Login.vue')
+        },
+        {
+            path: '/register',
+            name: 'register',
+            component: () => import('../views/Register.vue')
         }
     ]
 })

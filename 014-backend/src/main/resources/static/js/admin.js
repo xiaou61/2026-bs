@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    if (!auth.isLoggedIn()) {
+    if (!auth.isLoggedIn() || !auth.isAdmin()) {
         window.location.href = 'admin-login.html';
         return;
     }
@@ -9,8 +9,7 @@ $(document).ready(function() {
 
     $('#logoutBtn').on('click', function() {
         if (confirm('确定要退出登录吗？')) {
-            auth.logout();
-            window.location.href = 'admin-login.html';
+            auth.logout('admin-login.html');
         }
     });
 

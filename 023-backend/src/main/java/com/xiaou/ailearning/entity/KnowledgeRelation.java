@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @TableName("knowledge_relation")
 public class KnowledgeRelation {
     
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
     
     private Long fromKnowledgeId;

@@ -30,7 +30,7 @@ public class AppointmentController {
     @PostMapping("/create")
     public Result<Void> createAppointment(@Valid @RequestBody CreateAppointmentDTO dto) {
         appointmentService.createAppointment(dto);
-        return Result.success("预约成功，请等待门店确认");
+        return Result.success("预约成功，请等待门店确认", null);
     }
 
     /**
@@ -61,7 +61,7 @@ public class AppointmentController {
     public Result<Void> cancelAppointment(@PathVariable Long id, @RequestBody(required = false) Map<String, String> params) {
         String reason = params != null ? params.get("reason") : null;
         appointmentService.cancelAppointment(id, reason);
-        return Result.success("预约已取消");
+        return Result.success("预约已取消", null);
     }
 
     /**

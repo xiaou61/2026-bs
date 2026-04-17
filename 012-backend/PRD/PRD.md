@@ -1282,7 +1282,7 @@ create_time       DATETIME        创建时间
 - MySQL配置：localhost:3306/collab_board
 
 ### 12.4 初始账户
-- 管理员：admin / admin123
+- 管理员：admin / 123456
 - 测试用户1：test1 / 123456
 - 测试用户2：test2 / 123456
 

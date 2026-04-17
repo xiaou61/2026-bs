@@ -47,6 +47,6 @@ public class OrderController {
     public Result<Void> payOrder(@PathVariable Long id, @RequestBody Map<String, String> params) {
         String payType = params.getOrDefault("payType", "余额支付");
         orderService.payOrder(id, payType);
-        return Result.success("支付成功");
+        return Result.success("支付成功", null);
     }
 }

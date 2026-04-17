@@ -32,7 +32,7 @@ export function searchTopics(keyword) {
 
 // 获取话题评论列表
 export function getTopicComments(topicId, params) {
-  return request.get(`/comment/topic/${topicId}`, { params })
+  return request.get(`/comment/list/1/${topicId}`, { params })
 }
 
 // 添加评论

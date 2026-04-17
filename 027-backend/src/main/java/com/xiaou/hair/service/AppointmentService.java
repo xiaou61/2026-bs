@@ -226,7 +226,7 @@ public class AppointmentService {
      * 超时自动取消（定时任务调用）
      */
     @Transactional
-    public void autoCancel Overtime Appointments() {
+    public void autoCancelOvertimeAppointments() {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime deadline = now.minusMinutes(15);
 

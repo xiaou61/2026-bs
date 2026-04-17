@@ -4,6 +4,7 @@ import com.xiaou.ordering.common.Result;
 import com.xiaou.ordering.dto.LoginRequest;
 import com.xiaou.ordering.dto.RegisterRequest;
 import com.xiaou.ordering.service.AuthService;
+import com.xiaou.ordering.util.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +46,16 @@ public class AuthController {
         Map<String, String> data = new HashMap<>();
         data.put("token", token);
         return Result.success(data);
+    }
+
+    @GetMapping("/info")
+    public Result<Map<String, Object>> info() {
+        return Result.success(authService.getLoginInfo(UserContext.getCurrentUserId(), UserContext.getCurrentUserType()));
+    }
+
+    @PostMapping("/logout")
+    public Result<Void> logout() {
+        return Result.success();
     }
 }
 

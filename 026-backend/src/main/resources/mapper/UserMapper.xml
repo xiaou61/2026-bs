@@ -35,6 +35,10 @@
     <delete id="deleteById">
         DELETE FROM user WHERE id = #{id}
     </delete>
+
+    <update id="updateRole">
+        UPDATE user SET role = #{role} WHERE id = #{id}
+    </update>
     
     <update id="updatePassword">
         UPDATE user SET password = #{password} WHERE id = #{id}

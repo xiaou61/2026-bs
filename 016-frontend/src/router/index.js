@@ -102,23 +102,40 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
+  const userType = localStorage.getItem('userType')
+  const isAdminRoute = to.path.startsWith('/admin')
   
-  if (to.path.startsWith('/admin')) {
+  if (isAdminRoute) {
     if (to.path === '/admin/login') {
+      if (token && userType === 'admin') {
+        next('/admin/dashboard')
+        return
+      }
+      next()
+      return
+    }
+
+    if (token && userType === 'admin') {
       next()
     } else {
-      if (token) {
-        next()
-      } else {
-        next('/admin/login')
-      }
+      next('/admin/login')
     }
   } else {
     if (to.path === '/login' || to.path === '/register') {
+      if (token && userType === 'user') {
+        next('/home')
+        return
+      }
+      if (token && userType === 'admin') {
+        next('/admin/dashboard')
+        return
+      }
       next()
     } else {
-      if (token) {
+      if (token && userType === 'user') {
         next()
+      } else if (token && userType === 'admin') {
+        next('/admin/dashboard')
       } else {
         next('/login')
       }

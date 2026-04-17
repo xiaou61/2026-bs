@@ -32,7 +32,7 @@ export function getMyTopics() {
 
 // 获取收藏列表
 export function getCollections(params) {
-  return request.get('/collection/list', { params })
+  return request.get('/collection/my-collections', { params })
 }
 
 // 取消收藏

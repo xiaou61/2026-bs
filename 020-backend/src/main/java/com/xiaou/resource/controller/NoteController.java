@@ -28,18 +28,22 @@ public class NoteController {
 
     @GetMapping("/list")
     public Result<IPage<Note>> getNoteList(
+            @RequestAttribute Long userId,
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
             @RequestParam(required = false) String category,
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) Integer isPublic) {
-        IPage<Note> pageData = noteService.getNoteList(page, size, category, keyword, isPublic);
+        IPage<Note> pageData = noteService.getNoteList(userId, page, size, category, keyword, isPublic);
         return Result.success(pageData);
     }
 
     @GetMapping("/{id}")
-    public Result<Note> getNoteDetail(@PathVariable Long id) {
-        Note note = noteService.getNoteDetail(id);
+    public Result<Note> getNoteDetail(@PathVariable Long id, @RequestAttribute Long userId) {
+        Note note = noteService.getNoteDetail(id, userId);
+        if (note == null) {
+            return Result.error(404, "笔记不存在或无权访问");
+        }
         return Result.success(note);
     }
 

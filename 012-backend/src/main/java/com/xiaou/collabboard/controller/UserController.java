@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -37,6 +38,12 @@ public class UserController {
             user.setPassword(null);
         }
         return Result.success(user);
+    }
+
+    @GetMapping("/search")
+    public Result<List<User>> searchUsers(@RequestParam String keyword) {
+        Long userId = UserHolder.get();
+        return Result.success(userService.searchUsers(keyword, userId));
     }
 
     @PutMapping("/profile")

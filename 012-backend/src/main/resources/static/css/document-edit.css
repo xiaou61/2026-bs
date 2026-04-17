@@ -1,0 +1,419 @@
+:root {
+    --bg-main: #f4f6fb;
+    --bg-panel: rgba(255, 255, 255, 0.92);
+    --bg-strong: #101828;
+    --text-main: #172033;
+    --text-soft: #5f6f8a;
+    --line-soft: rgba(19, 35, 74, 0.08);
+    --accent: #2b59ff;
+    --accent-soft: rgba(43, 89, 255, 0.12);
+    --success-soft: #daf5df;
+    --danger-soft: #ffe0de;
+    --shadow: 0 20px 50px rgba(27, 39, 78, 0.12);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top left, rgba(43, 89, 255, 0.18), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(18, 184, 134, 0.16), transparent 28%),
+        var(--bg-main);
+    color: var(--text-main);
+    font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.editor-shell {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.editor-topbar {
+    padding: 22px 28px;
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line-soft);
+}
+
+.brand-block,
+.toolbar-actions,
+.meta-row,
+.mindmap-actions,
+.board-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-back {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    background: var(--bg-strong);
+    color: #fff;
+    text-decoration: none;
+}
+
+.brand-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.brand-kicker,
+.workspace-kicker,
+.sidebar-label {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+}
+
+.doc-title-input {
+    min-width: 320px;
+    border: none;
+    background: transparent;
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.doc-title-input:focus {
+    outline: none;
+}
+
+.meta-pill {
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.btn-ghost,
+.btn-primary-strong {
+    border: none;
+    border-radius: 14px;
+    padding: 11px 16px;
+    font-weight: 600;
+}
+
+.btn-ghost {
+    background: #eef2ff;
+    color: var(--text-main);
+}
+
+.btn-primary-strong {
+    background: linear-gradient(135deg, #2b59ff, #4f85ff);
+    color: #fff;
+    box-shadow: 0 18px 30px rgba(43, 89, 255, 0.22);
+}
+
+.editor-main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 24px;
+    padding: 24px 28px 28px;
+}
+
+.editor-sidebar,
+.workspace-panel,
+.sidebar-card,
+.modal-content,
+.share-result,
+.board-shell,
+.mindmap-shell {
+    background: var(--bg-panel);
+    border: 1px solid var(--line-soft);
+    box-shadow: var(--shadow);
+}
+
+.editor-sidebar {
+    border-radius: 28px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sidebar-card {
+    border-radius: 22px;
+    padding: 18px;
+}
+
+.sidebar-emphasis {
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 8px;
+}
+
+.sidebar-muted,
+.workspace-hint,
+.tips-list,
+.stack-empty,
+.share-note {
+    color: var(--text-soft);
+}
+
+.tips-list {
+    padding-left: 18px;
+    margin: 10px 0 0;
+}
+
+.workspace-panel {
+    border-radius: 28px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.workspace-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.workspace-header h1 {
+    margin: 6px 0 0;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.editor-stage,
+.editor-pane,
+.note-grid,
+.board-shell,
+.mindmap-shell,
+.board-surface {
+    min-height: 0;
+    flex: 1;
+}
+
+.editor-pane {
+    height: calc(100vh - 230px);
+}
+
+.note-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.note-input,
+.note-preview,
+.board-shell,
+.mindmap-tree-panel,
+.mindmap-detail-panel {
+    border-radius: 24px;
+}
+
+.note-input,
+.note-preview,
+.mindmap-tree-panel,
+.mindmap-detail-panel {
+    height: 100%;
+}
+
+.note-input {
+    width: 100%;
+    resize: none;
+    border: 1px solid var(--line-soft);
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 24px;
+    font: 15px/1.7 "Consolas", "Courier New", monospace;
+}
+
+.note-preview {
+    overflow: auto;
+    background: #fff;
+    padding: 28px;
+    border: 1px solid var(--line-soft);
+}
+
+.note-preview h1,
+.note-preview h2 {
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.note-preview pre {
+    background: #0f172a;
+    color: #e2e8f0;
+    border-radius: 18px;
+    padding: 16px;
+    overflow: auto;
+}
+
+.board-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 18px;
+}
+
+.board-toolbar {
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.board-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+}
+
+.board-range {
+    flex: 1;
+}
+
+.board-surface {
+    position: relative;
+    border-radius: 24px;
+    border: 1px dashed rgba(16, 24, 40, 0.12);
+    background:
+        linear-gradient(0deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)),
+        linear-gradient(to right, rgba(43, 89, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(43, 89, 255, 0.06) 1px, transparent 1px);
+    background-size: auto, 24px 24px, 24px 24px;
+    overflow: hidden;
+}
+
+#boardCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: crosshair;
+}
+
+.mindmap-shell {
+    display: grid;
+    grid-template-columns: 1.25fr 0.75fr;
+    gap: 18px;
+    padding: 18px;
+}
+
+.mindmap-tree-panel,
+.mindmap-detail-panel {
+    padding: 18px;
+    border: 1px solid var(--line-soft);
+    background: #fff;
+    overflow: auto;
+}
+
+.mindmap-panel-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.mindmap-tree ul {
+    list-style: none;
+    padding-left: 22px;
+}
+
+.mindmap-tree-node {
+    border-left: 2px solid rgba(43, 89, 255, 0.16);
+    margin: 10px 0;
+    padding-left: 12px;
+}
+
+.mindmap-node-card {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    border-radius: 16px;
+    background: #f8faff;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+.mindmap-node-card.active {
+    border-color: rgba(43, 89, 255, 0.35);
+    background: rgba(43, 89, 255, 0.08);
+}
+
+.mindmap-node-title {
+    font-weight: 700;
+}
+
+.mindmap-node-note {
+    font-size: 13px;
+    color: var(--text-soft);
+}
+
+.stack-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.stack-item {
+    border-radius: 18px;
+    padding: 14px 16px;
+    background: #f8faff;
+    border: 1px solid rgba(43, 89, 255, 0.08);
+}
+
+.stack-item-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: start;
+}
+
+.share-result {
+    border-radius: 18px;
+    padding: 16px;
+}
+
+.share-result a {
+    word-break: break-all;
+}
+
+@media (max-width: 1100px) {
+    .editor-main,
+    .mindmap-shell,
+    .note-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .editor-pane {
+        height: auto;
+        min-height: 65vh;
+    }
+}
+
+@media (max-width: 768px) {
+    .editor-topbar,
+    .toolbar-actions,
+    .workspace-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .doc-title-input {
+        min-width: auto;
+        width: 100%;
+        font-size: 24px;
+    }
+}

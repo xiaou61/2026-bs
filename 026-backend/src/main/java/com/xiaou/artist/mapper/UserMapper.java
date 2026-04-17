@@ -14,6 +14,7 @@ public interface UserMapper {
     int insert(User user);
     int update(User user);
     int deleteById(Long id);
+    int updateRole(@Param("id") Long id, @Param("role") String role);
     int updatePassword(@Param("id") Long id, @Param("password") String password);
     int updateBalance(@Param("id") Long id, @Param("amount") java.math.BigDecimal amount);
 }

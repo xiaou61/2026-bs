@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>创建社团 - 校园社团平台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-people-fill"></i> 校园社团平台
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">首页</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="clubs.html">社团广场</a></li>
+                    <li class="nav-item"><a class="nav-link" href="activities.html">活动中心</a></li>
+                    <li class="nav-item"><a class="nav-link" href="topics.html">话题广场</a></li>
+                    <li class="nav-item"><a class="nav-link" href="circles.html">兴趣圈子</a></li>
+                    <li class="nav-item d-none" id="userNav">
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle"></i> <span id="username"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="profile.html">个人中心</a></li>
+                                <li><a class="dropdown-item" href="my-clubs.html">我的社团</a></li>
+                                <li><a class="dropdown-item" href="my-activities.html">我的活动</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="logoutBtn">退出登录</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4" style="max-width: 840px;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0"><i class="bi bi-building-add"></i> 创建社团</h2>
+            <a href="clubs.html" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> 返回社团广场
+            </a>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <div class="alert alert-info">
+                    新社团提交后会进入待审核状态，通过后才会在社团广场公开展示。
+                </div>
+
+                <form id="createClubForm">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">社团名称</label>
+                            <input type="text" class="form-control" id="name" maxlength="100" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">社团分类</label>
+                            <select class="form-select" id="category" required>
+                                <option value="">请选择分类</option>
+                                <option value="学术">学术</option>
+                                <option value="文艺">文艺</option>
+                                <option value="体育">体育</option>
+                                <option value="公益">公益</option>
+                                <option value="科技">科技</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">最大成员数</label>
+                            <input type="number" class="form-control" id="maxMembers" min="1" value="100">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">封面图 URL</label>
+                            <input type="url" class="form-control" id="cover" placeholder="可选">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">社团简介</label>
+                            <textarea class="form-control" id="description" rows="5" maxlength="1000" required></textarea>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">招新信息</label>
+                            <textarea class="form-control" id="recruitInfo" rows="4" maxlength="1000" placeholder="可选"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <a href="clubs.html" class="btn btn-light">取消</a>
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                            <i class="bi bi-send"></i> 提交审核
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        $(document).ready(function() {
+            if (!utils.requireAuth()) return;
+
+            $('#createClubForm').on('submit', function(e) {
+                e.preventDefault();
+
+                const payload = {
+                    name: $('#name').val().trim(),
+                    category: $('#category').val(),
+                    maxMembers: Number($('#maxMembers').val() || 100),
+                    cover: $('#cover').val().trim() || null,
+                    description: $('#description').val().trim(),
+                    recruitInfo: $('#recruitInfo').val().trim() || null
+                };
+
+                $('#submitBtn').prop('disabled', true);
+
+                request.post('/clubs', payload)
+                    .done(function(res) {
+                        if (res.code === 200) {
+                            utils.showToast('社团创建成功，等待管理员审核');
+                            setTimeout(function() {
+                                window.location.href = 'my-clubs.html';
+                            }, 1000);
+                        } else {
+                            utils.showToast(res.message || '提交失败', 'error');
+                        }
+                    })
+                    .fail(function(xhr) {
+                        utils.showToast(xhr.responseJSON?.message || '提交失败，请稍后重试', 'error');
+                    })
+                    .always(function() {
+                        $('#submitBtn').prop('disabled', false);
+                    });
+            });
+        });
+    </script>
+</body>
+</html>

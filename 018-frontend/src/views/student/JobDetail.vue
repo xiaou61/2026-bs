@@ -9,7 +9,7 @@
     
     <el-descriptions :column="2" border>
       <el-descriptions-item label="岗位类型">
-        <el-tag v-if="job.jobType === 'internship'" type="success">实习</el-tag>
+        <el-tag v-if="isInternJobType(job.jobType)" type="success">实习</el-tag>
         <el-tag v-else type="primary">校招</el-tag>
       </el-descriptions-item>
       <el-descriptions-item label="职位类别">{{ job.category }}</el-descriptions-item>
@@ -70,6 +70,8 @@ const dialogVisible = ref(false)
 const applyForm = ref({
   resumeId: null
 })
+
+const isInternJobType = (jobType) => ['intern', 'internship'].includes(jobType)
 
 const loadJob = async () => {
   loading.value = true

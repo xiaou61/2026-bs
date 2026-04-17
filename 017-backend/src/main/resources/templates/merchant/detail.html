@@ -19,6 +19,10 @@
         <div class="container">
             <a href="/merchant/list" class="btn btn-outline-secondary"><i class="fas fa-arrow-left"></i> 返回列表</a>
             <a class="navbar-brand"><i class="fas fa-utensils text-primary"></i> 校园点餐</a>
+            <div class="d-flex gap-2">
+                <a href="/user/orders" class="btn btn-outline-success btn-sm">我的订单</a>
+                <a href="/user/cart" class="btn btn-outline-primary btn-sm">购物车</a>
+            </div>
         </div>
     </nav>
 
@@ -90,37 +94,89 @@
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-            let cart = [];
+            let cartCount = 0;
+
+            function getToken() {
+                return localStorage.getItem('token');
+            }
+
+            function requireUserLogin() {
+                const token = getToken();
+                const userType = localStorage.getItem('userType');
+                if (!token || userType !== 'user') {
+                    alert('请先使用学生账号登录后再点餐');
+                    window.location.href = '/user/login';
+                    return false;
+                }
+                return true;
+            }
+
+            function refreshCartCount() {
+                const token = getToken();
+                const userType = localStorage.getItem('userType');
+                if (!token || userType !== 'user') {
+                    $('#cartBtn').hide();
+                    return;
+                }
+
+                $.ajax({
+                    url: '/api/cart',
+                    type: 'GET',
+                    headers: { Authorization: token },
+                    success: function(res) {
+                        if (res.code !== 200) {
+                            $('#cartBtn').hide();
+                            return;
+                        }
+                        cartCount = (res.data || []).reduce((sum, item) => sum + item.quantity, 0);
+                        $('#cartCount').text(cartCount);
+                        if (cartCount > 0) {
+                            $('#cartBtn').show();
+                        } else {
+                            $('#cartBtn').hide();
+                        }
+                    },
+                    error: function() {
+                        $('#cartBtn').hide();
+                    }
+                });
+            }
 
             $('.add-to-cart').click(function() {
+                if (!requireUserLogin()) {
+                    return;
+                }
+
                 const dishId = $(this).data('id');
                 const dishName = $(this).data('name');
-                const price = $(this).data('price');
-
-                const existItem = cart.find(item => item.dishId === dishId);
-                if (existItem) {
-                    existItem.quantity++;
-                } else {
-                    cart.push({ dishId, dishName, price, quantity: 1 });
-                }
-
-                updateCart();
-                alert(dishName + ' 已添加到购物车');
-            });
-
-            function updateCart() {
-                const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-                $('#cartCount').text(count);
-                if (count > 0) {
-                    $('#cartBtn').show();
-                } else {
-                    $('#cartBtn').hide();
-                }
+                $.ajax({
+                    url: '/api/cart/add',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    headers: { Authorization: getToken() },
+                    data: JSON.stringify({
+                        dishId: dishId,
+                        quantity: 1
+                    }),
+                    success: function(res) {
+                        if (res.code === 200) {
+                            refreshCartCount();
+                            alert(dishName + ' 已加入购物车');
+                        } else {
+                            alert(res.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        alert(xhr.responseJSON?.message || '加入购物车失败');
+                    }
+                });
             }
 
             $('#cartBtn').click(function() {
-                alert('购物车功能开发中...\n当前购物车：\n' + JSON.stringify(cart, null, 2));
+                window.location.href = '/user/cart';
             });
+
+            refreshCartCount();
         });
     </script>
 </body>

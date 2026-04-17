@@ -26,7 +26,7 @@ public class AuthController {
     @PostMapping("/register")
     public Result<Void> register(@Valid @RequestBody RegisterDTO dto) {
         userService.register(dto);
-        return Result.success("注册成功");
+        return Result.success("注册成功", null);
     }
 
     /**
@@ -53,6 +53,6 @@ public class AuthController {
     @PutMapping("/profile")
     public Result<Void> updateProfile(@RequestBody UserInfoVO vo) {
         userService.updateUserInfo(vo);
-        return Result.success("更新成功");
+        return Result.success("更新成功", null);
     }
 }

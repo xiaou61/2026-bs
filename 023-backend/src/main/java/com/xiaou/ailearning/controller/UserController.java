@@ -3,6 +3,7 @@ package com.xiaou.ailearning.controller;
 import com.xiaou.ailearning.common.Result;
 import com.xiaou.ailearning.entity.User;
 import com.xiaou.ailearning.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,17 +24,23 @@ public class UserController {
      * 用户登录
      */
     @PostMapping("/login")
-    public Result<Map<String, Object>> login(@RequestBody Map<String, String> request) {
+    public Result<Map<String, Object>> login(@RequestBody Map<String, String> request, HttpSession session) {
         try {
             String username = request.get("username");
             String password = request.get("password");
             
             String token = userService.login(username, password);
             User user = userService.findByUsername(username);
+            if (user != null) {
+                user.setPassword(null);
+            }
             
             Map<String, Object> data = new HashMap<>();
             data.put("token", token);
             data.put("user", user);
+            data.put("userInfo", user);
+
+            session.setAttribute("user", user);
             
             return Result.success("登录成功", data);
         } catch (Exception e) {

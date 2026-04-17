@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @TableName("knowledge_point")
 public class KnowledgePoint {
     
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
     
     private String pointName;

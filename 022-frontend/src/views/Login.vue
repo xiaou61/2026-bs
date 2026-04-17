@@ -10,7 +10,7 @@
         <el-form-item prop="username">
           <el-input 
             v-model="form.username" 
-            placeholder="请输入学号"
+            placeholder="请输入学号或管理员账号"
             prefix-icon="User"
             size="large"
           />
@@ -67,7 +67,7 @@ const form = reactive({
 const rules = {
   username: [
     { required: true, message: '请输入学号', trigger: 'blur' },
-    { min: 6, max: 20, message: '学号长度在 6 到 20 个字符', trigger: 'blur' }
+    { min: 4, max: 20, message: '账号长度在 4 到 20 个字符', trigger: 'blur' }
   ],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },

@@ -99,5 +99,5 @@ CREATE TABLE IF NOT EXISTS `banner` (
     `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Create Time'
 ) COMMENT 'Banner';
 
--- Initial Admin User (password: admin123)
+-- Initial Admin User (password: admin)
 INSERT INTO `sys_user` (`username`, `password`, `nickname`, `role`) VALUES ('admin', '21232f297a57a5a743894a0e4a801fc3', 'Administrator', 'ADMIN');

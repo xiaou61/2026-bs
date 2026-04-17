@@ -1,0 +1,1 @@
+import{a as t}from"./index-BVvPCM6E.js";function s(e){return t({url:"/store/list",method:"get",params:e})}function o(e){return t({url:`/store/${e}`,method:"get"})}function u(e){return t({url:`/store/${e}/hairdressers`,method:"get"})}function i(e){return t({url:`/store/${e}/services`,method:"get"})}export{o as a,u as b,i as c,s as g};

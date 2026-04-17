@@ -46,6 +46,6 @@ public class UserController {
         }
         
         userService.rechargeBalance(amount);
-        return Result.success("充值成功");
+        return Result.success("充值成功", null);
     }
 }

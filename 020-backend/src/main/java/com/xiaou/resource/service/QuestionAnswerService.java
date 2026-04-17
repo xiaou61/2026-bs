@@ -9,6 +9,7 @@ import com.xiaou.resource.entity.QuestionAnswer;
 import com.xiaou.resource.mapper.QuestionAnswerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -21,8 +22,10 @@ public class QuestionAnswerService extends ServiceImpl<QuestionAnswerMapper, Que
     @Autowired
     private PointsRecordService pointsRecordService;
 
+    @Transactional(rollbackFor = Exception.class)
     public boolean askQuestion(QuestionAnswer questionAnswer, Long userId) {
         questionAnswer.setAskerId(userId);
+        questionAnswer.setBounty(questionAnswer.getBounty() == null ? 0 : questionAnswer.getBounty());
         questionAnswer.setStatus("pending");
         questionAnswer.setCreateTime(LocalDateTime.now());
         questionAnswer.setUpdateTime(LocalDateTime.now());
@@ -39,7 +42,9 @@ public class QuestionAnswerService extends ServiceImpl<QuestionAnswerMapper, Que
             record.setType("bounty");
             record.setDescription("悬赏提问：" + questionAnswer.getTitle());
             record.setCreateTime(LocalDateTime.now());
-            pointsRecordService.save(record);
+            if (!pointsRecordService.save(record)) {
+                throw new IllegalStateException("保存悬赏积分记录失败");
+            }
         }
         
         return this.save(questionAnswer);

@@ -53,7 +53,7 @@
 └── pom.xml                                   # 已添加Thymeleaf依赖
 ```
 
-**注意**: 每个页面都是独立完整的HTML，不使用布局继承，确保最大兼容性
+**注意**: 当前页面都是独立完整的 HTML，不使用布局继承，确保最大兼容性
 
 ## 已实现页面
 
@@ -161,12 +161,11 @@ http://localhost:8012/
 
 ## 特色功能
 
-### 1. Thymeleaf布局复用
-使用 `layout.html` 作为主模板，其他页面继承该布局：
+### 1. 当前模板组织方式
+当前项目使用独立页面模板，不依赖 `layout.html` 或布局方言：
 
 ```html
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+<html xmlns:th="http://www.thymeleaf.org">
 ```
 
 ### 2. 侧边栏导航

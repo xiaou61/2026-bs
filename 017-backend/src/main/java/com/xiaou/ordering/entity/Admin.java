@@ -1,6 +1,7 @@
 package com.xiaou.ordering.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
@@ -13,6 +14,7 @@ public class Admin {
     private Long id;
     
     private String username;
+    @JsonIgnore
     private String password;
     private String realName;
     private String phone;

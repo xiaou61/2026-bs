@@ -47,7 +47,7 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         IPage<Course> pageInfo = new Page<>(page, size);
         IPage<Course> result = courseMapper.selectPage(pageInfo, wrapper);
         
-        return new PageResult<>(result.getRecords(), result.getTotal(), page, size);
+        return PageResult.of(result.getTotal(), result.getRecords(), (long) page, (long) size);
     }
 
     @Override

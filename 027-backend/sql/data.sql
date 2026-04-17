@@ -2,12 +2,12 @@ USE hair_salon;
 
 -- 插入管理员数据
 INSERT INTO `admin` (`username`, `password`, `role`) VALUES
-('admin', '$2a$10$X7KJzxYnFZ4kYQxL5O8z5.VBRddPEf8DRk64WxYcQvGT3QrVn9QsO', 'ADMIN');  -- 密码：admin123
+('admin', '$2b$12$bbNLHZ6giRlQlAPsuZwqRuJR.V59XjSkK4T.yBhOa0LjSe0sAiyZG', 'ADMIN');  -- 密码：admin123
 
 -- 插入测试用户数据
 INSERT INTO `user` (`phone`, `password`, `nickname`, `avatar`, `gender`, `points`, `level`, `balance`) VALUES
-('13800138001', '$2a$10$X7KJzxYnFZ4kYQxL5O8z5.VBRddPEf8DRk64WxYcQvGT3QrVn9QsO', '张三', 'https://via.placeholder.com/150', 1, 50, '普通会员', 500.00),
-('13800138002', '$2a$10$X7KJzxYnFZ4kYQxL5O8z5.VBRddPEf8DRk64WxYcQvGT3QrVn9QsO', '李四', 'https://via.placeholder.com/150', 0, 800, '金卡会员', 1000.00);
+('13800138001', '$2b$12$V0yE1ehQAHEXJKd4X2C3/uPWIAXqXy.VyvVfdfFqZcdILPHvodBze', '张三', 'https://via.placeholder.com/150', 1, 50, '普通会员', 500.00),
+('13800138002', '$2b$12$V0yE1ehQAHEXJKd4X2C3/uPWIAXqXy.VyvVfdfFqZcdILPHvodBze', '李四', 'https://via.placeholder.com/150', 0, 800, '金卡会员', 1000.00);
 -- 密码统一为：123456
 
 -- 插入门店数据
@@ -63,11 +63,13 @@ WHERE h.status = 1;
 -- 插入示例预约数据
 INSERT INTO `appointment` (`user_id`, `store_id`, `hairdresser_id`, `service_id`, `appointment_date`, `appointment_time`, `status`) VALUES
 (1, 1, 1, 2, CURDATE() + INTERVAL 1 DAY, '14:00:00', '已确认'),
-(2, 2, 4, 7, CURDATE() + INTERVAL 2 DAY, '10:30:00', '待确认');
+(2, 2, 4, 7, CURDATE() + INTERVAL 2 DAY, '10:30:00', '待确认'),
+(1, 2, 4, 8, CURDATE() - INTERVAL 1 DAY, '11:00:00', '已完成');
 
 -- 插入示例订单数据
 INSERT INTO `orders` (`order_no`, `appointment_id`, `user_id`, `store_id`, `hairdresser_id`, `service_name`, `original_price`, `discount`, `actual_price`, `pay_type`, `pay_status`, `pay_time`) VALUES
-('ORD202411270001', 1, 1, 1, 1, '时尚男士造型', 88.00, 1.00, 88.00, '余额支付', 1, NOW());
+('ORD202411270001', 1, 1, 1, 1, '时尚男士造型', 88.00, 1.00, 88.00, '余额支付', 1, NOW()),
+('ORD202411270002', 3, 1, 2, 4, '女士修剪', 68.00, 1.00, 68.00, NULL, 0, NULL);
 
 -- 插入示例评价数据
 INSERT INTO `review` (`order_id`, `user_id`, `hairdresser_id`, `store_id`, `rating`, `content`, `tags`) VALUES

@@ -87,22 +87,26 @@ public class SeatServiceImpl extends ServiceImpl<SeatMapper, Seat> implements Se
         queryWrapper.eq("room_id", roomId);
         List<Seat> seats = list(queryWrapper);
 
-        // 为每个座位添加实时状态信息
         LocalDateTime now = LocalDateTime.now();
         for (Seat seat : seats) {
-            // 检查是否有当前有效的预约
-            QueryWrapper<Reservation> reservationQuery = new QueryWrapper<>();
-            reservationQuery.eq("seat_id", seat.getId())
-                          .eq("status", 2) // 已签到状态
-                          .le("start_time", now)
-                          .ge("end_time", now);
-
-            long activeReservationCount = reservationMapper.selectCount(reservationQuery);
-            if (activeReservationCount > 0) {
-                seat.setSeatStatus(2); // 设置为占用状态
-            }
+            seat.setSeatStatus(resolveSeatStatus(seat, now));
         }
 
         return seats;
+    }
+
+    private Integer resolveSeatStatus(Seat seat, LocalDateTime now) {
+        if (seat.getSeatStatus() != null && seat.getSeatStatus() == 3) {
+            return 3;
+        }
+
+        QueryWrapper<Reservation> reservationQuery = new QueryWrapper<>();
+        reservationQuery.eq("seat_id", seat.getId())
+                .eq("status", 2)
+                .le("start_time", now)
+                .ge("end_time", now);
+
+        long activeReservationCount = reservationMapper.selectCount(reservationQuery);
+        return activeReservationCount > 0 ? 2 : 1;
     }
 }

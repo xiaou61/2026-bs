@@ -222,7 +222,7 @@ public class LearningAnalysisServiceImpl implements LearningAnalysisService {
         
         efficiency.put("focusRate", Math.round(avgFocusRate * 100.0) / 100.0);
         
-        Map<String, Double> efficiencyTrend = calculateEfficiencyTrend(records);
+        Map<String, Object> efficiencyTrend = calculateEfficiencyTrend(records);
         efficiency.put("trend", efficiencyTrend);
         
         return efficiency;
@@ -445,8 +445,8 @@ public class LearningAnalysisServiceImpl implements LearningAnalysisService {
         return focusAnalysis;
     }
     
-    private Map<String, Double> calculateEfficiencyTrend(List<LearningRecord> records) {
-        Map<String, Double> trend = new HashMap<>();
+    private Map<String, Object> calculateEfficiencyTrend(List<LearningRecord> records) {
+        Map<String, Object> trend = new HashMap<>();
         
         LocalDateTime now = LocalDateTime.now();
         List<LearningRecord> recent = records.stream()

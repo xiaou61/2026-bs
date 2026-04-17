@@ -9,12 +9,12 @@
     
     <div class="filter-bar">
       <el-radio-group v-model="statusFilter" @change="loadReservations">
-        <el-radio-button label="">全部</el-radio-button>
-        <el-radio-button label="1">已预约</el-radio-button>
-        <el-radio-button label="2">已签到</el-radio-button>
-        <el-radio-button label="3">已完成</el-radio-button>
-        <el-radio-button label="4">已取消</el-radio-button>
-        <el-radio-button label="5">违约</el-radio-button>
+        <el-radio-button value="">全部</el-radio-button>
+        <el-radio-button value="1">已预约</el-radio-button>
+        <el-radio-button value="2">已签到</el-radio-button>
+        <el-radio-button value="3">已完成</el-radio-button>
+        <el-radio-button value="4">已取消</el-radio-button>
+        <el-radio-button value="5">违约</el-radio-button>
       </el-radio-group>
       
       <el-date-picker
@@ -146,7 +146,7 @@ const loadReservations = async () => {
   loading.value = true
   try {
     const params = {
-      page: currentPage.value,
+      current: currentPage.value,
       size: pageSize.value
     }
     
@@ -160,8 +160,8 @@ const loadReservations = async () => {
     }
     
     const res = await getMyReservations(params)
-    reservations.value = res.data.records || res.data
-    total.value = res.data.total || res.data.length
+    reservations.value = res.data.records || []
+    total.value = res.data.total || reservations.value.length
   } catch (error) {
     ElMessage.error('加载预约记录失败')
   } finally {

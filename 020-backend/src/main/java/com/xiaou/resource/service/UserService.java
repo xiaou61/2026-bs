@@ -7,6 +7,7 @@ import com.xiaou.resource.entity.User;
 import com.xiaou.resource.mapper.UserMapper;
 import com.xiaou.resource.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -65,12 +66,12 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         String token = jwtUtil.generateToken(user.getId(), user.getUsername());
         result.put("success", true);
         result.put("token", token);
-        result.put("user", user);
+        result.put("user", sanitizeUser(user));
         return result;
     }
 
     public User getUserInfo(Long userId) {
-        return this.getById(userId);
+        return sanitizeUser(this.getById(userId));
     }
 
     public boolean updateUserInfo(User user) {
@@ -96,6 +97,16 @@ public class UserService extends ServiceImpl<UserMapper, User> {
             return this.updateById(user);
         }
         return false;
+    }
+
+    private User sanitizeUser(User user) {
+        if (user == null) {
+            return null;
+        }
+        User safeUser = new User();
+        BeanUtils.copyProperties(user, safeUser);
+        safeUser.setPassword(null);
+        return safeUser;
     }
 }
 

@@ -3,18 +3,19 @@ package com.xiaou.express;
 import cn.hutool.crypto.digest.BCrypt;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class PasswordTest {
 
     @Test
-    public void testPasswordEncoder() {
-        String rawPassword = "123456";
-        String encodedPassword = BCrypt.hashpw(rawPassword);
+    public void shouldMatchSeedUserPassword() {
+        String userPasswordHash = "$2a$10$GALOcWmXAWolABT6SJi6E.B3uVPyTuxKhb3mnyzZQWhxQ5NSaQ5le";
+        assertTrue(BCrypt.checkpw("123456", userPasswordHash));
+    }
 
-        System.out.println("原始密码: " + rawPassword);
-        System.out.println("加密密码: " + encodedPassword);
-        System.out.println("密码验证: " + BCrypt.checkpw(rawPassword, encodedPassword));
-
-        String dbPassword = "$2a$10$YJZeZH7nQ0BnxLhKLQxKdO5KqN6b6j3vVV4nXTLPxHN3pN1rj3j9O";
-        System.out.println("\n数据库密码验证: " + BCrypt.checkpw(rawPassword, dbPassword));
+    @Test
+    public void shouldMatchSeedAdminPassword() {
+        String adminPasswordHash = "$2a$10$dj2f82N4tHWrjvLvM0yhUuxu016fiiKSgjofdTJNcA6V5KnRivyMO";
+        assertTrue(BCrypt.checkpw("admin123", adminPasswordHash));
     }
 }

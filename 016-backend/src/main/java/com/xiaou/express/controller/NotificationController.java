@@ -25,7 +25,8 @@ public class NotificationController {
 
     @PutMapping("/{id}/read")
     public Result<Void> markAsRead(@PathVariable Long id) {
-        notificationService.markAsRead(id);
+        Long userId = UserContext.getCurrentUserId();
+        notificationService.markAsRead(userId, id);
         return Result.success();
     }
 

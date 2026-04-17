@@ -17,7 +17,7 @@ public class HairSalonApplication {
         SpringApplication.run(HairSalonApplication.class, args);
         System.out.println("=================================");
         System.out.println("线上理发预约系统启动成功！");
-        System.out.println("访问地址: http://localhost:8080");
+        System.out.println("访问地址: http://localhost:8027");
         System.out.println("=================================");
     }
 }

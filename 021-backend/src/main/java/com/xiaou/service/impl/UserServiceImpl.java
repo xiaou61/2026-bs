@@ -5,6 +5,7 @@ import cn.hutool.crypto.digest.MD5;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.xiaou.dto.UserLoginDTO;
 import com.xiaou.dto.UserRegisterDTO;
+import com.xiaou.dto.UserUpdateDTO;
 import com.xiaou.entity.User;
 import com.xiaou.exception.BusinessException;
 import com.xiaou.mapper.UserMapper;
@@ -99,7 +100,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(Long userId, UserRegisterDTO updateDTO) {
+    public void updateUser(Long userId, UserUpdateDTO updateDTO) {
         User user = userMapper.selectById(userId);
         if (user == null) {
             throw new BusinessException("用户不存在");
@@ -116,7 +117,7 @@ public class UserServiceImpl implements UserService {
         }
 
         // 更新用户信息
-        BeanUtil.copyProperties(updateDTO, user, "id", "creditScore", "createTime");
+        BeanUtil.copyProperties(updateDTO, user, "id", "password", "creditScore", "createTime");
         if (updateDTO.getPassword() != null && !updateDTO.getPassword().isEmpty()) {
             user.setPassword(MD5.create().digestHex(updateDTO.getPassword()));
         }
@@ -125,11 +126,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserInfoVO getUserProfile(Long userId, Long profileId) {
-        if (userId.equals(profileId)) {
-            return getUserInfo(userId);
-        }
-
+    public UserInfoVO getUserProfile(Long profileId) {
         User user = userMapper.selectById(profileId);
         if (user == null) {
             throw new BusinessException("用户不存在");

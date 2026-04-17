@@ -9,6 +9,7 @@ import com.xiaou.resource.mapper.NoteMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Service
 public class NoteService extends ServiceImpl<NoteMapper, Note> {
@@ -31,11 +32,13 @@ public class NoteService extends ServiceImpl<NoteMapper, Note> {
         return this.updateById(note);
     }
 
-    public IPage<Note> getNoteList(Integer page, Integer size, String category, String keyword, Integer isPublic) {
+    public IPage<Note> getNoteList(Long userId, Integer page, Integer size, String category, String keyword, Integer isPublic) {
         Page<Note> pageParam = new Page<>(page, size);
         QueryWrapper<Note> wrapper = new QueryWrapper<>();
-        if (isPublic != null) {
-            wrapper.eq("is_public", isPublic);
+        if (Objects.equals(isPublic, 0)) {
+            wrapper.eq("user_id", userId).eq("is_public", 0);
+        } else {
+            wrapper.eq("is_public", 1);
         }
         if (category != null && !category.isEmpty()) {
             wrapper.eq("category", category);
@@ -47,12 +50,21 @@ public class NoteService extends ServiceImpl<NoteMapper, Note> {
         return this.page(pageParam, wrapper);
     }
 
-    public Note getNoteDetail(Long id) {
+    public Note getNoteDetail(Long id, Long userId) {
         Note note = this.getById(id);
-        if (note != null) {
-            note.setViewCount(note.getViewCount() + 1);
-            this.updateById(note);
+        if (note == null) {
+            return null;
         }
+
+        boolean isOwner = note.getUserId().equals(userId);
+        boolean isPublic = Objects.equals(note.getIsPublic(), 1);
+        if (!isOwner && !isPublic) {
+            return null;
+        }
+
+        note.setViewCount(note.getViewCount() + 1);
+        note.setUpdateTime(LocalDateTime.now());
+        this.updateById(note);
         return note;
     }
 

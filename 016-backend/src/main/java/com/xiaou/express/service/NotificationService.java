@@ -33,9 +33,9 @@ public class NotificationService {
         return notificationMapper.selectPage(page, wrapper);
     }
 
-    public void markAsRead(Long id) {
+    public void markAsRead(Long userId, Long id) {
         Notification notification = notificationMapper.selectById(id);
-        if (notification != null) {
+        if (notification != null && notification.getUserId().equals(userId)) {
             notification.setIsRead(1);
             notificationMapper.updateById(notification);
         }

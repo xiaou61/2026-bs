@@ -27,10 +27,12 @@ public class UserController {
             if (user.getRole() == null || user.getRole().isEmpty()) {
                 user.setRole("student");
             }
+            if (!"student".equals(user.getRole()) && !"company".equals(user.getRole())) {
+                return Result.error(400, "仅支持学生或企业HR注册");
+            }
             user.setStatus(1);
-            userService.register(user);
-            user.setPassword(null);
-            return Result.success(user);
+            User createdUser = userService.register(user);
+            return Result.success(createdUser);
         } catch (Exception e) {
             return Result.error("注册失败：" + e.getMessage());
         }
@@ -42,10 +44,9 @@ public class UserController {
         String password = params.get("password");
         User user = userService.login(username, password);
         if (user != null) {
-            String token = jwtUtil.generateToken(user.getId(), user.getUsername(), user.getRole());
+            String token = jwtUtil.generateToken(user.getId(), user.getUsername(), user.getRole(), user.getCompanyId());
             Map<String, Object> data = new HashMap<>();
             data.put("token", token);
-            user.setPassword(null);
             data.put("user", user);
             return Result.success(data);
         }
@@ -57,7 +58,6 @@ public class UserController {
         Long userId = (Long) request.getAttribute("userId");
         User user = userService.getUserById(userId);
         if (user != null) {
-            user.setPassword(null);
             return Result.success(user);
         }
         return Result.error("用户不存在");
@@ -66,10 +66,8 @@ public class UserController {
     @PutMapping("/update")
     public Result<?> updateUser(@RequestBody User user, HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
-        user.setId(userId);
-        if (userService.updateUser(user)) {
-            user.setPassword(null);
-            return Result.success(user);
+        if (userService.updateUser(userId, user)) {
+            return Result.success(userService.getUserById(userId));
         }
         return Result.error("更新失败");
     }

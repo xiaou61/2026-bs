@@ -2,7 +2,7 @@
 
 // API请求配置
 const API_BASE_URL = '/api';
-let authToken = localStorage.getItem('authToken');
+let authToken = localStorage.getItem('authToken') || localStorage.getItem('token');
 
 // 设置jQuery AJAX默认配置
 $.ajaxSetup({
@@ -20,6 +20,9 @@ $.ajaxSetup({
         if (xhr.status === 401) {
             // 未授权，清除token并跳转到登录页
             localStorage.removeItem('authToken');
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            localStorage.removeItem('userInfo');
             window.location.href = '/login';
         } else if (xhr.status === 500) {
             showMessage('服务器内部错误', 'danger');
@@ -140,7 +143,9 @@ class AuthManager {
                 if (response.success) {
                     authToken = response.data.token;
                     localStorage.setItem('authToken', authToken);
+                    localStorage.setItem('token', authToken);
                     localStorage.setItem('user', JSON.stringify(response.data.user));
+                    localStorage.setItem('userInfo', JSON.stringify(response.data.userInfo || response.data.user));
                     return response;
                 }
                 throw new Error(response.message);
@@ -149,7 +154,9 @@ class AuthManager {
     
     static logout() {
         localStorage.removeItem('authToken');
+        localStorage.removeItem('token');
         localStorage.removeItem('user');
+        localStorage.removeItem('userInfo');
         authToken = null;
         window.location.href = '/login';
     }

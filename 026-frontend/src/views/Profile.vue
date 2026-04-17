@@ -37,7 +37,7 @@ const showRecharge = ref(false)
 const rechargeAmount = ref(100)
 
 const getRoleText = () => {
-  const map = { 'USER': '普通用户', 'ART IST': '画师', 'ADMIN': '管理员' }
+  const map = { 'USER': '普通用户', 'ARTIST': '画师', 'ADMIN': '管理员' }
   return map[user.value.role] || '未知'
 }
 

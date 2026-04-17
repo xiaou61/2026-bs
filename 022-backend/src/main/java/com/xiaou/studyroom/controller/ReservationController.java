@@ -3,11 +3,13 @@ package com.xiaou.studyroom.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaou.studyroom.common.Result;
 import com.xiaou.studyroom.entity.Reservation;
+import com.xiaou.studyroom.exception.BusinessException;
 import com.xiaou.studyroom.service.ReservationService;
-import com.xiaou.studyroom.utils.JwtUtil;
+import com.xiaou.studyroom.utils.AuthHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 @RestController
@@ -19,19 +21,19 @@ public class ReservationController {
     private ReservationService reservationService;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private AuthHelper authHelper;
 
     @PostMapping
     public Result<String> createReservation(@RequestHeader("Authorization") String token,
                                           @RequestBody Map<String, Object> requestMap) {
         try {
-            Long userId = getUserIdFromToken(token);
+            Long userId = authHelper.getUserId(token);
             Long seatId = Long.valueOf(requestMap.get("seatId").toString());
             String startTimeStr = requestMap.get("startTime").toString();
             String endTimeStr = requestMap.get("endTime").toString();
 
-            java.time.LocalDateTime startTime = java.time.LocalDateTime.parse(startTimeStr);
-            java.time.LocalDateTime endTime = java.time.LocalDateTime.parse(endTimeStr);
+            java.time.LocalDateTime startTime = parseDateTime(startTimeStr);
+            java.time.LocalDateTime endTime = parseDateTime(endTimeStr);
 
             if (reservationService.createReservation(userId, seatId, startTime, endTime)) {
                 return Result.success("预约成功");
@@ -45,7 +47,7 @@ public class ReservationController {
     @PutMapping("/{id}/cancel")
     public Result<String> cancelReservation(@RequestHeader("Authorization") String token,
                                            @PathVariable Long id) {
-        Long userId = getUserIdFromToken(token);
+        Long userId = authHelper.getUserId(token);
         if (reservationService.cancelReservation(id, userId)) {
             return Result.success("预约取消成功");
         }
@@ -56,7 +58,7 @@ public class ReservationController {
     public Result<String> checkIn(@RequestHeader("Authorization") String token,
                                  @RequestBody Map<String, String> requestMap) {
         try {
-            Long userId = getUserIdFromToken(token);
+            Long userId = authHelper.getUserId(token);
             String qrcodeContent = requestMap.get("qrcodeContent");
 
             if (reservationService.checkIn(qrcodeContent, userId)) {
@@ -68,10 +70,19 @@ public class ReservationController {
         }
     }
 
+    @PutMapping("/{id}/checkin")
+    public Result<String> checkInById(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+        Long userId = authHelper.getUserId(token);
+        if (reservationService.checkInByReservationId(id, userId)) {
+            return Result.success("签到成功");
+        }
+        return Result.error("签到失败，请检查签到时间");
+    }
+
     @PutMapping("/{id}/end")
     public Result<String> endReservation(@RequestHeader("Authorization") String token,
                                         @PathVariable Long id) {
-        Long userId = getUserIdFromToken(token);
+        Long userId = authHelper.getUserId(token);
         if (reservationService.endReservation(id, userId)) {
             return Result.success("使用结束");
         }
@@ -80,20 +91,31 @@ public class ReservationController {
 
     @GetMapping("/my")
     public Result<Page<Reservation>> getMyReservations(@RequestHeader("Authorization") String token,
-                                                      @RequestParam(defaultValue = "1") int current,
+                                                      @RequestParam(required = false) Integer current,
+                                                      @RequestParam(required = false) Integer page,
                                                       @RequestParam(defaultValue = "10") int size,
-                                                      @RequestParam(required = false) Integer status) {
-        Long userId = getUserIdFromToken(token);
-        Page<Reservation> page = reservationService.getUserReservations(userId, current, size, status);
-        return Result.success(page);
+                                                      @RequestParam(required = false) Integer status,
+                                                      @RequestParam(required = false) String startDate,
+                                                      @RequestParam(required = false) String endDate) {
+        Long userId = authHelper.getUserId(token);
+        int pageNo = current != null ? current : (page != null ? page : 1);
+        Page<Reservation> reservationPage = reservationService.getUserReservations(
+                userId,
+                pageNo,
+                size,
+                status,
+                parseDateStart(startDate),
+                parseDateEnd(endDate)
+        );
+        return Result.success(reservationPage);
     }
 
     @GetMapping("/{id}")
     public Result<Reservation> getReservationById(@RequestHeader("Authorization") String token,
                                                  @PathVariable Long id) {
-        Long userId = getUserIdFromToken(token);
-        Reservation reservation = reservationService.getById(id);
-        if (reservation != null && reservation.getUserId().equals(userId)) {
+        Long userId = authHelper.getUserId(token);
+        Reservation reservation = reservationService.getReservationDetail(id);
+        if (reservation != null && (reservation.getUserId().equals(userId) || authHelper.isAdmin(token))) {
             return Result.success(reservation);
         }
         return Result.error("预约记录不存在或无权访问");
@@ -102,8 +124,8 @@ public class ReservationController {
     @GetMapping("/{id}/qrcode")
     public Result<Map<String, Object>> getReservationQRCode(@RequestHeader("Authorization") String token,
                                                            @PathVariable Long id) {
-        Long userId = getUserIdFromToken(token);
-        Reservation reservation = reservationService.getById(id);
+        Long userId = authHelper.getUserId(token);
+        Reservation reservation = reservationService.getReservationDetail(id);
 
         if (reservation == null || !reservation.getUserId().equals(userId)) {
             return Result.error("预约记录不存在或无权访问");
@@ -127,12 +149,44 @@ public class ReservationController {
         return Result.success(currentReservations);
     }
 
-    private Long getUserIdFromToken(String token) {
-        try {
-            String actualToken = token.replace("Bearer ", "");
-            return jwtUtil.getUserIdFromToken(actualToken);
-        } catch (Exception e) {
-            throw new RuntimeException("Token解析失败", e);
+    @GetMapping({"/page", "/all"})
+    public Result<Page<Reservation>> getReservationPage(@RequestHeader("Authorization") String token,
+                                                        @RequestParam(required = false) Integer current,
+                                                        @RequestParam(required = false) Integer page,
+                                                        @RequestParam(defaultValue = "10") int size,
+                                                        @RequestParam(required = false) Long userId,
+                                                        @RequestParam(required = false) Long roomId,
+                                                        @RequestParam(required = false) Integer status,
+                                                        @RequestParam(required = false) String startDate,
+                                                        @RequestParam(required = false) String endDate) {
+        authHelper.requireAdmin(token);
+        int pageNo = current != null ? current : (page != null ? page : 1);
+        Page<Reservation> reservationPage = reservationService.getReservationPage(
+                pageNo,
+                size,
+                userId,
+                roomId,
+                status,
+                parseDateStart(startDate),
+                parseDateEnd(endDate)
+        );
+        return Result.success(reservationPage);
+    }
+
+    private java.time.LocalDateTime parseDateTime(String value) {
+        if (value == null || value.isBlank()) {
+            throw new BusinessException(400, "预约时间不能为空");
         }
+        return value.contains("T")
+                ? java.time.LocalDateTime.parse(value)
+                : java.time.LocalDateTime.parse(value.replace(" ", "T"));
+    }
+
+    private java.time.LocalDateTime parseDateStart(String value) {
+        return value == null || value.isBlank() ? null : LocalDate.parse(value).atStartOfDay();
+    }
+
+    private java.time.LocalDateTime parseDateEnd(String value) {
+        return value == null || value.isBlank() ? null : LocalDate.parse(value).atTime(23, 59, 59);
     }
 }

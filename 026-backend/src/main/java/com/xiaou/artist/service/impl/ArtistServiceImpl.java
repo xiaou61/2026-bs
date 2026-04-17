@@ -11,13 +11,13 @@ import java.util.List;
 
 @Service
 public class ArtistServiceImpl implements ArtistService {
-    
+
     @Autowired
     private ArtistMapper artistMapper;
-    
+
     @Autowired
     private UserMapper userMapper;
-    
+
     @Override
     public Artist applyArtist(Artist artist) {
         Artist existArtist = artistMapper.selectByUserId(artist.getUserId());
@@ -30,52 +30,48 @@ public class ArtistServiceImpl implements ArtistService {
         artistMapper.insert(artist);
         return artist;
     }
-    
+
     @Override
     public List<Artist> getPendingArtists() {
         return artistMapper.selectByStatus("PENDING");
     }
-    
+
     @Override
     public boolean approveArtist(Long id) {
         Artist artist = artistMapper.selectById(id);
         if (artist == null) {
             throw new RuntimeException("画师不存在");
         }
-        // 更新画师状态
         artistMapper.updateStatus(id, "APPROVED");
-        // 更新用户角色为ARTIST
-        var user = userMapper.selectById(artist.getUserId());
-        user.setRole("ARTIST");
-        userMapper.update(user);
+        userMapper.updateRole(artist.getUserId(), "ARTIST");
         return true;
     }
-    
+
     @Override
     public boolean rejectArtist(Long id) {
         return artistMapper.updateStatus(id, "REJECTED") > 0;
     }
-    
+
     @Override
     public Artist getArtistById(Long id) {
         return artistMapper.selectById(id);
     }
-    
+
     @Override
     public Artist getArtistByUserId(Long userId) {
         return artistMapper.selectByUserId(userId);
     }
-    
+
     @Override
     public List<Artist> getAllArtists() {
         return artistMapper.selectAll();
     }
-    
+
     @Override
     public List<Artist> getApprovedArtists() {
         return artistMapper.selectByStatus("APPROVED");
     }
-    
+
     @Override
     public boolean updateArtist(Artist artist) {
         return artistMapper.update(artist) > 0;

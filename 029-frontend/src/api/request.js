@@ -33,10 +33,10 @@ request.interceptors.response.use(
       const userStore = useUserStore()
       userStore.logout()
       router.push({ name: 'login' })
-      ElMessage.error(data.msg || '授权失败，请重新登录')
+      ElMessage.error(data.message || data.msg || '授权失败，请重新登录')
       return Promise.reject(data)
     } else {
-      ElMessage.error(data.msg || '请求失败')
+      ElMessage.error(data.message || data.msg || '请求失败')
       return Promise.reject(data)
     }
   },
@@ -46,7 +46,7 @@ request.interceptors.response.use(
       userStore.logout()
       router.push({ name: 'login' })
     }
-    ElMessage.error(error.message || '网络错误')
+    ElMessage.error(error.response?.data?.message || error.message || '网络错误')
     return Promise.reject(error)
   }
 )

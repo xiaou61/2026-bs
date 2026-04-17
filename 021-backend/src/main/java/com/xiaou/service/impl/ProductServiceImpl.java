@@ -4,10 +4,12 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xiaou.entity.Category;
 import com.xiaou.dto.ProductPublishDTO;
 import com.xiaou.dto.ProductQueryDTO;
 import com.xiaou.entity.Product;
 import com.xiaou.exception.BusinessException;
+import com.xiaou.mapper.CategoryMapper;
 import com.xiaou.mapper.ProductMapper;
 import com.xiaou.service.ProductService;
 import com.xiaou.vo.ProductDetailVO;
@@ -21,12 +23,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductMapper productMapper;
+    private final CategoryMapper categoryMapper;
 
     @Override
     @Transactional
     public Long publishProduct(Long userId, ProductPublishDTO publishDTO) {
-        // 验证分类是否存在
-        // TODO: 添加分类验证逻辑
+        Category category = categoryMapper.selectById(publishDTO.getCategoryId());
+        if (category == null) {
+            throw new BusinessException("商品分类不存在");
+        }
 
         Product product = new Product();
         BeanUtil.copyProperties(publishDTO, product);
@@ -58,6 +63,10 @@ public class ProductServiceImpl implements ProductService {
 
         if ("sold".equals(product.getStatus())) {
             throw new BusinessException("已售出的商品不能修改");
+        }
+
+        if (categoryMapper.selectById(updateDTO.getCategoryId()) == null) {
+            throw new BusinessException("商品分类不存在");
         }
 
         BeanUtil.copyProperties(updateDTO, product, "id", "sellerId", "status", "viewCount", "favoriteCount");

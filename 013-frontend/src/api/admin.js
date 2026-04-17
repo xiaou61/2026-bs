@@ -55,3 +55,27 @@ export function getStatsOverview() {
   })
 }
 
+export function getSharedItemList(params) {
+  return request({
+    url: '/admin/shared/list',
+    method: 'get',
+    params
+  })
+}
+
+export function addSharedItem(data) {
+  return request({
+    url: '/admin/shared/add',
+    method: 'post',
+    data
+  })
+}
+
+export function updateSharedItem(id, data) {
+  return request({
+    url: `/admin/shared/${id}`,
+    method: 'put',
+    data
+  })
+}
+

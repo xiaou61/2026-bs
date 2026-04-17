@@ -77,6 +77,9 @@
             <el-button type="primary" size="large" @click="handleRent" style="width: 100%">
               立即租借
             </el-button>
+            <el-button plain size="large" @click="handleFavorite" style="width: 100%; margin-top: 12px">
+              {{ favorited ? '取消收藏' : '收藏物品' }}
+            </el-button>
           </div>
         </el-card>
       </el-col>
@@ -89,13 +92,17 @@ import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getIdleDetail } from '@/api/idle'
 import { ElMessage } from 'element-plus'
+import { getFavoriteStatus, toggleFavorite } from '@/api/favorite'
+import { useUserStore } from '@/stores/user'
 
 const route = useRoute()
 const router = useRouter()
+const userStore = useUserStore()
 
 const item = ref(null)
 const owner = ref(null)
 const rentType = ref('daily')
+const favorited = ref(false)
 
 const getConditionText = (level) => {
   const map = {
@@ -112,6 +119,10 @@ const loadDetail = async () => {
   try {
     const res = await getIdleDetail(route.params.id)
     item.value = res.data
+    if (userStore.token) {
+      const status = await getFavoriteStatus({ targetId: route.params.id, targetType: 'IDLE' })
+      favorited.value = status.data
+    }
   } catch (error) {
     console.error(error)
   }
@@ -119,6 +130,22 @@ const loadDetail = async () => {
 
 const handleRent = () => {
   ElMessage.info('请联系出租者协商租借事宜')
+}
+
+const handleFavorite = async () => {
+  if (!userStore.token) {
+    ElMessage.warning('请先登录')
+    router.push('/login')
+    return
+  }
+
+  try {
+    await toggleFavorite({ targetId: route.params.id, targetType: 'IDLE' })
+    favorited.value = !favorited.value
+    ElMessage.success(favorited.value ? '收藏成功' : '已取消收藏')
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 onMounted(() => {

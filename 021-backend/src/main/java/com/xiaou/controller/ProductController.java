@@ -8,10 +8,10 @@ import com.xiaou.dto.ProductQueryDTO;
 import com.xiaou.service.ProductService;
 import com.xiaou.vo.ProductDetailVO;
 import com.xiaou.vo.ProductVO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/product")

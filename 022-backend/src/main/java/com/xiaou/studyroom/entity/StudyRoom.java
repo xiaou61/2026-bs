@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -38,4 +39,13 @@ public class StudyRoom {
     @TableLogic
     @TableField("deleted")
     private Integer deleted;
+
+    @TableField(exist = false)
+    private Integer availableSeats;
+
+    @TableField(exist = false)
+    private Integer occupiedSeats;
+
+    @TableField(exist = false)
+    private List<Seat> seats;
 }

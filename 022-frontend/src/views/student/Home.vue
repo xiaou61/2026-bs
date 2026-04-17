@@ -234,15 +234,16 @@ const getStatusText = (status) => {
 
 const loadData = async () => {
   try {
-    // 获取自习室统计
     const roomsRes = await getStudyRooms()
-    stats.totalRooms = roomsRes.data.length
-    stats.availableSeats = roomsRes.data.reduce((sum, room) => sum + (room.availableSeats || 0), 0)
-    
-    // 获取我的预约
-    const reservationsRes = await getMyReservations({ status: '1,2' })
-    stats.myReservations = reservationsRes.data.length
-    currentReservation.value = reservationsRes.data[0] || null
+    const rooms = roomsRes.data || []
+    stats.totalRooms = rooms.length
+    stats.availableSeats = rooms.reduce((sum, room) => sum + (room.availableSeats || 0), 0)
+
+    const reservationsRes = await getMyReservations({ current: 1, size: 20 })
+    const reservationPage = reservationsRes.data
+    const records = reservationPage.records || []
+    stats.myReservations = reservationPage.total || records.length
+    currentReservation.value = records.find((item) => item.status === 1 || item.status === 2) || null
   } catch (error) {
     console.error('Failed to load data:', error)
   }
@@ -291,6 +292,7 @@ const handleCancel = async () => {
 }
 
 const showQRCode = async () => {
+  if (!currentReservation.value) return
   qrCodeVisible.value = true
   await new Promise(resolve => setTimeout(resolve, 100))
   

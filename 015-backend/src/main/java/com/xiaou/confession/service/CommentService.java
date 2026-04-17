@@ -16,6 +16,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -89,6 +95,52 @@ public class CommentService {
         
         return commentMapper.selectPage(pageParam, wrapper);
     }
+
+    public IPage<Comment> getCommentThreadByPostId(Long postId, Integer page, Integer size, String orderBy) {
+        LambdaQueryWrapper<Comment> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Comment::getPostId, postId);
+        wrapper.eq(Comment::getStatus, 0);
+
+        List<Comment> comments = commentMapper.selectList(wrapper);
+        List<Comment> orderedComments;
+
+        if ("HOT".equals(orderBy)) {
+            orderedComments = comments.stream()
+                    .sorted(Comparator.comparing(Comment::getLikeCount, Comparator.nullsLast(Comparator.reverseOrder()))
+                            .thenComparing(Comment::getCreateTime, Comparator.nullsLast(Comparator.naturalOrder())))
+                    .collect(Collectors.toList());
+        } else {
+            List<Comment> mainComments = comments.stream()
+                    .filter(comment -> comment.getParentId() == null || comment.getParentId() == 0)
+                    .sorted(Comparator.comparing(Comment::getFloorNumber, Comparator.nullsLast(Comparator.naturalOrder())))
+                    .collect(Collectors.toList());
+
+            Map<Long, List<Comment>> replyMap = comments.stream()
+                    .filter(comment -> comment.getParentId() != null && comment.getParentId() != 0)
+                    .collect(Collectors.groupingBy(Comment::getParentId));
+
+            orderedComments = new ArrayList<>();
+            for (Comment mainComment : mainComments) {
+                orderedComments.add(mainComment);
+                List<Comment> replies = replyMap.getOrDefault(mainComment.getId(), Collections.emptyList()).stream()
+                        .sorted(Comparator.comparing(Comment::getCreateTime, Comparator.nullsLast(Comparator.naturalOrder())))
+                        .collect(Collectors.toList());
+                orderedComments.addAll(replies);
+            }
+        }
+
+        long total = orderedComments.size();
+        long fromIndex = Math.max(0L, (long) (page - 1) * size);
+        long toIndex = Math.min(fromIndex + size, total);
+
+        Page<Comment> result = new Page<>(page, size, total);
+        if (fromIndex >= total) {
+            result.setRecords(Collections.emptyList());
+        } else {
+            result.setRecords(new ArrayList<>(orderedComments.subList((int) fromIndex, (int) toIndex)));
+        }
+        return result;
+    }
     
     public IPage<Comment> getRepliesByParentId(Long parentId, Integer page, Integer size) {
         Page<Comment> pageParam = new Page<>(page, size);
@@ -97,6 +149,15 @@ public class CommentService {
         wrapper.eq(Comment::getStatus, 0);
         wrapper.orderByAsc(Comment::getCreateTime);
         
+        return commentMapper.selectPage(pageParam, wrapper);
+    }
+
+    public IPage<Comment> getMyComments(Long userId, Integer page, Integer size) {
+        Page<Comment> pageParam = new Page<>(page, size);
+        LambdaQueryWrapper<Comment> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Comment::getUserId, userId);
+        wrapper.eq(Comment::getStatus, 0);
+        wrapper.orderByDesc(Comment::getCreateTime);
         return commentMapper.selectPage(pageParam, wrapper);
     }
     

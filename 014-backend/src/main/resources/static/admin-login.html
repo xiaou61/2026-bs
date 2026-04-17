@@ -73,7 +73,7 @@
     <script src="js/common.js"></script>
     <script>
         $(document).ready(function() {
-            if (auth.isLoggedIn()) {
+            if (auth.isLoggedIn() && auth.isAdmin()) {
                 window.location.href = 'admin-dashboard.html';
                 return;
             }

@@ -1,5 +1,23 @@
 {
+  "name": "024-frontend",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
   "dependencies": {
-    "@element-plus/icons-vue": "^2.3.2"
+    "@element-plus/icons-vue": "^2.3.2",
+    "axios": "^1.8.4",
+    "element-plus": "^2.9.8",
+    "pinia": "^2.3.1",
+    "vue": "^3.5.24",
+    "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "vite": "^5.4.19"
   }
 }

@@ -20,10 +20,15 @@ public class CourseController {
     @GetMapping("/list")
     public Result<PageResult<Course>> getCourseList(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(required = false) String keyword) {
+            @RequestParam(required = false) Integer size,
+            @RequestParam(required = false) Integer limit,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) String search) {
         try {
-            PageResult<Course> result = courseService.getCourseList(page, size, keyword);
+            int pageSize = size != null ? size : (limit != null ? limit : 10);
+            String searchKeyword = keyword != null ? keyword : search;
+
+            PageResult<Course> result = courseService.getCourseList(page, pageSize, searchKeyword);
             return Result.success(result);
         } catch (Exception e) {
             return Result.error("获取课程列表失败: " + e.getMessage());

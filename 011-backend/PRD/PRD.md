@@ -1062,7 +1062,7 @@ timeDecay = 1 / (1 + hoursSincePublish / 24)
 - 数据库备份：/data/backup/
 
 ### 12.3 初始账户
-- 管理员：admin / admin123
+- 管理员：admin / 123456
 - 测试用户1：test1 / 123456
 - 测试用户2：test2 / 123456
 

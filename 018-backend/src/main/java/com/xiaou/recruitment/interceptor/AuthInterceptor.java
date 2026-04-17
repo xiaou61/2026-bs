@@ -31,6 +31,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             request.setAttribute("userId", jwtUtil.getUserId(token));
             request.setAttribute("username", jwtUtil.getUsername(token));
             request.setAttribute("role", jwtUtil.getRole(token));
+            request.setAttribute("companyId", jwtUtil.getCompanyId(token));
             return true;
         } catch (Exception e) {
             response.setStatus(401);

@@ -10,7 +10,9 @@ import com.xiaou.recruitment.mapper.JobMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class JobService extends ServiceImpl<JobMapper, Job> {
@@ -18,14 +20,43 @@ public class JobService extends ServiceImpl<JobMapper, Job> {
     @Autowired
     private ResumeService resumeService;
 
-    public boolean publishJob(Job job) {
+    public boolean publishJob(Job job, Long companyId) {
+        job.setId(null);
+        job.setCompanyId(companyId);
         job.setStatus(1);
         job.setViews(0);
         return save(job);
     }
 
-    public boolean updateJob(Job job) {
-        return updateById(job);
+    public boolean updateJob(Job job, Long companyId) {
+        Job existing = getById(job.getId());
+        if (existing == null || !companyId.equals(existing.getCompanyId())) {
+            return false;
+        }
+        existing.setTitle(job.getTitle());
+        existing.setJobType(job.getJobType());
+        existing.setCategory(job.getCategory());
+        existing.setLocation(job.getLocation());
+        existing.setSalaryMin(job.getSalaryMin());
+        existing.setSalaryMax(job.getSalaryMax());
+        existing.setRequirement(job.getRequirement());
+        existing.setDescription(job.getDescription());
+        existing.setMajor(job.getMajor());
+        existing.setSkills(job.getSkills());
+        existing.setEducation(job.getEducation());
+        existing.setHeadcount(job.getHeadcount());
+        if (job.getStatus() != null) {
+            existing.setStatus(job.getStatus());
+        }
+        return updateById(existing);
+    }
+
+    public boolean deleteJob(Long id, Long companyId) {
+        Job existing = getById(id);
+        if (existing == null || !companyId.equals(existing.getCompanyId())) {
+            return false;
+        }
+        return removeById(id);
     }
 
     public Job getJobById(Long id) {
@@ -88,5 +119,19 @@ public class JobService extends ServiceImpl<JobMapper, Job> {
         wrapper.eq(Job::getCompanyId, companyId);
         wrapper.orderByDesc(Job::getCreatedAt);
         return page(pageParam, wrapper);
+    }
+
+    public boolean belongsToCompany(Long jobId, Long companyId) {
+        Job job = getById(jobId);
+        return job != null && companyId != null && companyId.equals(job.getCompanyId());
+    }
+
+    public List<Long> getJobIdsByCompanyId(Long companyId) {
+        if (companyId == null) {
+            return Collections.emptyList();
+        }
+        LambdaQueryWrapper<Job> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Job::getCompanyId, companyId).select(Job::getId);
+        return list(wrapper).stream().map(Job::getId).collect(Collectors.toList());
     }
 }

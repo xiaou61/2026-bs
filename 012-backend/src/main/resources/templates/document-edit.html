@@ -1,375 +1,163 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>编辑文档 - 协作白板系统</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-
-        .editor-container {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-
-        .editor-toolbar {
-            height: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .editor-toolbar input {
-            background: rgba(255,255,255,0.2);
-            border: 1px solid rgba(255,255,255,0.3);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: 500;
-            min-width: 300px;
-        }
-
-        .editor-toolbar input::placeholder {
-            color: rgba(255,255,255,0.7);
-        }
-
-        .editor-toolbar input:focus {
-            outline: none;
-            background: rgba(255,255,255,0.3);
-            border-color: rgba(255,255,255,0.5);
-        }
-
-        .editor-toolbar .btn {
-            color: white;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-
-        .editor-toolbar .btn:hover {
-            background: rgba(255,255,255,0.2);
-            border-color: rgba(255,255,255,0.5);
-        }
-
-        .editor-content {
-            flex: 1;
-            overflow: hidden;
-            display: flex;
-        }
-
-        .markdown-editor {
-            display: flex;
-            width: 100%;
-            height: 100%;
-        }
-
-        .markdown-input {
-            flex: 1;
-            border: none;
-            padding: 30px;
-            font-family: 'Courier New', 'Monaco', monospace;
-            font-size: 15px;
-            line-height: 1.6;
-            resize: none;
-            outline: none;
-            background: #282c34;
-            color: #abb2bf;
-        }
-
-        .markdown-preview {
-            flex: 1;
-            border-left: 3px solid #e9ecef;
-            padding: 30px;
-            overflow-y: auto;
-            background: white;
-        }
-
-        .markdown-preview h1 {
-            border-bottom: 2px solid #e9ecef;
-            padding-bottom: 10px;
-        }
-
-        .markdown-preview h2 {
-            border-bottom: 1px solid #e9ecef;
-            padding-bottom: 8px;
-            margin-top: 24px;
-        }
-
-        .markdown-preview code {
-            background: #f4f4f4;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-family: 'Courier New', monospace;
-        }
-
-        .markdown-preview pre {
-            background: #282c34;
-            color: #abb2bf;
-            padding: 16px;
-            border-radius: 6px;
-            overflow-x: auto;
-        }
-
-        .markdown-preview blockquote {
-            border-left: 4px solid #667eea;
-            padding-left: 16px;
-            color: #6c757d;
-            margin: 16px 0;
-        }
-
-        .canvas-area {
-            flex: 1;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-
-        .canvas-area i {
-            font-size: 80px;
-            color: rgba(0,0,0,0.2);
-            margin-bottom: 20px;
-        }
-
-        .canvas-area h4 {
-            color: rgba(0,0,0,0.5);
-        }
-
-        .canvas-area p {
-            color: rgba(0,0,0,0.4);
-        }
-
-        .save-indicator {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            background: #28a745;
-            color: white;
-            border-radius: 20px;
-            display: none;
-            animation: fadeIn 0.3s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+    <title>协作编辑器</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/document-edit.css}">
 </head>
-<body>
-    <div class="editor-container">
-        <div class="editor-toolbar">
-            <input type="text" id="docTitle" placeholder="文档标题" />
-            <div class="ms-auto d-flex gap-2">
-                <span id="autoSaveText" style="font-size: 14px; opacity: 0.8;">自动保存中...</span>
-                <button class="btn btn-sm" onclick="saveDocument()">
-                    <i class="fas fa-save"></i> 手动保存
-                </button>
-                <button class="btn btn-sm" onclick="window.location.href='/documents'">
-                    <i class="fas fa-times"></i> 关闭
-                </button>
+<body th:attr="data-document-id=${documentId}">
+<div class="editor-shell">
+    <header class="editor-topbar">
+        <div class="brand-block">
+            <a class="brand-back" href="/documents" title="返回文档列表">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <div class="brand-copy">
+                <div class="brand-kicker">在线协作白板与笔记系统</div>
+                <input id="docTitle" class="doc-title-input" type="text" placeholder="请输入文档标题">
+                <div class="meta-row">
+                    <span id="docTypeBadge" class="badge rounded-pill text-bg-light">NOTE</span>
+                    <span id="connectionStatus" class="meta-pill">协作连接中</span>
+                    <span id="onlineStatus" class="meta-pill">在线 1 人</span>
+                </div>
             </div>
         </div>
+        <div class="toolbar-actions">
+            <button id="versionBtn" class="btn btn-ghost" data-bs-toggle="modal" data-bs-target="#versionModal">
+                <i class="fas fa-clock-rotate-left"></i> 版本
+            </button>
+            <button id="collabBtn" class="btn btn-ghost" data-bs-toggle="modal" data-bs-target="#collabModal">
+                <i class="fas fa-user-group"></i> 协作
+            </button>
+            <button id="shareBtn" class="btn btn-ghost" data-bs-toggle="modal" data-bs-target="#shareModal">
+                <i class="fas fa-share-nodes"></i> 分享
+            </button>
+            <button id="attachmentBtn" class="btn btn-ghost" data-bs-toggle="modal" data-bs-target="#attachmentModal">
+                <i class="fas fa-paperclip"></i> 附件
+            </button>
+            <button id="manualSaveBtn" class="btn btn-primary-strong">
+                <i class="fas fa-floppy-disk"></i> 保存
+            </button>
+        </div>
+    </header>
 
-        <div class="editor-content">
-            <div class="markdown-editor" id="markdownEditor" style="display: none;">
-                <textarea id="markdownInput" class="markdown-input" placeholder="# 欢迎使用Markdown编辑器
+    <main class="editor-main">
+        <aside class="editor-sidebar">
+            <section class="sidebar-card">
+                <div class="sidebar-label">当前用户</div>
+                <div id="currentUserInfo" class="sidebar-emphasis">载入中...</div>
+            </section>
+            <section class="sidebar-card">
+                <div class="sidebar-label">文档状态</div>
+                <div id="saveStateText" class="sidebar-emphasis">尚未保存</div>
+                <div id="lastSavedText" class="sidebar-muted">等待首次保存</div>
+            </section>
+            <section class="sidebar-card">
+                <div class="sidebar-label">编辑提示</div>
+                <ul class="tips-list">
+                    <li>支持自动保存与手动保存双通道。</li>
+                    <li>同一文档多窗口打开时会实时同步内容。</li>
+                    <li>白板支持手绘、撤销和清空。</li>
+                    <li>脑图支持节点增删改和结构编辑。</li>
+                </ul>
+            </section>
+        </aside>
 
-## 功能特性
-
-- 实时预览
-- 代码高亮
-- 自动保存
-
-## 示例代码
-
-```javascript
-function hello() {
-    console.log('Hello World');
-}
-```
-
-## 任务列表
-
-- [ ] 待办事项1
-- [x] 已完成事项
-
-> 这是一个引用块
-"></textarea>
-                <div id="markdownPreview" class="markdown-preview"></div>
+        <section class="workspace-panel">
+            <div class="workspace-header">
+                <div>
+                    <div class="workspace-kicker">编辑工作区</div>
+                    <h1 id="workspaceTitle">正在载入文档...</h1>
+                </div>
+                <div id="workspaceHint" class="workspace-hint">内容修改后会自动同步到其他协作者窗口</div>
             </div>
 
-            <div class="canvas-area" id="boardEditor" style="display: none;">
-                <i class="fas fa-pencil-ruler"></i>
-                <h4>白板编辑器（演示）</h4>
-                <p>实际项目中需要集成 Fabric.js 或 Konva.js</p>
-                <button class="btn btn-outline-primary mt-3" onclick="alert('白板编辑功能需要集成 Fabric.js 等绘图库')">
-                    <i class="fas fa-info-circle"></i> 查看集成说明
-                </button>
-            </div>
+            <div class="editor-stage">
+                <section id="notePane" class="editor-pane d-none">
+                    <div class="note-grid">
+                        <textarea id="noteInput" class="note-input" placeholder="在这里输入 Markdown 内容"></textarea>
+                        <article id="notePreview" class="note-preview"></article>
+                    </div>
+                </section>
 
-            <div class="canvas-area" id="mindmapEditor" style="display: none;">
-                <i class="fas fa-project-diagram"></i>
-                <h4>思维导图编辑器（演示）</h4>
-                <p>实际项目中需要集成 jsMind 或 MindElixir</p>
-                <button class="btn btn-outline-success mt-3" onclick="alert('思维导图功能需要集成专业库，如 jsMind、MindElixir 等')">
-                    <i class="fas fa-info-circle"></i> 查看集成说明
-                </button>
+                <section id="boardPane" class="editor-pane d-none">
+                    <div class="board-shell">
+                        <div class="board-toolbar">
+                            <label class="board-field">
+                                <span>画笔颜色</span>
+                                <input id="boardColor" type="color" value="#1d3557">
+                            </label>
+                            <label class="board-field board-range">
+                                <span>笔触粗细</span>
+                                <input id="boardBrushSize" type="range" min="2" max="18" value="4">
+                                <strong id="boardBrushValue">4 px</strong>
+                            </label>
+                            <button id="boardUndoBtn" class="btn btn-outline-dark btn-sm"><i class="fas fa-rotate-left"></i> 撤销</button>
+                            <button id="boardClearBtn" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i> 清空</button>
+                        </div>
+                        <div class="board-surface">
+                            <canvas id="boardCanvas"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="mindmapPane" class="editor-pane d-none">
+                    <div class="mindmap-shell">
+                        <div class="mindmap-tree-panel">
+                            <div class="mindmap-panel-title">结构视图</div>
+                            <div id="mindmapTree" class="mindmap-tree"></div>
+                        </div>
+                        <div class="mindmap-detail-panel">
+                            <div class="mindmap-panel-title">节点编辑</div>
+                            <label class="form-label">节点标题</label>
+                            <input id="mindmapNodeText" class="form-control mb-3" type="text" placeholder="请输入节点标题">
+                            <label class="form-label">节点说明</label>
+                            <textarea id="mindmapNodeNote" class="form-control mb-3" rows="6" placeholder="补充这个节点的说明、备注或行动项"></textarea>
+                            <div class="mindmap-actions">
+                                <button id="mindmapAddChildBtn" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> 添加子节点</button>
+                                <button id="mindmapAddSiblingBtn" class="btn btn-outline-primary btn-sm"><i class="fas fa-code-branch"></i> 添加同级</button>
+                                <button id="mindmapDeleteBtn" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i> 删除节点</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
+        </section>
+    </main>
+</div>
+
+<div class="modal fade" id="versionModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">版本历史</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="row g-3 align-items-end mb-4"><div class="col-md-4"><label class="form-label">版本名称</label><input id="versionNameInput" class="form-control" type="text" placeholder="例如：里程碑版本"></div><div class="col-md-6"><label class="form-label">变更说明</label><input id="versionChangeLogInput" class="form-control" type="text" placeholder="简述本次保存的重点"></div><div class="col-md-2 d-grid"><button id="createVersionBtn" class="btn btn-primary">保存版本</button></div></div><div id="versionList" class="stack-list"></div></div></div></div>
+</div>
+
+<div class="modal fade" id="collabModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">协作者管理</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="row g-3 align-items-end mb-3"><div class="col-md-5"><label class="form-label">搜索用户</label><input id="collabKeywordInput" class="form-control" type="text" placeholder="输入用户名或昵称"></div><div class="col-md-3"><label class="form-label">权限</label><select id="collabPermissionSelect" class="form-select"><option value="EDIT">可编辑</option><option value="VIEW">仅查看</option></select></div><div class="col-md-2 d-grid"><button id="collabSearchBtn" class="btn btn-outline-primary">搜索</button></div><div class="col-md-2 d-grid"><button id="collabRefreshBtn" class="btn btn-outline-dark">刷新</button></div></div><div id="collabSearchResults" class="stack-list mb-4"></div><hr><div id="collaboratorList" class="stack-list"></div></div></div></div>
+</div>
+
+<div class="modal fade" id="shareModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">分享文档</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="mb-3"><label class="form-label">访问密码</label><input id="sharePasswordInput" class="form-control" type="text" placeholder="可选，不填则公开访问"></div><div class="mb-3"><label class="form-label">有效时长</label><select id="shareExpireSelect" class="form-select"><option value="24">24 小时</option><option value="72">3 天</option><option value="168">7 天</option><option value="0">不过期</option></select></div><div class="d-grid gap-2 d-md-flex"><button id="createShareBtn" class="btn btn-primary flex-fill">生成分享链接</button><button id="cancelShareBtn" class="btn btn-outline-danger flex-fill">关闭分享</button></div><div id="shareResult" class="share-result mt-4"></div></div></div></div>
+</div>
+
+<div class="modal fade" id="attachmentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">文档附件</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="row g-3 align-items-end mb-4"><div class="col-md-9"><label class="form-label">选择附件</label><input id="attachmentFileInput" class="form-control" type="file"></div><div class="col-md-3 d-grid"><button id="uploadAttachmentBtn" class="btn btn-primary">上传附件</button></div></div><div id="attachmentList" class="stack-list"></div></div></div></div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-4">
+    <div id="editorToast" class="toast align-items-center border-0 text-bg-dark" role="alert">
+        <div class="d-flex">
+            <div id="editorToastBody" class="toast-body">已完成操作</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
         </div>
     </div>
+</div>
 
-    <div class="save-indicator" id="saveIndicator">
-        <i class="fas fa-check-circle"></i> 已保存
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
-    <script th:inline="javascript">
-        const documentId = /*[[${documentId}]]*/ 0;
-        const API_BASE_URL = '/api';
-        
-        axios.defaults.baseURL = API_BASE_URL;
-        axios.interceptors.request.use(config => {
-            const token = localStorage.getItem('token');
-            if (token) {
-                config.headers.Authorization = `Bearer ${token}`;
-            }
-            return config;
-        });
-
-        axios.interceptors.response.use(
-            response => response.data,
-            error => {
-                if (error.response?.status === 401) {
-                    localStorage.clear();
-                    window.location.href = '/login';
-                }
-                return Promise.reject(error);
-            }
-        );
-
-        let currentDoc = null;
-        let autoSaveTimer = null;
-
-        $(document).ready(function() {
-            const token = localStorage.getItem('token');
-            if (!token || token === 'undefined' || token === 'null') {
-                localStorage.clear();
-                window.location.href = '/login';
-                return;
-            }
-            
-            console.log('文档ID:', documentId);
-            loadDocument();
-
-            $('#markdownInput').on('input', function() {
-                const content = $(this).val();
-                const html = marked.parse(content);
-                $('#markdownPreview').html(html);
-                
-                clearTimeout(autoSaveTimer);
-                autoSaveTimer = setTimeout(() => {
-                    autoSave();
-                }, 3000);
-            });
-        });
-
-        async function loadDocument() {
-            try {
-                console.log('开始加载文档, ID:', documentId);
-                const res = await axios.get(`/document/${documentId}`);
-                console.log('文档加载成功:', res);
-                
-                currentDoc = res.data || res;
-                console.log('当前文档:', currentDoc);
-                
-                $('#docTitle').val(currentDoc.title);
-                
-                if (currentDoc.docType === 'NOTE') {
-                    console.log('显示Markdown编辑器');
-                    $('#markdownEditor').show();
-                    const content = currentDoc.content || '# 欢迎使用Markdown编辑器\n\n开始编写您的笔记...\n\n## 支持的功能\n\n- 标题\n- 列表\n- 代码块\n- 引用\n\n```javascript\nconsole.log("Hello World");\n```\n';
-                    $('#markdownInput').val(content);
-                    const html = marked.parse(content);
-                    $('#markdownPreview').html(html);
-                } else if (currentDoc.docType === 'BOARD') {
-                    console.log('显示白板编辑器');
-                    $('#boardEditor').show();
-                } else if (currentDoc.docType === 'MINDMAP') {
-                    console.log('显示思维导图编辑器');
-                    $('#mindmapEditor').show();
-                }
-
-                setInterval(() => {
-                    autoSave();
-                }, 30000);
-            } catch (error) {
-                console.error('加载文档失败:', error);
-                alert('加载文档失败: ' + (error.response?.data?.message || error.message));
-                window.location.href = '/documents';
-            }
-        }
-
-        async function saveDocument() {
-            if (!currentDoc) return;
-
-            const title = $('#docTitle').val();
-            let content = currentDoc.content;
-
-            if (currentDoc.docType === 'NOTE') {
-                content = $('#markdownInput').val();
-            }
-
-            try {
-                await axios.put(`/document/${documentId}`, {
-                    title: title,
-                    content: content
-                });
-                
-                showSaveIndicator();
-                console.log('保存成功');
-            } catch (error) {
-                console.error(error);
-                alert('保存失败');
-            }
-        }
-
-        async function autoSave() {
-            if (!currentDoc) return;
-            
-            $('#autoSaveText').text('保存中...');
-            
-            await saveDocument();
-            
-            setTimeout(() => {
-                $('#autoSaveText').text('已自动保存');
-            }, 500);
-        }
-
-        function showSaveIndicator() {
-            $('#saveIndicator').fadeIn(300);
-            setTimeout(() => {
-                $('#saveIndicator').fadeOut(300);
-            }, 2000);
-        }
-    </script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/document-edit.js}"></script>
 </body>
 </html>
-

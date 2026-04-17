@@ -18,6 +18,10 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if (isPublicApi(request)) {
+            return true;
+        }
+
         // 获取token
         String token = request.getHeader("Authorization");
         
@@ -44,5 +48,26 @@ public class JwtInterceptor implements HandlerInterceptor {
         response.getWriter().write("{\"code\":401,\"message\":\"未授权访问\"}");
         
         return false;
+    }
+
+    private boolean isPublicApi(HttpServletRequest request) {
+        String method = request.getMethod();
+        String uri = request.getRequestURI();
+        if (!"GET".equalsIgnoreCase(method)) {
+            return false;
+        }
+
+        return "/api/course/hot".equals(uri)
+                || "/api/course/list".equals(uri)
+                || uri.startsWith("/api/course/category/")
+                || uri.matches("^/api/course/\\d+$")
+                || "/api/user/check-username".equals(uri)
+                || "/api/user/check-email".equals(uri)
+                || uri.matches("^/api/course/detail/\\d+$")
+                || uri.matches("^/api/course/\\d+/knowledge-points$")
+                || uri.matches("^/api/course/\\d+/learning-path$")
+                || uri.matches("^/api/course/\\d+/comments$")
+                || uri.matches("^/api/recommendation/related-courses/\\d+$")
+                || uri.matches("^/api/learning-record/course/\\d+/stats$");
     }
 }

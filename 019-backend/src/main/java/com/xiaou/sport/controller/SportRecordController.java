@@ -5,10 +5,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaou.sport.common.Result;
 import com.xiaou.sport.entity.SportRecord;
 import com.xiaou.sport.service.SportRecordService;
+import com.xiaou.sport.service.UserService;
+import com.xiaou.sport.utils.PointRuleUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Map;
 
 @RestController
@@ -18,9 +22,16 @@ public class SportRecordController {
     @Autowired
     private SportRecordService sportRecordService;
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping("/record")
+    @Transactional
     public Result<Void> createRecord(@RequestAttribute Long userId, @RequestBody SportRecord record) {
         record.setUserId(userId);
+        if (record.getSportDate() == null) {
+            record.setSportDate(LocalDate.now());
+        }
 
         if (record.getDuration() != null && record.getDistance() != null
                 && record.getDistance().compareTo(BigDecimal.ZERO) > 0) {
@@ -29,10 +40,13 @@ public class SportRecordController {
             record.setAvgSpeed(avgSpeed);
         }
 
-        int points = calculatePoints(record);
+        int points = PointRuleUtil.calculateSportPoints(record);
         record.setPointsEarned(points);
 
-        sportRecordService.save(record);
+        if (!sportRecordService.save(record)) {
+            return Result.error("创建运动记录失败");
+        }
+        addUserPoints(userId, points);
         return Result.success();
     }
 
@@ -49,35 +63,35 @@ public class SportRecordController {
     }
 
     @GetMapping("/record/{id}")
-    public Result<SportRecord> getRecord(@PathVariable Long id) {
-        SportRecord record = sportRecordService.getById(id);
+    public Result<SportRecord> getRecord(@PathVariable Long id, @RequestAttribute Long userId) {
+        LambdaQueryWrapper<SportRecord> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SportRecord::getId, id)
+                .eq(SportRecord::getUserId, userId);
+        SportRecord record = sportRecordService.getOne(wrapper);
+        if (record == null) {
+            return Result.error("记录不存在");
+        }
         return Result.success(record);
     }
 
     @GetMapping("/stats")
     public Result<Map<String, Object>> getStats(@RequestAttribute Long userId) {
         Map<String, Object> stats = sportRecordService.getStats(userId);
+        var user = userService.getById(userId);
+        stats.put("totalPoints", user != null && user.getPoints() != null ? user.getPoints() : 0);
         return Result.success(stats);
     }
 
-    private int calculatePoints(SportRecord record) {
-        int points = 0;
-        if ("running".equals(record.getSportType())) {
-            if (record.getDistance() != null) {
-                points += record.getDistance().intValue() * 10;
-            }
-            if (record.getDuration() != null && record.getDuration() >= 30) {
-                points += 5;
-            }
-        } else if ("gym".equals(record.getSportType())) {
-            if (record.getDuration() != null) {
-                points += (record.getDuration() / 30) * 10;
-            }
-        } else {
-            if (record.getDuration() != null) {
-                points += (record.getDuration() / 60) * 15;
-            }
+    private void addUserPoints(Long userId, int points) {
+        if (points <= 0) {
+            return;
         }
-        return points;
+        var user = userService.getById(userId);
+        if (user == null) {
+            return;
+        }
+        int currentPoints = user.getPoints() == null ? 0 : user.getPoints();
+        user.setPoints(currentPoints + points);
+        userService.updateById(user);
     }
 }

@@ -17,11 +17,11 @@ public class TeamActivityController {
 
     @PostMapping("/create")
     public Result<Void> createActivity(@RequestAttribute Long userId, @RequestBody TeamActivity activity) {
-        activity.setCreatorId(userId);
-        activity.setCurrentParticipants(1);
-        activity.setStatus("recruiting");
-        teamActivityService.save(activity);
-        return Result.success();
+        boolean success = teamActivityService.createActivity(userId, activity);
+        if (success) {
+            return Result.success();
+        }
+        return Result.error("发起活动失败");
     }
 
     @GetMapping("/list")

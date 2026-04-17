@@ -18,25 +18,46 @@ function removeToken() {
 
 function getUserInfo() {
     const userInfoStr = localStorage.getItem(USER_INFO_KEY);
-    return userInfoStr ? JSON.parse(userInfoStr) : null;
+    if (!userInfoStr) {
+        return null;
+    }
+    try {
+        return JSON.parse(userInfoStr);
+    } catch (e) {
+        removeToken();
+        return null;
+    }
 }
 
 function setUserInfo(userInfo) {
     localStorage.setItem(USER_INFO_KEY, JSON.stringify(userInfo));
 }
 
+function isAdminUser() {
+    const userInfo = getUserInfo();
+    return !!(userInfo && userInfo.isAdmin);
+}
+
+function getLoginPage(isAdminPage = false) {
+    if (isAdminPage || isAdminUser() || window.location.pathname.includes('admin')) {
+        return '/admin-login.html';
+    }
+    return '/login.html';
+}
+
 function checkLogin() {
     const token = getToken();
     if (!token) {
-        window.location.href = '/login.html';
+        window.location.href = getLoginPage();
         return false;
     }
     return true;
 }
 
 function logout() {
+    const targetPage = getLoginPage();
     removeToken();
-    window.location.href = '/login.html';
+    window.location.href = targetPage;
 }
 
 function request(url, options = {}) {
@@ -57,9 +78,13 @@ function request(url, options = {}) {
     .then(response => response.json())
     .then(data => {
         if (data.code === 401) {
+            const isAdminPage = url.startsWith('/admin') || window.location.pathname.includes('admin');
             removeToken();
-            window.location.href = '/login.html';
+            window.location.href = getLoginPage(isAdminPage);
             throw new Error('未登录或登录已过期');
+        }
+        if (data.code === 403) {
+            throw new Error(data.message || '无权访问');
         }
         if (data.code !== 200) {
             throw new Error(data.message || '请求失败');

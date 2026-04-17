@@ -23,7 +23,7 @@ public class ReviewController {
     @PostMapping("/create")
     public Result<Void> createReview(@RequestBody Review review) {
         reviewService.createReview(review);
-        return Result.success("评价成功");
+        return Result.success("评价成功", null);
     }
 
     /**

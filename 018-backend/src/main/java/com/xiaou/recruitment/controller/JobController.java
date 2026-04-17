@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xiaou.recruitment.common.Result;
 import com.xiaou.recruitment.entity.Job;
 import com.xiaou.recruitment.service.JobService;
+import com.xiaou.recruitment.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +18,17 @@ public class JobController {
     @Autowired
     private JobService jobService;
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping("/publish")
     public Result<?> publishJob(@RequestBody Job job, HttpServletRequest request) {
-        if (jobService.publishJob(job)) {
+        Long userId = (Long) request.getAttribute("userId");
+        var currentUser = userService.getUserById(userId);
+        if (currentUser == null || !"company".equals(currentUser.getRole()) || currentUser.getCompanyId() == null) {
+            return Result.error(403, "仅企业账号可以发布岗位");
+        }
+        if (jobService.publishJob(job, currentUser.getCompanyId())) {
             return Result.success(job);
         }
         return Result.error("发布失败");
@@ -27,7 +36,12 @@ public class JobController {
 
     @PutMapping("/update")
     public Result<?> updateJob(@RequestBody Job job, HttpServletRequest request) {
-        if (jobService.updateJob(job)) {
+        Long userId = (Long) request.getAttribute("userId");
+        var currentUser = userService.getUserById(userId);
+        if (currentUser == null || !"company".equals(currentUser.getRole()) || currentUser.getCompanyId() == null) {
+            return Result.error(403, "仅企业账号可以更新岗位");
+        }
+        if (jobService.updateJob(job, currentUser.getCompanyId())) {
             return Result.success(job);
         }
         return Result.error("更新失败");
@@ -35,7 +49,12 @@ public class JobController {
 
     @DeleteMapping("/{id}")
     public Result<?> deleteJob(@PathVariable Long id, HttpServletRequest request) {
-        if (jobService.removeById(id)) {
+        Long userId = (Long) request.getAttribute("userId");
+        var currentUser = userService.getUserById(userId);
+        if (currentUser == null || !"company".equals(currentUser.getRole()) || currentUser.getCompanyId() == null) {
+            return Result.error(403, "仅企业账号可以删除岗位");
+        }
+        if (jobService.deleteJob(id, currentUser.getCompanyId())) {
             return Result.success();
         }
         return Result.error("删除失败");

@@ -73,7 +73,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/campus_ordering?useUnicode=true&characterEncoding=utf-8
     username: root
-    password: root  # 修改为你的数据库密码
+    password: 1234  # 修改为你的数据库密码
 ```
 
 ### 3. 运行项目
@@ -227,24 +227,45 @@ mvn spring-boot:run
 - `POST /api/auth/user/login` - 用户登录
 - `POST /api/auth/merchant/login` - 商家登录
 - `POST /api/auth/admin/login` - 管理员登录
+- `GET /api/auth/info` - 获取当前登录身份信息
 
 ### 购物车接口
 
 - `POST /api/cart/add` - 添加到购物车
-- `GET /api/cart/list/{userId}` - 获取购物车
+- `GET /api/cart` - 获取当前用户购物车
 - `PUT /api/cart/{id}` - 更新数量
 - `DELETE /api/cart/{id}` - 删除商品
-- `DELETE /api/cart/clear/{userId}` - 清空购物车
+- `DELETE /api/cart/clear` - 清空购物车
+
+### 订单接口
+
+- `POST /api/orders` - 创建订单
+- `GET /api/orders` - 获取我的订单
+- `GET /api/orders/{id}` - 获取订单详情
+- `POST /api/orders/{id}/cancel` - 取消订单
+- `POST /api/orders/{id}/confirm` - 确认取餐
+
+### 商家 / 管理后台接口
+
+- `GET /api/merchant/dashboard` - 商家工作台统计
+- `GET /api/merchant/orders` - 商家订单列表
+- `POST /api/merchant/orders/{id}/accept` - 商家接单
+- `POST /api/merchant/orders/{id}/ready` - 标记待取餐
+- `GET /api/admin/statistics` - 管理后台统计
 
 ### 页面路由
 
 - `GET /` 或 `/index` - 首页
 - `GET /user/login` - 学生登录页
 - `GET /user/register` - 学生注册页
+- `GET /user/cart` - 学生购物车页
+- `GET /user/orders` - 学生订单页
 - `GET /merchant/list` - 商家列表页
 - `GET /merchant/detail/{id}` - 商家详情页
 - `GET /merchant/login` - 商家登录页
+- `GET /merchant/manage` - 商家工作台
 - `GET /admin/login` - 管理员登录页
+- `GET /admin/dashboard` - 管理后台首页
 
 ## 初始化数据
 

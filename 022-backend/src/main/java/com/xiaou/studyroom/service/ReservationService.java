@@ -15,9 +15,15 @@ public interface ReservationService extends IService<Reservation> {
 
     boolean checkIn(String qrcodeContent, Long userId);
 
+    boolean checkInByReservationId(Long reservationId, Long userId);
+
     boolean endReservation(Long reservationId, Long userId);
 
-    Page<Reservation> getUserReservations(Long userId, int current, int size, Integer status);
+    Page<Reservation> getUserReservations(Long userId, int current, int size, Integer status, LocalDateTime startTime, LocalDateTime endTime);
+
+    Page<Reservation> getReservationPage(int current, int size, Long userId, Long roomId, Integer status, LocalDateTime startTime, LocalDateTime endTime);
+
+    Reservation getReservationDetail(Long reservationId);
 
     List<Reservation> getCurrentReservations(Long seatId);
 

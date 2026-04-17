@@ -186,6 +186,15 @@
         }
         
         function submitComment(parentId = 0, replyToNickname = '') {
+            const storedParentId = $('#commentInput').data('parent-id');
+            const storedReplyTo = $('#commentInput').data('reply-to');
+            if (!parentId && storedParentId) {
+                parentId = storedParentId;
+            }
+            if (!replyToNickname && storedReplyTo) {
+                replyToNickname = storedReplyTo;
+            }
+
             const content = $('#commentInput').val().trim();
             if (!content) {
                 showToast('请输入评论内容', 'warning');
@@ -199,6 +208,7 @@
             .then(() => {
                 showToast('评论成功', 'success');
                 $('#commentInput').val('');
+                $('#commentInput').removeData('parent-id').removeData('reply-to');
                 loadComments();
                 loadPost();
             })
@@ -218,8 +228,8 @@
                 method: 'POST',
                 body: JSON.stringify({ targetId: postId, targetType: 1 })
             })
-            .then(() => {
-                showToast('点赞成功', 'success');
+            .then(data => {
+                showToast(data.liked ? '点赞成功' : '已取消点赞', data.liked ? 'success' : 'info');
                 loadPost();
             })
             .catch(err => {
@@ -232,8 +242,8 @@
                 method: 'POST',
                 body: JSON.stringify({ targetId: commentId, targetType: 2 })
             })
-            .then(() => {
-                showToast('点赞成功', 'success');
+            .then(data => {
+                showToast(data.liked ? '点赞成功' : '已取消点赞', data.liked ? 'success' : 'info');
                 loadComments();
             })
             .catch(err => {

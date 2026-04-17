@@ -57,7 +57,7 @@
         
         <div class="card">
             <div class="list-group list-group-flush">
-                <a href="#" class="list-group-item list-group-item-action" onclick="changePassword()">
+                <a href="#" class="list-group-item list-group-item-action" onclick="changePassword(event)">
                     <i class="bi bi-key me-2"></i> 修改密码
                     <i class="bi bi-chevron-right float-end"></i>
                 </a>
@@ -95,7 +95,7 @@
         }
         
         function loadUserProfile() {
-            request('/user/profile')
+            request('/user/info')
                 .then(data => {
                     $('#userName').text(data.realName);
                     $('#userSchool').text(`${data.school} - ${data.college}`);
@@ -110,8 +110,10 @@
                 });
         }
         
-        function changePassword() {
-            event.preventDefault();
+        function changePassword(event) {
+            if (event) {
+                event.preventDefault();
+            }
             
             const modal = `
                 <div class="modal fade" id="passwordModal" tabindex="-1">

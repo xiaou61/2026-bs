@@ -21,13 +21,13 @@ public class WebConfig implements WebMvcConfigurer {
                         "/api/user/login",
                         "/api/user/register",
                         "/api/job/list",
-                        "/api/job/{id}",
+                        "/api/job/{id:\\d+}",
                         "/api/company/list",
-                        "/api/company/{id}",
+                        "/api/company/{id:\\d+}",
                         "/api/experience/list",
-                        "/api/experience/{id}",
+                        "/api/experience/{id:\\d+}",
                         "/api/referral/list",
-                        "/api/referral/{id}");
+                        "/api/referral/{id:\\d+}");
     }
 
     @Override

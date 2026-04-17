@@ -17,11 +17,12 @@ public class JwtUtil {
     @Value("${jwt.expire}")
     private Long expire;
 
-    public String generateToken(Long userId, String username, String role) {
+    public String generateToken(Long userId, String username, String role, Long companyId) {
         return JWT.create()
                 .withClaim("userId", userId)
                 .withClaim("username", username)
                 .withClaim("role", role)
+                .withClaim("companyId", companyId)
                 .withExpiresAt(new Date(System.currentTimeMillis() + expire))
                 .sign(Algorithm.HMAC256(secret));
     }
@@ -42,5 +43,9 @@ public class JwtUtil {
 
     public String getRole(String token) {
         return verify(token).getClaim("role").asString();
+    }
+
+    public Long getCompanyId(String token) {
+        return verify(token).getClaim("companyId").asLong();
     }
 }

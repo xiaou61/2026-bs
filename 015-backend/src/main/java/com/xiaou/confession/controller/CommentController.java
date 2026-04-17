@@ -59,6 +59,20 @@ public class CommentController {
             return Result.error(e.getMessage());
         }
     }
+
+    @GetMapping("/my")
+    public Result<IPage<Comment>> getMyComments(
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "20") Integer size,
+            HttpServletRequest request) {
+        try {
+            Long userId = (Long) request.getAttribute("userId");
+            IPage<Comment> comments = commentService.getMyComments(userId, page, size);
+            return Result.success(comments);
+        } catch (Exception e) {
+            return Result.error(e.getMessage());
+        }
+    }
     
     @DeleteMapping("/{id}")
     public Result<Void> deleteComment(@PathVariable Long id, HttpServletRequest request) {

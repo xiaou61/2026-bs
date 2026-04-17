@@ -1,0 +1,20 @@
+:root {
+  color: #1f2937;
+  background: #f7f9fc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: #f7f9fc;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

@@ -39,7 +39,18 @@
         <span>收益明细</span>
       </template>
 
-      <el-empty description="收益明细开发中" />
+      <div class="record-list">
+        <div v-for="record in withdrawals" :key="record.id" class="record-item">
+          <div class="record-info">
+            <span>{{ getWithdrawTypeText(record.withdrawType) }}提现</span>
+            <span class="time">{{ record.createTime }}</span>
+          </div>
+          <div class="record-amount negative">
+            -{{ record.amount }}
+          </div>
+        </div>
+        <el-empty v-if="withdrawals.length === 0" description="暂无收益记录" />
+      </div>
     </el-card>
 
     <el-dialog v-model="withdrawDialogVisible" title="申请提现" width="500px">
@@ -79,9 +90,11 @@
 import { ref, reactive, onMounted } from 'vue'
 import { getProfile } from '@/api/user'
 import { ElMessage } from 'element-plus'
+import { applyWithdrawal, getWithdrawalList } from '@/api/withdrawal'
 
 const userInfo = ref(null)
 const withdrawDialogVisible = ref(false)
+const withdrawals = ref([])
 
 const withdrawForm = reactive({
   amount: 10,
@@ -99,13 +112,47 @@ const loadUserInfo = async () => {
   }
 }
 
-const handleWithdraw = () => {
-  ElMessage.success('提现申请已提交，等待审核')
-  withdrawDialogVisible.value = false
+const loadWithdrawals = async () => {
+  try {
+    const res = await getWithdrawalList()
+    withdrawals.value = res.data
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const getWithdrawTypeText = (type) => {
+  const map = {
+    ALIPAY: '支付宝',
+    WECHAT: '微信',
+    BANK: '银行卡'
+  }
+  return map[type] || type
+}
+
+const handleWithdraw = async () => {
+  try {
+    await applyWithdrawal({
+      amount: withdrawForm.amount,
+      withdrawType: withdrawForm.withdrawType,
+      accountName: withdrawForm.accountName,
+      accountNo: withdrawForm.accountNo
+    })
+    ElMessage.success('提现申请已提交，等待审核')
+    withdrawDialogVisible.value = false
+    withdrawForm.amount = 10
+    withdrawForm.accountName = ''
+    withdrawForm.accountNo = ''
+    loadUserInfo()
+    loadWithdrawals()
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 onMounted(() => {
   loadUserInfo()
+  loadWithdrawals()
 })
 </script>
 

@@ -56,12 +56,14 @@ public class AuthService {
         user.setUpdateTime(LocalDateTime.now());
         
         userMapper.insert(user);
-        
+
+        user.setPassword(null);
         String token = jwtUtil.generateToken(user.getId(), "USER");
-        
+
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
         result.put("user", user);
+        result.put("userInfo", user);
         
         return result;
     }
@@ -98,6 +100,7 @@ public class AuthService {
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
         result.put("user", user);
+        result.put("userInfo", user);
         
         return result;
     }
@@ -118,10 +121,11 @@ public class AuthService {
         admin.setPassword(null);
         
         String token = jwtUtil.generateToken(admin.getId(), "ADMIN");
-        
+
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
         result.put("admin", admin);
+        result.put("adminInfo", admin);
         
         return result;
     }

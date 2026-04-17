@@ -29,14 +29,14 @@ const routes = [
         component: () => import('@/views/resource/ResourceList.vue')
       },
       {
-        path: 'resource/:id',
-        name: 'ResourceDetail',
-        component: () => import('@/views/resource/ResourceDetail.vue')
-      },
-      {
         path: 'resource/upload',
         name: 'ResourceUpload',
         component: () => import('@/views/resource/ResourceUpload.vue')
+      },
+      {
+        path: 'resource/:id',
+        name: 'ResourceDetail',
+        component: () => import('@/views/resource/ResourceDetail.vue')
       },
       {
         path: 'group',
@@ -69,14 +69,14 @@ const routes = [
         component: () => import('@/views/qa/QAList.vue')
       },
       {
-        path: 'qa/:id',
-        name: 'QADetail',
-        component: () => import('@/views/qa/QADetail.vue')
-      },
-      {
         path: 'qa/ask',
         name: 'QAAsk',
         component: () => import('@/views/qa/QAAsk.vue')
+      },
+      {
+        path: 'qa/:id',
+        name: 'QADetail',
+        component: () => import('@/views/qa/QADetail.vue')
       },
       {
         path: 'note',
@@ -84,14 +84,14 @@ const routes = [
         component: () => import('@/views/note/NoteList.vue')
       },
       {
-        path: 'note/:id',
-        name: 'NoteDetail',
-        component: () => import('@/views/note/NoteDetail.vue')
-      },
-      {
         path: 'note/edit',
         name: 'NoteEdit',
         component: () => import('@/views/note/NoteEdit.vue')
+      },
+      {
+        path: 'note/:id',
+        name: 'NoteDetail',
+        component: () => import('@/views/note/NoteDetail.vue')
       },
       {
         path: 'profile',

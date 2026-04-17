@@ -61,4 +61,8 @@ public class LearningRecord {
      * 专注时长(秒)
      */
     private Integer focusDuration;
+
+    public LocalDateTime getCreateTime() {
+        return startTime != null ? startTime : endTime;
+    }
 }

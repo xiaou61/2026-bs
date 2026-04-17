@@ -106,4 +106,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         return page(page, queryWrapper);
     }
+
+    @Override
+    public boolean isAdmin(Long userId) {
+        User user = getById(userId);
+        return user != null && "admin".equalsIgnoreCase(user.getUsername());
+    }
 }

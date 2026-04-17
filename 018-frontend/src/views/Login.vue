@@ -73,7 +73,9 @@ const handleLogin = async () => {
     userStore.setUser(res.data.user)
     ElMessage.success('登录成功')
     
-    if (res.data.user.role === 'company') {
+    if (res.data.user.role === 'admin') {
+      router.push('/admin/dashboard')
+    } else if (res.data.user.role === 'company') {
       router.push('/company/jobs')
     } else {
       router.push('/student/jobs')

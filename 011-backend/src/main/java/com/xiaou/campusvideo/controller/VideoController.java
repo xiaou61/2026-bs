@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/video")
@@ -70,7 +71,7 @@ public class VideoController {
             video.setLocation((String) params.get("location"));
             video.setPermission((Integer) params.get("permission"));
             
-            List<Long> topicIds = (List<Long>) params.get("topicIds");
+            List<Long> topicIds = convertTopicIds(params.get("topicIds"));
             
             videoService.publishVideo(video, topicIds);
             return Result.success("发布成功");
@@ -107,6 +108,13 @@ public class VideoController {
             return Result.error("视频不存在");
         }
         return Result.success(video);
+    }
+    
+    @GetMapping("/{id}/related")
+    public Result<List<Video>> getRelatedVideos(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "6") Integer size) {
+        return Result.success(videoService.getRelatedVideos(id, size));
     }
     
     @DeleteMapping("/{id}")
@@ -190,6 +198,16 @@ public class VideoController {
         
         IPage<Video> result = videoService.page(videoPage, wrapper);
         return Result.success(result);
+    }
+    
+    private List<Long> convertTopicIds(Object topicIdsObject) {
+        if (!(topicIdsObject instanceof List<?> topicIds)) {
+            return null;
+        }
+        return topicIds.stream()
+                .filter(item -> item instanceof Number)
+                .map(item -> ((Number) item).longValue())
+                .collect(Collectors.toList());
     }
 }
 

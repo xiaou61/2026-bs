@@ -15,31 +15,18 @@ public class Result<T> {
     private T data;
 
     public static <T> Result<T> success() {
-        return Result.builder()
-                .code(200)
-                .message("success")
-                .build();
+        return new Result<>(200, "success", null);
     }
 
     public static <T> Result<T> success(T data) {
-        return Result.builder()
-                .code(200)
-                .message("success")
-                .data(data)
-                .build();
+        return new Result<>(200, "success", data);
     }
 
     public static <T> Result<T> error(Integer code, String message) {
-        return Result.builder()
-                .code(code)
-                .message(message)
-                .build();
+        return new Result<>(code, message, null);
     }
 
     public static <T> Result<T> error(String message) {
-        return Result.builder()
-                .code(500)
-                .message(message)
-                .build();
+        return new Result<>(500, message, null);
     }
 }

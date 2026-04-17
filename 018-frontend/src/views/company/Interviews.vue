@@ -4,9 +4,8 @@
       <h3>面试管理</h3>
     </template>
     <el-table :data="interviews" v-loading="loading">
-      <el-table-column prop="id" label="ID" width="80" />
-      <el-table-column prop="userId" label="学生ID" width="100" />
-      <el-table-column prop="jobId" label="岗位ID" width="100" />
+      <el-table-column prop="jobTitle" label="岗位名称" min-width="180" />
+      <el-table-column prop="studentName" label="学生姓名" width="120" />
       <el-table-column prop="interviewType" label="面试类型" width="120">
         <template #default="{ row }">
           <el-tag v-if="row.interviewType === 'online'" type="success">线上</el-tag>
@@ -14,7 +13,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="interviewTime" label="面试时间" width="180" />
-      <el-table-column prop="location" label="面试地点/链接" />
+      <el-table-column prop="location" label="面试地点/链接" min-width="180" />
       <el-table-column prop="interviewer" label="面试官" width="120" />
       <el-table-column prop="status" label="状态" width="120">
         <template #default="{ row }">
@@ -34,6 +33,7 @@
       v-model:page-size="pagination.size"
       :total="pagination.total"
       layout="total, prev, pager, next"
+      @current-change="loadInterviews"
       style="margin-top: 20px; justify-content: center"
     />
   </el-card>
@@ -59,9 +59,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { getMyInterviews, updateInterview } from '@/api/interview'
+import { onMounted, ref } from 'vue'
 import { ElMessage } from 'element-plus'
+import { getCompanyInterviews, updateInterview } from '@/api/interview'
 
 const interviews = ref([])
 const loading = ref(false)
@@ -81,7 +81,7 @@ const form = ref({
 const loadInterviews = async () => {
   loading.value = true
   try {
-    const res = await getMyInterviews({
+    const res = await getCompanyInterviews({
       page: pagination.value.page,
       size: pagination.value.size
     })
@@ -98,7 +98,11 @@ const handleEdit = (row) => {
   form.value = {
     id: row.id,
     status: row.status,
-    feedback: row.feedback
+    feedback: row.feedback,
+    interviewType: row.interviewType,
+    interviewTime: row.interviewTime,
+    location: row.location,
+    interviewer: row.interviewer
   }
   dialogVisible.value = true
 }
@@ -118,4 +122,3 @@ onMounted(() => {
   loadInterviews()
 })
 </script>
-

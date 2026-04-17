@@ -19,10 +19,7 @@ export const updateUserStatus = (id, status) => {
   return request({
     url: `/admin/users/${id}/status`,
     method: 'put',
-    data: status,
-    headers: {
-      'Content-Type': 'text/plain'
-    }
+    data: { status }
   })
 }
 
@@ -34,14 +31,11 @@ export const getOrderList = (params) => {
   })
 }
 
-export const handleOrder = (id, action) => {
+export const handleOrder = (id, action, reason = '') => {
   return request({
     url: `/admin/orders/${id}/handle`,
     method: 'put',
-    data: action,
-    headers: {
-      'Content-Type': 'text/plain'
-    }
+    data: { action, reason }
   })
 }
 

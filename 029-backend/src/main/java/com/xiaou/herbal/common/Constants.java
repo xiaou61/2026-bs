@@ -2,7 +2,7 @@ package com.xiaou.herbal.common;
 
 public class Constants {
 
-    public static final String JWT_SECRET = "herbal-food-platform-secret-key-2025";
+    public static final String JWT_SECRET = "herbal-food-platform-secret-key-2025-for-jdk17-compatible-secure-token-authentication";
     public static final long JWT_EXPIRATION = 7 * 24 * 60 * 60 * 1000;
     public static final String TOKEN_PREFIX = "Bearer ";
 

@@ -44,4 +44,16 @@ public class Reservation {
     @TableLogic
     @TableField("deleted")
     private Integer deleted;
+
+    @TableField(exist = false)
+    private String roomName;
+
+    @TableField(exist = false)
+    private String seatNumber;
+
+    @TableField(exist = false)
+    private String username;
+
+    @TableField(exist = false)
+    private String realName;
 }

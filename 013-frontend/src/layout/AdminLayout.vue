@@ -12,25 +12,9 @@
           class="sidebar-menu"
           @select="handleMenuSelect"
         >
-          <el-menu-item index="/admin/dashboard">
-            <el-icon><DataAnalysis /></el-icon>
-            <span>数据概览</span>
-          </el-menu-item>
-          <el-menu-item index="/admin/users">
-            <el-icon><User /></el-icon>
-            <span>用户管理</span>
-          </el-menu-item>
-          <el-menu-item index="/admin/auth-list">
-            <el-icon><Checked /></el-icon>
-            <span>实名认证审核</span>
-          </el-menu-item>
-          <el-menu-item index="/admin/idle-audit">
-            <el-icon><Box /></el-icon>
-            <span>物品审核</span>
-          </el-menu-item>
-          <el-menu-item index="/admin/shared-items">
-            <el-icon><Bicycle /></el-icon>
-            <span>共享物品管理</span>
+          <el-menu-item v-for="menu in visibleMenus" :key="menu.path" :index="menu.path">
+            <el-icon><component :is="menu.icon" /></el-icon>
+            <span>{{ menu.title }}</span>
           </el-menu-item>
         </el-menu>
 
@@ -65,12 +49,26 @@
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
+import { DataAnalysis, User, Checked, Box, Bicycle } from '@element-plus/icons-vue'
 
 const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
 
 const activeMenu = computed(() => route.path)
+
+const menus = [
+  { path: '/admin/dashboard', title: '数据概览', icon: DataAnalysis, roles: ['ADMIN', 'OPERATOR'] },
+  { path: '/admin/users', title: '用户管理', icon: User, roles: ['ADMIN'] },
+  { path: '/admin/auth-list', title: '实名认证审核', icon: Checked, roles: ['ADMIN'] },
+  { path: '/admin/idle-audit', title: '物品审核', icon: Box, roles: ['ADMIN'] },
+  { path: '/admin/shared-items', title: '共享物品管理', icon: Bicycle, roles: ['ADMIN', 'OPERATOR'] }
+]
+
+const visibleMenus = computed(() => {
+  const role = userStore.userInfo?.role
+  return menus.filter(menu => menu.roles.includes(role))
+})
 
 const pageTitle = computed(() => {
   const titles = {

@@ -76,6 +76,7 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { useUserStore } from '../stores/user'
+import { updatePassword, updateUserProfile } from '../api/user'
 import { UserFilled } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 
@@ -141,8 +142,13 @@ const handleUpdate = async () => {
     if (valid) {
       loading.value = true
       try {
+        await updateUserProfile({
+          username: form.username,
+          dormitoryBuilding: form.dormitoryBuilding,
+          dormitoryRoom: form.dormitoryRoom
+        })
         ElMessage.success('信息修改成功')
-        loadUserInfo()
+        await loadUserInfo()
       } catch (error) {
         console.error('修改失败', error)
       } finally {
@@ -157,6 +163,10 @@ const handlePasswordChange = async () => {
     if (valid) {
       passwordLoading.value = true
       try {
+        await updatePassword({
+          oldPassword: passwordForm.oldPassword,
+          newPassword: passwordForm.newPassword
+        })
         ElMessage.success('密码修改成功')
         passwordForm.oldPassword = ''
         passwordForm.newPassword = ''

@@ -15,4 +15,6 @@ public interface UserService extends IService<User> {
     boolean updateUserCredit(Long userId, Integer scoreChange, String reason);
 
     Page<User> getUserPage(int current, int size, String keyword);
+
+    boolean isAdmin(Long userId);
 }

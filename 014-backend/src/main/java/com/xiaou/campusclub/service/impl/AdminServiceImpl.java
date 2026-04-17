@@ -83,8 +83,10 @@ public class AdminServiceImpl implements AdminService {
         }
         
         wrapper.orderByDesc(User::getCreateTime);
-        
-        return userMapper.selectPage(userPage, wrapper);
+
+        IPage<User> result = userMapper.selectPage(userPage, wrapper);
+        result.getRecords().forEach(user -> user.setPassword(null));
+        return result;
     }
     
     @Override

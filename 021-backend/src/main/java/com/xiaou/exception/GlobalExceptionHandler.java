@@ -1,12 +1,13 @@
 package com.xiaou.exception;
 
 import com.xiaou.common.Result;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.validation.ConstraintViolationException;
+
 
 @Slf4j
 @RestControllerAdvice

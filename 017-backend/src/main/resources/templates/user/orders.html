@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的订单 - 校园点餐系统</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f5f7fb; }
+        .order-card { border: none; border-radius: 16px; box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08); }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-white shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="/merchant/list">校园点餐</a>
+        <div class="ms-auto d-flex gap-2">
+            <a href="/merchant/list" class="btn btn-outline-secondary btn-sm">继续点餐</a>
+            <a href="/user/cart" class="btn btn-outline-primary btn-sm">购物车</a>
+            <button class="btn btn-outline-danger btn-sm" id="logoutBtn">退出登录</button>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="mb-1">我的订单</h2>
+            <p class="text-muted mb-0" id="welcomeText">正在加载订单...</p>
+        </div>
+        <select class="form-select" id="statusFilter" style="width: 180px;">
+            <option value="">全部状态</option>
+            <option value="1">待接单</option>
+            <option value="2">制作中</option>
+            <option value="3">待取餐</option>
+            <option value="4">已完成</option>
+            <option value="5">已取消</option>
+        </select>
+    </div>
+
+    <div id="ordersContainer"></div>
+</div>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script>
+    function getToken() {
+        return localStorage.getItem('token');
+    }
+
+    function authHeaders() {
+        return { Authorization: getToken() };
+    }
+
+    function formatMoney(value) {
+        return Number(value || 0).toFixed(2);
+    }
+
+    function statusText(status) {
+        return {
+            1: '待接单',
+            2: '制作中',
+            3: '待取餐',
+            4: '已完成',
+            5: '已取消',
+            6: '已退款'
+        }[status] || '未知状态';
+    }
+
+    function statusClass(status) {
+        return {
+            1: 'warning',
+            2: 'info',
+            3: 'primary',
+            4: 'success',
+            5: 'secondary',
+            6: 'dark'
+        }[status] || 'light';
+    }
+
+    function ensureUser() {
+        $.ajax({
+            url: '/api/auth/info',
+            type: 'GET',
+            headers: authHeaders(),
+            success: function(res) {
+                if (res.code !== 200 || res.data.userType !== 'user') {
+                    alert('请先使用学生账号登录');
+                    window.location.href = '/user/login';
+                    return;
+                }
+                $('#welcomeText').text('欢迎，' + (res.data.profile.realName || res.data.profile.username) + '，这里可以追踪你的点餐进度。');
+                loadOrders();
+            },
+            error: function() {
+                alert('登录状态已失效，请重新登录');
+                window.location.href = '/user/login';
+            }
+        });
+    }
+
+    function renderOrders(orders) {
+        if (!orders.length) {
+            $('#ordersContainer').html('<div class="alert alert-light border text-center py-5">当前没有符合条件的订单。</div>');
+            return;
+        }
+
+        $('#ordersContainer').html(orders.map(order => `
+            <div class="card order-card mb-4">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <div class="text-muted small mb-1">订单号 ${order.orderNo}</div>
+                            <h4 class="mb-1">${order.merchantName}</h4>
+                            <div class="small text-muted">下单时间：${order.createTime || '-'}</div>
+                        </div>
+                        <span class="badge text-bg-${statusClass(order.status)} px-3 py-2">${statusText(order.status)}</span>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-3"><div class="text-muted small">取餐号</div><div class="fw-semibold">${order.pickupNo || '-'}</div></div>
+                        <div class="col-md-3"><div class="text-muted small">实付金额</div><div class="fw-semibold">¥${formatMoney(order.payAmount)}</div></div>
+                        <div class="col-md-3"><div class="text-muted small">取餐方式</div><div class="fw-semibold">${order.pickupType === 2 ? '打包' : '堂食'}</div></div>
+                        <div class="col-md-3"><div class="text-muted small">预约时间</div><div class="fw-semibold">${order.pickupTime || '尽快出餐'}</div></div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-2">
+                        <button class="btn btn-outline-secondary btn-sm" onclick="toggleDetail(${order.id})">查看详情</button>
+                        ${order.status === 1 ? `<button class="btn btn-outline-danger btn-sm" onclick="cancelOrder(${order.id})">取消订单</button>` : ''}
+                        ${order.status === 3 ? `<button class="btn btn-success btn-sm" onclick="confirmOrder(${order.id})">确认取餐</button>` : ''}
+                    </div>
+                    <div class="mt-3" id="detail-${order.id}" style="display:none;"></div>
+                </div>
+            </div>
+        `).join(''));
+    }
+
+    function loadOrders() {
+        const status = $('#statusFilter').val();
+        $.ajax({
+            url: '/api/orders' + (status ? ('?status=' + status) : ''),
+            type: 'GET',
+            headers: authHeaders(),
+            success: function(res) {
+                if (res.code === 200) {
+                    renderOrders(res.data || []);
+                } else {
+                    $('#ordersContainer').html('<div class="alert alert-danger">' + res.message + '</div>');
+                }
+            },
+            error: function(xhr) {
+                $('#ordersContainer').html('<div class="alert alert-danger">' + (xhr.responseJSON?.message || '加载订单失败') + '</div>');
+            }
+        });
+    }
+
+    function toggleDetail(id) {
+        const box = $('#detail-' + id);
+        if (box.is(':visible')) {
+            box.hide().empty();
+            return;
+        }
+        $.ajax({
+            url: '/api/orders/' + id,
+            type: 'GET',
+            headers: authHeaders(),
+            success: function(res) {
+                if (res.code !== 200) {
+                    alert(res.message);
+                    return;
+                }
+                const details = res.data.details || [];
+                box.html(`
+                    <div class="border rounded-4 p-3 bg-light">
+                        <div class="fw-semibold mb-2">订单明细</div>
+                        <ul class="mb-2">
+                            ${details.map(item => `<li>${item.dishName} × ${item.quantity}，小计 ¥${formatMoney(item.amount)}</li>`).join('')}
+                        </ul>
+                        <div class="small text-muted">备注：${res.data.order.userRemark || '无'}</div>
+                    </div>
+                `).show();
+            },
+            error: function(xhr) {
+                alert(xhr.responseJSON?.message || '加载详情失败');
+            }
+        });
+    }
+
+    function cancelOrder(id) {
+        $.ajax({
+            url: '/api/orders/' + id + '/cancel',
+            type: 'POST',
+            headers: authHeaders(),
+            success: function(res) {
+                if (res.code === 200) {
+                    loadOrders();
+                } else {
+                    alert(res.message);
+                }
+            },
+            error: function(xhr) {
+                alert(xhr.responseJSON?.message || '取消订单失败');
+            }
+        });
+    }
+
+    function confirmOrder(id) {
+        $.ajax({
+            url: '/api/orders/' + id + '/confirm',
+            type: 'POST',
+            headers: authHeaders(),
+            success: function(res) {
+                if (res.code === 200) {
+                    loadOrders();
+                } else {
+                    alert(res.message);
+                }
+            },
+            error: function(xhr) {
+                alert(xhr.responseJSON?.message || '确认取餐失败');
+            }
+        });
+    }
+
+    $('#statusFilter').change(loadOrders);
+
+    $('#logoutBtn').click(function() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userType');
+        window.location.href = '/user/login';
+    });
+
+    ensureUser();
+</script>
+</body>
+</html>

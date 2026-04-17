@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的购物车 - 校园点餐系统</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f6f8fb; }
+        .merchant-card { border: none; border-radius: 16px; box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08); }
+        .item-thumb { width: 64px; height: 64px; object-fit: cover; border-radius: 12px; }
+        .qty-btn { width: 32px; }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-white shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="/merchant/list">校园点餐</a>
+        <div class="ms-auto d-flex gap-2">
+            <a href="/merchant/list" class="btn btn-outline-secondary btn-sm">继续点餐</a>
+            <a href="/user/orders" class="btn btn-outline-success btn-sm">我的订单</a>
+            <button class="btn btn-outline-danger btn-sm" id="logoutBtn">退出登录</button>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="mb-1">我的购物车</h2>
+            <p class="text-muted mb-0" id="welcomeText">正在加载登录信息...</p>
+        </div>
+        <button class="btn btn-outline-danger" id="clearCartBtn">清空购物车</button>
+    </div>
+
+    <div id="cartContainer"></div>
+</div>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script>
+    function getToken() {
+        return localStorage.getItem('token');
+    }
+
+    function authHeaders() {
+        return { Authorization: getToken() };
+    }
+
+    function formatMoney(value) {
+        return Number(value || 0).toFixed(2);
+    }
+
+    function normalizeDateTime(value) {
+        if (!value) {
+            return null;
+        }
+        return value.replace('T', ' ') + ':00';
+    }
+
+    function statusBadge(status) {
+        return {
+            1: '待接单',
+            2: '制作中',
+            3: '待取餐',
+            4: '已完成',
+            5: '已取消',
+            6: '已退款'
+        }[status] || '未知状态';
+    }
+
+    function ensureUser() {
+        $.ajax({
+            url: '/api/auth/info',
+            type: 'GET',
+            headers: authHeaders(),
+            success: function(res) {
+                if (res.code !== 200 || res.data.userType !== 'user') {
+                    alert('请先使用学生账号登录');
+                    window.location.href = '/user/login';
+                    return;
+                }
+                $('#welcomeText').text('欢迎，' + (res.data.profile.realName || res.data.profile.username) + '，当前余额 ¥' + formatMoney(res.data.profile.balance));
+                loadCart();
+            },
+            error: function() {
+                alert('登录状态已失效，请重新登录');
+                window.location.href = '/user/login';
+            }
+        });
+    }
+
+    function groupByMerchant(items) {
+        const groups = {};
+        (items || []).forEach(item => {
+            if (!groups[item.merchantId]) {
+                groups[item.merchantId] = {
+                    merchantId: item.merchantId,
+                    merchantName: item.merchantName,
+                    items: [],
+                    total: 0
+                };
+            }
+            groups[item.merchantId].items.push(item);
+            groups[item.merchantId].total += Number(item.amount || 0);
+        });
+        return Object.values(groups);
+    }
+
+    function renderCart(items) {
+        const groups = groupByMerchant(items);
+        if (!groups.length) {
+            $('#cartContainer').html('<div class="alert alert-light border text-center py-5">购物车还是空的，先去挑点喜欢的餐品吧。</div>');
+            return;
+        }
+
+        const html = groups.map(group => `
+            <div class="card merchant-card mb-4">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <h4 class="mb-1">${group.merchantName}</h4>
+                            <div class="text-muted small">共 ${group.items.length} 项，商品小计 ¥${formatMoney(group.total)}</div>
+                        </div>
+                        <a href="/merchant/detail/${group.merchantId}" class="btn btn-outline-secondary btn-sm">返回店铺</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead>
+                                <tr>
+                                    <th>餐品</th>
+                                    <th width="140">单价</th>
+                                    <th width="160">数量</th>
+                                    <th width="140">小计</th>
+                                    <th width="100">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${group.items.map(item => `
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-3">
+                                                <img src="${item.dishImage || 'https://via.placeholder.com/64x64?text=Dish'}" class="item-thumb" alt="">
+                                                <div>
+                                                    <div class="fw-semibold">${item.dishName}</div>
+                                                    <div class="small text-muted">更新时间：${item.updateTime || '-'}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>¥${formatMoney(item.price)}</td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button class="btn btn-outline-secondary qty-btn" onclick="updateQuantity(${item.id}, ${item.quantity - 1})">-</button>
+                                                <button class="btn btn-outline-secondary" disabled>${item.quantity}</button>
+                                                <button class="btn btn-outline-secondary qty-btn" onclick="updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
+                                            </div>
+                                        </td>
+                                        <td class="fw-semibold">¥${formatMoney(item.amount)}</td>
+                                        <td><button class="btn btn-outline-danger btn-sm" onclick="removeItem(${item.id})">删除</button></td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row g-3 align-items-end mt-2">
+                        <div class="col-md-3">
+                            <label class="form-label">取餐方式</label>
+                            <select class="form-select" id="pickupType-${group.merchantId}">
+                                <option value="1">堂食</option>
+                                <option value="2">打包</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">预约取餐时间</label>
+                            <input type="datetime-local" class="form-control" id="pickupTime-${group.merchantId}">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">备注</label>
+                            <input type="text" class="form-control" id="remark-${group.merchantId}" placeholder="口味、忌口等">
+                        </div>
+                        <div class="col-md-2 d-grid">
+                            <button class="btn btn-primary" onclick="submitOrder(${group.merchantId})">提交订单</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+
+        $('#cartContainer').html(html);
+    }
+
+    function loadCart() {
+        $.ajax({
+            url: '/api/cart',
+            type: 'GET',
+            headers: authHeaders(),
+            success: function(res) {
+                if (res.code === 200) {
+                    renderCart(res.data || []);
+                } else {
+                    $('#cartContainer').html('<div class="alert alert-danger">' + res.message + '</div>');
+                }
+            },
+            error: function(xhr) {
+                $('#cartContainer').html('<div class="alert alert-danger">' + (xhr.responseJSON?.message || '加载购物车失败') + '</div>');
+            }
+        });
+    }
+
+    function updateQuantity(id, quantity) {
+        $.ajax({
+            url: '/api/cart/' + id,
+            type: 'PUT',
+            headers: authHeaders(),
+            contentType: 'application/json',
+            data: JSON.stringify({ quantity: quantity }),
+            success: function(res) {
+                if (res.code === 200) {
+                    loadCart();
+                } else {
+                    alert(res.message);
+                }
+            },
+            error: function(xhr) {
+                alert(xhr.responseJSON?.message || '更新数量失败');
+            }
+        });
+    }
+
+    function removeItem(id) {
+        $.ajax({
+            url: '/api/cart/' + id,
+            type: 'DELETE',
+            headers: authHeaders(),
+            success: function(res) {
+                if (res.code === 200) {
+                    loadCart();
+                } else {
+                    alert(res.message);
+                }
+            },
+            error: function(xhr) {
+                alert(xhr.responseJSON?.message || '删除失败');
+            }
+        });
+    }
+
+    function submitOrder(merchantId) {
+        $.ajax({
+            url: '/api/orders',
+            type: 'POST',
+            headers: authHeaders(),
+            contentType: 'application/json',
+            data: JSON.stringify({
+                merchantId: merchantId,
+                pickupType: Number($('#pickupType-' + merchantId).val()),
+                pickupTime: normalizeDateTime($('#pickupTime-' + merchantId).val()),
+                userRemark: $('#remark-' + merchantId).val()
+            }),
+            success: function(res) {
+                if (res.code === 200) {
+                    alert('下单成功，取餐号：' + res.data.pickupNo + '，当前状态：' + statusBadge(res.data.status));
+                    window.location.href = '/user/orders';
+                } else {
+                    alert(res.message);
+                }
+            },
+            error: function(xhr) {
+                alert(xhr.responseJSON?.message || '提交订单失败');
+            }
+        });
+    }
+
+    $('#clearCartBtn').click(function() {
+        $.ajax({
+            url: '/api/cart/clear',
+            type: 'DELETE',
+            headers: authHeaders(),
+            success: function(res) {
+                if (res.code === 200) {
+                    loadCart();
+                } else {
+                    alert(res.message);
+                }
+            },
+            error: function(xhr) {
+                alert(xhr.responseJSON?.message || '清空购物车失败');
+            }
+        });
+    });
+
+    $('#logoutBtn').click(function() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userType');
+        window.location.href = '/user/login';
+    });
+
+    ensureUser();
+</script>
+</body>
+</html>

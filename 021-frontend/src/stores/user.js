@@ -13,7 +13,14 @@ export const useUserStore = defineStore('user', () => {
     try {
       const response = await userApi.login(loginForm)
       token.value = response.data.token
-      userInfo.value = response.data.userInfo
+      userInfo.value = {
+        id: response.data.userId,
+        userId: response.data.userId,
+        username: response.data.username,
+        realName: response.data.realName,
+        avatar: response.data.avatar,
+        creditScore: response.data.creditScore
+      }
 
       localStorage.setItem('token', token.value)
       localStorage.setItem('userInfo', JSON.stringify(userInfo.value))
@@ -46,7 +53,10 @@ export const useUserStore = defineStore('user', () => {
   const getUserInfo = async () => {
     try {
       const response = await userApi.getUserInfo()
-      userInfo.value = response.data
+      userInfo.value = {
+        ...response.data,
+        userId: response.data.id
+      }
       localStorage.setItem('userInfo', JSON.stringify(userInfo.value))
       return response
     } catch (error) {

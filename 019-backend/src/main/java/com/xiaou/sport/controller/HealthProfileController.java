@@ -5,11 +5,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaou.sport.common.Result;
 import com.xiaou.sport.entity.HealthProfile;
 import com.xiaou.sport.service.HealthProfileService;
+import com.xiaou.sport.service.UserService;
+import com.xiaou.sport.utils.HealthMetricUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -19,23 +20,20 @@ public class HealthProfileController {
     @Autowired
     private HealthProfileService healthProfileService;
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping("/record")
     public Result<Void> createRecord(@RequestAttribute Long userId, @RequestBody HealthProfile profile) {
         profile.setUserId(userId);
+        if (profile.getRecordDate() == null) {
+            profile.setRecordDate(LocalDate.now());
+        }
 
         if (profile.getWeight() != null) {
-            LambdaQueryWrapper<HealthProfile> wrapper = new LambdaQueryWrapper<>();
-            wrapper.eq(HealthProfile::getUserId, userId)
-                    .orderByDesc(HealthProfile::getRecordDate)
-                    .last("LIMIT 1");
-            HealthProfile lastProfile = healthProfileService.getOne(wrapper);
-
-            if (lastProfile != null && lastProfile.getWeight() != null) {
-                BigDecimal heightInMeters = lastProfile.getWeight().divide(new BigDecimal(100), 2,
-                        RoundingMode.HALF_UP);
-                BigDecimal bmi = profile.getWeight().divide(heightInMeters.multiply(heightInMeters), 2,
-                        RoundingMode.HALF_UP);
-                profile.setBmi(bmi);
+            var user = userService.getById(userId);
+            if (user != null) {
+                profile.setBmi(HealthMetricUtil.calculateBmi(profile.getWeight(), user.getHeight()));
             }
         }
 

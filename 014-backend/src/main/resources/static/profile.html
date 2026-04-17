@@ -103,6 +103,7 @@
         $(document).ready(function() {
             if (!utils.requireAuth()) return;
             loadUserInfo();
+            loadUserBadges();
         });
 
         function loadUserInfo() {
@@ -123,6 +124,7 @@
             $('#userName').text(user.realName || user.username);
             $('#userStudentId').text(user.studentId || '未填写学号');
             $('#userPoints').text(user.points || 0);
+            $('#userAvatar').attr('src', user.avatar || 'https://via.placeholder.com/100');
 
             const html = `
                 <table class="table">
@@ -173,13 +175,42 @@
             `;
 
             $('#userInfo').html(html);
+        }
 
-            $('#badgesList').html(`
-                <div class="col-12 text-center text-muted">
-                    <i class="bi bi-award" style="font-size: 2rem;"></i>
-                    <p class="small mt-2">暂无勋章</p>
+        function loadUserBadges() {
+            request.get('/user/badges')
+                .done(function(res) {
+                    if (res.code === 200) {
+                        renderBadges(res.data || []);
+                    } else {
+                        renderBadges([]);
+                    }
+                })
+                .fail(function() {
+                    renderBadges([]);
+                });
+        }
+
+        function renderBadges(badges) {
+            if (!badges.length) {
+                $('#badgesList').html(`
+                    <div class="col-12 text-center text-muted">
+                        <i class="bi bi-award" style="font-size: 2rem;"></i>
+                        <p class="small mt-2">暂无勋章</p>
+                    </div>
+                `);
+                return;
+            }
+
+            $('#badgesList').html(badges.map(badge => `
+                <div class="col-6">
+                    <div class="border rounded text-center p-2 h-100">
+                        <div style="font-size: 1.6rem;">${badge.icon || '🏅'}</div>
+                        <div class="small fw-semibold mt-1">${badge.name}</div>
+                        <div class="text-muted" style="font-size: 0.75rem;">${badge.description || ''}</div>
+                    </div>
                 </div>
-            `);
+            `).join(''));
         }
 
         function getLevelName(level) {

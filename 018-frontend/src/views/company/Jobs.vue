@@ -12,7 +12,7 @@
         <el-table-column prop="title" label="岗位名称" />
         <el-table-column prop="jobType" label="类型" width="100">
           <template #default="{ row }">
-            <el-tag v-if="row.jobType === 'internship'" type="success">实习</el-tag>
+            <el-tag v-if="isInternJobType(row.jobType)" type="success">实习</el-tag>
             <el-tag v-else type="primary">校招</el-tag>
           </template>
         </el-table-column>
@@ -135,6 +135,8 @@ const form = ref({
   description: '',
   requirement: ''
 })
+
+const isInternJobType = (jobType) => ['intern', 'internship'].includes(jobType)
 
 const loadJobs = async () => {
   loading.value = true

@@ -8,6 +8,9 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -22,13 +25,24 @@ public class CollabWebSocketHandler extends TextWebSocketHandler {
         String documentId = getDocumentId(session);
         if (documentId != null) {
             documentSessions.computeIfAbsent(documentId, k -> new CopyOnWriteArraySet<>()).add(session);
-            
+
+            Map<String, Object> connectMessage = Map.of(
+                    "type", "CONNECTED",
+                    "userId", getUserId(session),
+                    "username", getUsername(session),
+                    "sessionId", session.getId(),
+                    "onlineCount", documentSessions.get(documentId).size()
+            );
+            session.sendMessage(new TextMessage(JSONUtil.toJsonStr(connectMessage)));
+
             Map<String, Object> joinMessage = Map.of(
-                "type", "USER_JOIN",
-                "userId", getUserId(session),
-                "onlineCount", documentSessions.get(documentId).size()
+                    "type", "USER_JOIN",
+                    "userId", getUserId(session),
+                    "username", getUsername(session),
+                    "onlineCount", documentSessions.get(documentId).size()
             );
             broadcast(documentId, new TextMessage(JSONUtil.toJsonStr(joinMessage)), session);
+            broadcastOnlineCount(documentId);
         }
     }
 
@@ -51,9 +65,11 @@ public class CollabWebSocketHandler extends TextWebSocketHandler {
                 Map<String, Object> leaveMessage = Map.of(
                     "type", "USER_LEAVE",
                     "userId", getUserId(session),
+                    "username", getUsername(session),
                     "onlineCount", sessions.size()
                 );
                 broadcast(documentId, new TextMessage(JSONUtil.toJsonStr(leaveMessage)), null);
+                broadcastOnlineCount(documentId);
                 
                 if (sessions.isEmpty()) {
                     documentSessions.remove(documentId);
@@ -77,6 +93,18 @@ public class CollabWebSocketHandler extends TextWebSocketHandler {
         }
     }
 
+    private void broadcastOnlineCount(String documentId) {
+        CopyOnWriteArraySet<WebSocketSession> sessions = documentSessions.get(documentId);
+        if (sessions == null) {
+            return;
+        }
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("type", "ONLINE_COUNT");
+        payload.put("onlineCount", sessions.size());
+        broadcast(documentId, new TextMessage(JSONUtil.toJsonStr(payload)), null);
+    }
+
     private String getDocumentId(WebSocketSession session) {
         String path = session.getUri().getPath();
         String[] parts = path.split("/");
@@ -84,7 +112,27 @@ public class CollabWebSocketHandler extends TextWebSocketHandler {
     }
 
     private String getUserId(WebSocketSession session) {
-        return session.getId();
+        String userId = getQueryParam(session, "userId");
+        return userId != null ? userId : session.getId();
+    }
+
+    private String getUsername(WebSocketSession session) {
+        String username = getQueryParam(session, "username");
+        return username != null ? username : "匿名协作者";
+    }
+
+    private String getQueryParam(WebSocketSession session, String key) {
+        if (session.getUri() == null || session.getUri().getQuery() == null) {
+            return null;
+        }
+        String[] pairs = session.getUri().getQuery().split("&");
+        for (String pair : pairs) {
+            String[] parts = pair.split("=", 2);
+            if (parts.length == 2 && key.equals(parts[0])) {
+                return URLDecoder.decode(parts[1], StandardCharsets.UTF_8);
+            }
+        }
+        return null;
     }
 }
 

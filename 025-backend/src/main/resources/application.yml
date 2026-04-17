@@ -1,20 +1,27 @@
 server:
-  port: 8081
+  port: 8025
 
 spring:
   application:
     name: 025-community-platform
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/025_community?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
-    username: root
-    password: password
-  mybatis:
-    mapper-locations: classpath:mapper/*.xml
-    type-aliases-package: com.xiaou.community.entity
-    configuration:
-      map-underscore-to-camel-case: true
-      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:./data/025-community;MODE=MySQL;AUTO_SERVER=TRUE;NON_KEYWORDS=USER
+    username: sa
+    password:
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
+      schema-locations: classpath:sql/schema-h2.sql
+      data-locations: classpath:sql/data-h2.sql
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.xiaou.community.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 logging:
   level:

@@ -1,0 +1,115 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top left, rgba(43, 89, 255, 0.18), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(0, 184, 148, 0.14), transparent 24%),
+        #f4f7fb;
+    color: #162033;
+    font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.share-shell {
+    min-height: 100vh;
+    padding: 40px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+}
+
+.share-card {
+    width: min(980px, 100%);
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(22, 32, 51, 0.08);
+    border-radius: 28px;
+    box-shadow: 0 30px 60px rgba(24, 39, 75, 0.12);
+    padding: 28px;
+}
+
+.share-kicker {
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #6c7a92;
+}
+
+.share-header h1 {
+    margin: 8px 0 10px;
+    font-size: 36px;
+}
+
+.share-meta {
+    color: #5c6d87;
+}
+
+.share-gate {
+    max-width: 420px;
+    margin-top: 22px;
+}
+
+.share-content {
+    margin-top: 26px;
+}
+
+.share-pane {
+    background: #fff;
+    border: 1px solid rgba(22, 32, 51, 0.08);
+    border-radius: 22px;
+    padding: 22px;
+}
+
+.share-note-preview pre {
+    background: #111827;
+    color: #e5eefc;
+    border-radius: 16px;
+    padding: 16px;
+    overflow: auto;
+}
+
+.share-board-wrap {
+    width: 100%;
+    min-height: 520px;
+    border-radius: 22px;
+    overflow: hidden;
+    border: 1px dashed rgba(43, 89, 255, 0.2);
+    background:
+        linear-gradient(0deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.96)),
+        linear-gradient(to right, rgba(43, 89, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(43, 89, 255, 0.06) 1px, transparent 1px);
+    background-size: auto, 24px 24px, 24px 24px;
+}
+
+#shareBoardCanvas {
+    width: 100%;
+    min-height: 520px;
+    display: block;
+}
+
+.share-mindmap-tree ul {
+    list-style: none;
+    padding-left: 20px;
+}
+
+.share-mindmap-tree li {
+    margin: 10px 0;
+    padding-left: 14px;
+    border-left: 2px solid rgba(43, 89, 255, 0.12);
+}
+
+.share-mindmap-node {
+    padding: 12px 14px;
+    background: #f8faff;
+    border-radius: 16px;
+}
+
+.share-mindmap-note {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #6c7a92;
+}
+
+.share-footer {
+    color: #6c7a92;
+}

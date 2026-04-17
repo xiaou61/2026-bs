@@ -166,8 +166,9 @@
                 body: JSON.stringify({ account, password })
             })
             .then(data => {
+                const user = data.user || data.userInfo;
                 setToken(data.token);
-                setUserInfo(data.userInfo);
+                setUserInfo(user);
                 showToast('登录成功', 'success');
                 setTimeout(() => {
                     window.location.href = '/home.html';
@@ -207,7 +208,9 @@
         
         $(document).ready(function() {
             const token = getToken();
-            if (token) {
+            if (token && isAdminUser()) {
+                window.location.href = '/admin-dashboard.html';
+            } else if (token) {
                 window.location.href = '/home.html';
             }
         });

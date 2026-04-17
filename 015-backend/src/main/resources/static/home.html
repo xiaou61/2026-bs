@@ -195,22 +195,12 @@
                 method: 'POST',
                 body: JSON.stringify({ targetId: postId, targetType: 1 })
             })
-            .then(() => {
-                showToast('点赞成功', 'success');
+            .then(data => {
+                showToast(data.liked ? '点赞成功' : '已取消点赞', data.liked ? 'success' : 'info');
                 loadPosts();
             })
             .catch(err => {
-                if (err.message.includes('已点赞')) {
-                    request('/like?targetId=' + postId + '&targetType=1', {
-                        method: 'DELETE'
-                    })
-                    .then(() => {
-                        showToast('取消点赞', 'info');
-                        loadPosts();
-                    });
-                } else {
-                    showToast(err.message, 'danger');
-                }
+                showToast(err.message, 'danger');
             });
         }
         

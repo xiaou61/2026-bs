@@ -4,7 +4,8 @@
       <h3>我的面试</h3>
     </template>
     <el-table :data="interviews" v-loading="loading">
-      <el-table-column prop="jobId" label="岗位ID" width="100" />
+      <el-table-column prop="jobTitle" label="岗位名称" min-width="180" />
+      <el-table-column prop="companyName" label="企业名称" width="180" />
       <el-table-column prop="interviewType" label="面试类型" width="120">
         <template #default="{ row }">
           <el-tag v-if="row.interviewType === 'online'" type="success">线上</el-tag>

@@ -2,6 +2,7 @@ package com.xiaou.service;
 
 import com.xiaou.dto.UserLoginDTO;
 import com.xiaou.dto.UserRegisterDTO;
+import com.xiaou.dto.UserUpdateDTO;
 import com.xiaou.vo.UserInfoVO;
 import com.xiaou.vo.UserLoginVO;
 
@@ -13,7 +14,7 @@ public interface UserService {
 
     UserInfoVO getUserInfo(Long userId);
 
-    void updateUser(Long userId, UserRegisterDTO updateDTO);
+    void updateUser(Long userId, UserUpdateDTO updateDTO);
 
-    UserInfoVO getUserProfile(Long userId, Long profileId);
+    UserInfoVO getUserProfile(Long profileId);
 }

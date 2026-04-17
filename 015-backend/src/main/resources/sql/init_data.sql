@@ -1,11 +1,11 @@
 USE campus_confession;
 
 INSERT INTO `admin` (`username`, `password`, `real_name`, `role`) VALUES
-('admin', '$2a$10$xQh7YKZjYvFjXXLLQpWqUeN9Z3jZvN7lXNT8Y3kJqN.wJqGqVHRQW', '超级管理员', 1);
+('admin', '$2a$10$riBv.FgkCsPlAykJIufhhuheh3SepA3okxLskb4OwSBHpymavCi3G', '超级管理员', 1);
 
 INSERT INTO `user` (`student_id`, `real_name`, `phone`, `password`, `school`, `college`, `grade`, `auth_status`, `points`, `level`) VALUES
-('20210001', '张三', '13800138001', '$2a$10$xQh7YKZjYvFjXXLLQpWqUeN9Z3jZvN7lXNT8Y3kJqN.wJqGqVHRQW', '某某大学', '计算机学院', 2021, 2, 100, 3),
-('20210002', '李四', '13800138002', '$2a$10$xQh7YKZjYvFjXXLLQpWqUeN9Z3jZvN7lXNT8Y3kJqN.wJqGqVHRQW', '某某大学', '软件学院', 2021, 2, 80, 2);
+('20210001', '张三', '13800138001', '$2a$10$KjQ0pB8gAqIgmfMGzgTc1u3V3UAFy2.7QmWo5Y3eVuuuPVsKPm6wi', '某某大学', '计算机学院', 2021, 2, 100, 3),
+('20210002', '李四', '13800138002', '$2a$10$KjQ0pB8gAqIgmfMGzgTc1u3V3UAFy2.7QmWo5Y3eVuuuPVsKPm6wi', '某某大学', '软件学院', 2021, 2, 80, 2);
 
 INSERT INTO `sensitive_word` (`word`, `level`, `category`) VALUES
 ('政治', 3, 'POLITICS'),

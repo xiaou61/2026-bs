@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaou.studyroom.common.Result;
 import com.xiaou.studyroom.entity.StudyRoom;
 import com.xiaou.studyroom.service.StudyRoomService;
+import com.xiaou.studyroom.utils.AuthHelper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,9 @@ public class StudyRoomController {
 
     @Autowired
     private StudyRoomService studyRoomService;
+
+    @Autowired
+    private AuthHelper authHelper;
 
     @GetMapping("/list")
     public Result<List<StudyRoom>> getAllAvailableRooms() {
@@ -44,7 +48,8 @@ public class StudyRoomController {
     }
 
     @PostMapping
-    public Result<String> createStudyRoom(@Valid @RequestBody StudyRoom studyRoom) {
+    public Result<String> createStudyRoom(@RequestHeader("Authorization") String token, @Valid @RequestBody StudyRoom studyRoom) {
+        authHelper.requireAdmin(token);
         studyRoom.setStatus(1);
         if (studyRoomService.save(studyRoom)) {
             return Result.success("自习室创建成功");
@@ -53,7 +58,10 @@ public class StudyRoomController {
     }
 
     @PutMapping("/{id}")
-    public Result<String> updateStudyRoom(@PathVariable Long id, @Valid @RequestBody StudyRoom studyRoom) {
+    public Result<String> updateStudyRoom(@RequestHeader("Authorization") String token,
+                                          @PathVariable Long id,
+                                          @Valid @RequestBody StudyRoom studyRoom) {
+        authHelper.requireAdmin(token);
         studyRoom.setId(id);
         if (studyRoomService.updateById(studyRoom)) {
             return Result.success("自习室更新成功");
@@ -62,7 +70,10 @@ public class StudyRoomController {
     }
 
     @PutMapping("/{id}/status")
-    public Result<String> updateStudyRoomStatus(@PathVariable Long id, @RequestParam Integer status) {
+    public Result<String> updateStudyRoomStatus(@RequestHeader("Authorization") String token,
+                                                @PathVariable Long id,
+                                                @RequestParam Integer status) {
+        authHelper.requireAdmin(token);
         if (studyRoomService.updateRoomStatus(id, status)) {
             String statusText = status == 1 ? "开放" : "关闭";
             return Result.success("自习室状态更新为：" + statusText);
@@ -71,7 +82,8 @@ public class StudyRoomController {
     }
 
     @DeleteMapping("/{id}")
-    public Result<String> deleteStudyRoom(@PathVariable Long id) {
+    public Result<String> deleteStudyRoom(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+        authHelper.requireAdmin(token);
         if (studyRoomService.removeById(id)) {
             return Result.success("自习室删除成功");
         }

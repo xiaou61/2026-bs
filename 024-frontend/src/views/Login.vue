@@ -21,6 +21,10 @@ const login = () => {
     }
   })
 }
+
+const goRegister = () => {
+  router.push('/register')
+}
 </script>
 
 <template>
@@ -40,6 +44,9 @@ const login = () => {
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="login" style="width: 100%">Login</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button @click="goRegister" style="width: 100%">Register</el-button>
         </el-form-item>
       </el-form>
     </el-card>

@@ -124,7 +124,7 @@
 ```yaml
 数据库名: campus_share
 用户名: root
-密码: root
+密码: 1234
 端口: 3306
 ```
 

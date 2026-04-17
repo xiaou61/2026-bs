@@ -11,7 +11,7 @@ request.interceptors.request.use(
   config => {
     const token = localStorage.getItem('token')
     if (token) {
-      config.headers['Authorization'] = token
+      config.headers['Authorization'] = `Bearer ${token}`
     }
     return config
   },
@@ -35,8 +35,15 @@ request.interceptors.response.use(
       if (error.response.status === 401) {
         ElMessage.error('登录已过期，请重新登录')
         localStorage.removeItem('token')
+        localStorage.removeItem('userType')
         localStorage.removeItem('userInfo')
-        router.push('/login')
+        if (router.currentRoute.value.path.startsWith('/admin')) {
+          router.push('/admin/login')
+        } else {
+          router.push('/login')
+        }
+      } else if (error.response.status === 403) {
+        ElMessage.error(error.response.data?.message || '无权限访问')
       } else if (error.response.data && error.response.data.message) {
         ElMessage.error(error.response.data.message)
       } else {

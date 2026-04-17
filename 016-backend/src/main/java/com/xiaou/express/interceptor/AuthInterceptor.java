@@ -19,6 +19,9 @@ public class AuthInterceptor implements HandlerInterceptor {
             return true;
         }
 
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
+
         String token = request.getHeader("Authorization");
         if (token == null || token.isEmpty()) {
             response.setStatus(401);
@@ -31,8 +34,15 @@ public class AuthInterceptor implements HandlerInterceptor {
                 token = token.substring(7);
             }
             Long userId = jwtUtil.getUserId(token);
+            String userType = jwtUtil.getUserType(token);
             request.setAttribute("userId", userId);
-            request.setAttribute("userType", jwtUtil.getUserType(token));
+            request.setAttribute("userType", userType);
+
+            if (request.getRequestURI().startsWith("/api/admin/") && !"admin".equals(userType)) {
+                response.setStatus(403);
+                response.getWriter().write("{\"code\":403,\"message\":\"无管理员权限\"}");
+                return false;
+            }
             return true;
         } catch (Exception e) {
             response.setStatus(401);

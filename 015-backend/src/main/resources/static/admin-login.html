@@ -75,8 +75,9 @@
                 body: JSON.stringify({ username, password })
             })
             .then(data => {
+                const admin = data.admin || data.adminInfo;
                 setToken(data.token);
-                setUserInfo({...data.adminInfo, isAdmin: true});
+                setUserInfo({ ...admin, isAdmin: true });
                 showToast('登录成功', 'success');
                 setTimeout(() => {
                     window.location.href = '/admin-dashboard.html';
@@ -92,6 +93,8 @@
             const userInfo = getUserInfo();
             if (token && userInfo && userInfo.isAdmin) {
                 window.location.href = '/admin-dashboard.html';
+            } else if (token) {
+                window.location.href = '/home.html';
             }
         });
     </script>

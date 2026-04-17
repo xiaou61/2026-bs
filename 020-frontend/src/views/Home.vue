@@ -99,7 +99,9 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { getResourceList } from '@/api/resource'
-import { getQuestionList } from '@/api/qa'
+import { getGroupList } from '@/api/group'
+import { getQuestionList as getQuestionBankList } from '@/api/question'
+import { getQuestionList as getQaQuestionList } from '@/api/qa'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -115,12 +117,19 @@ const recentQuestions = ref([])
 
 const loadData = async () => {
   try {
-    const resData = await getResourceList({ page: 1, size: 5 })
-    recentResources.value = resData.data.records
-    stats.value.resources = resData.data.total
+    const [resourceRes, groupRes, questionRes, qaRes] = await Promise.all([
+      getResourceList({ page: 1, size: 5 }),
+      getGroupList({ page: 1, size: 1 }),
+      getQuestionBankList({ page: 1, size: 1 }),
+      getQaQuestionList({ page: 1, size: 5 })
+    ])
 
-    const qaData = await getQuestionList({ page: 1, size: 5 })
-    recentQuestions.value = qaData.data.records
+    recentResources.value = resourceRes.data.records
+    recentQuestions.value = qaRes.data.records
+
+    stats.value.resources = resourceRes.data.total
+    stats.value.groups = groupRes.data.total
+    stats.value.questions = questionRes.data.total
   } catch (error) {
     console.error(error)
   }

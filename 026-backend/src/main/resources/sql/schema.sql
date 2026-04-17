@@ -95,7 +95,7 @@ CREATE TABLE `order` (
   `total_price` DECIMAL(10,2) NOT NULL COMMENT '总价',
   `deposit` DECIMAL(10,2) NOT NULL COMMENT '定金',
   `final_payment` DECIMAL(10,2) NOT NULL COMMENT '尾款',
-  `status` VARCHAR(20) DEFAULT 'PENDING_DEPOSIT' COMMENT '状态',
+  `status` VARCHAR(32) DEFAULT 'PENDING_DEPOSIT' COMMENT '状态',
   `draft_url` VARCHAR(255) COMMENT '草图URL',
   `final_url` VARCHAR(255) COMMENT '成品URL',
   `revise_count` INT DEFAULT 0 COMMENT '已修改次数',

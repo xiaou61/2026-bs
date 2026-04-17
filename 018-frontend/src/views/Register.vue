@@ -28,6 +28,13 @@
             size="large"
           />
         </el-form-item>
+        <el-form-item prop="companyName" v-if="form.role === 'company'">
+          <el-input
+            v-model="form.companyName"
+            placeholder="请输入企业名称"
+            size="large"
+          />
+        </el-form-item>
         <el-form-item prop="email">
           <el-input
             v-model="form.email"
@@ -82,6 +89,7 @@ const form = ref({
   username: '',
   password: '',
   realName: '',
+  companyName: '',
   email: '',
   phone: '',
   role: 'student'
@@ -94,6 +102,7 @@ const rules = {
     { min: 6, message: '密码至少6位', trigger: 'blur' }
   ],
   realName: [{ required: true, message: '请输入真实姓名', trigger: 'blur' }],
+  companyName: [{ required: true, message: '请输入企业名称', trigger: 'blur' }],
   email: [
     { required: true, message: '请输入邮箱', trigger: 'blur' },
     { type: 'email', message: '邮箱格式不正确', trigger: 'blur' }

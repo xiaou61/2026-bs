@@ -3,6 +3,7 @@ package com.xiaou.campusclub.controller;
 import com.xiaou.campusclub.common.Result;
 import com.xiaou.campusclub.dto.LoginRequest;
 import com.xiaou.campusclub.dto.RegisterRequest;
+import com.xiaou.campusclub.entity.Badge;
 import com.xiaou.campusclub.entity.User;
 import com.xiaou.campusclub.service.UserService;
 import com.xiaou.campusclub.vo.LoginVO;
@@ -34,6 +35,12 @@ public class UserController {
     public Result<UserInfoVO> getUserInfo(HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
         return Result.success(userService.getUserInfo(userId));
+    }
+
+    @GetMapping("/badges")
+    public Result<List<Badge>> getUserBadges(HttpServletRequest request) {
+        Long userId = (Long) request.getAttribute("userId");
+        return Result.success(userService.getUserBadges(userId));
     }
     
     @PutMapping("/profile")

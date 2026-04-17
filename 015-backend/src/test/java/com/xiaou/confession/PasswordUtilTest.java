@@ -29,15 +29,17 @@ public class PasswordUtilTest {
     
     @Test
     public void testDatabasePassword() {
-        String dbPassword = "$2a$10$xQh7YKZjYvFjXXLLQpWqUeN9Z3jZvN7lXNT8Y3kJqN.wJqGqVHRQW";
-        
-        boolean matchAdmin = PasswordUtil.matches("admin123", dbPassword);
-        boolean matchUser = PasswordUtil.matches("123456", dbPassword);
-        
-        System.out.println("数据库密码验证 admin123: " + matchAdmin);
-        System.out.println("数据库密码验证 123456: " + matchUser);
-        
-        assertTrue(matchAdmin || matchUser);
+        String adminPassword = "$2a$10$riBv.FgkCsPlAykJIufhhuheh3SepA3okxLskb4OwSBHpymavCi3G";
+        String userPassword = "$2a$10$KjQ0pB8gAqIgmfMGzgTc1u3V3UAFy2.7QmWo5Y3eVuuuPVsKPm6wi";
+
+        boolean matchAdmin = PasswordUtil.matches("admin123", adminPassword);
+        boolean matchUser = PasswordUtil.matches("123456", userPassword);
+
+        System.out.println("数据库管理员密码验证 admin123: " + matchAdmin);
+        System.out.println("数据库用户密码验证 123456: " + matchUser);
+
+        assertTrue(matchAdmin);
+        assertTrue(matchUser);
         
         System.out.println("✅ 数据库密码验证通过！");
     }

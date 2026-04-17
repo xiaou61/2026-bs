@@ -150,12 +150,12 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='管理员表';
 
 INSERT INTO `admin` (`username`, `password`, `real_name`, `role`, `status`) 
-VALUES ('admin', '$2a$10$YJZeZH7nQ0BnxLhKLQxKdO5KqN6b6j3vVV4nXTLPxHN3pN1rj3j9O', '系统管理员', 1, 0);
+VALUES ('admin', '$2a$10$dj2f82N4tHWrjvLvM0yhUuxu016fiiKSgjofdTJNcA6V5KnRivyMO', '系统管理员', 1, 0);
 
 INSERT INTO `user` (`student_id`, `username`, `phone`, `password`, `real_name`, `dormitory_building`, `dormitory_room`, `credit_score`) 
 VALUES 
-('20210001', 'user001', '13800138001', '$2a$10$YJZeZH7nQ0BnxLhKLQxKdO5KqN6b6j3vVV4nXTLPxHN3pN1rj3j9O', '张三', '东区1号楼', '101', 100),
-('20210002', 'user002', '13800138002', '$2a$10$YJZeZH7nQ0BnxLhKLQxKdO5KqN6b6j3vVV4nXTLPxHN3pN1rj3j9O', '李四', '东区2号楼', '201', 100);
+('20210001', 'user001', '13800138001', '$2a$10$GALOcWmXAWolABT6SJi6E.B3uVPyTuxKhb3mnyzZQWhxQ5NSaQ5le', '张三', '东区1号楼', '101', 100),
+('20210002', 'user002', '13800138002', '$2a$10$GALOcWmXAWolABT6SJi6E.B3uVPyTuxKhb3mnyzZQWhxQ5NSaQ5le', '李四', '东区2号楼', '201', 100);
 
 INSERT INTO `wallet` (`user_id`, `balance`, `frozen_amount`, `total_income`, `total_expense`) 
 VALUES 

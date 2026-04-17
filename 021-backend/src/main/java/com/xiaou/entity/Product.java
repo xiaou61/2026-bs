@@ -33,7 +33,7 @@ public class Product {
     @TableField("original_price")
     private BigDecimal originalPrice;
 
-    @TableField("condition")
+    @TableField("`condition`")
     private String condition;
 
     @TableField("images")

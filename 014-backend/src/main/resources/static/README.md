@@ -12,18 +12,20 @@
 2. **login.html** - 登录页面
 3. **register.html** - 注册页面
 4. **clubs.html** - 社团广场（列表、搜索、筛选）
-
-### 待创建页面
-- club-detail.html - 社团详情
-- create-club.html - 创建社团
-- activities.html - 活动列表
-- activity-detail.html - 活动详情
-- topics.html - 话题广场
-- topic-detail.html - 话题详情
-- circles.html - 兴趣圈子
-- profile.html - 个人中心
-- my-clubs.html - 我的社团
-- my-activities.html - 我的活动
+5. **club-detail.html** - 社团详情
+6. **create-club.html** - 创建社团
+7. **activities.html** - 活动中心
+8. **activity-detail.html** - 活动详情
+9. **topics.html** - 话题广场
+10. **create-topic.html** - 发布话题
+11. **topic-detail.html** - 话题详情
+12. **circles.html** - 兴趣圈子
+13. **create-circle.html** - 创建圈子
+14. **profile.html** - 个人中心
+15. **my-clubs.html** - 我的社团
+16. **my-activities.html** - 我的活动
+17. **admin-login.html** - 管理员登录
+18. **admin-dashboard.html** - 管理后台
 
 ## 目录结构
 ```
@@ -32,12 +34,26 @@ static/
 ├── login.html             # 登录
 ├── register.html          # 注册
 ├── clubs.html             # 社团广场
+├── create-club.html       # 创建社团
+├── activities.html        # 活动中心
+├── activity-detail.html   # 活动详情
+├── topics.html            # 话题广场
+├── create-topic.html      # 发布话题
+├── topic-detail.html      # 话题详情
+├── circles.html           # 兴趣圈子
+├── create-circle.html     # 创建圈子
+├── profile.html           # 个人中心
+├── my-clubs.html          # 我的社团
+├── my-activities.html     # 我的活动
+├── admin-login.html       # 管理员登录
+├── admin-dashboard.html   # 管理后台
 ├── css/
 │   └── style.css          # 全局样式
 ├── js/
 │   ├── common.js          # 通用工具函数
 │   ├── index.js           # 首页逻辑
-│   └── clubs.js           # 社团页面逻辑
+│   ├── clubs.js           # 社团页面逻辑
+│   └── admin.js           # 管理后台逻辑
 └── README.md              # 说明文档
 ```
 

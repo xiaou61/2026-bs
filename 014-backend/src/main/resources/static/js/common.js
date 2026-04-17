@@ -4,16 +4,37 @@ const auth = {
     getToken: () => localStorage.getItem('token'),
     setToken: (token) => localStorage.setItem('token', token),
     removeToken: () => localStorage.removeItem('token'),
-    getUser: () => JSON.parse(localStorage.getItem('user') || '{}'),
+    getUser: () => {
+        try {
+            return JSON.parse(localStorage.getItem('user') || '{}');
+        } catch (e) {
+            return {};
+        }
+    },
     setUser: (user) => localStorage.setItem('user', JSON.stringify(user)),
     removeUser: () => localStorage.removeItem('user'),
-    isLoggedIn: () => !!localStorage.getItem('token'),
-    logout: () => {
+    isLoggedIn: () => {
+        const token = localStorage.getItem('token');
+        return !!token && token !== 'null' && token !== 'undefined';
+    },
+    isAdmin: () => auth.getUser().role === 'admin',
+    logout: (redirectUrl) => {
         auth.removeToken();
         auth.removeUser();
-        window.location.href = 'login.html';
+        const fallback = window.location.pathname.includes('admin') ? 'admin-login.html' : 'login.html';
+        window.location.href = redirectUrl || fallback;
     }
 };
+
+function buildAuthHeaders() {
+    const token = auth.getToken();
+    if (!token || token === 'null' || token === 'undefined') {
+        return {};
+    }
+    return {
+        'Authorization': 'Bearer ' + token
+    };
+}
 
 const request = {
     get: (url, data = {}) => {
@@ -21,9 +42,7 @@ const request = {
         return $.ajax({
             url: API_BASE + url + queryString,
             method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + auth.getToken()
-            }
+            headers: buildAuthHeaders()
         });
     },
     
@@ -33,9 +52,7 @@ const request = {
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(data),
-            headers: {
-                'Authorization': 'Bearer ' + auth.getToken()
-            }
+            headers: buildAuthHeaders()
         });
     },
     
@@ -45,9 +62,7 @@ const request = {
             method: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify(data),
-            headers: {
-                'Authorization': 'Bearer ' + auth.getToken()
-            }
+            headers: buildAuthHeaders()
         });
     },
     
@@ -55,9 +70,7 @@ const request = {
         return $.ajax({
             url: API_BASE + url,
             method: 'DELETE',
-            headers: {
-                'Authorization': 'Bearer ' + auth.getToken()
-            }
+            headers: buildAuthHeaders()
         });
     }
 };

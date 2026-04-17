@@ -3,23 +3,20 @@ package com.xiaou.ordering;
 import cn.hutool.crypto.digest.BCrypt;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class PasswordTest {
 
+    private static final String USER_PASSWORD_HASH = "$2a$10$sdFcezRDFQYxIX8qs7vW1el.gIGgP7eBv79p937wzsk5YHbPpAkYO";
+    private static final String ADMIN_PASSWORD_HASH = "$2a$10$rYMe2maxvcYuP3FonEsxKOS5wBaEugDlwMR16JalPU3rAmfhDEGsi";
+
     @Test
-    public void testPasswordEncode() {
-        String rawPassword = "123456";
-        String encodedPassword = BCrypt.hashpw(rawPassword);
-
-        System.out.println("原始密码: " + rawPassword);
-        System.out.println("加密密码: " + encodedPassword);
-        System.out.println("密码验证: " + BCrypt.checkpw(rawPassword, encodedPassword));
-
-        String dbPassword = "$2a$10$YJZeZH7nQ0BnxLhKLQxKdO5KqN6b6j3vVV4nXTLPxHN3pN1rj3j9O";
-        System.out.println("\n数据库密码验证: " + BCrypt.checkpw(rawPassword, dbPassword));
-        
-        String adminPassword = "admin123";
-        System.out.println("\n管理员密码: " + adminPassword);
-        System.out.println("管理员密码验证: " + BCrypt.checkpw(adminPassword, dbPassword));
+    public void testSeedPasswords() {
+        assertTrue(BCrypt.checkpw("123456", USER_PASSWORD_HASH), "默认学生/商家密码哈希应匹配 123456");
+        assertTrue(BCrypt.checkpw("admin123", ADMIN_PASSWORD_HASH), "默认管理员密码哈希应匹配 admin123");
+        assertFalse(BCrypt.checkpw("admin123", USER_PASSWORD_HASH), "学生/商家密码哈希不应匹配管理员密码");
+        assertFalse(BCrypt.checkpw("123456", ADMIN_PASSWORD_HASH), "管理员密码哈希不应匹配学生密码");
     }
 }
 

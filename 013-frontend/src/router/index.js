@@ -133,37 +133,37 @@ const routes = [
     path: '/admin',
     component: () => import('@/layout/AdminLayout.vue'),
     redirect: '/admin/dashboard',
-    meta: { requiresAuth: true, requiresAdmin: true },
+    meta: { requiresAuth: true, allowedRoles: ['ADMIN', 'OPERATOR'] },
     children: [
       {
         path: 'dashboard',
         name: 'AdminDashboard',
         component: () => import('@/views/admin/Dashboard.vue'),
-        meta: { title: '数据概览' }
+        meta: { title: '数据概览', allowedRoles: ['ADMIN', 'OPERATOR'] }
       },
       {
         path: 'users',
         name: 'AdminUsers',
         component: () => import('@/views/admin/Users.vue'),
-        meta: { title: '用户管理' }
+        meta: { title: '用户管理', allowedRoles: ['ADMIN'] }
       },
       {
         path: 'auth-list',
         name: 'AdminAuthList',
         component: () => import('@/views/admin/AuthList.vue'),
-        meta: { title: '实名认证审核' }
+        meta: { title: '实名认证审核', allowedRoles: ['ADMIN'] }
       },
       {
         path: 'idle-audit',
         name: 'AdminIdleAudit',
         component: () => import('@/views/admin/IdleAudit.vue'),
-        meta: { title: '物品审核' }
+        meta: { title: '物品审核', allowedRoles: ['ADMIN'] }
       },
       {
         path: 'shared-items',
         name: 'AdminSharedItems',
         component: () => import('@/views/admin/SharedItems.vue'),
-        meta: { title: '共享物品管理' }
+        meta: { title: '共享物品管理', allowedRoles: ['ADMIN', 'OPERATOR'] }
       }
     ]
   }
@@ -183,7 +183,7 @@ router.beforeEach((to, from, next) => {
 
   if (to.meta.requiresAuth && !userStore.token) {
     next('/login')
-  } else if (to.meta.requiresAdmin && userStore.userInfo?.role !== 'ADMIN') {
+  } else if (to.meta.allowedRoles && !to.meta.allowedRoles.includes(userStore.userInfo?.role)) {
     next('/')
   } else {
     next()

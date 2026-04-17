@@ -28,7 +28,7 @@
           <div class="stat-card">
             <el-icon :size="40" color="#e6a23c"><Document /></el-icon>
             <div class="stat-info">
-              <div class="stat-value">0</div>
+              <div class="stat-value">{{ stats.orderCount || 0 }}</div>
               <div class="stat-label">订单总数</div>
             </div>
           </div>
@@ -39,7 +39,7 @@
           <div class="stat-card">
             <el-icon :size="40" color="#f56c6c"><Money /></el-icon>
             <div class="stat-info">
-              <div class="stat-value">¥0</div>
+              <div class="stat-value">¥{{ stats.platformRevenue || 0 }}</div>
               <div class="stat-label">平台收益</div>
             </div>
           </div>

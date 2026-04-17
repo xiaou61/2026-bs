@@ -5,6 +5,7 @@ import com.xiaou.community.mapper.UserMapper;
 import com.xiaou.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,7 +17,7 @@ public class UserServiceImpl implements UserService {
     public User login(String username, String password) {
         User user = userMapper.findByUsername(username);
         if (user != null && user.getPassword().equals(password)) {
-            return user;
+            return sanitize(user);
         }
         return null;
     }
@@ -26,12 +27,15 @@ public class UserServiceImpl implements UserService {
         if (userMapper.findByUsername(user.getUsername()) != null) {
             throw new RuntimeException("Username already exists");
         }
+        if (user.getRole() == null || user.getRole().isBlank()) {
+            user.setRole("OWNER");
+        }
         userMapper.insert(user);
     }
 
     @Override
     public User getById(Integer id) {
-        return userMapper.findById(id);
+        return sanitize(userMapper.findById(id));
     }
 
     @Override
@@ -44,6 +48,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAll() {
-        return userMapper.findAll();
+        List<User> users = userMapper.findAll();
+        List<User> sanitizedUsers = new ArrayList<>(users.size());
+        for (User user : users) {
+            sanitizedUsers.add(sanitize(user));
+        }
+        return sanitizedUsers;
+    }
+
+    private User sanitize(User user) {
+        if (user == null) {
+            return null;
+        }
+        user.setPassword(null);
+        return user;
     }
 }

@@ -2,7 +2,7 @@ USE campus_ordering;
 
 -- 初始化管理员账号
 INSERT INTO `admin` (`username`, `password`, `real_name`, `phone`, `role`, `status`) VALUES
-('admin', '$2a$10$YJZeZH7nQ0BnxLhKLQxKdO5KqN6b6j3vVV4nXTLPxHN3pN1rj3j9O', '系统管理员', '13800138000', 1, 0);
+('admin', '$2a$10$rYMe2maxvcYuP3FonEsxKOS5wBaEugDlwMR16JalPU3rAmfhDEGsi', '系统管理员', '13800138000', 1, 0);
 
 -- 初始化菜品分类
 INSERT INTO `category` (`category_name`, `parent_id`, `sort`, `status`) VALUES
@@ -19,14 +19,14 @@ INSERT INTO `category` (`category_name`, `parent_id`, `sort`, `status`) VALUES
 
 -- 初始化测试商家
 INSERT INTO `merchant` (`merchant_name`, `license_no`, `contact_person`, `contact_phone`, `password`, `address`, `location`, `category`, `image`, `description`, `notice`, `business_hours`, `delivery_fee`, `min_price`, `avg_prepare_time`, `status`, `audit_status`) VALUES
-('食堂一楼中餐', 'LICENSE001', '张三', '13900000001', '$2a$10$YJZeZH7nQ0BnxLhKLQxKdO5KqN6b6j3vVV4nXTLPxHN3pN1rj3j9O', '第一食堂', '一楼A区', '中餐', 'https://via.placeholder.com/400x200?text=Chinese+Food', '提供各种中式家常菜', '欢迎光临！', '07:00-20:00', 0.00, 10.00, 20, 1, 1),
-('食堂二楼西餐', 'LICENSE002', '李四', '13900000002', '$2a$10$YJZeZH7nQ0BnxLhKLQxKdO5KqN6b6j3vVV4nXTLPxHN3pN1rj3j9O', '第一食堂', '二楼B区', '西餐', 'https://via.placeholder.com/400x200?text=Western+Food', '西式简餐快餐', '新品上市！', '08:00-21:00', 2.00, 15.00, 15, 1, 1),
-('食堂一楼小吃', 'LICENSE003', '王五', '13900000003', '$2a$10$YJZeZH7nQ0BnxLhKLQxKdO5KqN6b6j3vVV4nXTLPxHN3pN1rj3j9O', '第一食堂', '一楼C区', '小吃', 'https://via.placeholder.com/400x200?text=Snacks', '各种特色小吃', '美味小吃！', '07:30-21:30', 1.00, 5.00, 10, 1, 1);
+('食堂一楼中餐', 'LICENSE001', '张三', '13900000001', '$2a$10$sdFcezRDFQYxIX8qs7vW1el.gIGgP7eBv79p937wzsk5YHbPpAkYO', '第一食堂', '一楼A区', '中餐', 'https://via.placeholder.com/400x200?text=Chinese+Food', '提供各种中式家常菜', '欢迎光临！', '07:00-20:00', 0.00, 10.00, 20, 1, 1),
+('食堂二楼西餐', 'LICENSE002', '李四', '13900000002', '$2a$10$sdFcezRDFQYxIX8qs7vW1el.gIGgP7eBv79p937wzsk5YHbPpAkYO', '第一食堂', '二楼B区', '西餐', 'https://via.placeholder.com/400x200?text=Western+Food', '西式简餐快餐', '新品上市！', '08:00-21:00', 2.00, 15.00, 15, 1, 1),
+('食堂一楼小吃', 'LICENSE003', '王五', '13900000003', '$2a$10$sdFcezRDFQYxIX8qs7vW1el.gIGgP7eBv79p937wzsk5YHbPpAkYO', '第一食堂', '一楼C区', '小吃', 'https://via.placeholder.com/400x200?text=Snacks', '各种特色小吃', '美味小吃！', '07:30-21:30', 1.00, 5.00, 10, 1, 1);
 
 -- 初始化测试用户
 INSERT INTO `user` (`student_id`, `username`, `phone`, `password`, `real_name`, `department`, `major`, `dormitory`, `balance`, `status`) VALUES
-('20210001', '学生张三', '13800000001', '$2a$10$YJZeZH7nQ0BnxLhKLQxKdO5KqN6b6j3vVV4nXTLPxHN3pN1rj3j9O', '张三', '计算机学院', '软件工程', '1号楼101', 500.00, 0),
-('20210002', '学生李四', '13800000002', '$2a$10$YJZeZH7nQ0BnxLhKLQxKdO5KqN6b6j3vVV4nXTLPxHN3pN1rj3j9O', '李四', '计算机学院', '计算机科学', '2号楼201', 300.00, 0);
+('20210001', '学生张三', '13800000001', '$2a$10$sdFcezRDFQYxIX8qs7vW1el.gIGgP7eBv79p937wzsk5YHbPpAkYO', '张三', '计算机学院', '软件工程', '1号楼101', 500.00, 0),
+('20210002', '学生李四', '13800000002', '$2a$10$sdFcezRDFQYxIX8qs7vW1el.gIGgP7eBv79p937wzsk5YHbPpAkYO', '李四', '计算机学院', '计算机科学', '2号楼201', 300.00, 0);
 
 -- 初始化测试菜品（商家1-中餐）
 INSERT INTO `dish` (`merchant_id`, `dish_name`, `category_id`, `image`, `description`, `price`, `original_price`, `stock`, `sales`, `month_sales`, `is_recommend`, `status`) VALUES

@@ -1,0 +1,82 @@
+CREATE TABLE IF NOT EXISTS sys_user (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
+    nickname VARCHAR(50),
+    avatar VARCHAR(255),
+    phone VARCHAR(20),
+    role VARCHAR(20) NOT NULL DEFAULT 'USER',
+    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS pet_info (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    type VARCHAR(20) NOT NULL,
+    breed VARCHAR(50),
+    age VARCHAR(20),
+    gender VARCHAR(10),
+    status VARCHAR(20) DEFAULT 'AVAILABLE',
+    description CLOB,
+    image_url VARCHAR(255),
+    health_status VARCHAR(100),
+    vaccine_status VARCHAR(100),
+    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS adoption_application (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    pet_id BIGINT NOT NULL,
+    status VARCHAR(20) DEFAULT 'PENDING',
+    reason CLOB,
+    experience CLOB,
+    housing_condition CLOB,
+    financial_status CLOB,
+    contact_info VARCHAR(100),
+    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS rescue_post (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    title VARCHAR(100) NOT NULL,
+    content CLOB NOT NULL,
+    location VARCHAR(255),
+    image_url VARCHAR(255),
+    status VARCHAR(20) DEFAULT 'OPEN',
+    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS community_post (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    title VARCHAR(100) NOT NULL,
+    content CLOB NOT NULL,
+    image_url VARCHAR(255),
+    view_count INT DEFAULT 0,
+    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS comment (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    post_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    content CLOB NOT NULL,
+    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS banner (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100),
+    image_url VARCHAR(255) NOT NULL,
+    link_url VARCHAR(255),
+    sort_order INT DEFAULT 0,
+    is_active BOOLEAN DEFAULT TRUE,
+    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

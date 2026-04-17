@@ -16,7 +16,7 @@ public class UserController {
     
     private final UserService userService;
     
-    @GetMapping("/info")
+    @GetMapping({"/info", "/profile"})
     public Result<User> getUserInfo(HttpServletRequest request) {
         try {
             Long userId = (Long) request.getAttribute("userId");

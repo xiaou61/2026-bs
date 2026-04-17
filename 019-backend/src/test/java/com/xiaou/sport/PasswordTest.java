@@ -1,26 +1,28 @@
 package com.xiaou.sport;
 
 import cn.hutool.crypto.digest.BCrypt;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class PasswordTest {
 
     @Test
-    public void testPasswordEncrypt() {
-        String password1 = "admin123";
-        String password2 = "coach123";
-        String password3 = "student123";
+    public void shouldVerifyGeneratedHashes() {
+        String password = "admin123";
+        String hash = BCrypt.hashpw(password);
 
-        String hash1 = BCrypt.hashpw(password1);
-        String hash2 = BCrypt.hashpw(password2);
-        String hash3 = BCrypt.hashpw(password3);
+        Assertions.assertNotEquals(password, hash);
+        Assertions.assertTrue(BCrypt.checkpw(password, hash));
+        Assertions.assertFalse(BCrypt.checkpw("wrong-password", hash));
+    }
 
-        System.out.println("admin password hash: " + hash1);
-        System.out.println("coach password hash: " + hash2);
-        System.out.println("student password hash: " + hash3);
-
-        System.out.println("\nVerify admin: " + BCrypt.checkpw("admin123", hash1));
-        System.out.println("Verify coach: " + BCrypt.checkpw("coach123", hash2));
-        System.out.println("Verify student: " + BCrypt.checkpw("student123", hash3));
+    @Test
+    public void shouldMatchDocumentedDefaultAccounts() {
+        Assertions.assertTrue(BCrypt.checkpw("admin123",
+                "$2a$10$2fPFYCZcP0yOZRIqBS.JYeJKTo2ylU32nay4WcYNZt9k0phajCKEC"));
+        Assertions.assertTrue(BCrypt.checkpw("coach123",
+                "$2a$10$Pf2Qj.4cTb6taQ3UKUS3neMp2k5BjyerAPefRZPwFDrz5VGZT6WQa"));
+        Assertions.assertTrue(BCrypt.checkpw("student123",
+                "$2a$10$R7SC20YJ69IB0RxumoirqO4tF1YyjOGwQ2L5SBwMpUy/Vve3ZttmS"));
     }
 }

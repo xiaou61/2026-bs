@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xiaou.recruitment.common.Result;
 import com.xiaou.recruitment.entity.Company;
 import com.xiaou.recruitment.service.CompanyService;
+import com.xiaou.recruitment.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,9 @@ public class CompanyController {
 
     @Autowired
     private CompanyService companyService;
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/register")
     public Result<?> registerCompany(@RequestBody Company company, HttpServletRequest request) {
@@ -34,8 +38,13 @@ public class CompanyController {
 
     @PutMapping("/update")
     public Result<?> updateCompany(@RequestBody Company company, HttpServletRequest request) {
-        if (companyService.updateCompany(company)) {
-            return Result.success(company);
+        Long userId = (Long) request.getAttribute("userId");
+        var currentUser = userService.getUserById(userId);
+        if (currentUser == null || !"company".equals(currentUser.getRole()) || currentUser.getCompanyId() == null) {
+            return Result.error(403, "仅企业账号可以更新企业信息");
+        }
+        if (companyService.updateCompanyProfile(currentUser.getCompanyId(), company)) {
+            return Result.success(companyService.getCompanyById(currentUser.getCompanyId()));
         }
         return Result.error("更新失败");
     }

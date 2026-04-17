@@ -81,6 +81,7 @@ const pageTitle = computed(() => {
 const handleCommand = (command) => {
   if (command === 'logout') {
     localStorage.removeItem('token')
+    localStorage.removeItem('userType')
     localStorage.removeItem('userInfo')
     ElMessage.success('已退出登录')
     router.push('/admin/login')

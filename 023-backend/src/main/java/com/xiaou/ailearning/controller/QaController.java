@@ -1,14 +1,17 @@
 package com.xiaou.ailearning.controller;
 
 import com.xiaou.ailearning.common.Result;
+import com.xiaou.ailearning.entity.KnowledgePoint;
 import com.xiaou.ailearning.entity.QaRecord;
 import com.xiaou.ailearning.service.QaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/qa")
@@ -26,13 +29,32 @@ public class QaController {
             if (question == null || question.trim().isEmpty()) {
                 return Result.error("问题不能为空");
             }
-            
+
             String answer = qaService.answerQuestion(userId, question, sessionId);
+            List<KnowledgePoint> relatedKnowledgePoints = qaService.findRelatedKnowledgePoints(question);
+            List<String> relatedTopics = relatedKnowledgePoints.stream()
+                    .map(KnowledgePoint::getPointName)
+                    .distinct()
+                    .collect(Collectors.toList());
+            if (relatedTopics.isEmpty()) {
+                relatedTopics = qaService.extractKeywords(question);
+            }
+            List<Map<String, Object>> sources = new ArrayList<>();
+            for (KnowledgePoint point : relatedKnowledgePoints) {
+                sources.add(Map.of(
+                        "type", "knowledge_point",
+                        "id", point.getId(),
+                        "name", point.getPointName()
+                ));
+            }
             
             Map<String, Object> response = Map.of(
                 "answer", answer,
                 "sessionId", sessionId,
-                "question", question
+                "question", question,
+                "confidence", qaService.calculateAnswerRelevance(question, answer),
+                "relatedTopics", relatedTopics,
+                "sources", sources
             );
             
             return Result.success(response);

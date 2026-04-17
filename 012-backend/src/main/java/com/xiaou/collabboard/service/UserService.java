@@ -6,8 +6,11 @@ import com.xiaou.collabboard.entity.User;
 import com.xiaou.collabboard.mapper.UserMapper;
 import com.xiaou.collabboard.util.MD5Util;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class UserService extends ServiceImpl<UserMapper, User> {
@@ -93,6 +96,24 @@ public class UserService extends ServiceImpl<UserMapper, User> {
             user.setDocCount(user.getDocCount() - 1);
             baseMapper.updateById(user);
         }
+    }
+
+    public List<User> searchUsers(String keyword, Long excludeUserId) {
+        if (!StringUtils.hasText(keyword)) {
+            return Collections.emptyList();
+        }
+
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.ne(excludeUserId != null, User::getId, excludeUserId)
+                .eq(User::getStatus, 1)
+                .and(w -> w.like(User::getUsername, keyword.trim())
+                        .or()
+                        .like(User::getNickname, keyword.trim()))
+                .last("limit 10");
+
+        List<User> users = baseMapper.selectList(wrapper);
+        users.forEach(user -> user.setPassword(null));
+        return users;
     }
 }
 

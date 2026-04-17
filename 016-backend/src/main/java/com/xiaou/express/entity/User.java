@@ -3,6 +3,7 @@ package com.xiaou.express.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
@@ -20,6 +21,7 @@ public class User {
     
     private String phone;
     
+    @JsonIgnore
     private String password;
     
     private String realName;

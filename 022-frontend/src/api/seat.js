@@ -1,6 +1,5 @@
 import request from '@/utils/request'
 
-// 获取座位列表
 export function getSeats(params) {
   return request({
     url: '/seat/list',
@@ -9,7 +8,14 @@ export function getSeats(params) {
   })
 }
 
-// 获取座位详情
+export function getSeatPage(params) {
+  return request({
+    url: '/seat/page',
+    method: 'get',
+    params
+  })
+}
+
 export function getSeatDetail(seatId) {
   return request({
     url: `/seat/${seatId}`,
@@ -17,8 +23,15 @@ export function getSeatDetail(seatId) {
   })
 }
 
-// 批量创建座位（管理员）
-export function createSeats(data) {
+export function createSeat(data) {
+  return request({
+    url: '/seat',
+    method: 'post',
+    data
+  })
+}
+
+export function batchCreateSeats(data) {
   return request({
     url: '/seat/batch-create',
     method: 'post',
@@ -26,7 +39,6 @@ export function createSeats(data) {
   })
 }
 
-// 更新座位信息（管理员）
 export function updateSeat(seatId, data) {
   return request({
     url: `/seat/${seatId}`,
@@ -35,16 +47,23 @@ export function updateSeat(seatId, data) {
   })
 }
 
-// 批量更新座位状态（管理员）
-export function updateSeatsStatus(data) {
+export function updateSeatStatus(seatId, status) {
   return request({
-    url: '/seat/batch-status',
+    url: `/seat/${seatId}/status`,
     method: 'put',
-    data
+    params: { status }
   })
 }
 
-// 删除座位（管理员）
+export function updateSeatsStatus(seatIds, status) {
+  return request({
+    url: '/seat/batch/status',
+    method: 'put',
+    params: { status },
+    data: seatIds
+  })
+}
+
 export function deleteSeat(seatId) {
   return request({
     url: `/seat/${seatId}`,
@@ -52,7 +71,6 @@ export function deleteSeat(seatId) {
   })
 }
 
-// 获取座位实时状态
 export function getSeatsRealtime(roomId) {
   return request({
     url: `/seat/realtime/${roomId}`,

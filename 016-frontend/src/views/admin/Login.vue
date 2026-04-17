@@ -63,6 +63,7 @@ const handleLogin = async () => {
       try {
         const data = await adminLogin(form)
         localStorage.setItem('token', data.token)
+        localStorage.setItem('userType', 'admin')
         localStorage.setItem('userInfo', JSON.stringify({
           id: data.userId,
           username: data.username,

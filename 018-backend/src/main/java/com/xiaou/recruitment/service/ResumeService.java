@@ -14,7 +14,25 @@ public class ResumeService extends ServiceImpl<ResumeMapper, Resume> {
     }
 
     public boolean updateResume(Resume resume) {
-        return updateById(resume);
+        Resume existing = getById(resume.getId());
+        if (existing == null || !resume.getUserId().equals(existing.getUserId())) {
+            return false;
+        }
+        existing.setName(resume.getName());
+        existing.setGender(resume.getGender());
+        existing.setBirthDate(resume.getBirthDate());
+        existing.setPhone(resume.getPhone());
+        existing.setEmail(resume.getEmail());
+        existing.setUniversity(resume.getUniversity());
+        existing.setMajor(resume.getMajor());
+        existing.setEducation(resume.getEducation());
+        existing.setGraduationDate(resume.getGraduationDate());
+        existing.setSkills(resume.getSkills());
+        existing.setInternshipExperience(resume.getInternshipExperience());
+        existing.setProjectExperience(resume.getProjectExperience());
+        existing.setSelfIntroduction(resume.getSelfIntroduction());
+        existing.setAttachment(resume.getAttachment());
+        return updateById(existing);
     }
 
     public Resume getResumeById(Long id) {

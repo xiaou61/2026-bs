@@ -14,5 +14,12 @@ public class StatisticsVO {
     private BigDecimal totalAmount;
     private Long completedOrders;
     private Long cancelledOrders;
+    private Long pendingComplaints;
+    private Long pendingOrders;
+    private Long processingOrders;
+    private Long activeUsersToday;
+    private Long activeUsersWeek;
+    private Long activeUsersMonth;
+    private BigDecimal completionRate;
 }
 

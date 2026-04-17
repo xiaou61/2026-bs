@@ -1,7 +1,13 @@
 <template>
   <div class="publish-container">
     <el-card class="publish-card">
-      <h2>发布视频</h2>
+      <div class="page-title">
+        <div>
+          <h2>{{ currentDraftId ? '编辑草稿' : '发布视频' }}</h2>
+          <p>上传作品、补充话题和位置信息，也可以先保存草稿后续再完善。</p>
+        </div>
+        <el-tag v-if="currentDraftId" type="warning">草稿编辑中</el-tag>
+      </div>
       
       <el-form :model="form" :rules="rules" ref="formRef" label-width="100px">
         <el-form-item label="视频文件" prop="videoUrl">
@@ -15,7 +21,7 @@
             <video v-if="form.videoUrl" :src="form.videoUrl" class="video-preview" controls></video>
             <el-icon v-else class="uploader-icon"><Plus /></el-icon>
           </el-upload>
-          <div class="upload-tip">支持MP4、MOV格式，最大100MB</div>
+          <div class="upload-tip">支持 MP4、MOV 格式，最大 100MB</div>
         </el-form-item>
         
         <el-form-item label="封面图片" prop="coverUrl">
@@ -55,7 +61,7 @@
           <el-select
             v-model="form.topicIds"
             multiple
-            placeholder="请选择话题（最多3个）"
+            placeholder="请选择话题（最多 3 个）"
             style="width: 100%"
           >
             <el-option
@@ -68,6 +74,14 @@
           </el-select>
         </el-form-item>
         
+        <el-form-item label="发布位置">
+          <el-input
+            v-model="form.location"
+            placeholder="例如：图书馆、自习室、操场"
+            maxlength="50"
+          />
+        </el-form-item>
+        
         <el-form-item label="观看权限">
           <el-radio-group v-model="form.permission">
             <el-radio :label="1">公开</el-radio>
@@ -78,8 +92,9 @@
         
         <el-form-item>
           <el-button type="primary" :loading="publishing" @click="handlePublish">
-            发布视频
+            {{ currentDraftId ? '发布草稿' : '发布视频' }}
           </el-button>
+          <el-button :loading="savingDraft" @click="handleSaveDraft">保存草稿</el-button>
           <el-button @click="handleReset">重置</el-button>
         </el-form-item>
       </el-form>
@@ -88,25 +103,32 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { uploadVideo, uploadCover, publishVideo } from '@/api/video'
 import { getHotTopics } from '@/api/topic'
+import { deleteDraft, getDraftDetail, saveDraft } from '@/api/draft'
 
+const route = useRoute()
 const router = useRouter()
 const formRef = ref()
 const publishing = ref(false)
+const savingDraft = ref(false)
 const topics = ref([])
+const currentDraftId = ref(route.query.draftId || '')
 
-const form = ref({
+const createDefaultForm = () => ({
   videoUrl: '',
   coverUrl: '',
   title: '',
   description: '',
   topicIds: [],
+  location: '',
   permission: 1
 })
+
+const form = ref(createDefaultForm())
 
 const rules = {
   videoUrl: [{ required: true, message: '请上传视频', trigger: 'change' }],
@@ -123,7 +145,7 @@ const beforeVideoUpload = (file) => {
     return false
   }
   if (!isLt100M) {
-    ElMessage.error('视频大小不能超过100MB')
+    ElMessage.error('视频大小不能超过 100MB')
     return false
   }
   return true
@@ -148,7 +170,7 @@ const beforeCoverUpload = (file) => {
     return false
   }
   if (!isLt2M) {
-    ElMessage.error('图片大小不能超过2MB')
+    ElMessage.error('图片大小不能超过 2MB')
     return false
   }
   return true
@@ -164,12 +186,49 @@ const handleCoverUpload = async (options) => {
   }
 }
 
+const fillDraftForm = (draft) => {
+  form.value = {
+    videoUrl: draft.videoUrl || '',
+    coverUrl: draft.coverUrl || '',
+    title: draft.title || '',
+    description: draft.description || '',
+    topicIds: draft.topicIds
+      ? draft.topicIds.split(',').filter(Boolean).map(item => Number(item))
+      : [],
+    location: draft.location || '',
+    permission: 1
+  }
+}
+
+const loadDraft = async (draftId) => {
+  if (!draftId) {
+    currentDraftId.value = ''
+    form.value = createDefaultForm()
+    return
+  }
+  
+  try {
+    const res = await getDraftDetail(draftId)
+    currentDraftId.value = draftId
+    fillDraftForm(res.data)
+  } catch (error) {
+    ElMessage.error('获取草稿详情失败')
+  }
+}
+
 const handlePublish = async () => {
-  await formRef.value.validate()
+  try {
+    await formRef.value.validate()
+  } catch (error) {
+    return
+  }
   
   publishing.value = true
   try {
     await publishVideo(form.value)
+    if (currentDraftId.value) {
+      await deleteDraft(currentDraftId.value)
+    }
     ElMessage.success('发布成功')
     router.push('/profile')
   } catch (error) {
@@ -179,10 +238,45 @@ const handlePublish = async () => {
   }
 }
 
+const handleSaveDraft = async () => {
+  const hasContent = Object.values({
+    title: form.value.title,
+    description: form.value.description,
+    videoUrl: form.value.videoUrl,
+    coverUrl: form.value.coverUrl,
+    location: form.value.location
+  }).some(value => value)
+  
+  if (!hasContent) {
+    ElMessage.warning('请至少填写一点内容再保存草稿')
+    return
+  }
+  
+  savingDraft.value = true
+  try {
+    await saveDraft({
+      id: currentDraftId.value || undefined,
+      title: form.value.title,
+      description: form.value.description,
+      videoUrl: form.value.videoUrl,
+      coverUrl: form.value.coverUrl,
+      topicIds: form.value.topicIds.join(','),
+      location: form.value.location
+    })
+    ElMessage.success('草稿已保存')
+    router.push('/drafts')
+  } catch (error) {
+    ElMessage.error('保存草稿失败')
+  } finally {
+    savingDraft.value = false
+  }
+}
+
 const handleReset = () => {
-  formRef.value.resetFields()
-  form.value.videoUrl = ''
-  form.value.coverUrl = ''
+  if (formRef.value) {
+    formRef.value.clearValidate()
+  }
+  form.value = createDefaultForm()
 }
 
 const fetchTopics = async () => {
@@ -190,12 +284,20 @@ const fetchTopics = async () => {
     const res = await getHotTopics()
     topics.value = res.data
   } catch (error) {
-    console.error('获取话题失败:', error)
+    ElMessage.error('获取话题失败')
   }
 }
 
-onMounted(() => {
-  fetchTopics()
+watch(
+  () => route.query.draftId,
+  (draftId) => {
+    loadDraft(draftId)
+  }
+)
+
+onMounted(async () => {
+  await fetchTopics()
+  await loadDraft(route.query.draftId)
 })
 </script>
 
@@ -207,13 +309,25 @@ onMounted(() => {
 }
 
 .publish-card {
-  max-width: 800px;
+  max-width: 860px;
   margin: 0 auto;
 }
 
-h2 {
-  text-align: center;
+.page-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
   margin-bottom: 30px;
+}
+
+.page-title h2 {
+  margin: 0 0 8px;
+}
+
+.page-title p {
+  margin: 0;
+  color: #6b7280;
 }
 
 .video-uploader,
@@ -252,4 +366,3 @@ h2 {
   font-size: 12px;
 }
 </style>
-

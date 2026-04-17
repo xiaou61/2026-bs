@@ -39,12 +39,13 @@ public class DocumentController {
 
     @PutMapping("/{id}")
     public Result<Void> updateDocument(@PathVariable Long id, @RequestBody Map<String, String> params) {
+        Long userId = UserHolder.get();
         String title = params.get("title");
         String content = params.get("content");
         String description = params.get("description");
         String tags = params.get("tags");
 
-        documentService.updateDocument(id, title, content, description, tags);
+        documentService.updateDocument(id, userId, title, content, description, tags);
         return Result.success();
     }
 
@@ -88,7 +89,7 @@ public class DocumentController {
             @RequestParam(defaultValue = "20") Integer pageSize) {
 
         Long userId = UserHolder.get();
-        IPage<Document> page = documentService.getDocumentList(userId, null, null, 1, pageNum, pageSize);
+        IPage<Document> page = documentService.getRecentDocuments(userId, pageNum, pageSize);
         return Result.success(page);
     }
 
@@ -98,7 +99,7 @@ public class DocumentController {
             @RequestParam(defaultValue = "20") Integer pageSize) {
 
         Long userId = UserHolder.get();
-        IPage<Document> page = documentService.getDocumentList(userId, null, null, 1, pageNum, pageSize);
+        IPage<Document> page = documentService.getStarredDocuments(userId, pageNum, pageSize);
         return Result.success(page);
     }
 
@@ -114,6 +115,8 @@ public class DocumentController {
 
     @PostMapping("/{id}/star")
     public Result<Void> starDocument(@PathVariable Long id) {
+        Long userId = UserHolder.get();
+        documentService.getReadableDocument(id, userId);
         documentService.starDocument(id);
         return Result.success();
     }
@@ -121,7 +124,7 @@ public class DocumentController {
     @PostMapping("/{id}/copy")
     public Result<Document> copyDocument(@PathVariable Long id) {
         Long userId = UserHolder.get();
-        Document original = documentService.getById(id);
+        Document original = documentService.getReadableDocument(id, userId);
         
         Document copy = documentService.createDocument(
             userId, 
@@ -138,8 +141,9 @@ public class DocumentController {
 
     @PostMapping("/{id}/move")
     public Result<Void> moveDocument(@PathVariable Long id, @RequestBody Map<String, Object> params) {
+        Long userId = UserHolder.get();
         Long folderId = Long.parseLong(params.get("folderId").toString());
-        Document document = documentService.getById(id);
+        Document document = documentService.getEditableDocument(id, userId);
         document.setFolderId(folderId);
         documentService.updateById(document);
         return Result.success();

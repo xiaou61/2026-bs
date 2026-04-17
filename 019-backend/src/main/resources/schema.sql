@@ -160,9 +160,9 @@ CREATE TABLE `venue_booking` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='场馆预约表';
 
 INSERT INTO `user` (`username`, `password`, `nickname`, `role`, `height`, `weight`, `points`) VALUES
-('admin', '$2a$10$encrypted', '管理员', 'admin', 175, 70, 0),
-('coach1', '$2a$10$encrypted', '教练张三', 'coach', 180, 75, 0),
-('student1', '$2a$10$encrypted', '学生李四', 'student', 170, 65, 0);
+('admin', '$2a$10$2fPFYCZcP0yOZRIqBS.JYeJKTo2ylU32nay4WcYNZt9k0phajCKEC', '管理员', 'admin', 175, 70, 0),
+('coach1', '$2a$10$Pf2Qj.4cTb6taQ3UKUS3neMp2k5BjyerAPefRZPwFDrz5VGZT6WQa', '教练张三', 'coach', 180, 75, 0),
+('student1', '$2a$10$R7SC20YJ69IB0RxumoirqO4tF1YyjOGwQ2L5SBwMpUy/Vve3ZttmS', '学生李四', 'student', 170, 65, 0);
 
 INSERT INTO `venue` (`venue_name`, `venue_type`, `location`, `capacity`, `opening_time`, `closing_time`, `price_per_hour`) VALUES
 ('体育馆篮球场1号', 'basketball', '体育馆1楼', 20, '08:00:00', '22:00:00', 50),

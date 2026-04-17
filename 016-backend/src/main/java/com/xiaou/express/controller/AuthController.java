@@ -37,7 +37,6 @@ public class AuthController {
     public Result<User> getUserInfo() {
         Long userId = UserContext.getCurrentUserId();
         User user = userService.getUserById(userId);
-        user.setPassword(null);
         return Result.success(user);
     }
 }

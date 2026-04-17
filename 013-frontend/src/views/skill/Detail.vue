@@ -77,6 +77,9 @@
             <el-button type="primary" size="large" @click="dialogVisible = true" style="width: 100%">
               立即预约
             </el-button>
+            <el-button plain size="large" @click="handleFavorite" style="width: 100%; margin-top: 12px">
+              {{ favorited ? '取消收藏' : '收藏服务' }}
+            </el-button>
           </div>
         </el-card>
       </el-col>
@@ -101,15 +104,20 @@
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { getSkillDetail } from '@/api/skill'
 import { ElMessage } from 'element-plus'
+import { getFavoriteStatus, toggleFavorite } from '@/api/favorite'
+import { useUserStore } from '@/stores/user'
 
 const route = useRoute()
+const router = useRouter()
+const userStore = useUserStore()
 
 const skill = ref(null)
 const provider = ref(null)
 const dialogVisible = ref(false)
+const favorited = ref(false)
 
 const bookForm = reactive({
   appointmentTime: '',
@@ -120,6 +128,10 @@ const loadDetail = async () => {
   try {
     const res = await getSkillDetail(route.params.id)
     skill.value = res.data
+    if (userStore.token) {
+      const status = await getFavoriteStatus({ targetId: route.params.id, targetType: 'SKILL' })
+      favorited.value = status.data
+    }
   } catch (error) {
     console.error(error)
   }
@@ -128,6 +140,22 @@ const loadDetail = async () => {
 const handleBook = () => {
   ElMessage.success('预约成功，请联系服务者确认时间')
   dialogVisible.value = false
+}
+
+const handleFavorite = async () => {
+  if (!userStore.token) {
+    ElMessage.warning('请先登录')
+    router.push('/login')
+    return
+  }
+
+  try {
+    await toggleFavorite({ targetId: route.params.id, targetType: 'SKILL' })
+    favorited.value = !favorited.value
+    ElMessage.success(favorited.value ? '收藏成功' : '已取消收藏')
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 onMounted(() => {

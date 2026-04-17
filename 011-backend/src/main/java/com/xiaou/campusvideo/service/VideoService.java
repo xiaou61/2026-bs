@@ -13,7 +13,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,6 +59,7 @@ public class VideoService extends ServiceImpl<VideoMapper, Video> {
         video.setCollectCount(0);
         video.setHeatScore(BigDecimal.ZERO);
         video.setIsTop(0);
+        video.setPublishTime(LocalDateTime.now());
         
         this.save(video);
         
@@ -112,6 +119,7 @@ public class VideoService extends ServiceImpl<VideoMapper, Video> {
         if (video == null) {
             return null;
         }
+        normalizePublishTime(video);
         
         video.setUser(userService.getById(video.getUserId()));
         
@@ -135,6 +143,7 @@ public class VideoService extends ServiceImpl<VideoMapper, Video> {
     
     private void fillVideoInfo(List<Video> videos) {
         for (Video video : videos) {
+            normalizePublishTime(video);
             video.setUser(userService.getById(video.getUserId()));
             
             Long currentUserId = UserHolder.getUserId();
@@ -152,7 +161,8 @@ public class VideoService extends ServiceImpl<VideoMapper, Video> {
             return;
         }
         
-        long hoursSincePublish = (System.currentTimeMillis() - video.getPublishTime().toEpochSecond(java.time.ZoneOffset.ofHours(8)) * 1000) / 3600000;
+        LocalDateTime publishTime = resolvePublishTime(video);
+        long hoursSincePublish = (System.currentTimeMillis() - publishTime.toEpochSecond(java.time.ZoneOffset.ofHours(8)) * 1000) / 3600000;
         double timeDecay = 1.0 / (1.0 + hoursSincePublish / 24.0);
         
         double heatScore = video.getLikeCount() * 4 +
@@ -223,6 +233,109 @@ public class VideoService extends ServiceImpl<VideoMapper, Video> {
         fillVideoInfo(result.getRecords());
         
         return result;
+    }
+    
+    public List<Video> getRelatedVideos(Long videoId, Integer size) {
+        int limit = (size == null || size <= 0) ? 6 : size;
+        Video currentVideo = this.getById(videoId);
+        if (currentVideo == null) {
+            return new ArrayList<>();
+        }
+        
+        LinkedHashSet<Long> relatedIds = new LinkedHashSet<>();
+        List<VideoTopic> currentTopics = videoTopicService.getByVideoId(videoId);
+        for (VideoTopic videoTopic : currentTopics) {
+            List<VideoTopic> topicVideos = videoTopicService.getByTopicId(videoTopic.getTopicId());
+            for (VideoTopic topicVideo : topicVideos) {
+                if (!videoId.equals(topicVideo.getVideoId())) {
+                    relatedIds.add(topicVideo.getVideoId());
+                    if (relatedIds.size() >= limit) {
+                        break;
+                    }
+                }
+            }
+            if (relatedIds.size() >= limit) {
+                break;
+            }
+        }
+        
+        if (relatedIds.size() < limit) {
+            List<Video> sameAuthorVideos = this.lambdaQuery()
+                    .eq(Video::getUserId, currentVideo.getUserId())
+                    .eq(Video::getStatus, 1)
+                    .ne(Video::getId, videoId)
+                    .orderByDesc(Video::getPublishTime)
+                    .last("LIMIT " + limit)
+                    .list();
+            for (Video video : sameAuthorVideos) {
+                relatedIds.add(video.getId());
+                if (relatedIds.size() >= limit) {
+                    break;
+                }
+            }
+        }
+        
+        if (relatedIds.size() < limit) {
+            List<Video> hotVideos = this.lambdaQuery()
+                    .eq(Video::getStatus, 1)
+                    .ne(Video::getId, videoId)
+                    .orderByDesc(Video::getHeatScore)
+                    .orderByDesc(Video::getPublishTime)
+                    .last("LIMIT " + (limit * 2))
+                    .list();
+            for (Video video : hotVideos) {
+                relatedIds.add(video.getId());
+                if (relatedIds.size() >= limit) {
+                    break;
+                }
+            }
+        }
+        
+        List<Long> orderedIds = relatedIds.stream().limit(limit).collect(Collectors.toList());
+        if (orderedIds.isEmpty()) {
+            return new ArrayList<>();
+        }
+        
+        List<Video> relatedVideos = this.lambdaQuery()
+                .in(Video::getId, orderedIds)
+                .eq(Video::getStatus, 1)
+                .list();
+        Map<Long, Integer> orderMap = new HashMap<>();
+        for (int i = 0; i < orderedIds.size(); i++) {
+            orderMap.put(orderedIds.get(i), i);
+        }
+        relatedVideos.sort(Comparator.comparingInt(video -> orderMap.getOrDefault(video.getId(), Integer.MAX_VALUE)));
+        fillVideoInfo(relatedVideos);
+        
+        return relatedVideos;
+    }
+
+    public void normalizePublishTimes(List<Video> videos) {
+        if (videos == null) {
+            return;
+        }
+        for (Video video : videos) {
+            normalizePublishTime(video);
+        }
+    }
+
+    public LocalDateTime resolvePublishTime(Video video) {
+        if (video == null) {
+            return LocalDateTime.now();
+        }
+        if (video.getPublishTime() != null) {
+            return video.getPublishTime();
+        }
+        if (video.getCreateTime() != null) {
+            return video.getCreateTime();
+        }
+        return LocalDateTime.now();
+    }
+
+    private void normalizePublishTime(Video video) {
+        if (video != null && video.getPublishTime() == null) {
+            video.setPublishTime(resolvePublishTime(video));
+        }
     }
 }
 

@@ -38,6 +38,26 @@
       </div>
     </el-card>
     
+    <el-card class="entry-card" v-if="userInfo">
+      <template #header>
+        <div class="card-title">创作与成长</div>
+      </template>
+      <div class="entry-grid">
+        <div class="entry-item" @click="goToDrafts">
+          <div class="entry-name">草稿箱</div>
+          <div class="entry-desc">继续编辑未发布的视频内容</div>
+        </div>
+        <div class="entry-item" @click="goToCreatorCenter">
+          <div class="entry-name">创作中心</div>
+          <div class="entry-desc">查看作品数据、近 7 日创作趋势</div>
+        </div>
+        <div class="entry-item" @click="goToPointsMall">
+          <div class="entry-name">积分商城</div>
+          <div class="entry-desc">使用积分兑换勋章、装扮和创作权益</div>
+        </div>
+      </div>
+    </el-card>
+    
     <el-tabs v-model="activeTab" class="tabs" @tab-change="handleTabChange">
       <el-tab-pane label="我的作品" name="videos">
         <div class="video-grid">
@@ -158,7 +178,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { getUserVideos, updateProfile, uploadAvatar } from '@/api/user'
+import { getUserVideos, getUserLikes, getUserCollects, updateProfile, uploadAvatar } from '@/api/user'
 import { getPointsLog } from '@/api/user'
 import { useUserStore } from '@/stores/user'
 
@@ -207,7 +227,7 @@ const fetchLikedVideos = async () => {
   }
   
   try {
-    const res = await getUserVideos(userStore.userId, { page: 1, size: 20 })
+    const res = await getUserLikes(userStore.userId, { page: 1, size: 20 })
     likedVideos.value = res.data.records
   } catch (error) {
     console.error('获取喜欢列表失败:', error)
@@ -220,7 +240,7 @@ const fetchCollectedVideos = async () => {
   }
   
   try {
-    const res = await getUserVideos(userStore.userId, { page: 1, size: 20 })
+    const res = await getUserCollects(userStore.userId, { page: 1, size: 20 })
     collectedVideos.value = res.data.records
   } catch (error) {
     console.error('获取收藏列表失败:', error)
@@ -278,6 +298,18 @@ const goToDetail = (videoId) => {
   router.push(`/video/${videoId}`)
 }
 
+const goToDrafts = () => {
+  router.push('/drafts')
+}
+
+const goToCreatorCenter = () => {
+  router.push('/creator-center')
+}
+
+const goToPointsMall = () => {
+  router.push('/points-mall')
+}
+
 const handleTabChange = (tabName) => {
   if (tabName === 'likes' && likedVideos.value.length === 0) {
     fetchLikedVideos()
@@ -301,6 +333,10 @@ onMounted(async () => {
 }
 
 .profile-card {
+  margin-bottom: 20px;
+}
+
+.entry-card {
   margin-bottom: 20px;
 }
 
@@ -353,6 +389,43 @@ onMounted(async () => {
 
 .points {
   color: #666;
+}
+
+.card-title {
+  font-weight: 600;
+}
+
+.entry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.entry-item {
+  padding: 18px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f8fbff 0%, #fef6e9 100%);
+  border: 1px solid #eef2f6;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.entry-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+.entry-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #1f2937;
+}
+
+.entry-desc {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.6;
 }
 
 .tabs {

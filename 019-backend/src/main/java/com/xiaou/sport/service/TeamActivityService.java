@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaou.sport.entity.TeamActivity;
 
 public interface TeamActivityService extends IService<TeamActivity> {
+    boolean createActivity(Long userId, TeamActivity activity);
+
     boolean joinActivity(Long activityId, Long userId);
 
     boolean cancelJoin(Long activityId, Long userId);

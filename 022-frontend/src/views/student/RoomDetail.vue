@@ -13,10 +13,10 @@
     <div class="seat-selection">
       <div class="seat-filters">
         <el-radio-group v-model="filterType" @change="handleFilterChange">
-          <el-radio-button label="">全部</el-radio-button>
-          <el-radio-button label="1">普通座位</el-radio-button>
-          <el-radio-button label="2">电源座位</el-radio-button>
-          <el-radio-button label="3">静音区</el-radio-button>
+          <el-radio-button value="">全部</el-radio-button>
+          <el-radio-button value="1">普通座位</el-radio-button>
+          <el-radio-button value="2">电源座位</el-radio-button>
+          <el-radio-button value="3">静音区</el-radio-button>
         </el-radio-group>
         
         <el-button type="primary" :disabled="!selectedSeat" @click="handleReserve">
@@ -141,6 +141,7 @@ const route = useRoute()
 const roomId = route.params.id
 const room = ref(null)
 const seats = ref([])
+const reserveForm = ref()
 const selectedSeat = ref(null)
 const filterType = ref('')
 const loading = ref(false)
@@ -266,8 +267,8 @@ const confirmReserve = async () => {
     const dateStr = dayjs(date).format('YYYY-MM-DD')
     await createReservation({
       seatId: selectedSeat.value.id,
-      startTime: `${dateStr} ${startTime}:00`,
-      endTime: `${dateStr} ${endTime}:00`
+      startTime: `${dateStr}T${startTime}:00`,
+      endTime: `${dateStr}T${endTime}:00`
     })
     
     ElMessage.success('预约成功')

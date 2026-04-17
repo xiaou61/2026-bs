@@ -57,6 +57,7 @@
           </div>
           <div class="title">{{ video.title }}</div>
         </div>
+        </div>
         <el-empty v-if="videos.length === 0" description="暂无作品" />
       </el-tab-pane>
       
@@ -88,7 +89,7 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { getUserInfo as getUserInfoApi, getUserVideos, followUser, unfollowUser } from '@/api/user'
+import { getUserInfo as getUserInfoApi, getUserVideos, getUserLikes, followUser, unfollowUser } from '@/api/user'
 
 const route = useRoute()
 const router = useRouter()
@@ -140,7 +141,7 @@ const handleUnfollow = async () => {
 
 const fetchLikedVideos = async () => {
   try {
-    const res = await getUserVideos(userId.value, { page: 1, size: 20 })
+    const res = await getUserLikes(userId.value, { page: 1, size: 20 })
     likedVideos.value = res.data.records
   } catch (error) {
     console.error('获取喜欢列表失败:', error)

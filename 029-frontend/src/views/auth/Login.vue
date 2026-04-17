@@ -101,7 +101,7 @@ const handleLogin = async () => {
     }
   } catch (error) {
     console.error('登录失败:', error)
-    ElMessage.error(error?.msg || '登录失败，请检查用户名和密码')
+    ElMessage.error(error?.message || error?.msg || '登录失败，请检查用户名和密码')
   } finally {
     loading.value = false
   }

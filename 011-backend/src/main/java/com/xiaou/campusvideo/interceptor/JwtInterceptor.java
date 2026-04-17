@@ -1,6 +1,8 @@
 package com.xiaou.campusvideo.interceptor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xiaou.campusvideo.entity.User;
+import com.xiaou.campusvideo.service.UserService;
 import com.xiaou.campusvideo.util.JwtUtil;
 import com.xiaou.campusvideo.util.Result;
 import com.xiaou.campusvideo.util.UserHolder;
@@ -16,6 +18,9 @@ public class JwtInterceptor implements HandlerInterceptor {
     
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private UserService userService;
     
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -47,6 +52,16 @@ public class JwtInterceptor implements HandlerInterceptor {
             }
             
             Long userId = claims.get("userId", Long.class);
+            if (request.getRequestURI().startsWith("/api/admin/")) {
+                User user = userService.getById(userId);
+                if (user == null || !"ADMIN".equals(user.getRole())) {
+                    response.setStatus(403);
+                    response.setContentType("application/json;charset=UTF-8");
+                    Result<String> result = Result.error(403, "无权访问管理员接口");
+                    response.getWriter().write(new ObjectMapper().writeValueAsString(result));
+                    return false;
+                }
+            }
             UserHolder.setUserId(userId);
             return true;
             

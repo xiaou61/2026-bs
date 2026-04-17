@@ -1,20 +1,21 @@
 <template>
   <el-card>
     <template #header>
-      <h3>简历管理</h3>
+      <div class="header-bar">
+        <h3>简历管理</h3>
+        <el-input
+          v-model="searchJobId"
+          placeholder="按岗位ID筛选，可留空"
+          style="width: 220px"
+          clearable
+          @change="handleFilterChange"
+        />
+      </div>
     </template>
-    <el-form :inline="true">
-      <el-form-item label="岗位ID">
-        <el-input v-model="searchJobId" placeholder="请输入岗位ID" />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="loadApplications">查询</el-button>
-      </el-form-item>
-    </el-form>
     <el-table :data="applications" v-loading="loading">
-      <el-table-column prop="id" label="ID" width="80" />
-      <el-table-column prop="userId" label="学生ID" width="100" />
-      <el-table-column prop="jobId" label="岗位ID" width="100" />
+      <el-table-column prop="jobTitle" label="岗位名称" min-width="180" />
+      <el-table-column prop="studentName" label="学生姓名" width="120" />
+      <el-table-column prop="resumeName" label="简历名称" width="140" />
       <el-table-column prop="status" label="状态" width="120">
         <template #default="{ row }">
           <el-tag v-if="row.status === 'pending'" type="info">待筛选</el-tag>
@@ -24,9 +25,9 @@
           <el-tag v-else type="danger">已拒绝</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="remark" label="备注" />
+      <el-table-column prop="remark" label="备注" min-width="160" />
       <el-table-column prop="createdAt" label="投递时间" width="180" />
-      <el-table-column label="操作" width="300" fixed="right">
+      <el-table-column label="操作" width="320" fixed="right">
         <template #default="{ row }">
           <el-button type="primary" link @click="viewResume(row.resumeId)">查看简历</el-button>
           <el-button type="success" link @click="handleUpdateStatus(row)">更新状态</el-button>
@@ -43,6 +44,22 @@
       style="margin-top: 20px; justify-content: center"
     />
   </el-card>
+
+  <el-dialog v-model="resumeDialogVisible" title="简历详情" width="720px">
+    <el-descriptions :column="2" border v-loading="resumeLoading">
+      <el-descriptions-item label="姓名">{{ resumeDetail.name }}</el-descriptions-item>
+      <el-descriptions-item label="性别">{{ resumeDetail.gender }}</el-descriptions-item>
+      <el-descriptions-item label="电话">{{ resumeDetail.phone }}</el-descriptions-item>
+      <el-descriptions-item label="邮箱">{{ resumeDetail.email }}</el-descriptions-item>
+      <el-descriptions-item label="院校">{{ resumeDetail.university }}</el-descriptions-item>
+      <el-descriptions-item label="专业">{{ resumeDetail.major }}</el-descriptions-item>
+      <el-descriptions-item label="学历">{{ resumeDetail.education }}</el-descriptions-item>
+      <el-descriptions-item label="技能">{{ resumeDetail.skills }}</el-descriptions-item>
+      <el-descriptions-item label="实习经历" :span="2">{{ resumeDetail.internshipExperience }}</el-descriptions-item>
+      <el-descriptions-item label="项目经历" :span="2">{{ resumeDetail.projectExperience }}</el-descriptions-item>
+      <el-descriptions-item label="自我介绍" :span="2">{{ resumeDetail.selfIntroduction }}</el-descriptions-item>
+    </el-descriptions>
+  </el-dialog>
 
   <el-dialog v-model="statusDialogVisible" title="更新状态" width="400px">
     <el-form :model="statusForm" label-width="80px">
@@ -96,10 +113,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
+import { ElMessage } from 'element-plus'
 import { getReceivedApplications, updateApplicationStatus } from '@/api/application'
 import { createInterview } from '@/api/interview'
-import { ElMessage } from 'element-plus'
+import { getResumeById } from '@/api/resume'
 
 const applications = ref([])
 const loading = ref(false)
@@ -109,6 +127,10 @@ const pagination = ref({
   size: 10,
   total: 0
 })
+
+const resumeDialogVisible = ref(false)
+const resumeLoading = ref(false)
+const resumeDetail = ref({})
 
 const statusDialogVisible = ref(false)
 const statusForm = ref({
@@ -120,8 +142,6 @@ const statusForm = ref({
 const interviewDialogVisible = ref(false)
 const interviewForm = ref({
   applicationId: null,
-  userId: null,
-  jobId: null,
   interviewType: 'online',
   interviewTime: '',
   location: '',
@@ -129,17 +149,16 @@ const interviewForm = ref({
 })
 
 const loadApplications = async () => {
-  if (!searchJobId.value) {
-    ElMessage.warning('请输入岗位ID')
-    return
-  }
   loading.value = true
   try {
-    const res = await getReceivedApplications({
+    const params = {
       page: pagination.value.page,
-      size: pagination.value.size,
-      jobId: searchJobId.value
-    })
+      size: pagination.value.size
+    }
+    if (searchJobId.value) {
+      params.jobId = searchJobId.value
+    }
+    const res = await getReceivedApplications(params)
     applications.value = res.data.records
     pagination.value.total = res.data.total
   } catch (error) {
@@ -149,8 +168,22 @@ const loadApplications = async () => {
   }
 }
 
-const viewResume = (resumeId) => {
-  ElMessage.info(`查看简历 ID: ${resumeId}`)
+const handleFilterChange = () => {
+  pagination.value.page = 1
+  loadApplications()
+}
+
+const viewResume = async (resumeId) => {
+  resumeDialogVisible.value = true
+  resumeLoading.value = true
+  try {
+    const res = await getResumeById(resumeId)
+    resumeDetail.value = res.data
+  } catch (error) {
+    console.error(error)
+  } finally {
+    resumeLoading.value = false
+  }
 }
 
 const handleUpdateStatus = (row) => {
@@ -176,8 +209,6 @@ const confirmUpdateStatus = async () => {
 const handleInterview = (row) => {
   interviewForm.value = {
     applicationId: row.id,
-    userId: row.userId,
-    jobId: row.jobId,
     interviewType: 'online',
     interviewTime: '',
     location: '',
@@ -191,13 +222,21 @@ const confirmInterview = async () => {
     await createInterview(interviewForm.value)
     ElMessage.success('安排成功')
     interviewDialogVisible.value = false
+    loadApplications()
   } catch (error) {
     console.error(error)
   }
 }
 
 onMounted(() => {
-  
+  loadApplications()
 })
 </script>
 
+<style scoped>
+.header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+</style>

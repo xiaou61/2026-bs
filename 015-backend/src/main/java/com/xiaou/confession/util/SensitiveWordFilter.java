@@ -7,7 +7,7 @@ import java.util.*;
 @Component
 public class SensitiveWordFilter {
     
-    private final Map<String, Map<String, Object>> sensitiveWordMap = new HashMap<>();
+    private final Map<String, Object> sensitiveWordMap = new HashMap<>();
     
     private static final String END_FLAG = "isEnd";
     

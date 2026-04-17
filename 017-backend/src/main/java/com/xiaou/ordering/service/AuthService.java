@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class AuthService {
@@ -123,6 +125,24 @@ public class AuthService {
         }
 
         return jwtUtil.generateToken(admin.getId(), "admin");
+    }
+
+    public Map<String, Object> getLoginInfo(Long currentUserId, String userType) {
+        if (currentUserId == null || userType == null) {
+            throw new BusinessException("未登录或登录已过期");
+        }
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("userId", currentUserId);
+        data.put("userType", userType);
+
+        switch (userType) {
+            case "user" -> data.put("profile", userMapper.selectById(currentUserId));
+            case "merchant" -> data.put("profile", merchantMapper.selectById(currentUserId));
+            case "admin" -> data.put("profile", adminMapper.selectById(currentUserId));
+            default -> throw new BusinessException("无效的登录身份");
+        }
+        return data;
     }
 }
 

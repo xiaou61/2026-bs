@@ -2,8 +2,8 @@
 
 ## 管理员账户
 - 用户名：`admin`
-- 密码：`123456`
-- 加密后：`$2a$10$YJZeZH7nQ0BnxLhKLQxKdO5KqN6b6j3vVV4nXTLPxHN3pN1rj3j9O`
+- 密码：`admin123`
+- 加密后：`$2a$10$dj2f82N4tHWrjvLvM0yhUuxu016fiiKSgjofdTJNcA6V5KnRivyMO`
 
 ## 测试用户账户
 
@@ -14,7 +14,7 @@
 - 密码：`123456`
 - 真实姓名：`张三`
 - 宿舍：东区1号楼 101
-- 加密后：`$2a$10$YJZeZH7nQ0BnxLhKLQxKdO5KqN6b6j3vVV4nXTLPxHN3pN1rj3j9O`
+- 加密后：`$2a$10$GALOcWmXAWolABT6SJi6E.B3uVPyTuxKhb3mnyzZQWhxQ5NSaQ5le`
 
 ### 用户2（代领员）
 - 学号：`20210002`
@@ -23,7 +23,7 @@
 - 密码：`123456`
 - 真实姓名：`李四`
 - 宿舍：东区2号楼 201
-- 加密后：`$2a$10$YJZeZH7nQ0BnxLhKLQxKdO5KqN6b6j3vVV4nXTLPxHN3pN1rj3j9O`
+- 加密后：`$2a$10$GALOcWmXAWolABT6SJi6E.B3uVPyTuxKhb3mnyzZQWhxQ5NSaQ5le`
 
 ## 密码加密测试
 
@@ -56,7 +56,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/campus_express
     username: root
-    password: root
+    password: 1234
 ```
 
 ## 启动项目
@@ -87,7 +87,7 @@ Content-Type: application/json
 
 {
   "username": "admin",
-  "password": "123456"
+  "password": "admin123"
 }
 ```
 

@@ -12,6 +12,10 @@ export const getMyInterviews = (params) => {
   return request.get('/interview/my', { params })
 }
 
+export const getCompanyInterviews = (params) => {
+  return request.get('/interview/company', { params })
+}
+
 export const cancelInterview = (id) => {
   return request.put(`/interview/cancel/${id}`)
 }

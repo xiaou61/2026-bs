@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaou.studyroom.common.Result;
 import com.xiaou.studyroom.entity.CreditRecord;
 import com.xiaou.studyroom.service.CreditRecordService;
-import com.xiaou.studyroom.utils.JwtUtil;
+import com.xiaou.studyroom.utils.AuthHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +21,14 @@ public class CreditRecordController {
     private CreditRecordService creditRecordService;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private AuthHelper authHelper;
 
     @GetMapping("/user/{userId}")
     public Result<Page<CreditRecord>> getUserCreditRecords(@PathVariable Long userId,
                                                          @RequestParam(defaultValue = "1") int current,
-                                                         @RequestParam(defaultValue = "10") int size) {
+                                                         @RequestParam(defaultValue = "10") int size,
+                                                         @RequestHeader("Authorization") String token) {
+        authHelper.requireAdmin(token);
         Page<CreditRecord> page = creditRecordService.getUserCreditRecords(userId, current, size);
         return Result.success(page);
     }
@@ -35,29 +37,35 @@ public class CreditRecordController {
     public Result<Page<CreditRecord>> getMyCreditRecords(@RequestHeader("Authorization") String token,
                                                         @RequestParam(defaultValue = "1") int current,
                                                         @RequestParam(defaultValue = "10") int size) {
-        Long userId = getUserIdFromToken(token);
+        Long userId = authHelper.getUserId(token);
         Page<CreditRecord> page = creditRecordService.getUserCreditRecords(userId, current, size);
         return Result.success(page);
     }
 
     @GetMapping("/recent/{userId}")
     public Result<List<CreditRecord>> getRecentCreditRecords(@PathVariable Long userId,
-                                                           @RequestParam(defaultValue = "10") int limit) {
+                                                           @RequestParam(defaultValue = "10") int limit,
+                                                           @RequestHeader("Authorization") String token) {
+        authHelper.requireAdmin(token);
         List<CreditRecord> records = creditRecordService.getRecentCreditRecords(userId, limit);
         return Result.success(records);
     }
 
     @GetMapping("/page")
-    public Result<Page<CreditRecord>> getCreditRecordPage(@RequestParam(defaultValue = "1") int current,
+    public Result<Page<CreditRecord>> getCreditRecordPage(@RequestHeader("Authorization") String token,
+                                                         @RequestParam(defaultValue = "1") int current,
                                                          @RequestParam(defaultValue = "10") int size,
                                                          @RequestParam(required = false) Long userId,
                                                          @RequestParam(required = false) String reason) {
+        authHelper.requireAdmin(token);
         Page<CreditRecord> page = creditRecordService.getCreditRecordPage(current, size, userId, reason);
         return Result.success(page);
     }
 
     @PostMapping("/record")
-    public Result<String> addCreditRecord(@RequestBody Map<String, Object> requestMap) {
+    public Result<String> addCreditRecord(@RequestHeader("Authorization") String token,
+                                          @RequestBody Map<String, Object> requestMap) {
+        authHelper.requireAdmin(token);
         try {
             Long userId = Long.valueOf(requestMap.get("userId").toString());
             Integer scoreChange = Integer.valueOf(requestMap.get("scoreChange").toString());
@@ -77,8 +85,13 @@ public class CreditRecordController {
 
     @GetMapping("/statistics/{userId}")
     public Result<Map<String, Object>> getCreditStatistics(@PathVariable Long userId,
+                                                          @RequestHeader("Authorization") String token,
                                                           @RequestParam(required = false) String startDate,
                                                           @RequestParam(required = false) String endDate) {
+        Long currentUserId = authHelper.getUserId(token);
+        if (!currentUserId.equals(userId) && !authHelper.isAdmin(token)) {
+            return Result.error("无权访问该用户统计");
+        }
         try {
             LocalDateTime start = startDate != null ?
                 LocalDateTime.parse(startDate + "T00:00:00") :
@@ -99,15 +112,6 @@ public class CreditRecordController {
             return Result.success(statistics);
         } catch (Exception e) {
             return Result.error("获取统计信息失败：" + e.getMessage());
-        }
-    }
-
-    private Long getUserIdFromToken(String token) {
-        try {
-            String actualToken = token.replace("Bearer ", "");
-            return jwtUtil.getUserIdFromToken(actualToken);
-        } catch (Exception e) {
-            throw new RuntimeException("Token解析失败", e);
         }
     }
 }

@@ -57,6 +57,14 @@ export const getVideoDetail = (id) => {
   })
 }
 
+export const getRelatedVideos = (id, params) => {
+  return request({
+    url: `/video/${id}/related`,
+    method: 'get',
+    params
+  })
+}
+
 export const deleteVideo = (id) => {
   return request({
     url: `/video/${id}`,

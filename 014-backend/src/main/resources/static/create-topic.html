@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发布话题 - 校园社团平台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-people-fill"></i> 校园社团平台
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="clubs.html">社团广场</a></li>
+                    <li class="nav-item"><a class="nav-link" href="activities.html">活动中心</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="topics.html">话题广场</a></li>
+                    <li class="nav-item"><a class="nav-link" href="circles.html">兴趣圈子</a></li>
+                    <li class="nav-item d-none" id="userNav">
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle"></i> <span id="username"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="profile.html">个人中心</a></li>
+                                <li><a class="dropdown-item" href="my-clubs.html">我的社团</a></li>
+                                <li><a class="dropdown-item" href="my-activities.html">我的活动</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="logoutBtn">退出登录</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4" style="max-width: 880px;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0"><i class="bi bi-chat-square-text"></i> 发布话题</h2>
+            <a href="topics.html" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> 返回话题广场
+            </a>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <div class="alert alert-info">
+                    可以只发布普通话题，也可以选择关联自己加入的社团或圈子。
+                </div>
+
+                <form id="createTopicForm">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label">话题标题</label>
+                            <input type="text" class="form-control" id="title" maxlength="200" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">关联社团</label>
+                            <select class="form-select" id="clubId">
+                                <option value="">不关联社团</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">关联圈子</label>
+                            <select class="form-select" id="circleId">
+                                <option value="">不关联圈子</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">图片 URL 列表</label>
+                            <input type="text" class="form-control" id="images" placeholder='可选，多个地址用英文逗号分隔'>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">话题内容</label>
+                            <textarea class="form-control" id="content" rows="8" maxlength="3000" required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <a href="topics.html" class="btn btn-light">取消</a>
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                            <i class="bi bi-send"></i> 发布话题
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        $(document).ready(function() {
+            if (!utils.requireAuth()) return;
+
+            loadRelationOptions();
+
+            $('#createTopicForm').on('submit', function(e) {
+                e.preventDefault();
+
+                const imageValues = $('#images').val().trim()
+                    ? $('#images').val().split(',').map(item => item.trim()).filter(Boolean)
+                    : [];
+
+                const payload = {
+                    title: $('#title').val().trim(),
+                    content: $('#content').val().trim(),
+                    clubId: $('#clubId').val() ? Number($('#clubId').val()) : null,
+                    circleId: $('#circleId').val() ? Number($('#circleId').val()) : null,
+                    images: imageValues.length ? JSON.stringify(imageValues) : null
+                };
+
+                $('#submitBtn').prop('disabled', true);
+
+                request.post('/topics', payload)
+                    .done(function(res) {
+                        if (res.code === 200) {
+                            utils.showToast('话题发布成功');
+                            setTimeout(function() {
+                                window.location.href = 'topic-detail.html?id=' + res.data;
+                            }, 800);
+                        } else {
+                            utils.showToast(res.message || '发布失败', 'error');
+                        }
+                    })
+                    .fail(function(xhr) {
+                        utils.showToast(xhr.responseJSON?.message || '发布失败，请稍后重试', 'error');
+                    })
+                    .always(function() {
+                        $('#submitBtn').prop('disabled', false);
+                    });
+            });
+        });
+
+        function loadRelationOptions() {
+            request.get('/clubs/my')
+                .done(function(res) {
+                    if (res.code === 200) {
+                        $('#clubId').append((res.data || []).map(club =>
+                            `<option value="${club.id}">${club.name}</option>`
+                        ).join(''));
+                    }
+                });
+
+            request.get('/circles/my')
+                .done(function(res) {
+                    if (res.code === 200) {
+                        $('#circleId').append((res.data || []).map(circle =>
+                            `<option value="${circle.id}">${circle.name}</option>`
+                        ).join(''));
+                    }
+                });
+        }
+    </script>
+</body>
+</html>

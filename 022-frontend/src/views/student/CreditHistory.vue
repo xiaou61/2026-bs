@@ -12,6 +12,16 @@
       <el-table-column prop="changeReason" label="变动原因" />
       <el-table-column prop="createTime" label="时间" />
     </el-table>
+
+    <el-pagination
+      v-if="total > pageSize"
+      :current-page="currentPage"
+      :page-size="pageSize"
+      :total="total"
+      layout="total, prev, pager, next"
+      @current-change="handlePageChange"
+      style="margin-top: 20px; text-align: center;"
+    />
   </div>
 </template>
 
@@ -20,14 +30,26 @@ import { ref, onMounted } from 'vue'
 import { getMyCreditRecords } from '@/api/credit'
 
 const creditRecords = ref([])
+const currentPage = ref(1)
+const pageSize = ref(10)
+const total = ref(0)
 
 const loadCreditRecords = async () => {
   try {
-    const res = await getMyCreditRecords()
-    creditRecords.value = res.data
+    const res = await getMyCreditRecords({
+      current: currentPage.value,
+      size: pageSize.value
+    })
+    creditRecords.value = res.data.records || []
+    total.value = res.data.total || creditRecords.value.length
   } catch (error) {
     console.error('Failed to load credit records:', error)
   }
+}
+
+const handlePageChange = (page) => {
+  currentPage.value = page
+  loadCreditRecords()
 }
 
 onMounted(() => {

@@ -47,4 +47,7 @@ public class User {
     @TableLogic
     @TableField("deleted")
     private Integer deleted;
+
+    @TableField(exist = false)
+    private String role;
 }

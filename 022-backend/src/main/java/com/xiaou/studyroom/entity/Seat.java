@@ -1,6 +1,7 @@
 package com.xiaou.studyroom.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -26,9 +27,11 @@ public class Seat {
     @TableField("seat_status")
     private Integer seatStatus;
 
+    @JsonProperty("xCoordinate")
     @TableField("x_coordinate")
     private BigDecimal xCoordinate;
 
+    @JsonProperty("yCoordinate")
     @TableField("y_coordinate")
     private BigDecimal yCoordinate;
 

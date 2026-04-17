@@ -26,13 +26,22 @@ public class AdminService {
     public Map<String, Object> getStatistics() {
         Map<String, Object> stats = new HashMap<>();
         
-        stats.put("totalUsers", userMapper.selectCount(null));
-        stats.put("totalPosts", postMapper.selectCount(null));
-        stats.put("totalComments", commentMapper.selectCount(null));
+        long totalUsers = userMapper.selectCount(null);
+        long totalPosts = postMapper.selectCount(null);
+        long totalComments = commentMapper.selectCount(null);
+
+        stats.put("totalUsers", totalUsers);
+        stats.put("totalPosts", totalPosts);
+        stats.put("totalComments", totalComments);
+        stats.put("userCount", totalUsers);
+        stats.put("postCount", totalPosts);
+        stats.put("commentCount", totalComments);
         
         LambdaQueryWrapper<Report> reportWrapper = new LambdaQueryWrapper<>();
         reportWrapper.eq(Report::getStatus, 0);
-        stats.put("pendingReports", reportMapper.selectCount(reportWrapper));
+        long pendingReports = reportMapper.selectCount(reportWrapper);
+        stats.put("pendingReports", pendingReports);
+        stats.put("reportCount", pendingReports);
         
         LambdaQueryWrapper<User> authWrapper = new LambdaQueryWrapper<>();
         authWrapper.eq(User::getAuthStatus, 1);
@@ -75,6 +84,8 @@ public class AdminService {
         
         if (status == 1 && days != null) {
             user.setBanEndTime(LocalDateTime.now().plusDays(days));
+        } else {
+            user.setBanEndTime(null);
         }
         
         user.setUpdateTime(LocalDateTime.now());

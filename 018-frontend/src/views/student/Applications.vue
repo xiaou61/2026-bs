@@ -4,7 +4,8 @@
       <h3>我的投递</h3>
     </template>
     <el-table :data="applications" v-loading="loading">
-      <el-table-column prop="jobId" label="岗位ID" width="100" />
+      <el-table-column prop="jobTitle" label="岗位名称" min-width="180" />
+      <el-table-column prop="companyName" label="企业名称" width="180" />
       <el-table-column prop="status" label="状态" width="120">
         <template #default="{ row }">
           <el-tag v-if="row.status === 'pending'" type="info">待筛选</el-tag>

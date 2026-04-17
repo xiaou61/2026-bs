@@ -14,12 +14,23 @@ public class ParkingServiceImpl implements ParkingService {
 
     @Override
     public void add(Parking parking) {
-        parking.setStatus("FREE");
+        if (parking.getStatus() == null || parking.getStatus().isBlank()) {
+            parking.setStatus("FREE");
+        }
+        if ("FREE".equals(parking.getStatus())) {
+            parking.setOwnerId(null);
+        }
         parkingMapper.insert(parking);
     }
 
     @Override
     public void update(Parking parking) {
+        if (parking.getStatus() == null || parking.getStatus().isBlank()) {
+            parking.setStatus("FREE");
+        }
+        if ("FREE".equals(parking.getStatus())) {
+            parking.setOwnerId(null);
+        }
         parkingMapper.update(parking);
     }
 

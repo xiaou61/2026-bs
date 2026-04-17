@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Service
 public class OrderService {
@@ -58,11 +57,17 @@ public class OrderService {
         return "EXP" + System.currentTimeMillis() + (int)(Math.random() * 1000);
     }
 
-    public Page<OrderVO> getOrderSquare(int pageNum, int pageSize) {
+    public Page<OrderVO> getOrderSquare(int pageNum, int pageSize, String itemType, String itemWeight) {
         Page<Orders> page = new Page<>(pageNum, pageSize);
         LambdaQueryWrapper<Orders> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Orders::getStatus, Constants.OrderStatus.PENDING)
                 .orderByDesc(Orders::getCreateTime);
+        if (itemType != null && !itemType.isBlank()) {
+            wrapper.eq(Orders::getItemType, itemType.trim());
+        }
+        if (itemWeight != null && !itemWeight.isBlank()) {
+            wrapper.eq(Orders::getItemWeight, itemWeight.trim());
+        }
         Page<Orders> orderPage = ordersMapper.selectPage(page, wrapper);
 
         Page<OrderVO> voPage = new Page<>();
@@ -229,10 +234,16 @@ public class OrderService {
         return voPage;
     }
 
-    public OrderVO getOrderDetail(Long orderId) {
+    public OrderVO getOrderDetail(Long currentUserId, String currentUserType, Long orderId) {
         Orders order = ordersMapper.selectById(orderId);
         if (order == null) {
             throw new BusinessException("订单不存在");
+        }
+        boolean isAdmin = "admin".equals(currentUserType);
+        boolean isPublisher = order.getPublisherId().equals(currentUserId);
+        boolean isTaker = order.getTakerId() != null && order.getTakerId().equals(currentUserId);
+        if (!isAdmin && order.getStatus() != Constants.OrderStatus.PENDING && !isPublisher && !isTaker) {
+            throw new BusinessException("无权查看该订单");
         }
         return convertToVO(order);
     }

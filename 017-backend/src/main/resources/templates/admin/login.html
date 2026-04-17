@@ -50,6 +50,7 @@
                 success: function(res) {
                     if (res.code === 200) {
                         localStorage.setItem('token', res.data.token);
+                        localStorage.setItem('userType', 'admin');
                         alert('登录成功！');
                         window.location.href = '/admin/dashboard';
                     } else {

@@ -77,9 +77,13 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
+import { addSharedItem, getSharedItemList, updateSharedItem } from '@/api/admin'
 
 const items = ref([])
 const addDialogVisible = ref(false)
+const page = ref(1)
+const size = ref(10)
+const total = ref(0)
 
 const form = reactive({
   itemNo: '',
@@ -117,16 +121,52 @@ const getStatusType = (status) => {
   return map[status] || ''
 }
 
-const updateStatus = (id, status) => {
-  ElMessage.success('状态更新成功')
+const resetForm = () => {
+  form.itemNo = ''
+  form.itemType = ''
+  form.locationName = ''
+  form.hourlyPrice = 0
 }
 
-const handleAdd = () => {
-  ElMessage.success('添加成功')
-  addDialogVisible.value = false
+const loadItems = async () => {
+  try {
+    const res = await getSharedItemList({ page: page.value, size: size.value })
+    items.value = res.data.records
+    total.value = res.data.total
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const updateStatus = async (id, status) => {
+  try {
+    await updateSharedItem(id, { status })
+    ElMessage.success('状态更新成功')
+    loadItems()
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const handleAdd = async () => {
+  try {
+    await addSharedItem({
+      itemNo: form.itemNo,
+      itemType: form.itemType,
+      locationName: form.locationName,
+      hourlyPrice: form.hourlyPrice
+    })
+    ElMessage.success('添加成功')
+    addDialogVisible.value = false
+    resetForm()
+    loadItems()
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 onMounted(() => {
+  loadItems()
 })
 </script>
 

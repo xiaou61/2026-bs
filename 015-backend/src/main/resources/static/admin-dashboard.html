@@ -26,6 +26,11 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="loadPendingAuth()">
+                                <i class="bi bi-person-vcard"></i> 实名审核
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="#" onclick="loadPendingPosts()">
                                 <i class="bi bi-file-earmark-text"></i> 内容审核
                             </a>
@@ -113,6 +118,14 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="alert alert-warning mb-0">待审核认证：${data.pendingAuth || 0}</div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="alert alert-info mb-0">待审核帖子：${data.pendingAudit || 0}</div>
+                            </div>
+                        </div>
                         <div class="row mt-4">
                             <div class="col-md-6">
                                 <div class="card">
@@ -133,6 +146,47 @@
                         </div>
                     `;
                     $('#mainContent').html(html);
+                })
+                .catch(err => {
+                    showToast(err.message, 'danger');
+                });
+        }
+
+        function loadPendingAuth() {
+            $('#pageTitle').text('实名认证审核');
+            showLoading('#mainContent');
+
+            request('/admin/auth/pending?page=1&size=50')
+                .then(data => {
+                    if (data.records && data.records.length > 0) {
+                        let html = '<div class="row">';
+                        data.records.forEach(user => {
+                            const imageHtml = user.authImage ? `
+                                <div class="mb-3">
+                                    <img src="${user.authImage}" class="img-fluid rounded border" alt="认证材料">
+                                </div>
+                            ` : '<div class="text-muted small mb-3">暂无认证图片</div>';
+
+                            html += `
+                                <div class="col-md-6 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h6>${user.realName}（${user.studentId}）</h6>
+                                            <div class="text-muted small mb-2">${user.school || '-'} / ${user.college || '-'}</div>
+                                            <div class="small mb-2">手机号：${user.phone || '-'}</div>
+                                            ${imageHtml}
+                                            <button class="btn btn-sm btn-success" onclick="auditAuth(${user.id}, 2)">通过</button>
+                                            <button class="btn btn-sm btn-danger" onclick="auditAuth(${user.id}, 3)">驳回</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        html += '</div>';
+                        $('#mainContent').html(html);
+                    } else {
+                        showEmpty('#mainContent', '暂无待审核认证');
+                    }
                 })
                 .catch(err => {
                     showToast(err.message, 'danger');
@@ -264,6 +318,21 @@
                 .catch(err => {
                     showToast(err.message, 'danger');
                 });
+        }
+
+        function auditAuth(userId, status) {
+            const reason = status === 2 ? '审核通过' : '认证材料不符合要求';
+            request(`/admin/auth/${userId}/audit`, {
+                method: 'PUT',
+                body: JSON.stringify({ status, reason })
+            })
+            .then(() => {
+                showToast('操作成功', 'success');
+                loadPendingAuth();
+            })
+            .catch(err => {
+                showToast(err.message, 'danger');
+            });
         }
         
         function approvePost(postId) {

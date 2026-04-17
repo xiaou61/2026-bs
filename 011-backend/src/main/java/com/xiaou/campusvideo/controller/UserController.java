@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaou.campusvideo.entity.User;
 import com.xiaou.campusvideo.entity.UserFollow;
 import com.xiaou.campusvideo.entity.Video;
+import com.xiaou.campusvideo.service.PointsMallService;
 import com.xiaou.campusvideo.service.UserFollowService;
 import com.xiaou.campusvideo.service.UserPointsLogService;
 import com.xiaou.campusvideo.service.UserService;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
@@ -35,6 +37,9 @@ public class UserController {
     
     @Autowired
     private UserPointsLogService userPointsLogService;
+    
+    @Autowired
+    private PointsMallService pointsMallService;
     
     @Autowired
     private FileUtil fileUtil;
@@ -91,6 +96,7 @@ public class UserController {
                .orderByDesc(Video::getPublishTime);
         
         IPage<Video> result = videoService.page(videoPage, wrapper);
+        videoService.normalizePublishTimes(result.getRecords());
         return Result.success(result);
     }
     
@@ -136,6 +142,37 @@ public class UserController {
     public Result<?> getPointsLog() {
         Long userId = UserHolder.getUserId();
         return Result.success(userPointsLogService.getPointsLog(userId));
+    }
+    
+    @GetMapping("/points/mall/items")
+    public Result<?> getMallItems() {
+        return Result.success(pointsMallService.getItems());
+    }
+    
+    @PostMapping("/points/exchange")
+    public Result<?> exchangePoints(@RequestBody Map<String, Long> params) {
+        Long itemId = params.get("itemId");
+        if (itemId == null) {
+            return Result.error("兑换商品不能为空");
+        }
+        
+        Map<String, Object> item = pointsMallService.getItemById(itemId);
+        if (item == null) {
+            return Result.error("兑换商品不存在");
+        }
+        
+        Long userId = UserHolder.getUserId();
+        User user = userService.getById(userId);
+        int cost = ((Number) item.get("points")).intValue();
+        if (user == null) {
+            return Result.error("用户不存在");
+        }
+        if (user.getPoints() < cost) {
+            return Result.error("积分不足，无法兑换");
+        }
+        
+        userPointsLogService.addPoints(userId, -cost, "EXCHANGE", "积分兑换：" + item.get("name"), itemId);
+        return Result.success("兑换成功");
     }
     
     @GetMapping("/{id}/likes")

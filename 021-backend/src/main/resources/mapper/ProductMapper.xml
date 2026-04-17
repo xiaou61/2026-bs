@@ -11,7 +11,7 @@
             p.description,
             p.price,
             p.original_price,
-            p.condition,
+            p.`condition` AS `condition`,
             p.images,
             p.status,
             p.view_count,
@@ -32,7 +32,7 @@
             AND (p.title LIKE CONCAT('%', #{keyword}, '%') OR p.description LIKE CONCAT('%', #{keyword}, '%'))
         </if>
         <if test="condition != null and condition != ''">
-            AND p.condition = #{condition}
+            AND p.`condition` = #{condition}
         </if>
         <choose>
             <when test="sortBy == 'price' and sortOrder == 'asc'">
@@ -62,7 +62,7 @@
             p.description,
             p.price,
             p.original_price,
-            p.condition,
+            p.`condition` AS `condition`,
             p.images,
             p.status,
             p.view_count,
@@ -90,7 +90,7 @@
             p.description,
             p.price,
             p.original_price,
-            p.condition,
+            p.`condition` AS `condition`,
             p.images,
             p.status,
             p.view_count,

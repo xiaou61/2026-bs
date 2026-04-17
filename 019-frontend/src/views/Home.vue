@@ -128,7 +128,7 @@ const loadStats = async () => {
     stats.value[0].value = res.data.totalRecords
     stats.value[1].value = res.data.totalDuration
     stats.value[2].value = res.data.totalDistance
-    stats.value[3].value = res.data.totalSteps
+    stats.value[3].value = res.data.totalPoints
   } catch (error) {
     console.error(error)
   }

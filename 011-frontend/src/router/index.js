@@ -43,6 +43,21 @@ const router = createRouter({
           component: () => import('@/views/Profile.vue')
         },
         {
+          path: 'drafts',
+          name: 'Drafts',
+          component: () => import('@/views/DraftBox.vue')
+        },
+        {
+          path: 'creator-center',
+          name: 'CreatorCenter',
+          component: () => import('@/views/CreatorCenter.vue')
+        },
+        {
+          path: 'points-mall',
+          name: 'PointsMall',
+          component: () => import('@/views/PointsMall.vue')
+        },
+        {
           path: 'user/:id',
           name: 'User',
           component: () => import('@/views/User.vue')

@@ -2,7 +2,9 @@ package com.xiaou.confession.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xiaou.confession.common.Result;
+import com.xiaou.confession.entity.Comment;
 import com.xiaou.confession.entity.Post;
+import com.xiaou.confession.service.CommentService;
 import com.xiaou.confession.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import java.util.Map;
 public class PostController {
     
     private final PostService postService;
+    private final CommentService commentService;
     
     @PostMapping
     public Result<Post> createPost(@RequestBody Map<String, Object> params, HttpServletRequest request) {
@@ -80,6 +83,38 @@ public class PostController {
             Long userId = (Long) request.getAttribute("userId");
             IPage<Post> posts = postService.getMyPosts(userId, page, size);
             return Result.success(posts);
+        } catch (Exception e) {
+            return Result.error(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{postId}/comments")
+    public Result<IPage<Comment>> getPostComments(
+            @PathVariable Long postId,
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "20") Integer size,
+            @RequestParam(defaultValue = "NEW") String orderBy) {
+        try {
+            IPage<Comment> comments = commentService.getCommentThreadByPostId(postId, page, size, orderBy);
+            return Result.success(comments);
+        } catch (Exception e) {
+            return Result.error(e.getMessage());
+        }
+    }
+
+    @PostMapping("/{postId}/comments")
+    public Result<Comment> createPostComment(
+            @PathVariable Long postId,
+            @RequestBody Map<String, Object> params,
+            HttpServletRequest request) {
+        try {
+            Long userId = (Long) request.getAttribute("userId");
+            Long parentId = params.get("parentId") != null ? Long.valueOf(params.get("parentId").toString()) : null;
+            String replyToNickname = (String) params.get("replyToNickname");
+            String content = (String) params.get("content");
+
+            Comment comment = commentService.createComment(userId, postId, parentId, replyToNickname, content);
+            return Result.success(comment);
         } catch (Exception e) {
             return Result.error(e.getMessage());
         }

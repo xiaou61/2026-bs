@@ -13,7 +13,7 @@
                 <el-radio-button label="UMBRELLA">雨伞</el-radio-button>
               </el-radio-group>
             </div>
-          </el-template>
+          </template>
 
           <div class="map-placeholder">
             <el-icon :size="80"><Location /></el-icon>

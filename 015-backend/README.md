@@ -78,7 +78,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/campus_confession?...
     username: root
-    password: root  # 修改为你的密码
+    password: 1234  # 如本机数据库密码不同，请改成你的实际密码
 ```
 
 ### 4. 运行项目

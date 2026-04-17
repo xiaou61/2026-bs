@@ -3,13 +3,15 @@ package com.xiaou.controller;
 import com.xiaou.common.Result;
 import com.xiaou.dto.UserLoginDTO;
 import com.xiaou.dto.UserRegisterDTO;
+import com.xiaou.dto.UserUpdateDTO;
 import com.xiaou.service.UserService;
 import com.xiaou.vo.UserInfoVO;
 import com.xiaou.vo.UserLoginVO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping("/user")
@@ -35,14 +37,13 @@ public class UserController {
 
     @PutMapping("/update")
     public Result<String> updateUser(@RequestAttribute("userId") Long userId,
-                                   @Valid @RequestBody UserRegisterDTO updateDTO) {
+                                   @Valid @RequestBody UserUpdateDTO updateDTO) {
         userService.updateUser(userId, updateDTO);
         return Result.success("更新成功");
     }
 
     @GetMapping("/profile/{id}")
-    public Result<UserInfoVO> getUserProfile(@RequestAttribute("userId") Long userId,
-                                            @PathVariable Long id) {
-        return Result.success(userService.getUserProfile(userId, id));
+    public Result<UserInfoVO> getUserProfile(@PathVariable Long id) {
+        return Result.success(userService.getUserProfile(id));
     }
 }

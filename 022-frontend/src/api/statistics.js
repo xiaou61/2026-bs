@@ -1,55 +1,47 @@
 import request from '@/utils/request'
 
-// 获取使用统计数据
-export function getUsageStatistics(params) {
+export function getDashboardData() {
   return request({
-    url: '/statistics/usage',
-    method: 'get',
-    params
-  })
-}
-
-// 获取今日统计
-export function getTodayStatistics() {
-  return request({
-    url: '/statistics/today',
+    url: '/statistics/dashboard',
     method: 'get'
   })
 }
 
-// 获取趋势数据
-export function getTrendData(params) {
+export function getOverallStatistics(params) {
   return request({
-    url: '/statistics/trend',
+    url: '/statistics/overall',
     method: 'get',
     params
   })
 }
 
-// 获取热门座位
-export function getPopularSeats(params) {
+export function getRoomStatistics(roomId, params) {
   return request({
-    url: '/statistics/popular-seats',
+    url: `/statistics/room/${roomId}`,
     method: 'get',
     params
   })
 }
 
-// 获取高峰时段
-export function getPeakHours(params) {
+export function getDateRangeStatistics(params) {
   return request({
-    url: '/statistics/peak-hours',
+    url: '/statistics/date-range',
     method: 'get',
     params
   })
 }
 
-// 导出统计报表
-export function exportStatistics(params) {
+export function getPeakHoursStatistics(roomId, params) {
   return request({
-    url: '/statistics/export',
+    url: `/statistics/peak-hours/${roomId}`,
     method: 'get',
-    params,
-    responseType: 'blob'
+    params
+  })
+}
+
+export function generateStatistics() {
+  return request({
+    url: '/statistics/generate',
+    method: 'post'
   })
 }

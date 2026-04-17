@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaou.confession.entity.Post;
+import com.xiaou.confession.entity.SensitiveWord;
 import com.xiaou.confession.entity.User;
 import com.xiaou.confession.mapper.PostMapper;
+import com.xiaou.confession.mapper.SensitiveWordMapper;
 import com.xiaou.confession.mapper.UserMapper;
 import com.xiaou.confession.util.AnonymousNicknameGenerator;
 import com.xiaou.confession.util.SensitiveWordFilter;
@@ -23,6 +25,7 @@ public class PostService {
     
     private final PostMapper postMapper;
     private final UserMapper userMapper;
+    private final SensitiveWordMapper sensitiveWordMapper;
     private final SensitiveWordFilter sensitiveWordFilter;
     
     @Transactional
@@ -142,7 +145,16 @@ public class PostService {
     }
     
     private boolean containsHighLevelSensitiveWord(List<String> words) {
-        return false;
+        if (words == null || words.isEmpty()) {
+            return false;
+        }
+
+        LambdaQueryWrapper<SensitiveWord> wrapper = new LambdaQueryWrapper<>();
+        wrapper.in(SensitiveWord::getWord, words);
+        wrapper.eq(SensitiveWord::getIsEnabled, 1);
+        wrapper.ge(SensitiveWord::getLevel, 2);
+
+        return sensitiveWordMapper.selectCount(wrapper) > 0;
     }
 }
 

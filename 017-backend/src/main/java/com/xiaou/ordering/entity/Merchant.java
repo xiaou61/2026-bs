@@ -1,6 +1,7 @@
 package com.xiaou.ordering.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
@@ -17,6 +18,7 @@ public class Merchant {
     private String licenseNo;
     private String contactPerson;
     private String contactPhone;
+    @JsonIgnore
     private String password;
     private String address;
     private String location;

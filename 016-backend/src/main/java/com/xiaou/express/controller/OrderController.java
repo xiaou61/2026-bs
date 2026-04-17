@@ -25,14 +25,18 @@ public class OrderController {
 
     @GetMapping
     public Result<Page<OrderVO>> getOrderSquare(@RequestParam(defaultValue = "1") int pageNum,
-                                                  @RequestParam(defaultValue = "10") int pageSize) {
-        Page<OrderVO> page = orderService.getOrderSquare(pageNum, pageSize);
+                                                @RequestParam(defaultValue = "10") int pageSize,
+                                                @RequestParam(required = false) String itemType,
+                                                @RequestParam(required = false) String itemWeight) {
+        Page<OrderVO> page = orderService.getOrderSquare(pageNum, pageSize, itemType, itemWeight);
         return Result.success(page);
     }
 
     @GetMapping("/{id}")
     public Result<OrderVO> getOrderDetail(@PathVariable Long id) {
-        OrderVO order = orderService.getOrderDetail(id);
+        Long userId = UserContext.getCurrentUserId();
+        String userType = UserContext.getCurrentUserType();
+        OrderVO order = orderService.getOrderDetail(userId, userType, id);
         return Result.success(order);
     }
 

@@ -10,11 +10,13 @@ import com.xiaou.resource.entity.ResourceRating;
 import com.xiaou.resource.mapper.ResourceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
 @Service
 public class ResourceService extends ServiceImpl<ResourceMapper, Resource> {
+    private static final int UPLOAD_REWARD_POINTS = 10;
 
     @Autowired
     private UserService userService;
@@ -25,8 +27,10 @@ public class ResourceService extends ServiceImpl<ResourceMapper, Resource> {
     @Autowired
     private PointsRecordService pointsRecordService;
 
+    @Transactional(rollbackFor = Exception.class)
     public boolean uploadResource(Resource resource, Long userId) {
         resource.setUserId(userId);
+        resource.setPoints(resource.getPoints() == null ? 0 : resource.getPoints());
         resource.setDownloadCount(0);
         resource.setViewCount(0);
         resource.setRating(0.0);
@@ -34,7 +38,16 @@ public class ResourceService extends ServiceImpl<ResourceMapper, Resource> {
         resource.setStatus("approved");
         resource.setCreateTime(LocalDateTime.now());
         resource.setUpdateTime(LocalDateTime.now());
-        return this.save(resource);
+        if (!this.save(resource)) {
+            return false;
+        }
+
+        if (!userService.addPoints(userId, UPLOAD_REWARD_POINTS)) {
+            throw new IllegalStateException("上传资源奖励积分失败");
+        }
+
+        savePointsRecord(userId, UPLOAD_REWARD_POINTS, "upload_reward", "上传资源奖励：" + resource.getTitle());
+        return true;
     }
 
     public IPage<Resource> getResourceList(Integer page, Integer size, String category, String keyword) {
@@ -60,31 +73,33 @@ public class ResourceService extends ServiceImpl<ResourceMapper, Resource> {
         return resource;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public boolean downloadResource(Long resourceId, Long userId) {
         Resource resource = this.getById(resourceId);
         if (resource == null) {
             return false;
         }
 
-        if (resource.getPoints() > 0) {
-            boolean deducted = userService.deductPoints(userId, resource.getPoints());
+        int requiredPoints = resource.getPoints() == null ? 0 : resource.getPoints();
+        if (requiredPoints > 0) {
+            boolean deducted = userService.deductPoints(userId, requiredPoints);
             if (!deducted) {
                 return false;
             }
-            
-            userService.addPoints(resource.getUserId(), resource.getPoints());
 
-            PointsRecord record = new PointsRecord();
-            record.setUserId(userId);
-            record.setPoints(-resource.getPoints());
-            record.setType("download");
-            record.setDescription("下载资源：" + resource.getTitle());
-            record.setCreateTime(LocalDateTime.now());
-            pointsRecordService.save(record);
+            if (!userService.addPoints(resource.getUserId(), requiredPoints)) {
+                throw new IllegalStateException("资源下载收益积分发放失败");
+            }
+
+            savePointsRecord(userId, -requiredPoints, "download", "下载资源：" + resource.getTitle());
+            savePointsRecord(resource.getUserId(), requiredPoints, "download_income", "资源被下载收益：" + resource.getTitle());
         }
 
         resource.setDownloadCount(resource.getDownloadCount() + 1);
-        this.updateById(resource);
+        resource.setUpdateTime(LocalDateTime.now());
+        if (!this.updateById(resource)) {
+            throw new IllegalStateException("更新资源下载次数失败");
+        }
         return true;
     }
 
@@ -106,6 +121,18 @@ public class ResourceService extends ServiceImpl<ResourceMapper, Resource> {
             this.updateById(resource);
         }
         return true;
+    }
+
+    private void savePointsRecord(Long userId, Integer points, String type, String description) {
+        PointsRecord record = new PointsRecord();
+        record.setUserId(userId);
+        record.setPoints(points);
+        record.setType(type);
+        record.setDescription(description);
+        record.setCreateTime(LocalDateTime.now());
+        if (!pointsRecordService.save(record)) {
+            throw new IllegalStateException("保存积分记录失败");
+        }
     }
 
     public IPage<Resource> getMyResources(Long userId, Integer page, Integer size) {

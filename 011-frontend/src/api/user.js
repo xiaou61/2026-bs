@@ -36,6 +36,22 @@ export const getUserVideos = (id, params) => {
   })
 }
 
+export const getUserLikes = (id, params) => {
+  return request({
+    url: `/user/${id}/likes`,
+    method: 'get',
+    params
+  })
+}
+
+export const getUserCollects = (id, params) => {
+  return request({
+    url: `/user/${id}/collects`,
+    method: 'get',
+    params
+  })
+}
+
 export const followUser = (id) => {
   return request({
     url: `/user/follow/${id}`,
@@ -68,6 +84,21 @@ export const getPointsLog = () => {
   return request({
     url: '/user/points/log',
     method: 'get'
+  })
+}
+
+export const getMallItems = () => {
+  return request({
+    url: '/user/points/mall/items',
+    method: 'get'
+  })
+}
+
+export const exchangeMallItem = (itemId) => {
+  return request({
+    url: '/user/points/exchange',
+    method: 'post',
+    data: { itemId }
   })
 }
 

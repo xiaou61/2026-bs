@@ -143,6 +143,19 @@ public class UserServiceImpl implements UserService {
         
         return vo;
     }
+
+    @Override
+    public List<Badge> getUserBadges(Long userId) {
+        LambdaQueryWrapper<UserBadge> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(UserBadge::getUserId, userId)
+               .orderByDesc(UserBadge::getObtainTime);
+        List<UserBadge> userBadges = userBadgeMapper.selectList(wrapper);
+
+        return userBadges.stream()
+                .map(userBadge -> badgeMapper.selectById(userBadge.getBadgeId()))
+                .filter(badge -> badge != null)
+                .collect(Collectors.toList());
+    }
     
     @Override
     @Transactional

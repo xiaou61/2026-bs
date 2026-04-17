@@ -38,6 +38,12 @@ public class ViewController {
         return "document-edit";
     }
 
+    @GetMapping("/share/{shareLink}")
+    public String shareView(@PathVariable String shareLink, Model model) {
+        model.addAttribute("shareLink", shareLink);
+        return "share-view";
+    }
+
     @GetMapping("/teams")
     public String teams(Model model) {
         model.addAttribute("page", "teams");

@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8028
   servlet:
     context-path: /
 
@@ -7,14 +7,24 @@ spring:
   application:
     name: campus-bike
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/campus_bike?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
-    username: root
-    password: root
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:./data/028-campus-bike;MODE=MySQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_ON_EXIT=FALSE;NON_KEYWORDS=USER
+    username: sa
+    password:
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
+      schema-locations: classpath:schema-h2.sql
+      data-locations: classpath:data-h2.sql
   data:
     redis:
       host: localhost

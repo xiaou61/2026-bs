@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html}">
+<head>
+    <title>个人信息 - AI智能学习助手</title>
+</head>
+<body>
+    <div th:fragment="content">
+        <div class="container py-4">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body text-center">
+                            <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 88px; height: 88px; font-size: 32px;">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <h4 id="profileName">加载中...</h4>
+                            <p class="text-muted mb-1" id="profileMajor">-</p>
+                            <p class="text-muted mb-0" id="profileGrade">-</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0">基础信息</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="profileForm" class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">真实姓名</label>
+                                    <input type="text" class="form-control" id="realName">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">邮箱</label>
+                                    <input type="email" class="form-control" id="email">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">手机号</label>
+                                    <input type="text" class="form-control" id="phone">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">专业</label>
+                                    <input type="text" class="form-control" id="major">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">年级</label>
+                                    <input type="text" class="form-control" id="grade">
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary">保存基础信息</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0">学习偏好</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="preferencesForm" class="row g-3">
+                                <div class="col-md-4">
+                                    <label class="form-label">学习风格</label>
+                                    <select class="form-select" id="learningStyle">
+                                        <option value="1">视觉型</option>
+                                        <option value="2">听觉型</option>
+                                        <option value="3">动觉型</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">认知水平</label>
+                                    <input type="number" min="0" max="1" step="0.1" class="form-control" id="cognitiveLevel">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">难度偏好</label>
+                                    <select class="form-select" id="difficultyPreference">
+                                        <option value="1">简单</option>
+                                        <option value="2">中等</option>
+                                        <option value="3">困难</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">学习时间偏好</label>
+                                    <input type="text" class="form-control" id="studyTimePreference" placeholder="例如：晚上 20:00-22:00">
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-outline-primary">保存学习偏好</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            let currentUser = null;
+
+            $(document).ready(function() {
+                loadProfile();
+                bindProfileForms();
+            });
+
+            function loadProfile() {
+                $.get('/api/user/info', function(response) {
+                    if (!response.success || !response.data) {
+                        showMessage(response.message || '用户信息加载失败', 'danger');
+                        return;
+                    }
+
+                    currentUser = response.data;
+                    $('#profileName').text(currentUser.realName || currentUser.username || '未命名用户');
+                    $('#profileMajor').text(currentUser.major || '未填写专业');
+                    $('#profileGrade').text(currentUser.grade || '未填写年级');
+
+                    $('#realName').val(currentUser.realName || '');
+                    $('#email').val(currentUser.email || '');
+                    $('#phone').val(currentUser.phone || '');
+                    $('#major').val(currentUser.major || '');
+                    $('#grade').val(currentUser.grade || '');
+                    $('#learningStyle').val(currentUser.learningStyle || 1);
+                    $('#cognitiveLevel').val(currentUser.cognitiveLevel || 0.5);
+                    $('#difficultyPreference').val(currentUser.difficultyPreference || 2);
+                    $('#studyTimePreference').val(currentUser.studyTimePreference || '');
+                });
+            }
+
+            function bindProfileForms() {
+                $('#profileForm').on('submit', function(e) {
+                    e.preventDefault();
+                    $.ajax({
+                        url: '/api/user/info',
+                        type: 'PUT',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            realName: $('#realName').val(),
+                            email: $('#email').val(),
+                            phone: $('#phone').val(),
+                            major: $('#major').val(),
+                            grade: $('#grade').val()
+                        }),
+                        success: function(response) {
+                            showMessage(response.message || '基础信息已保存', response.success ? 'success' : 'danger');
+                            if (response.success) {
+                                loadProfile();
+                            }
+                        }
+                    });
+                });
+
+                $('#preferencesForm').on('submit', function(e) {
+                    e.preventDefault();
+                    $.ajax({
+                        url: '/api/user/preferences',
+                        type: 'PUT',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            learningStyle: parseInt($('#learningStyle').val(), 10),
+                            cognitiveLevel: parseFloat($('#cognitiveLevel').val() || '0.5'),
+                            difficultyPreference: parseInt($('#difficultyPreference').val(), 10),
+                            studyTimePreference: $('#studyTimePreference').val()
+                        }),
+                        success: function(response) {
+                            showMessage(response.message || '学习偏好已保存', response.success ? 'success' : 'danger');
+                            if (response.success) {
+                                loadProfile();
+                            }
+                        }
+                    });
+                });
+            }
+        </script>
+    </div>
+</body>
+</html>

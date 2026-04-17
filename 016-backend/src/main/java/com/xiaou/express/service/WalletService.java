@@ -106,9 +106,23 @@ public class WalletService {
             throw new BusinessException("余额不足");
         }
 
+        BigDecimal balanceBefore = wallet.getBalance();
         wallet.setBalance(wallet.getBalance().subtract(amount));
         wallet.setFrozenAmount(wallet.getFrozenAmount().add(amount));
         walletMapper.updateById(wallet);
+
+        Transaction transaction = new Transaction();
+        transaction.setTransactionNo(generateTransactionNo());
+        transaction.setUserId(userId);
+        transaction.setType(Constants.TransactionType.CONSUME);
+        transaction.setAmount(amount);
+        transaction.setBalanceBefore(balanceBefore);
+        transaction.setBalanceAfter(wallet.getBalance());
+        transaction.setDescription(description);
+        transactionMapper.insert(transaction);
+
+        notificationService.sendNotification(userId, Constants.NotificationType.TRANSACTION,
+                "余额冻结", description + "，冻结金额" + amount + "元", "transaction", transaction.getId());
     }
 
     @Transactional

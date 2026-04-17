@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分享文档</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/share-view.css}">
+</head>
+<body th:attr="data-share-link=${shareLink}">
+<div class="share-shell">
+    <div class="share-card">
+        <div class="share-header">
+            <div class="share-kicker">安全分享入口</div>
+            <h1 id="shareTitle">正在加载分享信息...</h1>
+            <p id="shareMeta" class="share-meta">请稍候，系统正在校验链接状态。</p>
+        </div>
+
+        <div id="shareGate" class="share-gate d-none">
+            <label class="form-label">访问密码</label>
+            <input id="sharePasswordField" class="form-control mb-3" type="password" placeholder="请输入分享密码">
+            <button id="shareAccessBtn" class="btn btn-primary w-100">进入文档</button>
+        </div>
+
+        <div id="shareContent" class="share-content d-none">
+            <section id="shareNotePane" class="share-pane d-none">
+                <article id="shareNotePreview" class="share-note-preview"></article>
+            </section>
+
+            <section id="shareBoardPane" class="share-pane d-none">
+                <div class="share-board-wrap">
+                    <canvas id="shareBoardCanvas"></canvas>
+                </div>
+            </section>
+
+            <section id="shareMindmapPane" class="share-pane d-none">
+                <div id="shareMindmapTree" class="share-mindmap-tree"></div>
+            </section>
+        </div>
+    </div>
+    <div class="share-footer">该页面为只读分享页，不支持在线编辑。</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script th:src="@{/js/share-view.js}"></script>
+</body>
+</html>

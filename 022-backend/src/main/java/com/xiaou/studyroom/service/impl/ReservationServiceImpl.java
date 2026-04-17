@@ -6,8 +6,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaou.studyroom.entity.Reservation;
 import com.xiaou.studyroom.entity.Seat;
+import com.xiaou.studyroom.entity.StudyRoom;
 import com.xiaou.studyroom.entity.User;
+import com.xiaou.studyroom.mapper.SeatMapper;
 import com.xiaou.studyroom.mapper.ReservationMapper;
+import com.xiaou.studyroom.mapper.StudyRoomMapper;
+import com.xiaou.studyroom.mapper.UserMapper;
 import com.xiaou.studyroom.service.ReservationService;
 import com.xiaou.studyroom.service.SeatService;
 import com.xiaou.studyroom.service.UserService;
@@ -31,6 +35,15 @@ public class ReservationServiceImpl extends ServiceImpl<ReservationMapper, Reser
 
     @Autowired
     private QRCodeUtil qrCodeUtil;
+
+    @Autowired
+    private SeatMapper seatMapper;
+
+    @Autowired
+    private StudyRoomMapper studyRoomMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     @Transactional
@@ -90,9 +103,6 @@ public class ReservationServiceImpl extends ServiceImpl<ReservationMapper, Reser
             qrcodeContent = generateQRCode(reservation.getId(), userId, seat.getSeatNumber());
             reservation.setQrcodeContent(qrcodeContent);
             updateById(reservation);
-
-            // 更新座位状态
-            seatService.updateSeatStatus(seatId, 2); // 设置为占用状态
         }
 
         return result;
@@ -163,10 +173,35 @@ public class ReservationServiceImpl extends ServiceImpl<ReservationMapper, Reser
         boolean result = updateById(reservation);
 
         if (result) {
+            seatService.updateSeatStatus(reservation.getSeatId(), 2);
             // 增加信用分
             userService.updateUserCredit(userId, 2, "正常签到");
         }
 
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public boolean checkInByReservationId(Long reservationId, Long userId) {
+        Reservation reservation = getById(reservationId);
+        if (reservation == null || !reservation.getUserId().equals(userId) || reservation.getStatus() != 1) {
+            return false;
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+        if (now.isBefore(reservation.getStartTime().minusMinutes(15)) ||
+                now.isAfter(reservation.getStartTime().plusMinutes(15))) {
+            return false;
+        }
+
+        reservation.setCheckInTime(now);
+        reservation.setStatus(2);
+        boolean result = updateById(reservation);
+        if (result) {
+            seatService.updateSeatStatus(reservation.getSeatId(), 2);
+            userService.updateUserCredit(userId, 2, "正常签到");
+        }
         return result;
     }
 
@@ -206,17 +241,62 @@ public class ReservationServiceImpl extends ServiceImpl<ReservationMapper, Reser
     }
 
     @Override
-    public Page<Reservation> getUserReservations(Long userId, int current, int size, Integer status) {
+    public Page<Reservation> getUserReservations(Long userId, int current, int size, Integer status, LocalDateTime startTime, LocalDateTime endTime) {
         Page<Reservation> page = new Page<>(current, size);
         QueryWrapper<Reservation> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId)
-                   .orderByDesc("create_time");
+                   .orderByDesc("reservation_time");
 
         if (status != null) {
             queryWrapper.eq("status", status);
         }
 
-        return page(page, queryWrapper);
+        if (startTime != null && endTime != null) {
+            queryWrapper.between("start_time", startTime, endTime);
+        }
+
+        Page<Reservation> result = page(page, queryWrapper);
+        result.getRecords().forEach(this::fillReservationDetail);
+        return result;
+    }
+
+    @Override
+    public Page<Reservation> getReservationPage(int current, int size, Long userId, Long roomId, Integer status, LocalDateTime startTime, LocalDateTime endTime) {
+        Page<Reservation> page = new Page<>(current, size);
+        QueryWrapper<Reservation> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("reservation_time");
+
+        if (userId != null) {
+            queryWrapper.eq("user_id", userId);
+        }
+        if (status != null) {
+            queryWrapper.eq("status", status);
+        }
+        if (startTime != null && endTime != null) {
+            queryWrapper.between("start_time", startTime, endTime);
+        }
+        if (roomId != null) {
+            QueryWrapper<Seat> seatQuery = new QueryWrapper<>();
+            seatQuery.eq("room_id", roomId);
+            List<Seat> roomSeats = seatMapper.selectList(seatQuery);
+            if (roomSeats.isEmpty()) {
+                return page;
+            }
+            queryWrapper.in("seat_id", roomSeats.stream().map(Seat::getId).toList());
+        }
+
+        Page<Reservation> result = page(page, queryWrapper);
+        result.getRecords().forEach(this::fillReservationDetail);
+        return result;
+    }
+
+    @Override
+    public Reservation getReservationDetail(Long reservationId) {
+        Reservation reservation = getById(reservationId);
+        if (reservation != null) {
+            fillReservationDetail(reservation);
+        }
+        return reservation;
     }
 
     @Override
@@ -331,5 +411,22 @@ public class ReservationServiceImpl extends ServiceImpl<ReservationMapper, Reser
     @Override
     public boolean validateQRCode(String qrcodeContent, Long reservationId, Long userId) {
         return qrCodeUtil.validateQRCodeContent(qrcodeContent, reservationId, userId);
+    }
+
+    private void fillReservationDetail(Reservation reservation) {
+        User user = userMapper.selectById(reservation.getUserId());
+        if (user != null) {
+            reservation.setUsername(user.getUsername());
+            reservation.setRealName(user.getRealName());
+        }
+
+        Seat seat = seatMapper.selectById(reservation.getSeatId());
+        if (seat != null) {
+            reservation.setSeatNumber(seat.getSeatNumber());
+            StudyRoom room = studyRoomMapper.selectById(seat.getRoomId());
+            if (room != null) {
+                reservation.setRoomName(room.getRoomName());
+            }
+        }
     }
 }

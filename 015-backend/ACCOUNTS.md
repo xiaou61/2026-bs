@@ -5,7 +5,7 @@
 ```yaml
 数据库名: campus_confession
 用户名: root
-密码: root
+密码: 1234
 端口: 3306
 ```
 
@@ -30,7 +30,8 @@
 
 加密后的密码（BCrypt）：
 ```
-$2a$10$xQh7YKZjYvFjXXLLQpWqUeN9Z3jZvN7lXNT8Y3kJqN.wJqGqVHRQW
+管理员：admin123 -> $2a$10$riBv.FgkCsPlAykJIufhhuheh3SepA3okxLskb4OwSBHpymavCi3G
+用户：123456 -> $2a$10$KjQ0pB8gAqIgmfMGzgTc1u3V3UAFy2.7QmWo5Y3eVuuuPVsKPm6wi
 ```
 
 ## 密码加密测试

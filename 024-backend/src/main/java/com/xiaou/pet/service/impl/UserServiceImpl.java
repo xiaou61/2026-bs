@@ -1,3 +1,5 @@
+package com.xiaou.pet.service.impl;
+
 import com.xiaou.pet.common.Result;
 import com.xiaou.pet.entity.User;
 import com.xiaou.pet.mapper.UserMapper;

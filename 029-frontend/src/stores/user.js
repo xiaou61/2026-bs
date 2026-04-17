@@ -4,19 +4,18 @@ import * as userApi from '../api/user'
 
 export const useUserStore = defineStore('user', () => {
   const token = ref(localStorage.getItem('token') || '')
-  const userInfo = ref(null)
+  const userInfo = ref(readStoredUserInfo())
   const isLoggedIn = computed(() => !!token.value)
 
   // 登录
   const login = async (credentials) => {
     try {
       const response = await userApi.login(credentials)
-      token.value = response.data.token
-      localStorage.setItem('token', response.data.token)
-      
-      // 保存用户信息到 localStorage
-      localStorage.setItem('userInfo', JSON.stringify(response.data.user || {}))
-      userInfo.value = response.data.user || {}
+      const { token: authToken, ...user } = response.data
+      token.value = authToken
+      localStorage.setItem('token', authToken)
+      localStorage.setItem('userInfo', JSON.stringify(user))
+      userInfo.value = user
       
       return response
     } catch (error) {
@@ -69,7 +68,7 @@ export const useUserStore = defineStore('user', () => {
   // 从 localStorage 恢复状态
   const restoreState = () => {
     const savedToken = localStorage.getItem('token')
-    const savedUserInfo = localStorage.getItem('userInfo')
+      const savedUserInfo = localStorage.getItem('userInfo')
     
     if (savedToken) {
       token.value = savedToken
@@ -96,3 +95,18 @@ export const useUserStore = defineStore('user', () => {
     restoreState
   }
 })
+
+function readStoredUserInfo() {
+  const savedUserInfo = localStorage.getItem('userInfo')
+  if (!savedUserInfo) {
+    return null
+  }
+
+  try {
+    return JSON.parse(savedUserInfo)
+  } catch (error) {
+    console.error('Failed to parse saved user info:', error)
+    localStorage.removeItem('userInfo')
+    return null
+  }
+}
