@@ -1,5 +1,6 @@
 package com.xiaou.health.controller;
 
+import com.xiaou.health.common.Constants;
 import com.xiaou.health.common.Result;
 import com.xiaou.health.entity.PatientInfo;
 import com.xiaou.health.service.PatientInfoService;
@@ -18,6 +19,9 @@ public class PatientInfoController {
     @PostMapping("/info")
     public Result<PatientInfo> createOrUpdatePatientInfo(@RequestBody PatientInfo patientInfo) {
         try {
+            if (!UserContext.hasRole(Constants.ROLE_PATIENT)) {
+                return Result.error(403, "仅患者可维护健康档案");
+            }
             Long userId = UserContext.getUserId();
             PatientInfo result = patientInfoService.createOrUpdatePatientInfo(userId, patientInfo);
             return Result.success(result);
@@ -29,6 +33,9 @@ public class PatientInfoController {
     @GetMapping("/info")
     public Result<PatientInfo> getPatientInfo() {
         try {
+            if (!UserContext.hasRole(Constants.ROLE_PATIENT)) {
+                return Result.error(403, "仅患者可查看健康档案");
+            }
             Long userId = UserContext.getUserId();
             PatientInfo patientInfo = patientInfoService.getPatientInfo(userId);
             return Result.success(patientInfo);

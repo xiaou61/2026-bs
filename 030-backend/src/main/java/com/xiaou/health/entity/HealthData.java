@@ -19,7 +19,7 @@ public class HealthData {
     @Column(length = 50, nullable = false)
     private String dataType;
 
-    @Column(precision = 10, scale = 2)
+    @Column(name = "metric_value", precision = 10, scale = 2)
     private BigDecimal value;
 
     @Column(length = 20)

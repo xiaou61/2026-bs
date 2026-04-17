@@ -4,6 +4,7 @@ import com.xiaou.health.dto.LoginRequest;
 import com.xiaou.health.dto.LoginResponse;
 import com.xiaou.health.dto.RegisterRequest;
 import com.xiaou.health.entity.User;
+import com.xiaou.health.common.Constants;
 import com.xiaou.health.repository.UserRepository;
 import com.xiaou.health.util.JwtUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,6 +22,10 @@ public class UserService {
 
     @Transactional
     public User register(RegisterRequest request) {
+        if (!Constants.ROLE_PATIENT.equals(request.getRole()) && !Constants.ROLE_DOCTOR.equals(request.getRole())) {
+            throw new RuntimeException("仅支持患者或医生角色注册");
+        }
+
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new RuntimeException("用户名已存在");
         }

@@ -29,6 +29,19 @@ public class UserContext {
         return ROLE.get();
     }
 
+    public static boolean hasRole(String... roles) {
+        String currentRole = getRole();
+        if (currentRole == null) {
+            return false;
+        }
+        for (String role : roles) {
+            if (currentRole.equals(role)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void clear() {
         USER_ID.remove();
         USERNAME.remove();

@@ -1,5 +1,6 @@
 package com.xiaou.health.controller;
 
+import com.xiaou.health.common.Constants;
 import com.xiaou.health.common.Result;
 import com.xiaou.health.dto.HealthDataCreateRequest;
 import com.xiaou.health.entity.HealthData;
@@ -22,6 +23,9 @@ public class HealthDataController {
     @PostMapping
     public Result<HealthData> addHealthData(@Valid @RequestBody HealthDataCreateRequest request) {
         try {
+            if (!UserContext.hasRole(Constants.ROLE_PATIENT)) {
+                return Result.error(403, "仅患者可录入健康数据");
+            }
             Long userId = UserContext.getUserId();
             HealthData healthData = healthDataService.addHealthData(userId, request);
             return Result.success(healthData);
@@ -33,6 +37,9 @@ public class HealthDataController {
     @GetMapping("/list")
     public Result<List<HealthData>> getHealthDataList() {
         try {
+            if (!UserContext.hasRole(Constants.ROLE_PATIENT)) {
+                return Result.error(403, "仅患者可查看健康数据");
+            }
             Long userId = UserContext.getUserId();
             List<HealthData> list = healthDataService.getPatientHealthData(userId);
             return Result.success(list);
@@ -44,6 +51,9 @@ public class HealthDataController {
     @GetMapping("/list/{dataType}")
     public Result<List<HealthData>> getHealthDataByType(@PathVariable String dataType) {
         try {
+            if (!UserContext.hasRole(Constants.ROLE_PATIENT)) {
+                return Result.error(403, "仅患者可查看健康数据");
+            }
             Long userId = UserContext.getUserId();
             List<HealthData> list = healthDataService.getPatientHealthDataByType(userId, dataType);
             return Result.success(list);
@@ -57,6 +67,9 @@ public class HealthDataController {
             @RequestParam LocalDateTime start,
             @RequestParam LocalDateTime end) {
         try {
+            if (!UserContext.hasRole(Constants.ROLE_PATIENT)) {
+                return Result.error(403, "仅患者可查看健康数据");
+            }
             Long userId = UserContext.getUserId();
             List<HealthData> list = healthDataService.getPatientHealthDataByPeriod(userId, start, end);
             return Result.success(list);
@@ -68,6 +81,9 @@ public class HealthDataController {
     @DeleteMapping("/{id}")
     public Result<Void> deleteHealthData(@PathVariable Long id) {
         try {
+            if (!UserContext.hasRole(Constants.ROLE_PATIENT)) {
+                return Result.error(403, "仅患者可删除健康数据");
+            }
             Long userId = UserContext.getUserId();
             healthDataService.deleteHealthData(id, userId);
             return Result.success();

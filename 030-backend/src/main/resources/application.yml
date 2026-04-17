@@ -3,25 +3,25 @@ spring:
     name: health-management-platform
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/health_db
-    username: postgres
-    password: postgres
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:h2:file:./data/health-management;MODE=PostgreSQL;AUTO_SERVER=TRUE;DATABASE_TO_LOWER=TRUE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
 
   jpa:
+    open-in-view: false
     hibernate:
       ddl-auto: update
-    show-sql: true
+    defer-datasource-initialization: false
+    show-sql: false
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
   data:
     redis:
-      host: localhost
-      port: 6379
-      database: 0
+      repositories:
+        enabled: false
 
 server:
   port: 8080

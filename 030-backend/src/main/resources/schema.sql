@@ -1,1 +1,3 @@
-CREATE DATABASE IF NOT EXISTS health_db;
+-- 默认环境使用 H2 + JPA 自动建表，此文件仅保留为数据库说明。
+-- 如需切换 PostgreSQL，请启用 application-postgresql.yml，
+-- 并提前手动创建 health_db 数据库后再启动应用。

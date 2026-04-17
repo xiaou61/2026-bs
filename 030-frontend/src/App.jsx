@@ -14,7 +14,13 @@ import AdminDashboard from './pages/admin/Dashboard'
 import AdminUsers from './pages/admin/Users'
 import AdminDoctors from './pages/admin/Doctors'
 import KnowledgeList from './pages/Knowledge'
-import ProtectedRoute from './components/ProtectedRoute'
+import ProtectedRoute, { getDefaultRouteForRole } from './components/ProtectedRoute'
+import useUserStore from './store/useUserStore'
+
+function RoleHomeRedirect() {
+  const role = useUserStore(state => state.user?.role)
+  return <Navigate to={getDefaultRouteForRole(role)} replace />
+}
 
 function App() {
   return (
@@ -24,21 +30,21 @@ function App() {
         <Route path="/register" element={<Register />} />
         
         <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
-          <Route index element={<Navigate to="/patient/dashboard" replace />} />
+          <Route index element={<RoleHomeRedirect />} />
           
-          <Route path="patient/dashboard" element={<PatientDashboard />} />
-          <Route path="patient/health-data" element={<HealthData />} />
-          <Route path="patient/health-record" element={<HealthRecord />} />
-          <Route path="patient/consultation" element={<Consultation />} />
-          <Route path="patient/profile" element={<PatientProfile />} />
+          <Route path="patient/dashboard" element={<ProtectedRoute allowedRoles={['PATIENT']}><PatientDashboard /></ProtectedRoute>} />
+          <Route path="patient/health-data" element={<ProtectedRoute allowedRoles={['PATIENT']}><HealthData /></ProtectedRoute>} />
+          <Route path="patient/health-record" element={<ProtectedRoute allowedRoles={['PATIENT']}><HealthRecord /></ProtectedRoute>} />
+          <Route path="patient/consultation" element={<ProtectedRoute allowedRoles={['PATIENT']}><Consultation /></ProtectedRoute>} />
+          <Route path="patient/profile" element={<ProtectedRoute allowedRoles={['PATIENT']}><PatientProfile /></ProtectedRoute>} />
           
-          <Route path="doctor/dashboard" element={<DoctorDashboard />} />
-          <Route path="doctor/consultation" element={<DoctorConsultation />} />
-          <Route path="doctor/profile" element={<DoctorProfile />} />
+          <Route path="doctor/dashboard" element={<ProtectedRoute allowedRoles={['DOCTOR']}><DoctorDashboard /></ProtectedRoute>} />
+          <Route path="doctor/consultation" element={<ProtectedRoute allowedRoles={['DOCTOR']}><DoctorConsultation /></ProtectedRoute>} />
+          <Route path="doctor/profile" element={<ProtectedRoute allowedRoles={['DOCTOR']}><DoctorProfile /></ProtectedRoute>} />
           
-          <Route path="admin/dashboard" element={<AdminDashboard />} />
-          <Route path="admin/users" element={<AdminUsers />} />
-          <Route path="admin/doctors" element={<AdminDoctors />} />
+          <Route path="admin/dashboard" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminDashboard /></ProtectedRoute>} />
+          <Route path="admin/users" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminUsers /></ProtectedRoute>} />
+          <Route path="admin/doctors" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminDoctors /></ProtectedRoute>} />
           
           <Route path="knowledge" element={<KnowledgeList />} />
         </Route>
