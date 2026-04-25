@@ -13,7 +13,7 @@ public class BookingStatusLogServiceImpl extends ServiceImpl<BookingStatusLogMap
     public void log(Long bookingId, BookingStatus status, String note) {
         BookingStatusLog log = new BookingStatusLog();
         log.setBookingId(bookingId);
-        log.setStatus(status);
+        log.setStatus(status.name());
         log.setNote(note);
         this.save(log);
     }

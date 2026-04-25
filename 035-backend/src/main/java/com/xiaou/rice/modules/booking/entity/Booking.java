@@ -18,7 +18,7 @@ public class Booking extends BaseEntity {
     private LocalDate expectDate;
     private String timeWindow;
     private BigDecimal area;
-    private BookingStatus status;
+    private String status;
     private BigDecimal quoteAmount;
     private BigDecimal settleAmount;
     private String address;

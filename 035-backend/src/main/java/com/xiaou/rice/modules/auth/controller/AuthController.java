@@ -3,6 +3,7 @@ package com.xiaou.rice.modules.auth.controller;
 import com.xiaou.rice.common.api.Result;
 import com.xiaou.rice.common.api.ResultCode;
 import com.xiaou.rice.common.exception.BusinessException;
+import com.xiaou.rice.modules.auth.dto.CurrentUserResponse;
 import com.xiaou.rice.modules.auth.dto.LoginRequest;
 import com.xiaou.rice.modules.auth.dto.LoginResponse;
 import com.xiaou.rice.modules.auth.dto.RegisterRequest;
@@ -11,7 +12,6 @@ import com.xiaou.rice.modules.user.mapper.UserMapper;
 import com.xiaou.rice.modules.user.service.UserService;
 import com.xiaou.rice.security.JwtUtil;
 import com.xiaou.rice.security.SecurityUtil;
-import com.xiaou.rice.security.UserPrincipal;
 import jakarta.validation.Valid;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -64,12 +64,22 @@ public class AuthController {
     }
 
     @GetMapping("/me")
-    public Result<UserPrincipal> me() {
+    public Result<CurrentUserResponse> me() {
         Long uid = SecurityUtil.currentUserId();
         if (uid == null) {
             return Result.fail(ResultCode.UNAUTHORIZED);
         }
         User user = userService.getById(uid);
-        return Result.ok(new UserPrincipal(user.getId(), user.getUsername(), user.getPassword(), user.getRole(), user.getStatus()));
+        if (user == null) {
+            return Result.fail(ResultCode.NOT_FOUND);
+        }
+        return Result.ok(new CurrentUserResponse(
+                user.getId(),
+                user.getUsername(),
+                user.getPhone(),
+                user.getNickname(),
+                user.getRole(),
+                user.getStatus()
+        ));
     }
 }

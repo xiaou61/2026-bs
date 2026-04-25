@@ -4,6 +4,7 @@ import com.xiaou.rice.common.api.Result;
 import com.xiaou.rice.common.api.ResultCode;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,6 +25,18 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public Result<Void> handleOther(Exception e) {
-        return Result.fail(ResultCode.SERVER_ERROR.getCode(), e.getMessage());
+        return Result.fail(ResultCode.SERVER_ERROR.getCode(), resolveMessage(e));
+    }
+
+    private String resolveMessage(Throwable throwable) {
+        Throwable current = throwable;
+        String message = null;
+        while (current != null) {
+            if (StringUtils.hasText(current.getMessage())) {
+                message = current.getMessage();
+            }
+            current = current.getCause();
+        }
+        return StringUtils.hasText(message) ? message : ResultCode.SERVER_ERROR.getMsg();
     }
 }

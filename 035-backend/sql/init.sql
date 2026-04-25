@@ -133,6 +133,6 @@ CREATE TABLE IF NOT EXISTS notice (
 
 -- 初始化管理员
 INSERT INTO user (username, password, phone, nickname, role, status, created_at, updated_at, deleted)
-VALUES ('admin', '$2a$10$wMxsQObRPI9MzxuxFazf2eG5ZpFbaXoxK2l2KnmY1qQJFwVdFhFWO', '13800000000', '管理员', 9, 1, NOW(), NOW(), 0)
+VALUES ('admin', '$2b$12$jK8zNPbXrkWPvITUUIio4Od0t5y/ZQ2F2owIex/Sa2eScamJF1BBW', '13800000000', '管理员', 9, 1, NOW(), NOW(), 0)
 ON DUPLICATE KEY UPDATE username = username;
--- 密码为 bcrypt("123456") 占位
+-- 默认密码为 123456

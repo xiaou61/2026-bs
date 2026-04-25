@@ -9,6 +9,6 @@ import lombok.Data;
 @TableName("booking_status_log")
 public class BookingStatusLog extends BaseEntity {
     private Long bookingId;
-    private BookingStatus status;
+    private String status;
     private String note;
 }

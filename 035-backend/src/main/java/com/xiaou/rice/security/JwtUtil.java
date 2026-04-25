@@ -10,13 +10,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Map;
 
 @Component
 public class JwtUtil {
 
-    @Value("${rice.jwt.secret:rice-harvest-demo-secret}")
+    @Value("${rice.jwt.secret:rice-harvest-reservation-system-secret-key-2026-demo}")
     private String secret;
 
     @Value("${rice.jwt.expire-seconds:604800}")
@@ -26,7 +27,7 @@ public class JwtUtil {
 
     @PostConstruct
     public void init() {
-        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+        this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
     public String generateToken(Long userId, String username, Integer role) {

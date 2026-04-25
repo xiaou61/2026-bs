@@ -19,6 +19,8 @@ import java.util.List;
 @RequestMapping("/api/machines")
 public class MachineController {
 
+    private static final int ROLE_DRIVER = 2;
+
     private final MachineService machineService;
 
     public MachineController(MachineService machineService) {
@@ -27,6 +29,7 @@ public class MachineController {
 
     @GetMapping
     public Result<List<Machine>> listMyMachines() {
+        requireDriver();
         Long uid = SecurityUtil.currentUserId();
         List<Machine> list = machineService.list(new LambdaQueryWrapper<Machine>()
                 .eq(Machine::getOwnerId, uid)
@@ -36,6 +39,7 @@ public class MachineController {
 
     @PostMapping
     public Result<Machine> create(@Valid @RequestBody MachineRequest req) {
+        requireDriver();
         Long uid = SecurityUtil.currentUserId();
         Machine machine = mapToEntity(req);
         machine.setOwnerId(uid);
@@ -45,6 +49,7 @@ public class MachineController {
 
     @PutMapping("/{id}")
     public Result<Boolean> update(@PathVariable Long id, @Valid @RequestBody MachineRequest req) {
+        requireDriver();
         Long uid = SecurityUtil.currentUserId();
         Machine machine = machineService.getById(id);
         if (machine == null || !machine.getOwnerId().equals(uid)) {
@@ -58,6 +63,7 @@ public class MachineController {
 
     @DeleteMapping("/{id}")
     public Result<Boolean> delete(@PathVariable Long id) {
+        requireDriver();
         Long uid = SecurityUtil.currentUserId();
         Machine machine = machineService.getById(id);
         if (machine == null || !machine.getOwnerId().equals(uid)) {
@@ -91,4 +97,10 @@ public class MachineController {
             @NotNull Integer status,
             String remark
     ) {}
+
+    private void requireDriver() {
+        if (!Integer.valueOf(ROLE_DRIVER).equals(SecurityUtil.currentRole())) {
+            throw new BusinessException(ResultCode.FORBIDDEN.getCode(), "仅机手可管理设备");
+        }
+    }
 }
