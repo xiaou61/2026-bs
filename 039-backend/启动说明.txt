@@ -1,0 +1,26 @@
+039 民歌民谣交流平台启动说明
+
+一、默认演示启动
+1. 进入后端目录：039-backend
+2. 执行：mvn spring-boot:run
+3. 后端地址：http://localhost:8039
+4. H2 控制台：http://localhost:8039/h2-console
+5. JDBC URL：jdbc:h2:mem:folksong_platform
+
+二、默认账号
+管理员：admin / 123456
+普通用户：user / 123456
+
+三、前端启动
+1. 进入前端目录：039-frontend
+2. 执行：npm install
+3. 执行：npm run dev
+4. 前端地址：http://localhost:3039
+
+四、PostgreSQL 模式
+1. 先在 PostgreSQL 中导入 039-backend/sql/init.sql
+2. 执行：mvn spring-boot:run -Dspring-boot.run.profiles=postgresql
+
+五、测试命令
+后端：mvn test
+前端：npm run build

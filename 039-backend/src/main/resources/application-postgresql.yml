@@ -1,0 +1,15 @@
+server:
+  port: 8039
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/folksong_platform
+    username: postgres
+    password: 123456
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: never
+
+file:
+  upload-path: ./uploads/
