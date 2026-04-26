@@ -1,18 +1,24 @@
 server:
-  port: 8080
+  port: 8047
 
 spring:
-  profiles:
-    active: dev
+  application:
+    name: script-kill-platform
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/script_kill?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-    username: root
-    password: 123456
-  data:
-    redis:
-      host: localhost
-      port: 6379
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:script_kill;MODE=MySQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
+      schema-locations: classpath:schema-h2.sql
+      data-locations: classpath:data-h2.sql
 
 mybatis-plus:
   configuration:
@@ -39,3 +45,7 @@ knife4j:
   enable: true
   setting:
     language: zh_cn
+
+app:
+  mybatis:
+    db-type: H2
