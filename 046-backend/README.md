@@ -1,28 +1,31 @@
-# 基于SpringBoot的垃圾回收服务系统
+# 垃圾回收服务系统
 
-## 项目简介
-
-本系统是一个基于SpringBoot + Vue3的垃圾回收服务平台，实现了居民在线预约垃圾回收、回收员上门回收、积分奖励兑换等功能，旨在推动垃圾分类和环保理念的普及。
+基于 Spring Boot 3.2、MyBatis-Plus 3.5.5、Vue 3、TypeScript 和 Element Plus 的垃圾回收服务平台，覆盖居民、回收员、管理员三类角色，并提供积分商城兑换能力。
 
 ## 技术栈
 
 ### 后端
-- Spring Boot 3.x
-- MyBatis Plus
-- MySQL 8.0
-- JWT 认证
+
+- Spring Boot 3.2.1
+- MyBatis-Plus 3.5.5
+- Spring Security + JWT
+- H2 默认演示环境
+- MySQL 8.0 生产/课程设计数据库环境
+- Knife4j / Swagger 接口文档
 
 ### 前端
-- Vue 3
-- TypeScript
+
+- Vue 3 + TypeScript
+- Vite
 - Element Plus
-- Vue Router
 - Pinia
+- Vue Router
 - Axios
 
 ## 功能模块
 
 ### 居民端
+
 - 用户注册/登录
 - 预约垃圾回收
 - 查看订单状态
@@ -32,97 +35,176 @@
 - 系统公告查看
 
 ### 回收员端
+
 - 查看待处理订单
-- 接单/完成回收
-- 录入回收明细（重量、金额、积分）
+- 接单
+- 完成回收
+- 录入回收明细、重量、金额和积分
 
 ### 管理员端
+
 - 数据统计仪表盘
 - 订单管理
 - 用户管理
 - 小区管理
-- 垃圾分类管理（设置价格、积分比例）
+- 垃圾分类管理
 - 积分商品管理
 - 兑换记录管理
 - 环保知识发布
 - 系统公告发布
 
-## 数据库设计
-
-系统包含10张核心表：
-- `sys_user` - 用户表（居民、回收员、管理员）
-- `community` - 小区表
-- `garbage_category` - 垃圾分类表
-- `recycle_order` - 回收订单表
-- `order_detail` - 订单明细表
-- `points_record` - 积分记录表
-- `points_product` - 积分商品表
-- `exchange_record` - 兑换记录表
-- `knowledge` - 环保知识表
-- `notice` - 系统公告表
-
 ## 快速开始
 
 ### 环境要求
+
 - JDK 17+
+- Maven 3.8+
 - Node.js 18+
-- MySQL 8.0+
+- MySQL 8.0（仅 MySQL profile 需要）
 
-### 后端启动
-1. 创建数据库 `garbage_recycle`
-2. 执行 `sql/init.sql` 初始化数据
-3. 修改 `application.yml` 中的数据库配置
-4. 运行 `GarbageRecycleApplication.java`
+### 默认 H2 模式启动后端
 
-### 前端启动
+默认配置已经内置 H2 内存库、建表脚本和演示数据，不需要提前安装 MySQL 或 Redis。
+
+```bash
+cd 046-backend
+mvn spring-boot:run
+```
+
+后端默认地址：
+
+- API 地址：`http://localhost:8046/api`
+- Knife4j 文档：`http://localhost:8046/doc.html`
+- Swagger UI：`http://localhost:8046/swagger-ui.html`
+- H2 控制台：`http://localhost:8046/h2-console`
+
+H2 控制台连接信息：
+
+- JDBC URL：`jdbc:h2:mem:garbage_recycle`
+- 用户名：`sa`
+- 密码：空
+
+### MySQL 模式启动后端
+
+如果需要连接 MySQL，请先导入初始化脚本，再使用 `mysql` profile 启动。
+
+```bash
+cd 046-backend
+mysql -u root -p < sql/init.sql
+mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+```
+
+MySQL 配置位于：
+
+- `src/main/resources/application-mysql.yml`
+
+默认连接信息：
+
+- 数据库：`garbage_recycle`
+- 用户名：`root`
+- 密码：`123456`
+
+### 启动前端
+
 ```bash
 cd 046-frontend
 npm install
 npm run dev
 ```
 
-## 测试账号
+前端默认地址：
 
-| 角色 | 用户名 | 密码 |
-|------|--------|------|
-| 管理员 | admin | admin123 |
-| 回收员 | collector1 | admin123 |
-| 居民 | user1 | admin123 |
+- 页面地址：`http://localhost:3046`
+- Vite 代理：`/api -> http://localhost:8046`
+
+生产构建：
+
+```bash
+npm run build
+```
+
+## 默认测试账号
+
+| 角色 | 用户名 | 密码 | 说明 |
+| --- | --- | --- | --- |
+| 管理员 | `admin` | `admin123` | 系统管理员 |
+| 回收员 | `collector1` | `admin123` | 负责阳光花园小区订单 |
+| 居民 | `user1` | `admin123` | 阳光花园小区居民，初始积分 500 |
+
+## 默认演示数据
+
+H2 默认数据包含：
+
+- 5 个系统用户
+- 3 个小区
+- 10 个垃圾分类
+- 5 个积分商品
+- 3 条环保知识
+- 2 条系统公告
+
+## 验证命令
+
+后端测试：
+
+```bash
+cd 046-backend
+mvn test
+```
+
+前端构建：
+
+```bash
+cd 046-frontend
+npm run build
+```
 
 ## 项目结构
 
-```
+```text
 046-backend/
-├── src/main/java/com/example/
-│   ├── common/          # 通用类（Result、JWT工具等）
-│   ├── config/          # 配置类
-│   ├── controller/      # 控制器
-│   ├── dto/             # 数据传输对象
-│   ├── entity/          # 实体类
-│   ├── mapper/          # MyBatis Mapper
-│   ├── service/         # 服务层
-│   └── vo/              # 视图对象
 ├── sql/
-│   └── init.sql         # 数据库初始化脚本
-└── README.md
+│   └── init.sql
+├── src/main/java/com/xiaou/
+│   ├── common/
+│   ├── config/
+│   ├── controller/
+│   ├── dto/
+│   ├── entity/
+│   ├── mapper/
+│   ├── service/
+│   ├── utils/
+│   └── vo/
+├── src/main/resources/
+│   ├── application.yml
+│   ├── application-mysql.yml
+│   ├── schema-h2.sql
+│   └── data-h2.sql
+└── src/test/java/com/xiaou/
+    └── GarbageRecycleApplicationSmokeTest.java
 
 046-frontend/
 ├── src/
-│   ├── api/             # API 接口
-│   ├── layouts/         # 布局组件
-│   ├── router/          # 路由配置
-│   ├── stores/          # Pinia 状态管理
-│   └── views/           # 页面组件
-│       ├── admin/       # 管理员页面
-│       ├── collector/   # 回收员页面
-│       └── user/        # 居民页面
-└── README.md
+│   ├── api/
+│   ├── layouts/
+│   ├── router/
+│   ├── stores/
+│   ├── utils/
+│   └── views/
+└── vite.config.ts
 ```
 
 ## 业务流程
 
-1. **居民预约回收**：选择回收时间、地址，提交预约订单
-2. **回收员接单**：查看待处理订单，选择接单
-3. **上门回收**：回收员上门回收垃圾
-4. **完成订单**：录入各类垃圾重量，系统自动计算金额和积分
-5. **积分奖励**：居民获得积分，可用于兑换商品
+1. 居民登录后创建垃圾回收预约订单。
+2. 回收员查看同小区待接单订单并接单。
+3. 回收员上门回收后录入各分类重量。
+4. 系统根据垃圾分类单价和积分比例计算金额与积分。
+5. 居民获得环保积分，可在积分商城兑换商品。
+6. 管理员查看兑换记录并完成发放。
+
+## 备注
+
+1. 默认 H2 模式用于毕业设计巡检、演示和快速答辩，不会持久化数据。
+2. MySQL 模式保留给需要真实数据库部署的场景。
+3. 前端开发端口为 `3046`，后端开发端口为 `8046`，避免与其他项目默认端口冲突。
+4. 当前前端构建可能出现 Vite 主包体积超过 500KB 的告警，不影响构建产物生成。

@@ -1,0 +1,67 @@
+046 垃圾回收服务系统启动说明
+
+一、默认启动方式
+
+本项目后端默认使用 H2 内存数据库，已经内置建表脚本和演示数据，不需要提前安装 MySQL 或 Redis。
+
+1. 启动后端
+
+cd 046-backend
+mvn spring-boot:run
+
+后端默认端口：http://localhost:8046
+接口文档：http://localhost:8046/doc.html
+Swagger UI：http://localhost:8046/swagger-ui.html
+H2 控制台：http://localhost:8046/h2-console
+
+H2 控制台连接信息：
+JDBC URL：jdbc:h2:mem:garbage_recycle
+用户名：sa
+密码：留空
+
+2. 启动前端
+
+cd 046-frontend
+npm install
+npm run dev
+
+前端默认端口：http://localhost:3046
+前端代理配置：/api -> http://localhost:8046
+
+二、默认账号
+
+管理员：admin / admin123
+回收员：collector1 / admin123
+居民：user1 / admin123
+
+三、MySQL 模式
+
+如果需要使用 MySQL，请先导入初始化脚本：
+
+cd 046-backend
+mysql -u root -p < sql/init.sql
+
+然后使用 mysql profile 启动：
+
+mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+
+MySQL 配置文件：
+src/main/resources/application-mysql.yml
+
+四、验证命令
+
+后端测试：
+
+cd 046-backend
+mvn test
+
+前端构建：
+
+cd 046-frontend
+npm run build
+
+五、巡检备注
+
+1. 默认 H2 模式适合毕业设计演示和答辩快速启动。
+2. H2 数据为内存数据，服务重启后会重新初始化。
+3. 当前项目已验证居民预约、回收员接单完成、积分增加、积分商城兑换、管理员发放兑换和前端代理登录链路。
