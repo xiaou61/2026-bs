@@ -326,6 +326,30 @@
   - 前端只实现了登录、首页、健康检查，和后端能力不对称
   - 登录态仍保存在 `localStorage`
   - 前端主包约 `1.06 MB`，仍有大包告警
+- 续检状态已推进到 `036`：
+  - `docs/project-check-tracker.md` 已完成到 `035`
+  - `progress.md` 当前状态写明“下一项目：036”
+  - `docs/checks` 目录中暂未存在 `036-*.md` 单项目检查文档
+- `036` 项目初步结构已确认：
+  - 后端目录：`036-backend`
+  - 前端目录：`036-frontend`
+  - 后端文档：`036-backend/启动说明.txt`、`036-backend/036-项目总结.txt`
+  - 后端初始化脚本：`036-backend/src/main/resources/schema.sql`、`036-backend/src/main/resources/data.sql`
+  - 前端为 Vite 工程，存在 `package.json`、`vite.config.js`
+  - Java 包名显示项目主题为 `dreamdonation`，待进一步核对正式中文名称
+- `036` 第一轮验证结果：
+  - `036-backend/mvn test`：失败，Java 编译阶段报 100 个语法错误
+  - 根因定位为后端 Java 源码中的泛型、lambda、逻辑运算符被写成 `&lt;`、`-&gt;`、`&amp;&amp;` 等 HTML 实体
+  - `036-frontend/npm run build`：失败，当前未安装依赖，`vite` 命令不可用
+  - `rg` 显示前端 `index.html`、`.vue` 文件也被 HTML 实体转义，需先解码再构建
+- `036` 最终修复与验证结果：
+  - 已限定范围解码 `036` 后端 Java 与前端 Vue/HTML/JS 源码，恢复编译和渲染能力
+  - 默认环境已从 PostgreSQL 强依赖改为 H2 自举，并保留 `application-postgresql.yml`
+  - 已修复 JWT 当前用户识别、请求头默认 `userId=1` 冒充、接口响应和日志 `toString()` 密码字段泄露、普通用户创建项目越权、项目状态/进度权限、捐赠金额校验和 JPA 懒加载序列化问题
+  - 前端已修复 Vite 代理目标覆盖、创建项目日期格式、本地 favicon/占位图和 Element Plus 控制台警告
+  - `036-backend/mvn test`：通过，`Tests run: 4, Failures: 0, Errors: 0`
+  - `036-frontend/npm run build`：通过，仅保留主包约 `1.02 MB` 的体积告警
+  - 后端 `8036` 与前端 `3036` 联调通过，覆盖登录、项目详情捐赠、个人中心记录与组织创建项目
 
 ## Technical Decisions
 | Decision | Rationale |
@@ -338,6 +362,9 @@
 | 将 `034` 视为“后端 + 静态演示前端”项目 | 巡检方式应以后端测试、接口抽测和静态页联调为主 |
 | 对 `034` 只做最小结构修复，不顺手改密码体系 | 避免在答辩演示项目中引入破坏性账号迁移，安全问题先记录为残余风险 |
 | `035` 先按前后端分离项目处理 | 当前目录结构和 Vite 配置已表明其不是静态单页演示项目 |
+| `036` 先按前后端分离项目处理 | 当前目录结构包含 Spring Boot 后端与 Vite 前端 |
+| `036` 默认按 H2 运行，PostgreSQL 用 profile 保留 | 保证本机可测试可启动，同时不丢失原部署数据库入口 |
+| `036` 权限统一以 JWT 当前用户为准 | 避免通过请求头默认用户 ID 冒充身份 |
 
 ## Issues Encountered
 | Issue | Resolution |
@@ -350,6 +377,14 @@
 | `034` 无现成自动化测试 | 新增启动 + 登录 + 受保护接口烟雾测试 |
 | `034` 浏览器 DevTools 实例被占用，无法直接复用 | 改用本机 Playwright 对静态前端做登录联调验证 |
 | `docs/checks` 中未找到 `035` 单项目检查文档 | 记为本轮需新建文档 | 待完成巡检后回填 |
+| `docs/checks` 中未找到 `036` 单项目检查文档 | 已新增 `docs/checks/036-dream-donation-platform.md` |
+| `036` 源码被 HTML 实体转义导致无法编译 | 已限定在 `036` Java/Vue/HTML/JS 源码内做机械解码 |
+| `036-frontend` 依赖未安装导致 `vite` 不可用 | 已执行 `npm install` 后重新构建通过 |
+| `036` 默认 PostgreSQL 强依赖导致本机不可开箱启动 | 默认改为 H2 自举，并新增 PostgreSQL profile |
+| `036` JWT 未真正参与当前用户识别且接口存在默认用户冒充 | 改为解析 Authorization 中的 JWT，并补充权限测试 |
+| `036` 登录、用户信息、项目、捐赠响应与 DEBUG `toString()` 日志存在密码泄露风险 | 为用户密码字段增加序列化忽略与 Lombok `toString()` 排除并调整响应 |
+| `036` 普通用户可越权创建项目、项目状态和进度操作缺少归属校验 | 增加组织/管理员角色校验和项目创建者/管理员校验 |
+| `036` 前端创建项目日期、占位资源和 Element Plus 属性存在联调/控制台问题 | 增加日期格式化、本地资源和组件属性修正 |
 
 ## Resources
 - `docs/project-check-tracker.md`
@@ -378,6 +413,23 @@
 - `035-frontend/package.json`
 - `035-frontend/vite.config.js`
 - `035-frontend/src/**/*.vue`
+- `036-backend/启动说明.txt`
+- `036-backend/036-项目总结.txt`
+- `036-backend/pom.xml`
+- `036-backend/src/main/resources/application.yml`
+- `036-backend/src/main/resources/application-postgresql.yml`
+- `036-backend/src/main/resources/schema.sql`
+- `036-backend/src/main/resources/data.sql`
+- `036-backend/src/main/resources/schema-h2.sql`
+- `036-backend/src/main/resources/data-h2.sql`
+- `036-backend/src/test/java/com/xiaou/dreamdonation/DreamDonationApplicationTests.java`
+- `036-frontend/package.json`
+- `036-frontend/package-lock.json`
+- `036-frontend/vite.config.js`
+- `036-frontend/src/**/*.vue`
+- `036-frontend/public/favicon.svg`
+- `036-frontend/public/cover-placeholder.svg`
+- `docs/checks/036-dream-donation-platform.md`
 - `033-backend/pom.xml`
 - `033-backend/sql/init_data.sql`
 - `033-backend/src/main/resources/application.yml`

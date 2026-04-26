@@ -209,4 +209,29 @@
 - `033`：已完成并回填文档
 - `034`：已完成并回填文档
 - `035`：已完成并回填文档
-- 下一项目：`036`
+- `036`：已完成并回填文档
+- 下一项目：`037`
+
+### 已完成：036 小梦想全球公益捐赠平台
+- **Status:** completed
+- Actions taken:
+  - 读取 `task_plan.md`、`progress.md`、`findings.md` 恢复上一轮上下文
+  - 读取 `docs/project-check-tracker.md` 确认总台账最新完成到 `035`
+  - 确认下一项目为 `036`
+  - 确认 `036-backend` 与 `036-frontend` 目录存在
+  - 检查 `docs/checks` 目录，确认尚无 `036` 单项目检查文档
+  - 确认后端存在 `启动说明.txt`、`036-项目总结.txt`、`schema.sql`、`data.sql`
+  - 确认前端为 Vite 工程，存在 `package.json` 与 `vite.config.js`
+  - 执行 `036-backend/mvn test`，复现源码 HTML 实体转义导致的 100 个 Java 编译错误
+  - 执行 `036-frontend/npm run build`，确认当前前端依赖未安装，`vite` 命令不可用
+  - 限定范围解码 `036` 后端 Java 与前端 Vue/HTML/JS 源码中的 HTML 实体
+  - 将默认后端环境改为 H2 自举，新增 `schema-h2.sql`、`data-h2.sql` 与 `application-postgresql.yml`
+  - 修复默认账号 bcrypt 哈希，统一 `admin / 123456`、`user1 / 123456`、`org1 / 123456`
+  - 修复 JWT 当前用户识别、请求头默认 `userId=1` 冒充、接口响应/日志密码字段泄露和普通用户创建项目越权
+  - 为项目状态/删除、项目进度、捐赠创建补齐登录、角色、归属和金额校验
+  - 修复 JPA 懒加载代理序列化、前端项目创建日期格式、Vite 代理目标覆盖与本地占位资源
+  - 新增后端自动化测试，`036-backend/mvn test` 通过
+  - 完成后端 `8036` 真实启动、登录、当前用户、捐赠、项目创建权限接口抽测
+  - 完成前端 `npm install`、`npm run build` 与浏览器联调验证
+  - 新增 `036` 单项目检查文档并更新总台账
+  - 清理本轮 `8036`、`3036` 验证进程
