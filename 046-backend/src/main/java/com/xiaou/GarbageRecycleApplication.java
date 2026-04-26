@@ -9,5 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class GarbageRecycleApplication {
     public static void main(String[] args) {
         SpringApplication.run(GarbageRecycleApplication.class, args);
+        System.out.println("垃圾回收服务系统启动成功！");
+        System.out.println("接口文档：http://localhost:8046/doc.html");
+        System.out.println("H2控制台：http://localhost:8046/h2-console");
     }
 }
