@@ -40,7 +40,7 @@ public class UserService {
         String token = jwtUtil.generateToken(user.getId(), user.getUsername(), user.getRole());
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
-        result.put("user", user);
+        result.put("user", withoutPassword(user));
         return result;
     }
 
@@ -60,11 +60,16 @@ public class UserService {
         String token = jwtUtil.generateToken(user.getId(), user.getUsername(), user.getRole());
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
-        result.put("user", user);
+        result.put("user", withoutPassword(user));
         return result;
     }
 
     public User getUserById(Long id) {
         return userMapper.selectById(id);
+    }
+
+    private User withoutPassword(User user) {
+        user.setPassword(null);
+        return user;
     }
 }

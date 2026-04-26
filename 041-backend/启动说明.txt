@@ -1,0 +1,27 @@
+041 在线心理评测与咨询系统启动说明
+
+一、默认演示启动
+1. 进入后端目录：041-backend
+2. 执行：mvn spring-boot:run
+3. 后端地址：http://localhost:8041
+4. H2 控制台：http://localhost:8041/h2-console
+5. JDBC URL：jdbc:h2:mem:psychology_system
+
+二、默认账号
+管理员：admin / 123456
+咨询师：counselor1 / 123456
+普通用户：user1 / 123456
+
+三、前端启动
+1. 进入前端目录：041-frontend
+2. 执行：npm install
+3. 执行：npm run dev
+4. 前端地址：http://localhost:3041
+
+四、MySQL 模式
+1. 先在 MySQL 中导入 041-backend/src/main/resources/init.sql
+2. 执行：mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+
+五、测试命令
+后端：mvn test
+前端：npm run build

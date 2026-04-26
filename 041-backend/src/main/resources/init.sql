@@ -166,9 +166,9 @@ CREATE TABLE `notification` (
 );
 
 INSERT INTO `user` (username, password, nickname, role, status) VALUES
-('admin', '$2a$10$X5wFvL8P1Hz.ZVmqaXGkiukE4ggaVuW7pSzLuEZ2dK/.xGgRPEQRK', '系统管理员', 'ADMIN', 'ACTIVE'),
-('counselor1', '$2a$10$X5wFvL8P1Hz.ZVmqaXGkiukE4ggaVuW7pSzLuEZ2dK/.xGgRPEQRK', '李心理', 'COUNSELOR', 'ACTIVE'),
-('user1', '$2a$10$X5wFvL8P1Hz.ZVmqaXGkiukE4ggaVuW7pSzLuEZ2dK/.xGgRPEQRK', '测试用户', 'USER', 'ACTIVE');
+('admin', '$2a$10$4cD1zoM.j9zoRsWqmzh.pu.LGsJ..tA8fQlzmtUwScKz3h/pPmth2', '系统管理员', 'ADMIN', 'ACTIVE'),
+('counselor1', '$2a$10$4cD1zoM.j9zoRsWqmzh.pu.LGsJ..tA8fQlzmtUwScKz3h/pPmth2', '李心理', 'COUNSELOR', 'ACTIVE'),
+('user1', '$2a$10$4cD1zoM.j9zoRsWqmzh.pu.LGsJ..tA8fQlzmtUwScKz3h/pPmth2', '测试用户', 'USER', 'ACTIVE');
 
 INSERT INTO `counselor` (user_id, real_name, certificate, certificate_no, specialties, introduction, style, price, rating, status) VALUES
 (2, '李心理', '国家二级心理咨询师', 'PSY2023001', '焦虑,抑郁,压力管理', '从业8年，擅长认知行为疗法', '温和包容,专业严谨', 300.00, 4.95, 'APPROVED');
