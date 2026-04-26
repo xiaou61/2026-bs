@@ -350,6 +350,27 @@
   - `036-backend/mvn test`：通过，`Tests run: 4, Failures: 0, Errors: 0`
   - `036-frontend/npm run build`：通过，仅保留主包约 `1.02 MB` 的体积告警
   - 后端 `8036` 与前端 `3036` 联调通过，覆盖登录、项目详情捐赠、个人中心记录与组织创建项目
+- 续检状态已推进到 `037` 并完成：
+  - `docs/project-check-tracker.md` 已完成到 `037`
+  - `progress.md` 当前状态写明“下一项目：038”
+  - `docs/checks/037-programming-learning-platform.md` 已新增
+- `037` 项目结构与风险已确认：
+  - 后端目录：`037-backend`
+  - 前端目录：`037-frontend`
+  - 后端为 Spring Boot 3.2 + MyBatis XML + Spring Security + JWT + 微信小程序 SDK
+  - 前端为原生微信小程序，不存在 npm 构建链路
+  - 原始默认配置强依赖 MySQL `programming_learning`、Redis `localhost:6379` 和真实微信 appId/appSecret
+  - `app.json` 声明 16 个页面，但原始目录只有 `pages/login`
+- `037` 最终修复与验证结果：
+  - 默认环境已从 MySQL 强依赖改为 H2 自举，并保留 `application-mysql.yml`
+  - 已修复 Security 在 `/api` context-path 下公开路由放行错误
+  - 已增加 `mock_*` / `demo_*` 微信登录 code，支持本地模拟微信登录
+  - 已新增课程分页、分类、热门和详情公开接口，并修复分类分页总数统计
+  - 已补齐小程序 16 个声明页面的 `.js/.wxml/.wxss` 最小骨架，移除缺失图标和图片引用
+  - `037-backend/mvn test`：通过，`Tests run: 3, Failures: 0, Errors: 0`
+  - 后端 `8037` 真实启动抽测通过，覆盖模拟微信登录、当前用户、课程列表、分类、热门与详情接口
+  - 小程序页面静态核查通过，`all declared pages exist`
+  - 剩余风险主要是 README/PRD 宣称的 `80+ API`、问答、文章、代码、打卡等完整业务能力仍未真正落地
 
 ## Technical Decisions
 | Decision | Rationale |
@@ -365,6 +386,9 @@
 | `036` 先按前后端分离项目处理 | 当前目录结构包含 Spring Boot 后端与 Vite 前端 |
 | `036` 默认按 H2 运行，PostgreSQL 用 profile 保留 | 保证本机可测试可启动，同时不丢失原部署数据库入口 |
 | `036` 权限统一以 JWT 当前用户为准 | 避免通过请求头默认用户 ID 冒充身份 |
+| `037` 先按后端 + 原生微信小程序处理 | 当前前端没有 Node 构建链路，验收重点是小程序页面声明与文件完整性 |
+| `037` 默认按 H2 运行，MySQL 用 profile 保留 | 保证本机可测试可启动，同时不丢失原部署数据库入口 |
+| `037` 使用 `mock_*` / `demo_*` code 做本地微信登录演示 | 真实微信配置缺失不应阻塞毕业设计本地验收 |
 
 ## Issues Encountered
 | Issue | Resolution |
@@ -385,6 +409,11 @@
 | `036` 登录、用户信息、项目、捐赠响应与 DEBUG `toString()` 日志存在密码泄露风险 | 为用户密码字段增加序列化忽略与 Lombok `toString()` 排除并调整响应 |
 | `036` 普通用户可越权创建项目、项目状态和进度操作缺少归属校验 | 增加组织/管理员角色校验和项目创建者/管理员校验 |
 | `036` 前端创建项目日期、占位资源和 Element Plus 属性存在联调/控制台问题 | 增加日期格式化、本地资源和组件属性修正 |
+| `docs/checks` 中未找到 `037` 单项目检查文档 | 已新增 `docs/checks/037-programming-learning-platform.md` |
+| `037` 默认 MySQL / Redis / 真实微信配置阻塞本地验收 | 默认改为 H2 自举，MySQL 配置移到 `application-mysql.yml`，微信登录增加模拟 code |
+| `037` Security 在 `/api` context-path 下公开路由匹配错误 | 将放行路径改为应用内路径 `/auth/**`、`/courses/**` 等并通过真实 HTTP 抽测验证 |
+| `037` 课程分类分页 total 统计错误 | 新增 `countByCategory` 并补充集成测试 |
+| `037-frontend/app.json` 声明页面缺失 | 补齐 16 个页面的最小 `.js/.wxml/.wxss` 骨架并完成静态核查 |
 
 ## Resources
 - `docs/project-check-tracker.md`
@@ -430,6 +459,25 @@
 - `036-frontend/public/favicon.svg`
 - `036-frontend/public/cover-placeholder.svg`
 - `docs/checks/036-dream-donation-platform.md`
+- `037-backend/pom.xml`
+- `037-backend/src/main/resources/application.yml`
+- `037-backend/src/main/resources/application-mysql.yml`
+- `037-backend/src/main/resources/sql/schema-h2.sql`
+- `037-backend/src/main/resources/sql/data-h2.sql`
+- `037-backend/src/main/java/com/programming/learning/config/SecurityConfig.java`
+- `037-backend/src/main/java/com/programming/learning/controller/AuthController.java`
+- `037-backend/src/main/java/com/programming/learning/controller/CourseController.java`
+- `037-backend/src/main/java/com/programming/learning/service/CourseService.java`
+- `037-backend/src/main/java/com/programming/learning/mapper/CourseMapper.java`
+- `037-backend/src/main/resources/mapper/CourseMapper.xml`
+- `037-backend/src/main/java/com/programming/learning/util/WeChatUtil.java`
+- `037-backend/src/test/java/com/programming/learning/ProgrammingLearningApplicationTests.java`
+- `037-frontend/app.json`
+- `037-frontend/sitemap.json`
+- `037-frontend/pages/**/*.js`
+- `037-frontend/pages/**/*.wxml`
+- `037-frontend/pages/**/*.wxss`
+- `docs/checks/037-programming-learning-platform.md`
 - `033-backend/pom.xml`
 - `033-backend/sql/init_data.sql`
 - `033-backend/src/main/resources/application.yml`

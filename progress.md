@@ -210,7 +210,8 @@
 - `034`：已完成并回填文档
 - `035`：已完成并回填文档
 - `036`：已完成并回填文档
-- 下一项目：`037`
+- `037`：已完成并回填文档
+- 下一项目：`038`
 
 ### 已完成：036 小梦想全球公益捐赠平台
 - **Status:** completed
@@ -235,3 +236,23 @@
   - 完成前端 `npm install`、`npm run build` 与浏览器联调验证
   - 新增 `036` 单项目检查文档并更新总台账
   - 清理本轮 `8036`、`3036` 验证进程
+
+### 已完成：037 基于SpringBoot的编程学习交流平台
+- **Status:** completed
+- Actions taken:
+  - 读取 `task_plan.md`、`progress.md`、`findings.md` 恢复上一轮上下文
+  - 读取 `docs/project-check-tracker.md` 确认总台账最新完成到 `036`
+  - 确认下一项目为 `037`
+  - 确认 `037-backend` 为 Spring Boot 3.2 + MyBatis XML + Spring Security + JWT 后端
+  - 确认 `037-frontend` 为原生微信小程序项目
+  - 复核默认配置，确认原始后端强依赖 MySQL / Redis，真实微信 appId/appSecret 未配置
+  - 将后端默认环境改为 H2 自举，新增 `application-mysql.yml`、`schema-h2.sql`、`data-h2.sql`
+  - 修复 Spring Security 在 `/api` context-path 下公开路由放行错误
+  - 增加 `mock_*` / `demo_*` 微信登录 code，保证本地演示可走通
+  - 新增课程公开接口，覆盖分页、分类、热门与详情查询，并修复分类分页总数统计
+  - 补充后端集成测试，`037-backend/mvn test` 通过
+  - 完成后端 `8037` 真实启动，抽测模拟微信登录、当前用户、课程列表、分类、热门与详情接口
+  - 补齐小程序 `app.json` 声明的 16 个页面骨架，移除缺失图标和图片引用，新增 `sitemap.json`
+  - 完成小程序页面文件与资源引用静态核查
+  - 新增 `037` 单项目检查文档并更新总台账
+  - 清理本轮 `8037` 验证进程

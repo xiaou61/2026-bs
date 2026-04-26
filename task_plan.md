@@ -171,3 +171,80 @@ Completed: `036` 巡检、修复、测试、启动验证与文档回填已完成
   - 后端 `mvn test` 通过，覆盖鉴权、脱敏、项目权限与捐赠校验
   - 前端 `npm run build` 通过，浏览器联调覆盖登录、详情捐赠和个人中心记录
   - `docs/checks/036-dream-donation-platform.md` 已创建并回填验证结论
+
+# Task Plan: 037 项目巡检与修复
+
+## Goal
+完成 `037` 编程学习交流平台的文档一致性、JDK 17 兼容性、测试、启动与微信小程序前端配置巡检；发现问题后直接修复并复测，同时同步总台账和单项目检查文档。
+
+## Current Phase
+Completed: `037` 巡检、修复、测试、启动验证与文档回填已完成；下一项目为 `038`。
+
+## Phases
+
+### Phase 1: 建档与上下文同步
+- [x] 读取续检记录，确认上一项目停在 `036`
+- [x] 读取总台账，确认下一项目为 `037`
+- [x] 确认 `037` 目录结构与资料范围
+- [x] 确认是否已存在单项目检查文档
+- **Status:** completed
+
+### Phase 2: 基线核对
+- [x] 读取后端关键配置、依赖、启动入口与数据库脚本
+- [x] 读取小程序入口、页面声明与请求封装
+- [x] 识别默认环境高风险点
+- **Status:** completed
+
+### Phase 3: 运行验证与根因定位
+- [x] 执行后端测试或构建
+- [x] 尝试真实启动后端并抽测核心接口
+- [x] 核查小程序页面配置与资源引用
+- [x] 如存在故障，定位根因
+- **Status:** completed
+
+### Phase 4: 问题修复与复测
+- [x] 修复巡检中发现的问题
+- [x] 补充必要测试或脚本
+- [x] 完成后端复测
+- [x] 完成小程序前端静态核查
+- **Status:** completed
+
+### Phase 5: 回填与清理
+- [x] 新增或更新 `037` 单项目检查文档
+- [x] 更新总台账
+- [x] 更新 `findings.md` / `progress.md`
+- [x] 清理本轮后台进程
+- **Status:** completed
+
+## Key Questions
+1. `037` 的真实项目名和实现范围以 README、启动说明、PRD 还是源码为准？
+2. `037` 是否能在 JDK 17 下通过测试并直接启动？
+3. 默认数据库、Redis、微信登录配置是否会阻塞本机验证？
+4. 小程序 `app.json` 声明页面与实际文件是否一致？
+
+## Decisions Made
+| Decision | Rationale |
+|----------|-----------|
+| 将 `037` 视为 Spring Boot 后端 + 微信小程序前端项目 | 目录结构为 `037-backend` + 原生小程序文件，而非 Vite/React/Vue Web 前端 |
+| 小程序前端先做配置和页面文件完整性核查 | 当前没有 npm 构建链路，微信开发者工具依赖页面文件存在性 |
+| 默认切换到 H2 自举，MySQL 用 profile 保留 | 保证本机可测试可启动，同时不丢失原部署数据库入口 |
+| 使用 `mock_*` / `demo_*` 微信 code 支持本地演示 | 真实 appId/appSecret 未配置时，仍可完成毕业设计登录链路验证 |
+
+## Errors Encountered
+| Error | Attempt | Resolution |
+|-------|---------|------------|
+| `docs/checks` 中未找到 `037` 单项目检查文档 | 列出目录并按编号检索 | 记为本轮需新建文档，待完成巡检后回填 |
+| `037-frontend/app.json` 声明 16 个页面但实际只有 `pages/login` | 对比小程序文件树与页面配置 | 已补齐声明页面的 `.js/.wxml/.wxss` 最小骨架，避免微信开发者工具编译失败 |
+| 默认后端强依赖 MySQL / Redis，且真实微信配置不可用 | 执行配置核查和后端测试 | 默认改为 H2 自举，保留 MySQL profile，并增加微信模拟 code |
+| `/api` context-path 下 Security 放行路径误写为 `/api/auth/**` | 真实启动与 HTTP 抽测验证 | 改为应用内路径 `/auth/**`、`/courses/**` 等，真实 `/api/auth/wxlogin` 抽测通过 |
+
+## Notes
+- 当前已确认：
+  - `037` 后端项目名为“基于SpringBoot的编程学习交流平台”
+  - 后端技术栈为 Spring Boot 3.2.0 + MyBatis XML + Spring Security + JWT + H2/MySQL
+  - 后端默认配置已改为 H2 自举，MySQL 配置保留在 `application-mysql.yml`
+  - 前端为微信小程序原生项目，`app.json` 声明 16 个页面
+  - 小程序目录已补齐 `app.json` 声明的所有页面文件
+  - 后端 `mvn test` 通过，`Tests run: 3, Failures: 0, Errors: 0`
+  - 后端 `8037` 真实启动并完成模拟微信登录、当前用户、课程公开接口抽测
+  - `docs/checks/037-programming-learning-platform.md` 已创建并回填验证结论
