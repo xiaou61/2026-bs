@@ -1,0 +1,67 @@
+045 养老院管理系统启动说明
+
+一、默认启动方式
+
+本项目后端默认使用 H2 内存数据库，已经内置建表脚本和演示数据，不需要提前安装 MySQL 或 Redis。
+
+1. 启动后端
+
+cd 045-backend
+mvn spring-boot:run
+
+后端默认端口：http://localhost:8045
+接口文档：http://localhost:8045/doc.html
+Swagger UI：http://localhost:8045/swagger-ui.html
+H2 控制台：http://localhost:8045/h2-console
+
+H2 控制台连接信息：
+JDBC URL：jdbc:h2:mem:nursing_home
+用户名：sa
+密码：留空
+
+2. 启动前端
+
+cd 045-frontend
+npm install
+npm run dev
+
+前端默认端口：http://localhost:3045
+前端代理配置：/api -> http://localhost:8045
+
+二、默认账号
+
+管理员：admin / admin123
+护工：nurse1 / admin123
+家属：family1 / admin123
+
+三、MySQL 模式
+
+如果需要使用 MySQL，请先导入初始化脚本：
+
+cd 045-backend
+mysql -u root -p < sql/init.sql
+
+然后使用 mysql profile 启动：
+
+mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+
+MySQL 配置文件：
+src/main/resources/application-mysql.yml
+
+四、验证命令
+
+后端测试：
+
+cd 045-backend
+mvn test
+
+前端构建：
+
+cd 045-frontend
+npm run build
+
+五、巡检备注
+
+1. 默认 H2 模式适合毕业设计演示和答辩快速启动。
+2. H2 数据为内存数据，服务重启后会重新初始化。
+3. 当前项目已验证管理员统计、老人列表、护工健康记录、家属账单缴费、探访申请审批和前端代理登录链路。
