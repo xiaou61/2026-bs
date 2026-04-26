@@ -1,9 +1,24 @@
 server:
-  port: 8080
+  port: 8044
 
 spring:
-  profiles:
-    active: dev
+  application:
+    name: homestay-booking-platform
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:homestay_booking;MODE=MySQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
+      schema-locations: classpath:schema-h2.sql
+      data-locations: classpath:data-h2.sql
   servlet:
     multipart:
       max-file-size: 10MB
@@ -28,3 +43,7 @@ springdoc:
     path: /v3/api-docs
   swagger-ui:
     path: /swagger-ui.html
+
+app:
+  mybatis:
+    db-type: H2

@@ -63,7 +63,7 @@
     </el-card>
 
     <el-dialog v-model="roomDialogVisible" :title="roomForm.id ? '编辑房型' : '添加房型'" width="500px">
-      <el-form ref="roomFormRef" :model="roomForm" label-width="80px">
+      <el-form :model="roomForm" label-width="80px">
         <el-form-item label="房型名称" required>
           <el-input v-model="roomForm.name" placeholder="如：豪华大床房" />
         </el-form-item>
@@ -98,7 +98,6 @@ import { addHomestay, updateHomestay, addRoomType, updateRoomType, deleteRoomTyp
 const route = useRoute()
 const router = useRouter()
 const formRef = ref<FormInstance>()
-const roomFormRef = ref<FormInstance>()
 
 const isEdit = computed(() => !!route.params.id)
 

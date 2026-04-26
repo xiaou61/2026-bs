@@ -11,7 +11,7 @@ public class HomestayBookingApplication {
         SpringApplication.run(HomestayBookingApplication.class, args);
         System.out.println("=====================================");
         System.out.println("特色民宿预订平台启动成功！");
-        System.out.println("接口文档: http://localhost:8080/doc.html");
+        System.out.println("接口文档: http://localhost:8044/doc.html");
         System.out.println("=====================================");
     }
 }

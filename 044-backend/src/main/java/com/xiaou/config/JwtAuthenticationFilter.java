@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -37,9 +38,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 default -> "ROLE_USER";
             };
 
+            User principal = new User(userId.toString(), "", Collections.singletonList(new SimpleGrantedAuthority(roleStr)));
             UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(userId, null,
-                            Collections.singletonList(new SimpleGrantedAuthority(roleStr)));
+                    new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             request.setAttribute("userId", userId);
