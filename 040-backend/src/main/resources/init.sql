@@ -181,9 +181,9 @@ CREATE TABLE operation_logs (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO users (username, password, phone, real_name, role, status, points) VALUES
-('admin', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5EH', '13800138000', '系统管理员', 'ADMIN', 'ACTIVE', 1000),
-('user1', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5EH', '13800138001', '张三', 'USER', 'ACTIVE', 100),
-('manager1', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5EH', '13800138002', '李四', 'MANAGER', 'ACTIVE', 200);
+('admin', '$2a$10$4cD1zoM.j9zoRsWqmzh.pu.LGsJ..tA8fQlzmtUwScKz3h/pPmth2', '13800138000', '系统管理员', 'ADMIN', 'ACTIVE', 1000),
+('user1', '$2a$10$4cD1zoM.j9zoRsWqmzh.pu.LGsJ..tA8fQlzmtUwScKz3h/pPmth2', '13800138001', '张三', 'USER', 'ACTIVE', 100),
+('manager1', '$2a$10$4cD1zoM.j9zoRsWqmzh.pu.LGsJ..tA8fQlzmtUwScKz3h/pPmth2', '13800138002', '李四', 'MANAGER', 'ACTIVE', 200);
 
 INSERT INTO violation_types (name, description, penalty_points) VALUES
 ('占用消防通道', '车辆停放在消防通道上，影响消防安全', 30),

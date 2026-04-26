@@ -31,10 +31,10 @@ public class Report {
     private String location;
 
     @Column(precision = 10, scale = 6)
-    private Double longitude;
+    private BigDecimal longitude;
 
     @Column(precision = 10, scale = 6)
-    private Double latitude;
+    private BigDecimal latitude;
 
     @Column(length = 1000)
     private String description;
