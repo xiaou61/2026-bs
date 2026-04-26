@@ -1,0 +1,52 @@
+044 特色民宿预订平台启动说明
+
+一、后端启动
+
+1. 进入后端目录：
+   cd 044-backend
+
+2. 运行测试：
+   mvn test
+
+3. 启动后端：
+   mvn spring-boot:run
+
+4. 默认访问地址：
+   http://localhost:8044
+
+5. 接口文档：
+   http://localhost:8044/doc.html
+
+6. H2 控制台：
+   http://localhost:8044/h2-console
+   JDBC URL：jdbc:h2:mem:homestay_booking
+   用户名：sa
+   密码：留空
+
+二、前端启动
+
+1. 进入前端目录：
+   cd 044-frontend
+
+2. 安装依赖：
+   npm install
+
+3. 启动前端：
+   npm run dev
+
+4. 默认访问地址：
+   http://localhost:3044
+
+三、默认账号
+
+管理员：admin / admin123
+房东：host1 / 123456
+游客：guest1 / 123456
+
+四、MySQL 模式
+
+默认演示环境不需要 MySQL 或 Redis。如需连接 MySQL，请先导入：
+044-backend/sql/init.sql
+
+然后使用：
+mvn spring-boot:run -Dspring-boot.run.profiles=mysql
