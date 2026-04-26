@@ -1,8 +1,11 @@
 package com.xiaou.seniorhealth.controller;
 
 import com.xiaou.seniorhealth.common.ApiResponse;
+import com.xiaou.seniorhealth.domain.Elder;
 import com.xiaou.seniorhealth.domain.Measurement;
 import com.xiaou.seniorhealth.repository.MeasurementRepository;
+import com.xiaou.seniorhealth.security.CurrentUserSupport;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -13,11 +16,30 @@ import java.util.Map;
 @RequestMapping("/api/assessment")
 public class HealthAssessmentController {
     private final MeasurementRepository measurementRepository;
-    public HealthAssessmentController(MeasurementRepository measurementRepository) {
+    private final CurrentUserSupport currentUserSupport;
+
+    public HealthAssessmentController(MeasurementRepository measurementRepository, CurrentUserSupport currentUserSupport) {
         this.measurementRepository = measurementRepository;
+        this.currentUserSupport = currentUserSupport;
     }
+
+    @PreAuthorize("hasRole('ELDER')")
+    @GetMapping("/me")
+    public ApiResponse<Map<String, Object>> myAssessment() {
+        Elder elder = currentUserSupport.getCurrentElderProfile();
+        if (elder == null) {
+            return ApiResponse.fail("elder profile not found");
+        }
+        return assessInternal(elder.getId());
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','DOCTOR')")
     @GetMapping("/elder/{elderId}")
     public ApiResponse<Map<String, Object>> assess(@PathVariable Long elderId) {
+        return assessInternal(elderId);
+    }
+
+    private ApiResponse<Map<String, Object>> assessInternal(Long elderId) {
         Map<String, Object> r = new HashMap<>();
         List<Measurement> w = measurementRepository.findLatestByElderAndType(elderId, "WEIGHT", 1);
         List<Measurement> h = measurementRepository.findLatestByElderAndType(elderId, "HEIGHT", 1);

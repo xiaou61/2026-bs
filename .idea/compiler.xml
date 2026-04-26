@@ -31,6 +31,7 @@
         <module name="045-backend" />
         <module name="014-backend" />
         <module name="nursing-home (3)" />
+        <module name="alumni-backend" />
         <module name="043-backend" />
         <module name="012-backend" />
         <module name="028-backend" />
@@ -143,6 +144,7 @@
       <module name="058-backend" options="-parameters" />
       <module name="059-backend" options="-parameters" />
       <module name="ai-learning-assistant" options="-parameters" />
+      <module name="alumni-backend" options="-parameters" />
       <module name="campus-affairs" options="-parameters" />
       <module name="campus-bike" options="-parameters" />
       <module name="diet-management" options="-parameters" />

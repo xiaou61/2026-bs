@@ -2,6 +2,8 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 
+const previewApiTarget = process.env.PREVIEW_API_TARGET || 'http://localhost:8080'
+
 export default defineConfig({
   plugins: [vue()],
   resolve: {
@@ -13,7 +15,7 @@ export default defineConfig({
     port: 3001,
     proxy: {
       '/api': {
-        target: 'http://localhost:8080',
+        target: previewApiTarget,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       }

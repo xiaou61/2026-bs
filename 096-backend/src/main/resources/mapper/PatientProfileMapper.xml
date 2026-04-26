@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hospital.mapper.PatientProfileMapper">
+
+    <select id="selectByUserId" resultType="PatientProfile">
+        select * from patient_profile where user_id = #{userId} limit 1
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into patient_profile(user_id, real_name, id_card, gender, age, blood_type, allergy_history, emergency_contact, emergency_phone, create_time, update_time)
+        values (#{userId}, #{realName}, #{idCard}, #{gender}, #{age}, #{bloodType}, #{allergyHistory}, #{emergencyContact}, #{emergencyPhone}, #{createTime}, #{updateTime})
+    </insert>
+
+    <update id="update">
+        update patient_profile
+        <set>
+            <if test="realName != null">real_name = #{realName},</if>
+            <if test="idCard != null">id_card = #{idCard},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="bloodType != null">blood_type = #{bloodType},</if>
+            <if test="allergyHistory != null">allergy_history = #{allergyHistory},</if>
+            <if test="emergencyContact != null">emergency_contact = #{emergencyContact},</if>
+            <if test="emergencyPhone != null">emergency_phone = #{emergencyPhone},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        where user_id = #{userId}
+    </update>
+
+</mapper>

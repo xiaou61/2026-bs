@@ -1,13 +1,13 @@
 USE wedding_photo_studio;
 
 INSERT INTO `user` (username, password, real_name, phone, email, role, status) VALUES
-('admin', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '系统管理员', '13800138000', 'admin@wedding.com', 'ADMIN', 1),
-('manager', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '门店经理', '13800138001', 'manager@wedding.com', 'MANAGER', 1),
-('finance', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '财务人员', '13800138002', 'finance@wedding.com', 'FINANCE', 1),
-('photographer1', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '张摄影师', '13800138003', 'photo1@wedding.com', 'PHOTOGRAPHER', 1),
-('photographer2', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '李摄影师', '13800138004', 'photo2@wedding.com', 'PHOTOGRAPHER', 1),
-('customer1', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '王客户', '13900139001', 'customer1@email.com', 'CUSTOMER', 1),
-('customer2', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '李客户', '13900139002', 'customer2@email.com', 'CUSTOMER', 1);
+('admin', '$2b$12$DcrG548G.IKn68picINE8.qp1n6tCgbPZcBo93XANMMGfNGadGuse', '系统管理员', '13800138000', 'admin@wedding.com', 'ADMIN', 1),
+('manager', '$2b$12$u7E8xN0.hrpR2EprYWfFYeks1n5J/xaLp.dcHyXYYtUr355h3WzRe', '门店经理', '13800138001', 'manager@wedding.com', 'MANAGER', 1),
+('finance', '$2b$12$LIeEHZDFvvUQWCbvhyNXru5VfCipk8Xx9qu.b2K7C92CxeqJEa46K', '财务人员', '13800138002', 'finance@wedding.com', 'FINANCE', 1),
+('photographer1', '$2b$12$BMgdtrZnreG6n8mfH9zsP.wik7EVu8wAGceVG8dpjEwm7jLAONVfa', '张摄影师', '13800138003', 'photo1@wedding.com', 'PHOTOGRAPHER', 1),
+('photographer2', '$2b$12$BMgdtrZnreG6n8mfH9zsP.wik7EVu8wAGceVG8dpjEwm7jLAONVfa', '李摄影师', '13800138004', 'photo2@wedding.com', 'PHOTOGRAPHER', 1),
+('customer1', '$2b$12$6eL5UzOqr.m5OyuVCOWWj.Y1Gb9qMVFZN3cMALeShjvMf2LoTPjiO', '王客户', '13900139001', 'customer1@email.com', 'CUSTOMER', 1),
+('customer2', '$2b$12$6eL5UzOqr.m5OyuVCOWWj.Y1Gb9qMVFZN3cMALeShjvMf2LoTPjiO', '李客户', '13900139002', 'customer2@email.com', 'CUSTOMER', 1);
 
 INSERT INTO photographer (user_id, name, phone, level, specialty, introduction, status, commission_rate) VALUES
 (4, '张摄影师', '13800138003', '首席', '婚纱摄影,韩式风格', '10年婚纱摄影经验，擅长韩式浪漫风格', 1, 15.00),

@@ -2,6 +2,7 @@ package com.xiaou.seniorhealth.exception;
 
 import com.xiaou.seniorhealth.common.ApiResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,6 +19,13 @@ public class GlobalExceptionHandler {
                 : ((BindException) e).getBindingResult().getAllErrors().get(0).getDefaultMessage();
         return ApiResponse.fail(msg);
     }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(AccessDeniedException.class)
+    public ApiResponse<?> handleAccessDenied(AccessDeniedException e) {
+        return ApiResponse.fail(e.getMessage());
+    }
+
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public ApiResponse<?> handleException(Exception e) {

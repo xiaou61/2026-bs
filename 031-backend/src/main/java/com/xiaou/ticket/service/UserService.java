@@ -32,6 +32,9 @@ public class UserService {
     
     @Transactional
     public User recharge(Long userId, BigDecimal amount) {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new RuntimeException("充值金额必须大于 0");
+        }
         User user = getUserById(userId);
         user.setBalance(user.getBalance().add(amount));
         return userRepository.save(user);

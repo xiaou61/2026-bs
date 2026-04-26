@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hospital.mapper.AppointmentRecordMapper">
+
+    <sql id="appointmentColumns">
+        a.id, a.appointment_no, a.user_id, a.card_id, a.department_id, a.doctor_id, a.schedule_id, a.order_id,
+        a.patient_name, a.contact_phone, a.remark, a.status, a.appointment_date, a.time_slot, a.amount,
+        a.pay_time, a.finish_time, a.create_time, a.update_time,
+        d.doctor_name, dp.name as department_name, c.card_no, o.order_no, o.status as order_status
+    </sql>
+
+    <select id="selectPage" resultType="AppointmentRecord">
+        select <include refid="appointmentColumns"/>
+        from appointment_record a
+                 left join doctor_info d on a.doctor_id = d.id
+                 left join department_info dp on a.department_id = dp.id
+                 left join medical_card c on a.card_id = c.id
+                 left join payment_order o on a.order_id = o.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (a.appointment_no like concat('%', #{keyword}, '%')
+                or a.patient_name like concat('%', #{keyword}, '%')
+                or d.doctor_name like concat('%', #{keyword}, '%'))
+            </if>
+            <if test="status != null">
+                and a.status = #{status}
+            </if>
+            <if test="doctorId != null">
+                and a.doctor_id = #{doctorId}
+            </if>
+            <if test="departmentId != null">
+                and a.department_id = #{departmentId}
+            </if>
+        </where>
+        order by a.id desc
+    </select>
+
+    <select id="selectMyPage" resultType="AppointmentRecord">
+        select <include refid="appointmentColumns"/>
+        from appointment_record a
+                 left join doctor_info d on a.doctor_id = d.id
+                 left join department_info dp on a.department_id = dp.id
+                 left join medical_card c on a.card_id = c.id
+                 left join payment_order o on a.order_id = o.id
+        where a.user_id = #{userId}
+        <if test="status != null">
+            and a.status = #{status}
+        </if>
+        order by a.id desc
+    </select>
+
+    <select id="selectDoctorPage" resultType="AppointmentRecord">
+        select <include refid="appointmentColumns"/>
+        from appointment_record a
+                 left join doctor_info d on a.doctor_id = d.id
+                 left join department_info dp on a.department_id = dp.id
+                 left join medical_card c on a.card_id = c.id
+                 left join payment_order o on a.order_id = o.id
+        where a.doctor_id = #{doctorId}
+        <if test="status != null">
+            and a.status = #{status}
+        </if>
+        order by a.id desc
+    </select>
+
+    <select id="selectById" resultType="AppointmentRecord">
+        select <include refid="appointmentColumns"/>
+        from appointment_record a
+                 left join doctor_info d on a.doctor_id = d.id
+                 left join department_info dp on a.department_id = dp.id
+                 left join medical_card c on a.card_id = c.id
+                 left join payment_order o on a.order_id = o.id
+        where a.id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into appointment_record(appointment_no, user_id, card_id, department_id, doctor_id, schedule_id, order_id, patient_name, contact_phone, remark, status, appointment_date, time_slot, amount, pay_time, finish_time, create_time, update_time)
+        values (#{appointmentNo}, #{userId}, #{cardId}, #{departmentId}, #{doctorId}, #{scheduleId}, #{orderId}, #{patientName}, #{contactPhone}, #{remark}, #{status}, #{appointmentDate}, #{timeSlot}, #{amount}, #{payTime}, #{finishTime}, #{createTime}, #{updateTime})
+    </insert>
+
+    <update id="bindOrderId">
+        update appointment_record set order_id = #{orderId}, update_time = now() where id = #{id}
+    </update>
+
+    <update id="updateStatus">
+        update appointment_record
+        <set>
+            status = #{status},
+            <if test="payTime != null">pay_time = #{payTime},</if>
+            <if test="finishTime != null">finish_time = #{finishTime},</if>
+            update_time = now()
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="countAll" resultType="long">
+        select count(*) from appointment_record
+    </select>
+
+    <select id="countByUserId" resultType="long">
+        select count(*) from appointment_record where user_id = #{userId}
+    </select>
+
+    <select id="countPaidByUserId" resultType="long">
+        select count(*) from appointment_record where user_id = #{userId} and status in (1, 3)
+    </select>
+
+    <select id="countByDoctorId" resultType="long">
+        select count(*) from appointment_record where doctor_id = #{doctorId}
+    </select>
+
+    <select id="countFinishedByDoctorId" resultType="long">
+        select count(*) from appointment_record where doctor_id = #{doctorId} and status = 3
+    </select>
+
+    <select id="selectDepartmentRank" resultType="map">
+        select dp.name as name, count(a.id) as value
+        from appointment_record a
+                 left join department_info dp on a.department_id = dp.id
+        where a.status in (1, 3)
+        group by a.department_id, dp.name
+        order by value desc
+        limit 8
+    </select>
+
+    <select id="selectAppointmentTrend" resultType="map">
+        select date_format(create_time, '%m-%d') as date, count(*) as count
+        from appointment_record
+        where create_time >= date_sub(curdate(), interval 6 day)
+        group by date(create_time)
+        order by date(create_time)
+    </select>
+
+</mapper>

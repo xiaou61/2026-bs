@@ -5,6 +5,7 @@ import com.xiaou.seniorhealth.repository.AppointmentRepository;
 import com.xiaou.seniorhealth.repository.ElderRepository;
 import com.xiaou.seniorhealth.repository.FollowUpRepository;
 import com.xiaou.seniorhealth.repository.SysUserRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,8 @@ public class StatsController {
         this.appointmentRepository = appointmentRepository;
         this.followUpRepository = followUpRepository;
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN','DOCTOR')")
     @GetMapping("/overview")
     public ApiResponse<Map<String, Object>> overview() {
         Map<String, Object> r = new HashMap<>();

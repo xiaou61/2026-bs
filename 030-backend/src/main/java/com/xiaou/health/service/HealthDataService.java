@@ -11,9 +11,12 @@ import java.util.List;
 @Service
 public class HealthDataService {
     private final HealthDataRepository healthDataRepository;
+    private final HealthAssessmentService healthAssessmentService;
 
-    public HealthDataService(HealthDataRepository healthDataRepository) {
+    public HealthDataService(HealthDataRepository healthDataRepository,
+                             HealthAssessmentService healthAssessmentService) {
         this.healthDataRepository = healthDataRepository;
+        this.healthAssessmentService = healthAssessmentService;
     }
 
     @Transactional
@@ -26,7 +29,9 @@ public class HealthDataService {
         healthData.setRemark(request.getRemark());
         healthData.setMeasureTime(request.getMeasureTime() != null ? request.getMeasureTime() : LocalDateTime.now());
         
-        return healthDataRepository.save(healthData);
+        HealthData saved = healthDataRepository.save(healthData);
+        healthAssessmentService.generateAssessment(patientId);
+        return saved;
     }
 
     public List<HealthData> getPatientHealthData(Long patientId) {
@@ -51,5 +56,6 @@ public class HealthDataService {
         }
         
         healthDataRepository.delete(healthData);
+        healthAssessmentService.generateAssessment(patientId);
     }
 }

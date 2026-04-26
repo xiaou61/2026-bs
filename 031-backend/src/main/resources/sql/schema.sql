@@ -1,7 +1,3 @@
-CREATE DATABASE IF NOT EXISTS ticket_booking DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-USE ticket_booking;
-
 CREATE TABLE `user` (
     `id` BIGINT PRIMARY KEY AUTO_INCREMENT,
     `username` VARCHAR(50) NOT NULL UNIQUE,
@@ -14,10 +10,10 @@ CREATE TABLE `user` (
     `balance` DECIMAL(10, 2) DEFAULT 0.00,
     `status` VARCHAR(20) DEFAULT 'ACTIVE',
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     INDEX idx_username (`username`),
     INDEX idx_phone (`phone`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 CREATE TABLE `stadium` (
     `id` BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -30,10 +26,10 @@ CREATE TABLE `stadium` (
     `image_url` VARCHAR(500),
     `status` VARCHAR(20) DEFAULT 'ACTIVE',
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     INDEX idx_city (`city`),
     INDEX idx_name (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 CREATE TABLE `team` (
     `id` BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -44,9 +40,9 @@ CREATE TABLE `team` (
     `founded_year` INT,
     `description` TEXT,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     INDEX idx_name (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 CREATE TABLE `match` (
     `id` BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -64,13 +60,13 @@ CREATE TABLE `match` (
     `home_score` INT,
     `away_score` INT,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (`home_team_id`) REFERENCES `team`(`id`),
     FOREIGN KEY (`away_team_id`) REFERENCES `team`(`id`),
     FOREIGN KEY (`stadium_id`) REFERENCES `stadium`(`id`),
     INDEX idx_match_date (`match_date`),
     INDEX idx_status (`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 CREATE TABLE `seat_category` (
     `id` BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -83,7 +79,7 @@ CREATE TABLE `seat_category` (
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (`stadium_id`) REFERENCES `stadium`(`id`),
     INDEX idx_stadium (`stadium_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 CREATE TABLE `match_pricing` (
     `id` BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -92,12 +88,12 @@ CREATE TABLE `match_pricing` (
     `price` DECIMAL(10, 2) NOT NULL,
     `available_seats` INT NOT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (`match_id`) REFERENCES `match`(`id`),
     FOREIGN KEY (`category_id`) REFERENCES `seat_category`(`id`),
     UNIQUE KEY uk_match_category (`match_id`, `category_id`),
     INDEX idx_match (`match_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 CREATE TABLE `seat` (
     `id` BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -109,7 +105,7 @@ CREATE TABLE `seat` (
     FOREIGN KEY (`category_id`) REFERENCES `seat_category`(`id`),
     UNIQUE KEY uk_seat (`category_id`, `row_number`, `seat_number`),
     INDEX idx_category (`category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 CREATE TABLE `ticket_order` (
     `id` BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -123,13 +119,13 @@ CREATE TABLE `ticket_order` (
     `payment_method` VARCHAR(20),
     `payment_time` TIMESTAMP NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (`user_id`) REFERENCES `user`(`id`),
     FOREIGN KEY (`match_id`) REFERENCES `match`(`id`),
     INDEX idx_user (`user_id`),
     INDEX idx_order_no (`order_no`),
     INDEX idx_status (`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 CREATE TABLE `ticket` (
     `id` BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -149,7 +145,7 @@ CREATE TABLE `ticket` (
     FOREIGN KEY (`category_id`) REFERENCES `seat_category`(`id`),
     INDEX idx_order (`order_id`),
     INDEX idx_ticket_no (`ticket_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 CREATE TABLE `user_favorite` (
     `id` BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -159,7 +155,7 @@ CREATE TABLE `user_favorite` (
     FOREIGN KEY (`user_id`) REFERENCES `user`(`id`),
     FOREIGN KEY (`team_id`) REFERENCES `team`(`id`),
     UNIQUE KEY uk_user_team (`user_id`, `team_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 CREATE TABLE `notification` (
     `id` BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -172,4 +168,4 @@ CREATE TABLE `notification` (
     FOREIGN KEY (`user_id`) REFERENCES `user`(`id`),
     INDEX idx_user (`user_id`),
     INDEX idx_is_read (`is_read`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);

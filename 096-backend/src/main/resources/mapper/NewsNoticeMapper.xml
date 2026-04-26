@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hospital.mapper.NewsNoticeMapper">
+
+    <select id="selectPage" resultType="NewsNotice">
+        select * from news_notice
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (title like concat('%', #{keyword}, '%') or content like concat('%', #{keyword}, '%'))
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        order by sort desc, id desc
+    </select>
+
+    <select id="selectPublicList" resultType="NewsNotice">
+        select * from news_notice where status = 1 order by sort desc, id desc limit 8
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into news_notice(title, content, status, sort, admin_id, create_time, update_time)
+        values (#{title}, #{content}, #{status}, #{sort}, #{adminId}, #{createTime}, #{updateTime})
+    </insert>
+
+    <update id="update">
+        update news_notice
+        <set>
+            <if test="title != null">title = #{title},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from news_notice where id = #{id}
+    </delete>
+
+</mapper>

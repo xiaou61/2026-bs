@@ -1,0 +1,2166 @@
+{
+  "001": {
+    "project_id": "001",
+    "name": "校园事务管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "001-backend",
+    "frontend_dir": "001-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "admin123"
+      },
+      {
+        "role_key": "teacher",
+        "role_label": "教师",
+        "username": "teacher001",
+        "password": "teacher123"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student001",
+        "password": "student123"
+      }
+    ],
+    "routes": [
+      "首页",
+      "请假管理",
+      "报修管理",
+      "公告中心",
+      "活动中心",
+      "用户管理",
+      "个人中心"
+    ],
+    "readme_sources": [
+      "001-backend\\README.md"
+    ]
+  },
+  "002": {
+    "project_id": "002",
+    "name": "在线选课与成绩管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "002-backend",
+    "frontend_dir": "002-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student2",
+        "password": "123456"
+      },
+      {
+        "role_key": "teacher",
+        "role_label": "教师",
+        "username": "teacher1",
+        "password": "123456"
+      },
+      {
+        "role_key": "teacher",
+        "role_label": "教师",
+        "username": "teacher2",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "readme_sources": [
+      "002-backend\\README.md"
+    ]
+  },
+  "003": {
+    "project_id": "003",
+    "name": "助农精准扶贫平台",
+    "components": [
+      "backend"
+    ],
+    "backend_dir": "003-backend",
+    "frontend_dir": null,
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "admin123"
+      },
+      {
+        "role_key": "farmer",
+        "role_label": "农户",
+        "username": "farmer1",
+        "password": "admin123"
+      },
+      {
+        "role_key": "farmer",
+        "role_label": "农户",
+        "username": "farmer2",
+        "password": "admin123"
+      },
+      {
+        "role_key": "buyer",
+        "role_label": "消费者",
+        "username": "buyer1",
+        "password": "admin123"
+      },
+      {
+        "role_key": "buyer",
+        "role_label": "消费者",
+        "username": "buyer2",
+        "password": "admin123"
+      }
+    ],
+    "routes": [],
+    "readme_sources": [
+      "003-backend\\TEST_ACCOUNTS.md"
+    ]
+  },
+  "004": {
+    "project_id": "004",
+    "name": "实时聊天与通知系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "004-backend",
+    "frontend_dir": "004-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "用户",
+        "username": "zhangsan",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "用户",
+        "username": "lisi",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "用户",
+        "username": "wangwu",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "readme_sources": [
+      "004-backend\\ACCOUNTS.md"
+    ]
+  },
+  "005": {
+    "project_id": "005",
+    "name": "在线问卷调查与数据分析系统",
+    "components": [
+      "backend"
+    ],
+    "backend_dir": "005-backend",
+    "frontend_dir": null,
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "006": {
+    "project_id": "006",
+    "name": "校园失物招领系统",
+    "components": [
+      "backend"
+    ],
+    "backend_dir": "006-backend",
+    "frontend_dir": null,
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "007": {
+    "project_id": "007",
+    "name": "志愿活动管理与积分激励平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "007-backend",
+    "frontend_dir": "007-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "008": {
+    "project_id": "008",
+    "name": "智能菜谱推荐系统",
+    "components": [
+      "backend"
+    ],
+    "backend_dir": "008-backend",
+    "frontend_dir": null,
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "用户1",
+        "username": "user1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "用户2",
+        "username": "user2",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "readme_sources": [
+      "008-backend\\README.md"
+    ]
+  },
+  "009": {
+    "project_id": "009",
+    "name": "校园快递代收管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "009-backend",
+    "frontend_dir": "009-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "station1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student1",
+        "password": "123456"
+      }
+    ],
+    "routes": [
+      "我的快递",
+      "取件历史",
+      "消息通知",
+      "个人中心",
+      "快递入库",
+      "批量导入",
+      "取件核销",
+      "快递管理",
+      "数据统计",
+      "代收点管理",
+      "快递公司管理",
+      "用户管理",
+      "操作日志",
+      "系统配置"
+    ],
+    "readme_sources": [
+      "009-backend\\README.md"
+    ]
+  },
+  "010": {
+    "project_id": "010",
+    "name": "图书馆座位预约系统",
+    "components": [
+      "backend"
+    ],
+    "backend_dir": "010-backend",
+    "frontend_dir": null,
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "011": {
+    "project_id": "011",
+    "name": "校园短视频创作与分享平台 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "011-backend",
+    "frontend_dir": "011-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "012": {
+    "project_id": "012",
+    "name": "在线协作白板与笔记系统 🔥最新",
+    "components": [
+      "backend"
+    ],
+    "backend_dir": "012-backend",
+    "frontend_dir": null,
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "013": {
+    "project_id": "013",
+    "name": "校园共享经济平台 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "013-backend",
+    "frontend_dir": "013-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [
+      "登录",
+      "注册",
+      "首页",
+      "地图",
+      "闲置物品",
+      "发布闲置物品",
+      "技能服务",
+      "发布技能服务",
+      "我的订单",
+      "消息通知",
+      "个人中心",
+      "实名认证",
+      "收益中心",
+      "我的发布",
+      "我的收藏",
+      "信用中心",
+      "我的钱包",
+      "数据概览",
+      "用户管理",
+      "实名认证审核",
+      "物品审核",
+      "共享物品管理"
+    ],
+    "readme_sources": []
+  },
+  "014": {
+    "project_id": "014",
+    "name": "校园社团与兴趣圈层平台 🔥最新",
+    "components": [
+      "backend"
+    ],
+    "backend_dir": "014-backend",
+    "frontend_dir": null,
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "015": {
+    "project_id": "015",
+    "name": "校园表白墙与匿名社交平台 🔥最新",
+    "components": [
+      "backend"
+    ],
+    "backend_dir": "015-backend",
+    "frontend_dir": null,
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "admin123"
+      },
+      {
+        "role_key": "user",
+        "role_label": "测试用户1",
+        "username": "20210001",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "测试用户2",
+        "username": "20210002",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "readme_sources": [
+      "015-backend\\README.md"
+    ]
+  },
+  "016": {
+    "project_id": "016",
+    "name": "校园快递代领服务平台 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "016-backend",
+    "frontend_dir": "016-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "017": {
+    "project_id": "017",
+    "name": "高校自助点餐系统 🔥最新",
+    "components": [
+      "backend"
+    ],
+    "backend_dir": "017-backend",
+    "frontend_dir": null,
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "018": {
+    "project_id": "018",
+    "name": "校园实习招聘与求职平台 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "018-backend",
+    "frontend_dir": "018-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "019": {
+    "project_id": "019",
+    "name": "校园运动健康管理平台 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "019-backend",
+    "frontend_dir": "019-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [
+      "首页",
+      "运动记录",
+      "运动打卡",
+      "健身计划",
+      "创建计划",
+      "约球活动",
+      "发起活动",
+      "健康档案",
+      "场馆预约",
+      "我的预约",
+      "排行榜",
+      "个人中心"
+    ],
+    "readme_sources": []
+  },
+  "020": {
+    "project_id": "020",
+    "name": "校园学习资源共享平台 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "020-backend",
+    "frontend_dir": "020-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "021": {
+    "project_id": "021",
+    "name": "校园二手交易平台 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "021-backend",
+    "frontend_dir": "021-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [
+      "首页",
+      "发布商品",
+      "我的发布",
+      "我的收藏",
+      "消息列表",
+      "个人中心",
+      "登录",
+      "注册"
+    ],
+    "readme_sources": []
+  },
+  "022": {
+    "project_id": "022",
+    "name": "校园自习室座位预约系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "022-backend",
+    "frontend_dir": "022-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "202001",
+        "password": "123456"
+      }
+    ],
+    "routes": [
+      "首页",
+      "自习室列表",
+      "我的预约",
+      "个人中心",
+      "信用记录",
+      "仪表盘",
+      "自习室管理",
+      "座位管理",
+      "预约管理",
+      "用户管理",
+      "数据统计",
+      "系统配置"
+    ],
+    "readme_sources": [
+      "022-frontend\\README.md"
+    ]
+  },
+  "023": {
+    "project_id": "023",
+    "name": "AI智能学习助手与个性化教育平台 🔥最新",
+    "components": [
+      "backend"
+    ],
+    "backend_dir": "023-backend",
+    "frontend_dir": null,
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "024": {
+    "project_id": "024",
+    "name": "流浪动物领养与救助平台 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "024-backend",
+    "frontend_dir": "024-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "025": {
+    "project_id": "025",
+    "name": "智慧社区综合服务管理平台 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "025-backend",
+    "frontend_dir": "025-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "026": {
+    "project_id": "026",
+    "name": "画师接稿平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "026-backend",
+    "frontend_dir": "026-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "027": {
+    "project_id": "027",
+    "name": "线上理发预约系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "027-backend",
+    "frontend_dir": "027-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "028": {
+    "project_id": "028",
+    "name": "校园共享自行车租赁系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "028-backend",
+    "frontend_dir": "028-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [
+      "登录",
+      "注册",
+      "首页",
+      "停车点",
+      "我的订单",
+      "我的钱包",
+      "个人中心",
+      "管理员登录",
+      "控制台",
+      "用户管理",
+      "车辆管理",
+      "停车点管理",
+      "订单管理",
+      "故障管理"
+    ],
+    "readme_sources": []
+  },
+  "029": {
+    "project_id": "029",
+    "name": "中药食疗推荐交流平台 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "029-backend",
+    "frontend_dir": "029-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "030": {
+    "project_id": "030",
+    "name": "居民智能健康管理平台 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "030-backend",
+    "frontend_dir": "030-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "031": {
+    "project_id": "031",
+    "name": "基于SpringBoot的球赛订票系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "031-backend",
+    "frontend_dir": "031-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "032": {
+    "project_id": "032",
+    "name": "社区老年人健康管理系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "032-backend",
+    "frontend_dir": "032-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "033": {
+    "project_id": "033",
+    "name": "婚纱写真馆管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "033-backend",
+    "frontend_dir": "033-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "034": {
+    "project_id": "034",
+    "name": "零食铺子仓储管理系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "034-backend",
+    "frontend_dir": "034-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "035": {
+    "project_id": "035",
+    "name": "乡村振兴水稽收割预约系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "035-backend",
+    "frontend_dir": "035-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "036": {
+    "project_id": "036",
+    "name": "小梦想全球公益捐赠平台 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "036-backend",
+    "frontend_dir": "036-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "037": {
+    "project_id": "037",
+    "name": "编程学习交流平台 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "037-backend",
+    "frontend_dir": "037-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "038": {
+    "project_id": "038",
+    "name": "个人饮食管理系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "038-backend",
+    "frontend_dir": "038-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "readme_sources": [
+      "038-backend\\README.md"
+    ]
+  },
+  "039": {
+    "project_id": "039",
+    "name": "民歌民谣交流平台 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "039-backend",
+    "frontend_dir": "039-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "040": {
+    "project_id": "040",
+    "name": "社区车辆违停处理系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "040-backend",
+    "frontend_dir": "040-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "041": {
+    "project_id": "041",
+    "name": "在线心理评测与咨询系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "041-backend",
+    "frontend_dir": "041-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "042": {
+    "project_id": "042",
+    "name": "房屋租赁管理系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "042-backend",
+    "frontend_dir": "042-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "043": {
+    "project_id": "043",
+    "name": "宠物寄养服务系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "043-backend",
+    "frontend_dir": "043-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "044": {
+    "project_id": "044",
+    "name": "特色民宿预订平台 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "044-backend",
+    "frontend_dir": "044-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "045": {
+    "project_id": "045",
+    "name": "养老院管理系统 🔥",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "045-backend",
+    "frontend_dir": "045-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "admin123"
+      }
+    ],
+    "routes": [],
+    "readme_sources": [
+      "045-backend\\README.md"
+    ]
+  },
+  "046": {
+    "project_id": "046",
+    "name": "垃圾回收服务系统 🔥",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "046-backend",
+    "frontend_dir": "046-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "admin123"
+      }
+    ],
+    "routes": [],
+    "readme_sources": [
+      "046-backend\\README.md"
+    ]
+  },
+  "047": {
+    "project_id": "047",
+    "name": "剧本杀创作与预约平台 🔥",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "047-backend",
+    "frontend_dir": "047-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "readme_sources": [
+      "047-backend\\README.md"
+    ]
+  },
+  "048": {
+    "project_id": "048",
+    "name": "博物馆文物数字化管理平台 🔥",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "048-backend",
+    "frontend_dir": "048-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "readme_sources": [
+      "048-backend\\README.md"
+    ]
+  },
+  "049": {
+    "project_id": "049",
+    "name": "微信小程序考研学习系统 🔥",
+    "components": [
+      "backend",
+      "miniapp"
+    ],
+    "backend_dir": "049-backend",
+    "frontend_dir": null,
+    "miniapp_dir": "049-miniprogram",
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "teacher",
+        "role_label": "教师",
+        "username": "teacher1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student1",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "readme_sources": [
+      "049-backend\\README.md"
+    ]
+  },
+  "050": {
+    "project_id": "050",
+    "name": "微信小程序课堂考勤签到APP 🔥最新",
+    "components": [
+      "backend",
+      "miniapp"
+    ],
+    "backend_dir": "050-backend",
+    "frontend_dir": null,
+    "miniapp_dir": "050-miniprogram",
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "teacher",
+        "role_label": "教师",
+        "username": "teacher1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student1",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "readme_sources": [
+      "050-backend\\README.md"
+    ]
+  },
+  "051": {
+    "project_id": "051",
+    "name": "微信小程序网络安全知识科普APP 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "051-backend",
+    "frontend_dir": "051-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "052": {
+    "project_id": "052",
+    "name": "网课在线学习观看系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "052-backend",
+    "frontend_dir": "052-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "053": {
+    "project_id": "053",
+    "name": "救灾物资调度与救援系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "053-backend",
+    "frontend_dir": "053-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "054": {
+    "project_id": "054",
+    "name": "农业生产技术管理系统 🌱最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "054-backend",
+    "frontend_dir": "054-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [
+      "首页",
+      "用户管理",
+      "作物管理",
+      "作物分类",
+      "知识库",
+      "生产计划",
+      "生产任务",
+      "病虫害库",
+      "预警信息",
+      "防治记录",
+      "农资管理",
+      "技术咨询",
+      "专家预约",
+      "公告管理"
+    ],
+    "readme_sources": []
+  },
+  "055": {
+    "project_id": "055",
+    "name": "企业OA管理系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "055-backend",
+    "frontend_dir": "055-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "056": {
+    "project_id": "056",
+    "name": "短文写作竞赛管理小程序 🔥最新",
+    "components": [
+      "backend",
+      "frontend",
+      "miniapp"
+    ],
+    "backend_dir": "056-backend",
+    "frontend_dir": "056-frontend",
+    "miniapp_dir": "056-miniapp",
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [
+      "首页",
+      "用户管理",
+      "分类管理",
+      "竞赛管理",
+      "新增竞赛",
+      "作品管理",
+      "评分管理",
+      "公告管理",
+      "获奖管理"
+    ],
+    "readme_sources": []
+  },
+  "057": {
+    "project_id": "057",
+    "name": "招生管理系统 🔥",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "057-backend",
+    "frontend_dir": "057-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "058": {
+    "project_id": "058",
+    "name": "鲜牛奶订购系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "058-backend",
+    "frontend_dir": "058-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "059": {
+    "project_id": "059",
+    "name": "制造装备物联及生产管理ERP系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "059-backend",
+    "frontend_dir": "059-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [
+      "数据看板",
+      "用户管理",
+      "设备分类",
+      "设备管理",
+      "传感器数据",
+      "告警记录",
+      "产品管理",
+      "生产工单",
+      "物料管理",
+      "出入库记录",
+      "质量检测",
+      "维保计划",
+      "维保记录"
+    ],
+    "readme_sources": []
+  },
+  "060": {
+    "project_id": "060",
+    "name": "电影订票及评论网站 🔥",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "060-backend",
+    "frontend_dir": "060-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "061": {
+    "project_id": "061",
+    "name": "游戏交易系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "061-backend",
+    "frontend_dir": "061-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "062": {
+    "project_id": "062",
+    "name": "反欺诈平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "062-backend",
+    "frontend_dir": "062-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "063": {
+    "project_id": "063",
+    "name": "进销存管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "063-backend",
+    "frontend_dir": "063-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "064": {
+    "project_id": "064",
+    "name": "经方药食两用服务平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "064-backend",
+    "frontend_dir": "064-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "065": {
+    "project_id": "065",
+    "name": "名城小区物业管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "065-backend",
+    "frontend_dir": "065-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "066": {
+    "project_id": "066",
+    "name": "精简博客系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "066-backend",
+    "frontend_dir": "066-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "067": {
+    "project_id": "067",
+    "name": "大学生一体化服务平台 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "067-backend",
+    "frontend_dir": "067-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "068": {
+    "project_id": "068",
+    "name": "周边游平台个人管理模块 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "068-backend",
+    "frontend_dir": "068-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "069": {
+    "project_id": "069",
+    "name": "科任教师考评系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "069-backend",
+    "frontend_dir": "069-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "070": {
+    "project_id": "070",
+    "name": "基于SpringBoot和Vue的最优网络购票系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "070-backend",
+    "frontend_dir": "070-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "071": {
+    "project_id": "071",
+    "name": "基于SpringBoot和Vue的共享单车系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "071-backend",
+    "frontend_dir": "071-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "072": {
+    "project_id": "072",
+    "name": "基于SpringBoot和Vue的哈尔滨文旅系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "072-backend",
+    "frontend_dir": "072-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "073": {
+    "project_id": "073",
+    "name": "基于SpringBoot和Vue的人事管理系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "073-backend",
+    "frontend_dir": "073-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "074": {
+    "project_id": "074",
+    "name": "基于SpringBoot和Vue的手工艺品销售系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "074-backend",
+    "frontend_dir": "074-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "075": {
+    "project_id": "075",
+    "name": "基于SpringBoot和Vue的汽车维修预约服务系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "075-backend",
+    "frontend_dir": "075-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "076": {
+    "project_id": "076",
+    "name": "基于SpringBoot和Vue的企业信息管理系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "076-backend",
+    "frontend_dir": "076-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "077": {
+    "project_id": "077",
+    "name": "基于Vue的MES生产制造执行系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "077-backend",
+    "frontend_dir": "077-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "078": {
+    "project_id": "078",
+    "name": "网上团购系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "078-backend",
+    "frontend_dir": "078-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "079": {
+    "project_id": "079",
+    "name": "计算机学院校友网 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "079-backend",
+    "frontend_dir": "079-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "080": {
+    "project_id": "080",
+    "name": "贫困地区儿童资助网站 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "080-backend",
+    "frontend_dir": "080-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "081": {
+    "project_id": "081",
+    "name": "电器维修系统小程序 🔥最新",
+    "components": [
+      "backend",
+      "frontend",
+      "miniapp"
+    ],
+    "backend_dir": "081-backend",
+    "frontend_dir": "081-frontend",
+    "miniapp_dir": "081-miniapp",
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "082": {
+    "project_id": "082",
+    "name": "公考学习平台 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "082-backend",
+    "frontend_dir": "082-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "083": {
+    "project_id": "083",
+    "name": "基于B/S的老年人体检管理系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "083-backend",
+    "frontend_dir": "083-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "084": {
+    "project_id": "084",
+    "name": "教学资料管理系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "084-backend",
+    "frontend_dir": "084-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "085": {
+    "project_id": "085",
+    "name": "数学课程评价系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "085-backend",
+    "frontend_dir": "085-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "086": {
+    "project_id": "086",
+    "name": "高清壁纸社区网站",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "086-backend",
+    "frontend_dir": "086-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "087": {
+    "project_id": "087",
+    "name": "课程管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "087-backend",
+    "frontend_dir": "087-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [
+      "数据看板",
+      "院系管理",
+      "专业管理",
+      "班级管理",
+      "学期管理",
+      "课程管理",
+      "排课与课表",
+      "选课中心",
+      "课程资源",
+      "考勤管理",
+      "成绩管理",
+      "课程评教",
+      "公告中心"
+    ],
+    "readme_sources": []
+  },
+  "088": {
+    "project_id": "088",
+    "name": "孩童收养信息管理系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "088-backend",
+    "frontend_dir": "088-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "089": {
+    "project_id": "089",
+    "name": "铁路订票平台 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "089-backend",
+    "frontend_dir": "089-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "090": {
+    "project_id": "090",
+    "name": "戏曲文化苑系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "090-backend",
+    "frontend_dir": "090-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [
+      "文化看板",
+      "剧种分类管理",
+      "名家档案管理",
+      "场馆管理",
+      "文化专题管理",
+      "剧目管理",
+      "排期与行程",
+      "预约中心",
+      "数字资源",
+      "签到管理",
+      "研学评分管理",
+      "剧目赏析互动",
+      "公告中心"
+    ],
+    "readme_sources": []
+  },
+  "091": {
+    "project_id": "091",
+    "name": "电影院会员管理系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "091-backend",
+    "frontend_dir": "091-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "092": {
+    "project_id": "092",
+    "name": "蓝天幼儿园管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "092-backend",
+    "frontend_dir": "092-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [
+      "园务看板",
+      "园区管理",
+      "年级管理",
+      "班级管理",
+      "学期管理",
+      "活动课程",
+      "活动安排",
+      "幼儿档案",
+      "每周食谱",
+      "入园考勤",
+      "健康晨检",
+      "家园反馈",
+      "公告中心"
+    ],
+    "readme_sources": []
+  },
+  "093": {
+    "project_id": "093",
+    "name": "自助售货管理系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "093-backend",
+    "frontend_dir": "093-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "094": {
+    "project_id": "094",
+    "name": "项目 094",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "094-backend",
+    "frontend_dir": "094-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "095": {
+    "project_id": "095",
+    "name": "足球联赛管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "095-backend",
+    "frontend_dir": "095-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "096": {
+    "project_id": "096",
+    "name": "线上医院挂号系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "096-backend",
+    "frontend_dir": "096-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  }
+}

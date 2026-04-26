@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hospital.mapper.BannerInfoMapper">
+
+    <select id="selectPage" resultType="BannerInfo">
+        select * from banner_info
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (title like concat('%', #{keyword}, '%') or description like concat('%', #{keyword}, '%'))
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        order by sort desc, id desc
+    </select>
+
+    <select id="selectPublicList" resultType="BannerInfo">
+        select * from banner_info where status = 1 order by sort desc, id desc
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into banner_info(title, image_url, link_url, description, sort, status, create_time, update_time)
+        values (#{title}, #{imageUrl}, #{linkUrl}, #{description}, #{sort}, #{status}, #{createTime}, #{updateTime})
+    </insert>
+
+    <update id="update">
+        update banner_info
+        <set>
+            <if test="title != null">title = #{title},</if>
+            <if test="imageUrl != null">image_url = #{imageUrl},</if>
+            <if test="linkUrl != null">link_url = #{linkUrl},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from banner_info where id = #{id}
+    </delete>
+
+</mapper>

@@ -7,6 +7,7 @@ import com.xiaou.common.BusinessException;
 import com.xiaou.common.Result;
 import com.xiaou.entity.Notice;
 import com.xiaou.service.NoticeService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,10 +35,8 @@ public class NoticeController {
     @GetMapping("/all")
     public Result<?> all(@RequestParam(defaultValue = "1") Integer page,
                          @RequestParam(defaultValue = "10") Integer size,
-                         @RequestAttribute(required = false) String userRole) {
-        if (!"admin".equals(userRole)) {
-            throw new BusinessException(403, "无权访问");
-        }
+                         HttpServletRequest request) {
+        ensureAdmin(request);
 
         Page<Notice> noticePage = new Page<>(page, size);
         LambdaQueryWrapper<Notice> wrapper = new LambdaQueryWrapper<>();
@@ -47,32 +46,36 @@ public class NoticeController {
     }
 
     @PostMapping
-    public Result<?> create(@RequestBody Notice notice, @RequestAttribute(required = false) String userRole) {
-        if (!"admin".equals(userRole)) {
-            throw new BusinessException(403, "无权访问");
-        }
+    public Result<?> create(@RequestBody Notice notice, HttpServletRequest request) {
+        ensureAdmin(request);
         notice.setStatus(1);
         noticeService.save(notice);
         return Result.success("发布成功");
     }
 
     @PutMapping("/{id}")
-    public Result<?> update(@PathVariable Long id, @RequestBody Notice notice, @RequestAttribute(required = false) String userRole) {
-        if (!"admin".equals(userRole)) {
-            throw new BusinessException(403, "无权访问");
-        }
+    public Result<?> update(@PathVariable Long id, @RequestBody Notice notice, HttpServletRequest request) {
+        ensureAdmin(request);
         notice.setId(id);
         noticeService.updateById(notice);
         return Result.success("更新成功");
     }
 
     @DeleteMapping("/{id}")
-    public Result<?> delete(@PathVariable Long id, @RequestAttribute(required = false) String userRole) {
-        if (!"admin".equals(userRole)) {
-            throw new BusinessException(403, "无权访问");
-        }
+    public Result<?> delete(@PathVariable Long id, HttpServletRequest request) {
+        ensureAdmin(request);
         noticeService.removeById(id);
         return Result.success("删除成功");
+    }
+
+    private void ensureAdmin(HttpServletRequest request) {
+        Object userRole = request.getAttribute("userRole");
+        if (userRole == null) {
+            userRole = request.getAttribute("role");
+        }
+        if (!"admin".equals(String.valueOf(userRole))) {
+            throw new BusinessException(403, "无权访问");
+        }
     }
 }
 

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hospital.mapper.PaymentOrderMapper">
+
+    <sql id="orderColumns">
+        o.id, o.order_no, o.appointment_id, o.user_id, o.amount, o.status, o.payment_method, o.pay_time, o.create_time, o.update_time,
+        a.appointment_no, a.patient_name, d.doctor_name, dp.name as department_name
+    </sql>
+
+    <select id="selectPage" resultType="PaymentOrder">
+        select <include refid="orderColumns"/>
+        from payment_order o
+                 left join appointment_record a on o.appointment_id = a.id
+                 left join doctor_info d on a.doctor_id = d.id
+                 left join department_info dp on a.department_id = dp.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (o.order_no like concat('%', #{keyword}, '%')
+                or a.appointment_no like concat('%', #{keyword}, '%')
+                or a.patient_name like concat('%', #{keyword}, '%'))
+            </if>
+            <if test="status != null">
+                and o.status = #{status}
+            </if>
+        </where>
+        order by o.id desc
+    </select>
+
+    <select id="selectMyPage" resultType="PaymentOrder">
+        select <include refid="orderColumns"/>
+        from payment_order o
+                 left join appointment_record a on o.appointment_id = a.id
+                 left join doctor_info d on a.doctor_id = d.id
+                 left join department_info dp on a.department_id = dp.id
+        where o.user_id = #{userId}
+        <if test="status != null">
+            and o.status = #{status}
+        </if>
+        order by o.id desc
+    </select>
+
+    <select id="selectById" resultType="PaymentOrder">
+        select <include refid="orderColumns"/>
+        from payment_order o
+                 left join appointment_record a on o.appointment_id = a.id
+                 left join doctor_info d on a.doctor_id = d.id
+                 left join department_info dp on a.department_id = dp.id
+        where o.id = #{id}
+    </select>
+
+    <select id="selectByAppointmentId" resultType="PaymentOrder">
+        select <include refid="orderColumns"/>
+        from payment_order o
+                 left join appointment_record a on o.appointment_id = a.id
+                 left join doctor_info d on a.doctor_id = d.id
+                 left join department_info dp on a.department_id = dp.id
+        where o.appointment_id = #{appointmentId}
+        limit 1
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into payment_order(order_no, appointment_id, user_id, amount, status, payment_method, pay_time, create_time, update_time)
+        values (#{orderNo}, #{appointmentId}, #{userId}, #{amount}, #{status}, #{paymentMethod}, #{payTime}, #{createTime}, #{updateTime})
+    </insert>
+
+    <update id="updatePaid">
+        update payment_order
+        set status = #{status},
+            payment_method = #{paymentMethod},
+            pay_time = #{payTime},
+            update_time = now()
+        where id = #{id}
+    </update>
+
+    <update id="updateStatus">
+        update payment_order set status = #{status}, update_time = now() where id = #{id}
+    </update>
+
+    <select id="sumPaidAmount" resultType="java.math.BigDecimal">
+        select ifnull(sum(amount), 0) from payment_order where status = 1
+    </select>
+
+</mapper>

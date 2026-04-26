@@ -1,0 +1,75 @@
+import request from './request'
+
+export const login = (data) => request.post('/api/auth/login', data)
+export const register = (data) => request.post('/api/auth/register', data)
+export const getUserInfo = () => request.get('/api/auth/info')
+export const updatePassword = (data) => request.put('/api/auth/password', data)
+export const logout = () => request.post('/api/auth/logout')
+
+export const getUserPage = (params) => request.get('/api/user/page', { params })
+export const addUser = (data) => request.post('/api/user', data)
+export const updateUser = (data) => request.put('/api/user', data)
+export const updateUserStatus = (data) => request.put('/api/user/status', data)
+export const updateProfile = (data) => request.put('/api/user/profile', data)
+export const deleteUser = (id) => request.delete(`/api/user/${id}`)
+
+export const getDepartmentPage = (params) => request.get('/api/department/list', { params })
+export const getDepartmentEnabled = () => request.get('/api/department/enabled')
+export const addDepartment = (data) => request.post('/api/department', data)
+export const updateDepartment = (data) => request.put('/api/department', data)
+export const deleteDepartment = (id) => request.delete(`/api/department/${id}`)
+
+export const getDoctorPage = (params) => request.get('/api/doctor/page', { params })
+export const getDoctorPublicList = (params) => request.get('/api/doctor/public/list', { params })
+export const getDoctorEnabled = () => request.get('/api/doctor/enabled')
+export const getMyDoctorInfo = () => request.get('/api/doctor/my')
+export const addDoctor = (data) => request.post('/api/doctor', data)
+export const updateDoctor = (data) => request.put('/api/doctor', data)
+export const deleteDoctor = (id) => request.delete(`/api/doctor/${id}`)
+
+export const getSchedulePage = (params) => request.get('/api/schedule/page', { params })
+export const getMySchedules = (params) => request.get('/api/schedule/my', { params })
+export const getPublicSchedules = (params) => request.get('/api/schedule/public/list', { params })
+export const addSchedule = (data) => request.post('/api/schedule', data)
+export const updateSchedule = (data) => request.put('/api/schedule', data)
+export const deleteSchedule = (id) => request.delete(`/api/schedule/${id}`)
+
+export const getAppointmentPage = (params) => request.get('/api/appointment/page', { params })
+export const getMyAppointments = (params) => request.get('/api/appointment/my', { params })
+export const getDoctorAppointments = (params) => request.get('/api/appointment/doctor', { params })
+export const createAppointment = (data) => request.post('/api/appointment/create', data)
+export const cancelAppointment = (id) => request.put(`/api/appointment/cancel/${id}`)
+export const finishAppointment = (id) => request.put(`/api/appointment/finish/${id}`)
+
+export const getOrderPage = (params) => request.get('/api/order/page', { params })
+export const getMyOrders = (params) => request.get('/api/order/my', { params })
+export const payOrder = (id) => request.put(`/api/order/pay/${id}`)
+
+export const getMyCards = () => request.get('/api/card/my')
+export const addCard = (data) => request.post('/api/card', data)
+export const updateCard = (data) => request.put('/api/card', data)
+export const setDefaultCard = (id) => request.put(`/api/card/default/${id}`)
+export const deleteCard = (id) => request.delete(`/api/card/${id}`)
+
+export const getReviewPage = (params) => request.get('/api/review/page', { params })
+export const getDoctorReviews = (doctorId) => request.get(`/api/review/doctor/${doctorId}`)
+export const addReview = (data) => request.post('/api/review/save', data)
+export const deleteReview = (id) => request.delete(`/api/review/${id}`)
+
+export const getNoticePage = (params) => request.get('/api/notice/page', { params })
+export const getPublicNotices = () => request.get('/api/notice/public/list')
+export const addNotice = (data) => request.post('/api/notice', data)
+export const updateNotice = (data) => request.put('/api/notice', data)
+export const deleteNotice = (id) => request.delete(`/api/notice/${id}`)
+
+export const getBannerPage = (params) => request.get('/api/banner/page', { params })
+export const getPublicBanners = () => request.get('/api/banner/public/list')
+export const addBanner = (data) => request.post('/api/banner', data)
+export const updateBanner = (data) => request.put('/api/banner', data)
+export const deleteBanner = (id) => request.delete(`/api/banner/${id}`)
+
+export const getDashboardStats = () => request.get('/api/statistics/dashboard')
+export const getDepartmentRank = () => request.get('/api/statistics/department-rank')
+export const getAppointmentTrend = () => request.get('/api/statistics/appointment-trend')
+export const getHotDoctors = () => request.get('/api/statistics/hot-doctor')
+

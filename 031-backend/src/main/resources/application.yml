@@ -1,31 +1,29 @@
 spring:
   application:
     name: ticket-booking-system
-  
+
   datasource:
-    url: jdbc:mysql://localhost:3306/ticket_booking?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
-    username: root
-    password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:h2:mem:ticket_booking;MODE=MySQL;DATABASE_TO_LOWER=TRUE;NON_KEYWORDS=USER,MATCH;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
     hikari:
-      minimum-idle: 5
-      maximum-pool-size: 20
+      minimum-idle: 1
+      maximum-pool-size: 8
       connection-timeout: 30000
-      idle-timeout: 600000
-      max-lifetime: 1800000
-  
-  data:
-    redis:
-      host: localhost
-      port: 6379
-      database: 0
-      timeout: 5000
-      lettuce:
-        pool:
-          max-active: 8
-          max-wait: -1
-          max-idle: 8
-          min-idle: 0
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
+
+  jooq:
+    sql-dialect: h2
 
 server:
   port: 8080
@@ -36,7 +34,7 @@ logging:
   level:
     root: INFO
     com.xiaou.ticket: DEBUG
-    org.jooq: DEBUG
+    org.jooq: INFO
   pattern:
     console: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'
 

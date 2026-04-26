@@ -16,6 +16,8 @@ public class TicketOrder {
     private String status;
     private String paymentMethod;
     private LocalDateTime paymentTime;
+    private String matchTitle;
+    private Integer ticketCount;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

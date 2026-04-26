@@ -1,7 +1,9 @@
 package com.xiaou.ticket.controller;
 
 import com.xiaou.ticket.dto.Result;
+import com.xiaou.ticket.dto.SeatAvailability;
 import com.xiaou.ticket.entity.Match;
+import com.xiaou.ticket.entity.MatchPricing;
 import com.xiaou.ticket.service.MatchService;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,23 +12,23 @@ import java.util.List;
 @RestController
 @RequestMapping("/matches")
 public class MatchController {
-    
+
     private final MatchService matchService;
-    
+
     public MatchController(MatchService matchService) {
         this.matchService = matchService;
     }
-    
+
     @GetMapping
     public Result<List<Match>> getAllMatches() {
         return Result.success(matchService.getAllMatches());
     }
-    
+
     @GetMapping("/upcoming")
     public Result<List<Match>> getUpcomingMatches() {
         return Result.success(matchService.getUpcomingMatches());
     }
-    
+
     @GetMapping("/{id}")
     public Result<Match> getMatchById(@PathVariable Long id) {
         try {
@@ -35,7 +37,25 @@ public class MatchController {
             return Result.error(e.getMessage());
         }
     }
-    
+
+    @GetMapping("/{id}/pricing")
+    public Result<List<MatchPricing>> getPricing(@PathVariable Long id) {
+        try {
+            return Result.success(matchService.getMatchPricing(id));
+        } catch (Exception e) {
+            return Result.error(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}/seats")
+    public Result<List<SeatAvailability>> getSeats(@PathVariable Long id, @RequestParam Long categoryId) {
+        try {
+            return Result.success(matchService.getSeatAvailability(id, categoryId));
+        } catch (Exception e) {
+            return Result.error(e.getMessage());
+        }
+    }
+
     @PostMapping
     public Result<Match> createMatch(@RequestBody Match match) {
         try {
@@ -44,7 +64,7 @@ public class MatchController {
             return Result.error(e.getMessage());
         }
     }
-    
+
     @PutMapping("/{id}")
     public Result<Match> updateMatch(@PathVariable Long id, @RequestBody Match match) {
         try {

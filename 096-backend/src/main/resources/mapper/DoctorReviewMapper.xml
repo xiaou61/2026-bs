@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hospital.mapper.DoctorReviewMapper">
+
+    <select id="selectPage" resultType="DoctorReview">
+        select r.*, d.doctor_name
+        from doctor_review r
+                 left join doctor_info d on r.doctor_id = d.id
+        <where>
+            <if test="doctorId != null">
+                and r.doctor_id = #{doctorId}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                and (r.patient_name like concat('%', #{keyword}, '%')
+                or d.doctor_name like concat('%', #{keyword}, '%')
+                or r.content like concat('%', #{keyword}, '%'))
+            </if>
+        </where>
+        order by r.id desc
+    </select>
+
+    <select id="selectByDoctorId" resultType="DoctorReview">
+        select r.*, d.doctor_name
+        from doctor_review r
+                 left join doctor_info d on r.doctor_id = d.id
+        where r.doctor_id = #{doctorId}
+        order by r.id desc
+    </select>
+
+    <select id="selectByAppointmentId" resultType="DoctorReview">
+        select * from doctor_review where appointment_id = #{appointmentId} limit 1
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into doctor_review(appointment_id, doctor_id, user_id, rating, content, status, patient_name, create_time)
+        values (#{appointmentId}, #{doctorId}, #{userId}, #{rating}, #{content}, #{status}, #{patientName}, #{createTime})
+    </insert>
+
+    <delete id="deleteById">
+        delete from doctor_review where id = #{id}
+    </delete>
+
+    <select id="countByUserId" resultType="long">
+        select count(*) from doctor_review where user_id = #{userId}
+    </select>
+
+    <select id="countByDoctorId" resultType="long">
+        select count(*) from doctor_review where doctor_id = #{doctorId}
+    </select>
+
+</mapper>

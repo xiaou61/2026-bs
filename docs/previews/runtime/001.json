@@ -1,0 +1,106 @@
+{
+  "project": {
+    "project_id": "001",
+    "name": "校园事务管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "001-backend",
+    "frontend_dir": "001-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "admin123"
+      },
+      {
+        "role_key": "teacher",
+        "role_label": "教师",
+        "username": "teacher001",
+        "password": "teacher123"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student001",
+        "password": "student123"
+      }
+    ],
+    "routes": [
+      "首页",
+      "请假管理",
+      "报修管理",
+      "公告中心",
+      "活动中心",
+      "用户管理",
+      "个人中心"
+    ],
+    "readme_sources": [
+      "001-backend\\README.md"
+    ]
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8080",
+      "pid": 3140
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3002",
+      "pid": 30184
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\001-backend.out.log",
+      "stderr": "logs\\project-preview\\001-backend.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\001-frontend.out.log",
+      "stderr": "logs\\project-preview\\001-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-04-24 22:07:58",
+  "sql_file": "001-backend\\src\\main\\resources\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "admin123"
+      },
+      {
+        "role_key": "teacher",
+        "role_label": "教师",
+        "username": "teacher001",
+        "password": "teacher123"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student001",
+        "password": "student123"
+      }
+    ],
+    "routes": [
+      "首页",
+      "请假管理",
+      "报修管理",
+      "公告中心",
+      "活动中心",
+      "用户管理",
+      "个人中心"
+    ],
+    "screenshot_dir": "docs\\previews\\assets\\001",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-04-24 22:36:18"
+}

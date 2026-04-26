@@ -5,6 +5,7 @@ import Layout from './components/Layout'
 import PatientDashboard from './pages/patient/Dashboard'
 import HealthData from './pages/patient/HealthData'
 import HealthRecord from './pages/patient/HealthRecord'
+import PatientAssessment from './pages/patient/Assessment'
 import Consultation from './pages/patient/Consultation'
 import PatientProfile from './pages/patient/Profile'
 import DoctorDashboard from './pages/doctor/Dashboard'
@@ -13,6 +14,7 @@ import DoctorProfile from './pages/doctor/Profile'
 import AdminDashboard from './pages/admin/Dashboard'
 import AdminUsers from './pages/admin/Users'
 import AdminDoctors from './pages/admin/Doctors'
+import AdminKnowledge from './pages/admin/Knowledge'
 import KnowledgeList from './pages/Knowledge'
 import ProtectedRoute, { getDefaultRouteForRole } from './components/ProtectedRoute'
 import useUserStore from './store/useUserStore'
@@ -35,6 +37,7 @@ function App() {
           <Route path="patient/dashboard" element={<ProtectedRoute allowedRoles={['PATIENT']}><PatientDashboard /></ProtectedRoute>} />
           <Route path="patient/health-data" element={<ProtectedRoute allowedRoles={['PATIENT']}><HealthData /></ProtectedRoute>} />
           <Route path="patient/health-record" element={<ProtectedRoute allowedRoles={['PATIENT']}><HealthRecord /></ProtectedRoute>} />
+          <Route path="patient/assessment" element={<ProtectedRoute allowedRoles={['PATIENT']}><PatientAssessment /></ProtectedRoute>} />
           <Route path="patient/consultation" element={<ProtectedRoute allowedRoles={['PATIENT']}><Consultation /></ProtectedRoute>} />
           <Route path="patient/profile" element={<ProtectedRoute allowedRoles={['PATIENT']}><PatientProfile /></ProtectedRoute>} />
           
@@ -45,6 +48,7 @@ function App() {
           <Route path="admin/dashboard" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminDashboard /></ProtectedRoute>} />
           <Route path="admin/users" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminUsers /></ProtectedRoute>} />
           <Route path="admin/doctors" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminDoctors /></ProtectedRoute>} />
+          <Route path="admin/knowledge" element={<ProtectedRoute allowedRoles={['ADMIN']}><AdminKnowledge /></ProtectedRoute>} />
           
           <Route path="knowledge" element={<KnowledgeList />} />
         </Route>

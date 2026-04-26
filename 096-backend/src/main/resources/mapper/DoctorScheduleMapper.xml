@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hospital.mapper.DoctorScheduleMapper">
+
+    <sql id="scheduleColumns">
+        s.id, s.doctor_id, s.department_id, s.schedule_date, s.time_slot, s.total_source, s.remaining_source,
+        s.status, s.fee, s.clinic_room, s.create_time, s.update_time,
+        d.doctor_name, dp.name as department_name, d.user_id
+    </sql>
+
+    <select id="selectPage" resultType="DoctorSchedule">
+        select <include refid="scheduleColumns"/>
+        from doctor_schedule s
+                 left join doctor_info d on s.doctor_id = d.id
+                 left join department_info dp on s.department_id = dp.id
+        <where>
+            <if test="departmentId != null">
+                and s.department_id = #{departmentId}
+            </if>
+            <if test="doctorId != null">
+                and s.doctor_id = #{doctorId}
+            </if>
+            <if test="status != null">
+                and s.status = #{status}
+            </if>
+            <if test="scheduleDate != null">
+                and s.schedule_date = #{scheduleDate}
+            </if>
+        </where>
+        order by s.schedule_date desc, s.id desc
+    </select>
+
+    <select id="selectMyPage" resultType="DoctorSchedule">
+        select <include refid="scheduleColumns"/>
+        from doctor_schedule s
+                 left join doctor_info d on s.doctor_id = d.id
+                 left join department_info dp on s.department_id = dp.id
+        where s.doctor_id = #{doctorId}
+        <if test="status != null">
+            and s.status = #{status}
+        </if>
+        <if test="scheduleDate != null">
+            and s.schedule_date = #{scheduleDate}
+        </if>
+        order by s.schedule_date desc, s.id desc
+    </select>
+
+    <select id="selectPublicList" resultType="DoctorSchedule">
+        select <include refid="scheduleColumns"/>
+        from doctor_schedule s
+                 left join doctor_info d on s.doctor_id = d.id
+                 left join department_info dp on s.department_id = dp.id
+        where s.status = 1 and s.remaining_source > 0
+        <if test="departmentId != null">
+            and s.department_id = #{departmentId}
+        </if>
+        <if test="doctorId != null">
+            and s.doctor_id = #{doctorId}
+        </if>
+        <if test="scheduleDate != null">
+            and s.schedule_date = #{scheduleDate}
+        </if>
+        order by s.schedule_date asc, s.id desc
+    </select>
+
+    <select id="selectById" resultType="DoctorSchedule">
+        select <include refid="scheduleColumns"/>
+        from doctor_schedule s
+                 left join doctor_info d on s.doctor_id = d.id
+                 left join department_info dp on s.department_id = dp.id
+        where s.id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into doctor_schedule(doctor_id, department_id, schedule_date, time_slot, total_source, remaining_source, status, fee, clinic_room, create_time, update_time)
+        values (#{doctorId}, #{departmentId}, #{scheduleDate}, #{timeSlot}, #{totalSource}, #{remainingSource}, #{status}, #{fee}, #{clinicRoom}, #{createTime}, #{updateTime})
+    </insert>
+
+    <update id="update">
+        update doctor_schedule
+        set doctor_id = #{doctorId},
+            department_id = #{departmentId},
+            schedule_date = #{scheduleDate},
+            time_slot = #{timeSlot},
+            total_source = #{totalSource},
+            remaining_source = #{remainingSource},
+            status = #{status},
+            fee = #{fee},
+            clinic_room = #{clinicRoom},
+            update_time = #{updateTime}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from doctor_schedule where id = #{id}
+    </delete>
+
+    <update id="decreaseSource">
+        update doctor_schedule
+        set remaining_source = remaining_source - 1,
+            update_time = now()
+        where id = #{id}
+          and status = 1
+          and remaining_source > 0
+    </update>
+
+    <update id="increaseSource">
+        update doctor_schedule
+        set remaining_source = remaining_source + 1,
+            update_time = now()
+        where id = #{id}
+    </update>
+
+    <select id="countByDoctorId" resultType="long">
+        select count(*) from doctor_schedule where doctor_id = #{doctorId}
+    </select>
+
+</mapper>

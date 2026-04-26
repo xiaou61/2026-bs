@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react'
 import { Card, Row, Col, Statistic, Empty } from 'antd'
-import { HeartOutlined, FileTextOutlined, MessageOutlined } from '@ant-design/icons'
+import { AlertOutlined, HeartOutlined, FileTextOutlined, MessageOutlined } from '@ant-design/icons'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { getHealthDataList } from '../../api/health'
 import { getPatientConsultations } from '../../api/consultation'
+import { getLatestAssessment, getUnreadAlertCount } from '../../api/assessment'
 
 const PatientDashboard = () => {
   const [healthData, setHealthData] = useState([])
   const [consultations, setConsultations] = useState([])
+  const [latestAssessment, setLatestAssessment] = useState(null)
+  const [unreadAlerts, setUnreadAlerts] = useState(0)
 
   useEffect(() => {
     loadData()
@@ -21,6 +24,17 @@ const PatientDashboard = () => {
       ])
       setHealthData(healthRes.data || [])
       setConsultations(consultRes.data || [])
+      try {
+        const [assessmentRes, unreadRes] = await Promise.all([
+          getLatestAssessment(),
+          getUnreadAlertCount()
+        ])
+        setLatestAssessment(assessmentRes.data || null)
+        setUnreadAlerts(unreadRes.data || 0)
+      } catch (error) {
+        setLatestAssessment(null)
+        setUnreadAlerts(0)
+      }
     } catch (error) {
       console.error(error)
     }
@@ -36,7 +50,7 @@ const PatientDashboard = () => {
       <h2 style={{ marginBottom: 24 }}>健康概览</h2>
       
       <Row gutter={16} style={{ marginBottom: 24 }}>
-        <Col span={8}>
+        <Col xs={24} md={6}>
           <Card>
             <Statistic
               title="健康数据记录"
@@ -46,7 +60,7 @@ const PatientDashboard = () => {
             />
           </Card>
         </Col>
-        <Col span={8}>
+        <Col xs={24} md={6}>
           <Card>
             <Statistic
               title="咨询记录"
@@ -56,7 +70,7 @@ const PatientDashboard = () => {
             />
           </Card>
         </Col>
-        <Col span={8}>
+        <Col xs={24} md={6}>
           <Card>
             <Statistic
               title="待回复咨询"
@@ -64,6 +78,17 @@ const PatientDashboard = () => {
               prefix={<FileTextOutlined />}
               suffix="个"
             />
+          </Card>
+        </Col>
+        <Col xs={24} md={6}>
+          <Card>
+            <Statistic
+              title="最新健康评分"
+              value={latestAssessment?.healthScore ?? '--'}
+              prefix={<AlertOutlined />}
+              suffix="分"
+            />
+            <div style={{ marginTop: 8, color: '#999' }}>未读预警 {unreadAlerts} 条</div>
           </Card>
         </Col>
       </Row>

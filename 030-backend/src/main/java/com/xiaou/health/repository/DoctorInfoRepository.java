@@ -10,4 +10,5 @@ import java.util.List;
 public interface DoctorInfoRepository extends JpaRepository<DoctorInfo, Long> {
     Optional<DoctorInfo> findByUserId(Long userId);
     List<DoctorInfo> findByVerifyStatus(Integer verifyStatus);
+    long countByVerifyStatus(Integer verifyStatus);
 }

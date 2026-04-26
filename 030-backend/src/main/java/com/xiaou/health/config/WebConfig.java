@@ -22,7 +22,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "/api/users/register",
                         "/api/users/login",
                         "/api/health-knowledge/list",
-                        "/api/health-knowledge/{id}"
+                        "/api/health-knowledge/detail/*"
                 );
     }
 

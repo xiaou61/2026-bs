@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Outlet, useNavigate, useLocation } from 'react-router-dom'
 import { Layout as AntLayout, Menu, Avatar, Dropdown } from 'antd'
 import {
+  AlertOutlined,
   DashboardOutlined,
   HeartOutlined,
   FileTextOutlined,
@@ -44,6 +45,7 @@ const Layout = () => {
         { key: '/patient/dashboard', icon: <DashboardOutlined />, label: '健康概览' },
         { key: '/patient/health-data', icon: <HeartOutlined />, label: '健康数据' },
         { key: '/patient/health-record', icon: <FileTextOutlined />, label: '健康档案' },
+        { key: '/patient/assessment', icon: <AlertOutlined />, label: '评估预警' },
         { key: '/patient/consultation', icon: <MessageOutlined />, label: '在线咨询' },
         { key: '/knowledge', icon: <BookOutlined />, label: '健康知识' },
         { key: '/patient/profile', icon: <UserOutlined />, label: '个人信息' }
@@ -59,7 +61,8 @@ const Layout = () => {
       return [
         { key: '/admin/dashboard', icon: <DashboardOutlined />, label: '系统概览' },
         { key: '/admin/users', icon: <TeamOutlined />, label: '用户管理' },
-        { key: '/admin/doctors', icon: <MedicineBoxOutlined />, label: '医生审核' }
+        { key: '/admin/doctors', icon: <MedicineBoxOutlined />, label: '医生审核' },
+        { key: '/admin/knowledge', icon: <BookOutlined />, label: '知识库管理' }
       ]
     }
     return []

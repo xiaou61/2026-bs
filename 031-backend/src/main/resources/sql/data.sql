@@ -1,9 +1,7 @@
-USE ticket_booking;
-
 INSERT INTO `user` (`username`, `password`, `phone`, `email`, `real_name`, `id_card`, `role`, `balance`) VALUES
-('admin', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5EH', '13800138000', 'admin@ticket.com', 'Admin', '110101199001011234', 'ADMIN', 10000.00),
-('user1', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5EH', '13800138001', 'user1@test.com', '张三', '110101199001011235', 'USER', 5000.00),
-('user2', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5EH', '13800138002', 'user2@test.com', '李四', '110101199001011236', 'USER', 3000.00);
+('admin', '$2a$10$1rb1L8CDi5CoNdmnypfMRuCyOAVngOuJkkwdvFKyZDRRVN3F0vq7y', '13800138000', 'admin@ticket.com', '管理员', '110101199001011234', 'ADMIN', 10000.00),
+('user1', '$2a$10$v4.ZySBhw1dsfEk4yAua6O2Aq5dSGJDCccrVOzlsED.0ethJso/u6', '13800138001', 'user1@test.com', '张三', '110101199001011235', 'USER', 5000.00),
+('user2', '$2a$10$v4.ZySBhw1dsfEk4yAua6O2Aq5dSGJDCccrVOzlsED.0ethJso/u6', '13800138002', 'user2@test.com', '李四', '110101199001011236', 'USER', 3000.00);
 
 INSERT INTO `stadium` (`name`, `location`, `city`, `capacity`, `description`, `facilities`) VALUES
 ('北京工人体育场', '北京市朝阳区工人体育场北路', '北京', 66000, '中国著名的综合性体育场，承办过多次国际足球赛事', '停车场,餐饮区,VIP包厢,无障碍通道'),
@@ -23,12 +21,12 @@ INSERT INTO `team` (`name`, `logo_url`, `country`, `city`, `founded_year`, `desc
 ('武汉三镇', '/images/teams/wuhan.png', '中国', '武汉', 2020, '2022赛季中超冠军');
 
 INSERT INTO `match` (`title`, `home_team_id`, `away_team_id`, `stadium_id`, `match_date`, `match_type`, `league`, `season`, `description`, `status`) VALUES
-('北京国安 VS 上海申花', 1, 2, 1, '2025-03-15 19:35:00', '联赛', '中超', '2025', '强强对话，京沪大战', 'UPCOMING'),
-('广州队 VS 山东泰山', 3, 4, 3, '2025-03-16 15:30:00', '联赛', '中超', '2025', '南北对决', 'UPCOMING'),
-('上海海港 VS 成都蓉城', 5, 6, 2, '2025-03-20 19:35:00', '联赛', '中超', '2025', '争夺积分榜前列', 'UPCOMING'),
-('深圳队 VS 武汉三镇', 7, 8, 4, '2025-03-22 19:35:00', '联赛', '中超', '2025', '卫冕冠军客场之旅', 'UPCOMING'),
-('北京国安 VS 广州队', 1, 3, 1, '2025-04-05 19:35:00', '联赛', '中超', '2025', '传统豪门对决', 'UPCOMING'),
-('上海申花 VS 山东泰山', 2, 4, 2, '2025-04-08 19:35:00', '联赛', '中超', '2025', '争夺前四席位', 'UPCOMING');
+('北京国安 VS 上海申花', 1, 2, 1, '2026-05-15 19:35:00', '联赛', '中超', '2026', '强强对话，京沪大战', 'UPCOMING'),
+('广州队 VS 山东泰山', 3, 4, 3, '2026-05-16 15:30:00', '联赛', '中超', '2026', '南北对决', 'UPCOMING'),
+('上海海港 VS 成都蓉城', 5, 6, 2, '2026-05-20 19:35:00', '联赛', '中超', '2026', '争夺积分榜前列', 'UPCOMING'),
+('深圳队 VS 武汉三镇', 7, 8, 4, '2026-05-22 19:35:00', '联赛', '中超', '2026', '卫冕冠军客场之旅', 'UPCOMING'),
+('北京国安 VS 广州队', 1, 3, 1, '2026-06-05 19:35:00', '联赛', '中超', '2026', '传统豪门对决', 'UPCOMING'),
+('上海申花 VS 山东泰山', 2, 4, 2, '2026-06-08 19:35:00', '联赛', '中超', '2026', '争夺前四席位', 'UPCOMING');
 
 INSERT INTO `seat_category` (`stadium_id`, `name`, `description`, `total_seats`, `row_count`, `column_count`) VALUES
 (1, 'VIP座位', '最佳观赛位置，含餐饮服务', 500, 5, 100),
@@ -80,4 +78,24 @@ INSERT INTO `seat` (`category_id`, `row_number`, `seat_number`, `status`) VALUES
 (2, '1', '2', 'AVAILABLE'),
 (2, '1', '3', 'AVAILABLE'),
 (2, '2', '1', 'AVAILABLE'),
-(2, '2', '2', 'AVAILABLE');
+(2, '2', '2', 'AVAILABLE'),
+(3, '1', '1', 'AVAILABLE'),
+(3, '1', '2', 'AVAILABLE'),
+(4, '1', '1', 'AVAILABLE'),
+(4, '1', '2', 'AVAILABLE'),
+(5, 'A', '1', 'AVAILABLE'),
+(5, 'A', '2', 'AVAILABLE'),
+(6, '1', '1', 'AVAILABLE'),
+(6, '1', '2', 'AVAILABLE'),
+(7, '1', '1', 'AVAILABLE'),
+(7, '1', '2', 'AVAILABLE'),
+(8, '1', '1', 'AVAILABLE'),
+(8, '1', '2', 'AVAILABLE'),
+(9, 'A', '1', 'AVAILABLE'),
+(9, 'A', '2', 'AVAILABLE'),
+(10, '1', '1', 'AVAILABLE'),
+(10, '1', '2', 'AVAILABLE'),
+(11, '1', '1', 'AVAILABLE'),
+(11, '1', '2', 'AVAILABLE'),
+(12, '1', '1', 'AVAILABLE'),
+(12, '1', '2', 'AVAILABLE');

@@ -1,9 +1,11 @@
 package com.xiaou.seniorhealth.controller;
 
 import com.xiaou.seniorhealth.common.ApiResponse;
+import com.xiaou.seniorhealth.domain.Elder;
 import com.xiaou.seniorhealth.domain.Appointment;
 import com.xiaou.seniorhealth.dto.AppointmentCreateDTO;
 import com.xiaou.seniorhealth.repository.AppointmentRepository;
+import com.xiaou.seniorhealth.security.CurrentUserSupport;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,9 +18,13 @@ import java.util.List;
 @RequestMapping("/api/appointments")
 public class AppointmentController {
     private final AppointmentRepository appointmentRepository;
-    public AppointmentController(AppointmentRepository appointmentRepository) {
+    private final CurrentUserSupport currentUserSupport;
+
+    public AppointmentController(AppointmentRepository appointmentRepository, CurrentUserSupport currentUserSupport) {
         this.appointmentRepository = appointmentRepository;
+        this.currentUserSupport = currentUserSupport;
     }
+
     @PreAuthorize("hasAnyRole('ADMIN','DOCTOR')")
     @PostMapping
     public ApiResponse<Appointment> create(@Valid @RequestBody AppointmentCreateDTO dto) {
@@ -29,6 +35,18 @@ public class AppointmentController {
         Appointment saved = appointmentRepository.save(a);
         return ApiResponse.ok(saved);
     }
+
+    @PreAuthorize("hasRole('ELDER')")
+    @GetMapping("/me")
+    public ApiResponse<List<Appointment>> myAppointments() {
+        Elder elder = currentUserSupport.getCurrentElderProfile();
+        if (elder == null) {
+            return ApiResponse.fail("elder profile not found");
+        }
+        return ApiResponse.ok(appointmentRepository.findByElder(elder.getId()));
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','DOCTOR')")
     @GetMapping("/elder/{elderId}")
     public ApiResponse<List<Appointment>> byElder(@PathVariable Long elderId) {
         return ApiResponse.ok(appointmentRepository.findByElder(elderId));

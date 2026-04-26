@@ -1,0 +1,24 @@
+server:
+  port: 8032
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/senior_health?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=utf8
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+  data:
+    jdbc:
+      repositories:
+        enabled: true
+    redis:
+      repositories:
+        enabled: false
+  redis:
+    host: 127.0.0.1
+    port: 6379
+app:
+  jwt:
+    secret: senior-health-management-jwt-secret-key-2026

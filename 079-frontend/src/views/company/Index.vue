@@ -60,7 +60,7 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
-import { getCompanyList, addCompany, updateCompany, deleteCompany, verifyCompany } from '../../api'
+import { getCompanyList, addCompany, updateCompany, deleteCompany } from '../../api'
 import { useUserStore } from '../../store/user'
 
 const userStore = useUserStore()

@@ -83,6 +83,16 @@
         loadUser();
         loadUnreadCount();
 
+        function normalizeDateTime(value) {
+            if (!value) {
+                return value;
+            }
+            if (value.length === 16) {
+                return value.replace('T', ' ') + ':00';
+            }
+            return value.replace('T', ' ');
+        }
+
         $.get('/api/category/list', function(res) {
             if (res.code === 200) {
                 res.data.forEach(cat => {
@@ -97,7 +107,7 @@
                 title: $('#title').val(),
                 categoryId: $('#categoryId').val(),
                 description: $('#description').val(),
-                lostTime: $('#lostTime').val(),
+                lostTime: normalizeDateTime($('#lostTime').val()),
                 lostLocation: $('#lostLocation').val(),
                 contactName: $('#contactName').val(),
                 contactPhone: $('#contactPhone').val()

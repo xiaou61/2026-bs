@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hospital.mapper.DoctorInfoMapper">
+
+    <sql id="doctorColumns">
+        d.id, d.user_id, d.department_id, d.doctor_name, d.title, d.gender, d.specialty, d.introduction, d.avatar,
+        d.consultation_fee, d.status, d.visit_count, d.create_time, d.update_time,
+        dp.name as department_name, u.username, u.phone, u.email, u.nickname
+    </sql>
+
+    <select id="selectPage" resultType="DoctorInfo">
+        select <include refid="doctorColumns"/>
+        from doctor_info d
+        left join sys_user u on d.user_id = u.id
+        left join department_info dp on d.department_id = dp.id
+        <where>
+            <if test="departmentId != null">
+                and d.department_id = #{departmentId}
+            </if>
+            <if test="status != null">
+                and d.status = #{status}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                and (d.doctor_name like concat('%', #{keyword}, '%')
+                or d.title like concat('%', #{keyword}, '%')
+                or d.specialty like concat('%', #{keyword}, '%'))
+            </if>
+        </where>
+        order by d.id desc
+    </select>
+
+    <select id="selectPublicList" resultType="DoctorInfo">
+        select <include refid="doctorColumns"/>
+        from doctor_info d
+        left join sys_user u on d.user_id = u.id
+        left join department_info dp on d.department_id = dp.id
+        where d.status = 1
+        <if test="departmentId != null">
+            and d.department_id = #{departmentId}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            and (d.doctor_name like concat('%', #{keyword}, '%')
+            or d.specialty like concat('%', #{keyword}, '%')
+            or dp.name like concat('%', #{keyword}, '%'))
+        </if>
+        order by d.visit_count desc, d.id desc
+    </select>
+
+    <select id="selectEnabled" resultType="DoctorInfo">
+        select <include refid="doctorColumns"/>
+        from doctor_info d
+        left join sys_user u on d.user_id = u.id
+        left join department_info dp on d.department_id = dp.id
+        where d.status = 1
+        order by d.id desc
+    </select>
+
+    <select id="selectById" resultType="DoctorInfo">
+        select <include refid="doctorColumns"/>
+        from doctor_info d
+        left join sys_user u on d.user_id = u.id
+        left join department_info dp on d.department_id = dp.id
+        where d.id = #{id}
+    </select>
+
+    <select id="selectByUserId" resultType="DoctorInfo">
+        select <include refid="doctorColumns"/>
+        from doctor_info d
+        left join sys_user u on d.user_id = u.id
+        left join department_info dp on d.department_id = dp.id
+        where d.user_id = #{userId}
+        limit 1
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into doctor_info(user_id, department_id, doctor_name, title, gender, specialty, introduction, avatar, consultation_fee, status, visit_count, create_time, update_time)
+        values (#{userId}, #{departmentId}, #{doctorName}, #{title}, #{gender}, #{specialty}, #{introduction}, #{avatar}, #{consultationFee}, #{status}, #{visitCount}, #{createTime}, #{updateTime})
+    </insert>
+
+    <update id="update">
+        update doctor_info
+        <set>
+            <if test="departmentId != null">department_id = #{departmentId},</if>
+            <if test="doctorName != null">doctor_name = #{doctorName},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="specialty != null">specialty = #{specialty},</if>
+            <if test="introduction != null">introduction = #{introduction},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="consultationFee != null">consultation_fee = #{consultationFee},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="visitCount != null">visit_count = #{visitCount},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from doctor_info where id = #{id}
+    </delete>
+
+    <select id="countAll" resultType="long">
+        select count(*) from doctor_info
+    </select>
+
+    <select id="selectHotDoctorRank" resultType="map">
+        select d.doctor_name as name,
+               dp.name as departmentName,
+               count(a.id) as appointmentCount
+        from doctor_info d
+                 left join department_info dp on d.department_id = dp.id
+                 left join appointment_record a on d.id = a.doctor_id and a.status in (1, 3)
+        where d.status = 1
+        group by d.id, d.doctor_name, dp.name
+        order by appointmentCount desc, d.id desc
+        limit 8
+    </select>
+
+</mapper>

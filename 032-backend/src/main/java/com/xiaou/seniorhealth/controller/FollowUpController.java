@@ -1,9 +1,11 @@
 package com.xiaou.seniorhealth.controller;
 
 import com.xiaou.seniorhealth.common.ApiResponse;
+import com.xiaou.seniorhealth.domain.Elder;
 import com.xiaou.seniorhealth.domain.FollowUp;
 import com.xiaou.seniorhealth.dto.FollowUpCreateDTO;
 import com.xiaou.seniorhealth.repository.FollowUpRepository;
+import com.xiaou.seniorhealth.security.CurrentUserSupport;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,9 +19,13 @@ import java.util.List;
 @RequestMapping("/api/followups")
 public class FollowUpController {
     private final FollowUpRepository followUpRepository;
-    public FollowUpController(FollowUpRepository followUpRepository) {
+    private final CurrentUserSupport currentUserSupport;
+
+    public FollowUpController(FollowUpRepository followUpRepository, CurrentUserSupport currentUserSupport) {
         this.followUpRepository = followUpRepository;
+        this.currentUserSupport = currentUserSupport;
     }
+
     @PreAuthorize("hasAnyRole('ADMIN','DOCTOR')")
     @PostMapping
     public ApiResponse<FollowUp> create(@Valid @RequestBody FollowUpCreateDTO dto) {
@@ -29,6 +35,18 @@ public class FollowUpController {
         f.setCreatedAt(LocalDateTime.now());
         return ApiResponse.ok(followUpRepository.save(f));
     }
+
+    @PreAuthorize("hasRole('ELDER')")
+    @GetMapping("/me")
+    public ApiResponse<List<FollowUp>> myFollowUps() {
+        Elder elder = currentUserSupport.getCurrentElderProfile();
+        if (elder == null) {
+            return ApiResponse.fail("elder profile not found");
+        }
+        return ApiResponse.ok(followUpRepository.findByElder(elder.getId()));
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','DOCTOR')")
     @GetMapping("/elder/{elderId}")
     public ApiResponse<List<FollowUp>> byElder(@PathVariable Long elderId) {
         return ApiResponse.ok(followUpRepository.findByElder(elderId));

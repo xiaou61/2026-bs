@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -27,7 +28,13 @@ public class AuthController {
     }
     @PostMapping("/register")
     public ApiResponse<AuthResponse> register(@Valid @RequestBody RegisterDTO dto) {
+        if (userRepository.findByUsername(dto.getUsername()).isPresent()) {
+            return ApiResponse.fail("username already exists");
+        }
         String role = dto.getRole() == null || dto.getRole().isBlank() ? "ELDER" : dto.getRole().toUpperCase();
+        if (!Set.of("ELDER", "DOCTOR").contains(role)) {
+            return ApiResponse.fail("role not allowed");
+        }
         SysUser u = new SysUser();
         u.setUsername(dto.getUsername());
         u.setPassword(passwordEncoder.encode(dto.getPassword()));

@@ -27,6 +27,20 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public Result<String> handleException(Exception e) {
         log.error("Unexpected exception", e);
-        return Result.error("System error: " + e.getMessage());
+        return Result.error("System error: " + resolveMessage(e));
+    }
+
+    private String resolveMessage(Throwable throwable) {
+        Throwable current = throwable;
+        while (current.getCause() != null && current.getCause() != current) {
+            current = current.getCause();
+        }
+        if (current.getMessage() != null && !current.getMessage().isBlank()) {
+            return current.getMessage();
+        }
+        if (throwable.getMessage() != null && !throwable.getMessage().isBlank()) {
+            return throwable.getMessage();
+        }
+        return throwable.getClass().getSimpleName();
     }
 }

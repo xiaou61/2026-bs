@@ -19,6 +19,10 @@ public class Match {
     private String status;
     private Integer homeScore;
     private Integer awayScore;
+    private String homeTeamName;
+    private String awayTeamName;
+    private String stadiumName;
+    private String stadiumLocation;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

@@ -1,6 +1,6 @@
 <template>
   <el-space direction="vertical" fill>
-    <el-form inline :model="f">
+    <el-form v-if="!isElder" inline :model="f">
       <el-form-item><el-input v-model.number="f.elderId" placeholder="老人ID" /></el-form-item>
       <el-form-item><el-input v-model.number="f.doctorUserId" placeholder="医生用户ID" /></el-form-item>
       <el-form-item><el-date-picker v-model="f.startTime" type="datetime" value-format="YYYY-MM-DD HH:mm:ss" placeholder="开始时间" /></el-form-item>
@@ -9,6 +9,7 @@
       <el-button @click="loadElder">查询老人</el-button>
       <el-button @click="loadDoctor">医生日程</el-button>
     </el-form>
+    <el-button v-else @click="loadMy">刷新我的预约</el-button>
     <el-table :data="list">
       <el-table-column prop="id" label="ID" width="80" />
       <el-table-column prop="elderId" label="老人ID" />
@@ -19,12 +20,43 @@
   </el-space>
 </template>
 <script setup>
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import api from '../../api'
+
+const currentUser = JSON.parse(localStorage.getItem('user') || '{}')
+const isElder = currentUser.role === 'ELDER'
 const f = reactive({ elderId:null, doctorUserId:null, startTime:'', reason:'' })
 const list = ref([])
-const create = async()=>{ const { data } = await api.post('/api/appointments', f); if(data.code!==0){ ElMessage.error(data.message); return } ElMessage.success('ok') }
-const loadElder = async()=>{ const { data } = await api.get('/api/appointments/elder/'+f.elderId); if(data.code===0) list.value = data.data }
-const loadDoctor = async()=>{ const { data } = await api.get('/api/appointments/doctor/'+f.doctorUserId+'/upcoming'); if(data.code===0) list.value = data.data }
+
+const create = async () => {
+  const { data } = await api.post('/api/appointments', f)
+  if (data.code !== 0) {
+    ElMessage.error(data.message)
+    return
+  }
+  ElMessage.success('创建成功')
+  loadElder()
+}
+
+const loadElder = async () => {
+  const { data } = await api.get(`/api/appointments/elder/${f.elderId}`)
+  if (data.code === 0) list.value = data.data
+}
+
+const loadDoctor = async () => {
+  const { data } = await api.get(`/api/appointments/doctor/${f.doctorUserId}/upcoming`)
+  if (data.code === 0) list.value = data.data
+}
+
+const loadMy = async () => {
+  const { data } = await api.get('/api/appointments/me')
+  if (data.code === 0) list.value = data.data
+}
+
+onMounted(() => {
+  if (isElder) {
+    loadMy()
+  }
+})
 </script>

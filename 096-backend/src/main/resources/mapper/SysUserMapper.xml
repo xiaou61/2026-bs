@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hospital.mapper.SysUserMapper">
+
+    <select id="selectByUsername" resultType="SysUser">
+        select * from sys_user where username = #{username} limit 1
+    </select>
+
+    <select id="selectById" resultType="SysUser">
+        select * from sys_user where id = #{id}
+    </select>
+
+    <select id="selectPage" resultType="SysUser">
+        select * from sys_user
+        <where>
+            <if test="role != null and role != ''">
+                and role = #{role}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                and (username like concat('%', #{keyword}, '%')
+                or nickname like concat('%', #{keyword}, '%')
+                or phone like concat('%', #{keyword}, '%'))
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_user(username, password, nickname, avatar, phone, email, gender, age, role, status, balance, create_time, update_time)
+        values (#{username}, #{password}, #{nickname}, #{avatar}, #{phone}, #{email}, #{gender}, #{age}, #{role}, #{status}, #{balance}, #{createTime}, #{updateTime})
+    </insert>
+
+    <update id="update">
+        update sys_user
+        <set>
+            <if test="username != null">username = #{username},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="nickname != null">nickname = #{nickname},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="role != null">role = #{role},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="balance != null">balance = #{balance},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="updateStatus">
+        update sys_user set status = #{status}, update_time = now() where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from sys_user where id = #{id}
+    </delete>
+
+    <select id="countAll" resultType="long">
+        select count(*) from sys_user
+    </select>
+
+    <select id="countByRole" resultType="long">
+        select count(*) from sys_user where role = #{role}
+    </select>
+
+</mapper>

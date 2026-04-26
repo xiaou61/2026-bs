@@ -2,16 +2,24 @@ spring:
   application:
     name: wedding-photo-studio
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/wedding_photo_studio?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
-    username: root
-    password: root
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:wedding_photo_studio;MODE=MySQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;NON_KEYWORDS=USER,ORDER,PACKAGE
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
   data:
     redis:
-      host: localhost
-      port: 6379
-      database: 0
-      timeout: 3000ms
+      repositories:
+        enabled: false
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
+      schema-locations: classpath:schema-h2.sql
+      data-locations: classpath:data-h2.sql
   servlet:
     multipart:
       max-file-size: 10MB

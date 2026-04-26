@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hospital.mapper.MedicalCardMapper">
+
+    <select id="selectByUserId" resultType="MedicalCard">
+        select * from medical_card where user_id = #{userId} order by is_default desc, id desc
+    </select>
+
+    <select id="selectById" resultType="MedicalCard">
+        select * from medical_card where id = #{id}
+    </select>
+
+    <select id="selectDefaultByUserId" resultType="MedicalCard">
+        select * from medical_card where user_id = #{userId} and is_default = 1 limit 1
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into medical_card(user_id, card_no, patient_name, phone, id_card, is_default, status, create_time)
+        values (#{userId}, #{cardNo}, #{patientName}, #{phone}, #{idCard}, #{isDefault}, #{status}, #{createTime})
+    </insert>
+
+    <update id="update">
+        update medical_card
+        set patient_name = #{patientName},
+            phone = #{phone},
+            id_card = #{idCard},
+            is_default = #{isDefault},
+            status = #{status}
+        where id = #{id}
+    </update>
+
+    <update id="clearDefault">
+        update medical_card set is_default = 0 where user_id = #{userId}
+    </update>
+
+    <delete id="deleteById">
+        delete from medical_card where id = #{id} and user_id = #{userId}
+    </delete>
+
+    <select id="countByUserId" resultType="long">
+        select count(*) from medical_card where user_id = #{userId}
+    </select>
+
+</mapper>

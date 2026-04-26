@@ -4,6 +4,7 @@ import com.xiaou.seniorhealth.common.ApiResponse;
 import com.xiaou.seniorhealth.domain.Elder;
 import com.xiaou.seniorhealth.dto.ElderCreateDTO;
 import com.xiaou.seniorhealth.repository.ElderRepository;
+import com.xiaou.seniorhealth.security.CurrentUserSupport;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,9 +18,13 @@ import java.util.List;
 @RequestMapping("/api/elders")
 public class ElderController {
     private final ElderRepository elderRepository;
-    public ElderController(ElderRepository elderRepository) {
+    private final CurrentUserSupport currentUserSupport;
+
+    public ElderController(ElderRepository elderRepository, CurrentUserSupport currentUserSupport) {
         this.elderRepository = elderRepository;
+        this.currentUserSupport = currentUserSupport;
     }
+
     @PreAuthorize("hasAnyRole('ADMIN','DOCTOR')")
     @PostMapping
     public ApiResponse<Elder> create(@Valid @RequestBody ElderCreateDTO dto) {
@@ -29,11 +34,25 @@ public class ElderController {
         Elder saved = elderRepository.save(elder);
         return ApiResponse.ok(saved);
     }
+
+    @PreAuthorize("hasRole('ELDER')")
+    @GetMapping("/me")
+    public ApiResponse<Elder> myProfile() {
+        Elder elder = currentUserSupport.getCurrentElderProfile();
+        if (elder == null) {
+            return ApiResponse.fail("elder profile not found");
+        }
+        return ApiResponse.ok(elder);
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','DOCTOR')")
     @GetMapping("/{id}")
     public ApiResponse<Elder> detail(@PathVariable Long id) {
         Elder e = elderRepository.findById(id).orElse(null);
         return ApiResponse.ok(e);
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN','DOCTOR')")
     @GetMapping
     public ApiResponse<List<Elder>> list() {
         Iterable<Elder> all = elderRepository.findAll();

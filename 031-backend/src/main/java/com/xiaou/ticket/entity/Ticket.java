@@ -16,5 +16,8 @@ public class Ticket {
     private String status;
     private String qrCode;
     private LocalDateTime checkInTime;
+    private String seatLabel;
+    private String categoryName;
+    private String matchTitle;
     private LocalDateTime createdAt;
 }

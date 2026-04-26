@@ -9,4 +9,5 @@ import java.util.List;
 public interface HealthKnowledgeRepository extends JpaRepository<HealthKnowledge, Long> {
     List<HealthKnowledge> findByStatusOrderByCreateTimeDesc(Integer status);
     List<HealthKnowledge> findByCategoryAndStatus(String category, Integer status);
+    long countByStatus(Integer status);
 }
