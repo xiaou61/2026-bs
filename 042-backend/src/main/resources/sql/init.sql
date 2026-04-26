@@ -186,15 +186,15 @@ CREATE TABLE IF NOT EXISTS `message` (
 -- 插入测试数据
 -- 管理员账号 admin/admin123
 INSERT INTO `user` (`username`, `password`, `role`, `real_name`, `phone`, `status`) VALUES 
-('admin', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5EH', 'admin', '系统管理员', '13800000000', 1);
+('admin', '$2a$10$AAuAMGyD3nVJzWIlC7Aso.GEHonXi7ZOTaujKqH6gAzbhSbE9gqgq', 'admin', '系统管理员', '13800000000', 1);
 
 -- 房东账号 landlord/123456
 INSERT INTO `user` (`username`, `password`, `role`, `real_name`, `phone`, `status`) VALUES 
-('landlord', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5EH', 'landlord', '张三', '13800000001', 1);
+('landlord', '$2a$10$lNftYRX2w3jKykJHUn.gRu3NYx1QCJ7WvjA0yFOyUgUIgSutOPVAC', 'landlord', '张三', '13800000001', 1);
 
 -- 租客账号 tenant/123456
 INSERT INTO `user` (`username`, `password`, `role`, `real_name`, `phone`, `balance`, `status`) VALUES 
-('tenant', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5EH', 'tenant', '李四', '13800000002', 10000.00, 1);
+('tenant', '$2a$10$lNftYRX2w3jKykJHUn.gRu3NYx1QCJ7WvjA0yFOyUgUIgSutOPVAC', 'tenant', '李四', '13800000002', 10000.00, 1);
 
 -- 测试房源数据
 INSERT INTO `house` (`landlord_id`, `title`, `description`, `province`, `city`, `district`, `address`, `price`, `deposit`, `area`, `room_type`, `floor`, `total_floor`, `orientation`, `decoration`, `facilities`, `images`, `status`, `view_count`) VALUES 
