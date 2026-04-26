@@ -8,11 +8,9 @@ USE diet_management;
 -- 1. 初始化用户数据（密码：123456）
 -- ====================================================
 INSERT INTO `users` (`id`, `username`, `password`, `nickname`, `gender`, `age`, `height`, `weight`, `email`, `phone`, `role`) VALUES
-(1, 'admin', '$2a$10$N.Z
-
-MfYR0Y0h/cIWMD7B2uODX7v9rU/DRfYVhLbHGf6E6L.1VvZzk7a', '管理员', 1, 25, 175.00, 70.00, 'admin@diet.com', '13800138000', 'ADMIN'),
-(2, 'user1', '$2a$10$N.ZMfYR0Y0h/cIWMD7B2uODX7v9rU/DRfYVhLbHGf6E6L.1VvZzk7a', '健康达人', 0, 22, 165.00, 55.00, 'user1@test.com', '13800138001', 'USER'),
-(3, 'user2', '$2a$10$N.ZMfYR0Y0h/cIWMD7B2uODX7v9rU/DRfYVhLbHGf6E6L.1VvZzk7a', '减肥小能手', 1, 28, 180.00, 85.00, 'user2@test.com', '13800138002', 'USER');
+(1, 'admin', '$2b$12$jK8zNPbXrkWPvITUUIio4Od0t5y/ZQ2F2owIex/Sa2eScamJF1BBW', '管理员', 1, 25, 175.00, 70.00, 'admin@diet.com', '13800138000', 'ADMIN'),
+(2, 'user1', '$2b$12$jK8zNPbXrkWPvITUUIio4Od0t5y/ZQ2F2owIex/Sa2eScamJF1BBW', '健康达人', 0, 22, 165.00, 55.00, 'user1@test.com', '13800138001', 'USER'),
+(3, 'user2', '$2b$12$jK8zNPbXrkWPvITUUIio4Od0t5y/ZQ2F2owIex/Sa2eScamJF1BBW', '减肥小能手', 1, 28, 180.00, 85.00, 'user2@test.com', '13800138002', 'USER');
 
 -- ====================================================
 -- 2. 初始化食物库数据（常见食物）

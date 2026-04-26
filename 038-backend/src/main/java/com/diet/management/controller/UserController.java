@@ -37,6 +37,9 @@ public class UserController {
     @GetMapping("/{id}")
     public Result<User> getUserInfo(@PathVariable Long id) {
         User user = userService.getById(id);
+        if (user == null) {
+            throw new IllegalArgumentException("用户不存在");
+        }
         user.setPassword(null); // 隐藏密码
         return Result.success(user);
     }

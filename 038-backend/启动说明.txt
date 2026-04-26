@@ -7,14 +7,15 @@
 项目名称：基于SpringBoot的个人饮食管理系统的设计与实现
 后端端口：8038
 前端端口：3038
-数据库：MySQL 8.0 + Redis 6.0+
+数据库：默认 H2 内存库；MySQL 8.0 + Redis 6.0+ 为可选部署模式
 
 二、技术栈
 -----------
 - Spring Boot 3.2.0
 - MyBatis-Plus 3.5.5
-- MySQL 8.0
-- Redis 6.0+
+- H2（默认演示环境）
+- MySQL 8.0（可选，使用 mysql profile）
+- Redis 6.0+（可选扩展）
 - Spring Security + JWT 0.11.5
 - Knife4j 4.3.0（API文档）
 - Druid 1.2.20（数据库连接池）
@@ -24,35 +25,45 @@
 -----------
 1. JDK 17
 2. Maven 3.6+
-3. MySQL 8.0
-4. Redis 6.0+
+3. 默认启动无需提前安装 MySQL / Redis
+4. MySQL 8.0 与 Redis 6.0+（仅 mysql profile 需要）
 5. IDE（推荐IntelliJ IDEA）
 
 四、数据库配置
 -----------
-1. 创建数据库
+1. 默认 H2 演示模式
+   直接执行 mvn spring-boot:run，系统会自动加载：
+   src/main/resources/sql/schema-h2.sql
+   src/main/resources/sql/data-h2.sql
+
+2. MySQL 模式创建数据库
    执行 src/main/resources/sql/schema.sql 创建数据库和表结构
 
-2. 初始化数据
+3. MySQL 模式初始化数据
    执行 src/main/resources/sql/data.sql 插入测试数据
 
-3. 修改配置文件
-   在 src/main/resources/application.yml 中修改数据库连接信息
+4. 修改配置文件
+   在 src/main/resources/application-mysql.yml 中修改数据库连接信息
 
 五、启动步骤
 -----------
-1. 确保MySQL和Redis服务已启动
+1. 默认演示启动
+   mvn spring-boot:run
 
-2. 使用Maven构建项目
+2. MySQL 模式启动前，确保 MySQL 和 Redis 服务已启动
+
+3. 使用Maven构建项目
    mvn clean install
 
-3. 启动Spring Boot应用
+4. 启动Spring Boot应用
    方式1：在IDE中运行 DietManagementApplication.java
    方式2：命令行运行 mvn spring-boot:run
+   方式3：MySQL 模式运行 mvn spring-boot:run -Dspring-boot.run.profiles=mysql
 
-4. 访问接口文档
+5. 访问接口文档
    - Knife4j文档：http://localhost:8038/api/doc.html
-   - Druid监控：http://localhost:8038/api/druid（用户名/密码：admin/admin）
+   - H2控制台：http://localhost:8038/api/h2-console
+   - Druid监控：http://localhost:8038/api/druid（mysql profile 下启用，用户名/密码：admin/admin）
 
 六、核心功能
 -----------
@@ -83,11 +94,11 @@
 
 九、常见问题
 -----------
-Q1: 启动时提示数据库连接失败？
-A1: 检查MySQL服务是否启动，配置文件中的数据库信息是否正确
+Q1: 默认启动时是否必须先安装 MySQL？
+A1: 不需要。默认使用 H2 内存库；只有启用 mysql profile 时才需要 MySQL。
 
 Q2: Redis连接失败？
-A2: 检查Redis服务是否启动，配置信息是否正确
+A2: 默认演示链路未强制依赖 Redis。如启用 mysql profile 或扩展缓存能力，请检查 Redis 服务和配置。
 
 Q3: 营养计算不准确？
 A3: 食物库数据来源于标准营养成分表，可根据实际需求调整

@@ -29,8 +29,8 @@ public class FoodController {
                                      @RequestParam(required = false) String category) {
         Page<Food> page = new Page<>(current, size);
         LambdaQueryWrapper<Food> wrapper = new LambdaQueryWrapper<>();
-        wrapper.like(name != null, Food::getName, name)
-               .eq(category != null, Food::getCategory, category)
+        wrapper.like(name != null && !name.isBlank(), Food::getName, name)
+               .eq(category != null && !category.isBlank(), Food::getCategory, category)
                .orderByDesc(Food::getCreateTime);
         return Result.success(foodMapper.selectPage(page, wrapper));
     }
@@ -45,6 +45,10 @@ public class FoodController {
     @Operation(summary = "获取食物详情")
     @GetMapping("/{id}")
     public Result<Food> getById(@PathVariable Long id) {
-        return Result.success(foodMapper.selectById(id));
+        Food food = foodMapper.selectById(id);
+        if (food == null) {
+            throw new IllegalArgumentException("食物不存在");
+        }
+        return Result.success(food);
     }
 }

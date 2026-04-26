@@ -6,13 +6,21 @@ import com.diet.management.entity.User;
 import com.diet.management.enums.Enums;
 import com.diet.management.mapper.UserMapper;
 import com.diet.management.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 /**
  * 用户服务实现
  */
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+
+    private final PasswordEncoder passwordEncoder;
     
     @Override
     public User getUserByUsername(String username) {
@@ -27,15 +35,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         
         // 设置默认值
+        if (user.getPassword() == null || user.getPassword().isBlank()) {
+            throw new IllegalArgumentException("密码不能为空");
+        }
         if (user.getRole() == null) {
             user.setRole(Enums.UserRole.USER);
         }
         if (user.getStatus() == null) {
             user.setStatus(1);
         }
-        
-        // TODO: 密码加密
-        // user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         
         return save(user);
     }
@@ -44,16 +54,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public String login(String username, String password) {
         User user = getUserByUsername(username);
         if (user == null) {
-            throw new RuntimeException("用户不存在");
+            throw new IllegalArgumentException("用户不存在");
         }
-        
-        // TODO: 密码验证和JWT生成
-        // if (!passwordEncoder.matches(password, user.getPassword())) {
-        //     throw new RuntimeException("密码错误");
-        // }
-        // return jwtUtil.generateToken(user.getId(), user.getUsername());
-        
-        return "token_placeholder";
+        if (user.getStatus() != null && user.getStatus() == 0) {
+            throw new IllegalArgumentException("账号已禁用");
+        }
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new IllegalArgumentException("密码错误");
+        }
+
+        String payload = user.getId() + ":" + user.getUsername() + ":" + user.getRole().getCode();
+        return Base64.getUrlEncoder().withoutPadding()
+                .encodeToString(payload.getBytes(StandardCharsets.UTF_8));
     }
     
     @Override

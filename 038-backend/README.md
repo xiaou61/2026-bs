@@ -6,8 +6,9 @@
 ## 技术栈
 - Spring Boot 3.2.0
 - MyBatis-Plus 3.5.5
-- MySQL 8.0
-- Redis 6.0+
+- H2（默认演示环境）
+- MySQL 8.0（可选，使用 `mysql` profile）
+- Redis 6.0+（可选扩展）
 - Spring Security + JWT 0.11.5
 - Knife4j 4.3.0
 
@@ -16,29 +17,40 @@
 ### 1. 环境要求
 - JDK 17
 - Maven 3.6+
-- MySQL 8.0
-- Redis 6.0+
+- 默认启动无需提前安装 MySQL / Redis
+- 如需生产式部署，可准备 MySQL 8.0 与 Redis 6.0+
 
-### 2. 数据库初始化
+### 2. 默认 H2 演示启动
+```bash
+mvn spring-boot:run
+```
+
+默认会自动加载：
+- `src/main/resources/sql/schema-h2.sql`
+- `src/main/resources/sql/data-h2.sql`
+
+H2 控制台地址：`http://localhost:8038/api/h2-console`
+
+### 3. MySQL 数据库初始化
 ```sql
 -- 执行以下SQL文件
 src/main/resources/sql/schema.sql
 src/main/resources/sql/data.sql
 ```
 
-### 3. 配置修改
-修改 `application.yml` 中的数据库和Redis连接信息
+### 4. MySQL 配置修改
+修改 `application-mysql.yml` 中的数据库和 Redis 连接信息
 
-### 4. 启动项目
+### 5. MySQL 模式启动项目
 ```bash
-mvn clean install
-mvn spring-boot:run
+mvn spring-boot:run -Dspring-boot.run.profiles=mysql
 ```
 
-### 5. 访问地址
+### 6. 访问地址
 - 后端API: http://localhost:8038/api
 - 接口文档: http://localhost:8038/api/doc.html
-- Druid监控: http://localhost:8038/api/druid
+- H2控制台: http://localhost:8038/api/h2-console
+- Druid监控: MySQL profile 下访问 http://localhost:8038/api/druid
 
 ## 项目结构
 ```
