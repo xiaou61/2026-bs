@@ -30,10 +30,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Long userId = jwtUtils.getUserId(token);
             Integer role = jwtUtils.getRole(token);
             String roleStr = switch (role) {
-                case 2 -> "ROLE_ADMIN";
-                case 1 -> "ROLE_NURSE";
-                default -> "ROLE_FAMILY";
+                case 3 -> "ROLE_ADMIN";
+                case 2 -> "ROLE_RESEARCHER";
+                case 1 -> "ROLE_GUIDE";
+                default -> "ROLE_USER";
             };
+            request.setAttribute("userId", userId);
+            request.setAttribute("role", role);
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                     userId, null, Collections.singletonList(new SimpleGrantedAuthority(roleStr)));
             SecurityContextHolder.getContext().setAuthentication(authentication);
