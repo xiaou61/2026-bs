@@ -1,0 +1,82 @@
+047 剧本杀创作与预约平台启动说明
+
+一、环境要求
+
+1. JDK 17 或以上
+2. Maven 3.8 或以上
+3. Node.js 18 或以上
+4. npm 9 或以上
+
+二、默认后端启动方式
+
+默认使用 H2 内存数据库，不需要提前安装 MySQL 或 Redis。
+
+命令：
+
+cd 047-backend
+mvn spring-boot:run
+
+启动后访问：
+
+1. 后端接口地址：http://localhost:8047
+2. 接口文档地址：http://localhost:8047/doc.html
+3. H2 控制台：http://localhost:8047/h2-console
+
+H2 控制台连接信息：
+
+1. JDBC URL：jdbc:h2:mem:script_kill
+2. 用户名：sa
+3. 密码：留空
+
+三、前端启动方式
+
+命令：
+
+cd 047-frontend
+npm install
+npm run dev
+
+启动后访问：
+
+http://localhost:3047
+
+前端已配置 Vite 代理：
+
+/api -> http://localhost:8047
+
+四、默认账号
+
+1. 管理员：admin / 123456
+2. 店家：shop1 / 123456
+3. 作者：author1 / 123456
+4. 玩家：user1 / 123456
+
+五、验证命令
+
+后端测试：
+
+cd 047-backend
+mvn test
+
+前端构建：
+
+cd 047-frontend
+npm run build
+
+六、MySQL 模式
+
+如果需要连接 MySQL：
+
+1. 创建数据库 script_kill
+2. 导入 047-backend/sql/init.sql
+3. 修改 047-backend/src/main/resources/application-mysql.yml 中的数据库账号密码
+4. 执行：
+
+cd 047-backend
+mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+
+七、注意事项
+
+1. 默认 H2 数据为内存数据，服务停止后会重置。
+2. 如果 mvn 输出 rdc profile warning，这是本机 Maven 外部配置导致，不影响项目启动。
+3. 不要提交 target、dist、node_modules、.tmp 等生成目录。
