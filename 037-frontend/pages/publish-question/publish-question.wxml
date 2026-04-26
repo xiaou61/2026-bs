@@ -1,0 +1,8 @@
+<view class="container">
+  <view class="card">
+    <text class="title">发布问题</text>
+    <input placeholder="问题标题" value="{{title}}" />
+    <textarea placeholder="问题描述" value="{{content}}" />
+    <view class="btn-primary mt-20" bindtap="submit">提交</view>
+  </view>
+</view>

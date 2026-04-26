@@ -70,6 +70,13 @@
             <version>${mysql.version}</version>
         </dependency>
 
+        <!-- H2 Driver: default demo/test runtime -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- Druid 数据库连接池 -->
         <dependency>
             <groupId>com.alibaba</groupId>

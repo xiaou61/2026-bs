@@ -1,0 +1,12 @@
+<view class="container">
+  <view class="card" wx:if="{{userInfo}}">
+    <text class="title">{{userInfo.nickname}}</text>
+    <text class="subtitle">角色：{{userInfo.role}} · 积分：{{userInfo.score}} · Lv{{userInfo.level}}</text>
+    <view class="btn-secondary mt-20" bindtap="logout">退出登录</view>
+  </view>
+  <view class="card" wx:else>
+    <text class="title">还未登录</text>
+    <text class="subtitle">登录后可查看学习积分和等级。</text>
+    <view class="btn-primary mt-20" bindtap="goLogin">去登录</view>
+  </view>
+</view>

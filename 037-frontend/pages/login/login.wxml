@@ -2,7 +2,7 @@
 <view class="login-container">
   <!-- 顶部Logo -->
   <view class="logo-section">
-    <image class="logo" src="/images/logo.png" mode="aspectFit"></image>
+    <view class="logo-badge">码</view>
     <text class="app-name">编程学习交流平台</text>
     <text class="slogan">让学习编程变得更简单</text>
   </view>
@@ -10,7 +10,7 @@
   <!-- 登录按钮区域 -->
   <view class="login-section">
     <button class="login-btn" type="primary" bindtap="handleWxLogin">
-      <image class="wx-icon" src="/images/wechat.png"></image>
+      <text class="wx-icon">微</text>
       微信一键登录
     </button>
     

@@ -15,10 +15,18 @@
   margin-bottom: 120rpx;
 }
 
-.logo {
+.logo-badge {
   width: 160rpx;
   height: 160rpx;
+  line-height: 160rpx;
   margin-bottom: 40rpx;
+  border-radius: 48rpx;
+  background: rgba(255, 255, 255, 0.18);
+  color: #FFFFFF;
+  font-size: 60rpx;
+  font-weight: 700;
+  text-align: center;
+  box-shadow: inset 0 0 0 2rpx rgba(255, 255, 255, 0.35);
 }
 
 .app-name {
@@ -57,7 +65,13 @@
 .wx-icon {
   width: 40rpx;
   height: 40rpx;
+  line-height: 40rpx;
   margin-right: 16rpx;
+  border-radius: 50%;
+  background: #07C160;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 22rpx;
 }
 
 .agreement {

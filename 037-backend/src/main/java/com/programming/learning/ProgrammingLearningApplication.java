@@ -23,7 +23,7 @@ public class ProgrammingLearningApplication {
         System.out.println("编程学习交流平台启动成功！");
         System.out.println("API地址: http://localhost:8037/api");
         System.out.println("API文档: http://localhost:8037/api/doc.html");
-        System.out.println("Druid监控: http://localhost:8037/api/druid");
+        System.out.println("H2控制台: http://localhost:8037/api/h2-console");
         System.out.println("========================================\n");
     }
 }

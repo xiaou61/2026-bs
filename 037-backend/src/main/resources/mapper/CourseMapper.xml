@@ -79,6 +79,10 @@
         SELECT COUNT(*) FROM courses WHERE status = 'PUBLISHED'
     </select>
 
+    <select id="countByCategory" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM courses WHERE category = #{category} AND status = 'PUBLISHED'
+    </select>
+
     <select id="selectByCategory" resultMap="BaseResultMap">
         SELECT <include refid="Base_Column_List"/>
         FROM courses

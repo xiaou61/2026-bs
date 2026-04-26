@@ -1,0 +1,7 @@
+<view class="container">
+  <view class="card">
+    <text class="title">每日学习打卡</text>
+    <text class="subtitle">当前为前端演示打卡，后端打卡接口需后续补齐。</text>
+    <view class="btn-primary mt-20" bindtap="doCheckin">{{checked ? '今日已打卡' : '立即打卡'}}</view>
+  </view>
+</view>

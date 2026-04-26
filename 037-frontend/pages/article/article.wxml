@@ -1,0 +1,7 @@
+<view class="container">
+  <view class="card">
+    <text class="title">{{title}}</text>
+    <text class="subtitle">{{tips}}</text>
+    <view class="btn-primary mt-20" bindtap="publish">发布文章</view>
+  </view>
+</view>

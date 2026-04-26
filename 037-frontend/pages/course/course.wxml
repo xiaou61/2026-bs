@@ -1,0 +1,12 @@
+<view class="container">
+  <view class="section-title">课程中心</view>
+  <view class="card" wx:for="{{courses}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+    <text class="title">{{item.title}}</text>
+    <text class="subtitle">{{item.category}} · {{item.level}} · {{item.duration}} 分钟</text>
+    <text class="desc text-ellipsis-2">{{item.description}}</text>
+  </view>
+  <view wx:if="{{!courses.length}}" class="empty">
+    <view class="empty-icon">∅</view>
+    <text class="empty-text">暂无课程数据</text>
+  </view>
+</view>

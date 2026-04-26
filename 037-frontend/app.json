@@ -32,32 +32,22 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "iconPath": "images/tab/home.png",
-        "selectedIconPath": "images/tab/home-active.png",
         "text": "首页"
       },
       {
         "pagePath": "pages/course/course",
-        "iconPath": "images/tab/course.png",
-        "selectedIconPath": "images/tab/course-active.png",
         "text": "课程"
       },
       {
         "pagePath": "pages/question/question",
-        "iconPath": "images/tab/question.png",
-        "selectedIconPath": "images/tab/question-active.png",
         "text": "问答"
       },
       {
         "pagePath": "pages/article/article",
-        "iconPath": "images/tab/article.png",
-        "selectedIconPath": "images/tab/article-active.png",
         "text": "文章"
       },
       {
         "pagePath": "pages/mine/mine",
-        "iconPath": "images/tab/mine.png",
-        "selectedIconPath": "images/tab/mine-active.png",
         "text": "我的"
       }
     ]

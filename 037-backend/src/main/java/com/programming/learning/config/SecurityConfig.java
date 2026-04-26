@@ -34,17 +34,21 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // 允许访问的路径
                         .requestMatchers(
-                                "/api/auth/**",
-                                "/api/doc.html",
-                                "/api/v3/api-docs/**",
-                                "/api/swagger-ui/**",
-                                "/api/swagger-resources/**",
-                                "/api/webjars/**",
-                                "/api/druid/**"
+                                "/auth/**",
+                                "/courses/**",
+                                "/doc.html",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-resources/**",
+                                "/webjars/**",
+                                "/druid/**",
+                                "/h2-console/**"
                         ).permitAll()
                         // 其他请求需要认证
                         .anyRequest().authenticated()
                 );
+
+        http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
 
         return http.build();
     }

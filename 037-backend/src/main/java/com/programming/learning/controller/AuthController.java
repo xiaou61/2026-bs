@@ -81,7 +81,11 @@ public class AuthController {
      */
     @GetMapping("/userinfo")
     @Operation(summary = "获取用户信息")
-    public Result<User> getUserInfo(@RequestHeader("Authorization") String authorization) {
+    public Result<User> getUserInfo(@RequestHeader(value = "Authorization", required = false) String authorization) {
+        if (authorization == null || !authorization.startsWith("Bearer ")) {
+            return Result.error(401, "未登录");
+        }
+
         // 从Token中获取用户ID
         String token = authorization.replace("Bearer ", "");
         Long userId = jwtUtil.getUserIdFromToken(token);

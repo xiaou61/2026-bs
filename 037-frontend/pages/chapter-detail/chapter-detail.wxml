@@ -1,0 +1,6 @@
+<view class="container">
+  <view class="card">
+    <text class="title">{{title}}</text>
+    <text class="subtitle">{{content}}</text>
+  </view>
+</view>

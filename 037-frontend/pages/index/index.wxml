@@ -1,0 +1,19 @@
+<view class="container">
+  <view class="hero card">
+    <text class="hero-title">编程学习交流平台</text>
+    <text class="hero-subtitle">课程学习、问答交流、文章沉淀，一站式编程成长。</text>
+  </view>
+
+  <view class="section-title">热门课程</view>
+  <block wx:if="{{courses.length}}">
+    <view class="card course-card" wx:for="{{courses}}" wx:key="id" bindtap="goCourse" data-id="{{item.id}}">
+      <text class="title">{{item.title}}</text>
+      <text class="subtitle">{{item.teacherName}} · {{item.category}} · {{item.studentCount}} 人学习</text>
+      <text class="desc text-ellipsis-2">{{item.description}}</text>
+    </view>
+  </block>
+  <view wx:else class="empty">
+    <view class="empty-icon">⌁</view>
+    <text class="empty-text">暂无课程数据，请确认后端已启动</text>
+  </view>
+</view>

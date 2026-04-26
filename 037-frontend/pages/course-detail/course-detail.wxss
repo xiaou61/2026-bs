@@ -1,0 +1,11 @@
+.body {
+  display: block;
+  line-height: 1.8;
+  color: #333333;
+}
+
+.meta {
+  display: block;
+  margin-top: 24rpx;
+  color: #999999;
+}

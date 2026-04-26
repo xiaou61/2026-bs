@@ -1,0 +1,32 @@
+.hero {
+  background: linear-gradient(135deg, #3066FF, #20C997);
+  color: #FFFFFF;
+}
+
+.hero-title {
+  display: block;
+  font-size: 44rpx;
+  font-weight: 700;
+  margin-bottom: 20rpx;
+}
+
+.hero-subtitle {
+  font-size: 28rpx;
+  opacity: 0.9;
+}
+
+.section-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  margin: 24rpx 0;
+}
+
+.course-card {
+  border-left: 8rpx solid #409EFF;
+}
+
+.desc {
+  display: block;
+  margin-top: 12rpx;
+  color: #666666;
+}

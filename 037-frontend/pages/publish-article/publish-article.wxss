@@ -1,0 +1,9 @@
+input,
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 20rpx;
+  padding: 20rpx;
+  background: #F5F7FA;
+  border-radius: 12rpx;
+}

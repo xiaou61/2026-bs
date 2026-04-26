@@ -24,6 +24,8 @@ public interface CourseMapper {
 
     Long countAll();
 
+    Long countByCategory(@Param("category") String category);
+
     List<Course> selectByCategory(@Param("category") String category, @Param("offset") Integer offset, @Param("limit") Integer limit);
 
     List<Course> selectByTeacherId(@Param("teacherId") Long teacherId);

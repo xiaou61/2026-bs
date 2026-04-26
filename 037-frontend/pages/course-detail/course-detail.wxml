@@ -1,0 +1,9 @@
+<view class="container" wx:if="{{course}}">
+  <view class="card">
+    <text class="title">{{course.title}}</text>
+    <text class="subtitle">{{course.teacherName}} · {{course.category}}</text>
+    <view class="divider"></view>
+    <text class="body">{{course.description}}</text>
+    <text class="meta">学习人数：{{course.studentCount}} · 浏览：{{course.viewCount}}</text>
+  </view>
+</view>
