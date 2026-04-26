@@ -1,0 +1,49 @@
+042 房屋租赁管理系统启动说明
+
+一、后端启动
+
+1. 进入后端目录：
+   cd 042-backend
+
+2. 运行测试：
+   mvn test
+
+3. 启动后端：
+   mvn spring-boot:run
+
+4. 默认访问地址：
+   http://localhost:8042
+
+5. H2 控制台：
+   http://localhost:8042/h2-console
+   JDBC URL：jdbc:h2:mem:house_rental
+   用户名：sa
+   密码：留空
+
+二、前端启动
+
+1. 进入前端目录：
+   cd 042-frontend
+
+2. 安装依赖：
+   npm install
+
+3. 启动前端：
+   npm run dev
+
+4. 默认访问地址：
+   http://localhost:3042
+
+三、默认账号
+
+管理员：admin / admin123
+房东：landlord / 123456
+租客：tenant / 123456
+
+四、MySQL 模式
+
+默认演示环境不需要 MySQL。如需连接 MySQL，请先导入：
+042-backend/src/main/resources/sql/init.sql
+
+然后使用：
+mvn spring-boot:run -Dspring-boot.run.profiles=mysql
