@@ -8,6 +8,6 @@ import com.xiaou.entity.Booking;
 public interface BookingService extends IService<Booking> {
     void createBooking(Long userId, BookingDTO dto);
     void cancelBooking(Long userId, Long id);
-    IPage<Booking> pageByUser(Long userId, Integer current, Integer size, Integer status);
+    IPage<Booking> pageByUser(Long userId, Integer current, Integer size, String status);
     Booking detail(Long userId, Long id);
 }

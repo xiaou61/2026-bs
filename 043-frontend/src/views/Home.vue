@@ -73,7 +73,9 @@ onMounted(async () => {
     const bookingRes: any = await getBookingPage({ current: 1, size: 100 })
     const bookings = bookingRes.data?.records || []
     totalBookings.value = bookings.length
-    activeBookings.value = bookings.filter((b: any) => [0, 1, 2].includes(b.status)).length
+    activeBookings.value = bookings.filter((b: any) =>
+      ['PENDING', 'CONFIRMED', 'IN_PROGRESS'].includes(b.status)
+    ).length
   } catch (e) {
     console.error(e)
   }

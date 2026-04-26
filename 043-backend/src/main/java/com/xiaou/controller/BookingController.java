@@ -41,7 +41,7 @@ public class BookingController {
     public Result<IPage<Booking>> page(HttpServletRequest request,
                                        @RequestParam(defaultValue = "1") Integer current,
                                        @RequestParam(defaultValue = "10") Integer size,
-                                       @RequestParam(required = false) Integer status) {
+                                       @RequestParam(required = false) String status) {
         Long userId = (Long) request.getAttribute("userId");
         return Result.success(bookingService.pageByUser(userId, current, size, status));
     }

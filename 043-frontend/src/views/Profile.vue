@@ -8,7 +8,7 @@
         <el-descriptions-item label="用户名">{{ userStore.user.username }}</el-descriptions-item>
         <el-descriptions-item label="昵称">{{ userStore.user.nickname }}</el-descriptions-item>
         <el-descriptions-item label="角色">
-          <el-tag>{{ userStore.user.role === 1 ? '管理员' : '普通用户' }}</el-tag>
+          <el-tag>{{ roleText(userStore.user.role) }}</el-tag>
         </el-descriptions-item>
       </el-descriptions>
       <div style="margin-top: 20px">
@@ -25,6 +25,15 @@ import { ElMessage } from 'element-plus'
 
 const router = useRouter()
 const userStore = useUserStore()
+
+const roleText = (role: string) => {
+  const map: Record<string, string> = {
+    ADMIN: '管理员',
+    PROVIDER: '服务商',
+    USER: '普通用户'
+  }
+  return map[role] || '普通用户'
+}
 
 const handleLogout = () => {
   userStore.logout()

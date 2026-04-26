@@ -98,8 +98,9 @@ const bookingRules = {
 }
 
 const estimatedPrice = computed(() => {
-  if (!selectedService.value || !bookingForm.dateRange?.length) return 0
-  const days = Math.ceil((bookingForm.dateRange[1].getTime() - bookingForm.dateRange[0].getTime()) / (1000 * 60 * 60 * 24)) + 1
+  if (!selectedService.value || bookingForm.dateRange.length < 2) return 0
+  const [startDate, endDate] = bookingForm.dateRange as [Date, Date]
+  const days = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1
   return (days * selectedService.value.price).toFixed(2)
 })
 
@@ -135,14 +136,19 @@ const showBooking = (service: any) => {
 
 const handleBooking = async () => {
   await bookingFormRef.value.validate()
+  if (!provider.value || !selectedService.value || bookingForm.dateRange.length < 2) {
+    ElMessage.warning('请先选择服务和寄养时间')
+    return
+  }
+  const [startDate, endDate] = bookingForm.dateRange as [Date, Date]
   submitLoading.value = true
   try {
     await createBooking({
       petId: bookingForm.petId,
       providerId: provider.value.id,
       serviceId: selectedService.value.id,
-      startDate: bookingForm.dateRange[0].toISOString().split('T')[0],
-      endDate: bookingForm.dateRange[1].toISOString().split('T')[0],
+      startDate: startDate.toISOString().split('T')[0],
+      endDate: endDate.toISOString().split('T')[0],
       remark: bookingForm.remark
     })
     ElMessage.success('预约成功')

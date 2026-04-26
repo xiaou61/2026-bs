@@ -56,7 +56,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setPhone(dto.getPhone());
         user.setEmail(dto.getEmail());
         user.setAvatar(dto.getAvatar());
-        user.setRole(0);
+        user.setRole("USER");
         user.setStatus(1);
         save(user);
     }

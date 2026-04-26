@@ -43,8 +43,9 @@ public class BookingServiceImpl extends ServiceImpl<BookingMapper, Booking> impl
         booking.setServiceId(dto.getServiceId());
         booking.setStartDate(dto.getStartDate());
         booking.setEndDate(dto.getEndDate());
-        booking.setTotalPrice(service.getPrice().multiply(java.math.BigDecimal.valueOf(days)));
-        booking.setStatus(0);
+        booking.setDays((int) days);
+        booking.setTotalAmount(service.getPrice().multiply(java.math.BigDecimal.valueOf(days)));
+        booking.setStatus("PENDING");
         booking.setRemark(dto.getRemark());
         save(booking);
     }
@@ -55,15 +56,15 @@ public class BookingServiceImpl extends ServiceImpl<BookingMapper, Booking> impl
         if (booking == null || !booking.getUserId().equals(userId)) {
             throw new BusinessException("预约不存在");
         }
-        if (booking.getStatus() != 0) {
+        if (!"PENDING".equals(booking.getStatus())) {
             throw new BusinessException("只能取消待确认的预约");
         }
-        booking.setStatus(4);
+        booking.setStatus("CANCELLED");
         updateById(booking);
     }
 
     @Override
-    public IPage<Booking> pageByUser(Long userId, Integer current, Integer size, Integer status) {
+    public IPage<Booking> pageByUser(Long userId, Integer current, Integer size, String status) {
         LambdaQueryWrapper<Booking> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Booking::getUserId, userId);
         if (status != null) {

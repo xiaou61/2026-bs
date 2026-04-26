@@ -14,6 +14,7 @@ public class Provider {
     private String name;
     private String address;
     private String phone;
+    private String businessHours;
     private String description;
     private String images;
     private BigDecimal longitude;

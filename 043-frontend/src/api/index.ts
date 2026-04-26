@@ -24,6 +24,6 @@ export const getProviderServices = (id: number) => request.get(`/provider/${id}/
 // 预约相关
 export const createBooking = (data: any) => request.post('/booking', data)
 export const cancelBooking = (id: number) => request.post(`/booking/${id}/cancel`)
-export const getBookingPage = (params: { current: number; size: number; status?: number }) =>
+export const getBookingPage = (params: { current: number; size: number; status?: string }) =>
   request.get('/booking/page', { params })
 export const getBookingDetail = (id: number) => request.get(`/booking/${id}`)

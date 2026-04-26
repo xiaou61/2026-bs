@@ -24,7 +24,7 @@ public class ProviderServiceImpl extends ServiceImpl<ProviderMapper, Provider> i
     @Override
     public IPage<Provider> page(Integer current, Integer size, String keyword) {
         LambdaQueryWrapper<Provider> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Provider::getStatus, 1);
+        wrapper.eq(Provider::getStatus, "APPROVED");
         if (StringUtils.hasText(keyword)) {
             wrapper.like(Provider::getName, keyword).or().like(Provider::getAddress, keyword);
         }
@@ -41,7 +41,6 @@ public class ProviderServiceImpl extends ServiceImpl<ProviderMapper, Provider> i
     public List<ProviderServiceEntity> listServices(Long providerId) {
         return providerServiceMapper.selectList(
                 new LambdaQueryWrapper<ProviderServiceEntity>()
-                        .eq(ProviderServiceEntity::getProviderId, providerId)
-                        .eq(ProviderServiceEntity::getStatus, 1));
+                        .eq(ProviderServiceEntity::getProviderId, providerId));
     }
 }

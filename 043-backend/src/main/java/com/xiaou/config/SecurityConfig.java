@@ -37,10 +37,12 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**", "/provider/list", "/provider/detail/**",
+                .requestMatchers("/api/auth/**", "/api/provider/page", "/api/provider/*", "/api/provider/*/services",
+                        "/h2-console/**",
                         "/doc.html", "/v3/api-docs/**", "/webjars/**", "/swagger-ui/**").permitAll()
                 .anyRequest().authenticated()
             )
+            .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
