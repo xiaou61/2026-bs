@@ -1,80 +1,80 @@
-&lt;template&gt;
-  &lt;div class="my-center"&gt;
-    &lt;div class="container"&gt;
-      &lt;el-tabs v-model="activeTab"&gt;
-        &lt;el-tab-pane label="我的捐赠" name="donations"&gt;
-          &lt;el-table :data="donations" style="width: 100%"&gt;
-            &lt;el-table-column prop="project.title" label="项目名称" /&gt;
-            &lt;el-table-column prop="amount" label="捐赠金额" /&gt;
-            &lt;el-table-column prop="createTime" label="捐赠时间" /&gt;
-            &lt;el-table-column prop="paymentStatus" label="支付状态"&gt;
-              &lt;template #default="{ row }"&gt;
-                &lt;el-tag :type="getPaymentStatusType(row.paymentStatus)"&gt;
+<template>
+  <div class="my-center">
+    <div class="container">
+      <el-tabs v-model="activeTab">
+        <el-tab-pane label="我的捐赠" name="donations">
+          <el-table :data="donations" style="width: 100%">
+            <el-table-column prop="project.title" label="项目名称" />
+            <el-table-column prop="amount" label="捐赠金额" />
+            <el-table-column prop="createTime" label="捐赠时间" />
+            <el-table-column prop="paymentStatus" label="支付状态">
+              <template #default="{ row }">
+                <el-tag :type="getPaymentStatusType(row.paymentStatus)">
                   {{ getPaymentStatusText(row.paymentStatus) }}
-                &lt;/el-tag&gt;
-              &lt;/template&gt;
-            &lt;/el-table-column&gt;
-          &lt;/el-table&gt;
-        &lt;/el-tab-pane&gt;
-        &lt;el-tab-pane label="我的项目" name="projects"&gt;
-          &lt;el-button type="primary" @click="showCreateDialog = true" style="margin-bottom: 20px"&gt;
+                </el-tag>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
+        <el-tab-pane label="我的项目" name="projects">
+          <el-button type="primary" @click="showCreateDialog = true" style="margin-bottom: 20px">
             创建项目
-          &lt;/el-button&gt;
-          &lt;el-table :data="projects" style="width: 100%"&gt;
-            &lt;el-table-column prop="title" label="项目名称" /&gt;
-            &lt;el-table-column prop="currentAmount" label="当前金额" /&gt;
-            &lt;el-table-column prop="targetAmount" label="目标金额" /&gt;
-            &lt;el-table-column prop="status" label="状态"&gt;
-              &lt;template #default="{ row }"&gt;
-                &lt;el-tag :type="getStatusType(row.status)"&gt;{{ getStatusText(row.status) }}&lt;/el-tag&gt;
-              &lt;/template&gt;
-            &lt;/el-table-column&gt;
-            &lt;el-table-column label="操作"&gt;
-              &lt;template #default="{ row }"&gt;
-                &lt;el-button @click="$router.push(`/project/${row.id}`)"&gt;查看&lt;/el-button&gt;
-              &lt;/template&gt;
-            &lt;/el-table-column&gt;
-          &lt;/el-table&gt;
-        &lt;/el-tab-pane&gt;
-      &lt;/el-tabs&gt;
-    &lt;/div&gt;
+          </el-button>
+          <el-table :data="projects" style="width: 100%">
+            <el-table-column prop="title" label="项目名称" />
+            <el-table-column prop="currentAmount" label="当前金额" />
+            <el-table-column prop="targetAmount" label="目标金额" />
+            <el-table-column prop="status" label="状态">
+              <template #default="{ row }">
+                <el-tag :type="getStatusType(row.status)">{{ getStatusText(row.status) }}</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作">
+              <template #default="{ row }">
+                <el-button @click="$router.push(`/project/${row.id}`)">查看</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
+      </el-tabs>
+    </div>
 
-    &lt;el-dialog v-model="showCreateDialog" title="创建公益项目" width="600px"&gt;
-      &lt;el-form :model="projectForm" label-width="100px"&gt;
-        &lt;el-form-item label="项目标题"&gt;
-          &lt;el-input v-model="projectForm.title" /&gt;
-        &lt;/el-form-item&gt;
-        &lt;el-form-item label="项目描述"&gt;
-          &lt;el-input v-model="projectForm.description" type="textarea" rows="4" /&gt;
-        &lt;/el-form-item&gt;
-        &lt;el-form-item label="项目分类"&gt;
-          &lt;el-input v-model="projectForm.category" /&gt;
-        &lt;/el-form-item&gt;
-        &lt;el-form-item label="目标金额"&gt;
-          &lt;el-input-number v-model="projectForm.targetAmount" :min="1" /&gt;
-        &lt;/el-form-item&gt;
-        &lt;el-form-item label="开始日期"&gt;
-          &lt;el-date-picker v-model="projectForm.startDate" type="datetime" /&gt;
-        &lt;/el-form-item&gt;
-        &lt;el-form-item label="结束日期"&gt;
-          &lt;el-date-picker v-model="projectForm.endDate" type="datetime" /&gt;
-        &lt;/el-form-item&gt;
-        &lt;el-form-item label="组织名称"&gt;
-          &lt;el-input v-model="projectForm.organizationName" /&gt;
-        &lt;/el-form-item&gt;
-        &lt;el-form-item label="项目地点"&gt;
-          &lt;el-input v-model="projectForm.location" /&gt;
-        &lt;/el-form-item&gt;
-      &lt;/el-form&gt;
-      &lt;template #footer&gt;
-        &lt;el-button @click="showCreateDialog = false"&gt;取消&lt;/el-button&gt;
-        &lt;el-button type="primary" @click="handleCreateProject"&gt;创建&lt;/el-button&gt;
-      &lt;/template&gt;
-    &lt;/el-dialog&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
+    <el-dialog v-model="showCreateDialog" title="创建公益项目" width="600px">
+      <el-form :model="projectForm" label-width="100px">
+        <el-form-item label="项目标题">
+          <el-input v-model="projectForm.title" />
+        </el-form-item>
+        <el-form-item label="项目描述">
+          <el-input v-model="projectForm.description" type="textarea" rows="4" />
+        </el-form-item>
+        <el-form-item label="项目分类">
+          <el-input v-model="projectForm.category" />
+        </el-form-item>
+        <el-form-item label="目标金额">
+          <el-input-number v-model="projectForm.targetAmount" :min="1" />
+        </el-form-item>
+        <el-form-item label="开始日期">
+          <el-date-picker v-model="projectForm.startDate" type="datetime" />
+        </el-form-item>
+        <el-form-item label="结束日期">
+          <el-date-picker v-model="projectForm.endDate" type="datetime" />
+        </el-form-item>
+        <el-form-item label="组织名称">
+          <el-input v-model="projectForm.organizationName" />
+        </el-form-item>
+        <el-form-item label="项目地点">
+          <el-input v-model="projectForm.location" />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="showCreateDialog = false">取消</el-button>
+        <el-button type="primary" @click="handleCreateProject">创建</el-button>
+      </template>
+    </el-dialog>
+  </div>
+</template>
 
-&lt;script setup&gt;
+<script setup>
 import { ref, onMounted, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { getMyDonations } from '@/api/donation'
@@ -95,7 +95,7 @@ const projectForm = ref({
   location: ''
 })
 
-const loadDonations = async () =&gt; {
+const loadDonations = async () => {
   try {
     const res = await getMyDonations({ page: 0, size: 10 })
     donations.value = res.data.content
@@ -104,7 +104,7 @@ const loadDonations = async () =&gt; {
   }
 }
 
-const loadProjects = async () =&gt; {
+const loadProjects = async () => {
   try {
     const res = await getMyProjects({ page: 0, size: 10 })
     projects.value = res.data.content
@@ -113,9 +113,13 @@ const loadProjects = async () =&gt; {
   }
 }
 
-const handleCreateProject = async () =&gt; {
+const handleCreateProject = async () => {
   try {
-    await createProject(projectForm.value)
+    await createProject({
+      ...projectForm.value,
+      startDate: formatDateTime(projectForm.value.startDate),
+      endDate: formatDateTime(projectForm.value.endDate)
+    })
     ElMessage.success('创建成功')
     showCreateDialog.value = false
     loadProjects()
@@ -124,7 +128,13 @@ const handleCreateProject = async () =&gt; {
   }
 }
 
-const getPaymentStatusType = (status) =&gt; {
+const formatDateTime = (value) => {
+  const date = value instanceof Date ? value : new Date(value)
+  const pad = (num) => String(num).padStart(2, '0')
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`
+}
+
+const getPaymentStatusType = (status) => {
   const map = {
     SUCCESS: 'success',
     PENDING: 'warning',
@@ -133,7 +143,7 @@ const getPaymentStatusType = (status) =&gt; {
   return map[status] || 'info'
 }
 
-const getPaymentStatusText = (status) =&gt; {
+const getPaymentStatusText = (status) => {
   const map = {
     SUCCESS: '成功',
     PENDING: '待支付',
@@ -142,7 +152,7 @@ const getPaymentStatusText = (status) =&gt; {
   return map[status] || status
 }
 
-const getStatusType = (status) =&gt; {
+const getStatusType = (status) => {
   const map = {
     ACTIVE: 'success',
     COMPLETED: 'info',
@@ -151,7 +161,7 @@ const getStatusType = (status) =&gt; {
   return map[status] || 'info'
 }
 
-const getStatusText = (status) =&gt; {
+const getStatusText = (status) => {
   const map = {
     ACTIVE: '进行中',
     COMPLETED: '已完成',
@@ -160,7 +170,7 @@ const getStatusText = (status) =&gt; {
   return map[status] || status
 }
 
-watch(activeTab, (newVal) =&gt; {
+watch(activeTab, (newVal) => {
   if (newVal === 'donations') {
     loadDonations()
   } else if (newVal === 'projects') {
@@ -168,14 +178,14 @@ watch(activeTab, (newVal) =&gt; {
   }
 })
 
-onMounted(() =&gt; {
+onMounted(() => {
   loadDonations()
 })
-&lt;/script&gt;
+</script>
 
-&lt;style scoped&gt;
+<style scoped>
 .container {
   max-width: 1200px;
   margin: 0 auto;
 }
-&lt;/style&gt;
+</style>

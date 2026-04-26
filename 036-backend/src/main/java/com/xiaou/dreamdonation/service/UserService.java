@@ -1,5 +1,6 @@
 package com.xiaou.dreamdonation.service;
 
+import com.xiaou.dreamdonation.common.BusinessException;
 import com.xiaou.dreamdonation.dto.LoginDTO;
 import com.xiaou.dreamdonation.dto.RegisterDTO;
 import com.xiaou.dreamdonation.entity.User;
@@ -19,12 +20,12 @@ public class UserService {
     private final JwtUtil jwtUtil;
 
     @Transactional
-    public Map&lt;String, Object&gt; register(RegisterDTO dto) {
+    public Map<String, Object> register(RegisterDTO dto) {
         if (userRepository.existsByUsername(dto.getUsername())) {
-            throw new RuntimeException("用户名已存在");
+            throw BusinessException.badRequest("用户名已存在");
         }
-        if (dto.getEmail() != null &amp;&amp; userRepository.existsByEmail(dto.getEmail())) {
-            throw new RuntimeException("邮箱已被注册");
+        if (dto.getEmail() != null && userRepository.existsByEmail(dto.getEmail())) {
+            throw BusinessException.badRequest("邮箱已被注册");
         }
 
         User user = new User();
@@ -36,26 +37,26 @@ public class UserService {
         user = userRepository.save(user);
 
         String token = jwtUtil.generateToken(user.getId(), user.getUsername());
-        Map&lt;String, Object&gt; result = new HashMap&lt;&gt;();
+        Map<String, Object> result = new HashMap<>();
         result.put("token", token);
         result.put("user", user);
         return result;
     }
 
-    public Map&lt;String, Object&gt; login(LoginDTO dto) {
+    public Map<String, Object> login(LoginDTO dto) {
         User user = userRepository.findByUsername(dto.getUsername())
-                .orElseThrow(() -&gt; new RuntimeException("用户名或密码错误"));
+                .orElseThrow(() -> BusinessException.badRequest("用户名或密码错误"));
 
         if (!PasswordUtil.matches(dto.getPassword(), user.getPassword())) {
-            throw new RuntimeException("用户名或密码错误");
+            throw BusinessException.badRequest("用户名或密码错误");
         }
 
         if (user.getStatus() != User.UserStatus.ACTIVE) {
-            throw new RuntimeException("账号已被禁用");
+            throw BusinessException.forbidden("账号已被禁用");
         }
 
         String token = jwtUtil.generateToken(user.getId(), user.getUsername());
-        Map&lt;String, Object&gt; result = new HashMap&lt;&gt;();
+        Map<String, Object> result = new HashMap<>();
         result.put("token", token);
         result.put("user", user);
         return result;
@@ -63,10 +64,18 @@ public class UserService {
 
     public User getUserById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -&gt; new RuntimeException("用户不存在"));
+                .orElseThrow(() -> BusinessException.badRequest("用户不存在"));
     }
 
     public User getUserInfo(Long userId) {
         return getUserById(userId);
+    }
+
+    public User getAuthenticatedUser(String authorization) {
+        String token = jwtUtil.normalizeToken(authorization);
+        if (token == null || jwtUtil.isTokenExpired(token)) {
+            throw BusinessException.unauthorized();
+        }
+        return getUserById(jwtUtil.getUserIdFromToken(token));
     }
 }

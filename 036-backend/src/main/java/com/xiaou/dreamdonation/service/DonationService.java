@@ -1,5 +1,6 @@
 package com.xiaou.dreamdonation.service;
 
+import com.xiaou.dreamdonation.common.BusinessException;
 import com.xiaou.dreamdonation.dto.DonationCreateDTO;
 import com.xiaou.dreamdonation.entity.Donation;
 import com.xiaou.dreamdonation.entity.DonationProject;
@@ -28,10 +29,10 @@ public class DonationService {
     public Donation createDonation(DonationCreateDTO dto, Long userId) {
         User user = userService.getUserById(userId);
         DonationProject project = projectRepository.findById(dto.getProjectId())
-                .orElseThrow(() -&gt; new RuntimeException("项目不存在"));
+                .orElseThrow(() -> BusinessException.badRequest("项目不存在"));
 
         if (project.getStatus() != DonationProject.ProjectStatus.ACTIVE) {
-            throw new RuntimeException("项目未激活，无法捐赠");
+            throw BusinessException.badRequest("项目未激活，无法捐赠");
         }
 
         Donation donation = new Donation();
@@ -54,12 +55,12 @@ public class DonationService {
         return donation;
     }
 
-    public Page&lt;Donation&gt; getMyDonations(Long userId, int page, int size) {
+    public Page<Donation> getMyDonations(Long userId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createTime"));
         return donationRepository.findByUserId(userId, pageable);
     }
 
-    public Page&lt;Donation&gt; getProjectDonations(Long projectId, int page, int size) {
+    public Page<Donation> getProjectDonations(Long projectId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createTime"));
         return donationRepository.findByProjectId(projectId, pageable);
     }

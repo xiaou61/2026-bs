@@ -1,5 +1,6 @@
 package com.xiaou.dreamdonation.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "donation_projects")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class DonationProject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,13 +1,13 @@
-&lt;template&gt;
-  &lt;div id="app"&gt;
-    &lt;router-view /&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
+<template>
+  <div id="app">
+    <router-view />
+  </div>
+</template>
 
-&lt;script setup&gt;
-&lt;/script&gt;
+<script setup>
+</script>
 
-&lt;style&gt;
+<style>
 * {
   margin: 0;
   padding: 0;
@@ -22,4 +22,4 @@ body {
 #app {
   min-height: 100vh;
 }
-&lt;/style&gt;
+</style>

@@ -16,29 +16,17 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public Result&lt;?&gt; register(@Valid @RequestBody RegisterDTO dto) {
-        try {
-            return Result.success(userService.register(dto));
-        } catch (Exception e) {
-            return Result.error(e.getMessage());
-        }
+    public Result<?> register(@Valid @RequestBody RegisterDTO dto) {
+        return Result.success(userService.register(dto));
     }
 
     @PostMapping("/login")
-    public Result&lt;?&gt; login(@Valid @RequestBody LoginDTO dto) {
-        try {
-            return Result.success(userService.login(dto));
-        } catch (Exception e) {
-            return Result.error(e.getMessage());
-        }
+    public Result<?> login(@Valid @RequestBody LoginDTO dto) {
+        return Result.success(userService.login(dto));
     }
 
     @GetMapping("/info")
-    public Result&lt;?&gt; getUserInfo(@RequestHeader("Authorization") String token) {
-        try {
-            return Result.success(userService.getUserInfo(1L));
-        } catch (Exception e) {
-            return Result.error(e.getMessage());
-        }
+    public Result<?> getUserInfo(@RequestHeader(value = "Authorization", required = false) String token) {
+        return Result.success(userService.getAuthenticatedUser(token));
     }
 }

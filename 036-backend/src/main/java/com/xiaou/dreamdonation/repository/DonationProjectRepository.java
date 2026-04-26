@@ -9,14 +9,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface DonationProjectRepository extends JpaRepository&lt;DonationProject, Long&gt; {
-    Page&lt;DonationProject&gt; findByStatus(DonationProject.ProjectStatus status, Pageable pageable);
-    Page&lt;DonationProject&gt; findByCategory(String category, Pageable pageable);
-    Page&lt;DonationProject&gt; findByCreatorId(Long creatorId, Pageable pageable);
+public interface DonationProjectRepository extends JpaRepository<DonationProject, Long> {
+    Page<DonationProject> findByStatus(DonationProject.ProjectStatus status, Pageable pageable);
+    Page<DonationProject> findByCategory(String category, Pageable pageable);
+    Page<DonationProject> findByCreatorId(Long creatorId, Pageable pageable);
     
     @Query("SELECT DISTINCT p.category FROM DonationProject p WHERE p.category IS NOT NULL")
-    List&lt;String&gt; findAllCategories();
+    List<String> findAllCategories();
     
     @Query("SELECT p FROM DonationProject p WHERE p.status = 'ACTIVE' ORDER BY p.createTime DESC")
-    List&lt;DonationProject&gt; findLatestActiveProjects(Pageable pageable);
+    List<DonationProject> findLatestActiveProjects(Pageable pageable);
 }

@@ -1,69 +1,69 @@
-&lt;template&gt;
-  &lt;div class="project-detail" v-if="project"&gt;
-    &lt;div class="container"&gt;
-      &lt;el-row :gutter="30"&gt;
-        &lt;el-col :span="16"&gt;
-          &lt;el-card&gt;
-            &lt;img :src="project.coverImage || 'https://via.placeholder.com/800x400'" class="cover-image"&gt;
-            &lt;h1&gt;{{ project.title }}&lt;/h1&gt;
-            &lt;div class="project-meta"&gt;
-              &lt;el-tag :type="getStatusType(project.status)"&gt;{{ getStatusText(project.status) }}&lt;/el-tag&gt;
-              &lt;span&gt;发起组织：{{ project.organizationName }}&lt;/span&gt;
-              &lt;span&gt;地区：{{ project.location }}&lt;/span&gt;
-            &lt;/div&gt;
-            &lt;div class="project-description"&gt;
-              &lt;h3&gt;项目介绍&lt;/h3&gt;
-              &lt;p&gt;{{ project.description }}&lt;/p&gt;
-            &lt;/div&gt;
-          &lt;/el-card&gt;
-        &lt;/el-col&gt;
-        &lt;el-col :span="8"&gt;
-          &lt;el-card&gt;
-            &lt;div class="donate-card"&gt;
-              &lt;div class="amount-info"&gt;
-                &lt;div class="current-amount"&gt;¥{{ project.currentAmount }}&lt;/div&gt;
-                &lt;div class="target-amount"&gt;目标 ¥{{ project.targetAmount }}&lt;/div&gt;
-              &lt;/div&gt;
-              &lt;el-progress :percentage="calculateProgress()" /&gt;
-              &lt;div class="donors-info"&gt;
-                &lt;span&gt;{{ project.donorCount }} 人参与捐赠&lt;/span&gt;
-              &lt;/div&gt;
-              &lt;el-button type="primary" size="large" @click="showDonateDialog = true" style="width: 100%"&gt;
+<template>
+  <div class="project-detail" v-if="project">
+    <div class="container">
+      <el-row :gutter="30">
+        <el-col :span="16">
+          <el-card>
+            <img :src="project.coverImage || '/cover-placeholder.svg'" class="cover-image">
+            <h1>{{ project.title }}</h1>
+            <div class="project-meta">
+              <el-tag :type="getStatusType(project.status)">{{ getStatusText(project.status) }}</el-tag>
+              <span>发起组织：{{ project.organizationName }}</span>
+              <span>地区：{{ project.location }}</span>
+            </div>
+            <div class="project-description">
+              <h3>项目介绍</h3>
+              <p>{{ project.description }}</p>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="8">
+          <el-card>
+            <div class="donate-card">
+              <div class="amount-info">
+                <div class="current-amount">¥{{ project.currentAmount }}</div>
+                <div class="target-amount">目标 ¥{{ project.targetAmount }}</div>
+              </div>
+              <el-progress :percentage="calculateProgress()" />
+              <div class="donors-info">
+                <span>{{ project.donorCount }} 人参与捐赠</span>
+              </div>
+              <el-button type="primary" size="large" @click="showDonateDialog = true" style="width: 100%">
                 立即捐赠
-              &lt;/el-button&gt;
-            &lt;/div&gt;
-          &lt;/el-card&gt;
-        &lt;/el-col&gt;
-      &lt;/el-row&gt;
-    &lt;/div&gt;
+              </el-button>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+    </div>
 
-    &lt;el-dialog v-model="showDonateDialog" title="捐赠" width="500px"&gt;
-      &lt;el-form :model="donateForm" ref="donateFormRef"&gt;
-        &lt;el-form-item label="捐赠金额" required&gt;
-          &lt;el-input-number v-model="donateForm.amount" :min="1" :step="10" /&gt;
-        &lt;/el-form-item&gt;
-        &lt;el-form-item label="留言"&gt;
-          &lt;el-input v-model="donateForm.message" type="textarea" rows="3" /&gt;
-        &lt;/el-form-item&gt;
-        &lt;el-form-item label="支付方式" required&gt;
-          &lt;el-radio-group v-model="donateForm.paymentMethod"&gt;
-            &lt;el-radio label="ALIPAY"&gt;支付宝&lt;/el-radio&gt;
-            &lt;el-radio label="WECHAT"&gt;微信支付&lt;/el-radio&gt;
-          &lt;/el-radio-group&gt;
-        &lt;/el-form-item&gt;
-        &lt;el-form-item&gt;
-          &lt;el-checkbox v-model="donateForm.anonymous"&gt;匿名捐赠&lt;/el-checkbox&gt;
-        &lt;/el-form-item&gt;
-      &lt;/el-form&gt;
-      &lt;template #footer&gt;
-        &lt;el-button @click="showDonateDialog = false"&gt;取消&lt;/el-button&gt;
-        &lt;el-button type="primary" @click="handleDonate"&gt;确认捐赠&lt;/el-button&gt;
-      &lt;/template&gt;
-    &lt;/el-dialog&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
+    <el-dialog v-model="showDonateDialog" title="捐赠" width="500px">
+      <el-form :model="donateForm" ref="donateFormRef">
+        <el-form-item label="捐赠金额" required>
+          <el-input-number v-model="donateForm.amount" :min="1" :step="10" />
+        </el-form-item>
+        <el-form-item label="留言">
+          <el-input v-model="donateForm.message" type="textarea" :rows="3" />
+        </el-form-item>
+        <el-form-item label="支付方式" required>
+          <el-radio-group v-model="donateForm.paymentMethod">
+            <el-radio value="ALIPAY">支付宝</el-radio>
+            <el-radio value="WECHAT">微信支付</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item>
+          <el-checkbox v-model="donateForm.anonymous">匿名捐赠</el-checkbox>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="showDonateDialog = false">取消</el-button>
+        <el-button type="primary" @click="handleDonate">确认捐赠</el-button>
+      </template>
+    </el-dialog>
+  </div>
+</template>
 
-&lt;script setup&gt;
+<script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
@@ -84,7 +84,7 @@ const donateForm = ref({
   anonymous: false
 })
 
-const loadProject = async () =&gt; {
+const loadProject = async () => {
   try {
     const res = await getProjectDetail(route.params.id)
     project.value = res.data
@@ -93,12 +93,12 @@ const loadProject = async () =&gt; {
   }
 }
 
-const calculateProgress = () =&gt; {
+const calculateProgress = () => {
   if (!project.value.targetAmount || project.value.targetAmount === 0) return 0
   return Math.round((project.value.currentAmount / project.value.targetAmount) * 100)
 }
 
-const getStatusType = (status) =&gt; {
+const getStatusType = (status) => {
   const map = {
     ACTIVE: 'success',
     COMPLETED: 'info',
@@ -108,7 +108,7 @@ const getStatusType = (status) =&gt; {
   return map[status] || 'info'
 }
 
-const getStatusText = (status) =&gt; {
+const getStatusText = (status) => {
   const map = {
     ACTIVE: '进行中',
     COMPLETED: '已完成',
@@ -118,7 +118,7 @@ const getStatusText = (status) =&gt; {
   return map[status] || status
 }
 
-const handleDonate = async () =&gt; {
+const handleDonate = async () => {
   if (!userStore.token) {
     ElMessage.warning('请先登录')
     router.push('/login')
@@ -138,12 +138,12 @@ const handleDonate = async () =&gt; {
   }
 }
 
-onMounted(() =&gt; {
+onMounted(() => {
   loadProject()
 })
-&lt;/script&gt;
+</script>
 
-&lt;style scoped&gt;
+<style scoped>
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -207,4 +207,4 @@ h1 {
   margin: 15px 0 20px;
   color: #666;
 }
-&lt;/style&gt;
+</style>

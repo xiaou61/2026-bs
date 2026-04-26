@@ -1,40 +1,40 @@
-&lt;template&gt;
-  &lt;div class="home"&gt;
-    &lt;div class="banner"&gt;
-      &lt;div class="banner-content"&gt;
-        &lt;h1&gt;小梦想，大力量&lt;/h1&gt;
-        &lt;p&gt;让每一份爱心都能点亮希望之光&lt;/p&gt;
-        &lt;el-button type="primary" size="large" @click="$router.push('/projects')"&gt;
+<template>
+  <div class="home">
+    <div class="banner">
+      <div class="banner-content">
+        <h1>小梦想，大力量</h1>
+        <p>让每一份爱心都能点亮希望之光</p>
+        <el-button type="primary" size="large" @click="$router.push('/projects')">
           浏览公益项目
-        &lt;/el-button&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
+        </el-button>
+      </div>
+    </div>
 
-    &lt;div class="container"&gt;
-      &lt;h2 class="section-title"&gt;最新公益项目&lt;/h2&gt;
-      &lt;el-row :gutter="20"&gt;
-        &lt;el-col :span="8" v-for="project in projects" :key="project.id"&gt;
-          &lt;el-card class="project-card" @click="goToDetail(project.id)"&gt;
-            &lt;img :src="project.coverImage || 'https://via.placeholder.com/300x200'" class="project-cover"&gt;
-            &lt;div class="project-info"&gt;
-              &lt;h3&gt;{{ project.title }}&lt;/h3&gt;
-              &lt;p class="project-desc"&gt;{{ project.description }}&lt;/p&gt;
-              &lt;div class="project-progress"&gt;
-                &lt;el-progress :percentage="calculateProgress(project)" /&gt;
-                &lt;div class="progress-info"&gt;
-                  &lt;span&gt;已筹：¥{{ project.currentAmount }}&lt;/span&gt;
-                  &lt;span&gt;目标：¥{{ project.targetAmount }}&lt;/span&gt;
-                &lt;/div&gt;
-              &lt;/div&gt;
-            &lt;/div&gt;
-          &lt;/el-card&gt;
-        &lt;/el-col&gt;
-      &lt;/el-row&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
+    <div class="container">
+      <h2 class="section-title">最新公益项目</h2>
+      <el-row :gutter="20">
+        <el-col :span="8" v-for="project in projects" :key="project.id">
+          <el-card class="project-card" @click="goToDetail(project.id)">
+            <img :src="project.coverImage || '/cover-placeholder.svg'" class="project-cover">
+            <div class="project-info">
+              <h3>{{ project.title }}</h3>
+              <p class="project-desc">{{ project.description }}</p>
+              <div class="project-progress">
+                <el-progress :percentage="calculateProgress(project)" />
+                <div class="progress-info">
+                  <span>已筹：¥{{ project.currentAmount }}</span>
+                  <span>目标：¥{{ project.targetAmount }}</span>
+                </div>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+    </div>
+  </div>
+</template>
 
-&lt;script setup&gt;
+<script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { getLatestProjects } from '@/api/project'
@@ -42,7 +42,7 @@ import { getLatestProjects } from '@/api/project'
 const router = useRouter()
 const projects = ref([])
 
-const loadProjects = async () =&gt; {
+const loadProjects = async () => {
   try {
     const res = await getLatestProjects(6)
     projects.value = res.data
@@ -51,21 +51,21 @@ const loadProjects = async () =&gt; {
   }
 }
 
-const calculateProgress = (project) =&gt; {
+const calculateProgress = (project) => {
   if (!project.targetAmount || project.targetAmount === 0) return 0
   return Math.round((project.currentAmount / project.targetAmount) * 100)
 }
 
-const goToDetail = (id) =&gt; {
+const goToDetail = (id) => {
   router.push(`/project/${id}`)
 }
 
-onMounted(() =&gt; {
+onMounted(() => {
   loadProjects()
 })
-&lt;/script&gt;
+</script>
 
-&lt;style scoped&gt;
+<style scoped>
 .home {
   width: 100%;
 }
@@ -148,4 +148,4 @@ onMounted(() =&gt; {
   font-size: 14px;
   color: #666;
 }
-&lt;/style&gt;
+</style>

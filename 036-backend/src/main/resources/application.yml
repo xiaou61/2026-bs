@@ -2,18 +2,27 @@ spring:
   application:
     name: dream-donation-platform
   datasource:
-    url: jdbc:postgresql://localhost:5432/dream_donation
-    username: postgres
-    password: postgres
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:h2:mem:dream_donation;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: none
+    show-sql: false
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: false
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
+      schema-locations: classpath:schema-h2.sql
+      data-locations: classpath:data-h2.sql
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
@@ -21,7 +30,12 @@ spring:
 server:
   port: 8036
 
+app:
+  jwt:
+    secret: ${JWT_SECRET:036-dream-donation-demo-secret-at-least-32-bytes}
+    expiration-ms: ${JWT_EXPIRATION_MS:604800000}
+
 logging:
   level:
-    com.xiaou.dreamdonation: debug
-    org.hibernate.SQL: debug
+    com.xiaou.dreamdonation: info
+    org.hibernate.SQL: warn

@@ -1,26 +1,26 @@
-&lt;template&gt;
-  &lt;div class="login-page"&gt;
-    &lt;el-card class="login-card"&gt;
-      &lt;h2&gt;登录&lt;/h2&gt;
-      &lt;el-form :model="form" :rules="rules" ref="formRef"&gt;
-        &lt;el-form-item prop="username"&gt;
-          &lt;el-input v-model="form.username" placeholder="用户名" /&gt;
-        &lt;/el-form-item&gt;
-        &lt;el-form-item prop="password"&gt;
-          &lt;el-input v-model="form.password" type="password" placeholder="密码" /&gt;
-        &lt;/el-form-item&gt;
-        &lt;el-form-item&gt;
-          &lt;el-button type="primary" @click="handleLogin" style="width: 100%"&gt;登录&lt;/el-button&gt;
-        &lt;/el-form-item&gt;
-        &lt;div class="links"&gt;
-          &lt;router-link to="/register"&gt;还没有账号？立即注册&lt;/router-link&gt;
-        &lt;/div&gt;
-      &lt;/el-form&gt;
-    &lt;/el-card&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
+<template>
+  <div class="login-page">
+    <el-card class="login-card">
+      <h2>登录</h2>
+      <el-form :model="form" :rules="rules" ref="formRef">
+        <el-form-item prop="username">
+          <el-input v-model="form.username" placeholder="用户名" />
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input v-model="form.password" type="password" placeholder="密码" />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="handleLogin" style="width: 100%">登录</el-button>
+        </el-form-item>
+        <div class="links">
+          <router-link to="/register">还没有账号？立即注册</router-link>
+        </div>
+      </el-form>
+    </el-card>
+  </div>
+</template>
 
-&lt;script setup&gt;
+<script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
@@ -40,7 +40,7 @@ const rules = {
   password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
 }
 
-const handleLogin = async () =&gt; {
+const handleLogin = async () => {
   await formRef.value.validate()
   try {
     const res = await login(form.value)
@@ -52,9 +52,9 @@ const handleLogin = async () =&gt; {
     console.error(error)
   }
 }
-&lt;/script&gt;
+</script>
 
-&lt;style scoped&gt;
+<style scoped>
 .login-page {
   display: flex;
   justify-content: center;
@@ -82,4 +82,4 @@ h2 {
   color: #409EFF;
   text-decoration: none;
 }
-&lt;/style&gt;
+</style>

@@ -1,32 +1,32 @@
-&lt;template&gt;
-  &lt;div class="register-page"&gt;
-    &lt;el-card class="register-card"&gt;
-      &lt;h2&gt;注册&lt;/h2&gt;
-      &lt;el-form :model="form" :rules="rules" ref="formRef"&gt;
-        &lt;el-form-item prop="username"&gt;
-          &lt;el-input v-model="form.username" placeholder="用户名" /&gt;
-        &lt;/el-form-item&gt;
-        &lt;el-form-item prop="password"&gt;
-          &lt;el-input v-model="form.password" type="password" placeholder="密码" /&gt;
-        &lt;/el-form-item&gt;
-        &lt;el-form-item prop="email"&gt;
-          &lt;el-input v-model="form.email" placeholder="邮箱" /&gt;
-        &lt;/el-form-item&gt;
-        &lt;el-form-item prop="phone"&gt;
-          &lt;el-input v-model="form.phone" placeholder="手机号" /&gt;
-        &lt;/el-form-item&gt;
-        &lt;el-form-item&gt;
-          &lt;el-button type="primary" @click="handleRegister" style="width: 100%"&gt;注册&lt;/el-button&gt;
-        &lt;/el-form-item&gt;
-        &lt;div class="links"&gt;
-          &lt;router-link to="/login"&gt;已有账号？立即登录&lt;/router-link&gt;
-        &lt;/div&gt;
-      &lt;/el-form&gt;
-    &lt;/el-card&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
+<template>
+  <div class="register-page">
+    <el-card class="register-card">
+      <h2>注册</h2>
+      <el-form :model="form" :rules="rules" ref="formRef">
+        <el-form-item prop="username">
+          <el-input v-model="form.username" placeholder="用户名" />
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input v-model="form.password" type="password" placeholder="密码" />
+        </el-form-item>
+        <el-form-item prop="email">
+          <el-input v-model="form.email" placeholder="邮箱" />
+        </el-form-item>
+        <el-form-item prop="phone">
+          <el-input v-model="form.phone" placeholder="手机号" />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="handleRegister" style="width: 100%">注册</el-button>
+        </el-form-item>
+        <div class="links">
+          <router-link to="/login">已有账号？立即登录</router-link>
+        </div>
+      </el-form>
+    </el-card>
+  </div>
+</template>
 
-&lt;script setup&gt;
+<script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
@@ -55,7 +55,7 @@ const rules = {
   email: [{ type: 'email', message: '请输入正确的邮箱', trigger: 'blur' }]
 }
 
-const handleRegister = async () =&gt; {
+const handleRegister = async () => {
   await formRef.value.validate()
   try {
     const res = await register(form.value)
@@ -67,9 +67,9 @@ const handleRegister = async () =&gt; {
     console.error(error)
   }
 }
-&lt;/script&gt;
+</script>
 
-&lt;style scoped&gt;
+<style scoped>
 .register-page {
   display: flex;
   justify-content: center;
@@ -97,4 +97,4 @@ h2 {
   color: #409EFF;
   text-decoration: none;
 }
-&lt;/style&gt;
+</style>

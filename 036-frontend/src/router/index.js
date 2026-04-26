@@ -3,39 +3,39 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
   {
     path: '/',
-    component: () =&gt; import('@/views/Layout.vue'),
+    component: () => import('@/views/Layout.vue'),
     children: [
       {
         path: '',
         name: 'Home',
-        component: () =&gt; import('@/views/Home.vue')
+        component: () => import('@/views/Home.vue')
       },
       {
         path: '/projects',
         name: 'Projects',
-        component: () =&gt; import('@/views/Projects.vue')
+        component: () => import('@/views/Projects.vue')
       },
       {
         path: '/project/:id',
         name: 'ProjectDetail',
-        component: () =&gt; import('@/views/ProjectDetail.vue')
+        component: () => import('@/views/ProjectDetail.vue')
       },
       {
         path: '/my',
         name: 'MyCenter',
-        component: () =&gt; import('@/views/MyCenter.vue')
+        component: () => import('@/views/MyCenter.vue')
       }
     ]
   },
   {
     path: '/login',
     name: 'Login',
-    component: () =&gt; import('@/views/Login.vue')
+    component: () => import('@/views/Login.vue')
   },
   {
     path: '/register',
     name: 'Register',
-    component: () =&gt; import('@/views/Register.vue')
+    component: () => import('@/views/Register.vue')
   }
 ]
 

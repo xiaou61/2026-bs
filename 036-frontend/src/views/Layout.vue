@@ -1,41 +1,41 @@
-&lt;template&gt;
-  &lt;div class="layout"&gt;
-    &lt;el-container&gt;
-      &lt;el-header class="header"&gt;
-        &lt;div class="header-content"&gt;
-          &lt;div class="logo" @click="$router.push('/')"&gt;小梦想公益平台&lt;/div&gt;
-          &lt;el-menu mode="horizontal" :default-active="activeMenu" class="nav-menu"&gt;
-            &lt;el-menu-item index="/" @click="$router.push('/')"&gt;首页&lt;/el-menu-item&gt;
-            &lt;el-menu-item index="/projects" @click="$router.push('/projects')"&gt;公益项目&lt;/el-menu-item&gt;
-            &lt;el-menu-item index="/my" @click="$router.push('/my')"&gt;个人中心&lt;/el-menu-item&gt;
-          &lt;/el-menu&gt;
-          &lt;div class="user-info"&gt;
-            &lt;el-button v-if="!userStore.token" @click="$router.push('/login')"&gt;登录&lt;/el-button&gt;
-            &lt;el-dropdown v-else&gt;
-              &lt;span class="el-dropdown-link"&gt;
+<template>
+  <div class="layout">
+    <el-container>
+      <el-header class="header">
+        <div class="header-content">
+          <div class="logo" @click="$router.push('/')">小梦想公益平台</div>
+          <el-menu mode="horizontal" :default-active="activeMenu" class="nav-menu">
+            <el-menu-item index="/" @click="$router.push('/')">首页</el-menu-item>
+            <el-menu-item index="/projects" @click="$router.push('/projects')">公益项目</el-menu-item>
+            <el-menu-item index="/my" @click="$router.push('/my')">个人中心</el-menu-item>
+          </el-menu>
+          <div class="user-info">
+            <el-button v-if="!userStore.token" @click="$router.push('/login')">登录</el-button>
+            <el-dropdown v-else>
+              <span class="el-dropdown-link">
                 {{ userStore.userInfo?.username || '用户' }}
-                &lt;el-icon class="el-icon--right"&gt;&lt;arrow-down /&gt;&lt;/el-icon&gt;
-              &lt;/span&gt;
-              &lt;template #dropdown&gt;
-                &lt;el-dropdown-menu&gt;
-                  &lt;el-dropdown-item @click="handleLogout"&gt;退出登录&lt;/el-dropdown-item&gt;
-                &lt;/el-dropdown-menu&gt;
-              &lt;/template&gt;
-            &lt;/el-dropdown&gt;
-          &lt;/div&gt;
-        &lt;/div&gt;
-      &lt;/el-header&gt;
-      &lt;el-main class="main-content"&gt;
-        &lt;router-view /&gt;
-      &lt;/el-main&gt;
-      &lt;el-footer class="footer"&gt;
-        &lt;div&gt;© 2026 小梦想全球公益捐赠平台&lt;/div&gt;
-      &lt;/el-footer&gt;
-    &lt;/el-container&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
+                <el-icon class="el-icon--right"><arrow-down /></el-icon>
+              </span>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item @click="handleLogout">退出登录</el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </div>
+        </div>
+      </el-header>
+      <el-main class="main-content">
+        <router-view />
+      </el-main>
+      <el-footer class="footer">
+        <div>© 2026 小梦想全球公益捐赠平台</div>
+      </el-footer>
+    </el-container>
+  </div>
+</template>
 
-&lt;script setup&gt;
+<script setup>
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
@@ -45,15 +45,15 @@ const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
 
-const activeMenu = computed(() =&gt; route.path)
+const activeMenu = computed(() => route.path)
 
-const handleLogout = () =&gt; {
+const handleLogout = () => {
   userStore.logout()
   router.push('/login')
 }
-&lt;/script&gt;
+</script>
 
-&lt;style scoped&gt;
+<style scoped>
 .layout {
   min-height: 100vh;
 }
@@ -111,4 +111,4 @@ const handleLogout = () =&gt; {
   padding: 20px;
   color: #909399;
 }
-&lt;/style&gt;
+</style>

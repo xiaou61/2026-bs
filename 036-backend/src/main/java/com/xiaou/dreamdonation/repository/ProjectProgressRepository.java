@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProjectProgressRepository extends JpaRepository&lt;ProjectProgress, Long&gt; {
-    List&lt;ProjectProgress&gt; findByProjectIdOrderByCreateTimeDesc(Long projectId);
+public interface ProjectProgressRepository extends JpaRepository<ProjectProgress, Long> {
+    List<ProjectProgress> findByProjectIdOrderByCreateTimeDesc(Long projectId);
 }

@@ -7,20 +7,20 @@ const request = axios.create({
 })
 
 request.interceptors.request.use(
-  config =&gt; {
+  config => {
     const token = localStorage.getItem('token')
     if (token) {
       config.headers['Authorization'] = token
     }
     return config
   },
-  error =&gt; {
+  error => {
     return Promise.reject(error)
   }
 )
 
 request.interceptors.response.use(
-  response =&gt; {
+  response => {
     const res = response.data
     if (res.code !== 200) {
       ElMessage.error(res.message || '请求失败')
@@ -28,7 +28,7 @@ request.interceptors.response.use(
     }
     return res
   },
-  error =&gt; {
+  error => {
     ElMessage.error(error.message || '网络错误')
     return Promise.reject(error)
   }

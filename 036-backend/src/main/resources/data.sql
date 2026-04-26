@@ -1,7 +1,7 @@
 INSERT INTO users (username, password, real_name, email, phone, role, status) VALUES
-('admin', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5EH', '管理员', 'admin@example.com', '13800138000', 'ADMIN', 'ACTIVE'),
-('user1', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5EH', '张三', 'user1@example.com', '13800138001', 'USER', 'ACTIVE'),
-('org1', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5EH', '爱心组织', 'org1@example.com', '13800138002', 'ORGANIZATION', 'ACTIVE');
+('admin', '$2b$12$jK8zNPbXrkWPvITUUIio4Od0t5y/ZQ2F2owIex/Sa2eScamJF1BBW', '管理员', 'admin@example.com', '13800138000', 'ADMIN', 'ACTIVE'),
+('user1', '$2b$12$jK8zNPbXrkWPvITUUIio4Od0t5y/ZQ2F2owIex/Sa2eScamJF1BBW', '张三', 'user1@example.com', '13800138001', 'USER', 'ACTIVE'),
+('org1', '$2b$12$jK8zNPbXrkWPvITUUIio4Od0t5y/ZQ2F2owIex/Sa2eScamJF1BBW', '爱心组织', 'org1@example.com', '13800138002', 'ORGANIZATION', 'ACTIVE');
 
 INSERT INTO donation_projects (title, description, category, target_amount, current_amount, start_date, end_date, organization_name, location, status, creator_id, donor_count) VALUES
 ('山区儿童助学计划', '为贫困山区的孩子们提供学习用品和教育资源，让每一个孩子都能接受良好的教育。', '教育助学', 100000.00, 35000.00, NOW(), NOW() + INTERVAL '90 days', '希望工程基金会', '云南省', 'ACTIVE', 3, 120),

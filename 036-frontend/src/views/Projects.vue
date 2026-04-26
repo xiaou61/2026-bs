@@ -1,48 +1,48 @@
-&lt;template&gt;
-  &lt;div class="projects-page"&gt;
-    &lt;div class="container"&gt;
-      &lt;div class="filter-bar"&gt;
-        &lt;el-select v-model="filters.category" placeholder="选择分类" clearable @change="loadProjects"&gt;
-          &lt;el-option v-for="cat in categories" :key="cat" :label="cat" :value="cat" /&gt;
-        &lt;/el-select&gt;
-        &lt;el-select v-model="filters.status" placeholder="项目状态" clearable @change="loadProjects"&gt;
-          &lt;el-option label="进行中" value="ACTIVE" /&gt;
-          &lt;el-option label="已完成" value="COMPLETED" /&gt;
-        &lt;/el-select&gt;
-      &lt;/div&gt;
+<template>
+  <div class="projects-page">
+    <div class="container">
+      <div class="filter-bar">
+        <el-select v-model="filters.category" placeholder="选择分类" clearable @change="loadProjects">
+          <el-option v-for="cat in categories" :key="cat" :label="cat" :value="cat" />
+        </el-select>
+        <el-select v-model="filters.status" placeholder="项目状态" clearable @change="loadProjects">
+          <el-option label="进行中" value="ACTIVE" />
+          <el-option label="已完成" value="COMPLETED" />
+        </el-select>
+      </div>
 
-      &lt;el-row :gutter="20"&gt;
-        &lt;el-col :span="8" v-for="project in projects" :key="project.id"&gt;
-          &lt;el-card class="project-card" @click="goToDetail(project.id)"&gt;
-            &lt;img :src="project.coverImage || 'https://via.placeholder.com/300x200'" class="project-cover"&gt;
-            &lt;div class="project-info"&gt;
-              &lt;el-tag :type="getStatusType(project.status)"&gt;{{ getStatusText(project.status) }}&lt;/el-tag&gt;
-              &lt;h3&gt;{{ project.title }}&lt;/h3&gt;
-              &lt;p class="project-desc"&gt;{{ project.description }}&lt;/p&gt;
-              &lt;div class="project-progress"&gt;
-                &lt;el-progress :percentage="calculateProgress(project)" /&gt;
-                &lt;div class="progress-info"&gt;
-                  &lt;span&gt;已筹：¥{{ project.currentAmount }}&lt;/span&gt;
-                  &lt;span&gt;目标：¥{{ project.targetAmount }}&lt;/span&gt;
-                &lt;/div&gt;
-              &lt;/div&gt;
-            &lt;/div&gt;
-          &lt;/el-card&gt;
-        &lt;/el-col&gt;
-      &lt;/el-row&gt;
+      <el-row :gutter="20">
+        <el-col :span="8" v-for="project in projects" :key="project.id">
+          <el-card class="project-card" @click="goToDetail(project.id)">
+            <img :src="project.coverImage || '/cover-placeholder.svg'" class="project-cover">
+            <div class="project-info">
+              <el-tag :type="getStatusType(project.status)">{{ getStatusText(project.status) }}</el-tag>
+              <h3>{{ project.title }}</h3>
+              <p class="project-desc">{{ project.description }}</p>
+              <div class="project-progress">
+                <el-progress :percentage="calculateProgress(project)" />
+                <div class="progress-info">
+                  <span>已筹：¥{{ project.currentAmount }}</span>
+                  <span>目标：¥{{ project.targetAmount }}</span>
+                </div>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
 
-      &lt;el-pagination
+      <el-pagination
         v-model:current-page="pagination.page"
         :page-size="pagination.size"
         :total="pagination.total"
         @current-change="loadProjects"
         layout="prev, pager, next"
-      /&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
+      />
+    </div>
+  </div>
+</template>
 
-&lt;script setup&gt;
+<script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { getProjects, getCategories } from '@/api/project'
@@ -60,7 +60,7 @@ const pagination = ref({
   total: 0
 })
 
-const loadProjects = async () =&gt; {
+const loadProjects = async () => {
   try {
     const params = {
       page: pagination.value.page - 1,
@@ -76,7 +76,7 @@ const loadProjects = async () =&gt; {
   }
 }
 
-const loadCategories = async () =&gt; {
+const loadCategories = async () => {
   try {
     const res = await getCategories()
     categories.value = res.data
@@ -85,12 +85,12 @@ const loadCategories = async () =&gt; {
   }
 }
 
-const calculateProgress = (project) =&gt; {
+const calculateProgress = (project) => {
   if (!project.targetAmount || project.targetAmount === 0) return 0
   return Math.round((project.currentAmount / project.targetAmount) * 100)
 }
 
-const getStatusType = (status) =&gt; {
+const getStatusType = (status) => {
   const map = {
     ACTIVE: 'success',
     COMPLETED: 'info',
@@ -100,7 +100,7 @@ const getStatusType = (status) =&gt; {
   return map[status] || 'info'
 }
 
-const getStatusText = (status) =&gt; {
+const getStatusText = (status) => {
   const map = {
     ACTIVE: '进行中',
     COMPLETED: '已完成',
@@ -110,17 +110,17 @@ const getStatusText = (status) =&gt; {
   return map[status] || status
 }
 
-const goToDetail = (id) =&gt; {
+const goToDetail = (id) => {
   router.push(`/project/${id}`)
 }
 
-onMounted(() =&gt; {
+onMounted(() => {
   loadProjects()
   loadCategories()
 })
-&lt;/script&gt;
+</script>
 
-&lt;style scoped&gt;
+<style scoped>
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -186,4 +186,4 @@ onMounted(() =&gt; {
   margin-top: 30px;
   text-align: center;
 }
-&lt;/style&gt;
+</style>

@@ -1,12 +1,16 @@
 package com.xiaou.dreamdonation.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Table(name = "users")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,6 +20,8 @@ public class User {
     private String username;
 
     @Column(nullable = false)
+    @JsonIgnore
+    @ToString.Exclude
     private String password;
 
     @Column(length = 50)
