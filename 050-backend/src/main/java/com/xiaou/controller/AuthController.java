@@ -4,7 +4,7 @@ import com.xiaou.common.Result;
 import com.xiaou.dto.LoginDTO;
 import com.xiaou.entity.User;
 import com.xiaou.service.UserService;
-import com.xiaou.utils.JwtUtil;
+import com.xiaou.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +21,7 @@ public class AuthController {
     private UserService userService;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private JwtUtils jwtUtils;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -32,7 +32,7 @@ public class AuthController {
             return Result.error("用户名或密码错误");
         }
         
-        String token = jwtUtil.generateToken(user.getId(), user.getUsername());
+        String token = jwtUtils.generateToken(user.getId(), user.getUsername(), user.getRole());
         Map<String, Object> data = new HashMap<>();
         data.put("token", token);
         data.put("user", user);
@@ -46,7 +46,7 @@ public class AuthController {
             return Result.error("用户未绑定，请先绑定账号");
         }
         
-        String token = jwtUtil.generateToken(user.getId(), user.getUsername());
+        String token = jwtUtils.generateToken(user.getId(), user.getUsername(), user.getRole());
         Map<String, Object> data = new HashMap<>();
         data.put("token", token);
         data.put("user", user);
@@ -63,7 +63,7 @@ public class AuthController {
         user.setOpenid(openid);
         userService.updateById(user);
         
-        String token = jwtUtil.generateToken(user.getId(), user.getUsername());
+        String token = jwtUtils.generateToken(user.getId(), user.getUsername(), user.getRole());
         Map<String, Object> data = new HashMap<>();
         data.put("token", token);
         data.put("user", user);

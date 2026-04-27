@@ -86,8 +86,12 @@ public class AttendanceRecordServiceImpl extends ServiceImpl<AttendanceRecordMap
         }
         
         record.setSignTime(LocalDateTime.now());
+        record.setSignType(task.getSignType());
         record.setDeviceInfo(dto.getDeviceInfo());
         this.updateById(record);
+
+        task.setSignedCount(task.getSignedCount() == null ? 1 : task.getSignedCount() + 1);
+        attendanceTaskMapper.updateById(task);
         
         // 更新考勤统计
         attendanceStatService.refreshStat(studentId, task.getCourseId());

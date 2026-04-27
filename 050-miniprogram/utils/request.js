@@ -28,7 +28,7 @@ const request = (options) => {
             })
             reject(res.data)
           }
-        } else if (res.statusCode === 401) {
+        } else if (res.statusCode === 401 || res.statusCode === 403) {
           // 未授权，跳转登录
           app.logout()
           wx.navigateTo({

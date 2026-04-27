@@ -1,6 +1,6 @@
 App({
   globalData: {
-    baseUrl: 'http://localhost:8080/api',
+    baseUrl: 'http://localhost:8050/api',
     userInfo: null,
     token: null
   },

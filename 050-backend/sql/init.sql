@@ -211,15 +211,15 @@ INSERT INTO semester (name, start_date, end_date, is_current) VALUES
 
 -- 用户数据
 INSERT INTO sys_user (username, password, real_name, phone, student_no, teacher_no, department, class_name, role) VALUES
-('admin', '123456', '系统管理员', '13800000000', NULL, 'A001', '教务处', NULL, 2),
-('teacher1', '123456', '张老师', '13800000001', NULL, 'T001', '计算机学院', NULL, 1),
-('teacher2', '123456', '李老师', '13800000002', NULL, 'T002', '计算机学院', NULL, 1),
-('teacher3', '123456', '王老师', '13800000003', NULL, 'T003', '软件学院', NULL, 1),
-('student1', '123456', '张三', '13900000001', '2022001001', NULL, '计算机学院', '计算机2201班', 0),
-('student2', '123456', '李四', '13900000002', '2022001002', NULL, '计算机学院', '计算机2201班', 0),
-('student3', '123456', '王五', '13900000003', '2022001003', NULL, '计算机学院', '计算机2201班', 0),
-('student4', '123456', '赵六', '13900000004', '2022001004', NULL, '计算机学院', '计算机2202班', 0),
-('student5', '123456', '钱七', '13900000005', '2022001005', NULL, '软件学院', '软件2201班', 0);
+('admin', '$2a$10$38QkAorQH6TwPA0zMb3TgOtz67p9orbsvYs3GRjGXBqLka4RYnq/u', '系统管理员', '13800000000', NULL, 'A001', '教务处', NULL, 2),
+('teacher1', '$2a$10$38QkAorQH6TwPA0zMb3TgOtz67p9orbsvYs3GRjGXBqLka4RYnq/u', '张老师', '13800000001', NULL, 'T001', '计算机学院', NULL, 1),
+('teacher2', '$2a$10$38QkAorQH6TwPA0zMb3TgOtz67p9orbsvYs3GRjGXBqLka4RYnq/u', '李老师', '13800000002', NULL, 'T002', '计算机学院', NULL, 1),
+('teacher3', '$2a$10$38QkAorQH6TwPA0zMb3TgOtz67p9orbsvYs3GRjGXBqLka4RYnq/u', '王老师', '13800000003', NULL, 'T003', '软件学院', NULL, 1),
+('student1', '$2a$10$38QkAorQH6TwPA0zMb3TgOtz67p9orbsvYs3GRjGXBqLka4RYnq/u', '张三', '13900000001', '2022001001', NULL, '计算机学院', '计算机2201班', 0),
+('student2', '$2a$10$38QkAorQH6TwPA0zMb3TgOtz67p9orbsvYs3GRjGXBqLka4RYnq/u', '李四', '13900000002', '2022001002', NULL, '计算机学院', '计算机2201班', 0),
+('student3', '$2a$10$38QkAorQH6TwPA0zMb3TgOtz67p9orbsvYs3GRjGXBqLka4RYnq/u', '王五', '13900000003', '2022001003', NULL, '计算机学院', '计算机2201班', 0),
+('student4', '$2a$10$38QkAorQH6TwPA0zMb3TgOtz67p9orbsvYs3GRjGXBqLka4RYnq/u', '赵六', '13900000004', '2022001004', NULL, '计算机学院', '计算机2202班', 0),
+('student5', '$2a$10$38QkAorQH6TwPA0zMb3TgOtz67p9orbsvYs3GRjGXBqLka4RYnq/u', '钱七', '13900000005', '2022001005', NULL, '软件学院', '软件2201班', 0);
 
 -- 课程数据
 INSERT INTO course (course_code, name, teacher_id, semester_id, credit, hours, description, student_count) VALUES

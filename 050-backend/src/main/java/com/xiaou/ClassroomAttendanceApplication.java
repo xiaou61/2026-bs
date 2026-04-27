@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @MapperScan("com.xiaou.mapper")
-public class KaoyanStudyApplication {
+public class ClassroomAttendanceApplication {
     public static void main(String[] args) {
-        SpringApplication.run(KaoyanStudyApplication.class, args);
+        SpringApplication.run(ClassroomAttendanceApplication.class, args);
     }
 }

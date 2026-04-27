@@ -24,27 +24,19 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "首页",
-        "iconPath": "images/home.png",
-        "selectedIconPath": "images/home-active.png"
+        "text": "首页"
       },
       {
         "pagePath": "pages/course/course",
-        "text": "课程",
-        "iconPath": "images/course.png",
-        "selectedIconPath": "images/course-active.png"
+        "text": "课程"
       },
       {
         "pagePath": "pages/record/record",
-        "text": "记录",
-        "iconPath": "images/record.png",
-        "selectedIconPath": "images/record-active.png"
+        "text": "记录"
       },
       {
         "pagePath": "pages/my/my",
-        "text": "我的",
-        "iconPath": "images/my.png",
-        "selectedIconPath": "images/my-active.png"
+        "text": "我的"
       }
     ]
   },

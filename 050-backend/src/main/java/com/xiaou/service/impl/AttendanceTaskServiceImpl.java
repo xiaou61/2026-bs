@@ -71,17 +71,20 @@ public class AttendanceTaskServiceImpl extends ServiceImpl<AttendanceTaskMapper,
             task.setSignCode(String.format("%06d", new Random().nextInt(1000000)));
         }
         
-        task.setCreateTime(LocalDateTime.now());
-        this.save(task);
-        
         // 为课程所有学生创建待签到记录
         List<CourseStudent> students = courseStudentMapper.selectList(
                 new LambdaQueryWrapper<CourseStudent>()
                         .eq(CourseStudent::getCourseId, dto.getCourseId()));
+        task.setTotalCount(students.size());
+        task.setSignedCount(0);
+        task.setCreateTime(LocalDateTime.now());
+        this.save(task);
+
         for (CourseStudent cs : students) {
             AttendanceRecord record = new AttendanceRecord();
             record.setTaskId(task.getId());
             record.setStudentId(cs.getStudentId());
+            record.setCourseId(dto.getCourseId());
             record.setStatus(0); // 未签到
             record.setCreateTime(LocalDateTime.now());
             attendanceRecordMapper.insert(record);
@@ -99,7 +102,7 @@ public class AttendanceTaskServiceImpl extends ServiceImpl<AttendanceTaskMapper,
     public void endTask(Long taskId, Long teacherId) {
         AttendanceTask task = this.getById(taskId);
         if (task != null && task.getTeacherId().equals(teacherId)) {
-            task.setStatus(2); // 已结束
+            task.setStatus(0); // 已结束
             task.setEndTime(LocalDateTime.now());
             this.updateById(task);
         }

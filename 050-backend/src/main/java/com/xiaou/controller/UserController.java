@@ -34,10 +34,21 @@ public class UserController {
     @PutMapping("/update")
     public Result<?> updateUser(@RequestHeader("Authorization") String token, @RequestBody User user) {
         Long userId = jwtUtil.getUserIdFromToken(token.replace("Bearer ", ""));
-        user.setId(userId);
-        user.setPassword(null); // 不更新密码
-        user.setUpdateTime(LocalDateTime.now());
-        userService.updateById(user);
+        User current = userService.getById(userId);
+        if (current == null) {
+            return Result.error("用户不存在");
+        }
+        current.setRealName(user.getRealName());
+        current.setAvatar(user.getAvatar());
+        current.setPhone(user.getPhone());
+        current.setEmail(user.getEmail());
+        current.setOpenid(user.getOpenid());
+        current.setStudentNo(user.getStudentNo());
+        current.setTeacherNo(user.getTeacherNo());
+        current.setDepartment(user.getDepartment());
+        current.setClassName(user.getClassName());
+        current.setUpdateTime(LocalDateTime.now());
+        userService.updateById(current);
         return Result.success("更新成功");
     }
 
