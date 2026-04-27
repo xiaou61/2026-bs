@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8080'
+const BASE_URL = 'http://localhost:8051'
 
 const request = (options) => {
   return new Promise((resolve, reject) => {
@@ -14,7 +14,7 @@ const request = (options) => {
       success: (res) => {
         if (res.data.code === 200) {
           resolve(res.data.data)
-        } else if (res.data.code === 401) {
+        } else if (res.data.code === 401 || res.data.code === 403 || res.statusCode === 401 || res.statusCode === 403) {
           wx.removeStorageSync('token')
           wx.removeStorageSync('userInfo')
           wx.showToast({ title: '请先登录', icon: 'none' })

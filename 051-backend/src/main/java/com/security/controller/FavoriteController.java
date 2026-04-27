@@ -1,7 +1,9 @@
 package com.security.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.security.common.BusinessException;
 import com.security.common.Result;
+import com.security.dto.FavoriteDTO;
 import com.security.service.ArticleService;
 import com.security.vo.ArticleVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +19,12 @@ public class FavoriteController {
     private ArticleService articleService;
 
     @PostMapping("/add")
-    public Result<?> add(@RequestParam Long articleId, HttpServletRequest request) {
+    public Result<?> add(@RequestBody FavoriteDTO dto, HttpServletRequest request) {
+        if (dto.getArticleId() == null) {
+            throw new BusinessException("文章ID不能为空");
+        }
         Long userId = (Long) request.getAttribute("userId");
-        articleService.addFavorite(articleId, userId);
+        articleService.addFavorite(dto.getArticleId(), userId);
         return Result.success();
     }
 

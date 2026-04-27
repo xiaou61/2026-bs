@@ -6,7 +6,8 @@
 
   <view class="article-list">
     <view class="article-item card" wx:for="{{articles}}" wx:key="id" bindtap="goArticle" data-id="{{item.id}}">
-      <image class="article-cover" src="{{item.cover || '/static/default.png'}}" mode="aspectFill"></image>
+      <image wx:if="{{item.cover}}" class="article-cover" src="{{item.cover}}" mode="aspectFill"></image>
+      <view wx:else class="article-cover placeholder-cover">安全</view>
       <view class="article-info">
         <view class="article-title">{{item.title}}</view>
         <view class="article-meta text-small text-gray">

@@ -6,7 +6,8 @@
 
   <view wx:if="{{tabIndex === 0}}">
     <view class="news-item card" wx:for="{{newsList}}" wx:key="id" bindtap="goNewsDetail" data-id="{{item.id}}">
-      <image class="news-cover" src="{{item.cover || '/static/default.png'}}" mode="aspectFill"></image>
+      <image wx:if="{{item.cover}}" class="news-cover" src="{{item.cover}}" mode="aspectFill"></image>
+      <view wx:else class="news-cover placeholder-cover">资讯</view>
       <view class="news-info">
         <view class="news-title">{{item.title}}</view>
         <view class="news-meta text-small text-gray">

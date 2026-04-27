@@ -1,14 +1,15 @@
 <view class="container">
   <view class="user-card card">
     <view class="user-info" wx:if="{{userInfo}}">
-      <image class="avatar" src="{{userInfo.avatar || '/static/default-avatar.png'}}"></image>
+      <image wx:if="{{userInfo.avatar}}" class="avatar" src="{{userInfo.avatar}}"></image>
+      <view wx:else class="avatar avatar-placeholder">安</view>
       <view class="user-detail">
         <view class="nickname">{{userInfo.nickname}}</view>
         <view class="level text-small">{{userInfo.levelName}} · {{userInfo.points}}积分</view>
       </view>
     </view>
     <view class="login-btn" wx:else bindtap="handleLogin">
-      <image class="avatar" src="/static/default-avatar.png"></image>
+      <view class="avatar avatar-placeholder">登</view>
       <view class="login-text">点击登录</view>
     </view>
   </view>

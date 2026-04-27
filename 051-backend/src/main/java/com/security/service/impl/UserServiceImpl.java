@@ -28,6 +28,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Value("${wechat.secret}")
     private String secret;
 
+    @Value("${wechat.mock-enabled:true}")
+    private Boolean mockEnabled;
+
     @Autowired
     private JwtUtils jwtUtils;
 
@@ -42,14 +45,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public LoginVO login(LoginDTO dto) {
-        String url = "https://api.weixin.qq.com/sns/jscode2session?appid=" + appid +
-                "&secret=" + secret + "&js_code=" + dto.getCode() + "&grant_type=authorization_code";
-        String result = HttpUtil.get(url);
-        JSONObject json = JSONUtil.parseObj(result);
-        String openid = json.getStr("openid");
-        if (openid == null) {
-            throw new BusinessException("微信登录失败");
-        }
+        String openid = resolveOpenid(dto);
 
         User user = this.getOne(new LambdaQueryWrapper<User>().eq(User::getOpenid, openid));
         if (user == null) {
@@ -69,6 +65,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         vo.setNickname(user.getNickname());
         vo.setAvatar(user.getAvatar());
         return vo;
+    }
+
+    private String resolveOpenid(LoginDTO dto) {
+        if (Boolean.TRUE.equals(mockEnabled) || isBlank(appid) || "your-appid".equals(appid) || "local-appid".equals(appid)) {
+            String code = isBlank(dto.getCode()) ? "demo" : dto.getCode().trim();
+            return "local-" + code;
+        }
+
+        String url = "https://api.weixin.qq.com/sns/jscode2session?appid=" + appid +
+                "&secret=" + secret + "&js_code=" + dto.getCode() + "&grant_type=authorization_code";
+        String result = HttpUtil.get(url);
+        JSONObject json = JSONUtil.parseObj(result);
+        String openid = json.getStr("openid");
+        if (openid == null) {
+            throw new BusinessException("微信登录失败：" + json.getStr("errmsg", "未返回 openid"));
+        }
+        return openid;
     }
 
     @Override
@@ -106,6 +119,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public UserStatsVO getUserStats(Long userId) {
         UserStatsVO vo = new UserStatsVO();
         User user = this.getById(userId);
+        if (user == null) {
+            throw new BusinessException("用户不存在");
+        }
         vo.setPoints(user.getPoints());
         vo.setLevel(user.getLevel());
 
@@ -136,6 +152,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public void addPoints(Long userId, Integer points) {
         User user = this.getById(userId);
+        if (user == null) {
+            throw new BusinessException("用户不存在");
+        }
         user.setPoints(user.getPoints() + points);
         int newLevel = calculateLevel(user.getPoints());
         user.setLevel(newLevel);
@@ -159,5 +178,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             case 5: return "安全大师";
             default: return "安全小白";
         }
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty();
     }
 }

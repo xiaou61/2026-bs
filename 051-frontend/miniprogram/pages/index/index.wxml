@@ -2,10 +2,10 @@
   <view class="banner">
     <swiper autoplay circular indicator-dots>
       <swiper-item>
-        <image src="/static/banner/banner1.png" mode="aspectFill"></image>
+        <view class="banner-card">网络安全从好习惯开始</view>
       </swiper-item>
       <swiper-item>
-        <image src="/static/banner/banner2.png" mode="aspectFill"></image>
+        <view class="banner-card banner-card-alt">识别诈骗，保护隐私</view>
       </swiper-item>
     </swiper>
   </view>
@@ -14,7 +14,8 @@
     <view class="section-title">知识分类</view>
     <view class="category-grid">
       <view class="category-item" wx:for="{{categories}}" wx:key="id" bindtap="goCategory" data-id="{{item.id}}" data-name="{{item.name}}">
-        <image src="{{item.icon || '/static/icons/default.png'}}" mode="aspectFit"></image>
+        <image wx:if="{{item.icon}}" src="{{item.icon}}" mode="aspectFit"></image>
+        <view wx:else class="category-icon-placeholder">安</view>
         <text>{{item.name}}</text>
       </view>
     </view>
@@ -27,7 +28,8 @@
     </view>
     <view class="article-list">
       <view class="article-item card" wx:for="{{articles}}" wx:key="id" bindtap="goArticle" data-id="{{item.id}}">
-        <image class="article-cover" src="{{item.cover || '/static/default.png'}}" mode="aspectFill"></image>
+        <image wx:if="{{item.cover}}" class="article-cover" src="{{item.cover}}" mode="aspectFill"></image>
+        <view wx:else class="article-cover placeholder-cover">安全</view>
         <view class="article-info">
           <view class="article-title">{{item.title}}</view>
           <view class="article-meta text-small text-gray">

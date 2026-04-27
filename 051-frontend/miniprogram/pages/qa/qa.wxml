@@ -1,0 +1,13 @@
+<view class="container">
+  <view class="qa-item card" wx:for="{{qaList}}" wx:key="id" bindtap="goQaDetail" data-id="{{item.id}}">
+    <view class="qa-title">{{item.title}}</view>
+    <view class="qa-content text-gray">{{item.content}}</view>
+    <view class="qa-meta text-small text-gray">
+      <text>{{item.nickname || '匿名用户'}}</text>
+      <text>回复 {{item.replyCount}}</text>
+      <text>浏览 {{item.viewCount}}</text>
+    </view>
+  </view>
+  <view class="empty" wx:if="{{qaList.length === 0}}">暂无问答</view>
+  <view class="fab" bindtap="goQaPost">+</view>
+</view>

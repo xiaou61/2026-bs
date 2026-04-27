@@ -85,3 +85,38 @@ page {
   height: 60rpx;
   border-radius: 50%;
 }
+
+.avatar-placeholder,
+.category-icon-placeholder,
+.placeholder-cover,
+.banner-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1d7afc 0%, #13c2c2 100%);
+  color: #fff;
+  font-weight: 600;
+}
+
+.category-icon-placeholder {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 24rpx;
+  font-size: 34rpx;
+}
+
+.placeholder-cover {
+  font-size: 28rpx;
+}
+
+.banner-card {
+  width: 100%;
+  height: 100%;
+  border-radius: 16rpx;
+  font-size: 38rpx;
+  letter-spacing: 2rpx;
+}
+
+.banner-card-alt {
+  background: linear-gradient(135deg, #fa8c16 0%, #f5222d 100%);
+}

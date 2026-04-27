@@ -1,7 +1,8 @@
 <view class="container">
   <view class="rank-item card {{index < 3 ? 'top' + (index + 1) : ''}}" wx:for="{{rankList}}" wx:key="userId">
     <view class="rank-num">{{item.rank}}</view>
-    <image class="avatar-small" src="{{item.avatar || '/static/default-avatar.png'}}"></image>
+    <image wx:if="{{item.avatar}}" class="avatar-small" src="{{item.avatar}}"></image>
+    <view wx:else class="avatar-small avatar-placeholder">安</view>
     <view class="rank-info">
       <view class="rank-name">{{item.nickname}}</view>
     </view>

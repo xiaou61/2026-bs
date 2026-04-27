@@ -11,12 +11,12 @@ import com.security.entity.User;
 import com.security.mapper.QaPostMapper;
 import com.security.mapper.QaReplyMapper;
 import com.security.mapper.UserMapper;
+import com.security.service.LocalCacheService;
 import com.security.service.QaService;
 import com.security.vo.QaPostVO;
 import com.security.vo.QaReplyVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public class QaServiceImpl implements QaService {
     private UserMapper userMapper;
 
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private LocalCacheService localCacheService;
 
     @Override
     public Page<QaPostVO> getPostList(Integer page, Integer size) {
@@ -121,10 +121,10 @@ public class QaServiceImpl implements QaService {
     @Override
     public void likeReply(Long replyId, Long userId) {
         String likeKey = "reply:like:" + replyId + ":" + userId;
-        if (Boolean.TRUE.equals(redisTemplate.hasKey(likeKey))) {
+        if (localCacheService.hasKey(likeKey)) {
             throw new BusinessException("已经点赞过了");
         }
-        redisTemplate.opsForValue().set(likeKey, "1", 365, TimeUnit.DAYS);
+        localCacheService.set(likeKey, "1", 365, TimeUnit.DAYS);
 
         QaReply reply = qaReplyMapper.selectById(replyId);
         if (reply != null) {

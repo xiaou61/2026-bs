@@ -12,13 +12,13 @@ import com.security.entity.Question;
 import com.security.mapper.AnswerRecordMapper;
 import com.security.mapper.CategoryMapper;
 import com.security.mapper.QuestionMapper;
+import com.security.service.LocalCacheService;
 import com.security.service.QuestionService;
 import com.security.service.UserService;
 import com.security.vo.AnswerResultVO;
 import com.security.vo.QuestionVO;
 import com.security.vo.RankVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -43,7 +43,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     private UserService userService;
 
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private LocalCacheService localCacheService;
 
     @Override
     public List<QuestionVO> getDailyQuestions(Long userId) {
@@ -51,7 +51,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         String key = "daily:questions:" + today;
 
         @SuppressWarnings("unchecked")
-        List<Long> questionIds = (List<Long>) redisTemplate.opsForValue().get(key);
+        List<Long> questionIds = (List<Long>) localCacheService.get(key);
 
         if (questionIds == null) {
             List<Question> allQuestions = this.list();
@@ -60,7 +60,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
                     .limit(5)
                     .map(Question::getId)
                     .collect(Collectors.toList());
-            redisTemplate.opsForValue().set(key, questionIds, 24, TimeUnit.HOURS);
+            localCacheService.set(key, questionIds, 24, TimeUnit.HOURS);
         }
 
         List<QuestionVO> result = new ArrayList<>();

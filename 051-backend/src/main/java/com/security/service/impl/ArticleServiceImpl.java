@@ -7,10 +7,10 @@ import com.security.common.BusinessException;
 import com.security.entity.*;
 import com.security.mapper.*;
 import com.security.service.ArticleService;
+import com.security.service.LocalCacheService;
 import com.security.vo.ArticleVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, KnowledgeArti
     private LearnRecordMapper learnRecordMapper;
 
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private LocalCacheService localCacheService;
 
     @Override
     public List<KnowledgeCategory> getCategoryList() {
@@ -91,7 +91,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, KnowledgeArti
             vo.setIsFavorite(favoriteCount > 0);
 
             String likeKey = "article:like:" + id + ":" + userId;
-            vo.setIsLiked(redisTemplate.hasKey(likeKey));
+            vo.setIsLiked(localCacheService.hasKey(likeKey));
         }
 
         return vo;
@@ -100,18 +100,24 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, KnowledgeArti
     @Override
     public void likeArticle(Long id, Long userId) {
         String likeKey = "article:like:" + id + ":" + userId;
-        if (Boolean.TRUE.equals(redisTemplate.hasKey(likeKey))) {
+        if (localCacheService.hasKey(likeKey)) {
             throw new BusinessException("已经点赞过了");
         }
-        redisTemplate.opsForValue().set(likeKey, "1", 365, TimeUnit.DAYS);
+        localCacheService.set(likeKey, "1", 365, TimeUnit.DAYS);
 
         KnowledgeArticle article = this.getById(id);
+        if (article == null) {
+            throw new BusinessException("文章不存在");
+        }
         article.setLikeCount(article.getLikeCount() + 1);
         this.updateById(article);
     }
 
     @Override
     public void addFavorite(Long articleId, Long userId) {
+        if (this.getById(articleId) == null) {
+            throw new BusinessException("文章不存在");
+        }
         Long count = favoriteMapper.selectCount(
                 new LambdaQueryWrapper<Favorite>()
                         .eq(Favorite::getUserId, userId)
@@ -161,6 +167,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, KnowledgeArti
 
     @Override
     public void recordLearn(Long articleId, Long userId, Integer progress) {
+        if (this.getById(articleId) == null) {
+            throw new BusinessException("文章不存在");
+        }
         LearnRecord record = learnRecordMapper.selectOne(
                 new LambdaQueryWrapper<LearnRecord>()
                         .eq(LearnRecord::getUserId, userId)

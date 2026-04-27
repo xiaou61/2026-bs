@@ -8,7 +8,8 @@
   <view class="section-title">分类答题</view>
   <view class="category-list">
     <view class="category-item card" wx:for="{{categories}}" wx:key="id" bindtap="startCategory" data-id="{{item.id}}" data-name="{{item.name}}">
-      <image src="{{item.icon || '/static/icons/default.png'}}"></image>
+      <image wx:if="{{item.icon}}" src="{{item.icon}}"></image>
+      <view wx:else class="category-icon-placeholder">安</view>
       <view class="category-info">
         <view class="category-name">{{item.name}}</view>
         <view class="category-desc text-small text-gray">专项测验</view>
