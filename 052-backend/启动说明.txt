@@ -1,0 +1,84 @@
+052 网课在线学习观看系统启动说明
+
+一、后端启动
+
+1. 进入后端目录：
+   cd 052-backend
+
+2. 直接启动默认 H2 演示环境：
+   mvn spring-boot:run
+
+3. 后端默认端口：
+   http://localhost:8052
+
+4. H2 控制台：
+   http://localhost:8052/h2-console
+
+5. H2 连接信息：
+   JDBC URL: jdbc:h2:mem:online_course
+   用户名: sa
+   密码: 留空
+
+二、默认账号
+
+管理员：admin / 123456
+教师：teacher / 123456
+学生：student / 123456
+
+三、用户端启动
+
+1. 进入用户端目录：
+   cd 052-frontend/user
+
+2. 安装依赖：
+   npm install --no-audit --no-fund
+
+3. 启动开发服务：
+   npm run dev
+
+4. 默认端口：
+   http://localhost:3052
+
+四、管理端启动
+
+1. 进入管理端目录：
+   cd 052-frontend/admin
+
+2. 安装依赖：
+   npm install --no-audit --no-fund
+
+3. 启动开发服务：
+   npm run dev
+
+4. 默认端口：
+   http://localhost:3152
+
+五、MySQL 模式
+
+默认演示不需要 MySQL。如需使用 MySQL：
+
+1. 创建数据库 online_course。
+2. 导入 052-backend/sql/init.sql。
+3. 修改 052-backend/src/main/resources/application-mysql.yml 中的数据库账号密码。
+4. 执行：
+   mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+
+六、验证命令
+
+后端测试：
+   cd 052-backend
+   mvn clean test
+
+用户端构建：
+   cd 052-frontend/user
+   npm run build
+
+管理端构建：
+   cd 052-frontend/admin
+   npm run build
+
+七、备注
+
+1. 后端默认 H2 环境可直接启动，适合本地演示和答辩。
+2. 用户端和管理端已代理到 http://localhost:8052。
+3. target、node_modules、dist 和 .tmp 属于生成物，不需要提交到 GitHub。
