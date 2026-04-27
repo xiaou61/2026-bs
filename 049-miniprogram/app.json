@@ -30,33 +30,23 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "首页",
-        "iconPath": "images/tab-home.png",
-        "selectedIconPath": "images/tab-home-active.png"
+        "text": "首页"
       },
       {
         "pagePath": "pages/course/course",
-        "text": "课程",
-        "iconPath": "images/tab-course.png",
-        "selectedIconPath": "images/tab-course-active.png"
+        "text": "课程"
       },
       {
         "pagePath": "pages/question/question",
-        "text": "刷题",
-        "iconPath": "images/tab-question.png",
-        "selectedIconPath": "images/tab-question-active.png"
+        "text": "刷题"
       },
       {
         "pagePath": "pages/community/community",
-        "text": "社区",
-        "iconPath": "images/tab-community.png",
-        "selectedIconPath": "images/tab-community-active.png"
+        "text": "社区"
       },
       {
         "pagePath": "pages/my/my",
-        "text": "我的",
-        "iconPath": "images/tab-my.png",
-        "selectedIconPath": "images/tab-my-active.png"
+        "text": "我的"
       }
     ]
   },

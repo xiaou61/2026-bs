@@ -60,6 +60,7 @@ Page({
   },
 
   async likePost(e) {
+    if (!app.checkLogin()) return
     const id = e.currentTarget.dataset.id
     try {
       await post(`/post/${id}/like`)

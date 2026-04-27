@@ -1,8 +1,8 @@
 <view class="container">
   <view class="question-item card" wx:for="{{questions}}" wx:key="id">
-    <view class="question-content">{{item.content}}</view>
+    <view class="question-content">{{item.question.content}}</view>
     <view class="question-meta text-gray text-small mt-10">
-      正确答案: {{item.answer}} | 你的答案: {{item.userAnswer}}
+      正确答案: {{item.question.answer}} | 错误次数: {{item.wrongCount}}
     </view>
     <view class="btn-outline mt-10" style="padding:12rpx 0;" bindtap="markMastered" data-id="{{item.questionId}}">
       标记为已掌握

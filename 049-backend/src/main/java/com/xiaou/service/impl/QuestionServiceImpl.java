@@ -3,6 +3,8 @@ package com.xiaou.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xiaou.dto.AnswerDTO;
 import com.xiaou.entity.*;
 import com.xiaou.mapper.*;
@@ -22,6 +24,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     private final AnswerRecordMapper answerRecordMapper;
     private final WrongQuestionMapper wrongQuestionMapper;
     private final UserMapper userMapper;
+    private final ObjectMapper objectMapper;
 
     @Override
     public Page<Question> getPage(int current, int size, Long subjectId, Long categoryId, Integer type, Integer difficulty) {
@@ -60,15 +63,19 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     @Override
     public Map<String, Object> submitAnswer(Long userId, AnswerDTO dto) {
         Question question = getById(dto.getQuestionId());
-        boolean isCorrect = question.getAnswer().equals(dto.getUserAnswer());
+        if (question == null) {
+            throw new RuntimeException("题目不存在");
+        }
+        String userAnswer = dto.submittedAnswer();
+        boolean isCorrect = question.getAnswer().equals(userAnswer);
         
         // 保存答题记录
         AnswerRecord record = new AnswerRecord();
         record.setUserId(userId);
         record.setQuestionId(dto.getQuestionId());
-        record.setUserAnswer(dto.getUserAnswer());
+        record.setUserAnswer(userAnswer);
         record.setIsCorrect(isCorrect ? 1 : 0);
-        record.setTimeSpent(dto.getTimeSpent());
+        record.setTimeSpent(dto.getTimeSpent() == null ? 0 : dto.getTimeSpent());
         answerRecordMapper.insert(record);
         
         // 错题处理
@@ -83,6 +90,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
                 wq.setUserId(userId);
                 wq.setQuestionId(dto.getQuestionId());
                 wq.setWrongCount(1);
+                wq.setLastWrongTime(LocalDateTime.now());
                 wq.setStatus(0);
                 wrongQuestionMapper.insert(wq);
             } else {
@@ -95,8 +103,10 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         
         // 更新积分
         User user = userMapper.selectById(userId);
-        user.setPoints(user.getPoints() + (isCorrect ? 2 : 1));
-        userMapper.updateById(user);
+        if (user != null) {
+            user.setPoints((user.getPoints() == null ? 0 : user.getPoints()) + (isCorrect ? 2 : 1));
+            userMapper.updateById(user);
+        }
         
         Map<String, Object> result = new HashMap<>();
         result.put("isCorrect", isCorrect);
@@ -135,5 +145,28 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
             Subject s = subjectMapper.selectById(q.getSubjectId());
             if (s != null) q.setSubjectName(s.getName());
         }
+        fillOptions(q);
+    }
+
+    private void fillOptions(Question q) {
+        if (q.getOptions() == null || q.getOptions().isBlank()) {
+            return;
+        }
+        try {
+            List<String> options = objectMapper.readValue(q.getOptions(), new TypeReference<>() {});
+            if (options.size() > 0) q.setOptionA(normalizeOption(options.get(0)));
+            if (options.size() > 1) q.setOptionB(normalizeOption(options.get(1)));
+            if (options.size() > 2) q.setOptionC(normalizeOption(options.get(2)));
+            if (options.size() > 3) q.setOptionD(normalizeOption(options.get(3)));
+        } catch (Exception ignored) {
+            // 保留原始 options 字段，避免单条脏数据影响题库接口。
+        }
+    }
+
+    private String normalizeOption(String option) {
+        if (option == null) {
+            return null;
+        }
+        return option.replaceFirst("^[A-Da-d][\\.、．]\\s*", "");
     }
 }

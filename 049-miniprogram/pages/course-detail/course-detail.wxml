@@ -1,6 +1,7 @@
 <view class="container" wx:if="{{course}}">
   <!-- 封面 -->
-  <image class="cover" src="{{course.coverImage || '/images/course-default.png'}}" mode="aspectFill"></image>
+  <image wx:if="{{course.cover}}" class="cover" src="{{course.cover}}" mode="aspectFill"></image>
+  <view wx:else class="cover image-placeholder">考研课程</view>
 
   <!-- 基本信息 -->
   <view class="info-section card">

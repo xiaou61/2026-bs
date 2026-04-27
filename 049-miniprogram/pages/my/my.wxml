@@ -1,7 +1,8 @@
 <view class="container">
   <!-- 用户信息 -->
   <view class="user-section card" wx:if="{{userInfo}}" bindtap="goToPage" data-page="profile">
-    <image class="avatar" src="{{userInfo.avatar || '/images/default-avatar.png'}}"></image>
+    <image wx:if="{{userInfo.avatar}}" class="avatar" src="{{userInfo.avatar}}"></image>
+    <view wx:else class="avatar avatar-placeholder">学</view>
     <view class="user-info">
       <view class="nickname">{{userInfo.nickname}}</view>
       <view class="target text-gray text-small">{{userInfo.targetSchool || '未设置目标院校'}} · {{userInfo.targetMajor || '未设置专业'}}</view>

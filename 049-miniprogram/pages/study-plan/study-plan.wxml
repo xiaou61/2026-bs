@@ -1,7 +1,8 @@
 <view class="container">
   <view class="btn-primary mb-20" bindtap="createPlan">+ 创建计划</view>
   <view class="plan-item card" wx:for="{{plans}}" wx:key="id">
-    <view class="plan-content">{{item.content}}</view>
+    <view class="plan-content">{{item.title}}</view>
+    <view class="text-gray text-small mt-10">{{item.targetContent}}</view>
     <view class="plan-progress mt-10">
       <view class="progress-bar">
         <view class="progress" style="width:{{item.progress}}%"></view>

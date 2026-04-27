@@ -74,6 +74,9 @@ public class StudyServiceImpl implements StudyService {
 
     @Override
     public void updatePlanProgress(Long planId, Integer progress) {
+        if (progress == null) {
+            throw new RuntimeException("学习进度不能为空");
+        }
         StudyPlan plan = studyPlanMapper.selectById(planId);
         if (plan != null) {
             plan.setProgress(progress);

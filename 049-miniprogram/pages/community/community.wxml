@@ -5,7 +5,8 @@
   <!-- 帖子列表 -->
   <view class="post-item card" wx:for="{{posts}}" wx:key="id" bindtap="goToDetail" data-id="{{item.id}}">
     <view class="post-header flex">
-      <image class="avatar" src="{{item.authorAvatar || '/images/default-avatar.png'}}"></image>
+      <image wx:if="{{item.authorAvatar}}" class="avatar" src="{{item.authorAvatar}}"></image>
+      <view wx:else class="avatar avatar-placeholder">研</view>
       <view class="author-info flex-1">
         <view class="author-name">{{item.authorName || '匿名用户'}}</view>
         <view class="post-time text-gray text-small">{{item.createTime}}</view>

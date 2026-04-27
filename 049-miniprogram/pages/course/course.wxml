@@ -23,7 +23,8 @@
   <!-- 课程列表 -->
   <view class="course-list">
     <view class="course-item card" wx:for="{{courses}}" wx:key="id" bindtap="goToDetail" data-id="{{item.id}}">
-      <image class="cover" src="{{item.coverImage || '/images/course-default.png'}}" mode="aspectFill"></image>
+      <image wx:if="{{item.cover}}" class="cover" src="{{item.cover}}" mode="aspectFill"></image>
+      <view wx:else class="cover image-placeholder">课程</view>
       <view class="info">
         <view class="title">{{item.title}}</view>
         <view class="teacher text-gray text-small">讲师: {{item.teacherName || '未知'}}</view>

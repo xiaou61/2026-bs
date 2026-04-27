@@ -2,7 +2,8 @@
   <!-- 用户信息 -->
   <view class="user-card card" wx:if="{{userInfo}}">
     <view class="flex">
-      <image class="avatar" src="{{userInfo.avatar || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+      <image wx:if="{{userInfo.avatar}}" class="avatar" src="{{userInfo.avatar}}" mode="aspectFill"></image>
+      <view wx:else class="avatar avatar-placeholder">学</view>
       <view class="user-info flex-1">
         <view class="nickname">{{userInfo.nickname}}</view>
         <view class="target text-gray text-small">目标: {{userInfo.targetSchool || '未设置'}} · {{userInfo.targetMajor || '未设置'}}</view>
@@ -72,7 +73,8 @@
     </view>
     <view class="course-list">
       <view class="course-item" wx:for="{{hotCourses}}" wx:key="id" bindtap="goToCourse" data-id="{{item.id}}">
-        <image class="course-cover" src="{{item.coverImage || '/images/course-default.png'}}" mode="aspectFill"></image>
+        <image wx:if="{{item.cover}}" class="course-cover" src="{{item.cover}}" mode="aspectFill"></image>
+        <view wx:else class="course-cover image-placeholder">课程</view>
         <view class="course-info">
           <view class="course-title">{{item.title}}</view>
           <view class="course-teacher text-gray text-small">{{item.teacherName}}</view>

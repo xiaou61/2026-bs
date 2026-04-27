@@ -75,7 +75,8 @@ Page({
     try {
       const res = await post('/question/submit', {
         questionId: this.data.currentQuestion.id,
-        answer: this.data.selectedAnswer
+        userAnswer: this.data.selectedAnswer,
+        timeSpent: 0
       })
       
       const isCorrect = res.data.isCorrect

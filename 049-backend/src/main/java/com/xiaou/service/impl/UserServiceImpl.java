@@ -3,12 +3,12 @@ package com.xiaou.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.xiaou.common.JwtUtil;
 import com.xiaou.dto.LoginDTO;
 import com.xiaou.dto.RegisterDTO;
 import com.xiaou.entity.*;
 import com.xiaou.mapper.*;
 import com.xiaou.service.UserService;
+import com.xiaou.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -21,7 +21,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-    private final JwtUtil jwtUtil;
+    private final JwtUtils jwtUtils;
     private final StudyRecordMapper studyRecordMapper;
     private final AnswerRecordMapper answerRecordMapper;
     private final DailyCheckinMapper dailyCheckinMapper;
@@ -35,7 +35,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (user.getStatus() != 1) {
             throw new RuntimeException("账号已被禁用");
         }
-        String token = jwtUtil.generateToken(user.getId(), user.getUsername());
+        String token = jwtUtils.generateToken(user.getId(), user.getUsername(), user.getRole());
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
         result.put("user", user);
@@ -82,7 +82,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public void updateProfile(User user) {
-        updateById(user);
+        User existing = getById(user.getId());
+        if (existing == null) {
+            throw new RuntimeException("用户不存在");
+        }
+        if (user.getNickname() != null) existing.setNickname(user.getNickname());
+        if (user.getAvatar() != null) existing.setAvatar(user.getAvatar());
+        if (user.getPhone() != null) existing.setPhone(user.getPhone());
+        if (user.getEmail() != null) existing.setEmail(user.getEmail());
+        if (user.getTargetSchool() != null) existing.setTargetSchool(user.getTargetSchool());
+        if (user.getTargetMajor() != null) existing.setTargetMajor(user.getTargetMajor());
+        if (user.getExamYear() != null) existing.setExamYear(user.getExamYear());
+        updateById(existing);
     }
 
     @Override

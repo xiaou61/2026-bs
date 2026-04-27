@@ -2,7 +2,7 @@ App({
   globalData: {
     userInfo: null,
     token: null,
-    baseUrl: 'http://localhost:8080/api'
+    baseUrl: 'http://localhost:8049/api'
   },
   onLaunch() {
     const token = wx.getStorageSync('token')

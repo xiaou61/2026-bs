@@ -1,7 +1,9 @@
 package com.xiaou.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
 import java.time.LocalDateTime;
 
 @Data
@@ -11,6 +13,8 @@ public class User {
     private Long id;
     private String openid;
     private String username;
+    @JsonIgnore
+    @ToString.Exclude
     private String password;
     private String nickname;
     private String avatar;

@@ -28,4 +28,12 @@ public class Question {
     private String categoryName;
     @TableField(exist = false)
     private String subjectName;
+    @TableField(exist = false)
+    private String optionA;
+    @TableField(exist = false)
+    private String optionB;
+    @TableField(exist = false)
+    private String optionC;
+    @TableField(exist = false)
+    private String optionD;
 }

@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/study")
 @RequiredArgsConstructor
@@ -49,7 +51,12 @@ public class StudyController {
     }
 
     @PutMapping("/plan/{id}/progress")
-    public Result<?> updatePlanProgress(@PathVariable Long id, @RequestParam Integer progress) {
+    public Result<?> updatePlanProgress(@PathVariable Long id,
+                                        @RequestParam(required = false) Integer progress,
+                                        @RequestBody(required = false) Map<String, Integer> body) {
+        if (progress == null && body != null) {
+            progress = body.get("progress");
+        }
         studyService.updatePlanProgress(id, progress);
         return Result.success();
     }

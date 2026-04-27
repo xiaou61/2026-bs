@@ -11,15 +11,16 @@ const request = (url, method = 'GET', data = {}) => {
         'Authorization': app.globalData.token ? `Bearer ${app.globalData.token}` : ''
       },
       success: res => {
-        if (res.data.code === 200) {
-          resolve(res.data)
-        } else if (res.data.code === 401) {
+        const body = res.data || {}
+        if (res.statusCode === 401 || res.statusCode === 403 || body.code === 401) {
           app.logout()
           wx.navigateTo({ url: '/pages/login/login' })
-          reject(res.data)
+          reject(body)
+        } else if (body.code === 200) {
+          resolve(body)
         } else {
-          wx.showToast({ title: res.data.message || '请求失败', icon: 'none' })
-          reject(res.data)
+          wx.showToast({ title: body.message || '请求失败', icon: 'none' })
+          reject(body)
         }
       },
       fail: err => {

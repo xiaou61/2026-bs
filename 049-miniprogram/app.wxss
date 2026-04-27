@@ -88,3 +88,23 @@ page {
 .input-item input, .input-item textarea {
   width: 100%;
 }
+
+.image-placeholder {
+  background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+  color: #1976D2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+.avatar-placeholder {
+  background: linear-gradient(135deg, #E3F2FD, #90CAF9);
+  color: #1565C0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34rpx;
+  font-weight: 700;
+}
