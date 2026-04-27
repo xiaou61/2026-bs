@@ -1,0 +1,38 @@
+049 基于微信小程序的考研学习系统启动说明
+
+一、默认后端启动
+
+1. 进入 049-backend 目录。
+2. 执行：mvn spring-boot:run
+3. 默认端口：8049
+4. 后端接口地址：http://localhost:8049/api
+5. 接口文档地址：http://localhost:8049/doc.html
+6. H2 控制台地址：http://localhost:8049/h2-console
+7. H2 JDBC URL：jdbc:h2:mem:kaoyan_study
+
+默认启动不需要本机预装 MySQL 或 Redis，系统会自动使用 H2 内存库加载演示数据。
+
+二、小程序启动
+
+1. 使用微信开发者工具打开 049-miniprogram 目录。
+2. app.js 默认后端地址为：http://localhost:8049/api
+3. 后端启动后，在微信开发者工具中编译运行。
+
+三、默认账号
+
+管理员：admin / 123456
+教师：teacher1 / 123456
+学生：student1 / 123456
+
+四、MySQL 模式
+
+1. 创建数据库 kaoyan_study。
+2. 执行 049-backend/sql/init.sql。
+3. 按需修改 src/main/resources/application-mysql.yml。
+4. 执行：mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+
+五、验证命令
+
+执行：mvn clean test
+
+当前自动化测试覆盖默认 H2 自举、登录鉴权、课程/题库公开接口、管理员仪表盘、答题错题、学习计划、笔记、收藏、社区和每日打卡核心链路。
