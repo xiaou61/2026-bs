@@ -1,0 +1,77 @@
+051 基于微信小程序的网络安全知识科普 APP 启动说明
+
+一、后端默认启动
+
+1. 打开终端进入后端目录：
+   cd 051-backend
+
+2. 启动服务：
+   mvn spring-boot:run
+
+3. 默认后端地址：
+   http://localhost:8051
+
+4. 默认使用 H2 内存数据库，不需要提前安装 MySQL 或 Redis。
+
+二、默认账号
+
+管理端：
+用户名：admin
+密码：123456
+
+小程序端：
+默认启用模拟微信登录，任意 code 均可生成本地演示用户，例如：
+{
+  "code": "demo-code",
+  "nickname": "演示用户",
+  "avatar": ""
+}
+
+三、常用接口
+
+分类列表：
+GET http://localhost:8051/api/category/list
+
+文章列表：
+GET http://localhost:8051/api/article/list
+
+安全资讯：
+GET http://localhost:8051/api/news/list
+
+管理员登录：
+POST http://localhost:8051/api/admin/login
+
+小程序模拟登录：
+POST http://localhost:8051/api/user/login
+
+四、管理端启动
+
+1. 进入管理端目录：
+   cd 051-frontend/admin
+
+2. 安装依赖：
+   npm install --no-audit --no-fund
+
+3. 启动开发服务：
+   npm run dev
+
+4. 管理端开发端口：
+   http://localhost:3051
+
+五、微信小程序
+
+使用微信开发者工具打开：
+051-frontend/miniprogram
+
+小程序默认后端地址：
+http://localhost:8051
+
+六、MySQL 模式
+
+1. 导入初始化脚本：
+   mysql -uroot -p123456 < sql/init.sql
+
+2. 使用 MySQL profile 启动：
+   mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+
+3. 如需真实微信登录，请在 application-mysql.yml 中配置正式 appid 和 secret，并关闭 mock-enabled。
