@@ -127,11 +127,11 @@ INSERT INTO category (name, icon, sort) VALUES
 ('人工智能', 'icon-ai', 5);
 
 INSERT INTO course (title, cover, description, category_id, teacher_id, is_free, learn_count, chapter_count, duration, score) VALUES
-('Vue3从入门到精通', '/covers/vue3.jpg', 'Vue3全家桶完整教程，包含Composition API、Pinia、Vue Router等', 1, 2, 1, 1280, 8, 28800, 4.8),
-('Spring Boot实战开发', '/covers/springboot.jpg', 'Spring Boot企业级项目实战，从零搭建完整项目', 2, 2, 1, 2560, 10, 36000, 4.9),
-('React18核心技术', '/covers/react.jpg', 'React18新特性详解，Hooks深入讲解', 1, 2, 1, 980, 6, 21600, 4.7),
-('MySQL数据库入门', '/covers/mysql.jpg', 'MySQL数据库从入门到精通', 4, 2, 1, 3200, 5, 18000, 4.6),
-('Python机器学习', '/covers/python-ml.jpg', 'Python机器学习实战，掌握sklearn和pytorch', 5, 2, 0, 680, 12, 43200, 4.8);
+('Vue3从入门到精通', '', 'Vue3全家桶完整教程，包含Composition API、Pinia、Vue Router等', 1, 2, 1, 1280, 8, 28800, 4.8),
+('Spring Boot实战开发', '', 'Spring Boot企业级项目实战，从零搭建完整项目', 2, 2, 1, 2560, 10, 36000, 4.9),
+('React18核心技术', '', 'React18新特性详解，Hooks深入讲解', 1, 2, 1, 980, 6, 21600, 4.7),
+('MySQL数据库入门', '', 'MySQL数据库从入门到精通', 4, 2, 1, 3200, 5, 18000, 4.6),
+('Python机器学习', '', 'Python机器学习实战，掌握sklearn和pytorch', 5, 2, 0, 680, 12, 43200, 4.8);
 
 INSERT INTO chapter (course_id, title, sort) VALUES
 (1, '第一章 Vue3基础入门', 1),
@@ -154,9 +154,9 @@ INSERT INTO video (chapter_id, course_id, title, url, duration, sort, is_free) V
 (6, 2, '2.1 Controller详解', '/videos/springboot/2-1.mp4', 1800, 1, 0);
 
 INSERT INTO banner (title, image, url, sort) VALUES
-('Vue3全栈开发课程上线', '/banners/banner1.jpg', '/course/1', 1),
-('Spring Boot实战特惠', '/banners/banner2.jpg', '/course/2', 2),
-('新用户专享福利', '/banners/banner3.jpg', '/activity', 3);
+('Vue3全栈开发课程上线', '', '/course/1', 1),
+('Spring Boot实战特惠', '', '/course/2', 2),
+('新用户专享福利', '', '/activity', 3);
 
 INSERT INTO comment (user_id, course_id, content, score) VALUES
 (3, 1, '讲解非常清晰，适合入门学习！', 5),

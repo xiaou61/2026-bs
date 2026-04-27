@@ -33,6 +33,7 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         String token = jwtUtil.generateToken(user.getId(), user.getUsername(), user.getRole());
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
+        user.setPassword(null);
         result.put("user", user);
         return result;
     }
@@ -73,6 +74,9 @@ public class UserService extends ServiceImpl<UserMapper, User> {
 
     public void updatePassword(Long userId, String oldPassword, String newPassword) {
         User user = this.getById(userId);
+        if (user == null) {
+            throw new RuntimeException("用户不存在");
+        }
         if (!user.getPassword().equals(DigestUtil.md5Hex(oldPassword))) {
             throw new RuntimeException("原密码错误");
         }

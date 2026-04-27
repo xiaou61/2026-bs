@@ -16,6 +16,9 @@ public class FavoriteService extends ServiceImpl<FavoriteMapper, Favorite> {
     private CourseMapper courseMapper;
 
     public void addFavorite(Long userId, Long courseId) {
+        if (courseMapper.selectById(courseId) == null) {
+            throw new RuntimeException("课程不存在");
+        }
         Favorite exist = this.getOne(new LambdaQueryWrapper<Favorite>()
                 .eq(Favorite::getUserId, userId)
                 .eq(Favorite::getCourseId, courseId));

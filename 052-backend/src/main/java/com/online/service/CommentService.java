@@ -34,6 +34,9 @@ public class CommentService extends ServiceImpl<CommentMapper, Comment> {
     }
 
     public void addComment(Long userId, Long courseId, String content, Integer score) {
+        if (courseMapper.selectById(courseId) == null) {
+            throw new RuntimeException("课程不存在");
+        }
         Comment exist = this.getOne(new LambdaQueryWrapper<Comment>()
                 .eq(Comment::getUserId, userId)
                 .eq(Comment::getCourseId, courseId));

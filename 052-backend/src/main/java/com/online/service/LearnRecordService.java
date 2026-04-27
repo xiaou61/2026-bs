@@ -24,6 +24,10 @@ public class LearnRecordService extends ServiceImpl<LearnRecordMapper, LearnReco
     private VideoMapper videoMapper;
 
     public void startLearn(Long userId, Long courseId) {
+        Course course = courseMapper.selectById(courseId);
+        if (course == null) {
+            throw new RuntimeException("课程不存在");
+        }
         LearnRecord record = this.getOne(new LambdaQueryWrapper<LearnRecord>()
                 .eq(LearnRecord::getUserId, userId)
                 .eq(LearnRecord::getCourseId, courseId));
@@ -36,7 +40,6 @@ public class LearnRecordService extends ServiceImpl<LearnRecordMapper, LearnReco
             record.setFinishedCount(0);
             record.setLastLearnTime(LocalDateTime.now());
             this.save(record);
-            Course course = courseMapper.selectById(courseId);
             course.setLearnCount(course.getLearnCount() + 1);
             courseMapper.updateById(course);
         }
@@ -58,10 +61,18 @@ public class LearnRecordService extends ServiceImpl<LearnRecordMapper, LearnReco
 
     public void saveProgress(Long userId, Long videoId, Integer progress) {
         Video video = videoMapper.selectById(videoId);
-        if (video == null) return;
+        if (video == null) {
+            throw new RuntimeException("视频不存在");
+        }
         LearnRecord record = this.getOne(new LambdaQueryWrapper<LearnRecord>()
                 .eq(LearnRecord::getUserId, userId)
                 .eq(LearnRecord::getCourseId, video.getCourseId()));
+        if (record == null) {
+            startLearn(userId, video.getCourseId());
+            record = this.getOne(new LambdaQueryWrapper<LearnRecord>()
+                    .eq(LearnRecord::getUserId, userId)
+                    .eq(LearnRecord::getCourseId, video.getCourseId()));
+        }
         if (record != null) {
             record.setVideoId(videoId);
             record.setProgress(progress);
