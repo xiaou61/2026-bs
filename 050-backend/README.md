@@ -9,7 +9,7 @@
 ### 后端
 - Spring Boot 3.x
 - MyBatis-Plus
-- MySQL 8.0
+- H2 / MySQL 8.0
 - JWT 认证
 - Maven
 
@@ -73,22 +73,45 @@
 
 ## 快速开始
 
-### 1. 数据库配置
+### 1. 默认 H2 启动
+
+默认使用 H2 内存数据库自举，适合本地巡检、答辩演示和快速体验：
+
+```bash
+mvn spring-boot:run
+```
+
+启动后访问：
+
+- 后端接口：`http://localhost:8050/api`
+- Knife4j 文档：`http://localhost:8050/doc.html`
+- H2 控制台：`http://localhost:8050/h2-console`
+- H2 JDBC URL：`jdbc:h2:mem:classroom_attendance`
+
+### 2. MySQL 部署
 
 ```sql
 CREATE DATABASE classroom_attendance DEFAULT CHARACTER SET utf8mb4;
 source sql/init.sql;
 ```
 
-### 2. 后端配置
-
-修改 `application.yml` 中的数据库连接信息。
-
-### 3. 启动后端
+如需切换 MySQL，可按需修改 `src/main/resources/application-mysql.yml`，再运行：
 
 ```bash
-mvn spring-boot:run
+mvn spring-boot:run -Dspring-boot.run.profiles=mysql
 ```
+
+### 3. 小程序启动
+
+使用微信开发者工具打开 `050-miniprogram` 目录。默认后端地址已配置为 `http://localhost:8050/api`。
+
+### 4. 验证命令
+
+```bash
+mvn clean test
+```
+
+当前已补充后端冒烟测试，覆盖 H2 自举、三角色登录、密码脱敏、课程列表、教师创建签到任务、学生签到、考勤统计、请假列表、消息未读数等核心链路。
 
 ## 测试账号
 
@@ -112,7 +135,7 @@ mvn spring-boot:run
 │   ├── service/         # 服务层
 │   └── utils/           # 工具类
 ├── src/main/resources/
-│   └── application.yml  # 配置文件
+│   └── application.yml  # 默认 H2 配置
 ├── sql/
 │   └── init.sql         # 数据库初始化脚本
 └── pom.xml
@@ -121,3 +144,7 @@ mvn spring-boot:run
 ## 作者
 
 xiaou
+
+## 巡检修复说明
+
+本轮巡检已修复默认运行强依赖 MySQL/Redis、端口与其他项目冲突、项目 artifact 与启动类命名串项、根目录遗留剧本杀 SQL、JWT 登录 token 不含角色导致鉴权异常、角色语义沿用其他项目、登录响应泄露密码字段、MyBatis-Plus 分页方言固定 MySQL、教师创建签到任务时签到记录缺少 `courseId`、小程序默认接口端口错误、tabBar 图标资源断链以及后端缺少自动化测试等问题。默认环境现在可直接启动并完成核心课堂考勤链路验证。

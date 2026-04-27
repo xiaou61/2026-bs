@@ -1,0 +1,46 @@
+050 基于微信小程序的课堂考勤签到APP启动说明
+
+一、默认后端启动
+
+1. 确认本机已安装 JDK 17 和 Maven。
+2. 进入 050-backend 目录。
+3. 执行：
+
+   mvn spring-boot:run
+
+4. 默认后端地址：
+
+   http://localhost:8050/api
+
+5. H2 控制台：
+
+   http://localhost:8050/h2-console
+   JDBC URL: jdbc:h2:mem:classroom_attendance
+   用户名: sa
+   密码: 留空
+
+二、小程序启动
+
+1. 使用微信开发者工具打开 050-miniprogram。
+2. app.js 默认 baseUrl 已配置为 http://localhost:8050/api。
+3. 编译运行即可使用学生和教师端功能。
+
+三、默认账号
+
+管理员：admin / 123456
+教师：teacher1 / 123456
+学生：student1 / 123456
+
+四、验证命令
+
+在 050-backend 目录执行：
+
+   mvn clean test
+
+当前冒烟测试覆盖默认 H2 启动、三角色登录、课程列表、教师创建签到任务、学生签到、考勤统计、请假列表和消息未读数。
+
+五、MySQL 模式
+
+如需使用 MySQL，先导入 sql/init.sql，再执行：
+
+   mvn spring-boot:run -Dspring-boot.run.profiles=mysql
