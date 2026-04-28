@@ -37,7 +37,7 @@ public class AuthService {
             throw new BusinessException("账号已被禁用");
         }
         String token = jwtUtils.generateToken(admin.getId().toString());
-        redisTemplate.opsForValue().set("token:" + admin.getId(), token, 24, TimeUnit.HOURS);
+        cacheToken(admin.getId(), token);
         admin.setPassword(null);
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
@@ -54,15 +54,33 @@ public class AuthService {
     }
 
     public void logout(Long adminId) {
-        redisTemplate.delete("token:" + adminId);
+        try {
+            redisTemplate.delete("token:" + adminId);
+        } catch (RuntimeException ignored) {
+            // 默认演示环境不强依赖 Redis，退出登录不应阻断主流程。
+        }
     }
 
     public void updatePassword(Long adminId, String oldPassword, String newPassword) {
         Admin admin = adminMapper.selectById(adminId);
+        if (admin == null) {
+            throw new BusinessException("用户不存在");
+        }
         if (!admin.getPassword().equals(oldPassword)) {
             throw new BusinessException("原密码错误");
         }
+        if (newPassword == null || newPassword.isEmpty()) {
+            throw new BusinessException("新密码不能为空");
+        }
         admin.setPassword(newPassword);
         adminMapper.updateById(admin);
+    }
+
+    private void cacheToken(Long adminId, String token) {
+        try {
+            redisTemplate.opsForValue().set("token:" + adminId, token, 24, TimeUnit.HOURS);
+        } catch (RuntimeException ignored) {
+            // 默认 H2 演示环境可无 Redis，JWT 本身仍可完成鉴权。
+        }
     }
 }
