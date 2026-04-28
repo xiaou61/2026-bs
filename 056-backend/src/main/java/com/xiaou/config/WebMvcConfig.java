@@ -26,6 +26,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/api/auth/wxLogin",
                         "/api/auth/register",
                         "/api/file/**",
+                        "/api/category/all",
                         "/api/competition/public/**",
                         "/api/notice/public/**"
                 );

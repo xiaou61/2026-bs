@@ -1,6 +1,7 @@
 <template>
   <view class="container" v-if="competition">
-    <image class="cover" :src="competition.cover || '/static/default-cover.png'" mode="aspectFill" />
+    <image v-if="competition.cover" class="cover" :src="competition.cover" mode="aspectFill" />
+    <view v-else class="cover placeholder-cover">短文写作竞赛</view>
     <view class="content">
       <text class="title">{{ competition.title }}</text>
       <view class="tags">
@@ -55,6 +56,7 @@ onMounted(async () => {
 
 <style scoped>
 .cover { width: 100%; height: 400rpx; }
+.placeholder-cover { display: flex; align-items: center; justify-content: center; color: #fff; font-size: 40rpx; font-weight: bold; background: linear-gradient(135deg, #409EFF 0%, #67C23A 100%); }
 .content { padding: 30rpx; padding-bottom: 150rpx; }
 .title { font-size: 36rpx; font-weight: bold; display: block; margin-bottom: 20rpx; }
 .tags { display: flex; gap: 16rpx; margin-bottom: 30rpx; }

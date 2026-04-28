@@ -6,7 +6,8 @@
     </scroll-view>
     <view class="list">
       <view class="card" v-for="item in competitions" :key="item.id" @click="goDetail(item.id)">
-        <image class="cover" :src="item.cover || '/static/default-cover.png'" mode="aspectFill" />
+        <image v-if="item.cover" class="cover" :src="item.cover" mode="aspectFill" />
+        <view v-else class="cover placeholder-cover">短文写作</view>
         <view class="info">
           <text class="name">{{ item.title }}</text>
           <text class="desc">{{ item.description }}</text>
@@ -53,6 +54,7 @@ onMounted(async () => {
 .category-item.active { background: #409EFF; color: #fff; }
 .card { background: #fff; border-radius: 16rpx; overflow: hidden; margin-bottom: 20rpx; }
 .card .cover { width: 100%; height: 300rpx; }
+.placeholder-cover { display: flex; align-items: center; justify-content: center; color: #fff; font-size: 36rpx; font-weight: bold; background: linear-gradient(135deg, #409EFF 0%, #67C23A 100%); }
 .card .info { padding: 24rpx; }
 .card .name { font-size: 32rpx; font-weight: bold; display: block; margin-bottom: 10rpx; }
 .card .desc { font-size: 26rpx; color: #666; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }

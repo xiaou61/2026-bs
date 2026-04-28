@@ -24,10 +24,10 @@
     "selectedColor": "#409EFF",
     "backgroundColor": "#fff",
     "list": [
-      { "pagePath": "pages/index/index", "text": "首页", "iconPath": "static/tab/home.png", "selectedIconPath": "static/tab/home-active.png" },
-      { "pagePath": "pages/competition/list", "text": "竞赛", "iconPath": "static/tab/competition.png", "selectedIconPath": "static/tab/competition-active.png" },
-      { "pagePath": "pages/work/list", "text": "作品", "iconPath": "static/tab/work.png", "selectedIconPath": "static/tab/work-active.png" },
-      { "pagePath": "pages/my/index", "text": "我的", "iconPath": "static/tab/my.png", "selectedIconPath": "static/tab/my-active.png" }
+      { "pagePath": "pages/index/index", "text": "首页" },
+      { "pagePath": "pages/competition/list", "text": "竞赛" },
+      { "pagePath": "pages/work/list", "text": "作品" },
+      { "pagePath": "pages/my/index", "text": "我的" }
     ]
   }
 }

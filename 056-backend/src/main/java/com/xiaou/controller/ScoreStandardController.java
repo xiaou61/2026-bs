@@ -1,5 +1,6 @@
 package com.xiaou.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xiaou.common.Result;
 import com.xiaou.entity.ScoreStandard;
 import com.xiaou.service.ScoreStandardService;
@@ -16,6 +17,9 @@ public class ScoreStandardController {
     @Autowired
     private ScoreStandardService scoreStandardService;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @GetMapping("/list/{competitionId}")
     public Result<?> list(@PathVariable Long competitionId) {
         return Result.success(scoreStandardService.getByCompetitionId(competitionId));
@@ -24,7 +28,10 @@ public class ScoreStandardController {
     @PostMapping("/save")
     public Result<?> save(@RequestBody Map<String, Object> params) {
         Long competitionId = Long.valueOf(params.get("competitionId").toString());
-        List<ScoreStandard> standards = (List<ScoreStandard>) params.get("standards");
+        List<?> standardList = (List<?>) params.get("standards");
+        List<ScoreStandard> standards = standardList.stream()
+                .map(item -> objectMapper.convertValue(item, ScoreStandard.class))
+                .toList();
         scoreStandardService.save(competitionId, standards);
         return Result.success();
     }

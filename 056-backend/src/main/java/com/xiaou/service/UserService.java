@@ -87,8 +87,14 @@ public class UserService {
 
     public void changePassword(Long userId, String oldPassword, String newPassword) {
         User user = userMapper.selectById(userId);
+        if (user == null) {
+            throw new BusinessException(404, "用户不存在");
+        }
         if (!user.getPassword().equals(DigestUtil.md5Hex(oldPassword))) {
             throw new BusinessException("原密码错误");
+        }
+        if (StrUtil.isBlank(newPassword)) {
+            throw new BusinessException(400, "新密码不能为空");
         }
         user.setPassword(DigestUtil.md5Hex(newPassword));
         userMapper.updateById(user);

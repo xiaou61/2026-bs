@@ -1,7 +1,8 @@
 <template>
   <view class="container">
     <view class="user-card" v-if="userStore.userInfo">
-      <image class="avatar" :src="userStore.userInfo.avatar || '/static/default-avatar.png'" />
+      <image v-if="userStore.userInfo.avatar" class="avatar" :src="userStore.userInfo.avatar" />
+      <view v-else class="avatar avatar-placeholder">{{ userStore.userInfo.nickname?.charAt(0) || '我' }}</view>
       <view class="info">
         <text class="nickname">{{ userStore.userInfo.nickname }}</text>
         <text class="username">@{{ userStore.userInfo.username }}</text>
@@ -70,6 +71,7 @@ const handleLogout = () => {
 <style scoped>
 .user-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16rpx; padding: 40rpx; margin-bottom: 30rpx; display: flex; align-items: center; }
 .user-card .avatar { width: 120rpx; height: 120rpx; border-radius: 60rpx; margin-right: 30rpx; background: #fff; }
+.user-card .avatar-placeholder { display: flex; align-items: center; justify-content: center; color: #409EFF; font-size: 44rpx; font-weight: bold; }
 .user-card .info { color: #fff; }
 .user-card .nickname { font-size: 36rpx; font-weight: bold; display: block; }
 .user-card .username { font-size: 26rpx; opacity: 0.8; margin-top: 8rpx; display: block; }

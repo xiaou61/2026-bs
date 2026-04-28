@@ -7,20 +7,13 @@ server:
 
 spring:
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:writing_competition;MODE=MySQL;DATABASE_TO_LOWER=TRUE;NON_KEYWORDS=USER,RANK,TOP;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    username: sa
-    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/writing_competition?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
   sql:
     init:
-      mode: always
-      encoding: UTF-8
-      schema-locations: classpath:db/schema-h2.sql
-      data-locations: classpath:db/data-h2.sql
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+      mode: never
   redis:
     host: localhost
     port: 6379
@@ -52,4 +45,4 @@ jwt:
   expiration: 86400000
 
 file:
-  upload-path: ./.tmp/056-uploads/
+  upload-path: ./uploads/

@@ -10,7 +10,8 @@
         <text class="more" @click="goCompetition">更多</text>
       </view>
       <view class="card" v-for="item in competitions" :key="item.id" @click="goDetail(item.id)">
-        <image class="cover" :src="item.cover || '/static/default-cover.png'" mode="aspectFill" />
+        <image v-if="item.cover" class="cover" :src="item.cover" mode="aspectFill" />
+        <view v-else class="cover placeholder-cover">写作</view>
         <view class="info">
           <text class="name">{{ item.title }}</text>
           <text class="category">{{ item.categoryName }}</text>
@@ -76,6 +77,7 @@ onMounted(loadData)
 .more { color: #409EFF; font-size: 26rpx; }
 .card { background: #fff; border-radius: 16rpx; overflow: hidden; margin-bottom: 20rpx; display: flex; }
 .card .cover { width: 200rpx; height: 150rpx; }
+.placeholder-cover { display: flex; align-items: center; justify-content: center; color: #fff; font-size: 30rpx; font-weight: bold; background: linear-gradient(135deg, #409EFF 0%, #67C23A 100%); }
 .card .info { flex: 1; padding: 20rpx; display: flex; flex-direction: column; justify-content: space-between; }
 .card .name { font-size: 28rpx; font-weight: bold; }
 .card .category { font-size: 24rpx; color: #409EFF; background: rgba(64,158,255,0.1); padding: 4rpx 12rpx; border-radius: 4rpx; width: fit-content; }
