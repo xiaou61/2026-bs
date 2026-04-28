@@ -1,0 +1,69 @@
+055 企业 OA 管理系统启动说明
+
+一、后端启动
+
+1. 进入后端目录：
+   cd 055-backend
+
+2. 默认 H2 模式启动：
+   mvn spring-boot:run
+
+3. 后端访问地址：
+   http://localhost:8055
+
+4. H2 控制台：
+   http://localhost:8055/h2-console
+
+5. H2 连接信息：
+   JDBC URL: jdbc:h2:mem:oa_system
+   Username: sa
+   Password: 留空
+
+二、前端启动
+
+1. 进入前端目录：
+   cd 055-frontend
+
+2. 安装依赖：
+   npm install
+
+3. 启动前端：
+   npm run dev
+
+4. 前端访问地址：
+   http://localhost:3055
+
+三、默认账号
+
+管理员：admin / admin123
+部门经理：manager / manager123
+普通员工：employee / employee123
+HR 主管：hr / hr123456
+张三：zhangsan / 123456
+李四：lisi / 123456
+王五：wangwu / 123456
+
+四、MySQL 模式
+
+1. 先导入脚本：
+   mysql -uroot -p < sql/init.sql
+
+2. 使用 MySQL profile 启动：
+   mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+
+3. MySQL 配置文件：
+   src/main/resources/application-mysql.yml
+
+五、验证命令
+
+后端测试：
+   cd 055-backend
+   mvn test
+
+前端构建：
+   cd 055-frontend
+   npm run build
+
+六、说明
+
+默认环境已经改为 H2 内存库，启动时会自动加载 schema-h2.sql 和 data-h2.sql，不需要先安装 MySQL。前端开发代理已经指向 http://localhost:8055/api。
