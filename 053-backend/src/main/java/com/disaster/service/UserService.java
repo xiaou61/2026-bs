@@ -37,6 +37,7 @@ public class UserService {
         String token = jwtUtils.generateToken(user.getId(), user.getUsername(), user.getRole());
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
+        user.setPassword(null);
         result.put("user", user);
         return result;
     }
@@ -65,6 +66,9 @@ public class UserService {
 
     public void updatePassword(Long userId, String oldPassword, String newPassword) {
         User user = userMapper.selectById(userId);
+        if (user == null) {
+            throw new BusinessException("用户不存在");
+        }
         if (!user.getPassword().equals(DigestUtil.md5Hex(oldPassword))) {
             throw new BusinessException("原密码错误");
         }
@@ -91,5 +95,9 @@ public class UserService {
         user.setId(id);
         user.setStatus(status);
         userMapper.updateById(user);
+    }
+
+    public void delete(Long id) {
+        userMapper.deleteById(id);
     }
 }

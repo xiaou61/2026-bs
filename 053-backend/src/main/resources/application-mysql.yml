@@ -3,20 +3,13 @@ server:
 
 spring:
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:disaster_rescue;MODE=MySQL;DATABASE_TO_UPPER=false;NON_KEYWORDS=USER;DB_CLOSE_DELAY=-1
-    username: sa
-    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/disaster_rescue?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
   sql:
     init:
-      mode: always
-      schema-locations: classpath:db/schema-h2.sql
-      data-locations: classpath:db/data-h2.sql
-      encoding: UTF-8
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+      mode: never
   data:
     redis:
       host: localhost

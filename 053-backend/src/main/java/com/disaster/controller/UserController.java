@@ -27,6 +27,12 @@ public class UserController {
         return Result.success();
     }
 
+    @PostMapping("/add")
+    public Result<Void> add(@RequestBody User user) {
+        userService.register(user);
+        return Result.success();
+    }
+
     @GetMapping("/info")
     public Result<User> info(HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
@@ -62,6 +68,19 @@ public class UserController {
         Long id = Long.valueOf(params.get("id").toString());
         Integer status = Integer.valueOf(params.get("status").toString());
         userService.updateStatus(id, status);
+        return Result.success();
+    }
+
+    @PutMapping("/update")
+    public Result<Void> updateUser(@RequestBody User user) {
+        user.setPassword(null);
+        userService.update(user);
+        return Result.success();
+    }
+
+    @DeleteMapping("/{id}")
+    public Result<Void> delete(@PathVariable Long id) {
+        userService.delete(id);
         return Result.success();
     }
 }

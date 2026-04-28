@@ -79,6 +79,23 @@ public class TaskService {
         taskMapper.updateById(task);
     }
 
+    public void updateStatus(Long id, Integer status) {
+        RescueTask task = new RescueTask();
+        task.setId(id);
+        task.setStatus(status);
+        if (Integer.valueOf(1).equals(status)) {
+            task.setStartTime(LocalDateTime.now());
+        }
+        if (Integer.valueOf(2).equals(status)) {
+            task.setEndTime(LocalDateTime.now());
+        }
+        taskMapper.updateById(task);
+    }
+
+    public void update(RescueTask task) {
+        taskMapper.updateById(task);
+    }
+
     public void cancel(Long id) {
         RescueTask task = new RescueTask();
         task.setId(id);

@@ -63,6 +63,18 @@ public class TaskController {
         return Result.success();
     }
 
+    @PutMapping("/{id}/status")
+    public Result<Void> updateStatus(@PathVariable Long id, @RequestBody Map<String, Integer> params) {
+        taskService.updateStatus(id, params.get("status"));
+        return Result.success();
+    }
+
+    @PutMapping("/update")
+    public Result<Void> update(@RequestBody RescueTask task) {
+        taskService.update(task);
+        return Result.success();
+    }
+
     @PutMapping("/{id}/cancel")
     public Result<Void> cancel(@PathVariable Long id) {
         taskService.cancel(id);

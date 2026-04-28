@@ -44,9 +44,9 @@ const handleLogin = async () => {
   loading.value = true
   try {
     const res = await login(form)
-    userStore.setToken(res.data)
-    const userRes = await getUserInfo()
-    userStore.setUser(userRes.data)
+    userStore.setToken(res.data.token)
+    userStore.setUser(res.data.user)
+    await getUserInfo()
     ElMessage.success('登录成功')
     router.push('/')
   } finally {
