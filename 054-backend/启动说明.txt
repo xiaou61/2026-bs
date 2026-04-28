@@ -1,0 +1,67 @@
+054 农业生产技术管理系统启动说明
+
+一、后端启动
+
+默认使用 H2 内存数据库，不需要提前安装 MySQL 或 Redis。
+
+1. 进入后端目录：
+   cd 054-backend
+
+2. 启动后端：
+   mvn spring-boot:run
+
+3. 后端接口地址：
+   http://localhost:8054
+
+4. H2 控制台：
+   http://localhost:8054/h2-console
+
+5. H2 连接信息：
+   JDBC URL: jdbc:h2:mem:agriculture_tech
+   用户名: sa
+   密码: 留空
+
+二、前端启动
+
+1. 进入前端目录：
+   cd 054-frontend
+
+2. 安装依赖：
+   npm install --no-audit --no-fund
+
+3. 启动前端：
+   npm run dev
+
+4. 前端访问地址：
+   http://localhost:3054
+
+三、默认账号
+
+管理员：admin / 123456
+专家：expert / 123456
+技术员：tech / 123456
+农户：farmer / 123456
+
+四、MySQL 模式
+
+如果需要使用 MySQL：
+
+1. 创建数据库 agriculture_tech。
+2. 导入 sql/init.sql。
+3. 修改 src/main/resources/application-mysql.yml 中的数据库账号密码。
+4. 使用下面命令启动：
+   mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+
+五、验证命令
+
+后端测试：
+   cd 054-backend
+   mvn clean test
+
+前端构建：
+   cd 054-frontend
+   npm run build
+
+六、说明
+
+本轮巡检后，默认 H2 环境、后端测试、前端构建和真实 HTTP 核心链路均已验证通过。
