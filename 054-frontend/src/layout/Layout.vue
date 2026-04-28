@@ -15,7 +15,7 @@
           <el-icon><HomeFilled /></el-icon>
           <span>首页</span>
         </el-menu-item>
-        <el-menu-item index="/user" v-if="userInfo?.role === 'admin'">
+        <el-menu-item index="/user" v-if="userInfo?.role === 'ADMIN'">
           <el-icon><User /></el-icon>
           <span>用户管理</span>
         </el-menu-item>
@@ -60,7 +60,7 @@
           <el-icon><Timer /></el-icon>
           <span>专家预约</span>
         </el-menu-item>
-        <el-menu-item index="/notice" v-if="userInfo?.role === 'admin'">
+        <el-menu-item index="/notice" v-if="userInfo?.role === 'ADMIN'">
           <el-icon><Notification /></el-icon>
           <span>公告管理</span>
         </el-menu-item>

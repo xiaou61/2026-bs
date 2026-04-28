@@ -7,9 +7,10 @@
         </el-form-item>
         <el-form-item label="角色">
           <el-select v-model="queryParams.role" placeholder="全部" clearable>
-            <el-option label="管理员" value="admin" />
-            <el-option label="专家" value="expert" />
-            <el-option label="农户" value="farmer" />
+            <el-option label="管理员" value="ADMIN" />
+            <el-option label="专家" value="EXPERT" />
+            <el-option label="技术员" value="TECHNICIAN" />
+            <el-option label="农户" value="FARMER" />
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -74,9 +75,10 @@
         </el-form-item>
         <el-form-item label="角色" prop="role">
           <el-select v-model="form.role" style="width: 100%">
-            <el-option label="管理员" value="admin" />
-            <el-option label="专家" value="expert" />
-            <el-option label="农户" value="farmer" />
+            <el-option label="管理员" value="ADMIN" />
+            <el-option label="专家" value="EXPERT" />
+            <el-option label="技术员" value="TECHNICIAN" />
+            <el-option label="农户" value="FARMER" />
           </el-select>
         </el-form-item>
         <el-form-item label="电话" prop="phone">
@@ -129,11 +131,11 @@ const rules = {
 }
 
 const getRoleType = (role) => {
-  return { admin: 'danger', expert: 'warning', farmer: 'success' }[role] || 'info'
+  return { ADMIN: 'danger', EXPERT: 'warning', TECHNICIAN: 'primary', FARMER: 'success' }[role] || 'info'
 }
 
 const getRoleText = (role) => {
-  return { admin: '管理员', expert: '专家', farmer: '农户' }[role] || role
+  return { ADMIN: '管理员', EXPERT: '专家', TECHNICIAN: '技术员', FARMER: '农户' }[role] || role
 }
 
 const loadData = async () => {

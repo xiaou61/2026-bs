@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.Objects;
 
 @Service
 public class UserService extends ServiceImpl<UserMapper, User> {
@@ -37,6 +38,23 @@ public class UserService extends ServiceImpl<UserMapper, User> {
             user.setPassword(null);
         }
         return user;
+    }
+
+    public void updatePassword(Long userId, String oldPassword, String newPassword) {
+        if (newPassword == null || newPassword.isBlank()) {
+            throw new BusinessException(400, "新密码不能为空");
+        }
+        User user = this.getById(userId);
+        if (user == null) {
+            throw new BusinessException(404, "用户不存在");
+        }
+        if (!Objects.equals(user.getPassword(), oldPassword)) {
+            throw new BusinessException(400, "原密码错误");
+        }
+        User updateUser = new User();
+        updateUser.setId(userId);
+        updateUser.setPassword(newPassword);
+        this.updateById(updateUser);
     }
 
     public Page<User> getUserPage(Integer pageNum, Integer pageSize, String username, String role) {

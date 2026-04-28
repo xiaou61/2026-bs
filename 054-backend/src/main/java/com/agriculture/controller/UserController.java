@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
@@ -56,10 +57,9 @@ public class UserController {
     }
 
     @PutMapping("/password")
-    public Result<?> updatePassword(@RequestBody User user, HttpServletRequest request) {
+    public Result<?> updatePassword(@RequestBody Map<String, String> body, HttpServletRequest request) {
         Long userId = Long.parseLong(request.getAttribute("userId").toString());
-        user.setId(userId);
-        userService.updateById(user);
+        userService.updatePassword(userId, body.get("oldPassword"), body.get("newPassword"));
         return Result.success();
     }
 }

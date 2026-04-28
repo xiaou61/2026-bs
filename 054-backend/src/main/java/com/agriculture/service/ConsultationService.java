@@ -5,6 +5,7 @@ import com.agriculture.entity.ConsultationAnswer;
 import com.agriculture.mapper.ConsultationAnswerMapper;
 import com.agriculture.mapper.ConsultationMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ public class ConsultationService extends ServiceImpl<ConsultationMapper, Consult
 
     public void adoptAnswer(Long answerId) {
         ConsultationAnswer answer = answerMapper.selectById(answerId);
-        answerMapper.update(null, new LambdaQueryWrapper<ConsultationAnswer>()
+        answerMapper.update(null, Wrappers.<ConsultationAnswer>lambdaUpdate()
                 .eq(ConsultationAnswer::getConsultationId, answer.getConsultationId())
                 .set(ConsultationAnswer::getIsAdopted, 0));
         answer.setIsAdopted(1);

@@ -14,9 +14,10 @@
         </el-form-item>
       </el-form>
       <div class="tips">
-        <p>管理员: admin / admin123</p>
-        <p>专家: expert / expert123</p>
-        <p>农户: farmer / farmer123</p>
+        <p>管理员: admin / 123456</p>
+        <p>专家: expert / 123456</p>
+        <p>技术员: tech / 123456</p>
+        <p>农户: farmer / 123456</p>
       </div>
     </div>
   </div>

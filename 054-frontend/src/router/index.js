@@ -22,7 +22,7 @@ const routes = [
         path: 'user',
         name: 'User',
         component: () => import('@/views/user/UserList.vue'),
-        meta: { title: '用户管理', icon: 'User', roles: ['admin'] }
+        meta: { title: '用户管理', icon: 'User', roles: ['ADMIN'] }
       },
       {
         path: 'crop',
@@ -106,7 +106,7 @@ const routes = [
         path: 'notice',
         name: 'Notice',
         component: () => import('@/views/notice/NoticeList.vue'),
-        meta: { title: '公告管理', icon: 'Notification', roles: ['admin'] }
+        meta: { title: '公告管理', icon: 'Notification', roles: ['ADMIN'] }
       }
     ]
   }
