@@ -1,0 +1,67 @@
+053 救灾物资调度与救援系统启动说明
+
+一、后端启动
+
+1. 进入后端目录：
+   cd 053-backend
+
+2. 直接启动默认 H2 演示环境：
+   mvn spring-boot:run
+
+3. 后端默认端口：
+   http://localhost:8053
+
+4. H2 控制台：
+   http://localhost:8053/h2-console
+
+5. H2 连接信息：
+   JDBC URL: jdbc:h2:mem:disaster_rescue
+   用户名: sa
+   密码: 留空
+
+二、默认账号
+
+管理员：admin / 123456
+仓库管理员：warehouse / 123456
+救援人员：rescuer / 123456
+信息员：reporter / 123456
+
+三、前端启动
+
+1. 进入前端目录：
+   cd 053-frontend
+
+2. 安装依赖：
+   npm install --no-audit --no-fund
+
+3. 启动开发服务：
+   npm run dev
+
+4. 默认端口：
+   http://localhost:3053
+
+四、MySQL 模式
+
+默认演示不需要 MySQL。如需使用 MySQL：
+
+1. 创建数据库 disaster_rescue。
+2. 导入 053-backend/sql/init.sql。
+3. 修改 053-backend/src/main/resources/application-mysql.yml 中的数据库账号密码。
+4. 执行：
+   mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+
+五、验证命令
+
+后端测试：
+   cd 053-backend
+   mvn clean test
+
+前端构建：
+   cd 053-frontend
+   npm run build
+
+六、备注
+
+1. 后端默认 H2 环境可直接启动，适合本地演示和答辩。
+2. 前端已代理到 http://localhost:8053。
+3. target、node_modules、dist 和 .tmp 属于生成物，不需要提交到 GitHub。
