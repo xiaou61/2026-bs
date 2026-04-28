@@ -24,9 +24,10 @@ public class LeaveController {
     @GetMapping("/my")
     public Result my(HttpServletRequest request,
                      @RequestParam(defaultValue = "1") Integer pageNum,
-                     @RequestParam(defaultValue = "10") Integer pageSize) {
+                     @RequestParam(defaultValue = "10") Integer pageSize,
+                     Integer status) {
         Long userId = (Long) request.getAttribute("userId");
-        return Result.success(leaveService.getMyList(userId, pageNum, pageSize));
+        return Result.success(leaveService.getMyList(userId, pageNum, pageSize, status));
     }
 
     @PostMapping

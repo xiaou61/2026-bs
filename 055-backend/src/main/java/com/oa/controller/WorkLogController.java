@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/workLog")
+@RequestMapping({"/api/workLog", "/api/work-log"})
 @RequiredArgsConstructor
 public class WorkLogController {
     private final WorkLogService workLogService;

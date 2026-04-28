@@ -20,6 +20,7 @@ import java.util.Map;
 public class UserService {
     private final UserMapper userMapper;
     private final DepartmentMapper departmentMapper;
+    private final JwtUtils jwtUtils;
 
     public Map<String, Object> login(String username, String password) {
         User user = userMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getUsername, username));
@@ -29,7 +30,7 @@ public class UserService {
         if (user.getStatus() != 1) {
             throw new BusinessException("账号已被禁用");
         }
-        String token = JwtUtils.generateToken(user.getId(), user.getUsername(), user.getRole());
+        String token = jwtUtils.generateToken(user.getId(), user.getUsername(), user.getRole());
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
         user.setPassword(null);
@@ -55,8 +56,14 @@ public class UserService {
 
     public void updatePassword(Long userId, String oldPassword, String newPassword) {
         User user = userMapper.selectById(userId);
+        if (user == null) {
+            throw new BusinessException(404, "用户不存在");
+        }
         if (!user.getPassword().equals(oldPassword)) {
             throw new BusinessException("原密码错误");
+        }
+        if (!StringUtils.hasText(newPassword)) {
+            throw new BusinessException(400, "新密码不能为空");
         }
         user.setPassword(newPassword);
         userMapper.updateById(user);

@@ -8,6 +8,7 @@ import com.oa.mapper.LeaveRequestMapper;
 import com.oa.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import java.time.LocalDateTime;
 
 @Service
@@ -16,11 +17,14 @@ public class LeaveService {
     private final LeaveRequestMapper leaveRequestMapper;
     private final UserMapper userMapper;
 
-    public Page<LeaveRequest> getList(Integer pageNum, Integer pageSize, Integer status) {
+    public Page<LeaveRequest> getList(Integer pageNum, Integer pageSize, Integer status, String keyword) {
         Page<LeaveRequest> page = new Page<>(pageNum, pageSize);
         LambdaQueryWrapper<LeaveRequest> wrapper = new LambdaQueryWrapper<>();
         if (status != null) {
             wrapper.eq(LeaveRequest::getStatus, status);
+        }
+        if (StringUtils.hasText(keyword)) {
+            wrapper.inSql(LeaveRequest::getUserId, "SELECT id FROM user WHERE real_name LIKE '%" + keyword + "%'");
         }
         wrapper.orderByDesc(LeaveRequest::getCreateTime);
         Page<LeaveRequest> result = leaveRequestMapper.selectPage(page, wrapper);
@@ -56,7 +60,7 @@ public class LeaveService {
         leaveRequestMapper.insert(leave);
     }
 
-    public void approve(Long approverId, Long id, Integer status, String remark) {
+    public void approve(Long id, Long approverId, Integer status, String remark) {
         LeaveRequest leave = leaveRequestMapper.selectById(id);
         leave.setStatus(status);
         leave.setApproverId(approverId);

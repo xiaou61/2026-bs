@@ -18,14 +18,14 @@ public class AttendanceController {
         return Result.success(attendanceService.getToday(userId));
     }
 
-    @PostMapping("/clockIn")
+    @PostMapping({"/clockIn", "/clock-in"})
     public Result clockIn(HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
         attendanceService.clockIn(userId);
         return Result.success();
     }
 
-    @PostMapping("/clockOut")
+    @PostMapping({"/clockOut", "/clock-out"})
     public Result clockOut(HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
         attendanceService.clockOut(userId);

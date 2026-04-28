@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/meetingRoom")
+@RequestMapping({"/api/meetingRoom", "/api/meeting-room"})
 @RequiredArgsConstructor
 public class MeetingRoomController {
     private final MeetingRoomService meetingRoomService;

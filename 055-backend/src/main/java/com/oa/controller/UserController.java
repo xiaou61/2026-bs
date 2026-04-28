@@ -16,8 +16,7 @@ public class UserController {
 
     @PostMapping("/login")
     public Result login(@RequestBody Map<String, String> params) {
-        String token = userService.login(params.get("username"), params.get("password"));
-        return Result.success(token);
+        return Result.success(userService.login(params.get("username"), params.get("password")));
     }
 
     @GetMapping("/info")
@@ -36,8 +35,7 @@ public class UserController {
     @PutMapping("/profile")
     public Result updateProfile(HttpServletRequest request, @RequestBody User user) {
         Long userId = (Long) request.getAttribute("userId");
-        user.setId(userId);
-        userService.updateProfile(user);
+        userService.updateProfile(userId, user);
         return Result.success();
     }
 

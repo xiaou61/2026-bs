@@ -10,7 +10,7 @@ const api = axios.create({
 api.interceptors.request.use(config => {
   const token = localStorage.getItem('token')
   if (token) {
-    config.headers.Authorization = token
+    config.headers.Authorization = `Bearer ${token}`
   }
   return config
 })
@@ -62,7 +62,7 @@ export const getTodayAttendance = () => api.get('/attendance/today')
 export const getLeaveList = params => api.get('/leave/list', { params })
 export const getMyLeaves = params => api.get('/leave/my', { params })
 export const addLeave = data => api.post('/leave', data)
-export const approveLeave = data => api.put('/leave/approve', data)
+export const approveLeave = data => api.put(`/leave/approve/${data.id}`, data)
 export const deleteLeave = id => api.delete(`/leave/${id}`)
 
 export const getMeetingRoomList = params => api.get('/meeting-room/list', { params })

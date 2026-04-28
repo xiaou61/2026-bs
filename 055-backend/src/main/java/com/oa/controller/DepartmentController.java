@@ -15,7 +15,7 @@ public class DepartmentController {
     @GetMapping("/list")
     public Result list(@RequestParam(defaultValue = "1") Integer pageNum,
                        @RequestParam(defaultValue = "10") Integer pageSize) {
-        return Result.success(departmentService.getList(pageNum, pageSize));
+        return Result.success(departmentService.getList());
     }
 
     @GetMapping("/tree")
