@@ -7,14 +7,12 @@ import com.inventory.common.PageResult;
 import com.inventory.entity.User;
 import com.inventory.mapper.UserMapper;
 import com.inventory.utils.JwtUtils;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserService {
@@ -23,7 +21,7 @@ public class UserService {
     private UserMapper userMapper;
 
     @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    private TokenStoreService tokenStoreService;
 
     public Map<String, Object> login(String username, String password) {
         if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
@@ -43,7 +41,7 @@ public class UserService {
         }
         userMapper.updateLastLoginTime(user.getId());
         String token = JwtUtils.generateToken(String.valueOf(user.getId()), user.getRole());
-        redisTemplate.opsForValue().set("inventory:token:" + user.getId(), token, 24, TimeUnit.HOURS);
+        tokenStoreService.storeToken(user.getId(), token);
         Map<String, Object> map = new HashMap<>();
         map.put("token", token);
         map.put("user", safeUser(user));
@@ -94,7 +92,7 @@ public class UserService {
             throw new BusinessException("原密码错误");
         }
         userMapper.updatePassword(userId, newPassword);
-        redisTemplate.delete("inventory:token:" + userId);
+        tokenStoreService.deleteToken(userId);
     }
 
     public void updateProfile(Long userId, User profile) {
@@ -112,7 +110,7 @@ public class UserService {
     }
 
     public void logout(Long userId) {
-        redisTemplate.delete("inventory:token:" + userId);
+        tokenStoreService.deleteToken(userId);
     }
 
     public PageResult<User> page(Integer pageNum, Integer pageSize, String username, String role, Integer status) {
@@ -199,7 +197,7 @@ public class UserService {
             }
             userMapper.update(user);
             if (invalidate) {
-                redisTemplate.delete("inventory:token:" + user.getId());
+                tokenStoreService.deleteToken(user.getId());
             }
         }
     }
@@ -214,7 +212,7 @@ public class UserService {
         }
         userMapper.updateStatus(id, status);
         if (status == 0) {
-            redisTemplate.delete("inventory:token:" + id);
+            tokenStoreService.deleteToken(id);
         }
     }
 
@@ -223,7 +221,7 @@ public class UserService {
             throw new BusinessException("默认管理员不可删除");
         }
         userMapper.deleteById(id);
-        redisTemplate.delete("inventory:token:" + id);
+        tokenStoreService.deleteToken(id);
     }
 
     public Long countAll() {
