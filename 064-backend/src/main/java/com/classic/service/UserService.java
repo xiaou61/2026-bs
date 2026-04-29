@@ -8,14 +8,12 @@ import com.classic.common.PageResult;
 import com.classic.entity.User;
 import com.classic.mapper.UserMapper;
 import com.classic.utils.JwtUtils;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserService {
@@ -24,7 +22,7 @@ public class UserService {
     private UserMapper userMapper;
 
     @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    private TokenStoreService tokenStoreService;
 
     public Map<String, Object> login(String username, String password) {
         if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
@@ -44,7 +42,7 @@ public class UserService {
         }
         userMapper.update(null, new LambdaUpdateWrapper<User>().eq(User::getId, user.getId()).set(User::getLastLoginTime, LocalDateTime.now()));
         String token = JwtUtils.generateToken(String.valueOf(user.getId()), user.getRole());
-        redisTemplate.opsForValue().set("classic:token:" + user.getId(), token, 24, TimeUnit.HOURS);
+        tokenStoreService.storeToken(user.getId(), token);
         Map<String, Object> map = new HashMap<>();
         map.put("token", token);
         map.put("user", safeUser(user));
@@ -87,7 +85,7 @@ public class UserService {
             throw new BusinessException("新旧密码不能一致");
         }
         userMapper.update(null, new LambdaUpdateWrapper<User>().eq(User::getId, userId).set(User::getPassword, newPassword.trim()));
-        redisTemplate.delete("classic:token:" + userId);
+        tokenStoreService.deleteToken(userId);
     }
 
     public void updateProfile(Long userId, User profile) {
@@ -105,13 +103,15 @@ public class UserService {
     }
 
     public void logout(Long userId) {
-        redisTemplate.delete("classic:token:" + userId);
+        tokenStoreService.deleteToken(userId);
     }
 
     public PageResult<User> page(Integer pageNum, Integer pageSize, String username, String role, Integer status) {
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        wrapper.like(username != null && !username.trim().isEmpty(), User::getUsername, username.trim());
-        wrapper.eq(role != null && !role.trim().isEmpty(), User::getRole, role.trim());
+        String usernameKeyword = username == null ? null : username.trim();
+        String roleValue = role == null ? null : role.trim();
+        wrapper.like(usernameKeyword != null && !usernameKeyword.isEmpty(), User::getUsername, usernameKeyword);
+        wrapper.eq(roleValue != null && !roleValue.isEmpty(), User::getRole, roleValue);
         wrapper.eq(status != null, User::getStatus, status);
         wrapper.orderByDesc(User::getId);
         Page<User> page = userMapper.selectPage(new Page<>(pageNum, pageSize), wrapper);
@@ -180,7 +180,7 @@ public class UserService {
             }
             userMapper.updateById(db);
             if (resetToken) {
-                redisTemplate.delete("classic:token:" + db.getId());
+                tokenStoreService.deleteToken(db.getId());
             }
         }
     }
@@ -195,7 +195,7 @@ public class UserService {
         }
         userMapper.update(null, new LambdaUpdateWrapper<User>().eq(User::getId, id).set(User::getStatus, status));
         if (status == 0) {
-            redisTemplate.delete("classic:token:" + id);
+            tokenStoreService.deleteToken(id);
         }
     }
 
@@ -204,7 +204,7 @@ public class UserService {
             throw new BusinessException("默认管理员不可删除");
         }
         userMapper.deleteById(id);
-        redisTemplate.delete("classic:token:" + id);
+        tokenStoreService.deleteToken(id);
     }
 
     public Long countAll() {
