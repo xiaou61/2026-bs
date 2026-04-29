@@ -5,9 +5,12 @@ const routes = [
   {
     path: '/',
     component: () => import('../views/Layout.vue'),
-    redirect: '/dashboard',
+    redirect: () => {
+      const user = JSON.parse(localStorage.getItem('user') || 'null')
+      return user?.role === 'admin' ? '/dashboard' : '/movie'
+    },
     children: [
-      { path: 'dashboard', component: () => import('../views/Dashboard.vue') },
+      { path: 'dashboard', component: () => import('../views/Dashboard.vue'), meta: { role: 'admin' } },
       { path: 'user', component: () => import('../views/user/index.vue'), meta: { role: 'admin' } },
       { path: 'movie/category', component: () => import('../views/movie/Category.vue'), meta: { role: 'admin' } },
       { path: 'movie', component: () => import('../views/movie/index.vue') },
@@ -31,8 +34,11 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
+  const user = JSON.parse(localStorage.getItem('user') || 'null')
   if (to.path !== '/login' && !token) {
     next('/login')
+  } else if (to.meta?.role && to.meta.role !== user?.role) {
+    next(user?.role === 'admin' ? '/dashboard' : '/movie')
   } else {
     next()
   }

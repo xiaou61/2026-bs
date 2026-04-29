@@ -32,6 +32,16 @@
         ORDER BY s.show_date ASC, s.start_time ASC
     </select>
 
+    <select id="selectByMovieId" resultType="Showtime" databaseId="h2">
+        SELECT s.*, m.title AS movie_title, c.name AS cinema_name, h.name AS hall_name
+        FROM showtime s
+        LEFT JOIN movie m ON s.movie_id = m.id
+        LEFT JOIN cinema c ON s.cinema_id = c.id
+        LEFT JOIN hall h ON s.hall_id = h.id
+        WHERE s.movie_id = #{movieId} AND s.status = 1 AND s.show_date >= CURRENT_DATE
+        ORDER BY s.show_date ASC, s.start_time ASC
+    </select>
+
     <select id="selectById" resultType="Showtime">
         SELECT s.*, m.title AS movie_title, c.name AS cinema_name, h.name AS hall_name
         FROM showtime s

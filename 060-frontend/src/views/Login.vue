@@ -67,7 +67,7 @@ const handleLogin = async () => {
     const res = await login(loginForm)
     userStore.setUser(res.data.user, res.data.token)
     ElMessage.success('登录成功')
-    router.push('/')
+    router.push(userStore.isAdmin() ? '/dashboard' : '/movie')
   } finally {
     loading.value = false
   }

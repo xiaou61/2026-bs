@@ -3,8 +3,8 @@
     <el-aside width="220px" style="background:#304156">
       <div style="color:#fff;text-align:center;padding:20px 0;font-size:18px;font-weight:bold">电影订票系统</div>
       <el-menu :default-active="$route.path" router background-color="#304156" text-color="#bfcbd9" active-text-color="#409eff">
-        <el-menu-item index="/dashboard"><el-icon><Odometer /></el-icon><span>数据看板</span></el-menu-item>
         <template v-if="userStore.isAdmin()">
+          <el-menu-item index="/dashboard"><el-icon><Odometer /></el-icon><span>数据看板</span></el-menu-item>
           <el-menu-item index="/user"><el-icon><User /></el-icon><span>用户管理</span></el-menu-item>
           <el-sub-menu index="movie-mgr">
             <template #title><el-icon><Film /></el-icon><span>电影管理</span></template>

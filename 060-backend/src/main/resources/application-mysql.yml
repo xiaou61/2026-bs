@@ -7,20 +7,13 @@ server:
 
 spring:
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:movie_ticket;MODE=MySQL;DATABASE_TO_LOWER=TRUE;NON_KEYWORDS=USER,VALUE;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    username: sa
-    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/movie_ticket?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8&allowPublicKeyRetrieval=true
+    username: root
+    password: 1234
   sql:
     init:
-      mode: always
-      encoding: UTF-8
-      schema-locations: classpath:db/schema-h2.sql
-      data-locations: classpath:db/data-h2.sql
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+      mode: never
   redis:
     host: localhost
     port: 6379
@@ -33,6 +26,6 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 pagehelper:
-  helper-dialect: h2
+  helper-dialect: mysql
   reasonable: true
   support-methods-arguments: true

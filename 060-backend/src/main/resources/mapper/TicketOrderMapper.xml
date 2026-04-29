@@ -76,6 +76,14 @@
         ORDER BY date ASC
     </select>
 
+    <select id="selectOrderTrend" resultType="map" databaseId="h2">
+        SELECT FORMATDATETIME(create_time, 'MM-dd') AS date, COUNT(*) AS count
+        FROM ticket_order
+        WHERE create_time >= DATEADD('DAY', -7, CURRENT_DATE)
+        GROUP BY FORMATDATETIME(create_time, 'MM-dd')
+        ORDER BY date ASC
+    </select>
+
     <select id="selectBoxOfficeRank" resultType="map">
         SELECT m.title AS name, IFNULL(SUM(o.total_price), 0) AS value
         FROM ticket_order o

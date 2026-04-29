@@ -62,6 +62,9 @@ public class UserService {
 
     public void updatePassword(Long id, String oldPassword, String newPassword) {
         User user = userMapper.selectById(id);
+        if (user == null) {
+            throw new BusinessException(401, "用户不存在");
+        }
         if (!oldPassword.equals(user.getPassword())) {
             throw new BusinessException("原密码错误");
         }

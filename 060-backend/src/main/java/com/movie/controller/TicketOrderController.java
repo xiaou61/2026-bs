@@ -38,14 +38,18 @@ public class TicketOrderController {
     }
 
     @PutMapping("/pay/{id}")
-    public Result<?> pay(@PathVariable Long id) {
-        ticketOrderService.pay(id);
+    public Result<?> pay(@PathVariable Long id, HttpServletRequest request) {
+        Long userId = (Long) request.getAttribute("userId");
+        String role = (String) request.getAttribute("role");
+        ticketOrderService.pay(id, userId, role);
         return Result.success();
     }
 
     @PutMapping("/cancel/{id}")
-    public Result<?> cancel(@PathVariable Long id) {
-        ticketOrderService.cancel(id);
+    public Result<?> cancel(@PathVariable Long id, HttpServletRequest request) {
+        Long userId = (Long) request.getAttribute("userId");
+        String role = (String) request.getAttribute("role");
+        ticketOrderService.cancel(id, userId, role);
         return Result.success();
     }
 

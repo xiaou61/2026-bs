@@ -28,6 +28,12 @@ public class TicketOrderService {
 
     @Transactional
     public void createOrder(TicketOrder order) {
+        if (order.getShowtimeId() == null || order.getSeatCount() == null || order.getSeatCount() <= 0) {
+            throw new BusinessException("订单信息不完整");
+        }
+        if (order.getSeats() == null || order.getSeats().trim().isEmpty()) {
+            throw new BusinessException("请选择座位");
+        }
         Showtime showtime = showtimeMapper.selectById(order.getShowtimeId());
         if (showtime == null) {
             throw new BusinessException("场次不存在");
@@ -36,10 +42,12 @@ public class TicketOrderService {
             throw new BusinessException("余座不足");
         }
         order.setOrderNo("ORD" + DateUtil.format(new Date(), "yyyyMMddHHmmss") + RandomUtil.randomNumbers(4));
-        order.setTotalPrice(showtime.getPrice().multiply(new BigDecimal(order.getSeatCount())));
+        order.setTotalPrice(showtime.getPrice().multiply(BigDecimal.valueOf(order.getSeatCount())));
         order.setStatus(0);
         ticketOrderMapper.insert(order);
-        showtimeMapper.updateAvailableSeats(showtime.getId(), order.getSeatCount());
+        if (showtimeMapper.updateAvailableSeats(showtime.getId(), order.getSeatCount()) == 0) {
+            throw new BusinessException("余座不足");
+        }
     }
 
     public PageInfo<TicketOrder> getPage(Integer pageNum, Integer pageSize, String orderNo, Integer status) {
@@ -51,23 +59,34 @@ public class TicketOrderService {
         return ticketOrderMapper.selectByUserId(userId);
     }
 
-    public void pay(Long id) {
+    public void pay(Long id, Long userId, String role) {
         TicketOrder order = ticketOrderMapper.selectById(id);
         if (order == null || order.getStatus() != 0) {
             throw new BusinessException("订单状态异常");
         }
+        checkOrderOwner(order, userId, role);
         ticketOrderMapper.updatePayTime(id);
     }
 
-    public void cancel(Long id) {
+    public void cancel(Long id, Long userId, String role) {
         TicketOrder order = ticketOrderMapper.selectById(id);
         if (order == null) {
             throw new BusinessException("订单不存在");
         }
+        checkOrderOwner(order, userId, role);
         ticketOrderMapper.updateStatus(id, 3);
     }
 
     public void complete(Long id) {
         ticketOrderMapper.updateStatus(id, 2);
+    }
+
+    private void checkOrderOwner(TicketOrder order, Long userId, String role) {
+        if ("admin".equals(role)) {
+            return;
+        }
+        if (order.getUserId() == null || !order.getUserId().equals(userId)) {
+            throw new BusinessException(403, "无权限操作该订单");
+        }
     }
 }
