@@ -36,7 +36,7 @@ public class UserService {
             throw new BusinessException("账号已被禁用");
         }
         String token = JwtUtils.generateToken(String.valueOf(user.getId()), user.getRole());
-        redisTemplate.opsForValue().set("user:token:" + user.getId(), token, 24, TimeUnit.HOURS);
+        cacheToken(user.getId(), token);
         Map<String, Object> map = new HashMap<>();
         map.put("token", token);
         map.put("user", user);
@@ -84,6 +84,9 @@ public class UserService {
             if (exist != null) {
                 throw new BusinessException("用户名已存在");
             }
+            if (StrUtil.isBlank(user.getPassword())) {
+                user.setPassword("123456");
+            }
             userMapper.insert(user);
         } else {
             userMapper.updateById(user);
@@ -92,5 +95,13 @@ public class UserService {
 
     public void deleteById(Long id) {
         userMapper.deleteById(id);
+    }
+
+    private void cacheToken(Long userId, String token) {
+        try {
+            redisTemplate.opsForValue().set("user:token:" + userId, token, 24, TimeUnit.HOURS);
+        } catch (RuntimeException ignored) {
+            // 默认演示环境不强依赖 Redis，JWT 本身仍可完成鉴权。
+        }
     }
 }
