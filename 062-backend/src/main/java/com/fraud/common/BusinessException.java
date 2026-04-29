@@ -5,8 +5,7 @@ public class BusinessException extends RuntimeException {
     private Integer code;
 
     public BusinessException(String message) {
-        super(message);
-        this.code = 500;
+        this(isPermissionMessage(message) ? 403 : 500, message);
     }
 
     public BusinessException(Integer code, String message) {
@@ -16,5 +15,9 @@ public class BusinessException extends RuntimeException {
 
     public Integer getCode() {
         return code;
+    }
+
+    private static boolean isPermissionMessage(String message) {
+        return message != null && message.contains("无权限");
     }
 }

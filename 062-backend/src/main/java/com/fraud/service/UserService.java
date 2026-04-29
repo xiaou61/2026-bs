@@ -6,7 +6,6 @@ import com.fraud.common.BusinessException;
 import com.fraud.entity.User;
 import com.fraud.mapper.UserMapper;
 import com.fraud.utils.JwtUtils;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,7 +14,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserService {
@@ -24,7 +22,7 @@ public class UserService {
     private UserMapper userMapper;
 
     @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    private TokenStoreService tokenStoreService;
 
     public Map<String, Object> login(String username, String password) {
         if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
@@ -45,7 +43,7 @@ public class UserService {
         user.setLastLoginTime(LocalDateTime.now());
         userMapper.updateById(user);
         String token = JwtUtils.generateToken(String.valueOf(user.getId()), user.getRole());
-        redisTemplate.opsForValue().set("fraud:token:" + user.getId(), token, 24, TimeUnit.HOURS);
+        tokenStoreService.storeToken(user.getId(), token);
         Map<String, Object> map = new HashMap<>();
         map.put("token", token);
         map.put("user", safeUser(user));
@@ -107,7 +105,7 @@ public class UserService {
         }
         user.setPassword(newPassword);
         userMapper.updateById(user);
-        redisTemplate.delete("fraud:token:" + userId);
+        tokenStoreService.deleteToken(userId);
     }
 
     public void updateProfile(Long userId, User profile) {
@@ -142,7 +140,7 @@ public class UserService {
     }
 
     public void logout(Long userId) {
-        redisTemplate.delete("fraud:token:" + userId);
+        tokenStoreService.deleteToken(userId);
     }
 
     public Page<User> page(Integer pageNum, Integer pageSize, String username, String role, Integer status) {
@@ -273,7 +271,7 @@ public class UserService {
             }
             userMapper.updateById(user);
             if (passwordChanged || roleChanged) {
-                redisTemplate.delete("fraud:token:" + user.getId());
+                tokenStoreService.deleteToken(user.getId());
             }
         }
     }
@@ -289,7 +287,7 @@ public class UserService {
         user.setStatus(status);
         userMapper.updateById(user);
         if (status == 0) {
-            redisTemplate.delete("fraud:token:" + id);
+            tokenStoreService.deleteToken(id);
         }
     }
 
@@ -298,7 +296,7 @@ public class UserService {
             throw new BusinessException("默认管理员不可删除");
         }
         userMapper.deleteById(id);
-        redisTemplate.delete("fraud:token:" + id);
+        tokenStoreService.deleteToken(id);
     }
 
     private User safeUser(User user) {
