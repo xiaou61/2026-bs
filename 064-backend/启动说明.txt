@@ -1,0 +1,81 @@
+064 经方药食两用服务平台启动说明
+
+一、后端启动
+
+1. 进入后端目录：
+
+   cd 064-backend
+
+2. 默认使用 H2 内存数据库启动：
+
+   mvn spring-boot:run
+
+3. 后端访问地址：
+
+   http://localhost:8064
+
+4. H2 控制台：
+
+   http://localhost:8064/h2-console
+
+5. H2 连接信息：
+
+   JDBC URL：jdbc:h2:mem:classic_diet_service
+   用户名：sa
+   密码：留空
+
+二、前端启动
+
+1. 进入前端目录：
+
+   cd 064-frontend
+
+2. 安装依赖：
+
+   npm install --no-audit --no-fund
+
+3. 启动开发服务：
+
+   npm run dev
+
+4. 前端访问地址：
+
+   http://localhost:3064
+
+三、默认账号
+
+平台管理员：admin / 123456
+调理用户：user / 123456
+
+四、MySQL 模式
+
+默认演示环境不需要 MySQL。如需切换 MySQL，请先确认 sql/init.sql 中的建库/删库语句符合预期，然后导入脚本：
+
+   mysql -uroot -p1234 < sql/init.sql
+
+然后运行：
+
+   mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+
+MySQL 配置文件：
+
+   src/main/resources/application-mysql.yml
+
+当前 MySQL profile 默认账号：
+
+   root / 1234
+
+五、验证命令
+
+后端测试：
+
+   mvn test
+
+前端构建：
+
+   cd 064-frontend
+   npm run build
+
+六、说明
+
+本轮已修复默认 MySQL/Redis/8080 强依赖、H2 自举、SQL 初始化中文编码、JWT Bearer 兼容、401/403 HTTP 状态、Redis 不可用阻断演示登录、本地 token 登出失效、用户密码响应泄露、用户分页空参数异常、H2 趋势统计别名冲突、前端端口和代理配置等问题。
