@@ -36,7 +36,7 @@ public class UserService {
             throw new BusinessException("账号已被禁用");
         }
         String token = JwtUtils.generateToken(String.valueOf(user.getId()));
-        stringRedisTemplate.opsForValue().set("token:" + user.getId(), token, 24, TimeUnit.HOURS);
+        cacheToken(user.getId(), token);
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
         result.put("user", user);
@@ -45,7 +45,11 @@ public class UserService {
     }
 
     public void logout(Long userId) {
-        stringRedisTemplate.delete("token:" + userId);
+        try {
+            stringRedisTemplate.delete("token:" + userId);
+        } catch (RuntimeException ignored) {
+            // 默认演示环境不强依赖 Redis，JWT 本身仍可完成鉴权。
+        }
     }
 
     public User getUserInfo(Long userId) {
@@ -75,6 +79,9 @@ public class UserService {
         if (exist != null) {
             throw new BusinessException("用户名已存在");
         }
+        if (StrUtil.isBlank(user.getPassword())) {
+            user.setPassword("123456");
+        }
         userMapper.insert(user);
     }
 
@@ -85,5 +92,13 @@ public class UserService {
 
     public void delete(Long id) {
         userMapper.deleteById(id);
+    }
+
+    private void cacheToken(Long userId, String token) {
+        try {
+            stringRedisTemplate.opsForValue().set("token:" + userId, token, 24, TimeUnit.HOURS);
+        } catch (RuntimeException ignored) {
+            // 默认演示环境不强依赖 Redis，JWT 本身仍可完成鉴权。
+        }
     }
 }
