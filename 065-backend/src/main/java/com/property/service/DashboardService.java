@@ -45,7 +45,7 @@ public class DashboardService {
         List<Map<String, Object>> feeList = feeOrderService.dailyPaidAmount(start, end);
         Map<String, BigDecimal> feeMap = new HashMap<>();
         for (Map<String, Object> row : feeList) {
-            feeMap.put(row.get("day").toString(), new BigDecimal(row.get("amount").toString()));
+            feeMap.put(row.get("biz_day").toString(), new BigDecimal(row.get("amount").toString()));
         }
         List<Map<String, Object>> daily = new ArrayList<>();
         for (int i = 6; i >= 0; i--) {

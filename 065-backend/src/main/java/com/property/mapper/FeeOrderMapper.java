@@ -47,6 +47,6 @@ public interface FeeOrderMapper {
     @Select("select ifnull(sum(amount),0) from fee_order where status=1 and pay_time between #{start} and #{end}")
     BigDecimal sumPaidAmount(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
-    @Select("select date(pay_time) as day, ifnull(sum(amount),0) as amount from fee_order where status=1 and pay_time between #{start} and #{end} group by date(pay_time)")
+    @Select("select date(pay_time) as biz_day, ifnull(sum(amount),0) as amount from fee_order where status=1 and pay_time between #{start} and #{end} group by date(pay_time)")
     List<Map<String, Object>> dailyPaidAmount(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 }

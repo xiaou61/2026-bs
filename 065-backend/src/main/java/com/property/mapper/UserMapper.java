@@ -48,7 +48,7 @@ public interface UserMapper {
     @Update("update sys_user set status=#{status} where id=#{id}")
     int updateStatus(@Param("id") Long id, @Param("status") Integer status);
 
-    @Update("update sys_user set last_login_time=now() where id=#{id}")
+    @Update("update sys_user set last_login_time=current_timestamp where id=#{id}")
     int updateLastLoginTime(@Param("id") Long id);
 
     @Delete("delete from sys_user where id=#{id}")
