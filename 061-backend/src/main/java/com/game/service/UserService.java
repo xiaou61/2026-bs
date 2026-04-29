@@ -41,7 +41,7 @@ public class UserService {
             throw new BusinessException("账号已被禁用");
         }
         String token = JwtUtils.generateToken(String.valueOf(user.getId()), user.getRole());
-        redisTemplate.opsForValue().set("game:token:" + user.getId(), token, 24, TimeUnit.HOURS);
+        cacheToken(user.getId(), token);
         User safeUser = safeUser(user);
         Map<String, Object> map = new HashMap<>();
         map.put("token", token);
@@ -140,7 +140,10 @@ public class UserService {
     }
 
     public void logout(Long userId) {
-        redisTemplate.delete("game:token:" + userId);
+        try {
+            redisTemplate.delete("game:token:" + userId);
+        } catch (RuntimeException ignored) {
+        }
     }
 
     public Page<User> page(Integer pageNum, Integer pageSize, String username, String role, Integer status) {
@@ -297,5 +300,12 @@ public class UserService {
         }
         user.setPassword(null);
         return user;
+    }
+
+    private void cacheToken(Long userId, String token) {
+        try {
+            redisTemplate.opsForValue().set("game:token:" + userId, token, 24, TimeUnit.HOURS);
+        } catch (RuntimeException ignored) {
+        }
     }
 }
