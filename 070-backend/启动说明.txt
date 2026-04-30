@@ -1,0 +1,59 @@
+070 基于SpringBoot和Vue的最优网络购票系统启动说明
+
+一、默认启动方式
+
+默认使用 H2 内存数据库，不需要提前安装或启动 MySQL、Redis。
+
+1. 启动后端
+
+cd 070-backend
+mvn spring-boot:run
+
+后端地址：http://localhost:8070
+H2 控制台：http://localhost:8070/h2-console
+JDBC URL：jdbc:h2:mem:ticket_system_070
+用户名：sa
+密码：空
+
+2. 启动前端
+
+cd 070-frontend
+npm install --no-audit --no-fund
+npm run dev
+
+前端地址：http://localhost:3070
+
+二、默认账号
+
+管理员：admin / 123456
+普通用户：user / 123456
+测试用户：test / 123456
+
+三、MySQL 启动方式
+
+如需使用 MySQL，请先确认本机 MySQL 可用，默认账号密码为 root / 1234。
+
+mysql -uroot -p1234 < sql/init.sql
+
+cd 070-backend
+mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+
+MySQL profile 会启用 Redis，默认 Redis 地址为 localhost:6379。
+
+四、验证命令
+
+后端测试：
+
+cd 070-backend
+mvn test
+
+前端构建：
+
+cd 070-frontend
+npm run build
+
+五、本轮巡检结果
+
+已修复默认 MySQL、Redis、8080 强依赖，补齐 H2 自举数据、JDK 17 编译配置、JWT Bearer 兼容、未登录 401、越权 403、密码响应脱敏、座位锁兜底缓存、前端代理和请求头。
+
+真实 HTTP 抽测已通过，覆盖管理员登录、普通用户登录、越权拦截、影片/影院/影厅/场次管理接口、选座锁座、下单、优惠券抵扣、余额支付、出票、核销、订单完成、评论提交、管理员审核评论和登出后旧 token 失效。
