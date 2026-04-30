@@ -1,8 +1,10 @@
 package com.travel.config;
 
 import com.travel.common.BusinessException;
+import com.travel.entity.User;
+import com.travel.mapper.UserMapper;
+import com.travel.service.TokenStoreService;
 import com.travel.utils.JwtUtils;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -14,14 +16,17 @@ import javax.servlet.http.HttpServletResponse;
 public class JwtInterceptor implements HandlerInterceptor {
 
     @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    private TokenStoreService tokenStoreService;
+
+    @Resource
+    private UserMapper userMapper;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             return true;
         }
-        String token = request.getHeader("Authorization");
+        String token = resolveToken(request.getHeader("Authorization"));
         if (token == null || token.isEmpty()) {
             throw new BusinessException(401, "未登录");
         }
@@ -30,17 +35,31 @@ public class JwtInterceptor implements HandlerInterceptor {
                 throw new BusinessException(401, "登录已过期");
             }
             Long userId = Long.parseLong(JwtUtils.getUserIdFromToken(token));
-            Object cacheToken = redisTemplate.opsForValue().get("travel:token:" + userId);
-            if (cacheToken == null || !token.equals(cacheToken.toString())) {
+            if (!tokenStoreService.isTokenValid(userId, token)) {
                 throw new BusinessException(401, "登录状态失效");
             }
+            User user = userMapper.selectById(userId);
+            if (user == null || user.getStatus() == null || user.getStatus() == 0) {
+                throw new BusinessException(401, "账号不可用");
+            }
             request.setAttribute("userId", userId);
-            request.setAttribute("role", JwtUtils.getRoleFromToken(token));
+            request.setAttribute("role", user.getRole());
             return true;
         } catch (BusinessException e) {
             throw e;
         } catch (Exception e) {
             throw new BusinessException(401, "token无效");
         }
+    }
+
+    private String resolveToken(String authorization) {
+        if (authorization == null) {
+            return null;
+        }
+        String token = authorization.trim();
+        if (token.regionMatches(true, 0, "Bearer ", 0, 7)) {
+            return token.substring(7).trim();
+        }
+        return token;
     }
 }
