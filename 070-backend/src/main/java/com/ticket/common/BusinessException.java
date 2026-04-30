@@ -5,7 +5,7 @@ public class BusinessException extends RuntimeException {
 
     public BusinessException(String message) {
         super(message);
-        this.code = 500;
+        this.code = message != null && message.startsWith("无权限") ? 403 : 500;
     }
 
     public BusinessException(Integer code, String message) {
