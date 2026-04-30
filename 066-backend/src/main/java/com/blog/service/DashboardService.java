@@ -47,7 +47,7 @@ public class DashboardService {
         List<Map<String, Object>> list = postMapper.dailyCreatedCount(start, end);
         Map<String, Long> dayMap = new HashMap<>();
         for (Map<String, Object> row : list) {
-            dayMap.put(row.get("day").toString(), Long.parseLong(row.get("total").toString()));
+            dayMap.put(row.get("biz_day").toString(), Long.parseLong(row.get("total").toString()));
         }
         List<Map<String, Object>> daily = new ArrayList<>();
         for (int i = 6; i >= 0; i--) {

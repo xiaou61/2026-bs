@@ -13,6 +13,6 @@ import java.util.Map;
 @Mapper
 public interface PostMapper extends BaseMapper<Post> {
 
-    @Select("select date(create_time) as day, count(1) as total from blog_post where create_time between #{start} and #{end} group by date(create_time)")
+    @Select("select date(create_time) as biz_day, count(1) as total from blog_post where create_time between #{start} and #{end} group by date(create_time)")
     List<Map<String, Object>> dailyCreatedCount(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 }
