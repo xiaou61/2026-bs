@@ -1,16 +1,32 @@
 server:
-  port: 8080
+  port: 8069
 
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/teacher_eval_069?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-    username: root
-    password: 123456
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:teacher_eval_069;MODE=MySQL;DATABASE_TO_LOWER=TRUE;NON_KEYWORDS=USER,VALUE,TYPE;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
+      schema-locations: classpath:db/schema-h2.sql
+      data-locations: classpath:db/data-h2.sql
+  h2:
+    console:
+      enabled: true
   redis:
     host: localhost
     port: 6379
     database: 0
+    timeout: 500ms
+
+app:
+  redis:
+    enabled: false
+  mybatis-plus:
+    db-type: h2
 
 mybatis-plus:
   configuration:
