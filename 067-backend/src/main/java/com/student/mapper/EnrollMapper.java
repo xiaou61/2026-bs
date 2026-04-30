@@ -48,6 +48,6 @@ public interface EnrollMapper {
     @Select("select count(1) from course_enroll")
     Long countAll();
 
-    @Select("select date(create_time) as day, count(1) as total from course_enroll where create_time between #{start} and #{end} group by date(create_time)")
+    @Select("select date(create_time) as biz_day, count(1) as total from course_enroll where create_time between #{start} and #{end} group by date(create_time)")
     List<Map<String, Object>> dailyCreatedCount(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 }

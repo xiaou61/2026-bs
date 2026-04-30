@@ -91,7 +91,7 @@ public class DashboardService {
     private Map<String, Long> toDayMap(List<Map<String, Object>> rows) {
         Map<String, Long> map = new HashMap<>();
         for (Map<String, Object> row : rows) {
-            map.put(row.get("day").toString(), Long.parseLong(row.get("total").toString()));
+            map.put(row.get("biz_day").toString(), Long.parseLong(row.get("total").toString()));
         }
         return map;
     }
