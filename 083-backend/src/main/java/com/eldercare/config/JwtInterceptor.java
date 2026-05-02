@@ -1,10 +1,13 @@
 package com.eldercare.config;
 
 import com.eldercare.common.BusinessException;
+import com.eldercare.entity.SysUser;
+import com.eldercare.mapper.SysUserMapper;
+import com.eldercare.service.RuntimeStoreService;
 import com.eldercare.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,23 +20,36 @@ public class JwtInterceptor implements HandlerInterceptor {
     private JwtUtils jwtUtils;
 
     @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    private RuntimeStoreService runtimeStoreService;
+
+    @Autowired
+    private SysUserMapper sysUserMapper;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String token = request.getHeader("Authorization");
-        if (token == null || token.isEmpty()) {
+        if (!StringUtils.hasText(token)) {
             throw new BusinessException(401, "未登录");
+        }
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+        if (runtimeStoreService.isTokenInvalid(token)) {
+            throw new BusinessException(401, "token已失效");
         }
         if (!jwtUtils.validateToken(token)) {
             throw new BusinessException(401, "token无效");
         }
         String userId = jwtUtils.getUserIdFromToken(token);
-        String cacheToken = stringRedisTemplate.opsForValue().get("TOKEN:" + userId);
-        if (cacheToken == null || !cacheToken.equals(token)) {
+        if (!runtimeStoreService.matchesUserToken(userId, token)) {
             throw new BusinessException(401, "登录已过期");
         }
+        SysUser user = sysUserMapper.selectById(Long.valueOf(userId));
+        if (user == null || (user.getStatus() != null && user.getStatus() == 0)) {
+            throw new BusinessException(401, "账号不可用");
+        }
         request.setAttribute("userId", userId);
+        request.setAttribute("role", user.getRole());
         return true;
     }
 }

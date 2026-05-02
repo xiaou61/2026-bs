@@ -7,6 +7,8 @@ import com.eldercare.mapper.AbnormalWarningMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +51,17 @@ public class WarningService {
 
     public List<Map<String, Object>> distribution() {
         QueryWrapper<AbnormalWarning> wrapper = new QueryWrapper<>();
-        wrapper.select("warning_level AS name", "COUNT(*) AS value").groupBy("warning_level");
-        return abnormalWarningMapper.selectMaps(wrapper);
+        wrapper.select("warning_level").orderByAsc("warning_level");
+        List<AbnormalWarning> warnings = abnormalWarningMapper.selectList(wrapper);
+        Map<String, Long> counts = new LinkedHashMap<>();
+        for (AbnormalWarning warning : warnings) {
+            String level = warning.getWarningLevel() == null ? "unknown" : warning.getWarningLevel();
+            counts.put(level, counts.getOrDefault(level, 0L) + 1);
+        }
+        List<Map<String, Object>> distribution = new ArrayList<>();
+        for (Map.Entry<String, Long> entry : counts.entrySet()) {
+            distribution.add(Map.of("name", entry.getKey(), "value", entry.getValue()));
+        }
+        return distribution;
     }
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.eldercare.common.Result;
 import com.eldercare.entity.FollowUpRecord;
 import com.eldercare.service.FollowUpService;
+import com.eldercare.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/api/follow-up")
 public class FollowUpController {
@@ -27,26 +30,39 @@ public class FollowUpController {
     public Result<Page<FollowUpRecord>> list(@RequestParam(defaultValue = "1") int pageNum,
                                              @RequestParam(defaultValue = "10") int pageSize,
                                              @RequestParam(required = false) Long elderId,
-                                             @RequestParam(required = false) Integer status) {
+                                             @RequestParam(required = false) Integer status,
+                                             HttpServletRequest request) {
+        AuthUtils.requireAnyRole(request, "admin", "doctor");
         return Result.success(followUpService.page(pageNum, pageSize, elderId, status));
     }
 
     @PostMapping("/add")
     public Result<String> add(@RequestBody FollowUpRecord followUpRecord,
-                              @RequestAttribute("userId") String userId) {
+                              @RequestAttribute("userId") String userId,
+                              HttpServletRequest request) {
+        AuthUtils.requireAnyRole(request, "admin", "doctor");
         followUpService.add(followUpRecord, Long.valueOf(userId));
         return Result.success();
     }
 
     @PutMapping("/update")
     public Result<String> update(@RequestBody FollowUpRecord followUpRecord,
-                                 @RequestAttribute("userId") String userId) {
+                                 @RequestAttribute("userId") String userId,
+                                 HttpServletRequest request) {
+        AuthUtils.requireAnyRole(request, "admin", "doctor");
+        if (AuthUtils.isDoctor(request)) {
+            AuthUtils.requireOwnerOrAdmin(request, followUpService.getById(followUpRecord.getId()).getDoctorId());
+        }
         followUpService.update(followUpRecord, Long.valueOf(userId));
         return Result.success();
     }
 
     @DeleteMapping("/delete/{id}")
-    public Result<String> delete(@PathVariable Long id) {
+    public Result<String> delete(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireAnyRole(request, "admin", "doctor");
+        if (AuthUtils.isDoctor(request)) {
+            AuthUtils.requireOwnerOrAdmin(request, followUpService.getById(id).getDoctorId());
+        }
         followUpService.delete(id);
         return Result.success();
     }

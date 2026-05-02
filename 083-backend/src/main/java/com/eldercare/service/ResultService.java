@@ -1,5 +1,6 @@
 package com.eldercare.service;
 
+import com.eldercare.common.BusinessException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.eldercare.entity.AbnormalWarning;
@@ -48,9 +49,11 @@ public class ResultService {
     }
 
     public void add(CheckResult checkResult, Long userId) {
+        CheckAppointment appointment = requireAppointment(checkResult.getAppointmentId());
         if (checkResult.getCheckTime() == null) {
             checkResult.setCheckTime(LocalDateTime.now());
         }
+        checkResult.setElderId(appointment.getElderId());
         checkResult.setDoctorId(userId);
         boolean abnormal = isAbnormal(checkResult);
         checkResult.setAbnormalFlag(abnormal ? 1 : 0);
@@ -58,16 +61,18 @@ public class ResultService {
         if (abnormal) {
             createWarning(checkResult);
         }
-        CheckAppointment appointment = new CheckAppointment();
-        appointment.setId(checkResult.getAppointmentId());
-        appointment.setStatus(2);
-        checkAppointmentMapper.updateById(appointment);
+        CheckAppointment updateAppointment = new CheckAppointment();
+        updateAppointment.setId(checkResult.getAppointmentId());
+        updateAppointment.setStatus(2);
+        checkAppointmentMapper.updateById(updateAppointment);
     }
 
     public void update(CheckResult checkResult, Long userId) {
+        CheckAppointment appointment = requireAppointment(checkResult.getAppointmentId());
         if (checkResult.getCheckTime() == null) {
             checkResult.setCheckTime(LocalDateTime.now());
         }
+        checkResult.setElderId(appointment.getElderId());
         checkResult.setDoctorId(userId);
         boolean abnormal = isAbnormal(checkResult);
         checkResult.setAbnormalFlag(abnormal ? 1 : 0);
@@ -79,6 +84,14 @@ public class ResultService {
 
     public void delete(Long id) {
         checkResultMapper.deleteById(id);
+    }
+
+    public CheckResult getById(Long id) {
+        CheckResult checkResult = checkResultMapper.selectById(id);
+        if (checkResult == null) {
+            throw new BusinessException(404, "体检结果不存在");
+        }
+        return checkResult;
     }
 
     private boolean isAbnormal(CheckResult checkResult) {
@@ -116,5 +129,13 @@ public class ResultService {
         warning.setWarningContent((checkItem == null ? "体检项目" : checkItem.getItemName()) + "指标异常: " + checkResult.getItemValue());
         warning.setStatus(0);
         abnormalWarningMapper.insert(warning);
+    }
+
+    private CheckAppointment requireAppointment(Long appointmentId) {
+        CheckAppointment appointment = checkAppointmentMapper.selectById(appointmentId);
+        if (appointment == null) {
+            throw new BusinessException(404, "预约记录不存在");
+        }
+        return appointment;
     }
 }

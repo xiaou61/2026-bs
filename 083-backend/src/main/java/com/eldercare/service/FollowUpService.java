@@ -1,5 +1,6 @@
 package com.eldercare.service;
 
+import com.eldercare.common.BusinessException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.eldercare.entity.AbnormalWarning;
@@ -32,6 +33,7 @@ public class FollowUpService {
     }
 
     public void add(FollowUpRecord followUpRecord, Long userId) {
+        normalizeElderId(followUpRecord);
         followUpRecord.setDoctorId(userId);
         if (followUpRecord.getStatus() == null) {
             followUpRecord.setStatus(0);
@@ -46,11 +48,31 @@ public class FollowUpService {
     }
 
     public void update(FollowUpRecord followUpRecord, Long userId) {
+        normalizeElderId(followUpRecord);
         followUpRecord.setDoctorId(userId);
         followUpRecordMapper.updateById(followUpRecord);
     }
 
     public void delete(Long id) {
         followUpRecordMapper.deleteById(id);
+    }
+
+    public FollowUpRecord getById(Long id) {
+        FollowUpRecord followUpRecord = followUpRecordMapper.selectById(id);
+        if (followUpRecord == null) {
+            throw new BusinessException(404, "随访记录不存在");
+        }
+        return followUpRecord;
+    }
+
+    private void normalizeElderId(FollowUpRecord followUpRecord) {
+        if (followUpRecord.getWarningId() == null) {
+            return;
+        }
+        AbnormalWarning warning = abnormalWarningMapper.selectById(followUpRecord.getWarningId());
+        if (warning == null) {
+            throw new BusinessException(404, "预警记录不存在");
+        }
+        followUpRecord.setElderId(warning.getElderId());
     }
 }

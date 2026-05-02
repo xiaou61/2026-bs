@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,12 +64,6 @@ public class StatisticsService {
                     .divide(BigDecimal.valueOf(totalAppointment), 2, RoundingMode.HALF_UP);
         }
 
-        QueryWrapper<CheckAppointment> monthWrapper = new QueryWrapper<>();
-        monthWrapper.select("DATE_FORMAT(create_time,'%Y-%m') AS month", "COUNT(*) AS value")
-                .groupBy("DATE_FORMAT(create_time,'%Y-%m')")
-                .orderByAsc("month");
-        List<Map<String, Object>> monthTrend = checkAppointmentMapper.selectMaps(monthWrapper);
-
         data.put("elderCount", elderCount);
         data.put("todayAppointmentCount", todayAppointmentCount);
         data.put("abnormalCount", abnormalCount);
@@ -74,8 +71,31 @@ public class StatisticsService {
         data.put("followUpCount", followUpCount);
         data.put("noticeCount", noticeCount);
         data.put("finishRate", finishRate);
-        data.put("monthTrend", monthTrend);
+        data.put("monthTrend", buildMonthTrend());
         data.put("warningDistribution", warningService.distribution());
         return data;
+    }
+
+    private List<Map<String, Object>> buildMonthTrend() {
+        QueryWrapper<CheckAppointment> wrapper = new QueryWrapper<>();
+        wrapper.select("create_time").orderByAsc("create_time");
+        List<CheckAppointment> appointments = checkAppointmentMapper.selectList(wrapper);
+        Map<String, Long> counts = new LinkedHashMap<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+        for (CheckAppointment appointment : appointments) {
+            if (appointment.getCreateTime() == null) {
+                continue;
+            }
+            String month = appointment.getCreateTime().format(formatter);
+            counts.put(month, counts.getOrDefault(month, 0L) + 1);
+        }
+        List<Map<String, Object>> trend = new ArrayList<>();
+        for (Map.Entry<String, Long> entry : counts.entrySet()) {
+            Map<String, Object> item = new HashMap<>();
+            item.put("month", entry.getKey());
+            item.put("value", entry.getValue());
+            trend.add(item);
+        }
+        return trend;
     }
 }

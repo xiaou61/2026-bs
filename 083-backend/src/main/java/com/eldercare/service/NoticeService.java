@@ -38,12 +38,13 @@ public class NoticeService {
 
     public SystemNotice publicDetail(Long id) {
         SystemNotice notice = systemNoticeMapper.selectById(id);
-        if (notice != null) {
+        if (notice != null && Integer.valueOf(1).equals(notice.getStatus())) {
             Integer viewCount = notice.getViewCount() == null ? 0 : notice.getViewCount();
             notice.setViewCount(viewCount + 1);
             systemNoticeMapper.updateById(notice);
+            return notice;
         }
-        return notice;
+        return null;
     }
 
     public void add(SystemNotice notice, Long userId) {

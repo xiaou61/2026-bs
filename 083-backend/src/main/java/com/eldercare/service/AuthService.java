@@ -7,13 +7,11 @@ import com.eldercare.entity.SysUser;
 import com.eldercare.mapper.SysUserMapper;
 import com.eldercare.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class AuthService {
@@ -25,7 +23,7 @@ public class AuthService {
     private JwtUtils jwtUtils;
 
     @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    private RuntimeStoreService runtimeStoreService;
 
     public Map<String, Object> login(LoginDTO loginDTO) {
         if (!StringUtils.hasText(loginDTO.getUsername()) || !StringUtils.hasText(loginDTO.getPassword())) {
@@ -41,7 +39,7 @@ public class AuthService {
             throw new BusinessException("账号已禁用");
         }
         String token = jwtUtils.generateToken(String.valueOf(user.getId()));
-        stringRedisTemplate.opsForValue().set("TOKEN:" + user.getId(), token, 1, TimeUnit.DAYS);
+        runtimeStoreService.storeUserToken(user.getId(), token);
         Map<String, Object> map = new HashMap<>();
         map.put("token", token);
         map.put("userInfo", user);
@@ -53,6 +51,7 @@ public class AuthService {
     }
 
     public void logout(Long userId) {
-        stringRedisTemplate.delete("TOKEN:" + userId);
+        String token = runtimeStoreService.removeUserToken(userId);
+        runtimeStoreService.invalidateToken(token);
     }
 }
