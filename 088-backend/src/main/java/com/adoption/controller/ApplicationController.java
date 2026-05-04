@@ -39,13 +39,18 @@ public class ApplicationController {
 
     @GetMapping("/my/list")
     public Result<Map<String, Object>> myList(@RequestAttribute("userId") Long userId,
+                                              @RequestAttribute("role") String role,
                                               @RequestParam(required = false) Integer pageNum,
                                               @RequestParam(required = false) Integer pageSize) {
+        authService.assertApplicant(role);
         return Result.success(applicationService.myPage(userId, pageNum, pageSize));
     }
 
     @PostMapping("/add")
-    public Result<String> add(@RequestAttribute("userId") Long userId, @RequestBody AdoptionApplication application) {
+    public Result<String> add(@RequestAttribute("userId") Long userId,
+                              @RequestAttribute("role") String role,
+                              @RequestBody AdoptionApplication application) {
+        authService.assertApplicant(role);
         applicationService.add(userId, application);
         return Result.success();
     }
@@ -62,13 +67,17 @@ public class ApplicationController {
     }
 
     @GetMapping("/material/list")
-    public Result<List<ApplicationMaterial>> materialList(@RequestParam Long applicationId) {
-        return Result.success(applicationService.getMaterialList(applicationId));
+    public Result<List<ApplicationMaterial>> materialList(@RequestAttribute("userId") Long userId,
+                                                          @RequestAttribute("role") String role,
+                                                          @RequestParam Long applicationId) {
+        return Result.success(applicationService.getMaterialList(userId, role, applicationId));
     }
 
     @PostMapping("/material/add")
-    public Result<String> addMaterial(@RequestBody ApplicationMaterial material) {
-        applicationService.addMaterial(material);
+    public Result<String> addMaterial(@RequestAttribute("userId") Long userId,
+                                      @RequestAttribute("role") String role,
+                                      @RequestBody ApplicationMaterial material) {
+        applicationService.addMaterial(userId, role, material);
         return Result.success();
     }
 }

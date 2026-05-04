@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class AuthService {
@@ -39,6 +38,9 @@ public class AuthService {
     private StringRedisTemplate stringRedisTemplate;
 
     @Autowired
+    private RuntimeStoreService runtimeStoreService;
+
+    @Autowired
     private OperationLogService operationLogService;
 
     public Map<String, Object> login(String username, String password) {
@@ -56,7 +58,7 @@ public class AuthService {
             throw new BusinessException("账号已禁用");
         }
         String token = jwtUtils.generateToken(user.getId(), user.getRole());
-        stringRedisTemplate.opsForValue().set("TOKEN:" + user.getId(), token, 1, TimeUnit.DAYS);
+        runtimeStoreService.storeToken(user.getId(), token);
         user.setPassword(null);
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
@@ -137,7 +139,7 @@ public class AuthService {
 
     public void logout(Long userId) {
         SysUser user = sysUserMapper.selectById(userId);
-        stringRedisTemplate.delete("TOKEN:" + userId);
+        runtimeStoreService.removeToken(userId);
         if (user != null) {
             operationLogService.record(userId, user.getRole(), "认证", "退出", "用户退出系统");
         }

@@ -1,0 +1,58 @@
+081 基于SpringBoot+Vue+uniapp的电器维修系统小程序启动说明
+
+一、环境要求
+1. JDK 17
+2. Maven 3.8+
+3. Node.js 18+
+4. MySQL 8.0 可选，正式数据库账号为 root / 1234
+
+二、默认 H2 模式
+默认模式不需要提前创建 MySQL 数据库。
+
+后端启动：
+进入 081-backend 目录，执行：
+mvn spring-boot:run
+
+后端地址：
+http://localhost:8080
+
+三、正式 MySQL 模式
+1. 确认 MySQL 已启动。
+2. 使用 root / 1234 登录 MySQL。
+3. 导入 081-backend/sql/init.sql，创建 repair_db 和演示数据。
+4. 进入 081-backend 目录，执行：
+mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+
+四、MySQL 临时验证模式
+该模式使用 repair_081_verify 临时库，不直接重建正式 repair_db。
+
+进入 081-backend 目录，执行：
+mvn spring-boot:run -Dspring-boot.run.profiles=mysql-verify
+
+五、管理端启动
+进入 081-frontend 目录，执行：
+npm install
+npm run dev -- --host 127.0.0.1
+
+管理端地址：
+http://127.0.0.1:3081/
+
+六、小程序端
+081-miniapp 为 uni-app 项目，可用 HBuilderX 或兼容 uni-app 的工具打开。
+接口基础地址当前为 http://localhost:8080。
+
+七、默认账号
+管理员：admin / 123456
+技师：tech1 / 123456
+普通用户：user1 / 123456
+普通用户：user2 / 123456
+
+八、验证命令
+后端测试：
+mvn test
+
+管理端构建：
+npm run build
+
+九、说明
+默认使用 H2 是为了避免自动化测试反复执行原始 MySQL 脚本时误删 repair_db。正式部署仍使用 application-mysql.yml，数据库账号密码为 root / 1234。

@@ -116,21 +116,21 @@
     </select>
 
     <select id="selectDepartmentRank" resultType="map">
-        select dp.name as name, count(a.id) as value
+        select dp.name as name, count(a.id) as rank_value
         from appointment_record a
                  left join department_info dp on a.department_id = dp.id
         where a.status in (1, 3)
         group by a.department_id, dp.name
-        order by value desc
+        order by rank_value desc
         limit 8
     </select>
 
     <select id="selectAppointmentTrend" resultType="map">
-        select date_format(create_time, '%m-%d') as date, count(*) as count
+        select cast(create_time as date) as trend_date, count(*) as trend_count
         from appointment_record
-        where create_time >= date_sub(curdate(), interval 6 day)
-        group by date(create_time)
-        order by date(create_time)
+        group by cast(create_time as date)
+        order by cast(create_time as date)
+        limit 7
     </select>
 
 </mapper>

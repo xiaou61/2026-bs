@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.harbin.tourism.common.Result;
 import com.harbin.tourism.entity.Hotel;
 import com.harbin.tourism.service.HotelService;
+import com.harbin.tourism.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -36,19 +38,22 @@ public class HotelController {
     }
 
     @PostMapping
-    public Result<Void> add(@RequestBody Hotel hotel) {
+    public Result<Void> add(@RequestBody Hotel hotel, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         hotelService.save(hotel);
         return Result.success();
     }
 
     @PutMapping
-    public Result<Void> update(@RequestBody Hotel hotel) {
+    public Result<Void> update(@RequestBody Hotel hotel, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         hotelService.update(hotel);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
-    public Result<Void> delete(@PathVariable Long id) {
+    public Result<Void> delete(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         hotelService.delete(id);
         return Result.success();
     }

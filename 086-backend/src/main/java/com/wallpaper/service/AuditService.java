@@ -41,14 +41,14 @@ public class AuditService {
     public void submit(AuditDTO auditDTO, Long userId) {
         authService.assertAdmin(userId);
         if (auditDTO.getWallpaperId() == null || auditDTO.getAuditStatus() == null) {
-            throw new BusinessException("审核参数不能为空");
+            throw new BusinessException(400, "审核参数不能为空");
         }
         if (auditDTO.getAuditStatus() == 2 && !StringUtils.hasText(auditDTO.getAuditRemark())) {
-            throw new BusinessException("驳回时请输入审核说明");
+            throw new BusinessException(400, "驳回时请输入审核说明");
         }
         WallpaperInfo wallpaper = wallpaperInfoMapper.selectById(auditDTO.getWallpaperId());
         if (wallpaper == null) {
-            throw new BusinessException("壁纸不存在");
+            throw new BusinessException(404, "壁纸不存在");
         }
         wallpaper.setAuditStatus(auditDTO.getAuditStatus());
         wallpaper.setPublishStatus(auditDTO.getAuditStatus() == 1 ? 1 : 0);

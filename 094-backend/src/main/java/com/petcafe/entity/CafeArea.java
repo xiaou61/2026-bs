@@ -1,4 +1,4 @@
-﻿package com.petcafe.entity;
+package com.petcafe.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

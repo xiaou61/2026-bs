@@ -1,0 +1,31 @@
+079 计算机学院校友网启动说明
+
+一、后端默认启动
+1. 进入 079-backend 目录。
+2. 执行：mvn spring-boot:run
+3. 默认访问端口：http://localhost:8079
+4. 默认使用 H2 内存数据库，无需提前安装 MySQL 或 Redis。
+
+二、前端启动
+1. 进入 079-frontend 目录。
+2. 首次执行：npm install
+3. 开发启动：npm run dev -- --host 127.0.0.1
+4. 默认访问地址：http://127.0.0.1:3079
+5. 前端代理默认指向：http://localhost:8079
+
+三、生产构建验证
+1. 后端测试：079-backend 目录执行 mvn test
+2. 前端构建：079-frontend 目录执行 npm run build
+
+四、MySQL 模式
+1. 本机 MySQL 账号密码已按 root / 1234 配置。
+2. 正式库模式：先在 MySQL 中导入 sql/init.sql，再执行 mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+3. 非破坏验证模式：先创建 alumni_079_verify 数据库，再执行 mvn spring-boot:run -Dspring-boot.run.profiles=mysql-verify
+4. mysql-verify 会自动重建 alumni_079_verify 内的表，用于本机联调验证，不会触碰 alumni_db。
+
+五、默认账号
+管理员：admin / 123456
+正常校友：user / 123456
+待审核校友：user2 / 123456
+正常校友：user3 / 123456
+正常校友：user4 / 123456

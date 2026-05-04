@@ -32,6 +32,12 @@ public class AuthController {
         return Result.success(authService.getInfo(userId));
     }
 
+    @PostMapping("/logout")
+    public Result<?> logout(HttpServletRequest request) {
+        authService.logout((String) request.getAttribute("token"));
+        return Result.success();
+    }
+
     @PutMapping("/password")
     public Result<?> updatePassword(@RequestBody Map<String, String> params, HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");

@@ -24,6 +24,9 @@ public class UserService {
     private JwtUtils jwtUtils;
 
     public Map<String, Object> login(String username, String password) {
+        if (StrUtil.isBlank(username) || StrUtil.isBlank(password)) {
+            throw new BusinessException(400, "用户名和密码不能为空");
+        }
         User user = userMapper.selectOne(new LambdaQueryWrapper<User>()
                 .eq(User::getUsername, username));
         if (user == null) {
@@ -43,6 +46,12 @@ public class UserService {
     }
 
     public void register(User user) {
+        if (user == null || StrUtil.isBlank(user.getUsername()) || StrUtil.isBlank(user.getPassword())) {
+            throw new BusinessException(400, "用户名和密码不能为空");
+        }
+        if (user.getPassword().length() < 6) {
+            throw new BusinessException(400, "密码至少6位");
+        }
         User existing = userMapper.selectOne(new LambdaQueryWrapper<User>()
                 .eq(User::getUsername, user.getUsername()));
         if (existing != null) {
@@ -58,7 +67,31 @@ public class UserService {
         return userMapper.selectById(id);
     }
 
-    public void update(User user) {
+    public void updateProfile(Long userId, User user) {
+        User update = new User();
+        update.setId(userId);
+        update.setNickname(user.getNickname());
+        update.setAvatar(user.getAvatar());
+        update.setPhone(user.getPhone());
+        update.setEmail(user.getEmail());
+        userMapper.updateById(update);
+    }
+
+    public void changePassword(Long userId, String oldPassword, String newPassword) {
+        if (StrUtil.isBlank(oldPassword) || StrUtil.isBlank(newPassword)) {
+            throw new BusinessException(400, "原密码和新密码不能为空");
+        }
+        if (newPassword.length() < 6) {
+            throw new BusinessException(400, "新密码至少6位");
+        }
+        User user = userMapper.selectById(userId);
+        if (user == null) {
+            throw new BusinessException(404, "用户不存在");
+        }
+        if (!user.getPassword().equals(oldPassword)) {
+            throw new BusinessException(400, "原密码错误");
+        }
+        user.setPassword(newPassword);
         userMapper.updateById(user);
     }
 
@@ -73,6 +106,9 @@ public class UserService {
     }
 
     public void updateStatus(Long id, Integer status) {
+        if (status == null || (status != 0 && status != 1)) {
+            throw new BusinessException(400, "状态值不合法");
+        }
         User user = new User();
         user.setId(id);
         user.setStatus(status);
@@ -80,13 +116,22 @@ public class UserService {
     }
 
     public void recharge(Long userId, BigDecimal amount) {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new BusinessException(400, "充值金额必须大于0");
+        }
         User user = userMapper.selectById(userId);
+        if (user == null) {
+            throw new BusinessException(404, "用户不存在");
+        }
         user.setBalance(user.getBalance().add(amount));
         userMapper.updateById(user);
     }
 
     public void deduct(Long userId, BigDecimal amount) {
         User user = userMapper.selectById(userId);
+        if (user == null) {
+            throw new BusinessException(404, "用户不存在");
+        }
         if (user.getBalance().compareTo(amount) < 0) {
             throw new BusinessException("余额不足");
         }
@@ -96,5 +141,16 @@ public class UserService {
 
     public long count() {
         return userMapper.selectCount(null);
+    }
+
+    public void delete(Long id) {
+        User user = userMapper.selectById(id);
+        if (user == null) {
+            throw new BusinessException(404, "用户不存在");
+        }
+        if ("admin".equals(user.getRole())) {
+            throw new BusinessException(400, "不能删除管理员账号");
+        }
+        userMapper.deleteById(id);
     }
 }

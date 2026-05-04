@@ -1,0 +1,21 @@
+body { margin: 0; background: #f5f7fb; font-family: Arial, "Microsoft YaHei", sans-serif; color: #1f2937; }
+.layout { min-height: 100vh; }
+.logo { height: 58px; display: flex; align-items: center; padding-left: 22px; font-weight: 700; color: #ffffff; background: #1f2937; }
+.el-aside { background: #ffffff; border-right: 1px solid #e5e7eb; }
+.el-header { background: #ffffff; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; }
+.el-header span { margin-left: 12px; color: #64748b; font-size: 13px; }
+.user-box { display: flex; gap: 10px; align-items: center; }
+.page { padding: 18px; }
+.toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.toolbar h3 { margin: 0; font-size: 18px; }
+.toolbar p { margin: 6px 0 0; color: #64748b; font-size: 13px; }
+.search-bar { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+.login { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #0f766e, #2563eb); }
+.login-card { width: 390px; padding: 10px; }
+.login-title { margin-bottom: 20px; text-align: center; }
+.login-title h2 { margin: 0 0 8px; }
+.dashboard-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-bottom: 14px; }
+.metric { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 18px; }
+.metric strong { display: block; font-size: 26px; margin-top: 8px; color: #0f766e; }
+.chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.chart { height: 320px; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; }

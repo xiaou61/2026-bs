@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.harbin.tourism.common.Result;
 import com.harbin.tourism.entity.Announcement;
 import com.harbin.tourism.service.AnnouncementService;
+import com.harbin.tourism.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -35,19 +37,22 @@ public class AnnouncementController {
     }
 
     @PostMapping
-    public Result<Void> add(@RequestBody Announcement announcement) {
+    public Result<Void> add(@RequestBody Announcement announcement, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         announcementService.save(announcement);
         return Result.success();
     }
 
     @PutMapping
-    public Result<Void> update(@RequestBody Announcement announcement) {
+    public Result<Void> update(@RequestBody Announcement announcement, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         announcementService.update(announcement);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
-    public Result<Void> delete(@PathVariable Long id) {
+    public Result<Void> delete(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         announcementService.delete(id);
         return Result.success();
     }

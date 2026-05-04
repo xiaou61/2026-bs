@@ -5,11 +5,13 @@ import com.harbin.tourism.common.Result;
 import com.harbin.tourism.entity.Route;
 import com.harbin.tourism.entity.RouteSpot;
 import com.harbin.tourism.service.RouteService;
+import com.harbin.tourism.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/routes")
@@ -34,7 +36,7 @@ public class RouteController {
     }
 
     @PostMapping
-    public Result<Void> add(@RequestBody Map<String, Object> params) {
+    public Result<Void> add(@RequestBody Map<String, Object> params, HttpServletRequest request) {
         Route route = new Route();
         route.setTitle((String) params.get("title"));
         route.setDescription((String) params.get("description"));
@@ -43,7 +45,7 @@ public class RouteController {
         route.setCategory((String) params.get("category"));
         route.setCoverImg((String) params.get("coverImg"));
         route.setEstimatedCost(new java.math.BigDecimal(params.get("estimatedCost").toString()));
-        route.setUserId(Long.valueOf(params.get("userId").toString()));
+        route.setUserId(AuthUtils.currentUserId(request));
         List<Map<String, Object>> spotsList = (List<Map<String, Object>>) params.get("spots");
         List<RouteSpot> spots = new java.util.ArrayList<>();
         for (Map<String, Object> s : spotsList) {
@@ -58,7 +60,7 @@ public class RouteController {
     }
 
     @PutMapping
-    public Result<Void> update(@RequestBody Map<String, Object> params) {
+    public Result<Void> update(@RequestBody Map<String, Object> params, HttpServletRequest request) {
         Route route = new Route();
         route.setId(Long.valueOf(params.get("id").toString()));
         route.setTitle((String) params.get("title"));
@@ -77,13 +79,13 @@ public class RouteController {
             rs.setStayHours(new java.math.BigDecimal(s.get("stayHours").toString()));
             spots.add(rs);
         }
-        routeService.update(route, spots);
+        routeService.update(route, spots, AuthUtils.currentUserId(request), AuthUtils.isAdmin(request));
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
-    public Result<Void> delete(@PathVariable Long id) {
-        routeService.delete(id);
+    public Result<Void> delete(@PathVariable Long id, HttpServletRequest request) {
+        routeService.delete(id, AuthUtils.currentUserId(request), AuthUtils.isAdmin(request));
         return Result.success();
     }
 

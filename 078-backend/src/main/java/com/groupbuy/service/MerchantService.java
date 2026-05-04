@@ -75,6 +75,14 @@ public class MerchantService {
         return merchantMapper.selectOne(wrapper);
     }
 
+    public Merchant requireApprovedMerchant(Long userId) {
+        Merchant merchant = getByUserId(userId);
+        if (merchant == null || !Integer.valueOf(1).equals(merchant.getStatus())) {
+            throw new BusinessException(403, "商家未入驻或未通过审核");
+        }
+        return merchant;
+    }
+
     public void update(Long userId, Merchant merchant) {
         QueryWrapper<Merchant> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id", userId);

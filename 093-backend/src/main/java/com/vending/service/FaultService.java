@@ -57,8 +57,11 @@ public class FaultService {
         }
         if (fault.getOrderId() != null) {
             SaleOrder order = orderMapper.selectById(fault.getOrderId());
-            if (order == null || !order.getUserId().equals(userId)) {
-                throw new BusinessException("订单不存在");
+            if (order == null) {
+                throw new BusinessException(404, "订单不存在");
+            }
+            if (!order.getUserId().equals(userId)) {
+                throw new BusinessException(403, "无权限");
             }
         }
         fault.setUserId(userId);

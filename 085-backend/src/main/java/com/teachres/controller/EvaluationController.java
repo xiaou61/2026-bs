@@ -32,8 +32,10 @@ public class EvaluationController {
     }
 
     @GetMapping("/detail/{recordId}")
-    public Result<Map<String, Object>> detail(@PathVariable Long recordId) {
-        return Result.success(evaluationService.detail(recordId));
+    public Result<Map<String, Object>> detail(@PathVariable Long recordId,
+                                              @RequestAttribute("userId") Long userId,
+                                              @RequestAttribute("role") String role) {
+        return Result.success(evaluationService.detail(recordId, userId, role));
     }
 
     @PostMapping("/submit")
@@ -47,12 +49,16 @@ public class EvaluationController {
     @GetMapping("/task/records")
     public Result<PageInfo<Map<String, Object>>> taskRecords(@RequestParam Long taskId,
                                                               @RequestParam(defaultValue = "1") Integer pageNum,
-                                                              @RequestParam(defaultValue = "10") Integer pageSize) {
-        return Result.success(evaluationService.taskRecords(taskId, pageNum, pageSize));
+                                                              @RequestParam(defaultValue = "10") Integer pageSize,
+                                                              @RequestAttribute("userId") Long userId,
+                                                              @RequestAttribute("role") String role) {
+        return Result.success(evaluationService.taskRecords(taskId, pageNum, pageSize, userId, role));
     }
 
     @GetMapping("/task/summary")
-    public Result<Map<String, Object>> taskSummary(@RequestParam Long taskId) {
-        return Result.success(evaluationService.taskSummary(taskId));
+    public Result<Map<String, Object>> taskSummary(@RequestParam Long taskId,
+                                                   @RequestAttribute("userId") Long userId,
+                                                   @RequestAttribute("role") String role) {
+        return Result.success(evaluationService.taskSummary(taskId, userId, role));
     }
 }

@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.repair.common.BusinessException;
 import com.repair.entity.RepairOrder;
 import com.repair.entity.RepairProcess;
+import com.repair.entity.Technician;
 import com.repair.mapper.RepairOrderMapper;
 import com.repair.mapper.RepairProcessMapper;
+import com.repair.mapper.TechnicianMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -21,6 +23,9 @@ public class RepairOrderService {
 
     @Autowired
     private RepairProcessMapper processMapper;
+
+    @Autowired
+    private TechnicianMapper technicianMapper;
 
     public Page<RepairOrder> getList(int pageNum, int pageSize, String orderNo, Integer status, Long technicianId, String contactPhone, Long userId) {
         Page<RepairOrder> page = new Page<>(pageNum, pageSize);
@@ -49,6 +54,7 @@ public class RepairOrderService {
     }
 
     public void add(RepairOrder order) {
+        validateOrder(order);
         if (!StringUtils.hasText(order.getOrderNo())) {
             order.setOrderNo(generateOrderNo());
         }
@@ -62,6 +68,9 @@ public class RepairOrderService {
     }
 
     public void update(RepairOrder order) {
+        if (order.getId() == null || orderMapper.selectById(order.getId()) == null) {
+            throw new BusinessException(404, "工单不存在");
+        }
         orderMapper.updateById(order);
     }
 
@@ -72,7 +81,11 @@ public class RepairOrderService {
     public void assign(Long orderId, Long technicianId, Long operatorId) {
         RepairOrder order = orderMapper.selectById(orderId);
         if (order == null) {
-            throw new BusinessException("工单不存在");
+            throw new BusinessException(404, "工单不存在");
+        }
+        Technician technician = technicianMapper.selectById(technicianId);
+        if (technician == null) {
+            throw new BusinessException(400, "技师不存在");
         }
         order.setTechnicianId(technicianId);
         order.setStatus(1);
@@ -83,7 +96,7 @@ public class RepairOrderService {
     public void updateStatus(Long orderId, Integer status, String content, Long operatorId, String operatorRole) {
         RepairOrder order = orderMapper.selectById(orderId);
         if (order == null) {
-            throw new BusinessException("工单不存在");
+            throw new BusinessException(404, "工单不存在");
         }
         order.setStatus(status);
         if (status != null && status == 4) {
@@ -103,6 +116,7 @@ public class RepairOrderService {
     }
 
     public void createByUser(RepairOrder order, Long userId) {
+        validateOrder(order);
         order.setUserId(userId);
         if (!StringUtils.hasText(order.getOrderNo())) {
             order.setOrderNo(generateOrderNo());
@@ -122,10 +136,10 @@ public class RepairOrderService {
         wrapper.eq("id", orderId).eq("user_id", userId);
         RepairOrder order = orderMapper.selectOne(wrapper);
         if (order == null) {
-            throw new BusinessException("工单不存在");
+            throw new BusinessException(404, "工单不存在");
         }
         if (order.getStatus() != null && order.getStatus() == 4) {
-            throw new BusinessException("已完成工单不可取消");
+            throw new BusinessException(400, "已完成工单不可取消");
         }
         order.setStatus(5);
         orderMapper.updateById(order);
@@ -137,10 +151,10 @@ public class RepairOrderService {
         wrapper.eq("id", orderId).eq("user_id", userId);
         RepairOrder order = orderMapper.selectOne(wrapper);
         if (order == null) {
-            throw new BusinessException("工单不存在");
+            throw new BusinessException(404, "工单不存在");
         }
         if (order.getStatus() != null && order.getStatus() == 5) {
-            throw new BusinessException("已取消工单不可支付");
+            throw new BusinessException(400, "已取消工单不可支付");
         }
         order.setPayStatus(1);
         if (order.getStatus() != null && order.getStatus() == 3) {
@@ -156,10 +170,10 @@ public class RepairOrderService {
         wrapper.eq("id", orderId).eq("technician_id", technicianId);
         RepairOrder order = orderMapper.selectOne(wrapper);
         if (order == null) {
-            throw new BusinessException("工单不存在或未分配给当前技师");
+            throw new BusinessException(403, "工单不存在或未分配给当前技师");
         }
         if (order.getStatus() != null && order.getStatus() == 5) {
-            throw new BusinessException("已取消工单不可操作");
+            throw new BusinessException(400, "已取消工单不可操作");
         }
         order.setStatus(status);
         if (status != null && status == 4) {
@@ -174,7 +188,7 @@ public class RepairOrderService {
         wrapper.eq("id", orderId).eq("technician_id", technicianId);
         RepairOrder order = orderMapper.selectOne(wrapper);
         if (order == null) {
-            throw new BusinessException("工单不存在或未分配给当前技师");
+            throw new BusinessException(403, "工单不存在或未分配给当前技师");
         }
         RepairProcess process = new RepairProcess();
         process.setOrderId(orderId);
@@ -188,6 +202,17 @@ public class RepairOrderService {
 
     private String generateOrderNo() {
         return "RO" + System.currentTimeMillis();
+    }
+
+    private void validateOrder(RepairOrder order) {
+        if (order == null) {
+            throw new BusinessException(400, "工单不能为空");
+        }
+        if (!StringUtils.hasText(order.getContactName())
+                || !StringUtils.hasText(order.getContactPhone())
+                || !StringUtils.hasText(order.getAddress())) {
+            throw new BusinessException(400, "联系人、电话和地址不能为空");
+        }
     }
 
     private void addProcess(Long orderId, Long operatorId, String operatorRole, String nodeType, String content) {

@@ -32,8 +32,10 @@ public class ScheduleController {
                                                  @RequestParam(required = false) Long teacherId,
                                                  @RequestParam(required = false) Long termId,
                                                  @RequestParam(required = false) Long classId,
-                                                 @RequestParam(required = false) Integer status) {
-        return Result.success(scheduleService.list(courseName, teacherId, termId, classId, status, pageNum, pageSize));
+                                                 @RequestParam(required = false) Integer status,
+                                                 @RequestAttribute("userId") Long userId,
+                                                 @RequestAttribute("role") String role) {
+        return Result.success(scheduleService.list(courseName, teacherId, termId, classId, status, userId, role, pageNum, pageSize));
     }
 
     @GetMapping("/teacher")

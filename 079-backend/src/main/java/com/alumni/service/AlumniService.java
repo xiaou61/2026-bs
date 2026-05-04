@@ -1,5 +1,6 @@
 package com.alumni.service;
 
+import com.alumni.common.BusinessException;
 import com.alumni.entity.*;
 import com.alumni.mapper.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -103,6 +104,38 @@ public class AlumniService {
             } else {
                 alumniInfoMapper.insert(info);
             }
+        }
+    }
+
+    public void saveOrUpdateForUser(Long userId, AlumniInfo info) {
+        if (info == null) {
+            throw new BusinessException("校友信息不能为空");
+        }
+        AlumniInfo target = new AlumniInfo();
+        target.setUserId(userId);
+        target.setStudentNo(info.getStudentNo());
+        target.setGradeId(info.getGradeId());
+        target.setClassId(info.getClassId());
+        target.setGender(info.getGender());
+        target.setBirthday(info.getBirthday());
+        target.setNativePlace(info.getNativePlace());
+        target.setPolitical(info.getPolitical());
+        target.setDegree(info.getDegree());
+        target.setMajor(info.getMajor());
+        target.setGraduationDate(info.getGraduationDate());
+        target.setCompany(info.getCompany());
+        target.setPosition(info.getPosition());
+        target.setIndustry(info.getIndustry());
+        target.setCity(info.getCity());
+        target.setIntroduction(info.getIntroduction());
+        target.setIsContact(info.getIsContact());
+
+        AlumniInfo exist = alumniInfoMapper.selectOne(new LambdaQueryWrapper<AlumniInfo>().eq(AlumniInfo::getUserId, userId));
+        if (exist != null) {
+            target.setId(exist.getId());
+            alumniInfoMapper.updateById(target);
+        } else {
+            alumniInfoMapper.insert(target);
         }
     }
 

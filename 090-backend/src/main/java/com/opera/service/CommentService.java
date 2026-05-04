@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.opera.common.BusinessException;
 import com.opera.entity.AppreciationComment;
+import com.opera.entity.BookingRecord;
 import com.opera.entity.PerformanceSchedule;
 import com.opera.mapper.AppreciationCommentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,12 @@ public class CommentService {
     @Autowired
     private PerformanceService scheduleService;
 
+    @Autowired
+    private BookingRecordMapperAdapter bookingRecordMapperAdapter;
+
+    @Autowired
+    private AuthService authService;
+
     public PageInfo<AppreciationComment> list(Long scheduleId, Long userId, String role, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<AppreciationComment> list;
@@ -33,7 +40,8 @@ public class CommentService {
         return new PageInfo<>(list);
     }
 
-    public void add(AppreciationComment entity, Long userId) {
+    public void add(AppreciationComment entity, Long userId, String role) {
+        authService.assertMember(role);
         if (entity == null || entity.getScheduleId() == null) {
             throw new BusinessException("排期不能为空");
         }
@@ -44,6 +52,10 @@ public class CommentService {
         PerformanceSchedule schedule = scheduleService.getById(entity.getScheduleId());
         if (schedule == null) {
             throw new BusinessException("排期不存在");
+        }
+        BookingRecord bookingRecord = bookingRecordMapperAdapter.selectByScheduleAndStudent(entity.getScheduleId(), userId);
+        if (bookingRecord == null) {
+            throw new BusinessException(403, "仅已预约会员可提交赏析互动");
         }
         entity.setCourseId(schedule.getCourseId());
         entity.setArtistId(schedule.getArtistId());

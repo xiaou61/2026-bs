@@ -2,6 +2,7 @@ package com.gongkao.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.gongkao.common.BusinessException;
 import com.gongkao.entity.Course;
 import com.gongkao.mapper.CourseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class CourseService {
     @Autowired
     private CourseMapper courseMapper;
 
-    public Page<Course> getList(int pageNum, int pageSize, String title, Long subjectId, Integer status) {
+    public Page<Course> getList(int pageNum, int pageSize, String title, Long subjectId, Integer status, Long teacherId) {
         Page<Course> page = new Page<>(pageNum, pageSize);
         QueryWrapper<Course> wrapper = new QueryWrapper<>();
         if (StringUtils.hasText(title)) {
@@ -27,6 +28,9 @@ public class CourseService {
         }
         if (status != null) {
             wrapper.eq("status", status);
+        }
+        if (teacherId != null) {
+            wrapper.eq("teacher_id", teacherId);
         }
         wrapper.orderByDesc("create_time");
         return courseMapper.selectPage(page, wrapper);
@@ -58,5 +62,13 @@ public class CourseService {
 
     public void delete(Long id) {
         courseMapper.deleteById(id);
+    }
+
+    public Course getById(Long id) {
+        Course course = courseMapper.selectById(id);
+        if (course == null) {
+            throw new BusinessException(404, "课程不存在");
+        }
+        return course;
     }
 }

@@ -1,0 +1,54 @@
+083 基于B/S的老年人体检管理系统启动说明
+
+一、环境要求
+1. JDK 17
+2. Maven 3.8+
+3. Node.js 18+
+4. MySQL 8.0 可选，正式数据库账号为 root / 1234
+
+二、默认 H2 模式
+默认模式不需要提前创建 MySQL 数据库。
+
+后端启动：
+进入 083-backend 目录，执行：
+mvn spring-boot:run
+
+后端地址：
+http://localhost:8083
+
+三、正式 MySQL 模式
+1. 确认 MySQL 已启动。
+2. 使用 root / 1234 登录 MySQL。
+3. 导入 083-backend/sql/init.sql，创建 eldercare_db 和演示数据。
+4. 进入 083-backend 目录，执行：
+mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+
+四、MySQL 临时验证模式
+该模式使用 eldercare_083_verify 临时库，不直接重建正式 eldercare_db。
+
+进入 083-backend 目录，执行：
+mvn spring-boot:run -Dspring-boot.run.profiles=mysql-verify
+
+五、前端启动
+进入 083-frontend 目录，执行：
+npm install
+npm run dev -- --host 127.0.0.1
+
+前端地址：
+http://127.0.0.1:3083/
+
+六、默认账号
+管理员：admin / 123456
+医生：doctor / 123456
+护士：nurse / 123456
+前台：reception / 123456
+
+七、验证命令
+后端测试：
+mvn test
+
+前端构建：
+npm run build
+
+八、说明
+默认使用 H2 是为了避免自动化测试反复执行原始 MySQL 脚本时误删 eldercare_db。正式部署仍使用 application-mysql.yml，数据库账号密码为 root / 1234。

@@ -1,5 +1,6 @@
 package com.alumni.service;
 
+import com.alumni.common.BusinessException;
 import com.alumni.entity.News;
 import com.alumni.entity.NewsComment;
 import com.alumni.entity.User;
@@ -92,6 +93,17 @@ public class NewsService {
     }
 
     public void deleteComment(Long id) {
+        newsCommentMapper.deleteById(id);
+    }
+
+    public void deleteComment(Long id, Long userId, boolean admin) {
+        NewsComment comment = newsCommentMapper.selectById(id);
+        if (comment == null) {
+            throw new BusinessException(404, "评论不存在");
+        }
+        if (!admin && !comment.getUserId().equals(userId)) {
+            throw new BusinessException(403, "无权操作");
+        }
         newsCommentMapper.deleteById(id);
     }
 }

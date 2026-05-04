@@ -5,13 +5,11 @@ import com.course.entity.SysUser;
 import com.course.mapper.SysUserMapper;
 import com.course.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class AuthService {
@@ -23,7 +21,7 @@ public class AuthService {
     private JwtUtils jwtUtils;
 
     @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    private RuntimeStoreService runtimeStoreService;
 
     public Map<String, Object> login(String username, String password) {
         if (!StringUtils.hasText(username) || !StringUtils.hasText(password)) {
@@ -40,7 +38,7 @@ public class AuthService {
             throw new BusinessException("账号已禁用");
         }
         String token = jwtUtils.generateToken(user.getId(), user.getRole());
-        stringRedisTemplate.opsForValue().set("TOKEN:" + user.getId(), token, 1, TimeUnit.DAYS);
+        runtimeStoreService.saveToken(user.getId(), token);
         user.setPassword(null);
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
@@ -57,13 +55,17 @@ public class AuthService {
     public SysUser getById(Long userId) {
         SysUser user = sysUserMapper.selectById(userId);
         if (user == null) {
-            throw new BusinessException("用户不存在");
+            throw new BusinessException(401, "用户不存在");
         }
         return user;
     }
 
     public void logout(Long userId) {
-        stringRedisTemplate.delete("TOKEN:" + userId);
+        runtimeStoreService.removeToken(userId);
+    }
+
+    public boolean isTokenActive(Long userId, String token) {
+        return runtimeStoreService.isTokenActive(userId, token);
     }
 
     public void assertAdmin(String role) {

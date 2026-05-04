@@ -25,6 +25,7 @@ public class OrderController {
 
     @PostMapping("/create")
     public Result<?> create(@RequestBody OrderCreateDTO dto, HttpServletRequest request) {
+        AuthUtils.requireMember((String) request.getAttribute("role"));
         Long userId = (Long) request.getAttribute("userId");
         return Result.success(orderService.create(userId, dto));
     }
@@ -35,6 +36,7 @@ public class OrderController {
                         @RequestParam(required = false) String orderNo,
                         @RequestParam(required = false) String status,
                         HttpServletRequest request) {
+        AuthUtils.requireMember((String) request.getAttribute("role"));
         Long userId = (Long) request.getAttribute("userId");
         return Result.success(orderService.page(pageNum, pageSize, orderNo, status, userId, "MEMBER"));
     }
@@ -67,6 +69,7 @@ public class OrderController {
 
     @PutMapping("/finish/{id}")
     public Result<?> finish(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireMember((String) request.getAttribute("role"));
         Long userId = (Long) request.getAttribute("userId");
         orderService.finish(id, userId);
         return Result.success();

@@ -1,4 +1,4 @@
-﻿package com.petcafe.config;
+package com.petcafe.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;

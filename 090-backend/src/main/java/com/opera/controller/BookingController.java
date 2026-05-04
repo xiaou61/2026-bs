@@ -34,8 +34,10 @@ public class BookingController {
     }
 
     @PostMapping("/select")
-    public Result<String> select(@RequestBody Map<String, Long> params, @RequestAttribute("userId") Long userId) {
-        selectionService.selectCourse(params.get("scheduleId"), userId);
+    public Result<String> select(@RequestBody Map<String, Long> params,
+                                 @RequestAttribute("userId") Long userId,
+                                 @RequestAttribute("role") String role) {
+        selectionService.selectCourse(params.get("scheduleId"), userId, role);
         return Result.success();
     }
 }

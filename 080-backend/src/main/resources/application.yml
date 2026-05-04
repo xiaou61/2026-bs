@@ -5,10 +5,16 @@ spring:
   application:
     name: charity-system
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/charity_db?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
-    username: root
-    password: root
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:charity080;MODE=MySQL;DATABASE_TO_UPPER=false;NON_KEYWORDS=USER
+    username: sa
+    password:
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
+      schema-locations: classpath:schema-h2.sql
+      data-locations: classpath:data-h2.sql
   redis:
     host: localhost
     port: 6379
@@ -35,5 +41,5 @@ mybatis-plus:
       logic-not-delete-value: 0
 
 jwt:
-  secret: charity-secret-key-2024
+  secret: charity-secret-key-2024-for-local-graduation-design
   expiration: 86400000

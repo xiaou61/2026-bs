@@ -143,7 +143,7 @@ const processForm = reactive({
 const processImages = ref([])
 
 const uploadHeaders = computed(() => ({
-  Authorization: localStorage.getItem('token') || ''
+  Authorization: localStorage.getItem('token') ? `Bearer ${localStorage.getItem('token')}` : ''
 }))
 
 const statusText = (status) => ({ 0: '待受理', 1: '已派单', 2: '上门中', 3: '待支付', 4: '已完成', 5: '已取消' }[status] || '未知')
@@ -225,7 +225,7 @@ const splitImages = (images) => {
 const normalizeImage = (url) => {
   if (!url) return ''
   if (url.startsWith('http://') || url.startsWith('https://')) return url
-  return `http://localhost:8080${url}`
+  return url
 }
 
 onMounted(loadData)

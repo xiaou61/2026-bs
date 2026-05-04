@@ -55,6 +55,7 @@ public class CouponController {
 
     @PostMapping("/receive/{id}")
     public Result<?> receive(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireMember((String) request.getAttribute("role"));
         Long userId = (Long) request.getAttribute("userId");
         couponService.receive(userId, id);
         return Result.success();
@@ -62,12 +63,14 @@ public class CouponController {
 
     @GetMapping("/my")
     public Result<?> my(@RequestParam(required = false) String status, HttpServletRequest request) {
+        AuthUtils.requireMember((String) request.getAttribute("role"));
         Long userId = (Long) request.getAttribute("userId");
         return Result.success(couponService.myCoupons(userId, status));
     }
 
     @GetMapping("/available")
     public Result<?> available(@RequestParam(required = false) BigDecimal amount, HttpServletRequest request) {
+        AuthUtils.requireMember((String) request.getAttribute("role"));
         Long userId = (Long) request.getAttribute("userId");
         return Result.success(couponService.availableForOrder(userId, amount));
     }

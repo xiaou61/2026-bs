@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -58,6 +59,9 @@ public class DonationService {
     }
 
     public void donate(DonationRecord record) {
+        if (record.getAmount() == null || record.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new BusinessException("捐赠金额必须大于0");
+        }
         DonationProject project = donationProjectMapper.selectById(record.getProjectId());
         if (project == null) {
             throw new BusinessException("项目不存在");
@@ -98,7 +102,12 @@ public class DonationService {
 
     public void confirmRecord(Long id) {
         DonationRecord record = donationRecordMapper.selectById(id);
-        if (record == null) return;
+        if (record == null) {
+            throw new BusinessException(404, "捐赠记录不存在");
+        }
+        if (record.getStatus() == 1) {
+            return;
+        }
         record.setStatus(1);
         donationRecordMapper.updateById(record);
         DonationProject project = donationProjectMapper.selectById(record.getProjectId());

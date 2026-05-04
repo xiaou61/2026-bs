@@ -33,7 +33,11 @@ public class StatisticsService {
     @Autowired
     private DonationMapper donationMapper;
 
-    public Map<String, Object> getDashboard() {
+    @Autowired
+    private UserService userService;
+
+    public Map<String, Object> getDashboard(Long currentUserId) {
+        userService.requireAdmin(currentUserId);
         Map<String, Object> result = new HashMap<>();
         result.put("totalChildren", childMapper.selectCount(null));
         QueryWrapper<Child> childWrapper = new QueryWrapper<>();
@@ -49,7 +53,8 @@ public class StatisticsService {
         return result;
     }
 
-    public Map<String, Object> getDonationTrend(LocalDate startDate, LocalDate endDate) {
+    public Map<String, Object> getDonationTrend(LocalDate startDate, LocalDate endDate, Long currentUserId) {
+        userService.requireAdmin(currentUserId);
         QueryWrapper<Donation> wrapper = new QueryWrapper<>();
         if (startDate != null) {
             wrapper.ge("donation_date", startDate);
@@ -62,8 +67,10 @@ public class StatisticsService {
         List<String> dateList = new ArrayList<>();
         List<BigDecimal> amountList = new ArrayList<>();
         for (Donation donation : donations) {
-            dateList.add(donation.getDonationDate().toString());
-            amountList.add(donation.getAmount());
+            if (donation.getDonationDate() != null && donation.getAmount() != null) {
+                dateList.add(donation.getDonationDate().toString());
+                amountList.add(donation.getAmount());
+            }
         }
         Map<String, Object> result = new HashMap<>();
         result.put("dateList", dateList);
@@ -71,7 +78,8 @@ public class StatisticsService {
         return result;
     }
 
-    public Map<String, Object> getRegionDistribution() {
+    public Map<String, Object> getRegionDistribution(Long currentUserId) {
+        userService.requireAdmin(currentUserId);
         List<Child> children = childMapper.selectList(null);
         Map<String, Integer> provinceMap = new HashMap<>();
         for (Child child : children) {

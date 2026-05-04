@@ -3,6 +3,7 @@ package com.course.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.course.common.BusinessException;
+import com.course.entity.CourseSchedule;
 import com.course.entity.CourseSelection;
 import com.course.entity.ScoreRecord;
 import com.course.mapper.ScoreRecordMapper;
@@ -34,11 +35,17 @@ public class ScoreService {
     public void save(ScoreRecord entity, Long userId, String role) {
         authService.assertTeacher(role);
         if (entity == null || entity.getSelectionId() == null) {
-            throw new BusinessException("选课记录不能为空");
+            throw new BusinessException(400, "选课记录不能为空");
         }
         CourseSelection selection = selectionAdapter.getById(entity.getSelectionId());
         if (selection == null) {
-            throw new BusinessException("选课记录不存在");
+            throw new BusinessException(404, "选课记录不存在");
+        }
+        if ("teacher".equals(role)) {
+            CourseSchedule schedule = selectionAdapter.getScheduleById(selection.getScheduleId());
+            if (schedule == null || !userId.equals(schedule.getTeacherId())) {
+                throw new BusinessException(403, "无权限录入该选课成绩");
+            }
         }
         BigDecimal usual = entity.getUsualScore() == null ? BigDecimal.ZERO : entity.getUsualScore();
         BigDecimal exam = entity.getExamScore() == null ? BigDecimal.ZERO : entity.getExamScore();

@@ -8,7 +8,6 @@ import com.cinema.common.PageResult;
 import com.cinema.entity.User;
 import com.cinema.mapper.UserMapper;
 import com.cinema.utils.JwtUtils;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -16,7 +15,6 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserService {
@@ -25,7 +23,7 @@ public class UserService {
     private UserMapper userMapper;
 
     @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    private RuntimeStoreService runtimeStoreService;
 
     public Map<String, Object> login(String username, String password) {
         if (!StringUtils.hasText(username) || !StringUtils.hasText(password)) {
@@ -44,7 +42,7 @@ public class UserService {
             throw new BusinessException("账号已禁用");
         }
         String token = JwtUtils.generateToken(String.valueOf(user.getId()), user.getRole());
-        redisTemplate.opsForValue().set("cinema:token:" + user.getId(), token, 24, TimeUnit.HOURS);
+        runtimeStoreService.storeToken(user.getId(), token);
         Map<String, Object> data = new HashMap<>();
         data.put("token", token);
         data.put("user", safeUser(user));
@@ -86,7 +84,7 @@ public class UserService {
     }
 
     public void logout(Long userId) {
-        redisTemplate.delete("cinema:token:" + userId);
+        runtimeStoreService.removeToken(userId);
     }
 
     public void updatePassword(Long userId, String oldPassword, String newPassword) {
@@ -105,7 +103,7 @@ public class UserService {
         }
         db.setPassword(newPassword.trim());
         userMapper.updateById(db);
-        redisTemplate.delete("cinema:token:" + userId);
+        runtimeStoreService.removeToken(userId);
     }
 
     public void updateProfile(Long userId, User profile) {
@@ -172,7 +170,7 @@ public class UserService {
         db.setStatus(status);
         userMapper.updateById(db);
         if (status == 0) {
-            redisTemplate.delete("cinema:token:" + id);
+            runtimeStoreService.removeToken(id);
         }
     }
 
@@ -181,7 +179,7 @@ public class UserService {
             throw new BusinessException("默认管理员不可删除");
         }
         userMapper.deleteById(id);
-        redisTemplate.delete("cinema:token:" + id);
+        runtimeStoreService.removeToken(id);
     }
 
     public void changeBalance(Long userId, BigDecimal delta) {
@@ -296,7 +294,7 @@ public class UserService {
         db.setAvatar(StringUtils.hasText(user.getAvatar()) ? user.getAvatar().trim() : null);
         if (StringUtils.hasText(user.getPassword())) {
             db.setPassword(user.getPassword().trim());
-            redisTemplate.delete("cinema:token:" + db.getId());
+            runtimeStoreService.removeToken(db.getId());
         }
         if (StringUtils.hasText(user.getRole())) {
             String role = user.getRole().trim().toUpperCase();
@@ -311,7 +309,7 @@ public class UserService {
         if (user.getStatus() != null) {
             db.setStatus(user.getStatus());
             if (user.getStatus() == 0) {
-                redisTemplate.delete("cinema:token:" + db.getId());
+                runtimeStoreService.removeToken(db.getId());
             }
         }
         if (user.getBalance() != null) {

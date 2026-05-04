@@ -29,7 +29,7 @@ public class SeatController {
                           @RequestParam(required = false) Long shopId,
                           @RequestParam(required = false) String reservationStatus,
                           HttpServletRequest request) {
-        AuthUtils.requireAdmin((String) request.getAttribute("role"));
+        AuthUtils.requireManager((String) request.getAttribute("role"));
         return Result.success(seatService.page(pageNum, pageSize, shopId, reservationStatus));
     }
 
@@ -40,14 +40,14 @@ public class SeatController {
 
     @PostMapping("/save")
     public Result<?> save(@RequestBody SeatInfo seat, HttpServletRequest request) {
-        AuthUtils.requireAdmin((String) request.getAttribute("role"));
+        AuthUtils.requireManager((String) request.getAttribute("role"));
         seatService.save(seat);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
     public Result<?> delete(@PathVariable Long id, HttpServletRequest request) {
-        AuthUtils.requireAdmin((String) request.getAttribute("role"));
+        AuthUtils.requireManager((String) request.getAttribute("role"));
         seatService.deleteById(id);
         return Result.success();
     }

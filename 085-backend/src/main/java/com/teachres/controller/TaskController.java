@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.teachres.common.Result;
 import com.teachres.entity.EvalTask;
 import com.teachres.service.TaskService;
+import com.teachres.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +32,9 @@ public class TaskController {
                                            @RequestParam(required = false) String taskName,
                                            @RequestParam(required = false) Long courseId,
                                            @RequestParam(required = false) Integer status,
-                                           @RequestParam(required = false) String term) {
+                                           @RequestParam(required = false) String term,
+                                           @RequestAttribute("role") String role) {
+        AuthUtils.requireRole(role, "admin", "teacher");
         return Result.success(taskService.list(taskName, courseId, status, term, pageNum, pageSize));
     }
 
@@ -42,26 +45,34 @@ public class TaskController {
 
     @PostMapping("/add")
     public Result<String> add(@RequestBody EvalTask task,
-                              @RequestAttribute("userId") Long userId) {
+                              @RequestAttribute("userId") Long userId,
+                              @RequestAttribute("role") String role) {
+        AuthUtils.requireAdmin(role);
         taskService.add(task, userId);
         return Result.success();
     }
 
     @PutMapping("/update")
-    public Result<String> update(@RequestBody EvalTask task) {
+    public Result<String> update(@RequestBody EvalTask task,
+                                 @RequestAttribute("role") String role) {
+        AuthUtils.requireAdmin(role);
         taskService.update(task);
         return Result.success();
     }
 
     @PutMapping("/status")
     public Result<String> updateStatus(@RequestParam Long id,
-                                       @RequestParam Integer status) {
+                                       @RequestParam Integer status,
+                                       @RequestAttribute("role") String role) {
+        AuthUtils.requireAdmin(role);
         taskService.updateStatus(id, status);
         return Result.success();
     }
 
     @DeleteMapping("/delete/{id}")
-    public Result<String> delete(@PathVariable Long id) {
+    public Result<String> delete(@PathVariable Long id,
+                                 @RequestAttribute("role") String role) {
+        AuthUtils.requireAdmin(role);
         taskService.delete(id);
         return Result.success();
     }

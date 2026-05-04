@@ -3,6 +3,7 @@ package com.harbin.tourism.service;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.harbin.tourism.common.BusinessException;
 import com.harbin.tourism.entity.Route;
 import com.harbin.tourism.entity.RouteSpot;
 import com.harbin.tourism.entity.ScenicSpot;
@@ -48,6 +49,9 @@ public class RouteService {
 
     public Map<String, Object> detail(Long id) {
         Route route = routeMapper.selectById(id);
+        if (route == null || route.getStatus() == null || route.getStatus() != 1) {
+            throw new BusinessException(404, "路线不存在");
+        }
         List<RouteSpot> routeSpots = routeSpotMapper.selectList(
                 new LambdaQueryWrapper<RouteSpot>()
                         .eq(RouteSpot::getRouteId, id)
@@ -69,7 +73,11 @@ public class RouteService {
     }
 
     public Route getById(Long id) {
-        return routeMapper.selectById(id);
+        Route route = routeMapper.selectById(id);
+        if (route == null) {
+            throw new BusinessException(404, "路线不存在");
+        }
+        return route;
     }
 
     @Transactional
@@ -84,7 +92,12 @@ public class RouteService {
     }
 
     @Transactional
-    public void update(Route route, List<RouteSpot> spots) {
+    public void update(Route route, List<RouteSpot> spots, Long userId, boolean admin) {
+        Route existing = getById(route.getId());
+        if (!admin && !existing.getUserId().equals(userId)) {
+            throw new BusinessException(403, "无权修改该路线");
+        }
+        route.setUserId(existing.getUserId());
         routeMapper.updateById(route);
         routeSpotMapper.delete(new LambdaQueryWrapper<RouteSpot>()
                 .eq(RouteSpot::getRouteId, route.getId()));
@@ -94,7 +107,11 @@ public class RouteService {
         }
     }
 
-    public void delete(Long id) {
+    public void delete(Long id, Long userId, boolean admin) {
+        Route existing = getById(id);
+        if (!admin && !existing.getUserId().equals(userId)) {
+            throw new BusinessException(403, "无权删除该路线");
+        }
         routeMapper.deleteById(id);
         routeSpotMapper.delete(new LambdaQueryWrapper<RouteSpot>()
                 .eq(RouteSpot::getRouteId, id));
@@ -102,6 +119,9 @@ public class RouteService {
 
     public void like(Long id) {
         Route route = routeMapper.selectById(id);
+        if (route == null || route.getStatus() == null || route.getStatus() != 1) {
+            throw new BusinessException(404, "路线不存在");
+        }
         route.setLikeCount(route.getLikeCount() + 1);
         routeMapper.updateById(route);
     }

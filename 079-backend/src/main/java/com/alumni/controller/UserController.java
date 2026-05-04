@@ -3,10 +3,12 @@ package com.alumni.controller;
 import com.alumni.common.Result;
 import com.alumni.entity.User;
 import com.alumni.service.UserService;
+import com.alumni.utils.AuthUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @RestController
@@ -19,29 +21,35 @@ public class UserController {
     @GetMapping("/list")
     public Result<Page<User>> list(@RequestParam(defaultValue = "1") Integer pageNum,
                                    @RequestParam(defaultValue = "10") Integer pageSize,
-                                   String name, String role, Integer status) {
+                                   String name, String role, Integer status,
+                                   HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         return Result.success(userService.list(pageNum, pageSize, name, role, status));
     }
 
     @GetMapping("/{id}")
-    public Result<User> getById(@PathVariable Long id) {
+    public Result<User> getById(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         return Result.success(userService.getById(id));
     }
 
     @PutMapping("/audit/{id}")
-    public Result<?> audit(@PathVariable Long id, @RequestBody Map<String, Integer> params) {
+    public Result<?> audit(@PathVariable Long id, @RequestBody Map<String, Integer> params, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         userService.audit(id, params.get("status"));
         return Result.success();
     }
 
     @PutMapping("/status/{id}")
-    public Result<?> updateStatus(@PathVariable Long id, @RequestBody Map<String, Integer> params) {
+    public Result<?> updateStatus(@PathVariable Long id, @RequestBody Map<String, Integer> params, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         userService.updateStatus(id, params.get("status"));
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
-    public Result<?> delete(@PathVariable Long id) {
+    public Result<?> delete(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         userService.delete(id);
         return Result.success();
     }

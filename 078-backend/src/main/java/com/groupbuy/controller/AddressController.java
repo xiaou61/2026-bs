@@ -3,6 +3,7 @@ package com.groupbuy.controller;
 import com.groupbuy.common.Result;
 import com.groupbuy.entity.Address;
 import com.groupbuy.service.AddressService;
+import com.groupbuy.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,14 +30,16 @@ public class AddressController {
     }
 
     @PutMapping("/update")
-    public Result<?> update(@RequestBody Address address) {
-        addressService.update(address);
+    public Result<?> update(HttpServletRequest request, @RequestBody Address address) {
+        Long userId = AuthUtils.getUserId(request);
+        addressService.update(userId, address);
         return Result.success();
     }
 
     @DeleteMapping("/delete/{id}")
-    public Result<?> delete(@PathVariable Long id) {
-        addressService.delete(id);
+    public Result<?> delete(HttpServletRequest request, @PathVariable Long id) {
+        Long userId = AuthUtils.getUserId(request);
+        addressService.delete(userId, id);
         return Result.success();
     }
 

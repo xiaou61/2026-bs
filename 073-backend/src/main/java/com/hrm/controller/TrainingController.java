@@ -3,8 +3,10 @@ package com.hrm.controller;
 import com.hrm.common.Result;
 import com.hrm.entity.Training;
 import com.hrm.service.TrainingService;
+import com.hrm.utils.AuthUtils;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/training")
@@ -26,19 +28,22 @@ public class TrainingController {
     }
 
     @PostMapping
-    public Result add(@RequestBody Training training) {
+    public Result add(@RequestBody Training training, HttpServletRequest request) {
+        AuthUtils.requireAdminOrHr(request);
         trainingService.add(training);
         return Result.success();
     }
 
     @PutMapping
-    public Result update(@RequestBody Training training) {
+    public Result update(@RequestBody Training training, HttpServletRequest request) {
+        AuthUtils.requireAdminOrHr(request);
         trainingService.update(training);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
-    public Result delete(@PathVariable Long id) {
+    public Result delete(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireAdminOrHr(request);
         trainingService.delete(id);
         return Result.success();
     }

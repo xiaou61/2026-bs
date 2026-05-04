@@ -6,14 +6,12 @@ import com.craft.common.BusinessException;
 import com.craft.entity.User;
 import com.craft.mapper.UserMapper;
 import com.craft.utils.JwtUtils;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserService {
@@ -22,7 +20,7 @@ public class UserService {
     private UserMapper userMapper;
 
     @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    private RuntimeStoreService runtimeStoreService;
 
     public Map<String, Object> login(String username, String password) {
         if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
@@ -41,7 +39,7 @@ public class UserService {
             throw new BusinessException("账号已被禁用");
         }
         String token = JwtUtils.generateToken(String.valueOf(user.getId()), user.getRole());
-        redisTemplate.opsForValue().set("craft:token:" + user.getId(), token, 24, TimeUnit.HOURS);
+        runtimeStoreService.storeToken(user.getId(), token);
         User safeUser = safeUser(user);
         Map<String, Object> map = new HashMap<>();
         map.put("token", token);
@@ -140,7 +138,7 @@ public class UserService {
     }
 
     public void logout(Long userId) {
-        redisTemplate.delete("craft:token:" + userId);
+        runtimeStoreService.invalidateToken(userId);
     }
 
     public Page<User> page(Integer pageNum, Integer pageSize, String username, String role, Integer status) {

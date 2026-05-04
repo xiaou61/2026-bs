@@ -43,4 +43,11 @@ public class AuthController {
         authService.updatePassword(userId, oldPassword, newPassword);
         return Result.success();
     }
+
+    @PostMapping("/logout")
+    public Result<?> logout(HttpServletRequest request) {
+        Long userId = (Long) request.getAttribute("userId");
+        authService.logout(userId);
+        return Result.success();
+    }
 }

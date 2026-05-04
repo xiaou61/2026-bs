@@ -7,6 +7,7 @@ import com.repair.entity.RepairOrder;
 import com.repair.entity.Technician;
 import com.repair.service.RepairOrderService;
 import com.repair.service.TechnicianService;
+import com.repair.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,9 @@ public class RepairOrderController {
     @Autowired
     private TechnicianService technicianService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/list")
     public Result<Page<RepairOrder>> getList(@RequestParam(defaultValue = "1") int pageNum,
                                              @RequestParam(defaultValue = "10") int pageSize,
@@ -30,29 +34,35 @@ public class RepairOrderController {
                                              @RequestParam(required = false) Integer status,
                                              @RequestParam(required = false) Long technicianId,
                                              @RequestParam(required = false) String contactPhone,
-                                             @RequestParam(required = false) Long userId) {
+                                             @RequestParam(required = false) Long userId,
+                                             @RequestAttribute("userId") String currentUserId) {
+        userService.requireAdmin(Long.parseLong(currentUserId));
         return Result.success(repairOrderService.getList(pageNum, pageSize, orderNo, status, technicianId, contactPhone, userId));
     }
 
     @GetMapping("/detail/{id}")
-    public Result<RepairOrder> getDetail(@PathVariable Long id) {
+    public Result<RepairOrder> getDetail(@PathVariable Long id, @RequestAttribute("userId") String userId) {
+        userService.requireAdmin(Long.parseLong(userId));
         return Result.success(repairOrderService.getDetail(id));
     }
 
     @PostMapping("/add")
-    public Result<String> add(@RequestBody RepairOrder order) {
+    public Result<String> add(@RequestBody RepairOrder order, @RequestAttribute("userId") String userId) {
+        userService.requireAdmin(Long.parseLong(userId));
         repairOrderService.add(order);
         return Result.success();
     }
 
     @PutMapping("/update")
-    public Result<String> update(@RequestBody RepairOrder order) {
+    public Result<String> update(@RequestBody RepairOrder order, @RequestAttribute("userId") String userId) {
+        userService.requireAdmin(Long.parseLong(userId));
         repairOrderService.update(order);
         return Result.success();
     }
 
     @DeleteMapping("/delete/{id}")
-    public Result<String> delete(@PathVariable Long id) {
+    public Result<String> delete(@PathVariable Long id, @RequestAttribute("userId") String userId) {
+        userService.requireAdmin(Long.parseLong(userId));
         repairOrderService.delete(id);
         return Result.success();
     }
@@ -60,6 +70,7 @@ public class RepairOrderController {
     @PutMapping("/assign")
     public Result<String> assign(@RequestBody Map<String, Long> params,
                                  @RequestAttribute("userId") String userId) {
+        userService.requireAdmin(Long.parseLong(userId));
         repairOrderService.assign(params.get("orderId"), params.get("technicianId"), Long.parseLong(userId));
         return Result.success();
     }
@@ -67,6 +78,7 @@ public class RepairOrderController {
     @PutMapping("/status")
     public Result<String> updateStatus(@RequestBody Map<String, Object> params,
                                        @RequestAttribute("userId") String userId) {
+        userService.requireAdmin(Long.parseLong(userId));
         Long orderId = Long.parseLong(params.get("orderId").toString());
         Integer status = Integer.parseInt(params.get("status").toString());
         String content = params.get("content") == null ? null : params.get("content").toString();
@@ -90,7 +102,7 @@ public class RepairOrderController {
         if (detail != null && detail.getUserId() != null && detail.getUserId().equals(Long.parseLong(userId))) {
             return Result.success(detail);
         }
-        return Result.error("工单不存在");
+        throw new BusinessException(403, "无权访问该工单");
     }
 
     @PostMapping("/user/create")

@@ -3,6 +3,7 @@ package com.groupbuy.controller;
 import com.groupbuy.common.Result;
 import com.groupbuy.entity.Merchant;
 import com.groupbuy.service.MerchantService;
+import com.groupbuy.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,8 @@ public class MerchantController {
 
     @PostMapping("/apply")
     public Result<?> apply(HttpServletRequest request, @RequestBody Merchant merchant) {
-        Long userId = (Long) request.getAttribute("userId");
+        AuthUtils.requireUser(request);
+        Long userId = AuthUtils.getUserId(request);
         merchantService.apply(userId, merchant);
         return Result.success();
     }
@@ -26,12 +28,15 @@ public class MerchantController {
     @GetMapping("/page")
     public Result<?> page(@RequestParam(defaultValue = "1") Integer pageNum,
                           @RequestParam(defaultValue = "10") Integer pageSize,
-                          String name, Integer status) {
+                          String name, Integer status,
+                          HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         return Result.success(merchantService.page(pageNum, pageSize, name, status));
     }
 
     @PutMapping("/audit/{id}")
-    public Result<?> audit(@PathVariable Long id, @RequestBody Map<String, Object> params) {
+    public Result<?> audit(HttpServletRequest request, @PathVariable Long id, @RequestBody Map<String, Object> params) {
+        AuthUtils.requireAdmin(request);
         Integer status = (Integer) params.get("status");
         String auditRemark = (String) params.get("auditRemark");
         merchantService.audit(id, status, auditRemark);

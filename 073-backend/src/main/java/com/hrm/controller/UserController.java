@@ -3,6 +3,7 @@ package com.hrm.controller;
 import com.hrm.common.Result;
 import com.hrm.entity.User;
 import com.hrm.service.UserService;
+import com.hrm.utils.AuthUtils;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -21,19 +22,25 @@ public class UserController {
 
     @PostMapping("/logout")
     public Result logout(HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
-        userService.logout(userId);
+        String token = request.getHeader("Authorization");
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+        userService.logout(token);
         return Result.success();
     }
 
     @GetMapping("/info")
     public Result getInfo(HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        Long userId = AuthUtils.currentUserId(request);
         return Result.success(userService.getById(userId));
     }
 
     @GetMapping("/{id}")
-    public Result getById(@PathVariable Long id) {
+    public Result getById(@PathVariable Long id, HttpServletRequest request) {
+        if (!AuthUtils.hasAnyRole(request, "admin", "hr") && !AuthUtils.currentUserId(request).equals(id)) {
+            throw new com.hrm.common.BusinessException(403, "无权访问该用户");
+        }
         return Result.success(userService.getById(id));
     }
 
@@ -41,30 +48,36 @@ public class UserController {
     public Result getList(@RequestParam(required = false) String username,
                           @RequestParam(required = false) String role,
                           @RequestParam(defaultValue = "1") Integer pageNum,
-                          @RequestParam(defaultValue = "10") Integer pageSize) {
+                          @RequestParam(defaultValue = "10") Integer pageSize,
+                          HttpServletRequest request) {
+        AuthUtils.requireAdminOrHr(request);
         return Result.success(userService.getList(username, role, pageNum, pageSize));
     }
 
     @PostMapping
-    public Result add(@RequestBody User user) {
+    public Result add(@RequestBody User user, HttpServletRequest request) {
+        AuthUtils.requireAdminOrHr(request);
         userService.add(user);
         return Result.success();
     }
 
     @PutMapping
-    public Result update(@RequestBody User user) {
+    public Result update(@RequestBody User user, HttpServletRequest request) {
+        AuthUtils.requireAdminOrHr(request);
         userService.update(user);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
-    public Result delete(@PathVariable Long id) {
+    public Result delete(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         userService.delete(id);
         return Result.success();
     }
 
     @PostMapping("/resetPassword")
-    public Result resetPassword(@RequestBody Map<String, Object> params) {
+    public Result resetPassword(@RequestBody Map<String, Object> params, HttpServletRequest request) {
+        AuthUtils.requireAdminOrHr(request);
         Long id = Long.valueOf(params.get("id").toString());
         String newPassword = params.get("newPassword").toString();
         userService.resetPassword(id, newPassword);
@@ -73,7 +86,7 @@ public class UserController {
 
     @PostMapping("/updatePassword")
     public Result updatePassword(@RequestBody Map<String, String> params, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        Long userId = AuthUtils.currentUserId(request);
         userService.updatePassword(userId, params.get("oldPassword"), params.get("newPassword"));
         return Result.success();
     }

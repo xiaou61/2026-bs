@@ -1,5 +1,6 @@
 package com.hospital.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 public class SysUser {
     private Long id;
     private String username;
+    @JsonIgnore
     private String password;
     private String nickname;
     private String avatar;

@@ -1,0 +1,28 @@
+server:
+  port: 8102
+
+spring:
+  application:
+    name: legal-case-document-platform
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/legal_case_102?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 1234
+  redis:
+    host: localhost
+    port: 6379
+    database: 5
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+
+jwt:
+  secret: legal-case-document-platform-102-secret
+  expiration: 86400000

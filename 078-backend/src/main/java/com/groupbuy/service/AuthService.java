@@ -21,7 +21,16 @@ public class AuthService {
     @Autowired
     private JwtUtils jwtUtils;
 
+    @Autowired
+    private RuntimeStoreService runtimeStoreService;
+
     public void register(User user) {
+        if (user.getUsername() == null || user.getUsername().trim().isEmpty()) {
+            throw new BusinessException("用户名不能为空");
+        }
+        if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
+            throw new BusinessException("密码不能为空");
+        }
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.eq("username", user.getUsername());
         if (userMapper.selectCount(wrapper) > 0) {
@@ -46,19 +55,16 @@ public class AuthService {
             throw new BusinessException("账号已被禁用");
         }
         String token = jwtUtils.generateToken(user.getId(), user.getRole());
+        runtimeStoreService.storeToken(user.getId(), token);
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
-        user.setPassword(null);
-        result.put("user", user);
+        result.put("user", safeUser(user));
         return result;
     }
 
     public User getInfo(Long userId) {
         User user = userMapper.selectById(userId);
-        if (user != null) {
-            user.setPassword(null);
-        }
-        return user;
+        return safeUser(user);
     }
 
     public void updatePassword(Long userId, String oldPassword, String newPassword) {
@@ -68,5 +74,16 @@ public class AuthService {
         }
         user.setPassword(newPassword);
         userMapper.updateById(user);
+    }
+
+    public void logout(Long userId) {
+        runtimeStoreService.invalidateToken(userId);
+    }
+
+    private User safeUser(User user) {
+        if (user != null) {
+            user.setPassword(null);
+        }
+        return user;
     }
 }

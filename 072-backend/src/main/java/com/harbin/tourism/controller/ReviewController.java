@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.harbin.tourism.common.Result;
 import com.harbin.tourism.entity.Review;
 import com.harbin.tourism.service.ReviewService;
+import com.harbin.tourism.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,20 +36,21 @@ public class ReviewController {
 
     @PostMapping
     public Result<Void> add(@RequestBody Review review, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        Long userId = AuthUtils.currentUserId(request);
         review.setUserId(userId);
         reviewService.save(review);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
-    public Result<Void> delete(@PathVariable Long id) {
-        reviewService.delete(id);
+    public Result<Void> delete(@PathVariable Long id, HttpServletRequest request) {
+        reviewService.delete(id, AuthUtils.currentUserId(request), AuthUtils.isAdmin(request));
         return Result.success();
     }
 
     @PutMapping("/{id}/status")
-    public Result<Void> updateStatus(@PathVariable Long id, @RequestBody Review review) {
+    public Result<Void> updateStatus(@PathVariable Long id, @RequestBody Review review, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         reviewService.updateStatus(id, review.getStatus());
         return Result.success();
     }

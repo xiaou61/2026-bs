@@ -2,6 +2,7 @@ import request from './request'
 
 export const login = (data) => request.post('/user/login', data)
 export const register = (data) => request.post('/user/register', data)
+export const logout = () => request.post('/user/logout')
 export const getUserInfo = () => request.get('/user/info')
 export const getUserList = (params) => request.get('/user/list', { params })
 export const addUser = (data) => request.post('/user/add', data)

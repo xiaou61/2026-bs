@@ -27,6 +27,13 @@ public class UserController {
         return Result.success();
     }
 
+    @PostMapping("/logout")
+    public Result<?> logout(HttpServletRequest request) {
+        Long userId = (Long) request.getAttribute("userId");
+        userService.logout(userId);
+        return Result.success();
+    }
+
     @GetMapping("/info")
     public Result<?> getInfo(HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");

@@ -1,0 +1,196 @@
+DROP TABLE IF EXISTS fan_follow;
+DROP TABLE IF EXISTS news_notice;
+DROP TABLE IF EXISTS standing_record;
+DROP TABLE IF EXISTS match_schedule;
+DROP TABLE IF EXISTS player_info;
+DROP TABLE IF EXISTS coach_info;
+DROP TABLE IF EXISTS team_info;
+DROP TABLE IF EXISTS venue_info;
+DROP TABLE IF EXISTS club_info;
+DROP TABLE IF EXISTS season_info;
+DROP TABLE IF EXISTS league_info;
+DROP TABLE IF EXISTS sys_user;
+
+CREATE TABLE sys_user (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  user_no VARCHAR(50) NOT NULL,
+  username VARCHAR(50) NOT NULL,
+  password VARCHAR(100) NOT NULL,
+  nickname VARCHAR(50) NOT NULL,
+  phone VARCHAR(20),
+  email VARCHAR(100),
+  avatar VARCHAR(255),
+  role VARCHAR(20) NOT NULL,
+  status INT DEFAULT 1,
+  last_login_time DATETIME,
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uk_user_no (user_no),
+  UNIQUE KEY uk_username (username)
+);
+
+CREATE TABLE league_info (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  league_no VARCHAR(50) NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  region VARCHAR(50),
+  organizer VARCHAR(100),
+  level_type VARCHAR(50),
+  start_date DATE,
+  end_date DATE,
+  status INT DEFAULT 1,
+  remark VARCHAR(255),
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uk_league_no (league_no)
+);
+
+CREATE TABLE season_info (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  season_no VARCHAR(50) NOT NULL,
+  league_id BIGINT NOT NULL,
+  season_name VARCHAR(100) NOT NULL,
+  year_label VARCHAR(50),
+  start_date DATE,
+  end_date DATE,
+  rounds INT DEFAULT 0,
+  status INT DEFAULT 1,
+  remark VARCHAR(255),
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uk_season_no (season_no)
+);
+
+CREATE TABLE club_info (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  club_no VARCHAR(50) NOT NULL,
+  club_name VARCHAR(100) NOT NULL,
+  short_name VARCHAR(50),
+  city VARCHAR(50),
+  founded_year INT,
+  chairman VARCHAR(50),
+  contact_phone VARCHAR(20),
+  status INT DEFAULT 1,
+  description VARCHAR(255),
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uk_club_no (club_no)
+);
+
+CREATE TABLE venue_info (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  venue_no VARCHAR(50) NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  city VARCHAR(50),
+  address VARCHAR(255),
+  capacity INT DEFAULT 0,
+  turf_type VARCHAR(50),
+  status INT DEFAULT 1,
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uk_venue_no (venue_no)
+);
+
+CREATE TABLE team_info (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  team_no VARCHAR(50) NOT NULL,
+  season_id BIGINT NOT NULL,
+  club_id BIGINT NOT NULL,
+  venue_id BIGINT NOT NULL,
+  team_name VARCHAR(100) NOT NULL,
+  home_color VARCHAR(50),
+  away_color VARCHAR(50),
+  goal_target VARCHAR(100),
+  status INT DEFAULT 1,
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uk_team_no (team_no)
+);
+
+CREATE TABLE coach_info (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  coach_no VARCHAR(50) NOT NULL,
+  team_id BIGINT NOT NULL,
+  name VARCHAR(50) NOT NULL,
+  nationality VARCHAR(50),
+  age INT,
+  formation VARCHAR(50),
+  tenure_start DATE,
+  phone VARCHAR(20),
+  status INT DEFAULT 1,
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uk_coach_no (coach_no)
+);
+
+CREATE TABLE player_info (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  player_no VARCHAR(50) NOT NULL,
+  team_id BIGINT NOT NULL,
+  name VARCHAR(50) NOT NULL,
+  jersey_number INT,
+  position VARCHAR(30),
+  age INT,
+  nationality VARCHAR(50),
+  goal_count INT DEFAULT 0,
+  assist_count INT DEFAULT 0,
+  status INT DEFAULT 1,
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uk_player_no (player_no)
+);
+
+CREATE TABLE match_schedule (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  match_no VARCHAR(50) NOT NULL,
+  season_id BIGINT NOT NULL,
+  round_no INT DEFAULT 1,
+  home_team_id BIGINT NOT NULL,
+  away_team_id BIGINT NOT NULL,
+  venue_id BIGINT NOT NULL,
+  kick_off_time DATETIME,
+  home_score INT DEFAULT 0,
+  away_score INT DEFAULT 0,
+  status VARCHAR(20) DEFAULT 'SCHEDULED',
+  referee VARCHAR(50),
+  remark VARCHAR(255),
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uk_match_no (match_no)
+);
+
+CREATE TABLE standing_record (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  season_id BIGINT NOT NULL,
+  team_id BIGINT NOT NULL,
+  played_count INT DEFAULT 0,
+  win_count INT DEFAULT 0,
+  draw_count INT DEFAULT 0,
+  loss_count INT DEFAULT 0,
+  goal_for INT DEFAULT 0,
+  goal_against INT DEFAULT 0,
+  goal_diff INT DEFAULT 0,
+  points INT DEFAULT 0,
+  ranking INT DEFAULT 0,
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE news_notice (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  title VARCHAR(100) NOT NULL,
+  content TEXT,
+  author_id BIGINT NOT NULL,
+  notice_type VARCHAR(50) DEFAULT 'NEWS',
+  status INT DEFAULT 1,
+  publish_time DATETIME,
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE fan_follow (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  user_id BIGINT NOT NULL,
+  team_id BIGINT NOT NULL,
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP
+);

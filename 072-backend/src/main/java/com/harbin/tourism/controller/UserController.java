@@ -6,6 +6,7 @@ import com.harbin.tourism.entity.Favorite;
 import com.harbin.tourism.entity.User;
 import com.harbin.tourism.service.FavoriteService;
 import com.harbin.tourism.service.UserService;
+import com.harbin.tourism.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,21 +27,27 @@ public class UserController {
 
     @GetMapping("/info")
     public Result<User> getInfo(HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        Long userId = AuthUtils.currentUserId(request);
         return Result.success(userService.getById(userId));
     }
 
     @PutMapping("/info")
     public Result<Void> updateInfo(@RequestBody User user, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
-        user.setId(userId);
-        userService.update(user);
+        Long userId = AuthUtils.currentUserId(request);
+        userService.updateProfile(userId, user);
+        return Result.success();
+    }
+
+    @PutMapping("/password")
+    public Result<Void> changePassword(@RequestBody Map<String, String> params, HttpServletRequest request) {
+        Long userId = AuthUtils.currentUserId(request);
+        userService.changePassword(userId, params.get("oldPassword"), params.get("newPassword"));
         return Result.success();
     }
 
     @PostMapping("/recharge")
     public Result<Void> recharge(@RequestBody Map<String, Object> params, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        Long userId = AuthUtils.currentUserId(request);
         BigDecimal amount = new BigDecimal(params.get("amount").toString());
         userService.recharge(userId, amount);
         return Result.success();
@@ -50,19 +57,29 @@ public class UserController {
     public Result<Page<User>> list(
             @RequestParam(defaultValue = "1") Integer pageNum,
             @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(required = false) String keyword) {
+            @RequestParam(required = false) String keyword,
+            HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         return Result.success(userService.page(pageNum, pageSize, keyword));
     }
 
     @PutMapping("/{id}/status")
-    public Result<Void> updateStatus(@PathVariable Long id, @RequestBody Map<String, Integer> params) {
+    public Result<Void> updateStatus(@PathVariable Long id, @RequestBody Map<String, Integer> params, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         userService.updateStatus(id, params.get("status"));
+        return Result.success();
+    }
+
+    @DeleteMapping("/{id}")
+    public Result<Void> delete(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
+        userService.delete(id);
         return Result.success();
     }
 
     @PostMapping("/favorite")
     public Result<Void> addFavorite(@RequestBody Map<String, Object> params, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        Long userId = AuthUtils.currentUserId(request);
         Long targetId = Long.valueOf(params.get("targetId").toString());
         String targetType = (String) params.get("targetType");
         favoriteService.add(userId, targetId, targetType);
@@ -74,7 +91,7 @@ public class UserController {
             @RequestParam Long targetId,
             @RequestParam String targetType,
             HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        Long userId = AuthUtils.currentUserId(request);
         favoriteService.remove(userId, targetId, targetType);
         return Result.success();
     }
@@ -84,7 +101,7 @@ public class UserController {
             @RequestParam Long targetId,
             @RequestParam String targetType,
             HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        Long userId = AuthUtils.currentUserId(request);
         return Result.success(favoriteService.isFavorite(userId, targetId, targetType));
     }
 
@@ -92,7 +109,7 @@ public class UserController {
     public Result<List<Favorite>> getFavorites(
             @RequestParam(required = false) String targetType,
             HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        Long userId = AuthUtils.currentUserId(request);
         return Result.success(favoriteService.getUserFavorites(userId, targetType));
     }
 }

@@ -23,20 +23,23 @@ public class ProjectController {
     }
 
     @PostMapping("/add")
-    public Result<String> add(@RequestBody Project project) {
-        projectService.add(project);
+    public Result<String> add(@RequestBody Project project,
+                              @RequestAttribute("userId") String userId) {
+        projectService.add(project, Long.parseLong(userId));
         return Result.success();
     }
 
     @PutMapping("/update")
-    public Result<String> update(@RequestBody Project project) {
-        projectService.update(project);
+    public Result<String> update(@RequestBody Project project,
+                                 @RequestAttribute("userId") String userId) {
+        projectService.update(project, Long.parseLong(userId));
         return Result.success();
     }
 
     @DeleteMapping("/delete/{id}")
-    public Result<String> delete(@PathVariable Long id) {
-        projectService.delete(id);
+    public Result<String> delete(@PathVariable Long id,
+                                 @RequestAttribute("userId") String userId) {
+        projectService.delete(id, Long.parseLong(userId));
         return Result.success();
     }
 }

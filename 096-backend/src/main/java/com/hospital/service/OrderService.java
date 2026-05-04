@@ -49,7 +49,7 @@ public class OrderService {
             throw new BusinessException("订单不存在");
         }
         if (!order.getUserId().equals(userId)) {
-            throw new BusinessException("无权限支付该订单");
+            throw new BusinessException(403, "无权限支付该订单");
         }
         if (order.getStatus() == null || order.getStatus() != 0) {
             throw new BusinessException("订单状态不可支付");

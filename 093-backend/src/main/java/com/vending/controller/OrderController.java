@@ -3,7 +3,6 @@ package com.vending.controller;
 import com.vending.common.Result;
 import com.vending.dto.OrderCreateDTO;
 import com.vending.service.OrderService;
-import com.vending.utils.AuthUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +24,11 @@ public class OrderController {
 
     @PostMapping("/create")
     public Result<?> create(@RequestBody OrderCreateDTO dto, HttpServletRequest request) {
-        return Result.success(orderService.create((Long) request.getAttribute("userId"), dto));
+        return Result.success(orderService.create(
+                (Long) request.getAttribute("userId"),
+                (String) request.getAttribute("role"),
+                dto
+        ));
     }
 
     @GetMapping("/list")

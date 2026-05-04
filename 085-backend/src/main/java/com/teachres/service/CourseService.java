@@ -37,14 +37,16 @@ public class CourseService {
         return course;
     }
 
-    public void add(MathCourse course, Long userId) {
+    public void add(MathCourse course, Long userId, String role) {
         if (!StringUtils.hasText(course.getCourseName()) || !StringUtils.hasText(course.getCourseCode())) {
             throw new BusinessException("课程名称和编码不能为空");
         }
         if (courseMapper.countByCode(course.getCourseCode()) > 0) {
             throw new BusinessException("课程编码已存在");
         }
-        if (course.getTeacherId() == null) {
+        if ("teacher".equals(role)) {
+            course.setTeacherId(userId);
+        } else if (course.getTeacherId() == null) {
             course.setTeacherId(userId);
         }
         if (course.getCredit() == null) {
@@ -56,14 +58,25 @@ public class CourseService {
         courseMapper.insert(course);
     }
 
-    public void update(MathCourse course) {
+    public void update(MathCourse course, Long userId, String role) {
         if (course.getId() == null) {
             throw new BusinessException("参数错误");
+        }
+        MathCourse old = detail(course.getId());
+        if ("teacher".equals(role)) {
+            if (!userId.equals(old.getTeacherId())) {
+                throw new BusinessException(403, "无权访问");
+            }
+            course.setTeacherId(userId);
         }
         courseMapper.update(course);
     }
 
-    public void delete(Long id) {
+    public void delete(Long id, Long userId, String role) {
+        MathCourse old = detail(id);
+        if ("teacher".equals(role) && !userId.equals(old.getTeacherId())) {
+            throw new BusinessException(403, "无权访问");
+        }
         courseMapper.deleteById(id);
     }
 }

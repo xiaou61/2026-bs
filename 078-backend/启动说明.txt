@@ -1,0 +1,32 @@
+078 网上团购系统启动说明
+
+一、后端默认启动
+1. 进入 078-backend 目录。
+2. 执行：mvn spring-boot:run
+3. 默认访问端口：http://localhost:8078
+4. 默认使用 H2 内存数据库，无需提前安装 MySQL 或 Redis。
+
+二、前端启动
+1. 进入 078-frontend 目录。
+2. 首次执行：npm install
+3. 开发启动：npm run dev -- --host 127.0.0.1
+4. 默认访问地址：http://127.0.0.1:3078
+5. 前端代理默认指向：http://localhost:8078
+
+三、生产构建验证
+1. 后端测试：078-backend 目录执行 mvn test
+2. 前端构建：078-frontend 目录执行 npm run build
+
+四、MySQL 模式
+1. 先在 MySQL 中导入 sql/init.sql。
+2. 按需修改 src/main/resources/application-mysql.yml 中的数据库账号密码。
+3. 执行：mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+
+五、默认账号
+管理员：admin / 123456
+商家一：merchant / 123456
+商家二：merchant2 / 123456
+普通用户：user / 123456
+普通用户二：user2 / 123456
+普通用户三：user3 / 123456
+

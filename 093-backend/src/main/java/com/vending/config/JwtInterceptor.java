@@ -1,8 +1,8 @@
 package com.vending.config;
 
 import com.vending.common.BusinessException;
+import com.vending.service.RuntimeStoreService;
 import com.vending.utils.JwtUtils;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 public class JwtInterceptor implements HandlerInterceptor {
 
     @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    private RuntimeStoreService runtimeStoreService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -25,17 +25,19 @@ public class JwtInterceptor implements HandlerInterceptor {
         if (token == null || token.isEmpty()) {
             throw new BusinessException(401, "未登录");
         }
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
         try {
-            if (JwtUtils.isTokenExpired(token)) {
+            if (!JwtUtils.validateToken(token)) {
                 throw new BusinessException(401, "登录已过期");
             }
-            Long userId = Long.parseLong(JwtUtils.getUserIdFromToken(token));
-            Object cacheToken = redisTemplate.opsForValue().get("vending:token:" + userId);
-            if (cacheToken == null || !token.equals(String.valueOf(cacheToken))) {
+            Long userId = JwtUtils.getUserId(token);
+            if (!runtimeStoreService.isValidToken(userId, token)) {
                 throw new BusinessException(401, "登录状态失效");
             }
             request.setAttribute("userId", userId);
-            request.setAttribute("role", JwtUtils.getRoleFromToken(token));
+            request.setAttribute("role", JwtUtils.getRole(token));
             return true;
         } catch (BusinessException e) {
             throw e;

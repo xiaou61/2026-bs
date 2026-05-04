@@ -37,20 +37,21 @@ public class FaultController {
 
     @PostMapping("/add")
     public Result<?> add(@RequestBody FaultReport fault, HttpServletRequest request) {
+        AuthUtils.requireCustomer((String) request.getAttribute("role"));
         faultService.add((Long) request.getAttribute("userId"), fault);
         return Result.success();
     }
 
     @PutMapping("/handle/{id}")
     public Result<?> handle(@PathVariable Long id, @RequestBody Map<String, String> params, HttpServletRequest request) {
-        AuthUtils.requireAdmin((String) request.getAttribute("role"));
+        AuthUtils.requireAdminOrStaff((String) request.getAttribute("role"));
         faultService.handle(id, (Long) request.getAttribute("userId"), params.get("handleStatus"), params.get("handleResult"));
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
     public Result<?> delete(@PathVariable Long id, HttpServletRequest request) {
-        AuthUtils.requireAdmin((String) request.getAttribute("role"));
+        AuthUtils.requireAdminOrStaff((String) request.getAttribute("role"));
         faultService.deleteById(id);
         return Result.success();
     }

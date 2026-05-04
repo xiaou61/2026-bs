@@ -2,6 +2,7 @@ package com.groupbuy.controller;
 
 import com.groupbuy.common.Result;
 import com.groupbuy.service.GroupOrderService;
+import com.groupbuy.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,8 @@ public class GroupOrderController {
 
     @PostMapping("/create")
     public Result<?> create(HttpServletRequest request, @RequestBody Map<String, Long> params) {
-        Long userId = (Long) request.getAttribute("userId");
+        AuthUtils.requireUser(request);
+        Long userId = AuthUtils.getUserId(request);
         Long activityId = params.get("activityId");
         Long addressId = params.get("addressId");
         return Result.success(groupOrderService.create(userId, activityId, addressId));
@@ -25,7 +27,8 @@ public class GroupOrderController {
 
     @PostMapping("/join")
     public Result<?> join(HttpServletRequest request, @RequestBody Map<String, Long> params) {
-        Long userId = (Long) request.getAttribute("userId");
+        AuthUtils.requireUser(request);
+        Long userId = AuthUtils.getUserId(request);
         Long groupOrderId = params.get("groupOrderId");
         Long addressId = params.get("addressId");
         return Result.success(groupOrderService.join(userId, groupOrderId, addressId));

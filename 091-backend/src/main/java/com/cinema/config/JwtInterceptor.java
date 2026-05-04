@@ -1,8 +1,8 @@
 package com.cinema.config;
 
 import com.cinema.common.BusinessException;
+import com.cinema.service.RuntimeStoreService;
 import com.cinema.utils.JwtUtils;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 public class JwtInterceptor implements HandlerInterceptor {
 
     @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    private RuntimeStoreService runtimeStoreService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -22,6 +22,9 @@ public class JwtInterceptor implements HandlerInterceptor {
             return true;
         }
         String token = request.getHeader("Authorization");
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7).trim();
+        }
         if (token == null || token.isEmpty()) {
             throw new BusinessException(401, "未登录");
         }
@@ -30,8 +33,7 @@ public class JwtInterceptor implements HandlerInterceptor {
                 throw new BusinessException(401, "登录已过期");
             }
             Long userId = Long.parseLong(JwtUtils.getUserIdFromToken(token));
-            Object cacheToken = redisTemplate.opsForValue().get("cinema:token:" + userId);
-            if (cacheToken == null || !token.equals(String.valueOf(cacheToken))) {
+            if (!runtimeStoreService.isValidToken(userId, token)) {
                 throw new BusinessException(401, "登录状态失效");
             }
             request.setAttribute("userId", userId);

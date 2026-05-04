@@ -112,18 +112,30 @@ public class ApplicationService {
         approvalRecordMapper.insert(record);
     }
 
-    public List<ApplicationMaterial> getMaterialList(Long applicationId) {
+    public List<ApplicationMaterial> getMaterialList(Long userId, String role, Long applicationId) {
+        assertApplicationAccess(userId, role, applicationId);
         return applicationMaterialMapper.selectList(Wrappers.<ApplicationMaterial>lambdaQuery()
                 .eq(ApplicationMaterial::getApplicationId, applicationId)
                 .orderByDesc(ApplicationMaterial::getCreateTime));
     }
 
-    public void addMaterial(ApplicationMaterial material) {
+    public void addMaterial(Long userId, String role, ApplicationMaterial material) {
         if (material.getApplicationId() == null || !StringUtils.hasText(material.getMaterialName())) {
             throw new BusinessException("材料信息不完整");
         }
+        assertApplicationAccess(userId, role, material.getApplicationId());
         material.setReviewStatus(material.getReviewStatus() == null ? 0 : material.getReviewStatus());
         applicationMaterialMapper.insert(material);
+    }
+
+    private void assertApplicationAccess(Long userId, String role, Long applicationId) {
+        AdoptionApplication application = adoptionApplicationMapper.selectById(applicationId);
+        if (application == null) {
+            throw new BusinessException(404, "申请不存在");
+        }
+        if (!"admin".equals(role) && !"reviewer".equals(role) && !application.getApplicantId().equals(userId)) {
+            throw new BusinessException(403, "无权限操作");
+        }
     }
 
     private void fillNames(List<AdoptionApplication> list) {

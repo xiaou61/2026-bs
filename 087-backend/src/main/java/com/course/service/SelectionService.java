@@ -31,14 +31,14 @@ public class SelectionService {
     public void selectCourse(Long scheduleId, Long studentId) {
         CourseSchedule schedule = scheduleService.getById(scheduleId);
         if (schedule == null) {
-            throw new BusinessException("排课不存在");
+            throw new BusinessException(404, "排课不存在");
         }
         CourseSelection exists = selectionMapper.selectByScheduleAndStudent(scheduleId, studentId);
         if (exists != null) {
-            throw new BusinessException("该课程已选");
+            throw new BusinessException(400, "该课程已选");
         }
         if (schedule.getMaxStudentCount() != null && schedule.getSelectedCount() != null && schedule.getSelectedCount() >= schedule.getMaxStudentCount()) {
-            throw new BusinessException("该课程名额已满");
+            throw new BusinessException(400, "该课程名额已满");
         }
         CourseSelection selection = new CourseSelection();
         selection.setScheduleId(scheduleId);

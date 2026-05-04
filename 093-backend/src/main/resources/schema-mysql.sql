@@ -1,0 +1,178 @@
+CREATE TABLE sys_user (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  user_no VARCHAR(50) NOT NULL,
+  username VARCHAR(50) NOT NULL,
+  password VARCHAR(100) NOT NULL,
+  nickname VARCHAR(50) NOT NULL,
+  phone VARCHAR(20),
+  email VARCHAR(100),
+  avatar VARCHAR(255),
+  balance DECIMAL(10,2) DEFAULT 0.00,
+  total_consume DECIMAL(10,2) DEFAULT 0.00,
+  role VARCHAR(20) NOT NULL,
+  status INT DEFAULT 1,
+  last_login_time DATETIME,
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uk_sys_user_no (user_no),
+  UNIQUE KEY uk_sys_username (username)
+);
+
+CREATE TABLE machine_location (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  location_no VARCHAR(50) NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  scene_type VARCHAR(50),
+  contact_person VARCHAR(50),
+  contact_phone VARCHAR(20),
+  address VARCHAR(255),
+  status INT DEFAULT 1,
+  remark VARCHAR(255),
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uk_location_no (location_no)
+);
+
+CREATE TABLE vending_machine (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  machine_no VARCHAR(50) NOT NULL,
+  location_id BIGINT NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  temperature_type VARCHAR(50),
+  status VARCHAR(20) DEFAULT 'ONLINE',
+  last_replenish_time DATETIME,
+  last_online_time DATETIME,
+  manager_name VARCHAR(50),
+  manager_phone VARCHAR(20),
+  remark VARCHAR(255),
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uk_machine_no (machine_no)
+);
+
+CREATE TABLE product_category (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(100) NOT NULL,
+  sort INT DEFAULT 0,
+  status INT DEFAULT 1,
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE product_info (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  product_no VARCHAR(50) NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  category_id BIGINT,
+  brand VARCHAR(100),
+  spec VARCHAR(100),
+  cover VARCHAR(255),
+  cost_price DECIMAL(10,2) DEFAULT 0.00,
+  sale_price DECIMAL(10,2) DEFAULT 0.00,
+  stock_warn INT DEFAULT 5,
+  status INT DEFAULT 1,
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uk_product_no (product_no)
+);
+
+CREATE TABLE machine_slot (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  machine_id BIGINT NOT NULL,
+  slot_no VARCHAR(50) NOT NULL,
+  product_id BIGINT,
+  capacity INT DEFAULT 0,
+  current_stock INT DEFAULT 0,
+  status VARCHAR(20) DEFAULT 'NORMAL',
+  last_sync_time DATETIME,
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE replenish_record (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  replenish_no VARCHAR(50) NOT NULL,
+  machine_id BIGINT NOT NULL,
+  slot_id BIGINT NOT NULL,
+  product_id BIGINT NOT NULL,
+  quantity INT DEFAULT 0,
+  before_stock INT DEFAULT 0,
+  after_stock INT DEFAULT 0,
+  operator_id BIGINT NOT NULL,
+  remark VARCHAR(255),
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY uk_replenish_no (replenish_no)
+);
+
+CREATE TABLE sale_order (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  order_no VARCHAR(50) NOT NULL,
+  user_id BIGINT NOT NULL,
+  machine_id BIGINT NOT NULL,
+  slot_id BIGINT NOT NULL,
+  product_id BIGINT NOT NULL,
+  quantity INT DEFAULT 1,
+  total_amount DECIMAL(10,2) DEFAULT 0.00,
+  pay_amount DECIMAL(10,2) DEFAULT 0.00,
+  pickup_code VARCHAR(50),
+  status VARCHAR(20) DEFAULT 'WAIT_PAY',
+  pay_time DATETIME,
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uk_order_no (order_no)
+);
+
+CREATE TABLE payment_record (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  user_id BIGINT NOT NULL,
+  order_id BIGINT,
+  pay_no VARCHAR(50) NOT NULL,
+  pay_type VARCHAR(20) DEFAULT 'BALANCE',
+  pay_amount DECIMAL(10,2) DEFAULT 0.00,
+  status VARCHAR(20) DEFAULT 'SUCCESS',
+  pay_time DATETIME,
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uk_pay_no (pay_no)
+);
+
+CREATE TABLE shipment_record (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  order_id BIGINT NOT NULL,
+  user_id BIGINT NOT NULL,
+  machine_id BIGINT NOT NULL,
+  slot_id BIGINT NOT NULL,
+  product_id BIGINT NOT NULL,
+  quantity INT DEFAULT 1,
+  shipment_status VARCHAR(20) DEFAULT 'SUCCESS',
+  shipment_time DATETIME,
+  result_msg VARCHAR(255),
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE fault_report (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  order_id BIGINT,
+  user_id BIGINT NOT NULL,
+  machine_id BIGINT,
+  report_type VARCHAR(50),
+  content VARCHAR(500),
+  handle_status VARCHAR(20) DEFAULT 'PENDING',
+  handle_result VARCHAR(255),
+  handler_id BIGINT,
+  handle_time DATETIME,
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE system_notice (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  title VARCHAR(100) NOT NULL,
+  content TEXT,
+  publisher_id BIGINT NOT NULL,
+  notice_type VARCHAR(50) DEFAULT 'SYSTEM',
+  status INT DEFAULT 1,
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);

@@ -84,7 +84,7 @@
     </update>
 
     <update id="decrementFavoriteCount">
-        UPDATE material_info SET favorite_count = IF(favorite_count &gt; 0, favorite_count - 1, 0), update_time = NOW() WHERE id = #{id}
+        UPDATE material_info SET favorite_count = CASE WHEN favorite_count &gt; 0 THEN favorite_count - 1 ELSE 0 END, update_time = NOW() WHERE id = #{id}
     </update>
 
     <select id="countAll" resultType="long">

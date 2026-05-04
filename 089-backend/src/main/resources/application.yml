@@ -1,18 +1,35 @@
 server:
-  port: 8080
+  port: 8089
 
 spring:
+  application:
+    name: railway-ticket-platform
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/railway_ticket_089?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-    username: root
-    password: 123456
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:railway089;MODE=MySQL;DATABASE_TO_LOWER=TRUE;NON_KEYWORDS=USER;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
+      schema-locations: classpath:schema-h2.sql
+      data-locations: classpath:data-h2.sql
   redis:
     host: localhost
     port: 6379
     database: 0
+  data:
+    redis:
+      repositories:
+        enabled: false
+  jackson:
+    time-zone: Asia/Shanghai
+    serialization:
+      write-dates-as-timestamps: false
 
 mybatis-plus:
+  type-aliases-package: com.railway.entity
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

@@ -1,4 +1,4 @@
-﻿package com.petcafe.utils;
+package com.petcafe.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

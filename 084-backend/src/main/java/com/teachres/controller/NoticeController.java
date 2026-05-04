@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.teachres.common.Result;
 import com.teachres.entity.SystemNotice;
 import com.teachres.service.NoticeService;
+import com.teachres.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -29,7 +31,9 @@ public class NoticeController {
     public Result<PageInfo<SystemNotice>> list(@RequestParam(defaultValue = "1") Integer pageNum,
                                                @RequestParam(defaultValue = "10") Integer pageSize,
                                                @RequestParam(required = false) String title,
-                                               @RequestParam(required = false) Integer status) {
+                                               @RequestParam(required = false) Integer status,
+                                               HttpServletRequest request) {
+        AuthUtils.requireAnyRole(request, "admin", "teacher");
         return Result.success(noticeService.list(title, status, pageNum, pageSize));
     }
 
@@ -45,19 +49,23 @@ public class NoticeController {
 
     @PostMapping("/add")
     public Result<String> add(@RequestBody SystemNotice notice,
-                              @RequestAttribute("userId") Long userId) {
+                              @RequestAttribute("userId") Long userId,
+                              HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         noticeService.add(notice, userId);
         return Result.success();
     }
 
     @PutMapping("/update")
-    public Result<String> update(@RequestBody SystemNotice notice) {
+    public Result<String> update(@RequestBody SystemNotice notice, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         noticeService.update(notice);
         return Result.success();
     }
 
     @DeleteMapping("/delete/{id}")
-    public Result<String> delete(@PathVariable Long id) {
+    public Result<String> delete(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         noticeService.delete(id);
         return Result.success();
     }

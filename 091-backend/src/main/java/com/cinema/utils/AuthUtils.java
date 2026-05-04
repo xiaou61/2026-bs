@@ -9,4 +9,10 @@ public class AuthUtils {
             throw new BusinessException(403, "无权限");
         }
     }
+
+    public static void requireMember(String role) {
+        if (!"MEMBER".equals(role)) {
+            throw new BusinessException(403, "仅会员可操作");
+        }
+    }
 }

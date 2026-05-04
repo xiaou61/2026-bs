@@ -51,7 +51,9 @@ public class RideController {
     }
 
     @GetMapping("/{id}")
-    public Result<?> getById(@PathVariable Long id) {
-        return Result.success(rideService.getById(id));
+    public Result<?> getById(HttpServletRequest request, @PathVariable Long id) {
+        Long userId = (Long) request.getAttribute("userId");
+        String role = (String) request.getAttribute("role");
+        return Result.success(rideService.getById(userId, role, id));
     }
 }

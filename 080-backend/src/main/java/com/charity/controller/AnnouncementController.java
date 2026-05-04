@@ -17,26 +17,30 @@ public class AnnouncementController {
     @GetMapping("/list")
     public Result<Page<Announcement>> getList(@RequestParam(defaultValue = "1") int pageNum,
                                               @RequestParam(defaultValue = "10") int pageSize,
-                                              @RequestParam(required = false) String announcementType) {
-        Page<Announcement> page = announcementService.getList(pageNum, pageSize, announcementType);
+                                              @RequestParam(required = false) String announcementType,
+                                              @RequestAttribute("userId") String userId) {
+        Page<Announcement> page = announcementService.getList(pageNum, pageSize, announcementType, Long.parseLong(userId));
         return Result.success(page);
     }
 
     @PostMapping("/add")
-    public Result<String> add(@RequestBody Announcement announcement) {
-        announcementService.add(announcement);
+    public Result<String> add(@RequestBody Announcement announcement,
+                              @RequestAttribute("userId") String userId) {
+        announcementService.add(announcement, Long.parseLong(userId));
         return Result.success();
     }
 
     @PutMapping("/update")
-    public Result<String> update(@RequestBody Announcement announcement) {
-        announcementService.update(announcement);
+    public Result<String> update(@RequestBody Announcement announcement,
+                                 @RequestAttribute("userId") String userId) {
+        announcementService.update(announcement, Long.parseLong(userId));
         return Result.success();
     }
 
     @DeleteMapping("/delete/{id}")
-    public Result<String> delete(@PathVariable Long id) {
-        announcementService.delete(id);
+    public Result<String> delete(@PathVariable Long id,
+                                 @RequestAttribute("userId") String userId) {
+        announcementService.delete(id, Long.parseLong(userId));
         return Result.success();
     }
 }

@@ -56,8 +56,9 @@ public class FavoriteController {
     }
 
     @DeleteMapping("/study/delete/{id}")
-    public Result<String> deleteStudy(@PathVariable Long id) {
-        favoriteService.deleteStudy(id);
+    public Result<String> deleteStudy(@PathVariable Long id,
+                                      @RequestAttribute("userId") Long userId) {
+        favoriteService.deleteStudy(id, userId);
         return Result.success();
     }
 }

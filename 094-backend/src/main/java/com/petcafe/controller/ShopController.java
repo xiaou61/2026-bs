@@ -35,7 +35,7 @@ public class ShopController {
                           @RequestParam(required = false) String status,
                           @RequestParam(required = false) Long areaId,
                           HttpServletRequest request) {
-        AuthUtils.requireAdmin((String) request.getAttribute("role"));
+        AuthUtils.requireManager((String) request.getAttribute("role"));
         return Result.success(shopService.page(pageNum, pageSize, name, status, areaId));
     }
 
@@ -46,14 +46,14 @@ public class ShopController {
 
     @PostMapping("/save")
     public Result<?> save(@RequestBody CafeShop shop, HttpServletRequest request) {
-        AuthUtils.requireAdmin((String) request.getAttribute("role"));
+        AuthUtils.requireManager((String) request.getAttribute("role"));
         shopService.save(shop);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
     public Result<?> delete(@PathVariable Long id, HttpServletRequest request) {
-        AuthUtils.requireAdmin((String) request.getAttribute("role"));
+        AuthUtils.requireManager((String) request.getAttribute("role"));
         shopService.deleteById(id);
         return Result.success();
     }

@@ -23,8 +23,9 @@ public class GrowthRecordController {
     }
 
     @PostMapping("/add")
-    public Result<String> add(@RequestBody GrowthRecord growthRecord) {
-        growthRecordService.add(growthRecord);
+    public Result<String> add(@RequestBody GrowthRecord growthRecord,
+                              @RequestAttribute("userId") String userId) {
+        growthRecordService.add(growthRecord, Long.parseLong(userId));
         return Result.success();
     }
 }

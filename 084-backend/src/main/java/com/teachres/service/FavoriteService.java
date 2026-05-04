@@ -92,7 +92,14 @@ public class FavoriteService {
         }
     }
 
-    public void deleteStudy(Long id) {
+    public void deleteStudy(Long id, Long userId) {
+        StudyList studyList = studyListMapper.selectById(id);
+        if (studyList == null) {
+            throw new BusinessException("学习清单不存在");
+        }
+        if (!userId.equals(studyList.getUserId())) {
+            throw new BusinessException(403, "无权操作");
+        }
         studyListMapper.deleteById(id);
     }
 }

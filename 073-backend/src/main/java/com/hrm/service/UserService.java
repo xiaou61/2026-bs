@@ -7,21 +7,24 @@ import com.hrm.common.BusinessException;
 import com.hrm.entity.User;
 import com.hrm.mapper.UserMapper;
 import com.hrm.utils.JwtUtils;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserService {
     @Resource
     private UserMapper userMapper;
     @Resource
-    private StringRedisTemplate stringRedisTemplate;
+    private JwtUtils jwtUtils;
+    @Resource
+    private RuntimeStoreService runtimeStoreService;
 
     public Map<String, Object> login(String username, String password) {
+        if (username == null || username.isBlank() || password == null || password.isBlank()) {
+            throw new BusinessException(400, "用户名和密码不能为空");
+        }
         User user = userMapper.selectByUsername(username);
         if (user == null) {
             throw new BusinessException("用户不存在");
@@ -33,17 +36,15 @@ public class UserService {
         if (!md5Pwd.equals(user.getPassword())) {
             throw new BusinessException("密码错误");
         }
-        String token = JwtUtils.generateToken(user.getId(), user.getUsername());
-        stringRedisTemplate.opsForValue().set("token:" + user.getId(), token, 24, TimeUnit.HOURS);
+        String token = jwtUtils.generateToken(user.getId(), user.getRole());
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
-        user.setPassword(null);
         result.put("user", user);
         return result;
     }
 
-    public void logout(Long userId) {
-        stringRedisTemplate.delete("token:" + userId);
+    public void logout(String token) {
+        runtimeStoreService.invalidateToken(token);
     }
 
     public User getById(Long id) {
@@ -60,6 +61,9 @@ public class UserService {
     }
 
     public void add(User user) {
+        if (user.getUsername() == null || user.getUsername().isBlank() || user.getPassword() == null || user.getPassword().isBlank()) {
+            throw new BusinessException(400, "用户名和密码不能为空");
+        }
         if (userMapper.countByUsername(user.getUsername()) > 0) {
             throw new BusinessException("用户名已存在");
         }
@@ -78,6 +82,13 @@ public class UserService {
     }
 
     public void delete(Long id) {
+        User user = userMapper.selectById(id);
+        if (user == null) {
+            throw new BusinessException(404, "用户不存在");
+        }
+        if ("admin".equals(user.getRole())) {
+            throw new BusinessException(400, "不能删除管理员账号");
+        }
         userMapper.deleteById(id);
     }
 
@@ -89,6 +100,9 @@ public class UserService {
     }
 
     public void updatePassword(Long userId, String oldPassword, String newPassword) {
+        if (newPassword == null || newPassword.length() < 6) {
+            throw new BusinessException(400, "新密码至少6位");
+        }
         User user = userMapper.selectById(userId);
         if (!DigestUtil.md5Hex(oldPassword).equals(user.getPassword())) {
             throw new BusinessException("原密码错误");

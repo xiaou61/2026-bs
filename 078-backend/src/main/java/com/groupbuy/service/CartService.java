@@ -1,6 +1,7 @@
 package com.groupbuy.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.groupbuy.common.BusinessException;
 import com.groupbuy.entity.Cart;
 import com.groupbuy.entity.GroupActivity;
 import com.groupbuy.entity.Product;
@@ -33,6 +34,19 @@ public class CartService {
     }
 
     public void add(Long userId, Long productId, Long activityId, Integer quantity) {
+        if (quantity == null || quantity <= 0) {
+            throw new BusinessException("购买数量必须大于0");
+        }
+        Product product = productMapper.selectById(productId);
+        if (product == null || !Integer.valueOf(1).equals(product.getStatus())) {
+            throw new BusinessException(404, "商品不存在或已下架");
+        }
+        if (activityId != null) {
+            GroupActivity activity = groupActivityMapper.selectById(activityId);
+            if (activity == null || !Integer.valueOf(1).equals(activity.getStatus()) || !productId.equals(activity.getProductId())) {
+                throw new BusinessException("团购活动不存在或已结束");
+            }
+        }
         QueryWrapper<Cart> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id", userId).eq("product_id", productId);
         if (activityId != null) {
@@ -55,14 +69,19 @@ public class CartService {
         }
     }
 
-    public void updateQuantity(Long id, Integer quantity) {
+    public void updateQuantity(Long userId, Long id, Integer quantity) {
+        requireOwnedCart(userId, id);
+        if (quantity == null || quantity <= 0) {
+            throw new BusinessException("购买数量必须大于0");
+        }
         Cart cart = new Cart();
         cart.setId(id);
         cart.setQuantity(quantity);
         cartMapper.updateById(cart);
     }
 
-    public void delete(Long id) {
+    public void delete(Long userId, Long id) {
+        requireOwnedCart(userId, id);
         cartMapper.deleteById(id);
     }
 
@@ -81,5 +100,16 @@ public class CartService {
                 cart.setGroupPrice(activity.getGroupPrice());
             }
         }
+    }
+
+    private Cart requireOwnedCart(Long userId, Long id) {
+        Cart cart = cartMapper.selectById(id);
+        if (cart == null) {
+            throw new BusinessException(404, "购物车记录不存在");
+        }
+        if (!userId.equals(cart.getUserId())) {
+            throw new BusinessException(403, "无权操作该购物车记录");
+        }
+        return cart;
     }
 }

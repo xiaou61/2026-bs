@@ -1,5 +1,6 @@
 package com.alumni.service;
 
+import com.alumni.common.BusinessException;
 import com.alumni.entity.AlumniCompany;
 import com.alumni.entity.JobPost;
 import com.alumni.mapper.AlumniCompanyMapper;
@@ -66,11 +67,34 @@ public class JobService {
         jobPostMapper.insert(job);
     }
 
+    public void add(JobPost job, Long userId, boolean admin) {
+        AlumniCompany company = requireCompany(job.getCompanyId());
+        requireCompanyOwnerOrAdmin(company, userId, admin);
+        job.setStatus(0);
+        jobPostMapper.insert(job);
+    }
+
     public void update(JobPost job) {
         jobPostMapper.updateById(job);
     }
 
+    public void update(JobPost job, Long userId, boolean admin) {
+        JobPost old = requireJob(job.getId());
+        AlumniCompany company = requireCompany(old.getCompanyId());
+        requireCompanyOwnerOrAdmin(company, userId, admin);
+        job.setCompanyId(old.getCompanyId());
+        job.setStatus(admin ? job.getStatus() : old.getStatus());
+        jobPostMapper.updateById(job);
+    }
+
     public void delete(Long id) {
+        jobPostMapper.deleteById(id);
+    }
+
+    public void delete(Long id, Long userId, boolean admin) {
+        JobPost job = requireJob(id);
+        AlumniCompany company = requireCompany(job.getCompanyId());
+        requireCompanyOwnerOrAdmin(company, userId, admin);
         jobPostMapper.deleteById(id);
     }
 
@@ -79,5 +103,27 @@ public class JobService {
         job.setId(id);
         job.setStatus(status);
         jobPostMapper.updateById(job);
+    }
+
+    private JobPost requireJob(Long id) {
+        JobPost job = jobPostMapper.selectById(id);
+        if (job == null) {
+            throw new BusinessException(404, "岗位不存在");
+        }
+        return job;
+    }
+
+    private AlumniCompany requireCompany(Long id) {
+        AlumniCompany company = alumniCompanyMapper.selectById(id);
+        if (company == null) {
+            throw new BusinessException(404, "企业不存在");
+        }
+        return company;
+    }
+
+    private void requireCompanyOwnerOrAdmin(AlumniCompany company, Long userId, boolean admin) {
+        if (!admin && (userId == null || !userId.equals(company.getUserId()))) {
+            throw new BusinessException(403, "无权操作");
+        }
     }
 }

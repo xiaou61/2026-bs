@@ -18,14 +18,16 @@ public class FeedbackController {
     public Result<Page<Feedback>> getList(@RequestParam(defaultValue = "1") int pageNum,
                                           @RequestParam(defaultValue = "10") int pageSize,
                                           @RequestParam(required = false) String feedbackType,
-                                          @RequestParam(required = false) Long childId) {
-        Page<Feedback> page = feedbackService.getList(pageNum, pageSize, feedbackType, childId);
+                                          @RequestParam(required = false) Long childId,
+                                          @RequestAttribute("userId") String userId) {
+        Page<Feedback> page = feedbackService.getList(pageNum, pageSize, feedbackType, childId, Long.parseLong(userId));
         return Result.success(page);
     }
 
     @PostMapping("/add")
-    public Result<String> add(@RequestBody Feedback feedback) {
-        feedbackService.add(feedback);
+    public Result<String> add(@RequestBody Feedback feedback,
+                              @RequestAttribute("userId") String userId) {
+        feedbackService.add(feedback, Long.parseLong(userId));
         return Result.success();
     }
 }

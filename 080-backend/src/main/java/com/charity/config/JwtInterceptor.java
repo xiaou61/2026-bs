@@ -18,6 +18,9 @@ public class JwtInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String token = request.getHeader("Authorization");
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
         if (token == null || token.isEmpty()) {
             throw new BusinessException(401, "未登录");
         }
@@ -25,7 +28,10 @@ public class JwtInterceptor implements HandlerInterceptor {
             throw new BusinessException(401, "token无效");
         }
         String userId = jwtUtils.getUserIdFromToken(token);
+        String role = jwtUtils.getRoleFromToken(token);
         request.setAttribute("userId", userId);
+        request.setAttribute("role", role);
+        request.setAttribute("token", token);
         return true;
     }
 }

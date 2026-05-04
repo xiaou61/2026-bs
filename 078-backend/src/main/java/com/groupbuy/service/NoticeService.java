@@ -2,6 +2,7 @@ package com.groupbuy.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.groupbuy.common.BusinessException;
 import com.groupbuy.entity.Notice;
 import com.groupbuy.mapper.NoticeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,16 @@ public class NoticeService {
     }
 
     public void update(Notice notice) {
+        noticeMapper.updateById(notice);
+    }
+
+    public void updateStatus(Long id, Integer status) {
+        if (noticeMapper.selectById(id) == null) {
+            throw new BusinessException(404, "公告不存在");
+        }
+        Notice notice = new Notice();
+        notice.setId(id);
+        notice.setStatus(status);
         noticeMapper.updateById(notice);
     }
 

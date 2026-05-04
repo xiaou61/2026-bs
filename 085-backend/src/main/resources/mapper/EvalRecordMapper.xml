@@ -67,18 +67,17 @@
     </select>
 
     <select id="selectMonthTrend" resultType="map">
-        SELECT DATE_FORMAT(submit_time, '%Y-%m') AS month, COUNT(*) AS value
+        SELECT submit_time AS submit_time
         FROM eval_record
-        GROUP BY DATE_FORMAT(submit_time, '%Y-%m')
-        ORDER BY month ASC
+        ORDER BY submit_time ASC
     </select>
 
     <select id="selectCourseTop5" resultType="map">
-        SELECT mc.course_name AS name, ROUND(AVG(er.total_score), 2) AS value
+        SELECT mc.course_name AS course_name, ROUND(AVG(er.total_score), 2) AS avg_score
         FROM eval_record er
                  LEFT JOIN math_course mc ON mc.id = er.course_id
-        GROUP BY er.course_id
-        ORDER BY value DESC
+        GROUP BY er.course_id, mc.course_name
+        ORDER BY avg_score DESC
         LIMIT 5
     </select>
 

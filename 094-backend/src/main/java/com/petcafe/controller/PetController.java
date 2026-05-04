@@ -35,20 +35,20 @@ public class PetController {
                           @RequestParam(required = false) String name,
                           @RequestParam(required = false) String interactionStatus,
                           HttpServletRequest request) {
-        AuthUtils.requireAdmin((String) request.getAttribute("role"));
+        AuthUtils.requireManager((String) request.getAttribute("role"));
         return Result.success(petService.page(pageNum, pageSize, shopId, name, interactionStatus));
     }
 
     @PostMapping("/save")
     public Result<?> save(@RequestBody ResidentPet pet, HttpServletRequest request) {
-        AuthUtils.requireAdmin((String) request.getAttribute("role"));
+        AuthUtils.requireManager((String) request.getAttribute("role"));
         petService.save(pet);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
     public Result<?> delete(@PathVariable Long id, HttpServletRequest request) {
-        AuthUtils.requireAdmin((String) request.getAttribute("role"));
+        AuthUtils.requireManager((String) request.getAttribute("role"));
         petService.deleteById(id);
         return Result.success();
     }

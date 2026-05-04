@@ -20,6 +20,9 @@ public class BookingService {
     @Autowired
     private PerformanceService scheduleService;
 
+    @Autowired
+    private AuthService authService;
+
     public PageInfo<BookingRecord> list(Long scheduleId, Long memberId, Integer selectStatus, String role, Long currentUserId, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         Long targetMemberId = "member".equals(role) ? currentUserId : memberId;
@@ -28,10 +31,14 @@ public class BookingService {
         return new PageInfo<>(list);
     }
 
-    public void selectCourse(Long scheduleId, Long memberId) {
+    public void selectCourse(Long scheduleId, Long memberId, String role) {
+        authService.assertMember(role);
         PerformanceSchedule schedule = scheduleService.getById(scheduleId);
         if (schedule == null) {
             throw new BusinessException("排期不存在");
+        }
+        if (schedule.getStatus() == null || schedule.getStatus() != 1) {
+            throw new BusinessException("当前排期不可预约");
         }
         BookingRecord exists = selectionMapper.selectByScheduleAndStudent(scheduleId, memberId);
         if (exists != null) {

@@ -3,10 +3,12 @@ package com.alumni.controller;
 import com.alumni.common.Result;
 import com.alumni.entity.JobPost;
 import com.alumni.service.JobService;
+import com.alumni.utils.AuthUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @RestController
@@ -29,25 +31,26 @@ public class JobController {
     }
 
     @PostMapping
-    public Result<?> add(@RequestBody JobPost job) {
-        jobService.add(job);
+    public Result<?> add(@RequestBody JobPost job, HttpServletRequest request) {
+        jobService.add(job, AuthUtils.getUserId(request), AuthUtils.isAdmin(request));
         return Result.success();
     }
 
     @PutMapping
-    public Result<?> update(@RequestBody JobPost job) {
-        jobService.update(job);
+    public Result<?> update(@RequestBody JobPost job, HttpServletRequest request) {
+        jobService.update(job, AuthUtils.getUserId(request), AuthUtils.isAdmin(request));
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
-    public Result<?> delete(@PathVariable Long id) {
-        jobService.delete(id);
+    public Result<?> delete(@PathVariable Long id, HttpServletRequest request) {
+        jobService.delete(id, AuthUtils.getUserId(request), AuthUtils.isAdmin(request));
         return Result.success();
     }
 
     @PutMapping("/{id}/audit")
-    public Result<?> audit(@PathVariable Long id, @RequestBody Map<String, Integer> params) {
+    public Result<?> audit(@PathVariable Long id, @RequestBody Map<String, Integer> params, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         jobService.audit(id, params.get("status"));
         return Result.success();
     }

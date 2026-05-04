@@ -69,7 +69,7 @@ const submitOrder = async () => {
     ElMessage.warning('请选择游玩日期')
     return
   }
-  await createTicketOrder({ ticketTypeId: currentTicket.value.id, quantity: orderForm.value.quantity, visitDate: orderForm.value.visitDate })
+  await createTicketOrder({ spotId: currentTicket.value.spotId, ticketTypeId: currentTicket.value.id, quantity: orderForm.value.quantity, ticketDate: orderForm.value.visitDate })
   ElMessage.success('预订成功')
   orderDialog.value = false
   loadData()

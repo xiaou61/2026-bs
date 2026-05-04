@@ -17,14 +17,16 @@ public class ApplicationController {
     @GetMapping("/list")
     public Result<Page<Application>> getList(@RequestParam(defaultValue = "1") int pageNum,
                                              @RequestParam(defaultValue = "10") int pageSize,
-                                             @RequestParam(required = false) Integer applyStatus) {
-        Page<Application> page = applicationService.getList(pageNum, pageSize, applyStatus);
+                                             @RequestParam(required = false) Integer applyStatus,
+                                             @RequestAttribute("userId") String userId) {
+        Page<Application> page = applicationService.getList(pageNum, pageSize, applyStatus, Long.parseLong(userId));
         return Result.success(page);
     }
 
     @PostMapping("/submit")
-    public Result<String> submit(@RequestBody Application application) {
-        applicationService.submit(application);
+    public Result<String> submit(@RequestBody Application application,
+                                 @RequestAttribute("userId") String userId) {
+        applicationService.submit(application, Long.parseLong(userId));
         return Result.success();
     }
 

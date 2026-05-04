@@ -1,0 +1,33 @@
+072 哈尔滨文旅系统启动说明
+
+一、默认后端启动
+1. 进入 072-backend
+2. 执行：mvn spring-boot:run
+3. 默认端口：http://localhost:8072
+4. 默认数据库：H2 内存库，无需安装 MySQL
+5. H2 控制台：http://localhost:8072/h2-console
+6. JDBC URL：jdbc:h2:mem:harbin_tourism_072
+7. 用户名：sa，密码为空
+
+二、默认账号
+1. 管理员：admin / 123456
+2. 普通用户：user / 123456
+3. 普通用户：tourist / 123456
+
+三、前端启动
+1. 进入 072-frontend
+2. 首次执行：npm install
+3. 启动执行：npm run dev
+4. 默认访问：http://localhost:3072
+5. 前端默认代理到：http://localhost:8072
+
+四、MySQL 模式
+1. MySQL 配置位于：src/main/resources/application-mysql.yml
+2. 原始 SQL 位于：sql/init.sql
+3. 注意：sql/init.sql 包含 DROP DATABASE，导入前请确认数据可覆盖
+4. MySQL 启动命令：mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+
+五、验收命令
+1. 后端测试：mvn test
+2. 前端构建：npm run build
+3. 本轮已验证后端 8072、前端 3072、前端代理登录和核心接口链路

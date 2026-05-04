@@ -3,6 +3,7 @@ package com.alumni.controller;
 import com.alumni.common.Result;
 import com.alumni.entity.AlumniInfo;
 import com.alumni.service.AlumniService;
+import com.alumni.utils.AuthUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,15 +33,14 @@ public class AlumniController {
 
     @GetMapping("/my")
     public Result<AlumniInfo> getMy(HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        Long userId = AuthUtils.getUserId(request);
         return Result.success(alumniService.getByUserId(userId));
     }
 
     @PutMapping
     public Result<?> update(@RequestBody AlumniInfo info, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
-        info.setUserId(userId);
-        alumniService.saveOrUpdate(info);
+        Long userId = AuthUtils.getUserId(request);
+        alumniService.saveOrUpdateForUser(userId, info);
         return Result.success();
     }
 

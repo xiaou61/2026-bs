@@ -12,18 +12,17 @@
     </select>
 
     <select id="selectMonthTrend" resultType="map">
-        SELECT DATE_FORMAT(create_time, '%Y-%m') AS month, COUNT(*) AS value
+        SELECT create_time AS month_value
         FROM material_download
-        GROUP BY DATE_FORMAT(create_time, '%Y-%m')
-        ORDER BY month ASC
+        ORDER BY create_time ASC
     </select>
 
     <select id="selectHotTop5" resultType="map">
-        SELECT mi.title AS name, COUNT(md.id) AS value
+        SELECT mi.title AS material_name, COUNT(md.id) AS download_count
         FROM material_download md
         LEFT JOIN material_info mi ON mi.id = md.material_id
-        GROUP BY md.material_id
-        ORDER BY value DESC
+        GROUP BY md.material_id, mi.title
+        ORDER BY download_count DESC
         LIMIT 5
     </select>
 

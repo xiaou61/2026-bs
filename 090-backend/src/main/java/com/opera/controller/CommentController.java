@@ -30,8 +30,10 @@ public class CommentController {
     }
 
     @PostMapping("/add")
-    public Result<String> add(@RequestBody AppreciationComment entity, @RequestAttribute("userId") Long userId) {
-        evaluationService.add(entity, userId);
+    public Result<String> add(@RequestBody AppreciationComment entity,
+                              @RequestAttribute("userId") Long userId,
+                              @RequestAttribute("role") String role) {
+        evaluationService.add(entity, userId, role);
         return Result.success();
     }
 }

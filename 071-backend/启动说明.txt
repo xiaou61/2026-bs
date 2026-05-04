@@ -1,0 +1,37 @@
+071 基于SpringBoot和Vue的共享单车系统启动说明
+
+一、后端默认启动
+1. 进入 071-backend 目录
+2. 执行：mvn spring-boot:run
+3. 访问：http://localhost:8071
+4. 默认使用 H2 内存库，不需要提前启动 MySQL 或 Redis
+
+二、H2 控制台
+地址：http://localhost:8071/h2-console
+JDBC URL：jdbc:h2:mem:bike_system_071
+用户名：sa
+密码：空
+
+三、默认账号
+管理员：admin / 123456
+运维人员：operator / 123456
+普通用户：user / 123456
+测试用户：test / 123456
+
+四、前端启动
+1. 进入 071-frontend 目录
+2. 执行：npm install
+3. 执行：npm run dev
+4. 访问：http://localhost:3071
+5. 默认代理到：http://localhost:8071
+
+五、验证命令
+后端测试：mvn test
+前端构建：npm run build
+
+六、MySQL 模式
+默认不需要 MySQL。若要切换 MySQL，请先确认 sql/init.sql 中的 DROP DATABASE 可接受，然后导入脚本：
+mysql -uroot -p1234 < sql/init.sql
+
+再启动：
+mvn spring-boot:run -Dspring-boot.run.profiles=mysql

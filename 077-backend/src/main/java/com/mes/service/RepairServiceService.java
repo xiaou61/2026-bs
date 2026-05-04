@@ -97,7 +97,7 @@ public class RepairServiceService {
                 throw new BusinessException("生产任务不存在");
             }
             if (!"ADMIN".equals(role) && !db.getSellerId().equals(userId)) {
-                throw new BusinessException("无权限修改该生产任务");
+                throw new BusinessException(403, "无权限修改该生产任务");
             }
             if (service.getViewCount() == null) {
                 service.setViewCount(db.getViewCount());
@@ -125,7 +125,7 @@ public class RepairServiceService {
     public void deleteById(Long id, Long userId, String role) {
         RepairService item = mustGetById(id);
         if (!"ADMIN".equals(role) && !item.getSellerId().equals(userId)) {
-            throw new BusinessException("无权限删除该生产任务");
+            throw new BusinessException(403, "无权限删除该生产任务");
         }
         serviceMapper.deleteById(id);
     }

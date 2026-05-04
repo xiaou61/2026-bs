@@ -5,6 +5,7 @@ const BASE_URL = 'http://localhost:8080'
 export const login = (data) => request({ url: '/api/user/login', method: 'POST', data })
 export const register = (data) => request({ url: '/api/user/register', method: 'POST', data })
 export const getUserInfo = () => request({ url: '/api/user/info' })
+export const updateUserInfo = (data) => request({ url: '/api/user/profile', method: 'PUT', data })
 
 export const getDashboard = () => request({ url: '/api/statistics/dashboard' })
 
@@ -34,7 +35,7 @@ export const uploadImage = (filePath) => {
       filePath,
       name: 'file',
       header: {
-        Authorization: token || ''
+        Authorization: token ? `Bearer ${token}` : ''
       },
       success: (res) => {
         try {

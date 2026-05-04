@@ -8,7 +8,6 @@ import com.cinema.entity.Showtime;
 import com.cinema.mapper.HallMapper;
 import com.cinema.mapper.SeatMapper;
 import com.cinema.mapper.ShowtimeMapper;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,7 +31,7 @@ public class SeatService {
     private HallMapper hallMapper;
 
     @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    private RuntimeStoreService runtimeStoreService;
 
     @Resource
     private ShowtimeService showtimeService;
@@ -73,13 +71,13 @@ public class SeatService {
                 }
             }
             String key = lockKey(showtimeId, seat.getId());
-            Object locker = redisTemplate.opsForValue().get(key);
-            if (locker != null && !Objects.equals(String.valueOf(locker), String.valueOf(userId))) {
+            Long locker = runtimeStoreService.getSeatLocker(key);
+            if (locker != null && !Objects.equals(locker, userId)) {
                 throw new BusinessException("座位已被锁定: " + seat.getRowNum() + "排" + seat.getColNum() + "座");
             }
         }
         for (Seat seat : seats) {
-            redisTemplate.opsForValue().set(lockKey(showtimeId, seat.getId()), userId, 15, TimeUnit.MINUTES);
+            runtimeStoreService.lockSeat(lockKey(showtimeId, seat.getId()), userId, 15 * 60 * 1000L);
             seat.setStatus("LOCKED");
             seatMapper.updateById(seat);
         }
@@ -90,9 +88,9 @@ public class SeatService {
         List<Seat> seats = getSeats(showtimeId, seatIds);
         for (Seat seat : seats) {
             String key = lockKey(showtimeId, seat.getId());
-            Object locker = redisTemplate.opsForValue().get(key);
-            if (locker != null && Objects.equals(String.valueOf(locker), String.valueOf(userId))) {
-                redisTemplate.delete(key);
+            Long locker = runtimeStoreService.getSeatLocker(key);
+            if (locker != null && Objects.equals(locker, userId)) {
+                runtimeStoreService.unlockSeat(key);
                 seat.setStatus("AVAILABLE");
                 seatMapper.updateById(seat);
             }
@@ -103,7 +101,7 @@ public class SeatService {
     public void unlockForOrder(Long showtimeId, List<Long> seatIds) {
         List<Seat> seats = getSeats(showtimeId, seatIds);
         for (Seat seat : seats) {
-            redisTemplate.delete(lockKey(showtimeId, seat.getId()));
+            runtimeStoreService.unlockSeat(lockKey(showtimeId, seat.getId()));
             seat.setStatus("AVAILABLE");
             seatMapper.updateById(seat);
         }
@@ -116,7 +114,7 @@ public class SeatService {
             if ("SOLD".equals(seat.getStatus())) {
                 throw new BusinessException("座位已售出");
             }
-            redisTemplate.delete(lockKey(showtimeId, seat.getId()));
+            runtimeStoreService.unlockSeat(lockKey(showtimeId, seat.getId()));
             seat.setStatus("SOLD");
             seatMapper.updateById(seat);
         }
@@ -133,7 +131,7 @@ public class SeatService {
                 seatMapper.updateById(seat);
                 count++;
             }
-            redisTemplate.delete(lockKey(showtimeId, seat.getId()));
+            runtimeStoreService.unlockSeat(lockKey(showtimeId, seat.getId()));
         }
         if (count > 0) {
             showtimeService.changeAvailableSeats(showtimeId, count);
@@ -141,8 +139,8 @@ public class SeatService {
     }
 
     public boolean isLockedByUser(Long userId, Long showtimeId, Long seatId) {
-        Object locker = redisTemplate.opsForValue().get(lockKey(showtimeId, seatId));
-        return locker != null && Objects.equals(String.valueOf(locker), String.valueOf(userId));
+        Long locker = runtimeStoreService.getSeatLocker(lockKey(showtimeId, seatId));
+        return locker != null && Objects.equals(locker, userId);
     }
 
     public String buildSeatInfo(List<Seat> seats) {

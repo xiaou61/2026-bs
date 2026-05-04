@@ -14,6 +14,10 @@ public class BookingRecordMapperAdapter {
     public BookingRecord getById(Long id) {
         return selectionMapper.selectById(id);
     }
+
+    public BookingRecord selectByScheduleAndStudent(Long scheduleId, Long memberId) {
+        return selectionMapper.selectByScheduleAndStudent(scheduleId, memberId);
+    }
 }
 
 

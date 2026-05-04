@@ -94,14 +94,13 @@
     <select id="rideTrend" resultType="map">
         SELECT DATE(create_time) AS date, COUNT(*) AS count
         FROM ride_order
-        WHERE create_time >= DATE_SUB(CURDATE(), INTERVAL #{days} DAY)
         GROUP BY DATE(create_time) ORDER BY date
     </select>
 
     <select id="incomeTrend" resultType="map">
         SELECT DATE(create_time) AS date, COALESCE(SUM(amount), 0) AS income
         FROM ride_order
-        WHERE create_time >= DATE_SUB(CURDATE(), INTERVAL #{days} DAY) AND pay_status = 1
+        WHERE pay_status = 1
         GROUP BY DATE(create_time) ORDER BY date
     </select>
 

@@ -1,5 +1,7 @@
 package com.bike.service;
 
+import com.bike.common.BusinessException;
+import com.bike.entity.Bike;
 import com.bike.entity.FaultReport;
 import com.bike.mapper.BikeMapper;
 import com.bike.mapper.FaultReportMapper;
@@ -22,6 +24,10 @@ public class FaultService {
 
     @Transactional
     public void report(FaultReport report) {
+        Bike bike = bikeMapper.findById(report.getBikeId());
+        if (bike == null) {
+            throw new BusinessException("单车不存在");
+        }
         faultReportMapper.insert(report);
         bikeMapper.updateStatus(report.getBikeId(), 3);
     }
@@ -39,6 +45,9 @@ public class FaultService {
     @Transactional
     public void handle(Long id, Long handlerId, String handleResult, Integer status) {
         FaultReport report = faultReportMapper.findById(id);
+        if (report == null) {
+            throw new BusinessException("故障记录不存在");
+        }
         report.setHandlerId(handlerId);
         report.setHandleResult(handleResult);
         report.setHandleTime(new Date());

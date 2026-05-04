@@ -3,6 +3,7 @@ package com.alumni.controller;
 import com.alumni.common.Result;
 import com.alumni.entity.AlumniCompany;
 import com.alumni.service.CompanyService;
+import com.alumni.utils.AuthUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,26 +32,27 @@ public class CompanyController {
 
     @PostMapping
     public Result<?> add(@RequestBody AlumniCompany company, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        Long userId = AuthUtils.getUserId(request);
         company.setUserId(userId);
         companyService.add(company);
         return Result.success();
     }
 
     @PutMapping
-    public Result<?> update(@RequestBody AlumniCompany company) {
-        companyService.update(company);
+    public Result<?> update(@RequestBody AlumniCompany company, HttpServletRequest request) {
+        companyService.update(company, AuthUtils.getUserId(request), AuthUtils.isAdmin(request));
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
-    public Result<?> delete(@PathVariable Long id) {
-        companyService.delete(id);
+    public Result<?> delete(@PathVariable Long id, HttpServletRequest request) {
+        companyService.delete(id, AuthUtils.getUserId(request), AuthUtils.isAdmin(request));
         return Result.success();
     }
 
     @PutMapping("/{id}/audit")
-    public Result<?> audit(@PathVariable Long id, @RequestBody Map<String, Integer> params) {
+    public Result<?> audit(@PathVariable Long id, @RequestBody Map<String, Integer> params, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         companyService.audit(id, params.get("status"));
         return Result.success();
     }

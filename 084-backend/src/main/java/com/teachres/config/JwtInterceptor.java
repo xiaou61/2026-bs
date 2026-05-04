@@ -1,10 +1,13 @@
 package com.teachres.config;
 
 import com.teachres.common.BusinessException;
+import com.teachres.entity.SysUser;
+import com.teachres.mapper.SysUserMapper;
+import com.teachres.service.RuntimeStoreService;
 import com.teachres.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +20,10 @@ public class JwtInterceptor implements HandlerInterceptor {
     private JwtUtils jwtUtils;
 
     @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    private RuntimeStoreService runtimeStoreService;
+
+    @Autowired
+    private SysUserMapper sysUserMapper;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -25,19 +31,28 @@ public class JwtInterceptor implements HandlerInterceptor {
             return true;
         }
         String token = request.getHeader("Authorization");
-        if (token == null || token.isEmpty()) {
+        if (!StringUtils.hasText(token)) {
             throw new BusinessException(401, "未登录");
+        }
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+        if (runtimeStoreService.isTokenInvalid(token)) {
+            throw new BusinessException(401, "登录已失效");
         }
         if (!jwtUtils.validateToken(token)) {
             throw new BusinessException(401, "登录已过期");
         }
         Long userId = jwtUtils.getUserId(token);
-        String cacheToken = stringRedisTemplate.opsForValue().get("TOKEN:" + userId);
-        if (cacheToken == null || !cacheToken.equals(token)) {
+        if (!runtimeStoreService.matchesUserToken(String.valueOf(userId), token)) {
             throw new BusinessException(401, "登录已失效");
         }
+        SysUser user = sysUserMapper.selectById(userId);
+        if (user == null || user.getStatus() == null || user.getStatus() != 1) {
+            throw new BusinessException(401, "账号不可用");
+        }
         request.setAttribute("userId", userId);
-        request.setAttribute("role", jwtUtils.getRole(token));
+        request.setAttribute("role", user.getRole());
         return true;
     }
 }

@@ -36,6 +36,9 @@ public class RideService {
     @Transactional
     public RideOrder startRide(Long userId, Long bikeId, Long stationId) {
         User user = userMapper.findById(userId);
+        if (user == null) {
+            throw new BusinessException("用户不存在");
+        }
         if (user.getDepositPaid() != 1) {
             throw new BusinessException("请先缴纳押金");
         }
@@ -49,6 +52,13 @@ public class RideService {
         Bike bike = bikeMapper.findById(bikeId);
         if (bike == null || bike.getStatus() != 1) {
             throw new BusinessException("该单车不可用");
+        }
+        Station station = stationMapper.findById(stationId);
+        if (station == null || station.getStatus() != 1) {
+            throw new BusinessException("站点不可用");
+        }
+        if (bike.getStationId() == null || !bike.getStationId().equals(stationId)) {
+            throw new BusinessException("车辆不在当前站点");
         }
         bikeMapper.updateStatus(bikeId, 2);
         stationMapper.updateCurrentCount(stationId, -1);
@@ -70,12 +80,19 @@ public class RideService {
         if (order == null) {
             throw new BusinessException("没有进行中的骑行");
         }
+        Station endStation = stationMapper.findById(endStationId);
+        if (endStation == null || endStation.getStatus() != 1) {
+            throw new BusinessException("还车站点不可用");
+        }
         Date endTime = new Date();
         long minutes = (endTime.getTime() - order.getStartTime().getTime()) / 60000;
         if (minutes < 1) minutes = 1;
         Bike bike = bikeMapper.findById(order.getBikeId());
         BigDecimal amount = calculateFee(bike.getType(), (int) minutes);
         User user = userMapper.findById(userId);
+        if (user == null) {
+            throw new BusinessException("用户不存在");
+        }
         if (user.getBalance().compareTo(amount) < 0) {
             throw new BusinessException("余额不足，请先充值");
         }
@@ -143,7 +160,15 @@ public class RideService {
         return new PageInfo<>(rideOrderMapper.findList(orderNo, userId, status));
     }
 
-    public RideOrder getById(Long id) {
-        return rideOrderMapper.findById(id);
+    public RideOrder getById(Long currentUserId, String role, Long id) {
+        RideOrder order = rideOrderMapper.findById(id);
+        if (order == null) {
+            throw new BusinessException("订单不存在");
+        }
+        boolean staff = "admin".equals(role) || "operator".equals(role);
+        if (!staff && !order.getUserId().equals(currentUserId)) {
+            throw new BusinessException(403, "无权限");
+        }
+        return order;
     }
 }

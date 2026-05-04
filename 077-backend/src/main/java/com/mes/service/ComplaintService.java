@@ -96,7 +96,7 @@ public class ComplaintService {
             throw new BusinessException("执行工单不存在");
         }
         if (!order.getUserId().equals(userId)) {
-            throw new BusinessException("只能申诉自己的执行工单");
+            throw new BusinessException(403, "只能申诉自己的执行工单");
         }
         if (order.getStatus() == null || (order.getStatus() != 1 && order.getStatus() != 2 && order.getStatus() != 3)) {
             throw new BusinessException("当前执行工单状态不可申诉");

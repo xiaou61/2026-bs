@@ -18,20 +18,23 @@ public class DonationController {
     public Result<Page<Donation>> getList(@RequestParam(defaultValue = "1") int pageNum,
                                           @RequestParam(defaultValue = "10") int pageSize,
                                           @RequestParam(required = false) Long donorId,
-                                          @RequestParam(required = false) Long childId) {
-        Page<Donation> page = donationService.getList(pageNum, pageSize, donorId, childId);
+                                          @RequestParam(required = false) Long childId,
+                                          @RequestAttribute("userId") String userId) {
+        Page<Donation> page = donationService.getList(pageNum, pageSize, donorId, childId, Long.parseLong(userId));
         return Result.success(page);
     }
 
     @PostMapping("/add")
-    public Result<String> add(@RequestBody Donation donation) {
-        donationService.add(donation);
+    public Result<String> add(@RequestBody Donation donation,
+                              @RequestAttribute("userId") String userId) {
+        donationService.add(donation, Long.parseLong(userId));
         return Result.success();
     }
 
     @PutMapping("/confirm/{id}")
-    public Result<String> confirm(@PathVariable Long id) {
-        donationService.confirm(id);
+    public Result<String> confirm(@PathVariable Long id,
+                                  @RequestAttribute("userId") String userId) {
+        donationService.confirm(id, Long.parseLong(userId));
         return Result.success();
     }
 }

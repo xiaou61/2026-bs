@@ -106,7 +106,7 @@ public class WallpaperService {
     public Map<String, Object> detail(Long id, Long currentUserId) {
         WallpaperInfo wallpaper = wallpaperInfoMapper.selectById(id);
         if (wallpaper == null) {
-            throw new BusinessException("壁纸不存在");
+            throw new BusinessException(404, "壁纸不存在");
         }
         wallpaper.setViewCount((wallpaper.getViewCount() == null ? 0 : wallpaper.getViewCount()) + 1);
         wallpaperInfoMapper.updateById(wallpaper);
@@ -149,15 +149,15 @@ public class WallpaperService {
     public void update(Map<String, Object> params, Long userId) {
         Long id = parseLong(params.get("id"));
         if (id == null) {
-            throw new BusinessException("壁纸ID不能为空");
+            throw new BusinessException(400, "壁纸ID不能为空");
         }
         WallpaperInfo wallpaper = wallpaperInfoMapper.selectById(id);
         if (wallpaper == null) {
-            throw new BusinessException("壁纸不存在");
+            throw new BusinessException(404, "壁纸不存在");
         }
         boolean admin = authService.isAdmin(userId);
         if (!admin && !userId.equals(wallpaper.getUploaderId())) {
-            throw new BusinessException("无权限编辑该壁纸");
+            throw new BusinessException(403, "无权限编辑该壁纸");
         }
         fillWallpaper(wallpaper, params, wallpaper.getUploaderId(), admin);
         if (!admin) {
@@ -171,11 +171,11 @@ public class WallpaperService {
     public void delete(Long id, Long userId) {
         WallpaperInfo wallpaper = wallpaperInfoMapper.selectById(id);
         if (wallpaper == null) {
-            throw new BusinessException("壁纸不存在");
+            throw new BusinessException(404, "壁纸不存在");
         }
         boolean admin = authService.isAdmin(userId);
         if (!admin && !userId.equals(wallpaper.getUploaderId())) {
-            throw new BusinessException("无权限删除该壁纸");
+            throw new BusinessException(403, "无权限删除该壁纸");
         }
         wallpaperInfoMapper.deleteById(id);
         LambdaQueryWrapper<WallpaperTagRel> tagWrapper = new LambdaQueryWrapper<>();
@@ -193,10 +193,10 @@ public class WallpaperService {
         authService.assertAdmin(userId);
         WallpaperInfo wallpaper = wallpaperInfoMapper.selectById(id);
         if (wallpaper == null) {
-            throw new BusinessException("壁纸不存在");
+            throw new BusinessException(404, "壁纸不存在");
         }
         if (wallpaper.getAuditStatus() == null || wallpaper.getAuditStatus() != 1) {
-            throw new BusinessException("仅审核通过的壁纸可上架");
+            throw new BusinessException(400, "仅审核通过的壁纸可上架");
         }
         wallpaper.setPublishStatus(publishStatus);
         wallpaperInfoMapper.updateById(wallpaper);
@@ -205,7 +205,7 @@ public class WallpaperService {
     public void download(Long wallpaperId, Long userId) {
         WallpaperInfo wallpaper = wallpaperInfoMapper.selectById(wallpaperId);
         if (wallpaper == null) {
-            throw new BusinessException("壁纸不存在");
+            throw new BusinessException(404, "壁纸不存在");
         }
         wallpaper.setDownloadCount((wallpaper.getDownloadCount() == null ? 0 : wallpaper.getDownloadCount()) + 1);
         wallpaperInfoMapper.updateById(wallpaper);
@@ -244,11 +244,11 @@ public class WallpaperService {
         Long categoryId = parseLong(params.get("categoryId"));
         String imageUrl = text(params.get("imageUrl"));
         if (!StringUtils.hasText(title) || categoryId == null || !StringUtils.hasText(imageUrl)) {
-            throw new BusinessException("标题、分类和原图不能为空");
+            throw new BusinessException(400, "标题、分类和原图不能为空");
         }
         WallpaperCategory category = categoryMapper.selectById(categoryId);
         if (category == null) {
-            throw new BusinessException("分类不存在");
+            throw new BusinessException(404, "分类不存在");
         }
         SysUser user = authService.getById(uploaderId);
         wallpaper.setTitle(title);

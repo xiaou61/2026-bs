@@ -8,6 +8,8 @@ import com.harbin.tourism.common.BusinessException;
 import com.harbin.tourism.entity.TicketOrder;
 import com.harbin.tourism.entity.TicketType;
 import com.harbin.tourism.entity.User;
+import com.harbin.tourism.entity.ScenicSpot;
+import com.harbin.tourism.mapper.ScenicSpotMapper;
 import com.harbin.tourism.mapper.TicketOrderMapper;
 import com.harbin.tourism.mapper.TicketTypeMapper;
 import com.harbin.tourism.mapper.UserMapper;
@@ -16,7 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TicketService {
@@ -30,6 +35,40 @@ public class TicketService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private ScenicSpotMapper spotMapper;
+
+    public Page<Map<String, Object>> ticketList(Integer pageNum, Integer pageSize, String spotName) {
+        List<TicketType> types = ticketTypeMapper.selectList(new LambdaQueryWrapper<TicketType>()
+                .eq(TicketType::getStatus, 1));
+        List<Map<String, Object>> rows = new ArrayList<>();
+        for (TicketType type : types) {
+            ScenicSpot spot = spotMapper.selectById(type.getSpotId());
+            if (spot == null) {
+                continue;
+            }
+            if (StrUtil.isNotBlank(spotName) && !spot.getName().contains(spotName)) {
+                continue;
+            }
+            Map<String, Object> row = new HashMap<>();
+            row.put("id", type.getId());
+            row.put("spotId", type.getSpotId());
+            row.put("spotName", spot.getName());
+            row.put("name", type.getName());
+            row.put("price", type.getPrice());
+            row.put("stock", type.getStock());
+            row.put("maxPerOrder", type.getMaxPerOrder());
+            row.put("description", type.getDescription());
+            rows.add(row);
+        }
+        Page<Map<String, Object>> page = new Page<>(pageNum, pageSize);
+        page.setTotal(rows.size());
+        int fromIndex = Math.min((pageNum - 1) * pageSize, rows.size());
+        int toIndex = Math.min(fromIndex + pageSize, rows.size());
+        page.setRecords(rows.subList(fromIndex, toIndex));
+        return page;
+    }
+
     public List<TicketType> getTicketTypes(Long spotId) {
         return ticketTypeMapper.selectList(new LambdaQueryWrapper<TicketType>()
                 .eq(TicketType::getSpotId, spotId)
@@ -37,6 +76,9 @@ public class TicketService {
     }
 
     public void saveTicketType(TicketType ticketType) {
+        if (ticketType.getPrice() == null || ticketType.getPrice().compareTo(BigDecimal.ZERO) < 0) {
+            throw new BusinessException(400, "票价不能为负数");
+        }
         ticketType.setStatus(1);
         ticketTypeMapper.insert(ticketType);
     }
@@ -51,9 +93,21 @@ public class TicketService {
 
     @Transactional
     public TicketOrder createOrder(Long userId, Long spotId, Long ticketTypeId, String ticketDate, Integer quantity) {
+        if (quantity == null || quantity <= 0) {
+            throw new BusinessException(400, "购票数量必须大于0");
+        }
+        if (StrUtil.isBlank(ticketDate)) {
+            throw new BusinessException(400, "游玩日期不能为空");
+        }
         TicketType ticketType = ticketTypeMapper.selectById(ticketTypeId);
         if (ticketType == null) {
             throw new BusinessException("票种不存在");
+        }
+        if (spotId == null) {
+            spotId = ticketType.getSpotId();
+        }
+        if (!ticketType.getSpotId().equals(spotId)) {
+            throw new BusinessException(400, "票种与景点不匹配");
         }
         if (ticketType.getStock() < quantity) {
             throw new BusinessException("库存不足");
@@ -63,6 +117,9 @@ public class TicketService {
         }
         BigDecimal totalPrice = ticketType.getPrice().multiply(new BigDecimal(quantity));
         User user = userMapper.selectById(userId);
+        if (user == null) {
+            throw new BusinessException(404, "用户不存在");
+        }
         if (user.getBalance().compareTo(totalPrice) < 0) {
             throw new BusinessException("余额不足，请先充值");
         }
@@ -105,13 +162,20 @@ public class TicketService {
         return orderMapper.selectPage(new Page<>(pageNum, pageSize), wrapper);
     }
 
-    public TicketOrder getOrderById(Long id) {
-        return orderMapper.selectById(id);
+    public TicketOrder getOrderById(Long id, Long userId, boolean admin) {
+        TicketOrder order = orderMapper.selectById(id);
+        if (order == null) {
+            throw new BusinessException(404, "订单不存在");
+        }
+        if (!admin && !order.getUserId().equals(userId)) {
+            throw new BusinessException(403, "无权访问该订单");
+        }
+        return order;
     }
 
     @Transactional
-    public void refund(Long orderId) {
-        TicketOrder order = orderMapper.selectById(orderId);
+    public void refund(Long orderId, Long userId, boolean admin) {
+        TicketOrder order = getOrderById(orderId, userId, admin);
         if (order == null) {
             throw new BusinessException("订单不存在");
         }
@@ -129,6 +193,9 @@ public class TicketService {
     }
 
     public void updateOrderStatus(Long orderId, String status) {
+        if (!"paid".equals(status) && !"used".equals(status) && !"cancelled".equals(status) && !"refunded".equals(status)) {
+            throw new BusinessException(400, "订单状态不合法");
+        }
         TicketOrder order = new TicketOrder();
         order.setId(orderId);
         order.setStatus(status);

@@ -3,8 +3,10 @@ package com.hrm.controller;
 import com.hrm.common.Result;
 import com.hrm.entity.Resume;
 import com.hrm.service.ResumeService;
+import com.hrm.utils.AuthUtils;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @RestController
@@ -14,7 +16,8 @@ public class ResumeController {
     private ResumeService resumeService;
 
     @GetMapping("/{id}")
-    public Result getById(@PathVariable Long id) {
+    public Result getById(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireAdminOrHr(request);
         return Result.success(resumeService.getById(id));
     }
 
@@ -23,7 +26,9 @@ public class ResumeController {
                           @RequestParam(required = false) String name,
                           @RequestParam(required = false) String status,
                           @RequestParam(defaultValue = "1") Integer pageNum,
-                          @RequestParam(defaultValue = "10") Integer pageSize) {
+                          @RequestParam(defaultValue = "10") Integer pageSize,
+                          HttpServletRequest request) {
+        AuthUtils.requireAdminOrHr(request);
         return Result.success(resumeService.getList(recruitmentId, name, status, pageNum, pageSize));
     }
 
@@ -34,19 +39,22 @@ public class ResumeController {
     }
 
     @PutMapping
-    public Result update(@RequestBody Resume resume) {
+    public Result update(@RequestBody Resume resume, HttpServletRequest request) {
+        AuthUtils.requireAdminOrHr(request);
         resumeService.update(resume);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
-    public Result delete(@PathVariable Long id) {
+    public Result delete(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireAdminOrHr(request);
         resumeService.delete(id);
         return Result.success();
     }
 
     @PostMapping("/updateStatus")
-    public Result updateStatus(@RequestBody Map<String, Object> params) {
+    public Result updateStatus(@RequestBody Map<String, Object> params, HttpServletRequest request) {
+        AuthUtils.requireAdminOrHr(request);
         Long id = Long.valueOf(params.get("id").toString());
         String status = params.get("status").toString();
         resumeService.updateStatus(id, status);

@@ -5,6 +5,7 @@ import com.groupbuy.entity.Merchant;
 import com.groupbuy.entity.Product;
 import com.groupbuy.service.MerchantService;
 import com.groupbuy.service.ProductService;
+import com.groupbuy.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,27 +45,34 @@ public class ProductController {
 
     @PostMapping("/add")
     public Result<?> add(HttpServletRequest request, @RequestBody Product product) {
-        Long userId = (Long) request.getAttribute("userId");
-        Merchant merchant = merchantService.getByUserId(userId);
+        AuthUtils.requireMerchant(request);
+        Long userId = AuthUtils.getUserId(request);
+        Merchant merchant = merchantService.requireApprovedMerchant(userId);
         productService.add(merchant.getId(), product);
         return Result.success();
     }
 
     @PutMapping("/update")
-    public Result<?> update(@RequestBody Product product) {
-        productService.update(product);
+    public Result<?> update(HttpServletRequest request, @RequestBody Product product) {
+        AuthUtils.requireMerchant(request);
+        Merchant merchant = merchantService.requireApprovedMerchant(AuthUtils.getUserId(request));
+        productService.update(merchant.getId(), product);
         return Result.success();
     }
 
     @PutMapping("/status/{id}")
-    public Result<?> updateStatus(@PathVariable Long id, @RequestBody Map<String, Integer> params) {
-        productService.updateStatus(id, params.get("status"));
+    public Result<?> updateStatus(HttpServletRequest request, @PathVariable Long id, @RequestBody Map<String, Integer> params) {
+        AuthUtils.requireMerchant(request);
+        Merchant merchant = merchantService.requireApprovedMerchant(AuthUtils.getUserId(request));
+        productService.updateStatus(merchant.getId(), id, params.get("status"));
         return Result.success();
     }
 
     @DeleteMapping("/delete/{id}")
-    public Result<?> delete(@PathVariable Long id) {
-        productService.delete(id);
+    public Result<?> delete(HttpServletRequest request, @PathVariable Long id) {
+        AuthUtils.requireMerchant(request);
+        Merchant merchant = merchantService.requireApprovedMerchant(AuthUtils.getUserId(request));
+        productService.delete(merchant.getId(), id);
         return Result.success();
     }
 }

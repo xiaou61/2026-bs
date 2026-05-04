@@ -3,8 +3,10 @@ package com.hrm.controller;
 import com.hrm.common.Result;
 import com.hrm.entity.Recruitment;
 import com.hrm.service.RecruitmentService;
+import com.hrm.utils.AuthUtils;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/recruitment")
@@ -37,25 +39,29 @@ public class RecruitmentController {
     }
 
     @PostMapping
-    public Result add(@RequestBody Recruitment recruitment) {
+    public Result add(@RequestBody Recruitment recruitment, HttpServletRequest request) {
+        AuthUtils.requireAdminOrHr(request);
         recruitmentService.add(recruitment);
         return Result.success();
     }
 
     @PutMapping
-    public Result update(@RequestBody Recruitment recruitment) {
+    public Result update(@RequestBody Recruitment recruitment, HttpServletRequest request) {
+        AuthUtils.requireAdminOrHr(request);
         recruitmentService.update(recruitment);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
-    public Result delete(@PathVariable Long id) {
+    public Result delete(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireAdminOrHr(request);
         recruitmentService.delete(id);
         return Result.success();
     }
 
     @PostMapping("/close/{id}")
-    public Result close(@PathVariable Long id) {
+    public Result close(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireAdminOrHr(request);
         recruitmentService.close(id);
         return Result.success();
     }

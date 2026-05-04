@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gongkao.common.Result;
 import com.gongkao.entity.Notice;
 import com.gongkao.service.NoticeService;
+import com.gongkao.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -29,7 +31,9 @@ public class NoticeController {
                                      @RequestParam(defaultValue = "10") int pageSize,
                                      @RequestParam(required = false) String title,
                                      @RequestParam(required = false) String type,
-                                     @RequestParam(required = false) Integer status) {
+                                     @RequestParam(required = false) Integer status,
+                                     HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         return Result.success(noticeService.getList(pageNum, pageSize, title, type, status));
     }
 
@@ -44,19 +48,23 @@ public class NoticeController {
     }
 
     @PostMapping("/add")
-    public Result<String> add(@RequestBody Notice notice) {
+    public Result<String> add(@RequestBody Notice notice, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
+        notice.setPublisherId(AuthUtils.getUserId(request));
         noticeService.add(notice);
         return Result.success();
     }
 
     @PutMapping("/update")
-    public Result<String> update(@RequestBody Notice notice) {
+    public Result<String> update(@RequestBody Notice notice, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         noticeService.update(notice);
         return Result.success();
     }
 
     @DeleteMapping("/delete/{id}")
-    public Result<String> delete(@PathVariable Long id) {
+    public Result<String> delete(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         noticeService.delete(id);
         return Result.success();
     }

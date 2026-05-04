@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { logout } from '../api'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -14,7 +15,13 @@ export const useUserStore = defineStore('user', {
       this.userInfo = userInfo || null
       localStorage.setItem('userInfo', JSON.stringify(this.userInfo))
     },
-    logout() {
+    async logout() {
+      try {
+        if (this.token) {
+          await logout()
+        }
+      } catch (error) {
+      }
       this.token = ''
       this.userInfo = null
       localStorage.removeItem('token')

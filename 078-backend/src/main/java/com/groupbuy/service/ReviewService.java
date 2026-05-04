@@ -77,10 +77,20 @@ public class ReviewService {
     }
 
     public void audit(Long id, Integer status) {
+        if (reviewMapper.selectById(id) == null) {
+            throw new BusinessException(404, "评价不存在");
+        }
         Review review = new Review();
         review.setId(id);
         review.setStatus(status);
         reviewMapper.updateById(review);
+    }
+
+    public void delete(Long id) {
+        if (reviewMapper.selectById(id) == null) {
+            throw new BusinessException(404, "评价不存在");
+        }
+        reviewMapper.deleteById(id);
     }
 
     public Page<Review> productReviews(Long productId, Integer pageNum, Integer pageSize) {

@@ -4,6 +4,7 @@ import com.alumni.common.Result;
 import com.alumni.entity.DonationProject;
 import com.alumni.entity.DonationRecord;
 import com.alumni.service.DonationService;
+import com.alumni.utils.AuthUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,26 +31,29 @@ public class DonationController {
     }
 
     @PostMapping("/project")
-    public Result<?> addProject(@RequestBody DonationProject project) {
+    public Result<?> addProject(@RequestBody DonationProject project, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         donationService.addProject(project);
         return Result.success();
     }
 
     @PutMapping("/project")
-    public Result<?> updateProject(@RequestBody DonationProject project) {
+    public Result<?> updateProject(@RequestBody DonationProject project, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         donationService.updateProject(project);
         return Result.success();
     }
 
     @DeleteMapping("/project/{id}")
-    public Result<?> deleteProject(@PathVariable Long id) {
+    public Result<?> deleteProject(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         donationService.deleteProject(id);
         return Result.success();
     }
 
     @PostMapping("/donate")
     public Result<?> donate(@RequestBody DonationRecord record, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        Long userId = AuthUtils.getUserId(request);
         record.setUserId(userId);
         donationService.donate(record);
         return Result.success();
@@ -58,7 +62,9 @@ public class DonationController {
     @GetMapping("/record/list")
     public Result<Page<DonationRecord>> recordList(@RequestParam(defaultValue = "1") Integer pageNum,
                                                    @RequestParam(defaultValue = "10") Integer pageSize,
-                                                   Long projectId, Long userId) {
+                                                   Long projectId, Long userId,
+                                                   HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         return Result.success(donationService.recordList(pageNum, pageSize, projectId, userId));
     }
 
@@ -66,12 +72,13 @@ public class DonationController {
     public Result<Page<DonationRecord>> myRecords(@RequestParam(defaultValue = "1") Integer pageNum,
                                                   @RequestParam(defaultValue = "10") Integer pageSize,
                                                   HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        Long userId = AuthUtils.getUserId(request);
         return Result.success(donationService.recordList(pageNum, pageSize, null, userId));
     }
 
     @PutMapping("/record/{id}/confirm")
-    public Result<?> confirmRecord(@PathVariable Long id) {
+    public Result<?> confirmRecord(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         donationService.confirmRecord(id);
         return Result.success();
     }

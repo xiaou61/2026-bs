@@ -1,6 +1,7 @@
 package com.groupbuy.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.groupbuy.common.BusinessException;
 import com.groupbuy.entity.Address;
 import com.groupbuy.mapper.AddressMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,27 +25,30 @@ public class AddressService {
     @Transactional
     public void add(Long userId, Address address) {
         address.setUserId(userId);
-        if (address.getIsDefault() == 1) {
+        if (Integer.valueOf(1).equals(address.getIsDefault())) {
             clearDefault(userId);
         }
         addressMapper.insert(address);
     }
 
     @Transactional
-    public void update(Address address) {
-        if (address.getIsDefault() == 1) {
-            Address old = addressMapper.selectById(address.getId());
+    public void update(Long userId, Address address) {
+        Address old = requireOwnedAddress(userId, address.getId());
+        address.setUserId(userId);
+        if (Integer.valueOf(1).equals(address.getIsDefault())) {
             clearDefault(old.getUserId());
         }
         addressMapper.updateById(address);
     }
 
-    public void delete(Long id) {
+    public void delete(Long userId, Long id) {
+        requireOwnedAddress(userId, id);
         addressMapper.deleteById(id);
     }
 
     @Transactional
     public void setDefault(Long userId, Long id) {
+        requireOwnedAddress(userId, id);
         clearDefault(userId);
         Address address = new Address();
         address.setId(id);
@@ -59,5 +63,16 @@ public class AddressService {
             a.setIsDefault(0);
             addressMapper.updateById(a);
         });
+    }
+
+    private Address requireOwnedAddress(Long userId, Long id) {
+        Address address = addressMapper.selectById(id);
+        if (address == null) {
+            throw new BusinessException(404, "收货地址不存在");
+        }
+        if (!userId.equals(address.getUserId())) {
+            throw new BusinessException(403, "无权操作该收货地址");
+        }
+        return address;
     }
 }

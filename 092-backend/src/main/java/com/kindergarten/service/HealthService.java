@@ -19,6 +19,9 @@ public class HealthService {
     @Autowired
     private AuthService authService;
 
+    @Autowired
+    private ChildService childService;
+
     public PageInfo<HealthRecord> list(Long childId, Long userId, String role, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         Long parentId = "parent".equals(role) ? userId : null;
@@ -32,6 +35,7 @@ public class HealthService {
         if (entity == null || entity.getChildId() == null || entity.getRecordDate() == null) {
             throw new BusinessException("幼儿档案和晨检日期不能为空");
         }
+        ensureTeacherOwnsChild(entity.getChildId(), userId, role);
         entity.setTeacherId(userId);
         if (entity.getId() == null) {
             healthRecordMapper.insert(entity);
@@ -41,6 +45,20 @@ public class HealthService {
         if (current == null) {
             throw new BusinessException("晨检记录不存在");
         }
+        if ("teacher".equals(role) && !userId.equals(current.getTeacherId())) {
+            throw new BusinessException(403, "无权限修改其他教师晨检记录");
+        }
+        ensureTeacherOwnsChild(current.getChildId(), userId, role);
+        entity.setTeacherId(current.getTeacherId());
         healthRecordMapper.update(entity);
+    }
+
+    private void ensureTeacherOwnsChild(Long childId, Long userId, String role) {
+        if (!"teacher".equals(role)) {
+            return;
+        }
+        if (!userId.equals(childService.requireChild(childId).getTeacherId())) {
+            throw new BusinessException(403, "无权限操作其他班级幼儿晨检");
+        }
     }
 }

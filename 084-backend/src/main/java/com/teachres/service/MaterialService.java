@@ -11,9 +11,11 @@ import com.teachres.mapper.MaterialAuditMapper;
 import com.teachres.mapper.MaterialDownloadMapper;
 import com.teachres.mapper.MaterialFileMapper;
 import com.teachres.mapper.MaterialInfoMapper;
+import com.teachres.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,12 +91,13 @@ public class MaterialService {
         materialFileMapper.insert(file);
     }
 
-    public void update(Map<String, Object> params) {
+    public void update(Map<String, Object> params, HttpServletRequest request) {
         Long id = Long.valueOf(String.valueOf(params.get("id")));
         MaterialInfo materialInfo = materialInfoMapper.selectById(id);
         if (materialInfo == null) {
             throw new BusinessException("资料不存在");
         }
+        AuthUtils.requireOwnerOrAdmin(request, materialInfo.getUploaderId());
         if (params.containsKey("title")) {
             materialInfo.setTitle(String.valueOf(params.get("title")));
         }
@@ -136,16 +139,26 @@ public class MaterialService {
         }
     }
 
-    public void delete(Long id) {
+    public void delete(Long id, HttpServletRequest request) {
+        MaterialInfo materialInfo = materialInfoMapper.selectById(id);
+        if (materialInfo == null) {
+            throw new BusinessException("资料不存在");
+        }
+        AuthUtils.requireOwnerOrAdmin(request, materialInfo.getUploaderId());
         materialInfoMapper.deleteById(id);
         materialFileMapper.deleteByMaterialId(id);
     }
 
-    public void publish(Long id, Integer publishStatus) {
-        MaterialInfo materialInfo = new MaterialInfo();
-        materialInfo.setId(id);
-        materialInfo.setPublishStatus(publishStatus);
-        materialInfoMapper.update(materialInfo);
+    public void publish(Long id, Integer publishStatus, HttpServletRequest request) {
+        MaterialInfo materialInfo = materialInfoMapper.selectById(id);
+        if (materialInfo == null) {
+            throw new BusinessException("资料不存在");
+        }
+        AuthUtils.requireOwnerOrAdmin(request, materialInfo.getUploaderId());
+        MaterialInfo update = new MaterialInfo();
+        update.setId(id);
+        update.setPublishStatus(publishStatus);
+        materialInfoMapper.update(update);
     }
 
     public void audit(Long materialId, Integer auditStatus, String auditRemark, Long auditorId) {

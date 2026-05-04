@@ -8,13 +8,11 @@ import com.wallpaper.entity.SysUser;
 import com.wallpaper.mapper.SysUserMapper;
 import com.wallpaper.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class AuthService {
@@ -26,7 +24,7 @@ public class AuthService {
     private JwtUtils jwtUtils;
 
     @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    private RuntimeStoreService runtimeStoreService;
 
     public Map<String, Object> login(LoginDTO loginDTO) {
         if (!StringUtils.hasText(loginDTO.getUsername()) || !StringUtils.hasText(loginDTO.getPassword())) {
@@ -43,8 +41,8 @@ public class AuthService {
         if (user.getStatus() != null && user.getStatus() == 0) {
             throw new BusinessException("账号已禁用");
         }
-        String token = jwtUtils.generateToken(String.valueOf(user.getId()));
-        stringRedisTemplate.opsForValue().set("TOKEN:" + user.getId(), token, 1, TimeUnit.DAYS);
+        String token = jwtUtils.generateToken(user.getId(), user.getRole());
+        runtimeStoreService.saveToken(user.getId(), token);
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
         result.put("userInfo", sanitize(user));
@@ -95,19 +93,19 @@ public class AuthService {
     }
 
     public Long resolveUserId(String token) {
-        if (!StringUtils.hasText(token) || !jwtUtils.validateToken(token)) {
+        if (!StringUtils.hasText(token)) {
             return null;
         }
-        String userId = jwtUtils.getUserIdFromToken(token);
-        String cacheToken = stringRedisTemplate.opsForValue().get("TOKEN:" + userId);
-        if (cacheToken == null || !cacheToken.equals(token)) {
+        String actualToken = token.startsWith("Bearer ") ? token.substring(7) : token;
+        if (!jwtUtils.validateToken(actualToken)) {
             return null;
         }
-        return Long.valueOf(userId);
+        Long userId = jwtUtils.getUserId(actualToken);
+        return runtimeStoreService.isTokenActive(userId, actualToken) ? userId : null;
     }
 
     public void logout(Long userId) {
-        stringRedisTemplate.delete("TOKEN:" + userId);
+        runtimeStoreService.removeToken(userId);
     }
 
     private SysUser sanitize(SysUser user) {

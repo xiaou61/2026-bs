@@ -4,6 +4,7 @@ import com.groupbuy.common.Result;
 import com.groupbuy.entity.Merchant;
 import com.groupbuy.service.MerchantService;
 import com.groupbuy.service.StatsService;
+import com.groupbuy.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,28 +21,28 @@ public class StatsController {
     private MerchantService merchantService;
 
     @GetMapping("/overview")
-    public Result<?> overview() {
+    public Result<?> overview(HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         return Result.success(statsService.overview());
     }
 
     @GetMapping("/sales")
-    public Result<?> sales(@RequestParam(defaultValue = "7") Integer days) {
+    public Result<?> sales(HttpServletRequest request, @RequestParam(defaultValue = "7") Integer days) {
+        AuthUtils.requireAdmin(request);
         return Result.success(statsService.sales(days));
     }
 
     @GetMapping("/hot-products")
-    public Result<?> hotProducts(@RequestParam(defaultValue = "10") Integer limit) {
+    public Result<?> hotProducts(HttpServletRequest request, @RequestParam(defaultValue = "10") Integer limit) {
+        AuthUtils.requireAdmin(request);
         return Result.success(statsService.hotProducts(limit));
     }
 
     @GetMapping("/merchant")
     public Result<?> merchantStats(HttpServletRequest request,
                                    @RequestParam(defaultValue = "7") Integer days) {
-        Long userId = (Long) request.getAttribute("userId");
-        Merchant merchant = merchantService.getByUserId(userId);
-        if (merchant == null) {
-            return Result.error("商家信息不存在");
-        }
+        AuthUtils.requireMerchant(request);
+        Merchant merchant = merchantService.requireApprovedMerchant(AuthUtils.getUserId(request));
         return Result.success(statsService.merchantStats(merchant.getId(), days));
     }
 }

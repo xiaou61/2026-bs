@@ -3,6 +3,7 @@ package com.hrm.controller;
 import com.hrm.common.Result;
 import com.hrm.entity.Announcement;
 import com.hrm.service.AnnouncementService;
+import com.hrm.utils.AuthUtils;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -33,20 +34,23 @@ public class AnnouncementController {
 
     @PostMapping
     public Result add(@RequestBody Announcement announcement, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        AuthUtils.requireAdminOrHr(request);
+        Long userId = AuthUtils.currentUserId(request);
         announcement.setPublisherId(userId);
         announcementService.add(announcement);
         return Result.success();
     }
 
     @PutMapping
-    public Result update(@RequestBody Announcement announcement) {
+    public Result update(@RequestBody Announcement announcement, HttpServletRequest request) {
+        AuthUtils.requireAdminOrHr(request);
         announcementService.update(announcement);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
-    public Result delete(@PathVariable Long id) {
+    public Result delete(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireAdminOrHr(request);
         announcementService.delete(id);
         return Result.success();
     }

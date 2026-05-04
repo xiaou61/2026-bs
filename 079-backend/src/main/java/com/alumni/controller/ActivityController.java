@@ -5,6 +5,7 @@ import com.alumni.entity.Activity;
 import com.alumni.entity.ActivityPhoto;
 import com.alumni.entity.ActivitySign;
 import com.alumni.service.ActivityService;
+import com.alumni.utils.AuthUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,48 +35,49 @@ public class ActivityController {
 
     @PostMapping
     public Result<?> add(@RequestBody Activity activity, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        AuthUtils.requireAdmin(request);
+        Long userId = AuthUtils.getUserId(request);
         activity.setOrganizerId(userId);
         activityService.add(activity);
         return Result.success();
     }
 
     @PutMapping
-    public Result<?> update(@RequestBody Activity activity) {
-        activityService.update(activity);
+    public Result<?> update(@RequestBody Activity activity, HttpServletRequest request) {
+        activityService.update(activity, AuthUtils.getUserId(request), AuthUtils.isAdmin(request));
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
-    public Result<?> delete(@PathVariable Long id) {
-        activityService.delete(id);
+    public Result<?> delete(@PathVariable Long id, HttpServletRequest request) {
+        activityService.delete(id, AuthUtils.getUserId(request), AuthUtils.isAdmin(request));
         return Result.success();
     }
 
     @PostMapping("/{id}/sign")
     public Result<?> sign(@PathVariable Long id, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        Long userId = AuthUtils.getUserId(request);
         activityService.sign(id, userId);
         return Result.success();
     }
 
     @DeleteMapping("/{id}/sign")
     public Result<?> cancelSign(@PathVariable Long id, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        Long userId = AuthUtils.getUserId(request);
         activityService.cancelSign(id, userId);
         return Result.success();
     }
 
     @PostMapping("/{id}/check")
     public Result<?> check(@PathVariable Long id, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        Long userId = AuthUtils.getUserId(request);
         activityService.check(id, userId);
         return Result.success();
     }
 
     @GetMapping("/{id}/signs")
-    public Result<List<ActivitySign>> getSignList(@PathVariable Long id) {
-        return Result.success(activityService.getSignList(id));
+    public Result<List<ActivitySign>> getSignList(@PathVariable Long id, HttpServletRequest request) {
+        return Result.success(activityService.getSignList(id, AuthUtils.getUserId(request), AuthUtils.isAdmin(request)));
     }
 
     @GetMapping("/{id}/photos")
@@ -85,7 +87,7 @@ public class ActivityController {
 
     @PostMapping("/{id}/photo")
     public Result<?> addPhoto(@PathVariable Long id, @RequestBody ActivityPhoto photo, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        Long userId = AuthUtils.getUserId(request);
         photo.setActivityId(id);
         photo.setUploadUserId(userId);
         activityService.addPhoto(photo);
@@ -93,8 +95,8 @@ public class ActivityController {
     }
 
     @DeleteMapping("/photo/{id}")
-    public Result<?> deletePhoto(@PathVariable Long id) {
-        activityService.deletePhoto(id);
+    public Result<?> deletePhoto(@PathVariable Long id, HttpServletRequest request) {
+        activityService.deletePhoto(id, AuthUtils.getUserId(request), AuthUtils.isAdmin(request));
         return Result.success();
     }
 }

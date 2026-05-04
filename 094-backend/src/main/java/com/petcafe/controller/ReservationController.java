@@ -37,19 +37,22 @@ public class ReservationController {
 
     @PostMapping("/create")
     public Result<?> create(@RequestBody ReservationDTO dto, HttpServletRequest request) {
+        AuthUtils.requireCustomer((String) request.getAttribute("role"));
         return Result.success(reservationService.create((Long) request.getAttribute("userId"), dto));
     }
 
     @PutMapping("/status/{id}")
     public Result<?> updateStatus(@PathVariable Long id, @RequestBody Map<String, String> params, HttpServletRequest request) {
-        AuthUtils.requireAdmin((String) request.getAttribute("role"));
+        AuthUtils.requireManager((String) request.getAttribute("role"));
         reservationService.updateStatus(id, params.get("status"), params.get("managerRemark"));
         return Result.success();
     }
 
     @PutMapping("/cancel/{id}")
     public Result<?> cancel(@PathVariable Long id, HttpServletRequest request) {
-        reservationService.cancel(id, (Long) request.getAttribute("userId"), (String) request.getAttribute("role"));
+        String role = (String) request.getAttribute("role");
+        AuthUtils.requireCustomer(role);
+        reservationService.cancel(id, (Long) request.getAttribute("userId"), role);
         return Result.success();
     }
 }

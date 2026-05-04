@@ -69,7 +69,7 @@ public class ReviewService {
         }
         RepairAppointment order = orderService.mustGetById(review.getOrderId());
         if (!order.getUserId().equals(userId)) {
-            throw new BusinessException("无权限评价该处理单");
+            throw new BusinessException(403, "无权限评价该处理单");
         }
         if (order.getStatus() != 3) {
             throw new BusinessException("处理单未完成，无法评价");

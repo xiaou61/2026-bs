@@ -1,4 +1,4 @@
-﻿package com.petcafe.controller;
+package com.petcafe.controller;
 
 import com.petcafe.common.Result;
 import com.petcafe.dto.OrderCreateDTO;
@@ -25,6 +25,7 @@ public class OrderController {
 
     @PostMapping("/create")
     public Result<?> create(@RequestBody OrderCreateDTO dto, HttpServletRequest request) {
+        AuthUtils.requireCustomer((String) request.getAttribute("role"));
         return Result.success(orderService.create((Long) request.getAttribute("userId"), dto));
     }
 
@@ -50,6 +51,7 @@ public class OrderController {
     public Result<?> cancel(@PathVariable Long id, HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
         String role = (String) request.getAttribute("role");
+        AuthUtils.requireCustomer(role);
         orderService.cancel(id, userId, role);
         return Result.success();
     }

@@ -24,18 +24,21 @@ public class PaymentController {
 
     @PostMapping("/create")
     public Result<?> create(@RequestBody PaymentDTO dto, HttpServletRequest request) {
+        AuthUtils.requireMember((String) request.getAttribute("role"));
         Long userId = (Long) request.getAttribute("userId");
         return Result.success(paymentService.create(userId, dto));
     }
 
     @PostMapping("/balance")
     public Result<?> balancePay(@RequestBody PaymentDTO dto, HttpServletRequest request) {
+        AuthUtils.requireMember((String) request.getAttribute("role"));
         Long userId = (Long) request.getAttribute("userId");
         return Result.success(paymentService.balancePay(userId, dto.getOrderId()));
     }
 
     @PostMapping("/recharge")
     public Result<?> recharge(@RequestBody RechargeDTO dto, HttpServletRequest request) {
+        AuthUtils.requireMember((String) request.getAttribute("role"));
         Long userId = (Long) request.getAttribute("userId");
         paymentService.recharge(userId, dto.getAmount());
         return Result.success();

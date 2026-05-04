@@ -9,6 +9,7 @@ import com.adoption.mapper.AdoptionAgreementMapper;
 import com.adoption.mapper.AdoptionApplicationMapper;
 import com.adoption.mapper.ChildProfileMapper;
 import com.adoption.mapper.SysUserMapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

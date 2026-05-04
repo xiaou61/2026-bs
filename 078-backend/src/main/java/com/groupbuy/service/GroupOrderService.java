@@ -56,6 +56,9 @@ public class GroupOrderService {
         if (address == null) {
             throw new BusinessException("收货地址不存在");
         }
+        if (!userId.equals(address.getUserId())) {
+            throw new BusinessException(403, "无权使用该收货地址");
+        }
         GroupOrder groupOrder = new GroupOrder();
         groupOrder.setActivityId(activityId);
         groupOrder.setLeaderId(userId);
@@ -93,6 +96,9 @@ public class GroupOrderService {
         Address address = addressMapper.selectById(addressId);
         if (address == null) {
             throw new BusinessException("收货地址不存在");
+        }
+        if (!userId.equals(address.getUserId())) {
+            throw new BusinessException(403, "无权使用该收货地址");
         }
         Orders order = createOrder(userId, activity, product, address, groupOrderId);
         groupOrder.setCurrentCount(groupOrder.getCurrentCount() + 1);

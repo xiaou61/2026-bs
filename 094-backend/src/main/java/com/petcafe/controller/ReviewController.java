@@ -37,13 +37,14 @@ public class ReviewController {
 
     @PostMapping("/add")
     public Result<?> add(@RequestBody ReviewRecord review, HttpServletRequest request) {
+        AuthUtils.requireCustomer((String) request.getAttribute("role"));
         reviewService.add((Long) request.getAttribute("userId"), review);
         return Result.success();
     }
 
     @PutMapping("/reply/{id}")
     public Result<?> reply(@PathVariable Long id, @RequestBody Map<String, String> params, HttpServletRequest request) {
-        AuthUtils.requireAdmin((String) request.getAttribute("role"));
+        AuthUtils.requireManager((String) request.getAttribute("role"));
         reviewService.reply(id, (Long) request.getAttribute("userId"), params.get("replyContent"));
         return Result.success();
     }

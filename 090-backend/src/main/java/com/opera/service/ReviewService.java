@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.opera.common.BusinessException;
 import com.opera.entity.BookingRecord;
+import com.opera.entity.PerformanceSchedule;
 import com.opera.entity.ReviewRecord;
 import com.opera.mapper.ReviewRecordMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class ReviewService {
     @Autowired
     private AuthService authService;
 
+    @Autowired
+    private PerformanceService performanceService;
+
     public PageInfo<ReviewRecord> list(Long scheduleId, Long memberId, Long userId, String role, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<ReviewRecord> list = scoreMapper.selectList(scheduleId, "member".equals(role) ? userId : memberId, "artist".equals(role) ? userId : null);
@@ -39,6 +43,13 @@ public class ReviewService {
         BookingRecord selection = selectionAdapter.getById(entity.getSelectionId());
         if (selection == null) {
             throw new BusinessException("预约记录不存在");
+        }
+        PerformanceSchedule schedule = performanceService.getById(selection.getScheduleId());
+        if (schedule == null) {
+            throw new BusinessException("排期不存在");
+        }
+        if ("artist".equals(role) && !userId.equals(schedule.getArtistId())) {
+            throw new BusinessException(403, "无权限操作");
         }
         BigDecimal usual = entity.getUsualScore() == null ? BigDecimal.ZERO : entity.getUsualScore();
         BigDecimal exam = entity.getExamScore() == null ? BigDecimal.ZERO : entity.getExamScore();

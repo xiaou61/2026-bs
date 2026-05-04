@@ -43,6 +43,7 @@ public class CommentController {
 
     @PostMapping("/add")
     public Result<?> add(@RequestBody Comment comment, HttpServletRequest request) {
+        AuthUtils.requireMember((String) request.getAttribute("role"));
         Long userId = (Long) request.getAttribute("userId");
         commentService.add(userId, comment);
         return Result.success();

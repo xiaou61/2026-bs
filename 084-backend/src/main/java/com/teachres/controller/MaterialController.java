@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.teachres.common.Result;
 import com.teachres.entity.MaterialInfo;
 import com.teachres.service.MaterialService;
+import com.teachres.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @RestController
@@ -32,7 +34,12 @@ public class MaterialController {
                                                @RequestParam(required = false) Long categoryId,
                                                @RequestParam(required = false) Integer auditStatus,
                                                @RequestParam(required = false) Integer publishStatus,
-                                               @RequestParam(required = false) Long uploaderId) {
+                                               @RequestParam(required = false) Long uploaderId,
+                                               HttpServletRequest request) {
+        AuthUtils.requireAnyRole(request, "admin", "teacher");
+        if (!AuthUtils.isAdmin(request)) {
+            uploaderId = AuthUtils.getUserId(request);
+        }
         return Result.success(materialService.list(title, categoryId, auditStatus, publishStatus, uploaderId, pageNum, pageSize));
     }
 
@@ -45,26 +52,30 @@ public class MaterialController {
     }
 
     @GetMapping("/detail/{id}")
-    public Result<Map<String, Object>> detail(@PathVariable Long id) {
+    public Result<Map<String, Object>> detail(@PathVariable Long id, HttpServletRequest request) {
         return Result.success(materialService.detail(id));
     }
 
     @PostMapping("/add")
     public Result<String> add(@RequestBody Map<String, Object> params,
-                              @RequestAttribute("userId") Long userId) {
+                              @RequestAttribute("userId") Long userId,
+                              HttpServletRequest request) {
+        AuthUtils.requireAnyRole(request, "admin", "teacher");
         materialService.add(params, userId);
         return Result.success();
     }
 
     @PutMapping("/update")
-    public Result<String> update(@RequestBody Map<String, Object> params) {
-        materialService.update(params);
+    public Result<String> update(@RequestBody Map<String, Object> params, HttpServletRequest request) {
+        AuthUtils.requireAnyRole(request, "admin", "teacher");
+        materialService.update(params, request);
         return Result.success();
     }
 
     @PutMapping("/publish")
-    public Result<String> publish(@RequestParam Long id, @RequestParam Integer publishStatus) {
-        materialService.publish(id, publishStatus);
+    public Result<String> publish(@RequestParam Long id, @RequestParam Integer publishStatus, HttpServletRequest request) {
+        AuthUtils.requireAnyRole(request, "admin", "teacher");
+        materialService.publish(id, publishStatus, request);
         return Result.success();
     }
 
@@ -76,8 +87,9 @@ public class MaterialController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public Result<String> delete(@PathVariable Long id) {
-        materialService.delete(id);
+    public Result<String> delete(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireAnyRole(request, "admin", "teacher");
+        materialService.delete(id, request);
         return Result.success();
     }
 }

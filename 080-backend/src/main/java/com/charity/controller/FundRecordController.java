@@ -21,14 +21,16 @@ public class FundRecordController {
                                             @RequestParam(defaultValue = "10") int pageSize,
                                             @RequestParam(required = false) String recordType,
                                             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-                                            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
-        Page<FundRecord> page = fundRecordService.getList(pageNum, pageSize, recordType, startDate, endDate);
+                                            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
+                                            @RequestAttribute("userId") String userId) {
+        Page<FundRecord> page = fundRecordService.getList(pageNum, pageSize, recordType, startDate, endDate, Long.parseLong(userId));
         return Result.success(page);
     }
 
     @PostMapping("/add")
-    public Result<String> add(@RequestBody FundRecord fundRecord) {
-        fundRecordService.add(fundRecord);
+    public Result<String> add(@RequestBody FundRecord fundRecord,
+                              @RequestAttribute("userId") String userId) {
+        fundRecordService.add(fundRecord, Long.parseLong(userId));
         return Result.success();
     }
 }

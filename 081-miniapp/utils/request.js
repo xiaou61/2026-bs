@@ -8,7 +8,7 @@ const request = (options) => {
       method: options.method || 'GET',
       data: options.data,
       header: {
-        'Authorization': token || '',
+        'Authorization': token ? `Bearer ${token}` : '',
         'Content-Type': 'application/json'
       },
       success: (res) => {

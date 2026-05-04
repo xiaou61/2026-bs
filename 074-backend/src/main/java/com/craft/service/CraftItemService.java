@@ -97,7 +97,7 @@ public class CraftItemService {
                 throw new BusinessException("商品不存在");
             }
             if (!"ADMIN".equals(role) && !db.getSellerId().equals(userId)) {
-                throw new BusinessException("无权限修改该商品");
+                throw new BusinessException(403, "无权限修改该商品");
             }
             if (item.getViewCount() == null) {
                 item.setViewCount(db.getViewCount());
@@ -125,7 +125,7 @@ public class CraftItemService {
     public void deleteById(Long id, Long userId, String role) {
         CraftItem item = mustGetById(id);
         if (!"ADMIN".equals(role) && !item.getSellerId().equals(userId)) {
-            throw new BusinessException("无权限删除该商品");
+            throw new BusinessException(403, "无权限删除该商品");
         }
         itemMapper.deleteById(id);
     }

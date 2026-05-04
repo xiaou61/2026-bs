@@ -6,12 +6,17 @@ import com.hospital.mapper.SysUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class StatisticsService {
+
+    private static final DateTimeFormatter MONTH_DAY = DateTimeFormatter.ofPattern("MM-dd");
 
     @Autowired
     private AuthService authService;
@@ -71,15 +76,57 @@ public class StatisticsService {
 
     public List<Map<String, Object>> departmentRank(String role) {
         authService.assertAdmin(role);
-        return appointmentRecordMapper.selectDepartmentRank();
+        List<Map<String, Object>> rows = appointmentRecordMapper.selectDepartmentRank();
+        for (Map<String, Object> row : rows) {
+            Object value = row.get("rank_value");
+            if (value == null) {
+                value = row.get("RANK_VALUE");
+            }
+            if (value == null) {
+                value = row.get("rankValue");
+            }
+            row.put("value", value);
+        }
+        return rows;
     }
 
     public List<Map<String, Object>> appointmentTrend(String role) {
         authService.assertAdmin(role);
-        return appointmentRecordMapper.selectAppointmentTrend();
+        List<Map<String, Object>> rows = appointmentRecordMapper.selectAppointmentTrend();
+        for (Map<String, Object> row : rows) {
+            Object date = firstPresent(row, "trend_date", "TREND_DATE", "trendDate");
+            Object count = firstPresent(row, "trend_count", "TREND_COUNT", "trendCount");
+            row.put("date", formatMonthDay(date));
+            row.put("count", count);
+        }
+        return rows;
     }
 
     public List<Map<String, Object>> hotDoctorRank() {
         return doctorService.hotDoctorRank();
+    }
+
+    private Object firstPresent(Map<String, Object> row, String... keys) {
+        for (String key : keys) {
+            Object value = row.get(key);
+            if (value != null) {
+                return value;
+            }
+        }
+        return null;
+    }
+
+    private String formatMonthDay(Object value) {
+        if (value instanceof Date) {
+            return ((Date) value).toLocalDate().format(MONTH_DAY);
+        }
+        if (value instanceof LocalDate) {
+            return ((LocalDate) value).format(MONTH_DAY);
+        }
+        if (value == null) {
+            return "";
+        }
+        String text = String.valueOf(value);
+        return text.length() >= 10 ? text.substring(5, 10) : text;
     }
 }

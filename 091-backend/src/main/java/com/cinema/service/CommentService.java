@@ -58,14 +58,18 @@ public class CommentService {
         if (movie == null) {
             throw new BusinessException("影片不存在");
         }
-        if (comment.getOrderId() != null) {
-            TicketOrder order = ticketOrderMapper.selectById(comment.getOrderId());
-            if (order == null || !order.getUserId().equals(userId)) {
-                throw new BusinessException("订单不存在");
-            }
-            if (!OrderService.STATUS_PAID.equals(order.getStatus()) && !OrderService.STATUS_FINISHED.equals(order.getStatus())) {
-                throw new BusinessException("订单状态不可评价");
-            }
+        if (comment.getOrderId() == null) {
+            throw new BusinessException(403, "仅已购票会员可评价");
+        }
+        TicketOrder order = ticketOrderMapper.selectById(comment.getOrderId());
+        if (order == null || !order.getUserId().equals(userId)) {
+            throw new BusinessException(403, "无权限评价该订单");
+        }
+        if (!OrderService.STATUS_PAID.equals(order.getStatus()) && !OrderService.STATUS_FINISHED.equals(order.getStatus())) {
+            throw new BusinessException("订单状态不可评价");
+        }
+        if (order.getMovieTitle() == null || !order.getMovieTitle().equals(movie.getTitle())) {
+            throw new BusinessException("订单与影片不匹配");
         }
         comment.setUserId(userId);
         comment.setContent(comment.getContent().trim());

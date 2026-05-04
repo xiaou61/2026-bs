@@ -1,0 +1,56 @@
+076 企业信息管理系统启动说明
+
+一、后端启动
+
+1. 进入后端目录：
+   cd 076-backend
+
+2. 运行自动化测试：
+   mvn test
+
+3. 启动后端：
+   mvn spring-boot:run
+
+4. 默认访问地址：
+   http://localhost:8076
+
+5. H2 控制台：
+   http://localhost:8076/h2-console
+   JDBC URL: jdbc:h2:mem:enterprise_info_system_076
+   User Name: sa
+   Password: 留空
+
+二、前端启动
+
+1. 进入前端目录：
+   cd 076-frontend
+
+2. 安装依赖：
+   npm install
+
+3. 启动前端：
+   npm run dev -- --host 127.0.0.1
+
+4. 默认访问地址：
+   http://localhost:3076
+
+三、默认账号
+
+管理员：admin / 123456
+服务方一：seller1 / 123456
+服务方二：seller2 / 123456
+企业用户：buyer1 / 123456
+
+四、MySQL 模式
+
+默认演示使用 H2 内存库，不需要安装 MySQL 或 Redis。
+如需切换 MySQL，请先确认 sql/init.sql 中的 DROP DATABASE 语句不会误删本机数据，再导入脚本，并使用：
+
+mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+
+五、本轮已验证
+
+1. 后端 mvn test 通过。
+2. 前端 npm run build 通过。
+3. 后端 8076 真实启动后，登录、未登录 401、越权 403、企业信息、分类、公告、处理单、支付、确认、完成、评价、收藏、申诉和登出失效均已抽测通过。
+4. 前端 3076 页面响应和代理登录已验证通过。

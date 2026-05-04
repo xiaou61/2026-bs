@@ -38,23 +38,38 @@ public class ResourceService {
         resourceMapper.insert(entity);
     }
 
-    public void update(CourseResource entity, String role) {
+    public void update(CourseResource entity, Long userId, String role) {
         authService.assertTeacher(role);
         if (entity.getId() == null) {
-            throw new BusinessException("资源ID不能为空");
+            throw new BusinessException(400, "资源ID不能为空");
+        }
+        CourseResource exists = resourceMapper.selectById(entity.getId());
+        if (exists == null) {
+            throw new BusinessException(404, "资源不存在");
+        }
+        if ("teacher".equals(role) && !userId.equals(exists.getTeacherId())) {
+            throw new BusinessException(403, "无权限修改该资源");
         }
         validate(entity);
+        entity.setTeacherId(exists.getTeacherId());
         resourceMapper.update(entity);
     }
 
-    public void delete(Long id, String role) {
+    public void delete(Long id, Long userId, String role) {
         authService.assertTeacher(role);
+        CourseResource exists = resourceMapper.selectById(id);
+        if (exists == null) {
+            throw new BusinessException(404, "资源不存在");
+        }
+        if ("teacher".equals(role) && !userId.equals(exists.getTeacherId())) {
+            throw new BusinessException(403, "无权限删除该资源");
+        }
         resourceMapper.deleteById(id);
     }
 
     private void validate(CourseResource entity) {
         if (entity == null || entity.getScheduleId() == null || entity.getCourseId() == null || !StringUtils.hasText(entity.getTitle())) {
-            throw new BusinessException("排课、课程和资源标题不能为空");
+            throw new BusinessException(400, "排课、课程和资源标题不能为空");
         }
     }
 }

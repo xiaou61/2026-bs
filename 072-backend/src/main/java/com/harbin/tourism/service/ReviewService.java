@@ -2,6 +2,7 @@ package com.harbin.tourism.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.harbin.tourism.common.BusinessException;
 import com.harbin.tourism.entity.*;
 import com.harbin.tourism.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,24 +41,44 @@ public class ReviewService {
     }
 
     public void save(Review review) {
+        if (review.getTargetId() == null || review.getTargetType() == null) {
+            throw new BusinessException(400, "评价对象不能为空");
+        }
+        if (review.getRating() == null || review.getRating() < 1 || review.getRating() > 5) {
+            throw new BusinessException(400, "评分必须在1到5之间");
+        }
         review.setStatus(1);
         reviewMapper.insert(review);
         updateTargetRating(review.getTargetType(), review.getTargetId());
     }
 
-    public void delete(Long id) {
+    public Review getById(Long id) {
         Review review = reviewMapper.selectById(id);
-        reviewMapper.deleteById(id);
-        if (review != null) {
-            updateTargetRating(review.getTargetType(), review.getTargetId());
+        if (review == null) {
+            throw new BusinessException(404, "评价不存在");
         }
+        return review;
+    }
+
+    public void delete(Long id, Long userId, boolean admin) {
+        Review review = getById(id);
+        if (!admin && !review.getUserId().equals(userId)) {
+            throw new BusinessException(403, "无权删除该评价");
+        }
+        reviewMapper.deleteById(id);
+        updateTargetRating(review.getTargetType(), review.getTargetId());
     }
 
     public void updateStatus(Long id, Integer status) {
+        if (status == null || (status != 0 && status != 1)) {
+            throw new BusinessException(400, "评价状态不合法");
+        }
+        Review existing = getById(id);
         Review review = new Review();
         review.setId(id);
         review.setStatus(status);
         reviewMapper.updateById(review);
+        updateTargetRating(existing.getTargetType(), existing.getTargetId());
     }
 
     private void updateTargetRating(String targetType, Long targetId) {

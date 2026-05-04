@@ -27,7 +27,7 @@ public class ReplenishController {
                           @RequestParam(required = false) Long machineId,
                           HttpServletRequest request) {
         String role = (String) request.getAttribute("role");
-        AuthUtils.requireAdmin(role);
+        AuthUtils.requireAdminOrStaff(role);
         Long userId = (Long) request.getAttribute("userId");
         Long operatorId = "STAFF".equalsIgnoreCase(role) ? userId : null;
         return Result.success(replenishService.page(pageNum, pageSize, machineId, operatorId));
@@ -35,7 +35,7 @@ public class ReplenishController {
 
     @PostMapping("/save")
     public Result<?> save(@RequestBody ReplenishDTO dto, HttpServletRequest request) {
-        AuthUtils.requireAdmin((String) request.getAttribute("role"));
+        AuthUtils.requireAdminOrStaff((String) request.getAttribute("role"));
         replenishService.save((Long) request.getAttribute("userId"), dto);
         return Result.success();
     }

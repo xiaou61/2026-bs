@@ -54,9 +54,12 @@ public class OrderService {
     private UserMapper userMapper;
 
     @Transactional(rollbackFor = Exception.class)
-    public Map<String, Object> create(Long userId, OrderCreateDTO dto) {
+    public Map<String, Object> create(Long userId, String role, OrderCreateDTO dto) {
         if (dto == null || dto.getMachineId() == null || dto.getSlotId() == null || dto.getQuantity() == null || dto.getQuantity() <= 0) {
             throw new BusinessException("订单参数不完整");
+        }
+        if (!"CUSTOMER".equalsIgnoreCase(role)) {
+            throw new BusinessException(403, "无权限");
         }
         User user = userMapper.selectById(userId);
         if (user == null) {
@@ -132,8 +135,11 @@ public class OrderService {
 
     public SaleOrder getPayableOrder(Long userId, Long orderId) {
         SaleOrder order = orderMapper.selectById(orderId);
-        if (order == null || !order.getUserId().equals(userId)) {
-            throw new BusinessException("订单不存在");
+        if (order == null) {
+            throw new BusinessException(404, "订单不存在");
+        }
+        if (!order.getUserId().equals(userId)) {
+            throw new BusinessException(403, "无权限");
         }
         if (!STATUS_WAIT_PAY.equals(order.getStatus())) {
             throw new BusinessException("订单状态不可支付");

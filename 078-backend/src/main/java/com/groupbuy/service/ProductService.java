@@ -2,6 +2,7 @@ package com.groupbuy.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.groupbuy.common.BusinessException;
 import com.groupbuy.entity.Category;
 import com.groupbuy.entity.Merchant;
 import com.groupbuy.entity.Product;
@@ -59,18 +60,25 @@ public class ProductService {
         productMapper.insert(product);
     }
 
-    public void update(Product product) {
+    public void update(Long merchantId, Product product) {
+        Product old = requireProduct(product.getId());
+        ensureMerchantOwner(old, merchantId);
+        product.setMerchantId(old.getMerchantId());
         productMapper.updateById(product);
     }
 
-    public void updateStatus(Long id, Integer status) {
+    public void updateStatus(Long merchantId, Long id, Integer status) {
+        Product old = requireProduct(id);
+        ensureMerchantOwner(old, merchantId);
         Product product = new Product();
         product.setId(id);
         product.setStatus(status);
         productMapper.updateById(product);
     }
 
-    public void delete(Long id) {
+    public void delete(Long merchantId, Long id) {
+        Product old = requireProduct(id);
+        ensureMerchantOwner(old, merchantId);
         productMapper.deleteById(id);
     }
 
@@ -90,5 +98,19 @@ public class ProductService {
         product.setSales(product.getSales() + quantity);
         product.setStock(product.getStock() - quantity);
         productMapper.updateById(product);
+    }
+
+    private Product requireProduct(Long id) {
+        Product product = productMapper.selectById(id);
+        if (product == null) {
+            throw new BusinessException(404, "商品不存在");
+        }
+        return product;
+    }
+
+    private void ensureMerchantOwner(Product product, Long merchantId) {
+        if (merchantId == null || !merchantId.equals(product.getMerchantId())) {
+            throw new BusinessException(403, "无权操作该商品");
+        }
     }
 }

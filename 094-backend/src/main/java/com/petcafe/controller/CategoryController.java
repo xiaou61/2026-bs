@@ -29,7 +29,7 @@ public class CategoryController {
                           @RequestParam(required = false) String name,
                           @RequestParam(required = false) Integer status,
                           HttpServletRequest request) {
-        AuthUtils.requireAdmin((String) request.getAttribute("role"));
+        AuthUtils.requireManager((String) request.getAttribute("role"));
         return Result.success(categoryService.page(pageNum, pageSize, name, status));
     }
 
@@ -40,14 +40,14 @@ public class CategoryController {
 
     @PostMapping("/save")
     public Result<?> save(@RequestBody MenuCategory category, HttpServletRequest request) {
-        AuthUtils.requireAdmin((String) request.getAttribute("role"));
+        AuthUtils.requireManager((String) request.getAttribute("role"));
         categoryService.save(category);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
     public Result<?> delete(@PathVariable Long id, HttpServletRequest request) {
-        AuthUtils.requireAdmin((String) request.getAttribute("role"));
+        AuthUtils.requireManager((String) request.getAttribute("role"));
         categoryService.deleteById(id);
         return Result.success();
     }

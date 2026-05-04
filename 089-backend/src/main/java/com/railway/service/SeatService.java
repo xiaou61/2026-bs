@@ -6,7 +6,6 @@ import com.railway.entity.Carriage;
 import com.railway.entity.Schedule;
 import com.railway.entity.Seat;
 import com.railway.mapper.SeatMapper;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,7 +23,7 @@ public class SeatService {
     private SeatMapper seatMapper;
 
     @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    private RuntimeStoreService runtimeStoreService;
 
     @Resource
     private ScheduleService scheduleService;
@@ -65,13 +63,13 @@ public class SeatService {
                 }
             }
             String key = lockKey(scheduleId, seat.getId());
-            Object locker = redisTemplate.opsForValue().get(key);
+            String locker = runtimeStoreService.getSeatLocker(key);
             if (locker != null && !Objects.equals(String.valueOf(locker), String.valueOf(userId))) {
                 throw new BusinessException("座位已被锁定: " + buildSeatLabel(seat));
             }
         }
         for (Seat seat : seats) {
-            redisTemplate.opsForValue().set(lockKey(scheduleId, seat.getId()), userId, 15, TimeUnit.MINUTES);
+            runtimeStoreService.storeSeatLock(lockKey(scheduleId, seat.getId()), String.valueOf(userId));
             seat.setStatus("LOCKED");
             seatMapper.updateById(seat);
         }
@@ -82,9 +80,9 @@ public class SeatService {
         List<Seat> seats = getSeats(scheduleId, seatIds);
         for (Seat seat : seats) {
             String key = lockKey(scheduleId, seat.getId());
-            Object locker = redisTemplate.opsForValue().get(key);
+            String locker = runtimeStoreService.getSeatLocker(key);
             if (locker != null && Objects.equals(String.valueOf(locker), String.valueOf(userId))) {
-                redisTemplate.delete(key);
+                runtimeStoreService.removeSeatLock(key);
                 seat.setStatus("AVAILABLE");
                 seatMapper.updateById(seat);
             }
@@ -95,7 +93,7 @@ public class SeatService {
     public void unlockForOrder(Long scheduleId, List<Long> seatIds) {
         List<Seat> seats = getSeats(scheduleId, seatIds);
         for (Seat seat : seats) {
-            redisTemplate.delete(lockKey(scheduleId, seat.getId()));
+            runtimeStoreService.removeSeatLock(lockKey(scheduleId, seat.getId()));
             seat.setStatus("AVAILABLE");
             seatMapper.updateById(seat);
         }
@@ -108,7 +106,7 @@ public class SeatService {
             if ("SOLD".equals(seat.getStatus())) {
                 throw new BusinessException("座位已售出");
             }
-            redisTemplate.delete(lockKey(scheduleId, seat.getId()));
+            runtimeStoreService.removeSeatLock(lockKey(scheduleId, seat.getId()));
             seat.setStatus("SOLD");
             seatMapper.updateById(seat);
         }
@@ -125,7 +123,7 @@ public class SeatService {
                 seatMapper.updateById(seat);
                 count++;
             }
-            redisTemplate.delete(lockKey(scheduleId, seat.getId()));
+            runtimeStoreService.removeSeatLock(lockKey(scheduleId, seat.getId()));
         }
         if (count > 0) {
             scheduleService.changeAvailableSeats(scheduleId, count);
@@ -133,7 +131,7 @@ public class SeatService {
     }
 
     public boolean isLockedByUser(Long userId, Long scheduleId, Long seatId) {
-        Object locker = redisTemplate.opsForValue().get(lockKey(scheduleId, seatId));
+        String locker = runtimeStoreService.getSeatLocker(lockKey(scheduleId, seatId));
         return locker != null && Objects.equals(String.valueOf(locker), String.valueOf(userId));
     }
 

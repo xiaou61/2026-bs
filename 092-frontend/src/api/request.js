@@ -10,7 +10,7 @@ const request = axios.create({
 request.interceptors.request.use((config) => {
   const token = localStorage.getItem('token')
   if (token) {
-    config.headers.Authorization = token
+    config.headers.Authorization = token.startsWith('Bearer ') ? token : `Bearer ${token}`
   }
   return config
 })
@@ -23,6 +23,7 @@ request.interceptors.response.use(
       if (res.code === 401) {
         localStorage.removeItem('token')
         localStorage.removeItem('userInfo')
+        localStorage.removeItem('user')
         router.push('/login')
       }
       return Promise.reject(res)

@@ -8,13 +8,11 @@ import com.adoption.mapper.SysUserMapper;
 import com.adoption.utils.JwtUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class AuthService {
@@ -29,7 +27,7 @@ public class AuthService {
     private JwtUtils jwtUtils;
 
     @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    private RuntimeStoreService runtimeStoreService;
 
     public Map<String, Object> login(String username, String password) {
         if (!StringUtils.hasText(username) || !StringUtils.hasText(password)) {
@@ -46,7 +44,7 @@ public class AuthService {
             throw new BusinessException("账号已禁用");
         }
         String token = jwtUtils.generateToken(user.getId(), user.getRole());
-        stringRedisTemplate.opsForValue().set("TOKEN:" + user.getId(), token, 1, TimeUnit.DAYS);
+        runtimeStoreService.storeToken(user.getId(), token);
         user.setPassword(null);
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
@@ -86,7 +84,7 @@ public class AuthService {
     }
 
     public void logout(Long userId) {
-        stringRedisTemplate.delete("TOKEN:" + userId);
+        runtimeStoreService.removeToken(userId);
     }
 
     public void assertAdmin(String role) {
@@ -97,6 +95,12 @@ public class AuthService {
 
     public void assertStaff(String role) {
         if (!"admin".equals(role) && !"reviewer".equals(role)) {
+            throw new BusinessException(403, "无权限操作");
+        }
+    }
+
+    public void assertApplicant(String role) {
+        if (!"applicant".equals(role)) {
             throw new BusinessException(403, "无权限操作");
         }
     }

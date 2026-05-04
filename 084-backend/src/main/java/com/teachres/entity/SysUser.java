@@ -1,6 +1,8 @@
 package com.teachres.entity;
 
 import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -8,6 +10,8 @@ import java.time.LocalDateTime;
 public class SysUser {
     private Long id;
     private String username;
+    @JsonIgnore
+    @ToString.Exclude
     private String password;
     private String realName;
     private String phone;

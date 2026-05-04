@@ -58,8 +58,10 @@ public class ChildController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public Result<String> delete(@PathVariable Long id, @RequestAttribute("role") String role) {
-        childService.delete(id, role);
+    public Result<String> delete(@PathVariable Long id,
+                                 @RequestAttribute("role") String role,
+                                 @RequestAttribute("userId") Long userId) {
+        childService.delete(id, role, userId);
         return Result.success();
     }
 }

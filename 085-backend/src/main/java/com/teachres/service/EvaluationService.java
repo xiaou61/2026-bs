@@ -7,10 +7,12 @@ import com.teachres.entity.EvalIndicator;
 import com.teachres.entity.EvalRecord;
 import com.teachres.entity.EvalRecordItem;
 import com.teachres.entity.EvalTask;
+import com.teachres.entity.MathCourse;
 import com.teachres.mapper.EvalIndicatorMapper;
 import com.teachres.mapper.EvalRecordItemMapper;
 import com.teachres.mapper.EvalRecordMapper;
 import com.teachres.mapper.EvalTaskMapper;
+import com.teachres.mapper.MathCourseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,17 +40,21 @@ public class EvaluationService {
     @Autowired
     private EvalRecordItemMapper recordItemMapper;
 
+    @Autowired
+    private MathCourseMapper courseMapper;
+
     public PageInfo<Map<String, Object>> myList(Long studentId, Long taskId, Long courseId, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Map<String, Object>> list = recordMapper.selectMyList(studentId, taskId, courseId);
         return new PageInfo<>(list);
     }
 
-    public Map<String, Object> detail(Long recordId) {
+    public Map<String, Object> detail(Long recordId, Long userId, String role) {
         EvalRecord record = recordMapper.selectById(recordId);
         if (record == null) {
             throw new BusinessException("评价记录不存在");
         }
+        ensureRecordVisible(record, userId, role);
         Map<String, Object> result = new HashMap<>();
         result.put("record", record);
         result.put("items", recordItemMapper.selectByRecordId(recordId));
@@ -144,13 +150,15 @@ public class EvaluationService {
         recordItemMapper.insertBatch(saveItems);
     }
 
-    public PageInfo<Map<String, Object>> taskRecords(Long taskId, Integer pageNum, Integer pageSize) {
+    public PageInfo<Map<String, Object>> taskRecords(Long taskId, Integer pageNum, Integer pageSize, Long userId, String role) {
+        ensureTaskVisible(taskId, userId, role);
         PageHelper.startPage(pageNum, pageSize);
         List<Map<String, Object>> list = recordMapper.selectTaskRecordList(taskId);
         return new PageInfo<>(list);
     }
 
-    public Map<String, Object> taskSummary(Long taskId) {
+    public Map<String, Object> taskSummary(Long taskId, Long userId, String role) {
+        ensureTaskVisible(taskId, userId, role);
         List<Map<String, Object>> records = recordMapper.selectTaskRecordList(taskId);
         BigDecimal avgScore = BigDecimal.ZERO;
         if (!records.isEmpty()) {
@@ -172,5 +180,41 @@ public class EvaluationService {
         result.put("avgScore", avgScore);
         result.put("indicatorAvg", recordItemMapper.selectIndicatorAvgByTask(taskId));
         return result;
+    }
+
+    private void ensureRecordVisible(EvalRecord record, Long userId, String role) {
+        if ("admin".equals(role)) {
+            return;
+        }
+        if ("student".equals(role)) {
+            if (userId.equals(record.getStudentId())) {
+                return;
+            }
+            throw new BusinessException(403, "无权访问");
+        }
+        if ("teacher".equals(role)) {
+            MathCourse course = courseMapper.selectById(record.getCourseId());
+            if (course != null && userId.equals(course.getTeacherId())) {
+                return;
+            }
+        }
+        throw new BusinessException(403, "无权访问");
+    }
+
+    private void ensureTaskVisible(Long taskId, Long userId, String role) {
+        if ("admin".equals(role)) {
+            return;
+        }
+        if (!"teacher".equals(role)) {
+            throw new BusinessException(403, "无权访问");
+        }
+        EvalTask task = taskMapper.selectById(taskId);
+        if (task == null) {
+            throw new BusinessException("评价任务不存在");
+        }
+        MathCourse course = courseMapper.selectById(task.getCourseId());
+        if (course == null || !userId.equals(course.getTeacherId())) {
+            throw new BusinessException(403, "无权访问");
+        }
     }
 }

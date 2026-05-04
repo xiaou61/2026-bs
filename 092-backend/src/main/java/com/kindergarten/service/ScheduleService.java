@@ -19,9 +19,18 @@ public class ScheduleService {
     @Autowired
     private AuthService authService;
 
-    public PageInfo<ActivitySchedule> list(String courseName, Long teacherId, Long termId, Long classId, Integer status, Integer pageNum, Integer pageSize) {
+    public PageInfo<ActivitySchedule> list(String courseName, Long teacherId, Long termId, Long classId, Integer status,
+                                           Long userId, String role, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<ActivitySchedule> list = scheduleMapper.selectList(courseName, teacherId, termId, classId, status);
+        Long scopedTeacherId = teacherId;
+        Long scopedClassId = classId;
+        if ("teacher".equals(role)) {
+            scopedTeacherId = userId;
+        } else if ("parent".equals(role)) {
+            List<ActivitySchedule> list = scheduleMapper.selectStudentList(userId);
+            return new PageInfo<>(list);
+        }
+        List<ActivitySchedule> list = scheduleMapper.selectList(courseName, scopedTeacherId, termId, scopedClassId, status);
         return new PageInfo<>(list);
     }
 

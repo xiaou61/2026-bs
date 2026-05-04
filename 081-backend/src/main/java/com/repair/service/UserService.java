@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -21,6 +22,8 @@ public class UserService {
 
     @Autowired
     private JwtUtils jwtUtils;
+
+    private static final Set<String> ROLES = Set.of("admin", "technician", "customer");
 
     public Map<String, Object> login(String username, String password) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
@@ -60,16 +63,28 @@ public class UserService {
     }
 
     public void register(User user) {
+        registerInternal(user, false);
+    }
+
+    public void registerByAdmin(User user) {
+        registerInternal(user, true);
+    }
+
+    private void registerInternal(User user, boolean adminCreated) {
         if (!StringUtils.hasText(user.getUsername()) || !StringUtils.hasText(user.getPassword())) {
-            throw new BusinessException("用户名和密码不能为空");
+            throw new BusinessException(400, "用户名和密码不能为空");
         }
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.eq("username", user.getUsername());
         if (userMapper.selectCount(wrapper) > 0) {
-            throw new BusinessException("用户名已存在");
+            throw new BusinessException(400, "用户名已存在");
         }
-        if (!StringUtils.hasText(user.getRole())) {
+        if (!adminCreated) {
             user.setRole("customer");
+        } else if (!StringUtils.hasText(user.getRole())) {
+            user.setRole("customer");
+        } else if (!ROLES.contains(user.getRole())) {
+            throw new BusinessException(400, "角色不合法");
         }
         if (user.getStatus() == null) {
             user.setStatus(1);
@@ -83,5 +98,24 @@ public class UserService {
 
     public void delete(Long id) {
         userMapper.deleteById(id);
+    }
+
+    public User requireUser(Long userId) {
+        User user = userMapper.selectById(userId);
+        if (user == null) {
+            throw new BusinessException(401, "用户不存在");
+        }
+        return user;
+    }
+
+    public void requireAdmin(Long userId) {
+        User user = requireUser(userId);
+        if (!"admin".equals(user.getRole())) {
+            throw new BusinessException(403, "需要管理员权限");
+        }
+    }
+
+    public boolean isAdmin(Long userId) {
+        return "admin".equals(requireUser(userId).getRole());
     }
 }

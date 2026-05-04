@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gongkao.common.Result;
 import com.gongkao.entity.Subject;
 import com.gongkao.service.SubjectService;
+import com.gongkao.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -28,7 +30,9 @@ public class SubjectController {
     public Result<Page<Subject>> list(@RequestParam(defaultValue = "1") int pageNum,
                                       @RequestParam(defaultValue = "10") int pageSize,
                                       @RequestParam(required = false) String name,
-                                      @RequestParam(required = false) Integer status) {
+                                      @RequestParam(required = false) Integer status,
+                                      HttpServletRequest request) {
+        AuthUtils.requireAdminOrTeacher(request);
         return Result.success(subjectService.getList(pageNum, pageSize, name, status));
     }
 
@@ -38,19 +42,22 @@ public class SubjectController {
     }
 
     @PostMapping("/add")
-    public Result<String> add(@RequestBody Subject subject) {
+    public Result<String> add(@RequestBody Subject subject, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         subjectService.add(subject);
         return Result.success();
     }
 
     @PutMapping("/update")
-    public Result<String> update(@RequestBody Subject subject) {
+    public Result<String> update(@RequestBody Subject subject, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         subjectService.update(subject);
         return Result.success();
     }
 
     @DeleteMapping("/delete/{id}")
-    public Result<String> delete(@PathVariable Long id) {
+    public Result<String> delete(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         subjectService.delete(id);
         return Result.success();
     }

@@ -1,5 +1,6 @@
 package com.alumni.service;
 
+import com.alumni.common.BusinessException;
 import com.alumni.entity.*;
 import com.alumni.mapper.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -118,12 +119,29 @@ public class ForumService {
         forumPostMapper.updateById(post);
     }
 
+    public void updatePost(ForumPost post, Long userId, boolean admin) {
+        ForumPost old = requirePost(post.getId());
+        requireOwnerOrAdmin(old.getUserId(), userId, admin);
+        post.setUserId(old.getUserId());
+        post.setStatus(old.getStatus());
+        post.setLikeCount(old.getLikeCount());
+        post.setReplyCount(old.getReplyCount());
+        post.setViewCount(old.getViewCount());
+        forumPostMapper.updateById(post);
+    }
+
     public void deletePost(Long id) {
         ForumPost post = forumPostMapper.selectById(id);
         if (post != null) {
             post.setStatus(1);
             forumPostMapper.updateById(post);
         }
+    }
+
+    public void deletePost(Long id, Long userId, boolean admin) {
+        ForumPost post = requirePost(id);
+        requireOwnerOrAdmin(post.getUserId(), userId, admin);
+        deletePost(id);
     }
 
     public List<ForumReply> getPostReplies(Long postId) {
@@ -170,6 +188,19 @@ public class ForumService {
         }
     }
 
+    public void deleteReply(Long id, Long userId, boolean admin) {
+        ForumReply reply = forumReplyMapper.selectById(id);
+        if (reply == null) {
+            throw new BusinessException(404, "回复不存在");
+        }
+        ForumPost post = forumPostMapper.selectById(reply.getPostId());
+        boolean postOwner = post != null && userId != null && userId.equals(post.getUserId());
+        if (!admin && !postOwner && (userId == null || !userId.equals(reply.getUserId()))) {
+            throw new BusinessException(403, "无权操作");
+        }
+        deleteReply(id);
+    }
+
     public void like(Long postId, Long userId) {
         ForumLike exist = forumLikeMapper.selectOne(new LambdaQueryWrapper<ForumLike>()
                 .eq(ForumLike::getPostId, postId).eq(ForumLike::getUserId, userId));
@@ -196,6 +227,20 @@ public class ForumService {
                 post.setLikeCount(post.getLikeCount() - 1);
                 forumPostMapper.updateById(post);
             }
+        }
+    }
+
+    private ForumPost requirePost(Long id) {
+        ForumPost post = forumPostMapper.selectById(id);
+        if (post == null) {
+            throw new BusinessException(404, "帖子不存在");
+        }
+        return post;
+    }
+
+    private void requireOwnerOrAdmin(Long ownerId, Long userId, boolean admin) {
+        if (!admin && (userId == null || !userId.equals(ownerId))) {
+            throw new BusinessException(403, "无权操作");
         }
     }
 }

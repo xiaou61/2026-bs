@@ -3,11 +3,13 @@ package com.harbin.tourism.controller;
 import com.harbin.tourism.common.Result;
 import com.harbin.tourism.entity.ScenicSpot;
 import com.harbin.tourism.service.*;
+import com.harbin.tourism.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +38,8 @@ public class AdminController {
     private NoteService noteService;
 
     @GetMapping("/statistics")
-    public Result<Map<String, Object>> getStatistics() {
+    public Result<Map<String, Object>> getStatistics(HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         Map<String, Object> stats = new HashMap<>();
         stats.put("userCount", userService.count());
         stats.put("spotCount", spotService.count());
@@ -50,7 +53,8 @@ public class AdminController {
     }
 
     @GetMapping("/spot-ranking")
-    public Result<List<ScenicSpot>> spotRanking() {
+    public Result<List<ScenicSpot>> spotRanking(HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         return Result.success(spotService.top10());
     }
 }

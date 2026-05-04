@@ -24,6 +24,9 @@ public class WalletService {
 
     @Transactional
     public void recharge(Long userId, BigDecimal amount) {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new BusinessException("充值金额必须大于0");
+        }
         userMapper.updateBalance(userId, amount);
         User user = userMapper.findById(userId);
         WalletRecord record = new WalletRecord();

@@ -70,6 +70,15 @@ public class ActivityService {
     }
 
     public void update(Activity activity) {
+        Activity old = requireActivity(activity.getId());
+        requireOrganizerOrAdmin(old, null, true);
+        activityMapper.updateById(activity);
+    }
+
+    public void update(Activity activity, Long userId, boolean admin) {
+        Activity old = requireActivity(activity.getId());
+        requireOrganizerOrAdmin(old, userId, admin);
+        activity.setOrganizerId(old.getOrganizerId());
         activityMapper.updateById(activity);
     }
 
@@ -77,6 +86,12 @@ public class ActivityService {
         activityMapper.deleteById(id);
         activitySignMapper.delete(new LambdaQueryWrapper<ActivitySign>().eq(ActivitySign::getActivityId, id));
         activityPhotoMapper.delete(new LambdaQueryWrapper<ActivityPhoto>().eq(ActivityPhoto::getActivityId, id));
+    }
+
+    public void delete(Long id, Long userId, boolean admin) {
+        Activity activity = requireActivity(id);
+        requireOrganizerOrAdmin(activity, userId, admin);
+        delete(id);
     }
 
     public void sign(Long activityId, Long userId) {
@@ -156,6 +171,12 @@ public class ActivityService {
         return signs;
     }
 
+    public List<ActivitySign> getSignList(Long activityId, Long userId, boolean admin) {
+        Activity activity = requireActivity(activityId);
+        requireOrganizerOrAdmin(activity, userId, admin);
+        return getSignList(activityId);
+    }
+
     public List<ActivityPhoto> getPhotos(Long activityId) {
         List<ActivityPhoto> photos = activityPhotoMapper.selectList(
                 new LambdaQueryWrapper<ActivityPhoto>()
@@ -173,5 +194,31 @@ public class ActivityService {
 
     public void deletePhoto(Long id) {
         activityPhotoMapper.deleteById(id);
+    }
+
+    public void deletePhoto(Long id, Long userId, boolean admin) {
+        ActivityPhoto photo = activityPhotoMapper.selectById(id);
+        if (photo == null) {
+            throw new BusinessException(404, "照片不存在");
+        }
+        Activity activity = requireActivity(photo.getActivityId());
+        if (!admin && !userId.equals(photo.getUploadUserId()) && !userId.equals(activity.getOrganizerId())) {
+            throw new BusinessException(403, "无权操作");
+        }
+        activityPhotoMapper.deleteById(id);
+    }
+
+    private Activity requireActivity(Long id) {
+        Activity activity = activityMapper.selectById(id);
+        if (activity == null) {
+            throw new BusinessException(404, "活动不存在");
+        }
+        return activity;
+    }
+
+    private void requireOrganizerOrAdmin(Activity activity, Long userId, boolean admin) {
+        if (!admin && (userId == null || !userId.equals(activity.getOrganizerId()))) {
+            throw new BusinessException(403, "无权操作");
+        }
     }
 }

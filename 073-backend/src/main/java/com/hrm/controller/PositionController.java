@@ -3,8 +3,10 @@ package com.hrm.controller;
 import com.hrm.common.Result;
 import com.hrm.entity.Position;
 import com.hrm.service.PositionService;
+import com.hrm.utils.AuthUtils;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/position")
@@ -31,19 +33,22 @@ public class PositionController {
     }
 
     @PostMapping
-    public Result add(@RequestBody Position position) {
+    public Result add(@RequestBody Position position, HttpServletRequest request) {
+        AuthUtils.requireAdminOrHr(request);
         positionService.add(position);
         return Result.success();
     }
 
     @PutMapping
-    public Result update(@RequestBody Position position) {
+    public Result update(@RequestBody Position position, HttpServletRequest request) {
+        AuthUtils.requireAdminOrHr(request);
         positionService.update(position);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
-    public Result delete(@PathVariable Long id) {
+    public Result delete(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireAdminOrHr(request);
         positionService.delete(id);
         return Result.success();
     }

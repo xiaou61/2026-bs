@@ -42,14 +42,18 @@ public class RecipeController {
     }
 
     @PutMapping("/update")
-    public Result<String> update(@RequestBody WeeklyRecipe entity, @RequestAttribute("role") String role) {
-        resourceService.update(entity, role);
+    public Result<String> update(@RequestBody WeeklyRecipe entity,
+                                 @RequestAttribute("role") String role,
+                                 @RequestAttribute("userId") Long userId) {
+        resourceService.update(entity, role, userId);
         return Result.success();
     }
 
     @DeleteMapping("/delete/{id}")
-    public Result<String> delete(@PathVariable Long id, @RequestAttribute("role") String role) {
-        resourceService.delete(id, role);
+    public Result<String> delete(@PathVariable Long id,
+                                 @RequestAttribute("role") String role,
+                                 @RequestAttribute("userId") Long userId) {
+        resourceService.delete(id, role, userId);
         return Result.success();
     }
 }

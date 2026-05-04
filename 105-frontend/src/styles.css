@@ -1,0 +1,30 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Inter, "Microsoft YaHei", Arial, sans-serif; background: #f5f7fb; color: #172033; }
+.layout { min-height: 100vh; }
+.el-aside { background: #16213e; color: #fff; box-shadow: 4px 0 18px rgba(15, 23, 42, .12); }
+.logo { height: 64px; display: flex; align-items: center; padding-left: 22px; font-weight: 700; font-size: 18px; color: #fff; }
+.el-menu { border-right: 0; background: transparent; }
+.el-menu-item { color: #cbd5e1; }
+.el-menu-item.is-active { color: #fff; background: #0f766e; }
+.el-header { height: 64px; background: #fff; display: flex; justify-content: space-between; align-items: center; padding: 0 24px; border-bottom: 1px solid #e5e7eb; }
+.el-header strong { display: block; font-size: 18px; }
+.el-header span { color: #64748b; font-size: 13px; }
+.user-box { display: flex; align-items: center; gap: 12px; }
+.page { padding: 18px; }
+.search-bar { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; align-items: center; }
+.toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.toolbar h3 { margin: 0; font-size: 18px; }
+.toolbar p { margin: 4px 0 0; color: #64748b; font-size: 13px; }
+.login-page { min-height: 100vh; display: grid; place-items: center; background: linear-gradient(135deg, #0f766e 0%, #2563eb 56%, #e0f2fe 100%); }
+.login-card { width: 430px; border-radius: 8px; }
+.login-card h2 { margin: 0 0 8px; }
+.login-card p { margin: 0 0 22px; color: #64748b; }
+.login-button { width: 100%; }
+.accounts { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+.stat-grid { display: grid; grid-template-columns: repeat(5, minmax(120px, 1fr)); gap: 14px; margin-bottom: 16px; }
+.stat-card { background: #fff; padding: 18px; border-radius: 8px; border: 1px solid #e5e7eb; }
+.stat-card span { color: #64748b; font-size: 13px; }
+.stat-card strong { display: block; font-size: 26px; margin-top: 8px; }
+.chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.chart { height: 340px; background: #fff; border-radius: 8px; border: 1px solid #e5e7eb; padding: 12px; }
+@media (max-width: 900px) { .stat-grid, .chart-grid { grid-template-columns: 1fr; } .el-aside { width: 190px !important; } .login-card { width: calc(100vw - 32px); } }

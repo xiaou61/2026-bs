@@ -3,6 +3,7 @@ package com.harbin.tourism.service;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.harbin.tourism.common.BusinessException;
 import com.harbin.tourism.entity.TravelNote;
 import com.harbin.tourism.mapper.TravelNoteMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,35 +42,62 @@ public class NoteService {
 
     public TravelNote getById(Long id) {
         TravelNote note = noteMapper.selectById(id);
-        if (note != null && "published".equals(note.getStatus())) {
-            note.setViewCount(note.getViewCount() + 1);
-            noteMapper.updateById(note);
+        if (note == null || !"published".equals(note.getStatus())) {
+            throw new BusinessException(404, "游记不存在");
+        }
+        note.setViewCount(note.getViewCount() + 1);
+        noteMapper.updateById(note);
+        return note;
+    }
+
+    public TravelNote getByIdForUser(Long id, Long userId, boolean admin) {
+        TravelNote note = noteMapper.selectById(id);
+        if (note == null) {
+            throw new BusinessException(404, "游记不存在");
+        }
+        if (!admin && !note.getUserId().equals(userId)) {
+            throw new BusinessException(403, "无权访问该游记");
         }
         return note;
     }
 
     public void save(TravelNote note) {
+        if (StrUtil.isBlank(note.getTitle()) || StrUtil.isBlank(note.getContent())) {
+            throw new BusinessException(400, "标题和内容不能为空");
+        }
         note.setLikeCount(0);
         note.setViewCount(0);
         note.setStatus("pending");
         noteMapper.insert(note);
     }
 
-    public void update(TravelNote note) {
+    public void update(TravelNote note, Long userId, boolean admin) {
+        TravelNote existing = getByIdForUser(note.getId(), userId, admin);
+        note.setUserId(existing.getUserId());
+        if (!admin) {
+            note.setStatus("pending");
+        }
         noteMapper.updateById(note);
     }
 
-    public void delete(Long id) {
+    public void delete(Long id, Long userId, boolean admin) {
+        getByIdForUser(id, userId, admin);
         noteMapper.deleteById(id);
     }
 
     public void like(Long id) {
         TravelNote note = noteMapper.selectById(id);
+        if (note == null || !"published".equals(note.getStatus())) {
+            throw new BusinessException(404, "游记不存在");
+        }
         note.setLikeCount(note.getLikeCount() + 1);
         noteMapper.updateById(note);
     }
 
     public void audit(Long id, String status) {
+        if (!"published".equals(status) && !"rejected".equals(status) && !"pending".equals(status)) {
+            throw new BusinessException(400, "审核状态不合法");
+        }
         TravelNote note = new TravelNote();
         note.setId(id);
         note.setStatus(status);

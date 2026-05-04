@@ -2,6 +2,7 @@ package com.gongkao.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.gongkao.common.BusinessException;
 import com.gongkao.entity.ExamRecord;
 import com.gongkao.mapper.ExamRecordMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,5 +70,13 @@ public class ExamRecordService {
 
     public void delete(Long id) {
         examRecordMapper.deleteById(id);
+    }
+
+    public ExamRecord getById(Long id) {
+        ExamRecord record = examRecordMapper.selectById(id);
+        if (record == null) {
+            throw new BusinessException(404, "考试记录不存在");
+        }
+        return record;
     }
 }

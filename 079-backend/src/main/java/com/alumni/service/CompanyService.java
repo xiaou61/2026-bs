@@ -1,5 +1,6 @@
 package com.alumni.service;
 
+import com.alumni.common.BusinessException;
 import com.alumni.entity.AlumniCompany;
 import com.alumni.entity.User;
 import com.alumni.mapper.AlumniCompanyMapper;
@@ -61,7 +62,21 @@ public class CompanyService {
         alumniCompanyMapper.updateById(company);
     }
 
+    public void update(AlumniCompany company, Long userId, boolean admin) {
+        AlumniCompany old = requireCompany(company.getId());
+        requireOwnerOrAdmin(old, userId, admin);
+        company.setUserId(old.getUserId());
+        company.setStatus(admin ? company.getStatus() : old.getStatus());
+        alumniCompanyMapper.updateById(company);
+    }
+
     public void delete(Long id) {
+        alumniCompanyMapper.deleteById(id);
+    }
+
+    public void delete(Long id, Long userId, boolean admin) {
+        AlumniCompany company = requireCompany(id);
+        requireOwnerOrAdmin(company, userId, admin);
         alumniCompanyMapper.deleteById(id);
     }
 
@@ -70,5 +85,19 @@ public class CompanyService {
         company.setId(id);
         company.setStatus(status);
         alumniCompanyMapper.updateById(company);
+    }
+
+    private AlumniCompany requireCompany(Long id) {
+        AlumniCompany company = alumniCompanyMapper.selectById(id);
+        if (company == null) {
+            throw new BusinessException(404, "企业不存在");
+        }
+        return company;
+    }
+
+    private void requireOwnerOrAdmin(AlumniCompany company, Long userId, boolean admin) {
+        if (!admin && (userId == null || !userId.equals(company.getUserId()))) {
+            throw new BusinessException(403, "无权操作");
+        }
     }
 }

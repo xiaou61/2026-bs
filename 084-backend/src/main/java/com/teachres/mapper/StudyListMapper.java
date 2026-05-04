@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface StudyListMapper {
     StudyList selectByUserAndMaterial(@Param("userId") Long userId, @Param("materialId") Long materialId);
+    StudyList selectById(Long id);
     List<StudyList> selectByUserId(Long userId);
     int insert(StudyList studyList);
     int update(StudyList studyList);

@@ -1,9 +1,9 @@
 package com.hospital.config;
 
 import com.hospital.common.BusinessException;
+import com.hospital.service.RuntimeStoreService;
 import com.hospital.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -17,7 +17,7 @@ public class JwtInterceptor implements HandlerInterceptor {
     private JwtUtils jwtUtils;
 
     @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    private RuntimeStoreService runtimeStoreService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -28,12 +28,14 @@ public class JwtInterceptor implements HandlerInterceptor {
         if (token == null || token.isEmpty()) {
             throw new BusinessException(401, "未登录");
         }
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
         if (!jwtUtils.validateToken(token)) {
             throw new BusinessException(401, "登录已过期");
         }
         Long userId = jwtUtils.getUserId(token);
-        String cacheToken = stringRedisTemplate.opsForValue().get("TOKEN:" + userId);
-        if (cacheToken == null || !cacheToken.equals(token)) {
+        if (!runtimeStoreService.isActiveToken(userId, token)) {
             throw new BusinessException(401, "登录已失效");
         }
         request.setAttribute("userId", userId);

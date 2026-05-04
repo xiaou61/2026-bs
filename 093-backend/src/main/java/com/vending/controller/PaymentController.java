@@ -4,6 +4,7 @@ import com.vending.common.Result;
 import com.vending.dto.PaymentDTO;
 import com.vending.dto.RechargeDTO;
 import com.vending.service.PaymentService;
+import com.vending.utils.AuthUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,12 +24,14 @@ public class PaymentController {
 
     @PostMapping("/recharge")
     public Result<?> recharge(@RequestBody RechargeDTO dto, HttpServletRequest request) {
+        AuthUtils.requireCustomer((String) request.getAttribute("role"));
         paymentService.recharge((Long) request.getAttribute("userId"), dto);
         return Result.success();
     }
 
     @PostMapping("/balance")
     public Result<?> balancePay(@RequestBody PaymentDTO dto, HttpServletRequest request) {
+        AuthUtils.requireCustomer((String) request.getAttribute("role"));
         paymentService.balancePay((Long) request.getAttribute("userId"), dto);
         return Result.success();
     }

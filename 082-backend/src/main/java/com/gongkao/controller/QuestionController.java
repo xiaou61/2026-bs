@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gongkao.common.Result;
 import com.gongkao.entity.Question;
 import com.gongkao.service.QuestionService;
+import com.gongkao.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/question")
@@ -29,24 +32,29 @@ public class QuestionController {
                                        @RequestParam(required = false) Long subjectId,
                                        @RequestParam(required = false) String type,
                                        @RequestParam(required = false) String stem,
-                                       @RequestParam(required = false) Integer status) {
+                                       @RequestParam(required = false) Integer status,
+                                       HttpServletRequest request) {
+        AuthUtils.requireAdminOrTeacher(request);
         return Result.success(questionService.getList(pageNum, pageSize, bankId, subjectId, type, stem, status));
     }
 
     @PostMapping("/add")
-    public Result<String> add(@RequestBody Question question) {
+    public Result<String> add(@RequestBody Question question, HttpServletRequest request) {
+        AuthUtils.requireAdminOrTeacher(request);
         questionService.add(question);
         return Result.success();
     }
 
     @PutMapping("/update")
-    public Result<String> update(@RequestBody Question question) {
+    public Result<String> update(@RequestBody Question question, HttpServletRequest request) {
+        AuthUtils.requireAdminOrTeacher(request);
         questionService.update(question);
         return Result.success();
     }
 
     @DeleteMapping("/delete/{id}")
-    public Result<String> delete(@PathVariable Long id) {
+    public Result<String> delete(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireAdminOrTeacher(request);
         questionService.delete(id);
         return Result.success();
     }

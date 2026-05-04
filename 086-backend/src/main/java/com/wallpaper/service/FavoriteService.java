@@ -36,14 +36,14 @@ public class FavoriteService {
     public void add(Long wallpaperId, Long userId) {
         WallpaperInfo wallpaper = wallpaperInfoMapper.selectById(wallpaperId);
         if (wallpaper == null) {
-            throw new BusinessException("壁纸不存在");
+            throw new BusinessException(404, "壁纸不存在");
         }
         LambdaQueryWrapper<WallpaperFavorite> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(WallpaperFavorite::getWallpaperId, wallpaperId)
                 .eq(WallpaperFavorite::getUserId, userId)
                 .last("limit 1");
         if (favoriteMapper.selectOne(wrapper) != null) {
-            throw new BusinessException("已收藏该壁纸");
+            throw new BusinessException(400, "已收藏该壁纸");
         }
         WallpaperFavorite favorite = new WallpaperFavorite();
         favorite.setWallpaperId(wallpaperId);

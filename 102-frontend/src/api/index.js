@@ -1,0 +1,82 @@
+import request from './request'
+
+export const login = (data) => request.post('/api/auth/login', data)
+export const logout = () => request.post('/api/auth/logout')
+
+export const getUserPage = (params) => request.get('/api/user/page', { params })
+export const addUser = (data) => request.post('/api/user', data)
+export const updateUser = (data) => request.put('/api/user', data)
+export const deleteUser = (id) => request.delete(`/api/user/${id}`)
+
+export const getClientProfilePage = (params) => request.get('/api/client/page', { params })
+export const addClientProfile = (data) => request.post('/api/client', data)
+export const updateClientProfile = (data) => request.put('/api/client', data)
+export const deleteClientProfile = (id) => request.delete(`/api/client/${id}`)
+
+export const getLawyerProfilePage = (params) => request.get('/api/lawyer/page', { params })
+export const addLawyerProfile = (data) => request.post('/api/lawyer', data)
+export const updateLawyerProfile = (data) => request.put('/api/lawyer', data)
+export const deleteLawyerProfile = (id) => request.delete(`/api/lawyer/${id}`)
+
+export const getLegalCasePage = (params) => request.get('/api/case/page', { params })
+export const addLegalCase = (data) => request.post('/api/case', data)
+export const updateLegalCase = (data) => request.put('/api/case', data)
+export const deleteLegalCase = (id) => request.delete(`/api/case/${id}`)
+
+export const getCaseStagePage = (params) => request.get('/api/stage/page', { params })
+export const addCaseStage = (data) => request.post('/api/stage', data)
+export const updateCaseStage = (data) => request.put('/api/stage', data)
+export const deleteCaseStage = (id) => request.delete(`/api/stage/${id}`)
+
+export const getConsultationRecordPage = (params) => request.get('/api/consultation/page', { params })
+export const addConsultationRecord = (data) => request.post('/api/consultation', data)
+export const updateConsultationRecord = (data) => request.put('/api/consultation', data)
+export const deleteConsultationRecord = (id) => request.delete(`/api/consultation/${id}`)
+
+export const getDocumentTemplatePage = (params) => request.get('/api/template/page', { params })
+export const addDocumentTemplate = (data) => request.post('/api/template', data)
+export const updateDocumentTemplate = (data) => request.put('/api/template', data)
+export const deleteDocumentTemplate = (id) => request.delete(`/api/template/${id}`)
+
+export const getLegalDocumentPage = (params) => request.get('/api/document/page', { params })
+export const addLegalDocument = (data) => request.post('/api/document', data)
+export const updateLegalDocument = (data) => request.put('/api/document', data)
+export const deleteLegalDocument = (id) => request.delete(`/api/document/${id}`)
+
+export const getDocumentVersionPage = (params) => request.get('/api/version/page', { params })
+export const addDocumentVersion = (data) => request.post('/api/version', data)
+export const updateDocumentVersion = (data) => request.put('/api/version', data)
+export const deleteDocumentVersion = (id) => request.delete(`/api/version/${id}`)
+
+export const getAppointmentRecordPage = (params) => request.get('/api/appointment/page', { params })
+export const addAppointmentRecord = (data) => request.post('/api/appointment', data)
+export const updateAppointmentRecord = (data) => request.put('/api/appointment', data)
+export const deleteAppointmentRecord = (id) => request.delete(`/api/appointment/${id}`)
+
+export const getEvidenceMaterialPage = (params) => request.get('/api/evidence/page', { params })
+export const addEvidenceMaterial = (data) => request.post('/api/evidence', data)
+export const updateEvidenceMaterial = (data) => request.put('/api/evidence', data)
+export const deleteEvidenceMaterial = (id) => request.delete(`/api/evidence/${id}`)
+
+export const getFeeRecordPage = (params) => request.get('/api/fee/page', { params })
+export const addFeeRecord = (data) => request.post('/api/fee', data)
+export const updateFeeRecord = (data) => request.put('/api/fee', data)
+export const deleteFeeRecord = (id) => request.delete(`/api/fee/${id}`)
+
+export const advanceCase = (id) => request.put(`/api/case/advance/${id}`)
+export const closeCase = (id) => request.put(`/api/case/close/${id}`)
+export const finishStage = (id) => request.put(`/api/stage/finish/${id}`)
+export const reopenStage = (id) => request.put(`/api/stage/reopen/${id}`)
+export const enableTemplate = (id) => request.put(`/api/template/enable/${id}`)
+export const disableTemplate = (id) => request.put(`/api/template/disable/${id}`)
+export const generateDocument = (id) => request.put(`/api/document/generate/${id}`)
+export const reviewDocument = (data) => request.put('/api/document/review', data)
+export const confirmAppointment = (id) => request.put(`/api/appointment/confirm/${id}`)
+export const cancelAppointment = (id) => request.put(`/api/appointment/cancel/${id}`)
+export const finishAppointment = (id) => request.put(`/api/appointment/finish/${id}`)
+export const verifyEvidence = (id, comment) => request.put(`/api/evidence/verify/${id}`, { comment })
+export const rejectEvidence = (id, comment) => request.put(`/api/evidence/reject/${id}`, { comment })
+export const payFee = (id) => request.put(`/api/fee/pay/${id}`)
+export const refundFee = (id) => request.put(`/api/fee/refund/${id}`)
+export const getDashboard = () => request.get('/api/statistics/dashboard')
+export const getLogPage = (params) => request.get('/api/log/page', { params })

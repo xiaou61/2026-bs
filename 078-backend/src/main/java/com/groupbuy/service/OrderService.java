@@ -49,19 +49,29 @@ public class OrderService {
 
     @Transactional
     public String create(Long userId, List<Long> cartIds, Long addressId, String remark) {
+        if (cartIds == null || cartIds.isEmpty()) {
+            throw new BusinessException("请选择要结算的商品");
+        }
+        List<Long> ownedCartIds = new java.util.ArrayList<>(new java.util.LinkedHashSet<>(cartIds));
         Address address = addressMapper.selectById(addressId);
         if (address == null) {
             throw new BusinessException("收货地址不存在");
         }
+        if (!userId.equals(address.getUserId())) {
+            throw new BusinessException(403, "无权使用该收货地址");
+        }
         QueryWrapper<Cart> cartWrapper = new QueryWrapper<>();
-        cartWrapper.in("id", cartIds).eq("user_id", userId);
+        cartWrapper.in("id", ownedCartIds).eq("user_id", userId);
         List<Cart> carts = cartMapper.selectList(cartWrapper);
-        if (carts.isEmpty()) {
-            throw new BusinessException("购物车为空");
+        if (carts.size() != ownedCartIds.size()) {
+            throw new BusinessException(403, "购物车中存在无权结算的商品");
         }
         Map<Long, List<Cart>> merchantCarts = new HashMap<>();
         for (Cart cart : carts) {
             Product product = productMapper.selectById(cart.getProductId());
+            if (product == null || !Integer.valueOf(1).equals(product.getStatus())) {
+                throw new BusinessException("商品不存在或已下架");
+            }
             cart.setProduct(product);
             merchantCarts.computeIfAbsent(product.getMerchantId(), k -> new java.util.ArrayList<>()).add(cart);
         }
@@ -116,7 +126,7 @@ public class OrderService {
                 orderItemMapper.insert(item);
             }
         }
-        cartMapper.deleteBatchIds(cartIds);
+        cartMapper.deleteBatchIds(ownedCartIds);
         return orderNo;
     }
 
@@ -131,7 +141,11 @@ public class OrderService {
         if (role == 2) {
             wrapper.eq("user_id", userId);
         } else if (role == 1) {
-            wrapper.eq("merchant_id", merchantId);
+            if (merchantId == null) {
+                wrapper.eq("merchant_id", -1);
+            } else {
+                wrapper.eq("merchant_id", merchantId);
+            }
         }
         if (status != null) {
             wrapper.eq("status", status);
@@ -145,11 +159,10 @@ public class OrderService {
         return result;
     }
 
-    public Orders detail(Long id) {
-        Orders order = ordersMapper.selectById(id);
-        if (order != null) {
-            fillOrderInfo(order);
-        }
+    public Orders detail(Long id, Long userId, Integer role, Long merchantId) {
+        Orders order = requireOrder(id);
+        ensureOrderAccess(order, userId, role, merchantId);
+        fillOrderInfo(order);
         return order;
     }
 
@@ -171,8 +184,9 @@ public class OrderService {
     }
 
     @Transactional
-    public void pay(Long id) {
-        Orders order = ordersMapper.selectById(id);
+    public void pay(Long id, Long userId) {
+        Orders order = requireOrder(id);
+        ensureUserOwner(order, userId);
         if (order == null || order.getStatus() != 0) {
             throw new BusinessException("订单不存在或状态异常");
         }
@@ -189,8 +203,9 @@ public class OrderService {
         });
     }
 
-    public void ship(Long id) {
-        Orders order = ordersMapper.selectById(id);
+    public void ship(Long id, Long merchantId) {
+        Orders order = requireOrder(id);
+        ensureMerchantOwner(order, merchantId);
         if (order == null || order.getStatus() != 1) {
             throw new BusinessException("订单不存在或状态异常");
         }
@@ -199,8 +214,9 @@ public class OrderService {
         ordersMapper.updateById(order);
     }
 
-    public void receive(Long id) {
-        Orders order = ordersMapper.selectById(id);
+    public void receive(Long id, Long userId) {
+        Orders order = requireOrder(id);
+        ensureUserOwner(order, userId);
         if (order == null || order.getStatus() != 2) {
             throw new BusinessException("订单不存在或状态异常");
         }
@@ -209,8 +225,9 @@ public class OrderService {
         ordersMapper.updateById(order);
     }
 
-    public void cancel(Long id) {
-        Orders order = ordersMapper.selectById(id);
+    public void cancel(Long id, Long userId) {
+        Orders order = requireOrder(id);
+        ensureUserOwner(order, userId);
         if (order == null || order.getStatus() != 0) {
             throw new BusinessException("订单不存在或状态异常");
         }
@@ -218,8 +235,9 @@ public class OrderService {
         ordersMapper.updateById(order);
     }
 
-    public void applyRefund(Long id, String reason) {
-        Orders order = ordersMapper.selectById(id);
+    public void applyRefund(Long id, Long userId, String reason) {
+        Orders order = requireOrder(id);
+        ensureUserOwner(order, userId);
         if (order == null || (order.getStatus() != 1 && order.getStatus() != 2 && order.getStatus() != 3)) {
             throw new BusinessException("订单不存在或状态异常");
         }
@@ -228,8 +246,9 @@ public class OrderService {
         ordersMapper.updateById(order);
     }
 
-    public void handleRefund(Long id, Boolean agree, String remark) {
-        Orders order = ordersMapper.selectById(id);
+    public void handleRefund(Long id, Long merchantId, Boolean agree, String remark) {
+        Orders order = requireOrder(id);
+        ensureMerchantOwner(order, merchantId);
         if (order == null || order.getStatus() != 5) {
             throw new BusinessException("订单不存在或状态异常");
         }
@@ -239,5 +258,40 @@ public class OrderService {
             order.setStatus(3);
         }
         ordersMapper.updateById(order);
+    }
+
+    private Orders requireOrder(Long id) {
+        Orders order = ordersMapper.selectById(id);
+        if (order == null) {
+            throw new BusinessException(404, "订单不存在");
+        }
+        return order;
+    }
+
+    private void ensureOrderAccess(Orders order, Long userId, Integer role, Long merchantId) {
+        if (Integer.valueOf(0).equals(role)) {
+            return;
+        }
+        if (Integer.valueOf(2).equals(role)) {
+            ensureUserOwner(order, userId);
+            return;
+        }
+        if (Integer.valueOf(1).equals(role)) {
+            ensureMerchantOwner(order, merchantId);
+            return;
+        }
+        throw new BusinessException(403, "无权查看该订单");
+    }
+
+    private void ensureUserOwner(Orders order, Long userId) {
+        if (userId == null || !userId.equals(order.getUserId())) {
+            throw new BusinessException(403, "无权操作该订单");
+        }
+    }
+
+    private void ensureMerchantOwner(Orders order, Long merchantId) {
+        if (merchantId == null || !merchantId.equals(order.getMerchantId())) {
+            throw new BusinessException(403, "无权操作该订单");
+        }
     }
 }

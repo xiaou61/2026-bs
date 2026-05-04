@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.repair.common.Result;
 import com.repair.entity.Evaluate;
 import com.repair.service.EvaluateService;
+import com.repair.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,17 +15,23 @@ public class EvaluateController {
     @Autowired
     private EvaluateService evaluateService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/list")
     public Result<Page<Evaluate>> getList(@RequestParam(defaultValue = "1") int pageNum,
                                           @RequestParam(defaultValue = "10") int pageSize,
                                           @RequestParam(required = false) Long orderId,
                                           @RequestParam(required = false) Long technicianId,
-                                          @RequestParam(required = false) Integer score) {
+                                          @RequestParam(required = false) Integer score,
+                                          @RequestAttribute("userId") String userId) {
+        userService.requireAdmin(Long.parseLong(userId));
         return Result.success(evaluateService.getList(pageNum, pageSize, orderId, technicianId, score));
     }
 
     @PostMapping("/add")
-    public Result<String> add(@RequestBody Evaluate evaluate) {
+    public Result<String> add(@RequestBody Evaluate evaluate, @RequestAttribute("userId") String userId) {
+        userService.requireAdmin(Long.parseLong(userId));
         evaluateService.add(evaluate);
         return Result.success();
     }

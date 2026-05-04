@@ -1,4 +1,4 @@
-﻿package com.petcafe.controller;
+package com.petcafe.controller;
 
 import com.petcafe.common.Result;
 import com.petcafe.entity.User;

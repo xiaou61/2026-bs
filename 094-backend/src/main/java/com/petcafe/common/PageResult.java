@@ -1,4 +1,4 @@
-﻿package com.petcafe.common;
+package com.petcafe.common;
 
 import lombok.Data;
 

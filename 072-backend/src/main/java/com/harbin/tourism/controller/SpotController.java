@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.harbin.tourism.common.Result;
 import com.harbin.tourism.entity.ScenicSpot;
 import com.harbin.tourism.service.SpotService;
+import com.harbin.tourism.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -42,19 +44,22 @@ public class SpotController {
     }
 
     @PostMapping
-    public Result<Void> add(@RequestBody ScenicSpot spot) {
+    public Result<Void> add(@RequestBody ScenicSpot spot, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         spotService.save(spot);
         return Result.success();
     }
 
     @PutMapping
-    public Result<Void> update(@RequestBody ScenicSpot spot) {
+    public Result<Void> update(@RequestBody ScenicSpot spot, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         spotService.update(spot);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
-    public Result<Void> delete(@PathVariable Long id) {
+    public Result<Void> delete(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         spotService.delete(id);
         return Result.success();
     }

@@ -27,6 +27,7 @@ public class TicketController {
                         @RequestParam(defaultValue = "10") Integer pageSize,
                         @RequestParam(required = false) String status,
                         HttpServletRequest request) {
+        AuthUtils.requireMember((String) request.getAttribute("role"));
         Long userId = (Long) request.getAttribute("userId");
         return Result.success(ticketService.page(pageNum, pageSize, status, userId, "MEMBER"));
     }

@@ -66,7 +66,7 @@ public class AnnouncementController {
 
     private void checkAdmin(String role) {
         if (!"ADMIN".equals(role)) {
-            throw new BusinessException("无权限操作");
+            throw new BusinessException(403, "无权限操作");
         }
     }
 }

@@ -3,8 +3,10 @@ package com.hrm.controller;
 import com.hrm.common.Result;
 import com.hrm.entity.Department;
 import com.hrm.service.DepartmentService;
+import com.hrm.utils.AuthUtils;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/department")
@@ -36,19 +38,22 @@ public class DepartmentController {
     }
 
     @PostMapping
-    public Result add(@RequestBody Department department) {
+    public Result add(@RequestBody Department department, HttpServletRequest request) {
+        AuthUtils.requireAdminOrHr(request);
         departmentService.add(department);
         return Result.success();
     }
 
     @PutMapping
-    public Result update(@RequestBody Department department) {
+    public Result update(@RequestBody Department department, HttpServletRequest request) {
+        AuthUtils.requireAdminOrHr(request);
         departmentService.update(department);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
-    public Result delete(@PathVariable Long id) {
+    public Result delete(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireAdminOrHr(request);
         departmentService.delete(id);
         return Result.success();
     }

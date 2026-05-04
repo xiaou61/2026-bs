@@ -38,23 +38,35 @@ public class MediaResourceService {
         resourceMapper.insert(entity);
     }
 
-    public void update(MediaResource entity, String role) {
+    public void update(MediaResource entity, Long userId, String role) {
         authService.assertTeacher(role);
         if (entity.getId() == null) {
             throw new BusinessException("资源ID不能为空");
         }
+        assertResourcePermission(entity.getId(), userId, role);
         validate(entity);
         resourceMapper.update(entity);
     }
 
-    public void delete(Long id, String role) {
+    public void delete(Long id, Long userId, String role) {
         authService.assertTeacher(role);
+        assertResourcePermission(id, userId, role);
         resourceMapper.deleteById(id);
     }
 
     private void validate(MediaResource entity) {
         if (entity == null || entity.getScheduleId() == null || entity.getCourseId() == null || !StringUtils.hasText(entity.getTitle())) {
             throw new BusinessException("排期、剧目和资源标题不能为空");
+        }
+    }
+
+    private void assertResourcePermission(Long id, Long userId, String role) {
+        MediaResource db = resourceMapper.selectById(id);
+        if (db == null) {
+            throw new BusinessException("资源不存在");
+        }
+        if ("artist".equals(role) && !userId.equals(db.getArtistId())) {
+            throw new BusinessException(403, "无权限操作");
         }
     }
 }

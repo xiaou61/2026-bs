@@ -187,7 +187,7 @@ const processList = ref([])
 const categoryOptions = ref([])
 const technicianOptions = ref([])
 const uploadHeaders = computed(() => ({
-  Authorization: localStorage.getItem('token') || ''
+  Authorization: localStorage.getItem('token') ? `Bearer ${localStorage.getItem('token')}` : ''
 }))
 
 const query = reactive({
@@ -369,7 +369,7 @@ const splitImages = (images) => {
 const normalizeImage = (url) => {
   if (!url) return ''
   if (url.startsWith('http://') || url.startsWith('https://')) return url
-  return `http://localhost:8080${url}`
+  return url
 }
 
 onMounted(async () => {

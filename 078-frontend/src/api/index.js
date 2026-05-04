@@ -4,6 +4,9 @@ export const login = data => request.post('/auth/login', data)
 export const register = data => request.post('/auth/register', data)
 export const getInfo = () => request.get('/auth/info')
 export const updatePassword = data => request.put('/auth/password', data)
+export const getUserInfo = getInfo
+export const updateUserInfo = data => request.put('/user/profile', data)
+export const changePassword = updatePassword
 
 export const getUserPage = params => request.get('/user/page', { params })
 export const updateUserStatus = (id, data) => request.put(`/user/status/${id}`, data)
@@ -66,14 +69,17 @@ export const clearCart = () => request.delete('/cart/clear')
 export const addReview = data => request.post('/review/add', data)
 export const getReviewPage = params => request.get('/review/page', { params })
 export const auditReview = (id, data) => request.put(`/review/audit/${id}`, data)
+export const deleteReview = id => request.delete(`/review/delete/${id}`)
 export const getProductReviews = (productId, params) => request.get(`/review/product/${productId}`, { params })
 
 export const getNoticePage = params => request.get('/notice/page', { params })
 export const getNoticeDetail = id => request.get(`/notice/detail/${id}`)
 export const addNotice = data => request.post('/notice/add', data)
 export const updateNotice = data => request.put('/notice/update', data)
+export const updateNoticeStatus = (id, data) => request.put(`/notice/status/${id}`, data)
 export const deleteNotice = id => request.delete(`/notice/delete/${id}`)
 export const getFrontNotice = () => request.get('/notice/front')
+export const getNoticeList = getFrontNotice
 
 export const getStatsOverview = () => request.get('/stats/overview')
 export const getStatsSales = params => request.get('/stats/sales', { params })

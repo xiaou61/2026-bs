@@ -40,8 +40,10 @@ public class AttendanceController {
     }
 
     @PutMapping("/update")
-    public Result<String> update(@RequestBody AttendanceRecord entity, @RequestAttribute("role") String role) {
-        attendanceService.update(entity, role);
+    public Result<String> update(@RequestBody AttendanceRecord entity,
+                                 @RequestAttribute("role") String role,
+                                 @RequestAttribute("userId") Long userId) {
+        attendanceService.update(entity, role, userId);
         return Result.success();
     }
 }

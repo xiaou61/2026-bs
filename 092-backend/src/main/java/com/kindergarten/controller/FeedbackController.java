@@ -31,8 +31,10 @@ public class FeedbackController {
     }
 
     @PostMapping("/add")
-    public Result<String> add(@RequestBody ParentFeedback entity, @RequestAttribute("userId") Long userId) {
-        feedbackService.add(entity, userId);
+    public Result<String> add(@RequestBody ParentFeedback entity,
+                              @RequestAttribute("userId") Long userId,
+                              @RequestAttribute("role") String role) {
+        feedbackService.add(entity, userId, role);
         return Result.success();
     }
 

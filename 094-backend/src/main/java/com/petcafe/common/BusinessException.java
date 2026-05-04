@@ -1,4 +1,4 @@
-﻿package com.petcafe.common;
+package com.petcafe.common;
 
 public class BusinessException extends RuntimeException {
     private final Integer code;

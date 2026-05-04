@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.teachres.common.Result;
 import com.teachres.entity.MathCourse;
 import com.teachres.service.CourseService;
+import com.teachres.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,8 +33,12 @@ public class CourseController {
                                              @RequestParam(required = false) Long categoryId,
                                              @RequestParam(required = false) Long teacherId,
                                              @RequestParam(required = false) Integer status,
-                                             @RequestParam(required = false) String term) {
-        return Result.success(courseService.list(courseName, categoryId, teacherId, status, term, pageNum, pageSize));
+                                             @RequestParam(required = false) String term,
+                                             @RequestAttribute("userId") Long userId,
+                                             @RequestAttribute("role") String role) {
+        AuthUtils.requireRole(role, "admin", "teacher");
+        Long scopedTeacherId = "teacher".equals(role) ? userId : teacherId;
+        return Result.success(courseService.list(courseName, categoryId, scopedTeacherId, status, term, pageNum, pageSize));
     }
 
     @GetMapping("/enabled")
@@ -48,20 +53,28 @@ public class CourseController {
 
     @PostMapping("/add")
     public Result<String> add(@RequestBody MathCourse course,
-                              @RequestAttribute("userId") Long userId) {
-        courseService.add(course, userId);
+                              @RequestAttribute("userId") Long userId,
+                              @RequestAttribute("role") String role) {
+        AuthUtils.requireRole(role, "admin", "teacher");
+        courseService.add(course, userId, role);
         return Result.success();
     }
 
     @PutMapping("/update")
-    public Result<String> update(@RequestBody MathCourse course) {
-        courseService.update(course);
+    public Result<String> update(@RequestBody MathCourse course,
+                                 @RequestAttribute("userId") Long userId,
+                                 @RequestAttribute("role") String role) {
+        AuthUtils.requireRole(role, "admin", "teacher");
+        courseService.update(course, userId, role);
         return Result.success();
     }
 
     @DeleteMapping("/delete/{id}")
-    public Result<String> delete(@PathVariable Long id) {
-        courseService.delete(id);
+    public Result<String> delete(@PathVariable Long id,
+                                 @RequestAttribute("userId") Long userId,
+                                 @RequestAttribute("role") String role) {
+        AuthUtils.requireRole(role, "admin", "teacher");
+        courseService.delete(id, userId, role);
         return Result.success();
     }
 }

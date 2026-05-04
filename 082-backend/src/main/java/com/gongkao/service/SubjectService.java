@@ -38,14 +38,20 @@ public class SubjectService {
     }
 
     public List<Subject> getPublicList() {
-        String cacheValue = stringRedisTemplate.opsForValue().get(SUBJECT_PUBLIC_CACHE_KEY);
-        if (StringUtils.hasText(cacheValue)) {
-            return JSON.parseArray(cacheValue, Subject.class);
+        try {
+            String cacheValue = stringRedisTemplate.opsForValue().get(SUBJECT_PUBLIC_CACHE_KEY);
+            if (StringUtils.hasText(cacheValue)) {
+                return JSON.parseArray(cacheValue, Subject.class);
+            }
+        } catch (Exception ignored) {
         }
         QueryWrapper<Subject> wrapper = new QueryWrapper<>();
         wrapper.eq("status", 1).orderByAsc("sort").orderByDesc("create_time");
         List<Subject> list = subjectMapper.selectList(wrapper);
-        stringRedisTemplate.opsForValue().set(SUBJECT_PUBLIC_CACHE_KEY, JSON.toJSONString(list), 30, TimeUnit.MINUTES);
+        try {
+            stringRedisTemplate.opsForValue().set(SUBJECT_PUBLIC_CACHE_KEY, JSON.toJSONString(list), 30, TimeUnit.MINUTES);
+        } catch (Exception ignored) {
+        }
         return list;
     }
 
@@ -71,6 +77,9 @@ public class SubjectService {
     }
 
     private void clearCache() {
-        stringRedisTemplate.delete(SUBJECT_PUBLIC_CACHE_KEY);
+        try {
+            stringRedisTemplate.delete(SUBJECT_PUBLIC_CACHE_KEY);
+        } catch (Exception ignored) {
+        }
     }
 }

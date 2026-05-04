@@ -1,9 +1,10 @@
-﻿package com.petcafe.config;
+package com.petcafe.config;
 
 import com.petcafe.common.BusinessException;
+import com.petcafe.service.RuntimeStoreService;
 import com.petcafe.utils.JwtUtils;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.annotation.Resource;
@@ -14,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 public class JwtInterceptor implements HandlerInterceptor {
 
     @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    private RuntimeStoreService runtimeStoreService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -22,16 +23,19 @@ public class JwtInterceptor implements HandlerInterceptor {
             return true;
         }
         String token = request.getHeader("Authorization");
-        if (token == null || token.isEmpty()) {
+        if (!StringUtils.hasText(token)) {
             throw new BusinessException(401, "未登录");
+        }
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7).trim();
         }
         try {
             if (JwtUtils.isTokenExpired(token)) {
                 throw new BusinessException(401, "登录已过期");
             }
             Long userId = Long.parseLong(JwtUtils.getUserIdFromToken(token));
-            Object cacheToken = redisTemplate.opsForValue().get("petcafe:token:" + userId);
-            if (cacheToken == null || !token.equals(String.valueOf(cacheToken))) {
+            String cacheToken = runtimeStoreService.getToken(userId);
+            if (!StringUtils.hasText(cacheToken) || !token.equals(cacheToken)) {
                 throw new BusinessException(401, "登录状态失效");
             }
             request.setAttribute("userId", userId);

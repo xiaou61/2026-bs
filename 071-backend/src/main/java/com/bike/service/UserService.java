@@ -8,7 +8,6 @@ import com.bike.utils.JwtUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -26,7 +25,7 @@ public class UserService {
     private JwtUtils jwtUtils;
 
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private RuntimeStoreService runtimeStoreService;
 
     public Map<String, Object> login(String username, String password) {
         User user = userMapper.findByUsername(username);
@@ -40,7 +39,7 @@ public class UserService {
             throw new BusinessException("账号已被禁用");
         }
         String token = jwtUtils.generateToken(String.valueOf(user.getId()), user.getRole());
-        redisTemplate.opsForValue().set("user:token:" + user.getId(), token, 24, TimeUnit.HOURS);
+        runtimeStoreService.saveToken(user.getId(), token, 24, TimeUnit.HOURS);
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
         user.setPassword(null);
@@ -88,5 +87,9 @@ public class UserService {
 
     public void updateStatus(Long id, Integer status) {
         userMapper.updateStatus(id, status);
+    }
+
+    public void logout(Long userId) {
+        runtimeStoreService.removeToken(userId);
     }
 }

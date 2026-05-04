@@ -6,6 +6,10 @@
         SELECT * FROM study_list WHERE user_id = #{userId} AND material_id = #{materialId} LIMIT 1
     </select>
 
+    <select id="selectById" resultType="com.teachres.entity.StudyList">
+        SELECT * FROM study_list WHERE id = #{id}
+    </select>
+
     <select id="selectByUserId" resultType="com.teachres.entity.StudyList">
         SELECT * FROM study_list WHERE user_id = #{userId} ORDER BY update_time DESC
     </select>

@@ -25,6 +25,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/api/player/public/**",
                         "/api/match/public/**",
                         "/api/news/public/**",
+                        "/api/standing/list",
+                        "/h2-console/**",
                         "/error"
                 );
     }

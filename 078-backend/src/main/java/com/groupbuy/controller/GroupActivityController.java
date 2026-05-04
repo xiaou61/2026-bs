@@ -5,6 +5,7 @@ import com.groupbuy.entity.GroupActivity;
 import com.groupbuy.entity.Merchant;
 import com.groupbuy.service.GroupActivityService;
 import com.groupbuy.service.MerchantService;
+import com.groupbuy.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,21 +45,26 @@ public class GroupActivityController {
 
     @PostMapping("/add")
     public Result<?> add(HttpServletRequest request, @RequestBody GroupActivity activity) {
-        Long userId = (Long) request.getAttribute("userId");
-        Merchant merchant = merchantService.getByUserId(userId);
+        AuthUtils.requireMerchant(request);
+        Long userId = AuthUtils.getUserId(request);
+        Merchant merchant = merchantService.requireApprovedMerchant(userId);
         groupActivityService.add(merchant.getId(), activity);
         return Result.success();
     }
 
     @PutMapping("/update")
-    public Result<?> update(@RequestBody GroupActivity activity) {
-        groupActivityService.update(activity);
+    public Result<?> update(HttpServletRequest request, @RequestBody GroupActivity activity) {
+        AuthUtils.requireMerchant(request);
+        Merchant merchant = merchantService.requireApprovedMerchant(AuthUtils.getUserId(request));
+        groupActivityService.update(merchant.getId(), activity);
         return Result.success();
     }
 
     @PutMapping("/end/{id}")
-    public Result<?> end(@PathVariable Long id) {
-        groupActivityService.end(id);
+    public Result<?> end(HttpServletRequest request, @PathVariable Long id) {
+        AuthUtils.requireMerchant(request);
+        Merchant merchant = merchantService.requireApprovedMerchant(AuthUtils.getUserId(request));
+        groupActivityService.end(merchant.getId(), id);
         return Result.success();
     }
 

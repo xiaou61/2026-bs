@@ -1,0 +1,228 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Microsoft YaHei", Arial, sans-serif;
+  color: #1f2933;
+  background: #eef3f2;
+}
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  background:
+    linear-gradient(90deg, rgba(20, 66, 72, 0.88), rgba(36, 74, 58, 0.68)),
+    url("https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1600&q=80") center/cover;
+}
+
+.login-panel {
+  width: min(960px, 100%);
+  display: grid;
+  grid-template-columns: 1.2fr 420px;
+  gap: 36px;
+  align-items: center;
+  color: #fff;
+}
+
+.brand span {
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.brand h1 {
+  margin: 14px 0;
+  font-size: 42px;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.brand p {
+  width: min(520px, 100%);
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.login-form {
+  background: rgba(255, 255, 255, 0.96);
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.24);
+}
+
+.login-form .el-button {
+  width: 100%;
+}
+
+.accounts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.layout {
+  min-height: 100vh;
+}
+
+.el-aside {
+  background: #123f46;
+  color: #fff;
+}
+
+.logo {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 22px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.el-menu {
+  border-right: 0;
+  background: transparent;
+}
+
+.el-menu-item {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.el-menu-item.is-active,
+.el-menu-item:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.el-header {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border-bottom: 1px solid #dde5e3;
+}
+
+.el-header strong {
+  display: block;
+  font-size: 17px;
+}
+
+.el-header span {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.user-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.el-main {
+  padding: 18px;
+}
+
+.page-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.page-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border: 1px solid #dde5e3;
+  border-radius: 8px;
+  padding: 18px 20px;
+}
+
+.page-title h2 {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: 0;
+}
+
+.page-title p {
+  margin: 6px 0 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.table-panel,
+.chart-panel,
+.metric-card {
+  background: #fff;
+  border: 1px solid #dde5e3;
+  border-radius: 8px;
+}
+
+.table-panel {
+  padding: 16px;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.toolbar .el-input,
+.toolbar .el-select {
+  width: 190px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.metric-card {
+  padding: 18px;
+}
+
+.metric-card span {
+  color: #64748b;
+  font-size: 14px;
+}
+
+.metric-card strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 30px;
+  color: #123f46;
+}
+
+.chart-panel {
+  height: 360px;
+  padding: 12px;
+}
+
+.el-input-number,
+.el-date-editor.el-input,
+.el-select {
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .login-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

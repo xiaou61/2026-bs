@@ -47,7 +47,7 @@ public class ReviewService {
         }
         AppointmentRecord appointment = appointmentService.getById(entity.getAppointmentId());
         if (!appointment.getUserId().equals(userId)) {
-            throw new BusinessException("无权限评价该预约");
+            throw new BusinessException(403, "无权限评价该预约");
         }
         if (appointment.getStatus() == null || appointment.getStatus() != 3) {
             throw new BusinessException("仅已完成预约可以评价");

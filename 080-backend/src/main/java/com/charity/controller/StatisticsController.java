@@ -16,21 +16,22 @@ public class StatisticsController {
     private StatisticsService statisticsService;
 
     @GetMapping("/dashboard")
-    public Result<Map<String, Object>> getDashboard() {
-        Map<String, Object> data = statisticsService.getDashboard();
+    public Result<Map<String, Object>> getDashboard(@RequestAttribute("userId") String userId) {
+        Map<String, Object> data = statisticsService.getDashboard(Long.parseLong(userId));
         return Result.success(data);
     }
 
     @GetMapping("/donation-trend")
     public Result<Map<String, Object>> getDonationTrend(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-                                                        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
-        Map<String, Object> data = statisticsService.getDonationTrend(startDate, endDate);
+                                                        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
+                                                        @RequestAttribute("userId") String userId) {
+        Map<String, Object> data = statisticsService.getDonationTrend(startDate, endDate, Long.parseLong(userId));
         return Result.success(data);
     }
 
     @GetMapping("/region-distribution")
-    public Result<Map<String, Object>> getRegionDistribution() {
-        Map<String, Object> data = statisticsService.getRegionDistribution();
+    public Result<Map<String, Object>> getRegionDistribution(@RequestAttribute("userId") String userId) {
+        Map<String, Object> data = statisticsService.getRegionDistribution(Long.parseLong(userId));
         return Result.success(data);
     }
 }

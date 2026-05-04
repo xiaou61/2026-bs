@@ -1,4 +1,4 @@
-﻿package com.petcafe.config;
+package com.petcafe.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -21,6 +21,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/api/auth/login",
                         "/api/auth/register",
                         "/api/shop/public/**",
+                        "/api/pet/public/**",
                         "/api/menu/public/**",
                         "/api/notice/public/**",
                         "/error"

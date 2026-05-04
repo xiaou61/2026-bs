@@ -18,20 +18,23 @@ public class SponsorRelationController {
     public Result<Page<SponsorRelation>> getList(@RequestParam(defaultValue = "1") int pageNum,
                                                  @RequestParam(defaultValue = "10") int pageSize,
                                                  @RequestParam(required = false) Long childId,
-                                                 @RequestParam(required = false) Long donorId) {
-        Page<SponsorRelation> page = sponsorRelationService.getList(pageNum, pageSize, childId, donorId);
+                                                 @RequestParam(required = false) Long donorId,
+                                                 @RequestAttribute("userId") String userId) {
+        Page<SponsorRelation> page = sponsorRelationService.getList(pageNum, pageSize, childId, donorId, Long.parseLong(userId));
         return Result.success(page);
     }
 
     @PostMapping("/add")
-    public Result<String> add(@RequestBody SponsorRelation sponsorRelation) {
-        sponsorRelationService.add(sponsorRelation);
+    public Result<String> add(@RequestBody SponsorRelation sponsorRelation,
+                              @RequestAttribute("userId") String userId) {
+        sponsorRelationService.add(sponsorRelation, Long.parseLong(userId));
         return Result.success();
     }
 
     @PutMapping("/update")
-    public Result<String> update(@RequestBody SponsorRelation sponsorRelation) {
-        sponsorRelationService.update(sponsorRelation);
+    public Result<String> update(@RequestBody SponsorRelation sponsorRelation,
+                                 @RequestAttribute("userId") String userId) {
+        sponsorRelationService.update(sponsorRelation, Long.parseLong(userId));
         return Result.success();
     }
 }

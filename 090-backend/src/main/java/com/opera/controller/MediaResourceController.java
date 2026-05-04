@@ -42,14 +42,18 @@ public class MediaResourceController {
     }
 
     @PutMapping("/update")
-    public Result<String> update(@RequestBody MediaResource entity, @RequestAttribute("role") String role) {
-        resourceService.update(entity, role);
+    public Result<String> update(@RequestBody MediaResource entity,
+                                 @RequestAttribute("userId") Long userId,
+                                 @RequestAttribute("role") String role) {
+        resourceService.update(entity, userId, role);
         return Result.success();
     }
 
     @DeleteMapping("/delete/{id}")
-    public Result<String> delete(@PathVariable Long id, @RequestAttribute("role") String role) {
-        resourceService.delete(id, role);
+    public Result<String> delete(@PathVariable Long id,
+                                 @RequestAttribute("userId") Long userId,
+                                 @RequestAttribute("role") String role) {
+        resourceService.delete(id, userId, role);
         return Result.success();
     }
 }

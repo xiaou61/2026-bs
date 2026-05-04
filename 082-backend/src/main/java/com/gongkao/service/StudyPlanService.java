@@ -2,6 +2,7 @@ package com.gongkao.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.gongkao.common.BusinessException;
 import com.gongkao.entity.StudyPlan;
 import com.gongkao.mapper.StudyPlanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,13 @@ public class StudyPlanService {
 
     public void delete(Long id) {
         studyPlanMapper.deleteById(id);
+    }
+
+    public StudyPlan getById(Long id) {
+        StudyPlan plan = studyPlanMapper.selectById(id);
+        if (plan == null) {
+            throw new BusinessException(404, "学习计划不存在");
+        }
+        return plan;
     }
 }

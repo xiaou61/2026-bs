@@ -183,7 +183,7 @@ public class RepairAppointmentService {
     public void pay(Long id, Long userId) {
         RepairAppointment order = mustGetById(id);
         if (!order.getUserId().equals(userId)) {
-            throw new BusinessException("无权限操作该执行工单");
+            throw new BusinessException(403, "无权限操作该执行工单");
         }
         if (order.getStatus() != 0) {
             throw new BusinessException("执行工单状态不支持支付");
@@ -200,7 +200,7 @@ public class RepairAppointmentService {
     public void deliver(Long id, Long operatorId, String role) {
         RepairAppointment order = mustGetById(id);
         if (!"ADMIN".equals(role) && !order.getSellerId().equals(operatorId)) {
-            throw new BusinessException("无权限确认工单");
+            throw new BusinessException(403, "无权限确认工单");
         }
         if (order.getStatus() != 1) {
             throw new BusinessException("仅已支付工单可确认");
@@ -213,7 +213,7 @@ public class RepairAppointmentService {
     public void complete(Long id, Long userId) {
         RepairAppointment order = mustGetById(id);
         if (!order.getUserId().equals(userId)) {
-            throw new BusinessException("无权限操作该执行工单");
+            throw new BusinessException(403, "无权限操作该执行工单");
         }
         if (order.getStatus() != 2) {
             throw new BusinessException("仅已确认工单可完成");
@@ -228,7 +228,7 @@ public class RepairAppointmentService {
         RepairAppointment order = mustGetById(id);
         boolean isAdmin = "ADMIN".equals(role);
         if (!isAdmin && !order.getUserId().equals(operatorId)) {
-            throw new BusinessException("无权限取消该执行工单");
+            throw new BusinessException(403, "无权限取消该执行工单");
         }
         if (order.getStatus() == 3 || order.getStatus() == 4) {
             throw new BusinessException("执行工单不可取消");

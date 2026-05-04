@@ -50,15 +50,39 @@ public class ChildService {
             throw new BusinessException("幼儿档案ID不能为空");
         }
         validate(entity);
-        if ("teacher".equals(role) && entity.getTeacherId() == null) {
+        ChildProfile current = requireChild(entity.getId());
+        if ("teacher".equals(role) && !currentUserId.equals(current.getTeacherId())) {
+            throw new BusinessException(403, "无权限操作其他班级幼儿档案");
+        }
+        if ("teacher".equals(role)) {
             entity.setTeacherId(currentUserId);
         }
         childProfileMapper.update(entity);
     }
 
-    public void delete(Long id, String role) {
+    public void delete(Long id, String role, Long currentUserId) {
         authService.assertTeacher(role);
+        ChildProfile current = requireChild(id);
+        if ("teacher".equals(role) && !currentUserId.equals(current.getTeacherId())) {
+            throw new BusinessException(403, "无权限操作其他班级幼儿档案");
+        }
         childProfileMapper.deleteById(id);
+    }
+
+    public ChildProfile requireChild(Long id) {
+        ChildProfile entity = childProfileMapper.selectById(id);
+        if (entity == null) {
+            throw new BusinessException("幼儿档案不存在");
+        }
+        return entity;
+    }
+
+    public ChildProfile requireChildByParentId(Long parentId) {
+        List<ChildProfile> children = childProfileMapper.selectByParentId(parentId);
+        if (children == null || children.isEmpty()) {
+            throw new BusinessException("幼儿档案不存在");
+        }
+        return children.get(0);
     }
 
     private void validate(ChildProfile entity) {

@@ -132,7 +132,7 @@ public class AppointmentService {
     public void cancel(Long id, Long userId, String role) {
         AppointmentRecord appointment = getById(id);
         if ("PATIENT".equals(role) && !appointment.getUserId().equals(userId)) {
-            throw new BusinessException("无权限取消该挂号");
+            throw new BusinessException(403, "无权限取消该挂号");
         }
         if (appointment.getStatus() == null || (appointment.getStatus() != 0 && appointment.getStatus() != 1)) {
             throw new BusinessException("当前状态不可取消");
@@ -151,7 +151,7 @@ public class AppointmentService {
         if ("DOCTOR".equals(role)) {
             DoctorInfo doctor = doctorService.getByUserId(userId);
             if (!appointment.getDoctorId().equals(doctor.getId())) {
-                throw new BusinessException("无权限完成该挂号");
+                throw new BusinessException(403, "无权限完成该挂号");
             }
         }
         if (appointment.getStatus() == null || appointment.getStatus() != 1) {

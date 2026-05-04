@@ -1,8 +1,8 @@
 package com.craft.config;
 
 import com.craft.common.BusinessException;
+import com.craft.service.RuntimeStoreService;
 import com.craft.utils.JwtUtils;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 public class JwtInterceptor implements HandlerInterceptor {
 
     @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    private RuntimeStoreService runtimeStoreService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -25,13 +25,15 @@ public class JwtInterceptor implements HandlerInterceptor {
         if (token == null || token.isEmpty()) {
             throw new BusinessException(401, "未登录");
         }
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
         try {
             if (JwtUtils.isTokenExpired(token)) {
                 throw new BusinessException(401, "登录已过期");
             }
             Long userId = Long.parseLong(JwtUtils.getUserIdFromToken(token));
-            Object cacheToken = redisTemplate.opsForValue().get("craft:token:" + userId);
-            if (cacheToken == null || !token.equals(cacheToken.toString())) {
+            if (!runtimeStoreService.isActiveToken(userId, token)) {
                 throw new BusinessException(401, "登录状态失效");
             }
             request.setAttribute("userId", userId);

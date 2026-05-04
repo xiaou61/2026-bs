@@ -35,15 +35,15 @@ public class EvaluationService {
 
     public void add(CourseEvaluation entity, Long userId) {
         if (entity == null || entity.getScheduleId() == null) {
-            throw new BusinessException("排课不能为空");
+            throw new BusinessException(400, "排课不能为空");
         }
         CourseEvaluation exists = evaluationMapper.selectByScheduleAndStudent(entity.getScheduleId(), userId);
         if (exists != null) {
-            throw new BusinessException("该课程已评教");
+            throw new BusinessException(400, "该课程已评教");
         }
         CourseSchedule schedule = scheduleService.getById(entity.getScheduleId());
         if (schedule == null) {
-            throw new BusinessException("排课不存在");
+            throw new BusinessException(404, "排课不存在");
         }
         entity.setCourseId(schedule.getCourseId());
         entity.setTeacherId(schedule.getTeacherId());

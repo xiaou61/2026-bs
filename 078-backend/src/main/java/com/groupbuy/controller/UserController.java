@@ -3,6 +3,7 @@ package com.groupbuy.controller;
 import com.groupbuy.common.Result;
 import com.groupbuy.entity.User;
 import com.groupbuy.service.UserService;
+import com.groupbuy.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +20,15 @@ public class UserController {
     @GetMapping("/page")
     public Result<?> page(@RequestParam(defaultValue = "1") Integer pageNum,
                           @RequestParam(defaultValue = "10") Integer pageSize,
-                          String username, Integer role, Integer status) {
+                          String username, Integer role, Integer status,
+                          HttpServletRequest request) {
+        AuthUtils.requireAdmin(request);
         return Result.success(userService.page(pageNum, pageSize, username, role, status));
     }
 
     @PutMapping("/status/{id}")
-    public Result<?> updateStatus(@PathVariable Long id, @RequestBody Map<String, Integer> params) {
+    public Result<?> updateStatus(HttpServletRequest request, @PathVariable Long id, @RequestBody Map<String, Integer> params) {
+        AuthUtils.requireAdmin(request);
         userService.updateStatus(id, params.get("status"));
         return Result.success();
     }

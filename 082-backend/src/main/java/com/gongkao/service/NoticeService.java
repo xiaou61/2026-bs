@@ -42,14 +42,20 @@ public class NoticeService {
     }
 
     public List<Notice> getPublicList() {
-        String cacheValue = stringRedisTemplate.opsForValue().get(NOTICE_PUBLIC_CACHE_KEY);
-        if (StringUtils.hasText(cacheValue)) {
-            return JSON.parseArray(cacheValue, Notice.class);
+        try {
+            String cacheValue = stringRedisTemplate.opsForValue().get(NOTICE_PUBLIC_CACHE_KEY);
+            if (StringUtils.hasText(cacheValue)) {
+                return JSON.parseArray(cacheValue, Notice.class);
+            }
+        } catch (Exception ignored) {
         }
         QueryWrapper<Notice> wrapper = new QueryWrapper<>();
         wrapper.eq("status", 1).orderByDesc("publish_time").orderByDesc("create_time");
         List<Notice> list = noticeMapper.selectList(wrapper);
-        stringRedisTemplate.opsForValue().set(NOTICE_PUBLIC_CACHE_KEY, JSON.toJSONString(list), 30, TimeUnit.MINUTES);
+        try {
+            stringRedisTemplate.opsForValue().set(NOTICE_PUBLIC_CACHE_KEY, JSON.toJSONString(list), 30, TimeUnit.MINUTES);
+        } catch (Exception ignored) {
+        }
         return list;
     }
 
@@ -93,6 +99,9 @@ public class NoticeService {
     }
 
     private void clearCache() {
-        stringRedisTemplate.delete(NOTICE_PUBLIC_CACHE_KEY);
+        try {
+            stringRedisTemplate.delete(NOTICE_PUBLIC_CACHE_KEY);
+        } catch (Exception ignored) {
+        }
     }
 }

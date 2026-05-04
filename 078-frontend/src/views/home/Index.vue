@@ -39,7 +39,7 @@
 <script setup>
 import { ref, reactive, watch, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { getCategoryTree, getActivityPage, getNoticeList } from '../../api'
+import { getCategoryTree, getActivityHome, getNoticeList } from '../../api'
 
 const router = useRouter()
 const categories = ref([])
@@ -57,7 +57,7 @@ const loadCategories = async () => {
 const loadActivities = async () => {
   const params = { ...query }
   if (selectedCategory.value) params.categoryId = selectedCategory.value
-  const res = await getActivityPage(params)
+  const res = await getActivityHome(params)
   activities.value = res.data.records
   total.value = res.data.total
 }

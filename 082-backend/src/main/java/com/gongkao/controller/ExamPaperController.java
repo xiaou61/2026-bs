@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gongkao.common.Result;
 import com.gongkao.entity.ExamPaper;
 import com.gongkao.service.ExamPaperService;
+import com.gongkao.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/paper")
@@ -27,30 +30,36 @@ public class ExamPaperController {
                                         @RequestParam(defaultValue = "10") int pageSize,
                                         @RequestParam(required = false) String title,
                                         @RequestParam(required = false) Long subjectId,
-                                        @RequestParam(required = false) Integer publishStatus) {
+                                        @RequestParam(required = false) Integer publishStatus,
+                                        HttpServletRequest request) {
+        AuthUtils.requireAdminOrTeacher(request);
         return Result.success(examPaperService.getList(pageNum, pageSize, title, subjectId, publishStatus));
     }
 
     @PostMapping("/add")
-    public Result<String> add(@RequestBody ExamPaper examPaper) {
+    public Result<String> add(@RequestBody ExamPaper examPaper, HttpServletRequest request) {
+        AuthUtils.requireAdminOrTeacher(request);
         examPaperService.add(examPaper);
         return Result.success();
     }
 
     @PutMapping("/update")
-    public Result<String> update(@RequestBody ExamPaper examPaper) {
+    public Result<String> update(@RequestBody ExamPaper examPaper, HttpServletRequest request) {
+        AuthUtils.requireAdminOrTeacher(request);
         examPaperService.update(examPaper);
         return Result.success();
     }
 
     @PutMapping("/publish")
-    public Result<String> publish(@RequestParam Long id, @RequestParam Integer status) {
+    public Result<String> publish(@RequestParam Long id, @RequestParam Integer status, HttpServletRequest request) {
+        AuthUtils.requireAdminOrTeacher(request);
         examPaperService.publish(id, status);
         return Result.success();
     }
 
     @DeleteMapping("/delete/{id}")
-    public Result<String> delete(@PathVariable Long id) {
+    public Result<String> delete(@PathVariable Long id, HttpServletRequest request) {
+        AuthUtils.requireAdminOrTeacher(request);
         examPaperService.delete(id);
         return Result.success();
     }

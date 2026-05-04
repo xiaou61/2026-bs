@@ -2,6 +2,7 @@ package com.groupbuy.controller;
 
 import com.groupbuy.common.Result;
 import com.groupbuy.service.CartService;
+import com.groupbuy.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,16 +33,18 @@ public class CartController {
     }
 
     @PutMapping("/quantity")
-    public Result<?> updateQuantity(@RequestBody Map<String, Object> params) {
+    public Result<?> updateQuantity(HttpServletRequest request, @RequestBody Map<String, Object> params) {
+        Long userId = AuthUtils.getUserId(request);
         Long id = Long.valueOf(params.get("id").toString());
         Integer quantity = (Integer) params.get("quantity");
-        cartService.updateQuantity(id, quantity);
+        cartService.updateQuantity(userId, id, quantity);
         return Result.success();
     }
 
     @DeleteMapping("/delete/{id}")
-    public Result<?> delete(@PathVariable Long id) {
-        cartService.delete(id);
+    public Result<?> delete(HttpServletRequest request, @PathVariable Long id) {
+        Long userId = AuthUtils.getUserId(request);
+        cartService.delete(userId, id);
         return Result.success();
     }
 

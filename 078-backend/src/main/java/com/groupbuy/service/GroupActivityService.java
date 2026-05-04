@@ -2,6 +2,7 @@ package com.groupbuy.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.groupbuy.common.BusinessException;
 import com.groupbuy.entity.GroupActivity;
 import com.groupbuy.entity.Merchant;
 import com.groupbuy.entity.Product;
@@ -53,6 +54,7 @@ public class GroupActivityService {
     }
 
     public void add(Long merchantId, GroupActivity activity) {
+        ensureProductOwner(activity.getProductId(), merchantId);
         activity.setMerchantId(merchantId);
         activity.setStatus(0);
         LocalDateTime now = LocalDateTime.now();
@@ -62,11 +64,19 @@ public class GroupActivityService {
         groupActivityMapper.insert(activity);
     }
 
-    public void update(GroupActivity activity) {
+    public void update(Long merchantId, GroupActivity activity) {
+        GroupActivity old = requireActivity(activity.getId());
+        ensureActivityOwner(old, merchantId);
+        if (activity.getProductId() != null) {
+            ensureProductOwner(activity.getProductId(), merchantId);
+        }
+        activity.setMerchantId(old.getMerchantId());
         groupActivityMapper.updateById(activity);
     }
 
-    public void end(Long id) {
+    public void end(Long merchantId, Long id) {
+        GroupActivity old = requireActivity(id);
+        ensureActivityOwner(old, merchantId);
         GroupActivity activity = new GroupActivity();
         activity.setId(id);
         activity.setStatus(2);
@@ -111,5 +121,29 @@ public class GroupActivityService {
             a.setStatus(2);
             groupActivityMapper.updateById(a);
         });
+    }
+
+    private GroupActivity requireActivity(Long id) {
+        GroupActivity activity = groupActivityMapper.selectById(id);
+        if (activity == null) {
+            throw new BusinessException(404, "团购活动不存在");
+        }
+        return activity;
+    }
+
+    private void ensureActivityOwner(GroupActivity activity, Long merchantId) {
+        if (merchantId == null || !merchantId.equals(activity.getMerchantId())) {
+            throw new BusinessException(403, "无权操作该团购活动");
+        }
+    }
+
+    private void ensureProductOwner(Long productId, Long merchantId) {
+        Product product = productMapper.selectById(productId);
+        if (product == null) {
+            throw new BusinessException(404, "商品不存在");
+        }
+        if (merchantId == null || !merchantId.equals(product.getMerchantId())) {
+            throw new BusinessException(403, "无权使用该商品");
+        }
     }
 }

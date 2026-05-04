@@ -32,20 +32,23 @@ public class ChildController {
     }
 
     @PostMapping("/add")
-    public Result<String> add(@RequestBody Child child) {
-        childService.add(child);
+    public Result<String> add(@RequestBody Child child,
+                              @RequestAttribute("userId") String userId) {
+        childService.add(child, Long.parseLong(userId));
         return Result.success();
     }
 
     @PutMapping("/update")
-    public Result<String> update(@RequestBody Child child) {
-        childService.update(child);
+    public Result<String> update(@RequestBody Child child,
+                                 @RequestAttribute("userId") String userId) {
+        childService.update(child, Long.parseLong(userId));
         return Result.success();
     }
 
     @DeleteMapping("/delete/{id}")
-    public Result<String> delete(@PathVariable Long id) {
-        childService.delete(id);
+    public Result<String> delete(@PathVariable Long id,
+                                 @RequestAttribute("userId") String userId) {
+        childService.delete(id, Long.parseLong(userId));
         return Result.success();
     }
 }

@@ -9,7 +9,7 @@ const request = axios.create({
 request.interceptors.request.use(config => {
   const token = localStorage.getItem('token')
   if (token) {
-    config.headers.Authorization = token
+    config.headers.Authorization = token.startsWith('Bearer ') ? token : `Bearer ${token}`
   }
   return config
 })
@@ -31,7 +31,16 @@ request.interceptors.response.use(
     return res
   },
   error => {
-    ElMessage.error(error.message || '网络错误')
+    const status = error.response?.status
+    const message = error.response?.data?.message || error.response?.data?.msg || error.message || '网络错误'
+    if (status === 401) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+      if (location.pathname !== '/login') {
+        location.href = '/login'
+      }
+    }
+    ElMessage.error(message)
     return Promise.reject(error)
   }
 )

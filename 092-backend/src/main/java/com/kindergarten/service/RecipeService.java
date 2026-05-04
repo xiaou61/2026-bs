@@ -38,17 +38,34 @@ public class RecipeService {
         resourceMapper.insert(entity);
     }
 
-    public void update(WeeklyRecipe entity, String role) {
+    public void update(WeeklyRecipe entity, String role, Long userId) {
         authService.assertTeacher(role);
         if (entity.getId() == null) {
             throw new BusinessException("资源ID不能为空");
+        }
+        WeeklyRecipe current = resourceMapper.selectById(entity.getId());
+        if (current == null) {
+            throw new BusinessException("食谱不存在");
+        }
+        if ("teacher".equals(role) && !userId.equals(current.getTeacherId())) {
+            throw new BusinessException(403, "无权限修改其他教师食谱");
+        }
+        if ("teacher".equals(role)) {
+            entity.setTeacherId(current.getTeacherId());
         }
         validate(entity);
         resourceMapper.update(entity);
     }
 
-    public void delete(Long id, String role) {
+    public void delete(Long id, String role, Long userId) {
         authService.assertTeacher(role);
+        WeeklyRecipe current = resourceMapper.selectById(id);
+        if (current == null) {
+            throw new BusinessException("食谱不存在");
+        }
+        if ("teacher".equals(role) && !userId.equals(current.getTeacherId())) {
+            throw new BusinessException(403, "无权限删除其他教师食谱");
+        }
         resourceMapper.deleteById(id);
     }
 

@@ -35,26 +35,26 @@ public class MenuController {
                           @RequestParam(required = false) Long categoryId,
                           @RequestParam(required = false) Integer status,
                           HttpServletRequest request) {
-        AuthUtils.requireAdmin((String) request.getAttribute("role"));
+        AuthUtils.requireManager((String) request.getAttribute("role"));
         return Result.success(menuService.page(pageNum, pageSize, name, categoryId, status));
     }
 
     @GetMapping("/all")
     public Result<?> all(HttpServletRequest request) {
-        AuthUtils.requireAdmin((String) request.getAttribute("role"));
+        AuthUtils.requireManager((String) request.getAttribute("role"));
         return Result.success(menuService.listAll());
     }
 
     @PostMapping("/save")
     public Result<?> save(@RequestBody MenuItem menu, HttpServletRequest request) {
-        AuthUtils.requireAdmin((String) request.getAttribute("role"));
+        AuthUtils.requireManager((String) request.getAttribute("role"));
         menuService.save(menu);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
     public Result<?> delete(@PathVariable Long id, HttpServletRequest request) {
-        AuthUtils.requireAdmin((String) request.getAttribute("role"));
+        AuthUtils.requireManager((String) request.getAttribute("role"));
         menuService.deleteById(id);
         return Result.success();
     }

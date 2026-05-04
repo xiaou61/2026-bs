@@ -1,0 +1,27 @@
+server:
+  port: 8097
+
+spring:
+  application:
+    name: prompt-asset-evaluation-platform
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/prompt_asset_097?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 1234
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+
+jwt:
+  secret: prompt-asset-evaluation-platform-097-secret
+  expiration: 86400000
