@@ -1002,3 +1002,14 @@
   - 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`
   - 按 `rule.md` 要求未执行编译构建，仅做静态验证
   - 下一项目为 `133`
+
+
+### 已完成：133 实验室耗材采购审批与库存预警系统 / 134 科研项目经费报销与成果管理系统
+- 本轮新增：
+  - 生成 `133-backend`、`133-frontend`、`134-backend`、`134-frontend`
+  - `133` 使用 Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `134` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `133` 配置后端端口 `8133`、前端端口 `3133`、数据库 `lab_consumable_133`、MySQL `root / 1234`、Redis DB `36`
+  - `134` 配置后端端口 `8134`、前端端口 `3134`、数据库 `research_fund_134`、MySQL `root / 1234`、Redis DB `37`
+  - 静态数量验证通过：`133/134` 均为 14 个实体、14 个 Mapper、16 个 Controller、17 个前端页面、14 张 SQL 表
+  - 下一项目为 `135`
