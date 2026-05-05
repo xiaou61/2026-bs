@@ -889,3 +889,20 @@
   - 更新 `docs/project-check-tracker.md`
   - 清理 `18109`、`18110`、`3096` 验证进程
   - `001` 到 `096` 全部项目验证完成
+
+### 已完成：119 设备备件寿命预测与维保决策系统 / 120 数字孪生园区设备巡检管理系统
+- **Status:** completed
+- Actions taken:
+  - 生成 `119-backend`、`119-frontend`、`120-backend`、`120-frontend`
+  - `119` 使用 Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `120` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `119` 配置后端端口 `8119`、前端端口 `3119`、数据库 `spare_life_119`、MySQL `root / 1234`、Redis DB `22`
+  - `120` 配置后端端口 `8120`、前端端口 `3120`、数据库 `digital_twin_park_120`、MySQL `root / 1234`、Redis DB `23`
+  - 静态数量验证通过：`119/120` 均为 14 个实体、14 个 Mapper、16 个 Controller、17 个前端页面、14 张 SQL 表
+  - `120` MyBatis 注解 SQL 的空字符串条件转义已确认正常
+  - `119/120` 登录响应密码脱敏已确认存在 `setPassword(null)`
+  - 残留旧项目关键词扫描和注释扫描均通过
+  - 修正初始化 SQL 中演示手机号位数过长的问题
+  - 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`
+  - 按 `rule.md` 要求未执行编译构建，仅做静态验证
+  - 下一项目为 `121`

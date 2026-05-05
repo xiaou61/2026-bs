@@ -2198,3 +2198,13 @@
 - `096-backend/src/test/java/com/hospital/OnlineHospitalRegistrationApplicationSmokeTest.java`
 - `096-frontend/vite.config.js`
 - `096-frontend/src/api/request.js`
+
+## Session: 2026-05-05 新增项目 119/120
+
+### Findings
+- `119` 主题为设备备件寿命预测与维保决策，模块闭环为设备资产、备件目录、备件库存、入库记录、出库领用、使用记录、运行指标、故障记录、寿命预测、维保计划、采购申请、风险预警和操作日志。
+- `120` 主题为数字孪生园区设备巡检，模块闭环为园区楼宇、孪生设备、巡检路线、巡检点位、巡检任务、巡检记录、缺陷报告、维修工单、传感数据、孪生模型、能耗监测、保养计划和操作日志。
+- `119` 采用 MyBatis-Plus，`120` 采用 MyBatis 注解 SQL + PageHelper，符合新增项目交替技术路线。
+- 两个项目均使用 MySQL `root / 1234`，Redis 登录态缓存，JWT 鉴权和 Vue3 前端。
+- 静态验证确认 `119/120` 均为 14 张表、14 个实体、14 个 Mapper、16 个 Controller、17 个前端页面。
+- 发现并修正初始化 SQL 中演示手机号位数过长的问题。

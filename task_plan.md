@@ -1,5 +1,32 @@
 ## Session: 2026-04-24 项目预览自动化
 
+# Task Plan: 119-120 新增毕设项目生成与推送
+
+## Goal
+生成 `119-backend`、`119-frontend`、`120-backend` 与 `120-frontend`，补齐 PRD、PLAN、SQL 初始化脚本、前后端核心模块、合集 README 和候选清单状态；仅做静态验证，不执行编译构建，并推送到 GitHub。
+
+## Current Phase
+Completed: `119/120` 已生成后端、前端、SQL、PRD、PLAN，并完成静态数量、配置、残留关键词、注释扫描、关键 Mapper 转义检查、文档登记、临时脚本清理、提交与推送。
+
+## Phases
+- [x] 确认候选题目、规则和技术栈
+- [x] 生成 `119` 后端、前端、SQL、PRD、PLAN
+- [x] 生成 `120` 后端、前端、SQL、PRD、PLAN
+- [x] 静态扫描数量、配置、残留关键词和注释
+- [x] 检查 MyBatis 注解 SQL 空字符串转义和账号响应密码脱敏
+- [x] 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`
+- [x] 清理临时脚本、最终扫描
+- [x] 提交并推送
+
+## Decisions Made
+| Decision | Rationale |
+|----------|-----------|
+| `119` 使用 MyBatis-Plus | `118` 已使用 MyBatis + PageHelper，继续保持交替 |
+| `120` 使用 MyBatis + PageHelper | `119` 已使用 MyBatis-Plus，继续保持交替 |
+| `119` 端口使用 `8119/3119`，Redis DB `22` | 延续新增项目编号递增规则 |
+| `120` 端口使用 `8120/3120`，Redis DB `23` | 延续新增项目编号递增规则 |
+| 数据库分别使用 `spare_life_119`、`digital_twin_park_120` | 与设备备件寿命预测、数字孪生园区巡检主题绑定 |
+
 # Task Plan: 118 智能仓储 AGV 任务调度与库位优化系统生成
 
 ## Goal
