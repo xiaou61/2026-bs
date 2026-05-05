@@ -1,5 +1,35 @@
 ## Session: 2026-04-24
 
+## Session: 2026-05-04 新增 117 项目生成
+
+### 已完成：118 智能仓储 AGV 任务调度与库位优化系统
+- **Status:** completed
+- Actions taken:
+  - 确认候选清单中 `118` 为“智能仓储 AGV 任务调度与库位优化系统”
+  - 确认 `117` 使用 MyBatis-Plus，`118` 按交替节奏使用 MyBatis + PageHelper
+  - 生成 `118-backend`：Spring Boot 2.7.18、MyBatis 2.3.1 注解 SQL、PageHelper 1.4.7、JWT、Redis、MySQL `smart_warehouse_agv_118`
+  - 生成 `118-frontend`：Vue3、Vite 5、Element Plus、Pinia、Axios、ECharts，端口 `3118`，代理后端 `8118`
+  - 补齐 `118-backend/PRD.md`、`118-backend/PLAN.md` 和 `118-backend/sql/init.sql`
+  - 静态扫描确认：14 个实体、14 个 Mapper、16 个 Controller、17 个前端视图、14 张 SQL 表
+  - 修复 MyBatis 注解 SQL 空字符串判断转义，修复 `selectByUsername` 参数绑定，并补充登录与用户信息 password 脱敏
+  - 静态扫描确认：`root / 1234`、`8118/3118`、`smart_warehouse_agv_118`、Redis `database: 21`、`smartwarehouse:token:`、MyBatis + PageHelper 依赖和智能仓储 AGV 主题词均存在
+  - 残留关键词和注释扫描未发现异常
+  - 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`，下一项目为 `119`
+
+### 已完成：117 本地生活服务券核销与商户结算系统
+- **Status:** completed
+- Actions taken:
+  - 确认候选清单中 `117` 为“本地生活服务券核销与商户结算系统”
+  - 确认 `115` 使用 MyBatis-Plus、`116` 使用 MyBatis + PageHelper，`117` 按交替节奏使用 MyBatis-Plus
+  - 确认当前规则：不跑编译构建、不创建单项目 README、MySQL 使用 `root / 1234`、缓存使用 Redis、前端 Vue、后端 Spring Boot
+  - 生成 `117-backend`：Spring Boot 2.7.18、MyBatis-Plus 3.5.5、JWT、Redis、MySQL `local_voucher_117`
+  - 生成 `117-frontend`：Vue3、Vite 5、Element Plus、Pinia、Axios、ECharts，端口 `3117`，代理后端 `8117`
+  - 补齐 `117-backend/PRD.md`、`117-backend/PLAN.md` 和 `117-backend/sql/init.sql`
+  - 静态扫描确认：14 个实体、14 个 Mapper、16 个 Controller、17 个前端视图、14 张 SQL 表
+  - 静态扫描确认：`root / 1234`、`8117/3117`、`local_voucher_117`、Redis `database: 20`、`localvoucher:token:`、MyBatis-Plus 依赖和本地生活主题词均存在
+  - 残留关键词和注释扫描未发现异常
+  - 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`，下一项目为 `118`
+
 ### 已完成：001 项目预览样板
 - **Status:** completed
 - Actions taken:

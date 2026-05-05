@@ -1,5 +1,51 @@
 ## Session: 2026-04-24 项目预览自动化
 
+# Task Plan: 118 智能仓储 AGV 任务调度与库位优化系统生成
+
+## Goal
+生成 `118-backend` 与 `118-frontend`，补齐 PRD、PLAN、SQL 初始化脚本、前后端核心模块、合集 README 和候选清单状态；仅做静态验证，不执行编译构建。
+
+## Current Phase
+Completed: `118` 已生成后端、前端、SQL、PRD、PLAN，并完成静态数量、配置、残留关键词、注释扫描和关键 Mapper 转义检查；下一项目为 `119`。
+
+## Phases
+- [x] 确认候选题目、规则和技术栈
+- [x] 生成后端、前端、SQL、PRD、PLAN
+- [x] 静态扫描数量、配置、残留关键词和注释
+- [x] 修复 MyBatis 注解 SQL 空字符串转义和账号响应密码脱敏
+- [x] 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`
+- [x] 清理临时脚本并汇总结果
+
+## Decisions Made
+| Decision | Rationale |
+|----------|-----------|
+| `118` 使用 MyBatis + PageHelper | `117` 已使用 MyBatis-Plus，继续保持交替 |
+| 端口使用 `8118/3118`，Redis DB `21` | 延续新增项目编号递增规则 |
+| 数据库使用 `smart_warehouse_agv_118` | 与智能仓储 AGV 调度主题绑定 |
+
+# Task Plan: 117 本地生活服务券核销与商户结算系统生成
+
+## Goal
+生成 `117-backend` 与 `117-frontend`，补齐 PRD、PLAN、SQL 初始化脚本、前后端核心模块、合集 README 和候选清单状态；仅做静态验证，不执行编译构建。
+
+## Current Phase
+Completed: `117` 已生成后端、前端、SQL、PRD、PLAN，并完成静态数量、配置、残留关键词和注释扫描；下一项目为 `118`。
+
+## Phases
+- [x] 确认候选题目、规则和技术栈
+- [x] 生成后端、前端、SQL、PRD、PLAN
+- [x] 静态扫描数量、配置、残留关键词和注释
+- [x] 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`
+- [x] 清理临时脚本并汇总结果
+
+## Decisions Made
+| Decision | Rationale |
+|----------|-----------|
+| `117` 使用 MyBatis-Plus | `116` 已使用 MyBatis + PageHelper，继续保持交替 |
+| 端口使用 `8117/3117`，Redis DB `20` | 延续 `115/116` 编号递增规则 |
+| 数据库使用 `local_voucher_117` | 与本地生活服务券主题绑定 |
+
+
 ### Goal
 - 为真实存在的毕业设计项目建立“运行 + 多图截图 + 项目详览页 + 分组索引页 + README 入口”的预览体系。
 - 当前先完成 `001` 作为首个样板项目，再按编号继续推进。

@@ -1,5 +1,22 @@
 ## Session: 2026-04-24 项目预览自动化
 
+## Session: 2026-05-04 新增 117 项目生成
+
+### Findings
+- `117` 题目来自 `docs/topic-candidates-097-146.md`：本地生活服务券核销与商户结算系统。
+- 生成约束延续仓库 `rule.md`：Spring Boot 后端、Vue 前端、MySQL `root / 1234`、Redis 缓存、不跑编译构建。
+- 技术路线按最近项目交替：`116` 已用 MyBatis + PageHelper，`117` 使用 MyBatis-Plus。
+- `117` 静态验收结果：实体 `14`、Mapper `14`、Controller `16`、前端视图 `17`、SQL 建表 `14`，与设计模块一致。
+- `117` 配置验收结果：后端端口 `8117`、前端端口 `3117`、数据库 `local_voucher_117`、MySQL `root / 1234`、Redis `database: 20`、Token 前缀 `localvoucher:token:` 均已落盘。
+- `117` 残留扫描未发现 `115/116` 或更早项目主题词、旧端口、乱码占位和 TODO；项目源码注释扫描未发现命中。
+- `118` 题目来自 `docs/topic-candidates-097-146.md`：智能仓储 AGV 任务调度与库位优化系统。
+- `118` 技术路线按最近项目交替：`117` 已用 MyBatis-Plus，`118` 使用 MyBatis 注解 SQL + PageHelper。
+- `118` 静态验收结果：实体 `14`、Mapper `14`、Controller `16`、前端视图 `17`、SQL 建表 `14`，与设计模块一致。
+- `118` 配置验收结果：后端端口 `8118`、前端端口 `3118`、数据库 `smart_warehouse_agv_118`、MySQL `root / 1234`、Redis `database: 21`、Token 前缀 `smartwarehouse:token:` 均已落盘。
+- `118` 生成后发现并修复 MyBatis 注解 SQL 中 `""` 转义问题；补充 `selectByUsername(@Param("username"))`，避免参数绑定不稳定。
+- `117`、`118` 均补充登录返回和用户信息查询的 `password` 脱敏。
+- `118` 残留扫描未发现 `115/116/117` 项目主题词、旧端口、乱码占位和 TODO；项目源码注释扫描未发现命中。
+
 ### Requirements
 - 以仓库中真实存在的项目为准，从 `001` 开始逐个生成项目预览。
 - 每个项目需要尽量覆盖主要功能，不只截首页。
