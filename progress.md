@@ -906,3 +906,19 @@
   - 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`
   - 按 `rule.md` 要求未执行编译构建，仅做静态验证
   - 下一项目为 `121`
+
+### 已完成：121 无人机巡检任务调度与缺陷上报平台 / 122 智慧工地安全巡检与隐患整改系统
+- **Status:** completed
+- Actions taken:
+  - 生成 `121-backend`、`121-frontend`、`122-backend`、`122-frontend`
+  - `121` 使用 Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `122` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `121` 配置后端端口 `8121`、前端端口 `3121`、数据库 `drone_inspection_121`、MySQL `root / 1234`、Redis DB `24`
+  - `122` 配置后端端口 `8122`、前端端口 `3122`、数据库 `smart_worksite_safety_122`、MySQL `root / 1234`、Redis DB `25`
+  - 静态数量验证通过：`121/122` 均为 14 个实体、14 个 Mapper、16 个 Controller、17 个前端页面、14 张 SQL 表
+  - `122` MyBatis 注解 SQL 的空字符串条件转义已确认正常
+  - 残留旧项目关键词扫描和注释扫描均通过
+  - 修正首页统计计数来源，使看板指标对应设备/任务/缺陷/整改与项目/任务/隐患/整改
+  - 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`
+  - 按 `rule.md` 要求未执行编译构建，仅做静态验证
+  - 下一项目为 `123`
