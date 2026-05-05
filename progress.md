@@ -985,3 +985,20 @@
   - 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`
   - 按 `rule.md` 要求未执行编译构建，仅做静态验证
   - 下一项目为 `131`
+
+### 已完成：131 药品不良反应上报与随访管理系统 / 132 医疗器械借用消毒与追踪管理系统
+- **Status:** completed
+- Actions taken:
+  - 生成 `131-backend`、`131-frontend`、`132-backend`、`132-frontend`
+  - `131` 使用 Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `132` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `131` 配置后端端口 `8131`、前端端口 `3131`、数据库 `drug_reaction_131`、MySQL `root / 1234`、Redis DB `34`
+  - `132` 配置后端端口 `8132`、前端端口 `3132`、数据库 `medical_device_132`、MySQL `root / 1234`、Redis DB `35`
+  - 静态数量验证通过：`131/132` 均为 14 个实体、14 个 Mapper、16 个 Controller、17 个前端页面、14 张 SQL 表
+  - `132` MyBatis 注解 SQL 的空字符串条件转义已确认正常
+  - `131/132` 登录响应密码脱敏已确认存在 `setPassword(null)`
+  - 残留旧项目关键词扫描和注释扫描均通过
+  - 修正 `131/132` 数据库名、artifactId 与 JWT secret 替换顺序残留
+  - 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`
+  - 按 `rule.md` 要求未执行编译构建，仅做静态验证
+  - 下一项目为 `133`
