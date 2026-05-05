@@ -922,3 +922,18 @@
   - 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`
   - 按 `rule.md` 要求未执行编译构建，仅做静态验证
   - 下一项目为 `123`
+
+### 已完成：123 城市内涝监测与应急调度平台 / 124 电动车充电桩预约与运维管理系统
+- **Status:** completed
+- Actions taken:
+  - 生成 `123-backend`、`123-frontend`、`124-backend`、`124-frontend`
+  - `123` 使用 Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `124` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `123` 配置后端端口 `8123`、前端端口 `3123`、数据库 `urban_flood_dispatch_123`、MySQL `root / 1234`、Redis DB `26`
+  - `124` 配置后端端口 `8124`、前端端口 `3124`、数据库 `ev_charging_124`、MySQL `root / 1234`、Redis DB `27`
+  - 静态数量验证通过：`123/124` 均为 14 个实体、14 个 Mapper、16 个 Controller、17 个前端页面、14 张 SQL 表
+  - `124` MyBatis 注解 SQL 的空字符串条件转义已确认正常
+  - 残留旧项目关键词扫描和注释扫描均通过
+  - 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`
+  - 按 `rule.md` 要求未执行编译构建，仅做静态验证
+  - 下一项目为 `125`
