@@ -953,3 +953,18 @@
   - 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`
   - 按 `rule.md` 要求未执行编译构建，仅做静态验证
   - 下一项目为 `127`
+
+### 已完成：127 企业碳排放核算与减排任务管理系统 / 128 ESG 数据填报与可视化报告系统
+- **Status:** completed
+- Actions taken:
+  - 生成 `127-backend`、`127-frontend`、`128-backend`、`128-frontend`
+  - `127` 使用 Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `128` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `127` 配置后端端口 `8127`、前端端口 `3127`、数据库 `carbon_accounting_127`、MySQL `root / 1234`、Redis DB `30`
+  - `128` 配置后端端口 `8128`、前端端口 `3128`、数据库 `esg_report_128`、MySQL `root / 1234`、Redis DB `31`
+  - 静态数量验证通过：`127/128` 均为 14 个实体、14 个 Mapper、16 个 Controller、17 个前端页面、14 张 SQL 表
+  - `128` MyBatis 注解 SQL 的空字符串条件转义已确认正常
+  - 残留旧项目关键词扫描和注释扫描均通过
+  - 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`
+  - 按 `rule.md` 要求未执行编译构建，仅做静态验证
+  - 下一项目为 `129`

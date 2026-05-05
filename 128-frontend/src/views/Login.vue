@@ -1,0 +1,36 @@
+<template>
+  <div class="login-page">
+    <el-card class="login-card">
+      <h2>ESG 数据填报与可视化报告系统</h2>
+      <p>面向 ESG 披露的数据填报、审核评分、改进任务和可视化报告平台</p>
+      <el-form :model="form" label-width="70px" @keyup.enter="submit">
+        <el-form-item label="账号"><el-input v-model="form.username" /></el-form-item>
+        <el-form-item label="密码"><el-input v-model="form.password" type="password" show-password /></el-form-item>
+        <el-button type="primary" style="width: 100%" @click="submit">登录</el-button>
+      </el-form>
+      <div class="account-list">
+        <el-tag>admin / 123456</el-tag>
+        <el-tag>filler / 123456</el-tag>
+        <el-tag>reviewer / 123456</el-tag>
+        <el-tag>manager / 123456</el-tag>
+      </div>
+    </el-card>
+  </div>
+</template>
+
+<script setup>
+import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
+import { login } from '../api'
+import { useUserStore } from '../store/user'
+const router = useRouter()
+const userStore = useUserStore()
+const form = reactive({ username: 'admin', password: '123456' })
+const submit = async () => {
+  const res = await login(form)
+  userStore.setAuth(res.data.token, res.data.user)
+  ElMessage.success('登录成功')
+  router.push('/dashboard')
+}
+</script>
