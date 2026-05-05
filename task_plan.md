@@ -1417,3 +1417,25 @@ Completed: `096` 巡检、修复、H2/MySQL 真实验证、前端代理验证与
 - [x] 完成 MySQL `root / 1234` 的 `mysql-verify` 真实启动抽测
 - [x] 启动前端并验证代理登录
 - [x] 新增 `096` 检查报告并更新总台账/进度/发现日志
+
+# Task Plan: 125/126 新增毕设项目生成
+
+## Goal
+完成 `125` 智慧停车诱导与空位预测平台、`126` 家庭能源用电分析与节能建议平台的 PRD、PLAN、Spring Boot 后端、Vue 前端、SQL 初始化脚本、合集 README 和候选清单回填。
+
+## Current Phase
+Completed: `125/126` 已按新增项目规则生成并完成静态结构验证；下一项目为 `127`。
+
+## Phases
+- [x] 确认下一批题目为 `125` 智慧停车诱导与空位预测平台、`126` 家庭能源用电分析与节能建议平台
+- [x] 按 `123/124` 结构模板生成 `125-backend`、`125-frontend`、`126-backend`、`126-frontend`
+- [x] `125` 使用 Spring Boot 2.7.18 + MyBatis-Plus + MySQL + Redis + JWT，前端使用 Vue3 + Element Plus + ECharts
+- [x] `126` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，前端使用 Vue3 + Element Plus + ECharts
+- [x] 配置 `125` 后端端口 `8125`、前端端口 `3125`、数据库 `smart_parking_125`、Redis DB `28`
+- [x] 配置 `126` 后端端口 `8126`、前端端口 `3126`、数据库 `home_energy_126`、Redis DB `29`
+- [x] 确认两个项目均使用 MySQL `root / 1234`
+- [x] 完成静态数量验证：两个项目均为 14 个实体、14 个 Mapper、16 个 Controller、17 个前端页面、14 张 SQL 表
+- [x] 完成旧项目关键词残留扫描、注释扫描、MyBatis 注解 SQL 条件转义检查和登录脱敏检查
+- [x] 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`
+- [x] 按 `rule.md` 要求未执行编译构建，仅做静态验证
+- [x] 下一项目为 `127`

@@ -937,3 +937,19 @@
   - 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`
   - 按 `rule.md` 要求未执行编译构建，仅做静态验证
   - 下一项目为 `125`
+
+### 已完成：125 智慧停车诱导与空位预测平台 / 126 家庭能源用电分析与节能建议平台
+- **Status:** completed
+- Actions taken:
+  - 生成 `125-backend`、`125-frontend`、`126-backend`、`126-frontend`
+  - `125` 使用 Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `126` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `125` 配置后端端口 `8125`、前端端口 `3125`、数据库 `smart_parking_125`、MySQL `root / 1234`、Redis DB `28`
+  - `126` 配置后端端口 `8126`、前端端口 `3126`、数据库 `home_energy_126`、MySQL `root / 1234`、Redis DB `29`
+  - 静态数量验证通过：`125/126` 均为 14 个实体、14 个 Mapper、16 个 Controller、17 个前端页面、14 张 SQL 表
+  - `126` MyBatis 注解 SQL 的空字符串条件转义已确认正常
+  - `125/126` 登录响应密码脱敏已确认存在 `setPassword(null)`
+  - 残留旧项目关键词扫描和注释扫描均通过
+  - 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`
+  - 按 `rule.md` 要求未执行编译构建，仅做静态验证
+  - 下一项目为 `127`
