@@ -968,3 +968,20 @@
   - 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`
   - 按 `rule.md` 要求未执行编译构建，仅做静态验证
   - 下一项目为 `129`
+
+### 已完成：129 水产养殖环境监测与投喂预警系统 / 130 温室大棚物联网控制与病害预警系统
+- **Status:** completed
+- Actions taken:
+  - 生成 `129-backend`、`129-frontend`、`130-backend`、`130-frontend`
+  - `129` 使用 Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `130` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `129` 配置后端端口 `8129`、前端端口 `3129`、数据库 `aquaculture_monitor_129`、MySQL `root / 1234`、Redis DB `32`
+  - `130` 配置后端端口 `8130`、前端端口 `3130`、数据库 `greenhouse_iot_130`、MySQL `root / 1234`、Redis DB `33`
+  - 静态数量验证通过：`129/130` 均为 14 个实体、14 个 Mapper、16 个 Controller、17 个前端页面、14 张 SQL 表
+  - `130` MyBatis 注解 SQL 的空字符串条件转义已确认正常
+  - `129/130` 登录响应密码脱敏已确认存在 `setPassword(null)`
+  - 残留旧项目关键词扫描和注释扫描均通过
+  - 修正 `127/128/129/130` JWT secret 与 artifactId 口径残留
+  - 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`
+  - 按 `rule.md` 要求未执行编译构建，仅做静态验证
+  - 下一项目为 `131`

@@ -1,0 +1,32 @@
+<template>
+  <div class="page">
+    <div class="dashboard-grid">
+      <div class="metric">温室档案<strong>{{ data.greenhouseCount || 0 }}</strong></div>
+      <div class="metric">环境传感器<strong>{{ data.sensorCount || 0 }}</strong></div>
+      <div class="metric">虫害预警<strong>{{ data.warningCount || 0 }}</strong></div>
+      <div class="metric">远程指令<strong>{{ data.commandCount || 0 }}</strong></div>
+    </div>
+    <div class="chart-grid">
+      <div ref="trendRef" class="chart"></div>
+      <div ref="pieRef" class="chart"></div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { nextTick, onMounted, reactive, ref } from 'vue'
+import * as echarts from 'echarts'
+import { getDashboard } from '../api'
+const data = reactive({})
+const trendRef = ref()
+const pieRef = ref()
+const draw = () => {
+  echarts.init(trendRef.value).setOption({ title: { text: '近7日环境监测趋势' }, tooltip: {}, xAxis: { type: 'category', data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'] }, yAxis: { type: 'value' }, series: [{ type: 'line', smooth: true, data: data.environmentTrend || [] }] })
+  echarts.init(pieRef.value).setOption({ title: { text: '作物类型分布' }, tooltip: {}, series: [{ type: 'pie', radius: '62%', data: data.cropPie || [] }] })
+}
+onMounted(async () => {
+  const res = await getDashboard()
+  Object.assign(data, res.data)
+  nextTick(draw)
+})
+</script>
