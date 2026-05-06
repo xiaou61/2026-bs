@@ -1013,3 +1013,130 @@
   - `134` 配置后端端口 `8134`、前端端口 `3134`、数据库 `research_fund_134`、MySQL `root / 1234`、Redis DB `37`
   - 静态数量验证通过：`133/134` 均为 14 个实体、14 个 Mapper、16 个 Controller、17 个前端页面、14 张 SQL 表
   - 下一项目为 `135`
+
+### 已完成：135 学术会议投稿评审与日程管理系统 / 136 导师课题双选与开题过程管理系统
+- 本轮新增：
+  - 生成 `135-backend`、`135-frontend`、`136-backend`、`136-frontend`
+  - `135` 使用 Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `136` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `135` 配置后端端口 `8135`、前端端口 `3135`、数据库 `conference_review_135`、MySQL `root / 1234`、Redis DB `38`
+  - `136` 配置后端端口 `8136`、前端端口 `3136`、数据库 `topic_selection_136`、MySQL `root / 1234`、Redis DB `39`
+  - 静态数量验证通过：`135/136` 均为 14 个实体、14 个 Mapper、16 个 Controller、17 个前端页面、14 张 SQL 表
+  - `136` MyBatis 注解 SQL 的空字符串条件转义已确认正常
+  - `135/136` 登录响应密码脱敏已确认存在 `setPassword(null)`
+  - 残留旧项目关键词扫描和注释扫描均通过
+  - 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`
+  - 按 `rule.md` 要求未执行编译构建，仅做静态验证
+  - 下一项目为 `137`
+
+### 已完成：137 大学生创新创业项目孵化管理平台 / 138 在线考试反作弊行为分析与证据管理系统
+- 本轮新增：
+  - 生成 `137-backend`、`137-frontend`、`138-backend`、`138-frontend`
+  - `137` 使用 Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `138` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `137` 配置后端端口 `8137`、前端端口 `3137`、数据库 `innovation_incubator_137`、MySQL `root / 1234`、Redis DB `40`
+  - `138` 配置后端端口 `8138`、前端端口 `3138`、数据库 `exam_guard_138`、MySQL `root / 1234`、Redis DB `41`
+  - 静态数量验证通过：`137/138` 均为 14 个实体、14 个 Mapper、16 个 Controller、17 个前端页面、14 张 SQL 表
+  - `138` MyBatis 注解 SQL 的空字符串条件转义已确认正常
+  - `137/138` 登录响应密码脱敏已确认存在 `setPassword(null)`
+  - 残留旧项目关键词扫描和注释扫描均通过
+  - 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`
+  - 按 `rule.md` 要求未执行编译构建，仅做静态验证
+  - 下一项目为 `139`
+
+### 已完成：139 企业培训学习路径与能力画像系统 / 140 电子合同签署与印章审批管理系统
+- 本轮新增：
+  - 生成 `139-backend`、`139-frontend`、`140-backend`、`140-frontend`
+  - `139` 使用 Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `140` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `139` 配置后端端口 `8139`、前端端口 `3139`、数据库 `learning_path_139`、MySQL `root / 1234`、Redis DB `42`
+  - `140` 配置后端端口 `8140`、前端端口 `3140`、数据库 `electronic_contract_140`、MySQL `root / 1234`、Redis DB `43`
+  - 静态数量验证通过：`139/140` 均为 14 个实体、14 个 Mapper、16 个 Controller、17 个前端页面、14 张 SQL 表
+  - `140` MyBatis 注解 SQL 的空字符串条件转义已确认正常
+  - `139/140` 登录响应密码脱敏已确认存在 `setPassword(null)`
+  - 残留旧项目关键词扫描和注释扫描均通过
+  - 修正 `139/140` 前端菜单路由索引残留
+  - 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`
+  - 按 `rule.md` 要求未执行编译构建，仅做静态验证
+  - 下一项目为 `141`
+
+### 已完成：141 固定资产 RFID 盘点与借用归还系统 / 142 车辆保险理赔材料审核与进度跟踪系统
+- 本轮新增：
+  - 生成 `141-backend`、`141-frontend`、`142-backend`、`142-frontend`
+  - `141` 使用 Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `142` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `141` 配置后端端口 `8141`、前端端口 `3141`、数据库 `asset_rfid_141`、MySQL `root / 1234`、Redis DB `44`
+  - `142` 配置后端端口 `8142`、前端端口 `3142`、数据库 `vehicle_claim_142`、MySQL `root / 1234`、Redis DB `45`
+  - 静态数量验证通过：`141/142` 均为 14 个实体、14 个 Mapper、16 个 Controller、17 个前端页面、14 张 SQL 表
+  - `142` MyBatis 注解 SQL 的空字符串条件转义已确认正常
+  - `141/142` 登录响应密码脱敏已确认存在 `setPassword(null)`
+  - 残留旧项目关键词扫描和注释扫描均通过
+  - 修正 `141/142` 统计看板与文档文案残留
+  - 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`
+  - 按 `rule.md` 要求未执行编译构建，仅做静态验证
+  - 下一项目为 `143`
+
+### 已完成：143 社区公益时间银行互助服务平台 / 144 无障碍出行路线规划与志愿协助平台
+- 本轮新增：
+  - 生成 `143-backend`、`143-frontend`、`144-backend`、`144-frontend`
+  - `143` 使用 Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `144` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `143` 配置后端端口 `8143`、前端端口 `3143`、数据库 `time_bank_143`、MySQL `root / 1234`、Redis DB `46`
+  - `144` 配置后端端口 `8144`、前端端口 `3144`、数据库 `accessible_travel_144`、MySQL `root / 1234`、Redis DB `47`
+  - 静态数量验证通过：`143/144` 均为 14 个实体、14 个 Mapper、16 个 Controller、17 个前端页面、14 张 SQL 表
+  - `144` MyBatis 注解 SQL 的空字符串条件转义已确认正常
+  - `143/144` 登录响应密码脱敏已确认存在 `setPassword(null)`
+  - 残留旧项目关键词扫描和注释扫描均通过
+  - 修正 `143/144` 看板指标与项目文档文案残留
+  - 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`
+  - 按 `rule.md` 要求未执行编译构建，仅做静态验证
+  - 下一项目为 `145`
+
+### 已完成：145 城市噪声投诉监测与执法协同平台 / 146 食品安全抽检任务与结果公示平台
+- 本轮新增：
+  - 生成 `145-backend`、`145-frontend`、`146-backend`、`146-frontend`
+  - `145` 使用 Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `146` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `145` 配置后端端口 `8145`、前端端口 `3145`、数据库 `noise_monitor_145`、MySQL `root / 1234`、Redis DB `48`
+  - `146` 配置后端端口 `8146`、前端端口 `3146`、数据库 `food_inspection_146`、MySQL `root / 1234`、Redis DB `49`
+  - 静态数量验证通过：`145/146` 均为 14 个实体、14 个 Mapper、16 个 Controller、17 个前端页面、14 张 SQL 表
+  - `146` MyBatis 注解 SQL 的空字符串条件转义已确认正常
+  - `145/146` 登录响应密码脱敏已确认存在 `setPassword(null)`
+  - 残留旧项目关键词扫描和注释扫描均通过
+  - 修正 `145/146` 路由索引、统计看板与项目文档文案残留
+  - 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-097-146.md`
+  - 按 `rule.md` 要求未执行编译构建，仅做静态验证
+  - `097-146` 候选清单全部实现完成
+
+### 已完成：147 校园心理咨询预约与危机干预管理系统 / 148 社区养老服务派单与健康随访管理系统
+- 本轮新增：
+  - 生成 `147-backend`、`147-frontend`、`148-backend`、`148-frontend`
+  - `147` 使用 Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `148` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `147` 配置后端端口 `8147`、前端端口 `3147`、数据库 `campus_psychology_147`、MySQL `root / 1234`、Redis DB `50`
+  - `148` 配置后端端口 `8148`、前端端口 `3148`、数据库 `elder_service_148`、MySQL `root / 1234`、Redis DB `51`
+  - 静态数量验证通过：`147/148` 均为 14 个实体、14 个 Mapper、16 个 Controller、17 个前端页面、14 张 SQL 表
+  - `148` MyBatis 注解 SQL 的空字符串条件转义已确认正常
+  - `147/148` 登录响应密码脱敏已确认存在 `setPassword(null)`
+  - 残留旧项目关键词扫描和注释扫描均通过
+  - 修正 `147/148` 看板与项目文档文案残留
+  - 新增 `docs/topic-candidates-147-196.md`
+  - 更新 `readme.md`、`readme_simple.md`
+  - 按 `rule.md` 要求未执行编译构建，仅做静态验证
+  - 下一项目为 `149`
+
+### 已完成：149 高校实验设备共享预约与违规使用追踪系统 / 150 医院门诊检查预约与报告回传管理系统
+- 本轮新增：
+  - 生成 `149-backend`、`149-frontend`、`150-backend`、`150-frontend`
+  - `149` 使用 Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `150` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，Vue3 + Element Plus + ECharts
+  - `149` 配置后端端口 `8149`、前端端口 `3149`、数据库 `equipment_share_149`、MySQL `root / 1234`、Redis DB `52`
+  - `150` 配置后端端口 `8150`、前端端口 `3150`、数据库 `outpatient_exam_150`、MySQL `root / 1234`、Redis DB `53`
+  - 静态数量验证通过：`149/150` 均为 14 个实体、14 个 Mapper、16 个 Controller、17 个前端页面、14 张 SQL 表
+  - `150` MyBatis 注解 SQL 的空字符串条件转义已确认正常
+  - `149/150` 登录响应密码脱敏已确认存在 `setPassword(null)`
+  - 残留旧项目关键词扫描和注释扫描均通过
+  - 修正 `149/150` 路由索引、统计看板与项目文档文案残留
+  - 更新 `docs/topic-candidates-147-196.md`、`readme.md`、`readme_simple.md`
+  - 按 `rule.md` 要求未执行编译构建，仅做静态验证
+  - 下一项目为 `151`

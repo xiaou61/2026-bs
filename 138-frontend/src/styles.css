@@ -1,0 +1,32 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Arial, "Microsoft YaHei", sans-serif; background: #f3f6f8; color: #1f3137; }
+.layout { min-height: 100vh; }
+.logo { height: 58px; display: flex; align-items: center; padding-left: 22px; font-weight: 700; color: #ffffff; background: #2563eb; letter-spacing: 0; }
+.el-aside { background: #ffffff; border-right: 1px solid #e5e7eb; }
+.el-menu { border-right: 0; }
+.el-header { height: 64px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; background: #ffffff; border-bottom: 1px solid #e5e7eb; }
+.el-header strong { display: block; font-size: 17px; }
+.el-header span { color: #64748b; font-size: 13px; }
+.user-box { display: flex; align-items: center; gap: 10px; }
+.el-main { padding: 22px; }
+.toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.toolbar h3 { margin: 0; font-size: 19px; }
+.toolbar p { margin: 6px 0 0; color: #64748b; font-size: 13px; }
+.search-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+.dashboard-grid { display: grid; grid-template-columns: repeat(4, minmax(150px, 1fr)); gap: 16px; margin-bottom: 18px; }
+.metric { min-height: 104px; padding: 18px; border-radius: 8px; background: #ffffff; border: 1px solid #e5e7eb; color: #64748b; }
+.metric strong { display: block; margin-top: 12px; font-size: 32px; color: #2563eb; }
+.chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.chart { height: 360px; padding: 16px; border-radius: 8px; background: #ffffff; border: 1px solid #e5e7eb; }
+.login { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #2563eb, #0f766e); }
+.login-card { width: 470px; border-radius: 8px; }
+.login-title { text-align: center; margin-bottom: 22px; }
+.login-title h2 { margin: 0; font-size: 23px; }
+.login-title p { margin: 10px 0 0; color: #64748b; line-height: 1.6; }
+.account-tags { margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+@media (max-width: 900px) {
+  .dashboard-grid { grid-template-columns: repeat(2, minmax(140px, 1fr)); }
+  .chart-grid { grid-template-columns: 1fr; }
+}
+
+

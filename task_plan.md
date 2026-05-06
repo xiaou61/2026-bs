@@ -1523,3 +1523,150 @@ Status: Completed
 - [x] 完成 `133/134` 静态数量、残留关键词、注释、MyBatis 条件和登录脱敏验证
 - [x] 更新 `readme.md`、`readme_simple.md` 和 `docs/topic-candidates-097-146.md`
 - [x] 下一项目为 `135`
+
+
+# Task Plan: 135/136 新增毕设项目生成
+
+完成 `135` 学术会议投稿评审与日程管理系统、`136` 导师课题双选与开题过程管理系统的 PRD、PLAN、Spring Boot 后端、Vue 前端、SQL 初始化脚本、合集 README 和候选清单回填。
+
+Status: Completed
+
+- [x] 确认下一批题目为 `135` 学术会议投稿评审与日程管理系统、`136` 导师课题双选与开题过程管理系统
+- [x] `135` 使用 Spring Boot 2.7.18 + MyBatis-Plus + MySQL + Redis + JWT，前端使用 Vue3 + Element Plus + ECharts
+- [x] `136` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，前端使用 Vue3 + Element Plus + ECharts
+- [x] 配置 `135` 后端端口 `8135`、前端端口 `3135`、数据库 `conference_review_135`、Redis DB `38`
+- [x] 配置 `136` 后端端口 `8136`、前端端口 `3136`、数据库 `topic_selection_136`、Redis DB `39`
+- [x] 完成 `135/136` 静态数量、残留关键词、注释、MyBatis 条件和登录脱敏验证
+- [x] 更新 `readme.md`、`readme_simple.md` 和 `docs/topic-candidates-097-146.md`
+- [x] 下一项目为 `137`
+
+
+# Task Plan: 137/138 新增毕设项目生成
+
+完成 `137` 大学生创新创业项目孵化管理平台、`138` 在线考试反作弊行为分析与证据管理系统的 PRD、PLAN、Spring Boot 后端、Vue 前端、SQL 初始化脚本、合集 README 和候选清单回填。
+
+Status: Completed
+
+- [x] 确认下一批题目为 `137` 大学生创新创业项目孵化管理平台、`138` 在线考试反作弊行为分析与证据管理系统
+- [x] `137` 使用 Spring Boot 2.7.18 + MyBatis-Plus + MySQL + Redis + JWT，前端使用 Vue3 + Element Plus + ECharts
+- [x] `138` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，前端使用 Vue3 + Element Plus + ECharts
+- [x] 配置 `137` 后端端口 `8137`、前端端口 `3137`、数据库 `innovation_incubator_137`、Redis DB `40`
+- [x] 配置 `138` 后端端口 `8138`、前端端口 `3138`、数据库 `exam_guard_138`、Redis DB `41`
+- [x] 完成 `137/138` 静态数量、残留关键词、注释、MyBatis 条件和登录脱敏验证
+- [x] 更新 `readme.md`、`readme_simple.md` 和 `docs/topic-candidates-097-146.md`
+- [x] 下一项目为 `139`
+
+
+# Task Plan: 139/140 新增毕设项目生成
+
+完成 `139` 企业培训学习路径与能力画像系统、`140` 电子合同签署与印章审批管理系统的 PRD、PLAN、Spring Boot 后端、Vue 前端、SQL 初始化脚本、合集 README 和候选清单回填。
+
+Status: Completed
+
+- [x] 确认下一批题目为 `139` 企业培训学习路径与能力画像系统、`140` 电子合同签署与印章审批管理系统
+- [x] `139` 使用 Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + MySQL + Redis + JWT，前端使用 Vue3 + Element Plus + ECharts
+- [x] `140` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，前端使用 Vue3 + Element Plus + ECharts
+- [x] 配置 `139` 后端端口 `8139`、前端端口 `3139`、数据库 `learning_path_139`、Redis DB `42`
+- [x] 配置 `140` 后端端口 `8140`、前端端口 `3140`、数据库 `electronic_contract_140`、Redis DB `43`
+- [x] 确认两个项目均使用 MySQL `root / 1234`
+- [x] 完成 `139/140` 静态数量、残留关键词、注释、MyBatis 条件和登录脱敏验证
+- [x] 修正 `139/140` 前端菜单路由索引残留
+- [x] 更新 `readme.md`、`readme_simple.md` 和 `docs/topic-candidates-097-146.md`
+- [x] 按 `rule.md` 要求未执行编译构建，仅做静态验证
+- [x] 下一项目为 `141`
+
+
+# Task Plan: 141/142 新增毕设项目生成
+
+完成 `141` 固定资产 RFID 盘点与借用归还系统、`142` 车辆保险理赔材料审核与进度跟踪系统的 PRD、PLAN、Spring Boot 后端、Vue 前端、SQL 初始化脚本、合集 README 和候选清单回填。
+
+Status: Completed
+
+- [x] 确认下一批题目为 `141` 固定资产 RFID 盘点与借用归还系统、`142` 车辆保险理赔材料审核与进度跟踪系统
+- [x] `141` 使用 Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + MySQL + Redis + JWT，前端使用 Vue3 + Element Plus + ECharts
+- [x] `142` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，前端使用 Vue3 + Element Plus + ECharts
+- [x] 配置 `141` 后端端口 `8141`、前端端口 `3141`、数据库 `asset_rfid_141`、Redis DB `44`
+- [x] 配置 `142` 后端端口 `8142`、前端端口 `3142`、数据库 `vehicle_claim_142`、Redis DB `45`
+- [x] 确认两个项目均使用 MySQL `root / 1234`
+- [x] 完成 `141/142` 静态数量、残留关键词、注释、MyBatis 条件和登录脱敏验证
+- [x] 修正 `141/142` 统计看板与文档文案残留
+- [x] 更新 `readme.md`、`readme_simple.md` 和 `docs/topic-candidates-097-146.md`
+- [x] 按 `rule.md` 要求未执行编译构建，仅做静态验证
+- [x] 下一项目为 `143`
+
+
+# Task Plan: 143/144 新增毕设项目生成
+
+完成 `143` 社区公益时间银行互助服务平台、`144` 无障碍出行路线规划与志愿协助平台的 PRD、PLAN、Spring Boot 后端、Vue 前端、SQL 初始化脚本、合集 README 和候选清单回填。
+
+Status: Completed
+
+- [x] 确认下一批题目为 `143` 社区公益时间银行互助服务平台、`144` 无障碍出行路线规划与志愿协助平台
+- [x] `143` 使用 Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + MySQL + Redis + JWT，前端使用 Vue3 + Element Plus + ECharts
+- [x] `144` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，前端使用 Vue3 + Element Plus + ECharts
+- [x] 配置 `143` 后端端口 `8143`、前端端口 `3143`、数据库 `time_bank_143`、Redis DB `46`
+- [x] 配置 `144` 后端端口 `8144`、前端端口 `3144`、数据库 `accessible_travel_144`、Redis DB `47`
+- [x] 确认两个项目均使用 MySQL `root / 1234`
+- [x] 完成 `143/144` 静态数量、残留关键词、注释、MyBatis 条件和登录脱敏验证
+- [x] 修正 `143/144` 看板指标与项目文档文案残留
+- [x] 更新 `readme.md`、`readme_simple.md` 和 `docs/topic-candidates-097-146.md`
+- [x] 按 `rule.md` 要求未执行编译构建，仅做静态验证
+- [x] 下一项目为 `145`
+
+
+# Task Plan: 145/146 新增毕设项目生成
+
+完成 `145` 城市噪声投诉监测与执法协同平台、`146` 食品安全抽检任务与结果公示平台的 PRD、PLAN、Spring Boot 后端、Vue 前端、SQL 初始化脚本、合集 README 和候选清单回填。
+
+Status: Completed
+
+- [x] 确认下一批题目为 `145` 城市噪声投诉监测与执法协同平台、`146` 食品安全抽检任务与结果公示平台
+- [x] `145` 使用 Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + MySQL + Redis + JWT，前端使用 Vue3 + Element Plus + ECharts
+- [x] `146` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，前端使用 Vue3 + Element Plus + ECharts
+- [x] 配置 `145` 后端端口 `8145`、前端端口 `3145`、数据库 `noise_monitor_145`、Redis DB `48`
+- [x] 配置 `146` 后端端口 `8146`、前端端口 `3146`、数据库 `food_inspection_146`、Redis DB `49`
+- [x] 确认两个项目均使用 MySQL `root / 1234`
+- [x] 完成 `145/146` 静态数量、残留关键词、注释、MyBatis 条件和登录脱敏验证
+- [x] 修正 `145/146` 路由索引、统计看板与项目文档文案残留
+- [x] 更新 `readme.md`、`readme_simple.md` 和 `docs/topic-candidates-097-146.md`
+- [x] 按 `rule.md` 要求未执行编译构建，仅做静态验证
+- [x] `097-146` 候选清单全部实现完成
+
+
+# Task Plan: 147/148 新增毕设项目生成
+
+完成 `147` 校园心理咨询预约与危机干预管理系统、`148` 社区养老服务派单与健康随访管理系统的 PRD、PLAN、Spring Boot 后端、Vue 前端、SQL 初始化脚本、合集 README 和新候选清单回填。
+
+Status: Completed
+
+- [x] 确认下一批题目为 `147` 校园心理咨询预约与危机干预管理系统、`148` 社区养老服务派单与健康随访管理系统
+- [x] `147` 使用 Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + MySQL + Redis + JWT，前端使用 Vue3 + Element Plus + ECharts
+- [x] `148` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，前端使用 Vue3 + Element Plus + ECharts
+- [x] 配置 `147` 后端端口 `8147`、前端端口 `3147`、数据库 `campus_psychology_147`、Redis DB `50`
+- [x] 配置 `148` 后端端口 `8148`、前端端口 `3148`、数据库 `elder_service_148`、Redis DB `51`
+- [x] 确认两个项目均使用 MySQL `root / 1234`
+- [x] 完成 `147/148` 静态数量、残留关键词、注释、MyBatis 条件和登录脱敏验证
+- [x] 修正 `147/148` 看板与项目文档文案残留
+- [x] 新增 `docs/topic-candidates-147-196.md`
+- [x] 更新 `readme.md`、`readme_simple.md`
+- [x] 按 `rule.md` 要求未执行编译构建，仅做静态验证
+- [x] 下一项目为 `149`
+
+
+# Task Plan: 149/150 新增毕设项目生成
+
+完成 `149` 高校实验设备共享预约与违规使用追踪系统、`150` 医院门诊检查预约与报告回传管理系统的 PRD、PLAN、Spring Boot 后端、Vue 前端、SQL 初始化脚本、合集 README 和候选清单回填。
+
+Status: Completed
+
+- [x] 确认下一批题目为 `149` 高校实验设备共享预约与违规使用追踪系统、`150` 医院门诊检查预约与报告回传管理系统
+- [x] `149` 使用 Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + MySQL + Redis + JWT，前端使用 Vue3 + Element Plus + ECharts
+- [x] `150` 使用 Spring Boot 2.7.18 + MyBatis 注解 SQL + PageHelper + MySQL + Redis + JWT，前端使用 Vue3 + Element Plus + ECharts
+- [x] 配置 `149` 后端端口 `8149`、前端端口 `3149`、数据库 `equipment_share_149`、Redis DB `52`
+- [x] 配置 `150` 后端端口 `8150`、前端端口 `3150`、数据库 `outpatient_exam_150`、Redis DB `53`
+- [x] 确认两个项目均使用 MySQL `root / 1234`
+- [x] 完成 `149/150` 静态数量、残留关键词、注释、MyBatis 条件和登录脱敏验证
+- [x] 修正 `149/150` 路由索引、统计看板与项目文档文案残留
+- [x] 更新 `docs/topic-candidates-147-196.md`、`readme.md`、`readme_simple.md`
+- [x] 按 `rule.md` 要求未执行编译构建，仅做静态验证
+- [x] 下一项目为 `151`

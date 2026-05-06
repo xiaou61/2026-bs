@@ -1,0 +1,24 @@
+server:
+  port: 8145
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/noise_monitor_145?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 1234
+  redis:
+    host: localhost
+    port: 6379
+    database: 48
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,17 @@
+server:
+  port: 8135
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/conference_review_135?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 1234
+  redis:
+    host: localhost
+    port: 6379
+    database: 38
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+
+
