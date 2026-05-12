@@ -1,25 +1,40 @@
-# 数字孪生园区设备巡检管理系统开发计划
+# 实现计划
 
-## 技术路线
-后端采用 Spring Boot 2.7.18、MyBatis 2.3.1 注解 SQL、PageHelper 1.4.7、MySQL、Redis 和 JWT。前端采用 Vue3、Element Plus、Pinia、Axios、Vue Router 和 ECharts。
+## 问题陈述
 
-## 实施步骤
-1. 初始化后端工程、配置 8120 端口、MySQL 数据库 digital_twin_park_120 和 Redis 23 号库。
-2. 建立 JWT 登录、Redis Token 校验、全局异常处理和跨域拦截。
-1. 完成 账号权限 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-2. 完成 园区楼宇 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-3. 完成 孪生设备 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-4. 完成 巡检路线 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-5. 完成 巡检点位 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-6. 完成 巡检任务 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-7. 完成 巡检记录 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-8. 完成 缺陷报告 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-9. 完成 维修工单 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-10. 完成 传感数据 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-11. 完成 孪生模型 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-12. 完成 能耗监测 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-13. 完成 保养计划 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-14. 完成 操作日志 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-3. 编写数据库初始化脚本，包含 14 张业务表和演示数据。
-4. 构建 Vue3 管理端，配置 3120 端口代理、登录页、布局页、数据看板和通用数据维护页。
-5. 执行静态扫描，确认主题关键词、端口、数据库、账号密码、表数量、接口数量和页面数量完整。
+构建一个围绕园区数字孪生、设备巡检和缺陷处置的前后端分离系统，覆盖园区楼宇、孪生设备、巡检路线、缺陷报告、维修工单、传感数据、能耗监测和保养计划。
+
+## 当前状态
+
+`120-backend` 与 `120-frontend` 已完成数字孪生巡检系统的基础实现，当前进入精修阶段，重点核对认证安全、巡检闭环、孪生数据口径和文档准确性。
+
+## 实施方案
+
+### 第一阶段：后端开发
+1. Spring Boot 2.7.18 + MyBatis 2.3.1 + PageHelper + Redis + JWT
+2. 创建 `digital_twin_park_120` 数据库和 14 张业务表
+3. 实现统一返回、异常处理、JWT 拦截、Redis 配置和分页查询
+4. 实现 Entity、Mapper、Service 和 Controller
+5. 实现巡检任务、缺陷处理、维修闭环、能耗监测和保养管理
+6. 实现首页统计和操作日志
+
+### 第二阶段：前端开发
+1. Vue3 + Vite + Element Plus + Pinia + Axios + ECharts
+2. 登录页、布局页、首页看板
+3. 园区楼宇、孪生设备、巡检路线、巡检点位、巡检任务、巡检记录、缺陷报告、维修工单、传感数据、孪生模型、能耗监测、保养计划和日志页面
+4. 业务按钮支持巡检、报缺、派工、确认和查看孪生态势
+
+### 第三阶段：文档更新
+1. 更新 `readme.md`
+2. 更新 `readme_simple.md`
+3. 更新候选清单
+
+## 完成标准
+
+1. 后端结构完整。
+2. 前端结构完整。
+3. SQL 包含演示数据。
+4. 认证返回不暴露敏感字段。
+5. 巡检、缺陷、维修、能耗和保养计划口径一致。
+6. 文档描述与实际实现保持一致。
+7. 不执行编译验证。

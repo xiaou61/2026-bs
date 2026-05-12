@@ -49,10 +49,21 @@ public class MatchTaskService extends ServiceImpl<MatchTaskMapper, MatchTask> {
     public void saveEntity(MatchTask entity, Long userId) {
         if (entity.getId() == null) {
             entity.setTaskNo(entity.getTaskNo() == null ? "MT" + System.currentTimeMillis() : entity.getTaskNo());
-            entity.setStatus(entity.getStatus() == null ? 0 : entity.getStatus());
+            entity.setStatus(0);
             entity.setHandlerId(userId);
             entity.setCreateTime(LocalDateTime.now());
+        } else {
+            MatchTask db = getById(entity.getId());
+            if (db == null) {
+                throw new BusinessException(400, "匹配任务不存在");
+            }
+            entity.setTaskNo(db.getTaskNo());
+            entity.setStatus(db.getStatus());
+            entity.setHandlerId(db.getHandlerId());
+            entity.setCreateTime(db.getCreateTime());
+            entity.setFinishTime(db.getFinishTime());
         }
+        entity.setUpdateTime(LocalDateTime.now());
         saveOrUpdate(entity);
     }
 
@@ -60,6 +71,9 @@ public class MatchTaskService extends ServiceImpl<MatchTaskMapper, MatchTask> {
         MatchTask task = getById(id);
         if (task == null) {
             throw new BusinessException(400, "匹配任务不存在");
+        }
+        if (task.getStatus() == null || task.getStatus() != 0) {
+            throw new BusinessException(400, "仅待处理任务可以启动");
         }
         CandidateProfile candidate = candidateProfileMapper.selectById(task.getCandidateId());
         JobPosition job = jobPositionMapper.selectById(task.getJobId());
@@ -83,8 +97,12 @@ public class MatchTaskService extends ServiceImpl<MatchTaskMapper, MatchTask> {
             score = new BigDecimal("98");
         }
         String level = score.compareTo(new BigDecimal("82")) >= 0 ? "强推荐" : score.compareTo(new BigDecimal("65")) >= 0 ? "可面试" : "暂缓";
-        MatchResult result = new MatchResult();
-        result.setTaskId(id);
+        MatchResult result = matchResultMapper.selectOne(new LambdaQueryWrapper<MatchResult>().eq(MatchResult::getTaskId, id).last("limit 1"));
+        if (result == null) {
+            result = new MatchResult();
+            result.setTaskId(id);
+            result.setCreateTime(LocalDateTime.now());
+        }
         result.setCandidateId(candidate.getId());
         result.setJobId(job.getId());
         result.setMatchedSkills(matched.length() == 0 ? "暂无强匹配项" : matched.toString());
@@ -93,10 +111,12 @@ public class MatchTaskService extends ServiceImpl<MatchTaskMapper, MatchTask> {
         result.setRecommendLevel(level);
         result.setConclusion(candidate.getRealName() + " 对岗位 " + job.getJobName() + " 的匹配等级为" + level);
         result.setReviewStatus(0);
-        result.setCreateTime(LocalDateTime.now());
+        result.setReviewComment(null);
         result.setUpdateTime(LocalDateTime.now());
-        matchResultMapper.insert(result);
+        if (result.getId() == null) matchResultMapper.insert(result);
+        else matchResultMapper.updateById(result);
         task.setStatus(1);
+        task.setUpdateTime(LocalDateTime.now());
         updateById(task);
     }
 
@@ -105,8 +125,12 @@ public class MatchTaskService extends ServiceImpl<MatchTaskMapper, MatchTask> {
         if (task == null) {
             throw new BusinessException(400, "匹配任务不存在");
         }
+        if (task.getStatus() == null || task.getStatus() != 1) {
+            throw new BusinessException(400, "仅已执行任务可以完成");
+        }
         task.setStatus(2);
         task.setFinishTime(LocalDateTime.now());
+        task.setUpdateTime(LocalDateTime.now());
         updateById(task);
     }
 
@@ -115,7 +139,11 @@ public class MatchTaskService extends ServiceImpl<MatchTaskMapper, MatchTask> {
         if (task == null) {
             throw new BusinessException(400, "匹配任务不存在");
         }
+        if (task.getStatus() == null || (task.getStatus() != 0 && task.getStatus() != 1)) {
+            throw new BusinessException(400, "仅待处理或已执行任务可以驳回");
+        }
         task.setStatus(3);
+        task.setUpdateTime(LocalDateTime.now());
         updateById(task);
     }
 }

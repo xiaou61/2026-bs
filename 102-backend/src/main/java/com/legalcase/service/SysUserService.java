@@ -7,6 +7,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 
@@ -17,18 +18,32 @@ public class SysUserService {
 
     public PageInfo<SysUser> page(Integer pageNum, Integer pageSize, String keyword, String role, Integer status) {
         PageHelper.startPage(pageNum, pageSize);
-        return new PageInfo<>(mapper.selectPage(keyword, role, status));
+        PageInfo<SysUser> info = new PageInfo<>(mapper.selectPage(keyword, role, status));
+        info.getList().forEach(user -> user.setPassword(null));
+        return info;
     }
 
     public SysUser getById(Long id) {
-        return mapper.selectById(id);
+        SysUser user = mapper.selectById(id);
+        if (user != null) {
+            user.setPassword(null);
+        }
+        return user;
     }
 
     public void saveEntity(SysUser entity) {
         if (entity.getId() == null) {
-            entity.setPassword(entity.getPassword() == null ? "123456" : entity.getPassword());
+            entity.setPassword(StringUtils.hasText(entity.getPassword()) ? entity.getPassword() : "123456");
+            entity.setRole(StringUtils.hasText(entity.getRole()) ? entity.getRole() : "CLIENT");
             entity.setStatus(entity.getStatus() == null ? 1 : entity.getStatus());
             entity.setCreateTime(LocalDateTime.now());
+        } else {
+            SysUser db = mapper.selectById(entity.getId());
+            if (db == null) {
+                throw new BusinessException(400, "账号不存在");
+            }
+            entity.setPassword(StringUtils.hasText(entity.getPassword()) ? entity.getPassword() : db.getPassword());
+            entity.setCreateTime(db.getCreateTime());
         }
         entity.setUpdateTime(LocalDateTime.now());
         if (entity.getId() == null) {

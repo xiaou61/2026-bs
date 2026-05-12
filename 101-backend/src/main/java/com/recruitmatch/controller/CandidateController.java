@@ -5,7 +5,6 @@ import com.recruitmatch.entity.CandidateProfile;
 import com.recruitmatch.service.AuthService;
 import com.recruitmatch.service.OperationLogService;
 import com.recruitmatch.service.CandidateProfileService;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,34 +31,37 @@ public class CandidateController {
     private OperationLogService operationLogService;
 
     @GetMapping("/page")
-    public Result<Page<CandidateProfile>> page(@RequestParam(defaultValue = "1") Integer pageNum,
+    public Result<Page<CandidateProfile>> page(@RequestAttribute Long userId,
+                                      @RequestAttribute String role,
+                                      @RequestParam(defaultValue = "1") Integer pageNum,
                                       @RequestParam(defaultValue = "10") Integer pageSize,
                                       String keyword,
                                       Integer status,
                                       String targetJob) {
-        LambdaQueryWrapper<CandidateProfile> wrapper = new LambdaQueryWrapper<>(); wrapper.and(org.springframework.util.StringUtils.hasText(keyword), item -> item.like(CandidateProfile::getRealName, keyword).or().like(CandidateProfile::getSkillTags, keyword)); wrapper.eq(status != null, CandidateProfile::getStatus, status); wrapper.eq(org.springframework.util.StringUtils.hasText(targetJob), CandidateProfile::getTargetJob, targetJob); wrapper.orderByDesc(CandidateProfile::getId); return Result.success(service.page(new Page<>(pageNum, pageSize), wrapper));
+        authService.assertHrOrCandidate(role);
+        return Result.success(service.pageByRole(pageNum, pageSize, keyword, status, targetJob, userId, role));
     }
 
     @PostMapping
     public Result<Void> add(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody CandidateProfile entity) {
-        authService.assertCandidate(role);
-        service.save(entity);
+        authService.assertHrOrCandidate(role);
+        service.saveEntity(entity, userId, role);
         operationLogService.record(userId, "候选人档案", "新增", "新增候选人档案");
         return Result.success();
     }
 
     @PutMapping
     public Result<Void> update(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody CandidateProfile entity) {
-        authService.assertCandidate(role);
-        service.updateById(entity);
+        authService.assertHrOrCandidate(role);
+        service.saveEntity(entity, userId, role);
         operationLogService.record(userId, "候选人档案", "编辑", "编辑候选人档案：" + entity.getId());
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
     public Result<Void> delete(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
-        authService.assertCandidate(role);
-        service.removeById(id);
+        authService.assertHrOrCandidate(role);
+        service.deleteByRole(id, userId, role);
         operationLogService.record(userId, "候选人档案", "删除", "删除候选人档案：" + id);
         return Result.success();
     }

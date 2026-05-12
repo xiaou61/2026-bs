@@ -29,18 +29,21 @@ public class InterviewPlanController {
     private OperationLogService operationLogService;
 
     @GetMapping("/page")
-    public Result<Page<InterviewPlan>> page(@RequestParam(defaultValue = "1") Integer pageNum,
+    public Result<Page<InterviewPlan>> page(@RequestAttribute Long userId,
+                                            @RequestAttribute String role,
+                                            @RequestParam(defaultValue = "1") Integer pageNum,
                                             @RequestParam(defaultValue = "10") Integer pageSize,
                                             Long candidateId,
                                             Long jobId,
                                             Integer status,
                                             String interviewType) {
-        return Result.success(service.page(pageNum, pageSize, candidateId, jobId, status, interviewType));
+        authService.assertHrOrInterviewer(role);
+        return Result.success(service.pageByRole(pageNum, pageSize, candidateId, jobId, status, interviewType, userId, role));
     }
 
     @PostMapping
     public Result<Void> add(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody InterviewPlan entity) {
-        authService.assertHr(role);
+        authService.assertHrOnly(role);
         service.saveEntity(entity);
         operationLogService.record(userId, "面试排期", "新增", "新增面试计划：" + entity.getCandidateId());
         return Result.success();
@@ -48,7 +51,7 @@ public class InterviewPlanController {
 
     @PutMapping
     public Result<Void> update(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody InterviewPlan entity) {
-        authService.assertHr(role);
+        authService.assertHrOnly(role);
         service.saveEntity(entity);
         operationLogService.record(userId, "面试排期", "编辑", "编辑面试计划：" + entity.getId());
         return Result.success();
@@ -56,31 +59,31 @@ public class InterviewPlanController {
 
     @PutMapping("/confirm/{id}")
     public Result<Void> confirm(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
-        authService.assertInterviewer(role);
-        service.updateStatus(id, 1);
+        authService.assertInterviewerOnly(role);
+        service.updateStatus(id, 1, userId, role);
         operationLogService.record(userId, "面试排期", "确认", "确认面试：" + id);
         return Result.success();
     }
 
     @PutMapping("/cancel/{id}")
     public Result<Void> cancel(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
-        authService.assertHr(role);
-        service.updateStatus(id, 2);
+        authService.assertHrOnly(role);
+        service.updateStatus(id, 2, userId, role);
         operationLogService.record(userId, "面试排期", "取消", "取消面试：" + id);
         return Result.success();
     }
 
     @PutMapping("/finish/{id}")
     public Result<Void> finish(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
-        authService.assertInterviewer(role);
-        service.updateStatus(id, 3);
+        authService.assertInterviewerOnly(role);
+        service.updateStatus(id, 3, userId, role);
         operationLogService.record(userId, "面试排期", "完成", "完成面试：" + id);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
     public Result<Void> delete(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
-        authService.assertHr(role);
+        authService.assertHrOnly(role);
         service.removeById(id);
         operationLogService.record(userId, "面试排期", "删除", "删除面试：" + id);
         return Result.success();

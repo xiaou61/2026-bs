@@ -1,25 +1,40 @@
-# 直播电商选品排期与售后工单系统开发计划
+# 实现计划
 
-## 技术路线
-后端采用 Spring Boot 2.7.18、MyBatis 2.3.1、PageHelper 1.4.7、MySQL、Redis 和 JWT。前端采用 Vue3、Element Plus、Pinia、Axios、Vue Router 和 ECharts。
+## 问题陈述
 
-## 实施步骤
-1. 初始化后端工程、配置 8116 端口、MySQL 数据库 live_commerce_116 和 Redis 19 号库。
-2. 建立 JWT 登录、Redis Token 校验、全局异常处理和跨域拦截。
-1. 完成 账号权限 的实体、Mapper注解SQL、Service、Controller、前端列表表单和状态动作。
-2. 完成 直播渠道 的实体、Mapper注解SQL、Service、Controller、前端列表表单和状态动作。
-3. 完成 主播档案 的实体、Mapper注解SQL、Service、Controller、前端列表表单和状态动作。
-4. 完成 供应商品牌 的实体、Mapper注解SQL、Service、Controller、前端列表表单和状态动作。
-5. 完成 选品池 的实体、Mapper注解SQL、Service、Controller、前端列表表单和状态动作。
-6. 完成 直播场次 的实体、Mapper注解SQL、Service、Controller、前端列表表单和状态动作。
-7. 完成 排期计划 的实体、Mapper注解SQL、Service、Controller、前端列表表单和状态动作。
-8. 完成 样品申请 的实体、Mapper注解SQL、Service、Controller、前端列表表单和状态动作。
-9. 完成 话术脚本 的实体、Mapper注解SQL、Service、Controller、前端列表表单和状态动作。
-10. 完成 直播订单 的实体、Mapper注解SQL、Service、Controller、前端列表表单和状态动作。
-11. 完成 售后工单 的实体、Mapper注解SQL、Service、Controller、前端列表表单和状态动作。
-12. 完成 退款记录 的实体、Mapper注解SQL、Service、Controller、前端列表表单和状态动作。
-13. 完成 主播绩效 的实体、Mapper注解SQL、Service、Controller、前端列表表单和状态动作。
-14. 完成 操作日志 的实体、Mapper注解SQL、Service、Controller、前端列表表单和状态动作。
-3. 编写数据库初始化脚本，包含 14 张业务表和演示数据。
-4. 构建 Vue3 管理端，配置 3116 端口代理、登录页、布局页、数据看板和通用数据维护页。
-5. 执行静态扫描，确认主题关键词、端口、数据库、账号密码、表数量、接口数量和页面数量完整。
+构建一个围绕直播选品、排期管理和售后工单的前后端分离系统，覆盖直播渠道、主播档案、品牌商品、样品申请、话术脚本、直播订单、退款记录和绩效分析。
+
+## 当前状态
+
+`116-backend` 与 `116-frontend` 已完成直播电商管理系统的基础实现，当前进入精修阶段，重点核对认证安全、排期履约、售后闭环和文档准确性。
+
+## 实施方案
+
+### 第一阶段：后端开发
+1. Spring Boot 2.7.18 + MyBatis 2.3.1 + PageHelper + Redis + JWT
+2. 创建 `live_commerce_116` 数据库和 14 张业务表
+3. 实现统一返回、异常处理、JWT 拦截、Redis 配置和分页查询
+4. 实现 Entity、Mapper、Service 和 Controller
+5. 实现选品排期、样品申请、订单跟踪、售后处理和绩效统计
+6. 实现首页统计和操作日志
+
+### 第二阶段：前端开发
+1. Vue3 + Vite + Element Plus + Pinia + Axios + ECharts
+2. 登录页、布局页、首页看板
+3. 直播渠道、主播档案、选品池、直播场次、排期计划、样品申请、话术脚本、直播订单、售后工单、退款记录、主播绩效和日志页面
+4. 业务按钮支持排期、确认、退款、完结和查看绩效
+
+### 第三阶段：文档更新
+1. 更新 `readme.md`
+2. 更新 `readme_simple.md`
+3. 更新候选清单
+
+## 完成标准
+
+1. 后端结构完整。
+2. 前端结构完整。
+3. SQL 包含演示数据。
+4. 认证返回不暴露敏感字段。
+5. 排期、订单、售后、退款和绩效统计口径一致。
+6. 文档描述与实际实现保持一致。
+7. 不执行编译验证。

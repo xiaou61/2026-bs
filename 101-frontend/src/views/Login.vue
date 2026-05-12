@@ -41,13 +41,21 @@ const rules = {
   password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
 }
 
+const getHomePath = (role) => {
+  if (role === 'ADMIN') return '/dashboard'
+  if (role === 'HR') return '/candidate'
+  if (role === 'CANDIDATE') return '/resume'
+  if (role === 'INTERVIEWER') return '/interview'
+  return '/login'
+}
+
 const handleLogin = async () => {
   await formRef.value.validate()
   loading.value = true
   try {
     const res = await login(form)
     userStore.setLogin(res.data.token, res.data.user)
-    router.push('/dashboard')
+    router.push(getHomePath(res.data.user?.role))
   } finally {
     loading.value = false
   }

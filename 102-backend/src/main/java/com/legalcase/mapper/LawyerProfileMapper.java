@@ -26,6 +26,9 @@ public interface LawyerProfileMapper {
     @Select("SELECT * FROM lawyer_profile WHERE id=#{id}")
     LawyerProfile selectById(Long id);
 
+    @Select("SELECT * FROM lawyer_profile WHERE user_id=#{userId} LIMIT 1")
+    LawyerProfile selectByUserId(Long userId);
+
     @Insert("INSERT INTO lawyer_profile(user_id, real_name, license_no, speciality, experience_years, service_status, create_time, update_time) VALUES(#{userId}, #{realName}, #{licenseNo}, #{speciality}, #{experienceYears}, #{serviceStatus}, #{createTime}, #{updateTime})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(LawyerProfile entity);

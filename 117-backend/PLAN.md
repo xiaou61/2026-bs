@@ -1,25 +1,40 @@
-# 本地生活服务券核销与商户结算系统开发计划
+# 实现计划
 
-## 技术路线
-后端采用 Spring Boot 2.7.18、MyBatis-Plus 3.5.5、MySQL、Redis 和 JWT。前端采用 Vue3、Element Plus、Pinia、Axios、Vue Router 和 ECharts。
+## 问题陈述
 
-## 实施步骤
-1. 初始化后端工程、配置 8117 端口、MySQL 数据库 local_voucher_117 和 Redis 20 号库。
-2. 建立 JWT 登录、Redis Token 校验、全局异常处理和跨域拦截。
-1. 完成 账号权限 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-2. 完成 商户档案 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-3. 完成 门店网点 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-4. 完成 用户档案 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-5. 完成 券模板 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-6. 完成 营销活动 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-7. 完成 用户领券 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-8. 完成 核销记录 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-9. 完成 商户结算 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-10. 完成 结算明细 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-11. 完成 打款记录 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-12. 完成 申诉工单 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-13. 完成 活动统计 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-14. 完成 操作日志 的实体、Mapper、Service、Controller、前端列表表单和状态动作。
-3. 编写数据库初始化脚本，包含 14 张业务表和演示数据。
-4. 构建 Vue3 管理端，配置 3117 端口代理、登录页、布局页、数据看板和通用数据维护页。
-5. 执行静态扫描，确认主题关键词、端口、数据库、账号密码、表数量、接口数量和页面数量完整。
+构建一个围绕服务券发放、门店核销和商户结算的前后端分离系统，覆盖商户档案、门店网点、用户领券、营销活动、核销记录、结算明细、打款记录和申诉工单。
+
+## 当前状态
+
+`117-backend` 与 `117-frontend` 已完成本地生活券核销系统的基础实现，当前进入精修阶段，重点核对核销安全、结算闭环、活动统计和文档准确性。
+
+## 实施方案
+
+### 第一阶段：后端开发
+1. Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + Redis + JWT
+2. 创建 `local_voucher_117` 数据库和 14 张业务表
+3. 实现统一返回、异常处理、JWT 拦截和 Redis Token 校验
+4. 实现 Entity、Mapper、Service 和 Controller
+5. 实现领券发放、核销处理、商户结算、打款登记和申诉跟进
+6. 实现首页统计和操作日志
+
+### 第二阶段：前端开发
+1. Vue3 + Vite + Element Plus + Pinia + Axios + ECharts
+2. 登录页、布局页、首页看板
+3. 商户档案、门店网点、用户档案、券模板、营销活动、用户领券、核销记录、商户结算、结算明细、打款记录、申诉工单、活动统计和日志页面
+4. 业务按钮支持发券、核销、结算、打款和申诉处理
+
+### 第三阶段：文档更新
+1. 更新 `readme.md`
+2. 更新 `readme_simple.md`
+3. 更新候选清单
+
+## 完成标准
+
+1. 后端结构完整。
+2. 前端结构完整。
+3. SQL 包含演示数据。
+4. 认证返回不暴露敏感字段。
+5. 领券、核销、结算、打款和申诉处理口径一致。
+6. 文档描述与实际实现保持一致。
+7. 不执行编译验证。

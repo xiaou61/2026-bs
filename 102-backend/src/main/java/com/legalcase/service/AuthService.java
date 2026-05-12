@@ -1,7 +1,11 @@
 package com.legalcase.service;
 
 import com.legalcase.common.BusinessException;
+import com.legalcase.entity.ClientProfile;
+import com.legalcase.entity.LawyerProfile;
 import com.legalcase.entity.SysUser;
+import com.legalcase.mapper.ClientProfileMapper;
+import com.legalcase.mapper.LawyerProfileMapper;
 import com.legalcase.mapper.SysUserMapper;
 import com.legalcase.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +29,12 @@ public class AuthService {
     @Autowired
     private OperationLogService operationLogService;
 
+    @Autowired
+    private ClientProfileMapper clientProfileMapper;
+
+    @Autowired
+    private LawyerProfileMapper lawyerProfileMapper;
+
     public Map<String, Object> login(String username, String password) {
         if (!StringUtils.hasText(username) || !StringUtils.hasText(password)) {
             throw new BusinessException(400, "用户名和密码不能为空");
@@ -38,6 +48,7 @@ public class AuthService {
         }
         String token = jwtUtils.generateToken(user.getId(), user.getRole());
         tokenService.store(user.getId(), token);
+        user.setPassword(null);
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
         result.put("user", user);
@@ -50,6 +61,7 @@ public class AuthService {
         if (user == null) {
             throw new BusinessException(401, "用户不存在");
         }
+        user.setPassword(null);
         return user;
     }
 
@@ -74,5 +86,29 @@ public class AuthService {
         if (!"ADMIN".equals(role) && !"LAWYER".equals(role) && !"ASSISTANT".equals(role) && !"CLIENT".equals(role)) {
             throw new BusinessException(403, "无权限操作");
         }
+    }
+
+    public boolean isClient(String role) {
+        return "CLIENT".equals(role);
+    }
+
+    public boolean isLawyer(String role) {
+        return "LAWYER".equals(role);
+    }
+
+    public Long requireClientId(Long userId) {
+        ClientProfile profile = clientProfileMapper.selectByUserId(userId);
+        if (profile == null) {
+            throw new BusinessException(400, "请先创建委托人档案");
+        }
+        return profile.getId();
+    }
+
+    public Long requireLawyerId(Long userId) {
+        LawyerProfile profile = lawyerProfileMapper.selectByUserId(userId);
+        if (profile == null) {
+            throw new BusinessException(400, "请先创建律师档案");
+        }
+        return profile.getId();
     }
 }

@@ -24,6 +24,19 @@ public interface EvidenceMaterialMapper {
             "</script>"})
     List<EvidenceMaterial> selectPage(@Param("keyword") String keyword, @Param("caseId") Long caseId, @Param("verifyStatus") Integer verifyStatus);
 
+    @Select({"<script>",
+            "SELECT em.* FROM evidence_material em",
+            "INNER JOIN legal_case lc ON em.case_id = lc.id",
+            "<where>",
+            "lc.client_id = #{clientId}",
+            "<if test=\"keyword != null and keyword != \'\'\"> AND (em.material_name LIKE CONCAT('%',#{keyword},'%') OR em.material_type LIKE CONCAT('%',#{keyword},'%') OR em.review_comment LIKE CONCAT('%',#{keyword},'%')) </if>",
+            "<if test=\"caseId != null\"> AND em.case_id = #{caseId} </if>",
+            "<if test=\"verifyStatus != null\"> AND em.verify_status = #{verifyStatus} </if>",
+            "</where>",
+            "ORDER BY em.id DESC",
+            "</script>"})
+    List<EvidenceMaterial> selectPageByClientId(@Param("keyword") String keyword, @Param("caseId") Long caseId, @Param("verifyStatus") Integer verifyStatus, @Param("clientId") Long clientId);
+
     @Select("SELECT * FROM evidence_material WHERE id=#{id}")
     EvidenceMaterial selectById(Long id);
 

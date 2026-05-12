@@ -31,18 +31,21 @@ public class CaseStageController {
     private OperationLogService operationLogService;
 
     @GetMapping("/page")
-    public Result<PageInfo<CaseStage>> page(@RequestParam(defaultValue = "1") Integer pageNum,
+    public Result<PageInfo<CaseStage>> page(@RequestAttribute Long userId,
+                                          @RequestAttribute String role,
+                                          @RequestParam(defaultValue = "1") Integer pageNum,
                                           @RequestParam(defaultValue = "10") Integer pageSize,
                                           String keyword,
                                           Long caseId,
                                           Integer status) {
-        return Result.success(service.page(pageNum, pageSize, keyword, caseId, status));
+        authService.assertStaff(role);
+        return Result.success(service.pageByRole(pageNum, pageSize, keyword, caseId, status, userId, role));
     }
 
     @PostMapping
     public Result<Void> add(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody CaseStage caseStage) {
         authService.assertStaff(role);
-        service.saveEntity(caseStage);
+        service.saveEntity(caseStage, userId, role);
         operationLogService.record(userId, "进度节点", "新增", "新增进度节点");
         return Result.success();
     }
@@ -50,7 +53,7 @@ public class CaseStageController {
     @PutMapping
     public Result<Void> update(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody CaseStage caseStage) {
         authService.assertStaff(role);
-        service.saveEntity(caseStage);
+        service.saveEntity(caseStage, userId, role);
         operationLogService.record(userId, "进度节点", "编辑", "编辑进度节点：" + caseStage.getId());
         return Result.success();
     }
@@ -58,7 +61,7 @@ public class CaseStageController {
     @PutMapping("/finish/{id}")
     public Result<Void> finish(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
         authService.assertStaff(role);
-        service.finish(id);
+        service.finish(id, userId, role);
         operationLogService.record(userId, "进度节点", "完成", "完成节点：" + id);
         return Result.success();
     }
@@ -66,7 +69,7 @@ public class CaseStageController {
     @PutMapping("/reopen/{id}")
     public Result<Void> reopen(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
         authService.assertStaff(role);
-        service.reopen(id);
+        service.reopen(id, userId, role);
         operationLogService.record(userId, "进度节点", "重开", "重开节点：" + id);
         return Result.success();
     }
@@ -74,7 +77,7 @@ public class CaseStageController {
     @DeleteMapping("/{id}")
     public Result<Void> delete(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
         authService.assertStaff(role);
-        service.delete(id);
+        service.delete(id, userId, role);
         operationLogService.record(userId, "进度节点", "删除", "删除进度节点：" + id);
         return Result.success();
     }

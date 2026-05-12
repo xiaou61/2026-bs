@@ -26,8 +26,14 @@ public class LawyerProfileService {
 
     public void saveEntity(LawyerProfile entity) {
         if (entity.getId() == null) {
-            
+            entity.setServiceStatus(entity.getServiceStatus() == null ? 1 : entity.getServiceStatus());
             entity.setCreateTime(LocalDateTime.now());
+        } else {
+            LawyerProfile db = mapper.selectById(entity.getId());
+            if (db == null) {
+                throw new BusinessException(400, "律师档案不存在");
+            }
+            entity.setCreateTime(db.getCreateTime());
         }
         entity.setUpdateTime(LocalDateTime.now());
         if (entity.getId() == null) {

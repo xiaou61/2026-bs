@@ -26,6 +26,9 @@ public interface ClientProfileMapper {
     @Select("SELECT * FROM client_profile WHERE id=#{id}")
     ClientProfile selectById(Long id);
 
+    @Select("SELECT * FROM client_profile WHERE user_id=#{userId} LIMIT 1")
+    ClientProfile selectByUserId(Long userId);
+
     @Insert("INSERT INTO client_profile(user_id, real_name, id_no, phone, address, case_preference, status, create_time, update_time) VALUES(#{userId}, #{realName}, #{idNo}, #{phone}, #{address}, #{casePreference}, #{status}, #{createTime}, #{updateTime})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(ClientProfile entity);

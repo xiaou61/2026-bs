@@ -31,20 +31,23 @@ public class ConsultationRecordController {
     private OperationLogService operationLogService;
 
     @GetMapping("/page")
-    public Result<PageInfo<ConsultationRecord>> page(@RequestParam(defaultValue = "1") Integer pageNum,
+    public Result<PageInfo<ConsultationRecord>> page(@RequestAttribute Long userId,
+                                          @RequestAttribute String role,
+                                          @RequestParam(defaultValue = "1") Integer pageNum,
                                           @RequestParam(defaultValue = "10") Integer pageSize,
                                           String keyword,
                                           Long caseId,
                                           Long clientId,
                                           Long lawyerId,
                                           String riskLevel) {
-        return Result.success(service.page(pageNum, pageSize, keyword, caseId, clientId, lawyerId, riskLevel));
+        authService.assertStaff(role);
+        return Result.success(service.pageByRole(pageNum, pageSize, keyword, caseId, clientId, lawyerId, riskLevel, userId, role));
     }
 
     @PostMapping
     public Result<Void> add(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody ConsultationRecord consultationRecord) {
         authService.assertStaff(role);
-        service.saveEntity(consultationRecord);
+        service.saveEntity(consultationRecord, userId, role);
         operationLogService.record(userId, "咨询记录", "新增", "新增咨询记录");
         return Result.success();
     }
@@ -52,7 +55,7 @@ public class ConsultationRecordController {
     @PutMapping
     public Result<Void> update(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody ConsultationRecord consultationRecord) {
         authService.assertStaff(role);
-        service.saveEntity(consultationRecord);
+        service.saveEntity(consultationRecord, userId, role);
         operationLogService.record(userId, "咨询记录", "编辑", "编辑咨询记录：" + consultationRecord.getId());
         return Result.success();
     }
@@ -60,7 +63,7 @@ public class ConsultationRecordController {
     @DeleteMapping("/{id}")
     public Result<Void> delete(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
         authService.assertStaff(role);
-        service.delete(id);
+        service.delete(id, userId, role);
         operationLogService.record(userId, "咨询记录", "删除", "删除咨询记录：" + id);
         return Result.success();
     }

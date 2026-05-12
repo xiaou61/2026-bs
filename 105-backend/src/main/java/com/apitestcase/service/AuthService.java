@@ -29,6 +29,7 @@ public class AuthService {
         }
         String token = JwtUtils.generateToken(user.getId(), user.getUsername(), user.getRole());
         tokenService.save(token, String.valueOf(user.getId()));
+        user.setPassword(null);
         Map<String, Object> data = new HashMap<>();
         data.put("token", token);
         data.put("user", user);
@@ -37,7 +38,11 @@ public class AuthService {
 
     public SysUser info(String token) {
         Claims claims = JwtUtils.parse(clean(token));
-        return userMapper.selectById(Long.valueOf(claims.getSubject()));
+        SysUser user = userMapper.selectById(Long.valueOf(claims.getSubject()));
+        if (user != null) {
+            user.setPassword(null);
+        }
+        return user;
     }
 
     public void logout(String token) {
@@ -51,5 +56,41 @@ public class AuthService {
             return token.substring(7);
         }
         return token;
+    }
+
+    public void assertAdmin(String role) {
+        assertAny(role, "ADMIN");
+    }
+
+    public void assertAdminOrProduct(String role) {
+        assertAny(role, "ADMIN", "PRODUCT");
+    }
+
+    public void assertAdminOrProductOrDeveloper(String role) {
+        assertAny(role, "ADMIN", "PRODUCT", "DEVELOPER");
+    }
+
+    public void assertAdminOrTesterOrDeveloper(String role) {
+        assertAny(role, "ADMIN", "TESTER", "DEVELOPER");
+    }
+
+    public void assertAdminOrProductOrTester(String role) {
+        assertAny(role, "ADMIN", "PRODUCT", "TESTER");
+    }
+
+    public void assertAuthenticated(String role) {
+        assertAny(role, "ADMIN", "PRODUCT", "TESTER", "DEVELOPER");
+    }
+
+    private void assertAny(String role, String... allowedRoles) {
+        if (role == null) {
+            throw new BusinessException("无权限操作");
+        }
+        for (String allowedRole : allowedRoles) {
+            if (allowedRole.equals(role)) {
+                return;
+            }
+        }
+        throw new BusinessException("无权限操作");
     }
 }

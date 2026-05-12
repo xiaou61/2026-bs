@@ -28,7 +28,7 @@
         </el-table-column>
         <el-table-column v-if="rowActions.length || !readonly" label="操作" width="260" fixed="right">
           <template #default="{ row }">
-            <el-button v-for="action in rowActions" :key="action.name" link :type="action.type || 'primary'" @click="$emit('row-action', action.name, row)">{{ action.label }}</el-button>
+            <el-button v-for="action in visibleRowActions(row)" :key="action.name" link :type="action.type || 'primary'" @click="$emit('row-action', action.name, row)">{{ action.label }}</el-button>
             <el-button v-if="!readonly" link type="primary" @click="openEdit(row)">编辑</el-button>
             <el-popconfirm v-if="!readonly && api.delete" title="确认删除这条数据？" @confirm="remove(row.id)">
               <template #reference>
@@ -161,6 +161,11 @@ const remove = async (id) => {
   ElMessage.success('删除成功')
   loadData()
 }
+
+const visibleRowActions = (row) => props.rowActions.filter((action) => {
+  if (typeof action.visible === 'function') return action.visible(row)
+  return action.visible !== false
+})
 
 defineExpose({ loadData })
 onMounted(loadData)

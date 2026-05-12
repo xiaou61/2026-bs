@@ -31,10 +31,12 @@ public class LawyerProfileController {
     private OperationLogService operationLogService;
 
     @GetMapping("/page")
-    public Result<PageInfo<LawyerProfile>> page(@RequestParam(defaultValue = "1") Integer pageNum,
+    public Result<PageInfo<LawyerProfile>> page(@RequestAttribute String role,
+                                          @RequestParam(defaultValue = "1") Integer pageNum,
                                           @RequestParam(defaultValue = "10") Integer pageSize,
                                           String keyword,
                                           Integer serviceStatus) {
+        authService.assertAdmin(role);
         return Result.success(service.page(pageNum, pageSize, keyword, serviceStatus));
     }
 

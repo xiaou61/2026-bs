@@ -37,13 +37,21 @@ const userStore = useUserStore()
 const loading = ref(false)
 const form = reactive({ username: 'admin', password: '123456' })
 
+const getHomePath = (role) => {
+  if (role === 'ADMIN') return '/dashboard'
+  if (role === 'LAWYER') return '/case'
+  if (role === 'ASSISTANT') return '/client'
+  if (role === 'CLIENT') return '/case'
+  return '/login'
+}
+
 const handleLogin = async () => {
   loading.value = true
   try {
     const res = await login(form)
     userStore.setLogin(res.data.token, res.data.user)
     ElMessage.success('登录成功')
-    router.push('/dashboard')
+    router.push(getHomePath(res.data.user?.role))
   } finally {
     loading.value = false
   }

@@ -31,12 +31,14 @@ public class SysUserController {
     private OperationLogService operationLogService;
 
     @GetMapping("/page")
-    public Result<PageInfo<SysUser>> page(@RequestParam(defaultValue = "1") Integer pageNum,
+    public Result<PageInfo<SysUser>> page(@RequestAttribute String role,
+                                          @RequestParam(defaultValue = "1") Integer pageNum,
                                           @RequestParam(defaultValue = "10") Integer pageSize,
                                           String keyword,
-                                          String role,
+                                          @RequestParam(name = "role", required = false) String queryRole,
                                           Integer status) {
-        return Result.success(service.page(pageNum, pageSize, keyword, role, status));
+        authService.assertAdmin(role);
+        return Result.success(service.page(pageNum, pageSize, keyword, queryRole, status));
     }
 
     @PostMapping

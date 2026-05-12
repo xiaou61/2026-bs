@@ -35,33 +35,35 @@ public class JobController {
     private OperationLogService operationLogService;
 
     @GetMapping("/page")
-    public Result<Page<JobPosition>> page(@RequestParam(defaultValue = "1") Integer pageNum,
+    public Result<Page<JobPosition>> page(@RequestAttribute String role,
+                                      @RequestParam(defaultValue = "1") Integer pageNum,
                                       @RequestParam(defaultValue = "10") Integer pageSize,
                                       String keyword,
                                       String jobType,
                                       Integer status) {
+        authService.assertHrOnly(role);
         LambdaQueryWrapper<JobPosition> wrapper = new LambdaQueryWrapper<>(); wrapper.and(org.springframework.util.StringUtils.hasText(keyword), item -> item.like(JobPosition::getJobName, keyword).or().like(JobPosition::getDepartment, keyword).or().like(JobPosition::getDescription, keyword)); wrapper.eq(org.springframework.util.StringUtils.hasText(jobType), JobPosition::getJobType, jobType); wrapper.eq(status != null, JobPosition::getStatus, status); wrapper.orderByDesc(JobPosition::getId); return Result.success(service.page(new Page<>(pageNum, pageSize), wrapper));
     }
 
     @PostMapping
     public Result<Void> add(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody JobPosition entity) {
-        authService.assertHr(role);
-        service.save(entity);
+        authService.assertHrOnly(role);
+        service.saveEntity(entity);
         operationLogService.record(userId, "岗位管理", "新增", "新增岗位管理");
         return Result.success();
     }
 
     @PutMapping
     public Result<Void> update(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody JobPosition entity) {
-        authService.assertHr(role);
-        service.updateById(entity);
+        authService.assertHrOnly(role);
+        service.saveEntity(entity);
         operationLogService.record(userId, "岗位管理", "编辑", "编辑岗位管理：" + entity.getId());
         return Result.success();
     }
 
     @PutMapping("/publish/{id}")
     public Result<Void> publish(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
-        authService.assertHr(role);
+        authService.assertHrOnly(role);
         JobPosition entity = service.getById(id);
         if (entity == null) {
             throw new BusinessException(400, "岗位不存在");
@@ -75,7 +77,7 @@ public class JobController {
 
     @PutMapping("/close/{id}")
     public Result<Void> close(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
-        authService.assertHr(role);
+        authService.assertHrOnly(role);
         JobPosition entity = service.getById(id);
         if (entity == null) {
             throw new BusinessException(400, "岗位不存在");
@@ -89,7 +91,7 @@ public class JobController {
 
     @DeleteMapping("/{id}")
     public Result<Void> delete(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
-        authService.assertHr(role);
+        authService.assertHrOnly(role);
         service.removeById(id);
         operationLogService.record(userId, "岗位管理", "删除", "删除岗位管理：" + id);
         return Result.success();

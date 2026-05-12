@@ -3,21 +3,7 @@
     <el-aside width="236px">
       <div class="logo">API 105</div>
       <el-menu router :default-active="$route.path">
-        <el-menu-item index="/dashboard">数据看板</el-menu-item>
-        <el-menu-item index="/user">账号权限</el-menu-item>
-    <el-menu-item index="/project">接口项目</el-menu-item>
-    <el-menu-item index="/group">接口分组</el-menu-item>
-    <el-menu-item index="/endpoint">接口定义</el-menu-item>
-    <el-menu-item index="/request-param">请求参数</el-menu-item>
-    <el-menu-item index="/response-field">响应字段</el-menu-item>
-    <el-menu-item index="/mock-rule">Mock规则</el-menu-item>
-    <el-menu-item index="/test-case">测试用例</el-menu-item>
-    <el-menu-item index="/test-step">用例步骤</el-menu-item>
-    <el-menu-item index="/environment">环境配置</el-menu-item>
-    <el-menu-item index="/execution">执行记录</el-menu-item>
-    <el-menu-item index="/execution-result">结果明细</el-menu-item>
-    <el-menu-item index="/document">文档快照</el-menu-item>
-    <el-menu-item index="/log">操作日志</el-menu-item>
+        <el-menu-item v-for="item in visibleMenus" :key="item.index" :index="item.index">{{ item.label }}</el-menu-item>
       </el-menu>
     </el-aside>
     <el-container>
@@ -31,11 +17,33 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { logout } from '../api'
 import { useUserStore } from '../store/user'
 const router = useRouter()
 const userStore = useUserStore()
+const menus = [
+  { index: '/dashboard', label: '数据看板', roles: ['ADMIN', 'PRODUCT', 'TESTER'] },
+  { index: '/user', label: '账号权限', roles: ['ADMIN'] },
+  { index: '/project', label: '接口项目', roles: ['ADMIN', 'PRODUCT', 'TESTER', 'DEVELOPER'] },
+  { index: '/group', label: '接口分组', roles: ['ADMIN', 'PRODUCT', 'TESTER', 'DEVELOPER'] },
+  { index: '/endpoint', label: '接口定义', roles: ['ADMIN', 'PRODUCT', 'TESTER', 'DEVELOPER'] },
+  { index: '/request-param', label: '请求参数', roles: ['ADMIN', 'PRODUCT', 'TESTER', 'DEVELOPER'] },
+  { index: '/response-field', label: '响应字段', roles: ['ADMIN', 'PRODUCT', 'TESTER', 'DEVELOPER'] },
+  { index: '/mock-rule', label: 'Mock规则', roles: ['ADMIN', 'TESTER', 'DEVELOPER'] },
+  { index: '/test-case', label: '测试用例', roles: ['ADMIN', 'PRODUCT', 'TESTER', 'DEVELOPER'] },
+  { index: '/test-step', label: '用例步骤', roles: ['ADMIN', 'PRODUCT', 'TESTER', 'DEVELOPER'] },
+  { index: '/environment', label: '环境配置', roles: ['ADMIN', 'PRODUCT', 'TESTER', 'DEVELOPER'] },
+  { index: '/execution', label: '执行记录', roles: ['ADMIN', 'PRODUCT', 'TESTER', 'DEVELOPER'] },
+  { index: '/execution-result', label: '结果明细', roles: ['ADMIN', 'PRODUCT', 'TESTER', 'DEVELOPER'] },
+  { index: '/document', label: '文档快照', roles: ['ADMIN', 'PRODUCT', 'TESTER', 'DEVELOPER'] },
+  { index: '/log', label: '操作日志', roles: ['ADMIN'] }
+]
+const visibleMenus = computed(() => {
+  const role = userStore.user?.role
+  return menus.filter(item => item.roles.includes(role))
+})
 const handleLogout = async () => {
   await logout().catch(() => null)
   userStore.clear()

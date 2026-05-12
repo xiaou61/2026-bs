@@ -18,5 +18,6 @@ public class ParsingTask {
     private Integer status;
     private Long handlerId;
     private LocalDateTime createTime;
+    private LocalDateTime updateTime;
     private LocalDateTime finishTime;
 }

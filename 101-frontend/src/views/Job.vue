@@ -8,13 +8,13 @@
     :columns="columns"
     :form-fields="formFields"
     :row-actions="rowActions"
-    :defaults="{ status: 1, jobType: '社招' }"
+    :defaults="{ jobType: '社招' }"
     @row-action="handleAction"
   />
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
 import { addJob, closeJob, deleteJob, getJobPage, publishJob, updateJob } from '../api'
@@ -28,8 +28,11 @@ const statusOptions = [{ label: '草稿', value: 0 }, { label: '招聘中', valu
 
 const filters = [{ type: 'input', prop: 'keyword', label: '关键词' }, { type: 'select', prop: 'jobType', label: '类型', options: typeOptions }, { type: 'select', prop: 'status', label: '状态', options: statusOptions }]
 const columns = [{ prop: 'jobName', label: '岗位名称', minWidth: 180 }, { prop: 'department', label: '部门' }, { prop: 'jobType', label: '类型' }, { prop: 'location', label: '地点' }, { prop: 'salaryRange', label: '薪资' }, { prop: 'status', label: '状态', map: statusMap }]
-const formFields = [{ prop: 'jobName', label: '岗位名称', required: true }, { prop: 'department', label: '部门' }, { prop: 'jobType', label: '类型', type: 'select', options: typeOptions }, { prop: 'location', label: '地点' }, { prop: 'salaryRange', label: '薪资范围' }, { prop: 'description', label: '岗位描述', type: 'textarea', rows: 4 }, { prop: 'status', label: '状态', type: 'select', options: statusOptions }]
-const rowActions = [{ name: 'publish', label: '发布', type: 'success' }, { name: 'close', label: '关闭', type: 'danger' }]
+const formFields = [{ prop: 'jobName', label: '岗位名称', required: true }, { prop: 'department', label: '部门' }, { prop: 'jobType', label: '类型', type: 'select', options: typeOptions }, { prop: 'location', label: '地点' }, { prop: 'salaryRange', label: '薪资范围' }, { prop: 'description', label: '岗位描述', type: 'textarea', rows: 4 }]
+const rowActions = computed(() => [
+  { name: 'publish', label: '发布', type: 'success', visible: (row) => row.status === 0 || row.status === 2 },
+  { name: 'close', label: '关闭', type: 'danger', visible: (row) => row.status === 1 }
+])
 
 const handleAction = async (name, row) => {
   if (name === 'publish') await publishJob(row.id)

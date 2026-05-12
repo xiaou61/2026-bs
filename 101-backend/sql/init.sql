@@ -92,6 +92,7 @@ CREATE TABLE parsing_task (
     status TINYINT DEFAULT 0,
     handler_id BIGINT,
     create_time DATETIME,
+    update_time DATETIME,
     finish_time DATETIME
 );
 
@@ -121,6 +122,7 @@ CREATE TABLE match_task (
     status TINYINT DEFAULT 0,
     handler_id BIGINT,
     create_time DATETIME,
+    update_time DATETIME,
     finish_time DATETIME
 );
 
@@ -207,16 +209,16 @@ INSERT INTO job_requirement(job_id, requirement_type, keyword, weight, descripti
 (2, '技能', 'Python', 1.50, 'Python工程能力', 1, NOW(), NOW()),
 (2, '技能', 'NLP', 1.30, '自然语言处理经验', 1, NOW(), NOW());
 
-INSERT INTO parsing_task(task_no, resume_id, task_name, priority, status, handler_id, create_time, finish_time) VALUES
-('PT101001', 2, '周晴简历解析', '高', 2, 2, NOW(), NOW()),
-('PT101002', 1, '李明简历解析', '普通', 0, 2, NOW(), NULL);
+INSERT INTO parsing_task(task_no, resume_id, task_name, priority, status, handler_id, create_time, update_time, finish_time) VALUES
+('PT101001', 2, '周晴简历解析', '高', 2, 2, NOW(), NOW(), NOW()),
+('PT101002', 1, '李明简历解析', '普通', 0, 2, NOW(), NOW(), NULL);
 
 INSERT INTO parsing_result(task_id, resume_id, candidate_id, extracted_education, extracted_skills, extracted_experience, score, conclusion, review_status, review_comment, create_time, update_time) VALUES
 (1, 2, 2, '硕士', 'Python,机器学习,NLP,多模态', '2年算法工程经验，具备模型训练和多模态解析经历', 88.00, '材料完整度高，适合进入岗位匹配', 1, '解析准确', NOW(), NOW());
 
-INSERT INTO match_task(task_no, candidate_id, job_id, task_name, priority, status, handler_id, create_time, finish_time) VALUES
-('MT101001', 2, 2, '周晴匹配算法工程师岗位', '高', 2, 2, NOW(), NOW()),
-('MT101002', 1, 1, '李明匹配Java后端岗位', '普通', 0, 2, NOW(), NULL);
+INSERT INTO match_task(task_no, candidate_id, job_id, task_name, priority, status, handler_id, create_time, update_time, finish_time) VALUES
+('MT101001', 2, 2, '周晴匹配算法工程师岗位', '高', 2, 2, NOW(), NOW(), NOW()),
+('MT101002', 1, 1, '李明匹配Java后端岗位', '普通', 0, 2, NOW(), NOW(), NULL);
 
 INSERT INTO match_result(task_id, candidate_id, job_id, matched_skills, missing_skills, match_score, recommend_level, conclusion, review_status, review_comment, create_time, update_time) VALUES
 (1, 2, 2, 'Python,NLP', '深度学习部署', 86.00, '强推荐', '周晴对算法工程师岗位匹配度较高', 1, '建议安排技术面', NOW(), NOW());

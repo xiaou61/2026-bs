@@ -26,17 +26,19 @@ public class ParsingResultController {
     private OperationLogService operationLogService;
 
     @GetMapping("/page")
-    public Result<Page<ParsingResult>> page(@RequestParam(defaultValue = "1") Integer pageNum,
+    public Result<Page<ParsingResult>> page(@RequestAttribute String role,
+                                            @RequestParam(defaultValue = "1") Integer pageNum,
                                             @RequestParam(defaultValue = "10") Integer pageSize,
                                             Long resumeId,
                                             Long candidateId,
                                             Integer reviewStatus) {
+        authService.assertHrOnly(role);
         return Result.success(service.page(pageNum, pageSize, resumeId, candidateId, reviewStatus));
     }
 
     @PutMapping("/review")
     public Result<Void> review(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody ParsingResult entity) {
-        authService.assertHr(role);
+        authService.assertHrOnly(role);
         service.review(entity);
         operationLogService.record(userId, "解析结果", "复核", "复核解析结果：" + entity.getId());
         return Result.success();

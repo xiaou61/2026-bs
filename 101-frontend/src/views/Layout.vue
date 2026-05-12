@@ -3,7 +3,7 @@
     <el-aside :width="collapsed ? '72px' : '248px'" class="aside">
       <div class="logo">{{ collapsed ? 'R101' : '招聘匹配管理台' }}</div>
       <el-menu :default-active="$route.path" :collapse="collapsed" router background-color="#111827" text-color="#cbd5e1" active-text-color="#67e8f9">
-        <el-menu-item index="/dashboard"><el-icon><DataAnalysis /></el-icon><span>首页看板</span></el-menu-item>
+        <el-menu-item v-if="role === 'ADMIN'" index="/dashboard"><el-icon><DataAnalysis /></el-icon><span>首页看板</span></el-menu-item>
         <el-menu-item v-if="role === 'ADMIN'" index="/user"><el-icon><User /></el-icon><span>用户管理</span></el-menu-item>
         <el-menu-item v-if="canCandidate" index="/candidate"><el-icon><Avatar /></el-icon><span>候选人档案</span></el-menu-item>
         <el-menu-item v-if="canCandidate" index="/resume"><el-icon><Document /></el-icon><span>简历材料</span></el-menu-item>
@@ -47,9 +47,9 @@ const router = useRouter()
 const userStore = useUserStore()
 const collapsed = ref(false)
 const role = computed(() => userStore.user?.role)
-const canHr = computed(() => role.value === 'ADMIN' || role.value === 'HR')
-const canCandidate = computed(() => role.value === 'ADMIN' || role.value === 'HR' || role.value === 'CANDIDATE')
-const canInterview = computed(() => role.value === 'ADMIN' || role.value === 'HR' || role.value === 'INTERVIEWER')
+const canHr = computed(() => role.value === 'HR')
+const canCandidate = computed(() => role.value === 'HR' || role.value === 'CANDIDATE')
+const canInterview = computed(() => role.value === 'HR' || role.value === 'INTERVIEWER')
 const roleLabel = computed(() => {
   if (role.value === 'ADMIN') return '管理员'
   if (role.value === 'HR') return 'HR'

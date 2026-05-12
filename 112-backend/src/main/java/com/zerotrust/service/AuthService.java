@@ -28,6 +28,7 @@ public class AuthService {
         }
         String token = JwtUtils.generateToken(user.getId(), user.getUsername(), user.getRole());
         tokenService.save(token, String.valueOf(user.getId()));
+        user.setPassword(null);
         Map<String, Object> data = new HashMap<>();
         data.put("token", token);
         data.put("user", user);
@@ -36,7 +37,11 @@ public class AuthService {
 
     public SysUser info(String token) {
         Claims claims = JwtUtils.parse(clean(token));
-        return userMapper.selectById(Long.valueOf(claims.getSubject()));
+        SysUser user = userMapper.selectById(Long.valueOf(claims.getSubject()));
+        if (user != null) {
+            user.setPassword(null);
+        }
+        return user;
     }
 
     public void logout(String token) {

@@ -31,7 +31,9 @@ public class LegalCaseController {
     private OperationLogService operationLogService;
 
     @GetMapping("/page")
-    public Result<PageInfo<LegalCase>> page(@RequestParam(defaultValue = "1") Integer pageNum,
+    public Result<PageInfo<LegalCase>> page(@RequestAttribute Long userId,
+                                          @RequestAttribute String role,
+                                          @RequestParam(defaultValue = "1") Integer pageNum,
                                           @RequestParam(defaultValue = "10") Integer pageSize,
                                           String keyword,
                                           Long clientId,
@@ -39,13 +41,14 @@ public class LegalCaseController {
                                           String caseType,
                                           Integer status,
                                           String priority) {
-        return Result.success(service.page(pageNum, pageSize, keyword, clientId, lawyerId, caseType, status, priority));
+        authService.assertClient(role);
+        return Result.success(service.pageByRole(pageNum, pageSize, keyword, clientId, lawyerId, caseType, status, priority, userId, role));
     }
 
     @PostMapping
     public Result<Void> add(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody LegalCase legalCase) {
         authService.assertStaff(role);
-        service.saveEntity(legalCase);
+        service.saveEntity(legalCase, userId, role);
         operationLogService.record(userId, "案件台账", "新增", "新增案件台账");
         return Result.success();
     }
@@ -53,7 +56,7 @@ public class LegalCaseController {
     @PutMapping
     public Result<Void> update(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody LegalCase legalCase) {
         authService.assertStaff(role);
-        service.saveEntity(legalCase);
+        service.saveEntity(legalCase, userId, role);
         operationLogService.record(userId, "案件台账", "编辑", "编辑案件台账：" + legalCase.getId());
         return Result.success();
     }
@@ -61,7 +64,7 @@ public class LegalCaseController {
     @PutMapping("/advance/{id}")
     public Result<Void> advance(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
         authService.assertStaff(role);
-        service.advance(id);
+        service.advance(id, userId, role);
         operationLogService.record(userId, "案件台账", "推进", "推进案件：" + id);
         return Result.success();
     }
@@ -69,7 +72,7 @@ public class LegalCaseController {
     @PutMapping("/close/{id}")
     public Result<Void> close(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
         authService.assertStaff(role);
-        service.close(id);
+        service.close(id, userId, role);
         operationLogService.record(userId, "案件台账", "结案", "结案案件：" + id);
         return Result.success();
     }
@@ -77,7 +80,7 @@ public class LegalCaseController {
     @DeleteMapping("/{id}")
     public Result<Void> delete(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
         authService.assertStaff(role);
-        service.delete(id);
+        service.delete(id, userId, role);
         operationLogService.record(userId, "案件台账", "删除", "删除案件台账：" + id);
         return Result.success();
     }

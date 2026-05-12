@@ -31,17 +31,19 @@ public class DocumentTemplateController {
     private OperationLogService operationLogService;
 
     @GetMapping("/page")
-    public Result<PageInfo<DocumentTemplate>> page(@RequestParam(defaultValue = "1") Integer pageNum,
+    public Result<PageInfo<DocumentTemplate>> page(@RequestAttribute String role,
+                                          @RequestParam(defaultValue = "1") Integer pageNum,
                                           @RequestParam(defaultValue = "10") Integer pageSize,
                                           String keyword,
                                           String templateType,
                                           Integer status) {
+        authService.assertAdmin(role);
         return Result.success(service.page(pageNum, pageSize, keyword, templateType, status));
     }
 
     @PostMapping
     public Result<Void> add(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody DocumentTemplate documentTemplate) {
-        authService.assertStaff(role);
+        authService.assertAdmin(role);
         service.saveEntity(documentTemplate);
         operationLogService.record(userId, "文书模板", "新增", "新增文书模板");
         return Result.success();
@@ -49,7 +51,7 @@ public class DocumentTemplateController {
 
     @PutMapping
     public Result<Void> update(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody DocumentTemplate documentTemplate) {
-        authService.assertStaff(role);
+        authService.assertAdmin(role);
         service.saveEntity(documentTemplate);
         operationLogService.record(userId, "文书模板", "编辑", "编辑文书模板：" + documentTemplate.getId());
         return Result.success();
@@ -57,7 +59,7 @@ public class DocumentTemplateController {
 
     @PutMapping("/enable/{id}")
     public Result<Void> enable(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
-        authService.assertStaff(role);
+        authService.assertAdmin(role);
         service.enable(id);
         operationLogService.record(userId, "文书模板", "启用", "启用模板：" + id);
         return Result.success();
@@ -65,7 +67,7 @@ public class DocumentTemplateController {
 
     @PutMapping("/disable/{id}")
     public Result<Void> disable(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
-        authService.assertStaff(role);
+        authService.assertAdmin(role);
         service.disable(id);
         operationLogService.record(userId, "文书模板", "停用", "停用模板：" + id);
         return Result.success();
@@ -73,7 +75,7 @@ public class DocumentTemplateController {
 
     @DeleteMapping("/{id}")
     public Result<Void> delete(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
-        authService.assertStaff(role);
+        authService.assertAdmin(role);
         service.delete(id);
         operationLogService.record(userId, "文书模板", "删除", "删除文书模板：" + id);
         return Result.success();

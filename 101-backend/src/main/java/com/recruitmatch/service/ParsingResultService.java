@@ -27,6 +27,9 @@ public class ParsingResultService extends ServiceImpl<ParsingResultMapper, Parsi
         if (result == null) {
             throw new BusinessException(400, "解析结果不存在");
         }
+        if (result.getReviewStatus() != null && result.getReviewStatus() != 0) {
+            throw new BusinessException(400, "解析结果已完成复核");
+        }
         result.setReviewStatus(entity.getReviewStatus() == null ? 1 : entity.getReviewStatus());
         result.setReviewComment(StringUtils.hasText(entity.getReviewComment()) ? entity.getReviewComment() : "解析复核完成");
         result.setUpdateTime(LocalDateTime.now());

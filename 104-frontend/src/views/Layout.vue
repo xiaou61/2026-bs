@@ -3,21 +3,7 @@
     <el-aside width="236px">
       <div class="logo">LICENSE 104</div>
       <el-menu router :default-active="$route.path">
-        <el-menu-item index="/dashboard">数据看板</el-menu-item>
-        <el-menu-item index="/user">账号权限</el-menu-item>
-    <el-menu-item index="/team">组织团队</el-menu-item>
-    <el-menu-item index="/repository">项目台账</el-menu-item>
-    <el-menu-item index="/branch">分支版本</el-menu-item>
-    <el-menu-item index="/dependency">依赖台账</el-menu-item>
-    <el-menu-item index="/policy">许可证策略</el-menu-item>
-    <el-menu-item index="/baseline">合规基线</el-menu-item>
-    <el-menu-item index="/scan-task">扫描任务</el-menu-item>
-    <el-menu-item index="/scan-result">扫描结果</el-menu-item>
-    <el-menu-item index="/issue">风险问题</el-menu-item>
-    <el-menu-item index="/rectification">整改任务</el-menu-item>
-    <el-menu-item index="/report">审计报告</el-menu-item>
-    <el-menu-item index="/approval">审批记录</el-menu-item>
-    <el-menu-item index="/log">操作日志</el-menu-item>
+        <el-menu-item v-for="item in visibleMenus" :key="item.index" :index="item.index">{{ item.label }}</el-menu-item>
       </el-menu>
     </el-aside>
     <el-container>
@@ -31,11 +17,33 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { logout } from '../api'
 import { useUserStore } from '../store/user'
 const router = useRouter()
 const userStore = useUserStore()
+const menus = [
+  { index: '/dashboard', label: '数据看板', roles: ['ADMIN', 'COMPLIANCE', 'AUDITOR'] },
+  { index: '/user', label: '账号权限', roles: ['ADMIN'] },
+  { index: '/team', label: '组织团队', roles: ['ADMIN', 'COMPLIANCE', 'DEVELOPER'] },
+  { index: '/repository', label: '项目台账', roles: ['ADMIN', 'COMPLIANCE', 'DEVELOPER', 'AUDITOR'] },
+  { index: '/branch', label: '分支版本', roles: ['ADMIN', 'COMPLIANCE', 'DEVELOPER', 'AUDITOR'] },
+  { index: '/dependency', label: '依赖台账', roles: ['ADMIN', 'COMPLIANCE', 'DEVELOPER', 'AUDITOR'] },
+  { index: '/policy', label: '许可证策略', roles: ['ADMIN', 'COMPLIANCE', 'AUDITOR'] },
+  { index: '/baseline', label: '合规基线', roles: ['ADMIN', 'COMPLIANCE', 'DEVELOPER', 'AUDITOR'] },
+  { index: '/scan-task', label: '扫描任务', roles: ['ADMIN', 'COMPLIANCE', 'DEVELOPER', 'AUDITOR'] },
+  { index: '/scan-result', label: '扫描结果', roles: ['ADMIN', 'COMPLIANCE', 'DEVELOPER', 'AUDITOR'] },
+  { index: '/issue', label: '风险问题', roles: ['ADMIN', 'COMPLIANCE', 'DEVELOPER', 'AUDITOR'] },
+  { index: '/rectification', label: '整改任务', roles: ['ADMIN', 'COMPLIANCE', 'DEVELOPER', 'AUDITOR'] },
+  { index: '/report', label: '审计报告', roles: ['ADMIN', 'COMPLIANCE', 'AUDITOR'] },
+  { index: '/approval', label: '审批记录', roles: ['ADMIN', 'COMPLIANCE', 'AUDITOR'] },
+  { index: '/log', label: '操作日志', roles: ['ADMIN', 'COMPLIANCE', 'AUDITOR'] }
+]
+const visibleMenus = computed(() => {
+  const role = userStore.user?.role
+  return menus.filter(item => item.roles.includes(role))
+})
 const handleLogout = async () => {
   await logout().catch(() => null)
   userStore.clear()

@@ -29,17 +29,19 @@ public class MatchTaskController {
     private OperationLogService operationLogService;
 
     @GetMapping("/page")
-    public Result<Page<MatchTask>> page(@RequestParam(defaultValue = "1") Integer pageNum,
+    public Result<Page<MatchTask>> page(@RequestAttribute String role,
+                                        @RequestParam(defaultValue = "1") Integer pageNum,
                                         @RequestParam(defaultValue = "10") Integer pageSize,
                                         String keyword,
                                         Integer status,
                                         String priority) {
+        authService.assertHrOnly(role);
         return Result.success(service.page(pageNum, pageSize, keyword, status, priority));
     }
 
     @PostMapping
     public Result<Void> add(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody MatchTask entity) {
-        authService.assertHr(role);
+        authService.assertHrOnly(role);
         service.saveEntity(entity, userId);
         operationLogService.record(userId, "匹配任务", "新增", "新增匹配任务：" + entity.getTaskName());
         return Result.success();
@@ -47,7 +49,7 @@ public class MatchTaskController {
 
     @PutMapping
     public Result<Void> update(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody MatchTask entity) {
-        authService.assertHr(role);
+        authService.assertHrOnly(role);
         service.saveEntity(entity, userId);
         operationLogService.record(userId, "匹配任务", "编辑", "编辑匹配任务：" + entity.getTaskName());
         return Result.success();
@@ -55,7 +57,7 @@ public class MatchTaskController {
 
     @PutMapping("/run/{id}")
     public Result<Void> run(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
-        authService.assertHr(role);
+        authService.assertHrOnly(role);
         service.run(id);
         operationLogService.record(userId, "匹配任务", "启动", "启动匹配任务：" + id);
         return Result.success();
@@ -63,7 +65,7 @@ public class MatchTaskController {
 
     @PutMapping("/finish/{id}")
     public Result<Void> finish(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
-        authService.assertHr(role);
+        authService.assertHrOnly(role);
         service.finish(id);
         operationLogService.record(userId, "匹配任务", "完成", "完成匹配任务：" + id);
         return Result.success();
@@ -71,7 +73,7 @@ public class MatchTaskController {
 
     @PutMapping("/reject/{id}")
     public Result<Void> reject(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
-        authService.assertHr(role);
+        authService.assertHrOnly(role);
         service.reject(id);
         operationLogService.record(userId, "匹配任务", "驳回", "驳回匹配任务：" + id);
         return Result.success();
@@ -79,7 +81,7 @@ public class MatchTaskController {
 
     @DeleteMapping("/{id}")
     public Result<Void> delete(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
-        authService.assertHr(role);
+        authService.assertHrOnly(role);
         service.removeById(id);
         operationLogService.record(userId, "匹配任务", "删除", "删除匹配任务：" + id);
         return Result.success();

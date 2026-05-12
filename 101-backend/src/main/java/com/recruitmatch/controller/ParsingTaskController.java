@@ -29,17 +29,19 @@ public class ParsingTaskController {
     private OperationLogService operationLogService;
 
     @GetMapping("/page")
-    public Result<Page<ParsingTask>> page(@RequestParam(defaultValue = "1") Integer pageNum,
+    public Result<Page<ParsingTask>> page(@RequestAttribute String role,
+                                          @RequestParam(defaultValue = "1") Integer pageNum,
                                           @RequestParam(defaultValue = "10") Integer pageSize,
                                           String keyword,
                                           Integer status,
                                           String priority) {
+        authService.assertHrOnly(role);
         return Result.success(service.page(pageNum, pageSize, keyword, status, priority));
     }
 
     @PostMapping
     public Result<Void> add(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody ParsingTask entity) {
-        authService.assertHr(role);
+        authService.assertHrOnly(role);
         service.saveEntity(entity, userId);
         operationLogService.record(userId, "解析任务", "新增", "新增解析任务：" + entity.getTaskName());
         return Result.success();
@@ -47,7 +49,7 @@ public class ParsingTaskController {
 
     @PutMapping
     public Result<Void> update(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody ParsingTask entity) {
-        authService.assertHr(role);
+        authService.assertHrOnly(role);
         service.saveEntity(entity, userId);
         operationLogService.record(userId, "解析任务", "编辑", "编辑解析任务：" + entity.getTaskName());
         return Result.success();
@@ -55,7 +57,7 @@ public class ParsingTaskController {
 
     @PutMapping("/run/{id}")
     public Result<Void> run(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
-        authService.assertHr(role);
+        authService.assertHrOnly(role);
         service.run(id);
         operationLogService.record(userId, "解析任务", "启动", "启动解析任务：" + id);
         return Result.success();
@@ -63,7 +65,7 @@ public class ParsingTaskController {
 
     @PutMapping("/finish/{id}")
     public Result<Void> finish(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
-        authService.assertHr(role);
+        authService.assertHrOnly(role);
         service.finish(id);
         operationLogService.record(userId, "解析任务", "完成", "完成解析任务：" + id);
         return Result.success();
@@ -71,7 +73,7 @@ public class ParsingTaskController {
 
     @PutMapping("/reject/{id}")
     public Result<Void> reject(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
-        authService.assertHr(role);
+        authService.assertHrOnly(role);
         service.reject(id);
         operationLogService.record(userId, "解析任务", "驳回", "驳回解析任务：" + id);
         return Result.success();
@@ -79,7 +81,7 @@ public class ParsingTaskController {
 
     @DeleteMapping("/{id}")
     public Result<Void> delete(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
-        authService.assertHr(role);
+        authService.assertHrOnly(role);
         service.removeById(id);
         operationLogService.record(userId, "解析任务", "删除", "删除解析任务：" + id);
         return Result.success();

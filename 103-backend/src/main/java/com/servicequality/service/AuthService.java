@@ -39,6 +39,7 @@ public class AuthService {
         }
         String token = jwtUtils.generateToken(user.getId(), user.getRole());
         tokenService.store(user.getId(), token);
+        user.setPassword(null);
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
         result.put("user", user);
@@ -51,6 +52,7 @@ public class AuthService {
         if (user == null) {
             throw new BusinessException(401, "用户不存在");
         }
+        user.setPassword(null);
         return user;
     }
 

@@ -1,3 +1,94 @@
+## Session: 2026-05-11 097-098 项目巡检续查
+
+### 已完成：097 大模型提示词资产管理与效果评测平台
+- **Status:** completed_with_findings
+- Actions taken:
+  - 重新核对 `docs/project-check-tracker.md`、`docs/checks/` 和 `docs/topic-candidates-097-146.md`，确认真实巡检需要从 `097` 继续，而不是从 `101` 跳号
+  - 完成 `097-backend` / `097-frontend` 静态核对，确认后端默认强依赖 MySQL/Redis，前端仅做菜单显隐
+  - 执行 `097-backend/mvn.cmd test`，结果为通过，但确认当前无自动化测试
+  - 执行 `097-frontend/npm.cmd install`、`npm.cmd run build`，构建通过，保留 chunk 体积告警
+  - 在 `18097` 启动后端并复现默认登录失败，定位到 `Unknown database 'prompt_asset_097'`
+  - 使用本机 MySQL `root / 1234` 导入 `097-backend/sql/init.sql`，确认导库后登录恢复 `200`
+  - 实测确认工程师/评审员可读取管理员侧团队/模型/评分规则分页数据
+  - 实测确认工程师可更新他人反馈内容并成功落库
+  - 实测确认评审员可对同一条评测结果重复复核并覆盖先前结论
+  - 新增 `docs/checks/097-prompt-asset-evaluation-platform.md`
+
+### 已完成：098 企业知识库智能问答与文档权限管理系统
+- **Status:** completed_with_findings
+- Actions taken:
+  - 完成 `098-backend` / `098-frontend` 静态核对，确认后端默认强依赖 MySQL/Redis，路由层无角色守卫
+  - 执行 `098-backend/mvn.cmd test`，结果为通过，但确认 `No tests to run`
+  - 执行 `098-frontend/npm.cmd install`、`npm.cmd run build`，构建通过，主包与 Dashboard chunk 偏大
+  - 在 `18098` 启动后端并复现默认登录失败，定位到 `Unknown database 'knowledge_qa_098'`
+  - 使用本机 MySQL `root / 1234` 导入 `098-backend/sql/init.sql`，确认导库后管理员/编辑员/员工均可登录
+  - 实测确认员工可读取 `/api/group/page`、`/api/permission/page`，编辑员可读取 `/api/member/page`
+  - 实测确认编辑员可在仅 `READ` 授权的制度库空间创建会话并成功发起问答，说明 `document_permission` / `permission_level` 未参与真实问答鉴权
+  - 实测确认编辑员可关闭员工会话并改写员工反馈内容，数据库状态与内容均被真实更新
+  - 新增 `docs/checks/098-knowledge-qa-permission-platform.md`
+
+### 当前状态
+- `097`：已完成巡检，状态为 `待修复`
+- `098`：已完成巡检，状态为 `待修复`
+- `099`：已完成巡检，状态为 `待修复`
+- `100`：已完成巡检，状态为 `待修复`
+- 下一项目：`101`
+
+### 已完成：099 AIGC 图片内容审核与版权存证平台
+- **Status:** completed_with_findings
+- Actions taken:
+  - 完成 `099-backend` / `099-frontend` 静态核对，确认后端默认强依赖 MySQL/Redis，路由层无角色守卫
+  - 执行 `099-backend/mvn.cmd test`，结果为通过，但确认 `No tests to run`
+  - 执行 `099-frontend/npm.cmd install`、`npm.cmd run build`，构建通过，主包与 Dashboard chunk 偏大
+  - 在 `18099` 启动后端并复现默认登录失败，定位到 `Unknown database 'aigc_copyright_099'`
+  - 使用本机 MySQL `root / 1234` 导入 `099-backend/sql/init.sql`，确认导库后管理员/审核员/创作者均可登录
+  - 复核认证返回，确认登录和 `/api/auth/info` 已通过实体 `@JsonIgnore` 隐藏 `password`
+  - 实测确认创作者可读取 `/api/rule/page`、`/api/tag/page`、`/api/result/page`
+  - 实测确认 `assertCreator` 实际包含审核员，审核员可通过 `/api/asset` 越权修改创作者作品并成功落库
+  - 实测确认审核员可对同一条审核结果重复复核并覆盖先前意见
+  - 新增 `docs/checks/099-aigc-image-copyright-platform.md`
+
+### 已完成：100 AI 生成文本检测与学术诚信预警系统
+- **Status:** completed_with_findings
+- Actions taken:
+  - 完成 `100-backend` / `100-frontend` 静态核对，确认后端默认强依赖 MySQL/Redis，路由层无角色守卫
+  - 执行 `100-backend/mvn.cmd test`，结果为通过，但确认 `No tests to run`
+  - 执行 `100-frontend/npm.cmd install`、`npm.cmd run build`，构建通过，主包与 Dashboard chunk 偏大
+  - 在 `18100` 启动后端，确认应用可启动；随后导入 `100-backend/sql/init.sql` 供真实联调
+  - 复核认证返回，确认登录和 `/api/auth/info` 已隐藏 `password`
+  - 实测确认学生可读取 `/api/rule/page`、`/api/result/page`、`/api/warning/page`
+  - 实测确认教师被视为复核角色，可新增检测任务
+  - 实测确认复核员被视为学生角色，可新增申诉，且新记录 `student_id` 被写为复核员自身 ID
+  - 实测确认复核员可修改他人整改记录并成功落库
+  - 实测确认复核员可对同一条检测结果重复复核并覆盖先前意见
+  - 新增 `docs/checks/100-academic-integrity-warning-platform.md`
+
+## Session: 2026-05-06 101-118 项目精修
+
+### 进行中：101-150 项目精修
+- **Status:** in_progress
+- Actions taken:
+  - GitHub 已完成首次上传，远端仓库为 `origin https://github.com/xiaou61/2026-bs.git`
+  - 从 `101` 开始启动精修，当前已完成 `101-118` 的首轮静态修正
+  - 修复 `101/102` 认证接口返回用户对象未脱敏的问题，为 `login/info` 增加 `setPassword(null)`
+  - 修复 `102-frontend/src/views/Layout.vue` 中错误的 Vue 模板插值 `{ ... }`，恢复为 `{{ ... }}`
+  - 扩展修复 `103-116` 多个后端 `AuthService`，统一补齐登录返回与用户信息接口的密码脱敏
+  - 复核 `117/118`，确认认证脱敏已存在，仅保留文档层精修
+  - 重写 `101-118` 的 `PLAN.md` 表述，移除“创建工程目录”“README 标记最新”“核对 root/1234”这类生成态措辞
+  - 将 `PLAN.md` 统一调整为精修阶段口径，补充“当前状态”“完成标准”“文档与实现一致性”等交付描述
+  - 全程遵循仓库规则，仅做静态修正与扫描，不执行编译构建
+  - 在 `101` 中继续按 PRD 深修角色边界：候选人/简历/证书/面试排期/面试反馈已切到按当前登录人归属控制
+  - 收紧 `101` 后端统计看板权限，`/api/statistics/dashboard` 改为仅 `ADMIN` 可访问
+  - 收紧 `101` 前端路由与落地页：管理员默认进入 `/dashboard`，HR 默认进入 `/candidate`，候选人默认进入 `/resume`，面试官默认进入 `/interview`
+  - 隐藏 `101` 非管理员侧边栏中的“首页看板”，避免候选人和面试官通过前端入口误入管理员看板
+  - 修复 `101` 候选人档案状态字段越权问题：候选人前端不再可编辑 `status`，后端保存时强制保留原状态/默认启用
+  - 同步更新 `101-backend/PRD.md` 与 `101-backend/PLAN.md`，明确管理员/HR/候选人/面试官的责任边界
+  - 收紧 `101` 面试排期、解析任务、匹配任务和岗位管理的状态流转：普通新增/编辑不再允许直接改 `status`，统一通过发布/关闭、启动/完成/驳回、确认/取消/完成等动作接口流转
+  - 优化 `101` 候选人/面试官前端视角，隐藏候选人简历/证书中的冗余 `candidateId` 列，以及面试官视角中的冗余 `interviewerId` 列
+  - 补齐 `101` 解析任务、匹配任务的 `updateTime` 写入逻辑，并为动作按钮增加按状态显隐，避免非法状态流转和重复点击
+  - 收紧 `101` 面试反馈唯一性：同一面试计划下，同一面试官只能保留一条反馈记录
+  - 补齐 `101` 操作日志模块筛选项，与系统真实业务模块保持一致
+
 ## Session: 2026-04-24
 
 ## Session: 2026-05-04 新增 117 项目生成
@@ -1140,3 +1231,55 @@
   - 更新 `docs/topic-candidates-147-196.md`、`readme.md`、`readme_simple.md`
   - 按 `rule.md` 要求未执行编译构建，仅做静态验证
   - 下一项目为 `151`
+
+### 已检查：101 多模态招聘材料解析与岗位匹配系统 / 102 法律咨询案件进度与智能文书管理系统
+- 本轮新增：
+  - 复核 `101`、新增 `102` 真实巡检文档：`docs/checks/101-multimodal-recruit-match-platform.md`、`docs/checks/102-legal-case-document-platform.md`
+  - `101` 后端 `mvn.cmd test` 通过但无自动化测试，前端 `npm.cmd run build` 通过
+  - `101` 默认环境登录先后受阻于缺少数据库 `recruit_match_101` 和本地 Redis 依赖，手工导库并启动 Redis 后可继续验收
+  - `102` 后端 `mvn.cmd test` 编译失败，`DocumentTemplateService` 与 `FeeRecordService` 缺少控制器调用的 `saveEntity(...)`
+  - `102` 前端首次 `npm.cmd install` 后 `vite` 不可用，补执行 `npm.cmd install --include=dev` 后 `npm.cmd run build` 通过
+  - 静态复核发现 `102` 的 `/api/document/page`、`/api/version/page`、`/api/fee/page` 缺少后端角色断言，且咨询/文书/版本等高敏写接口对全部 staff 放权过宽
+  - 更新 `docs/project-check-tracker.md`
+  - 下一项目为 `103`
+
+### 已检查：103 智能客服工单质检与知识推荐系统
+- 本轮新增：
+  - 生成巡检文档 `docs/checks/103-customer-service-quality-platform.md`
+  - `103` 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - `103` 前端 `npm.cmd install --include=dev` 后首次 `npm.cmd run build` 报 `vite` 不存在，重试后构建通过
+  - 静态复核确认前端路由与侧边栏完全未按角色收口，所有登录用户均可见全部业务页面
+  - 静态复核确认后端 `/api/statistics/dashboard`、`/api/log/page`、`/api/performance/page`、`/api/order/page`、`/api/quality-result/page` 等查询接口缺少角色断言
+  - 发现 `QualityTaskService.run()` 可重复插入质检结果，缺少状态机与幂等控制
+  - 更新 `docs/project-check-tracker.md`
+  - 下一项目为 `104`
+
+### 已修复：104 开源许可证合规扫描与项目台账系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并为账号、日志、看板、项目台账、许可证策略、扫描、风险、整改、报告、审批等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `license_compliance_104` 与 Redis
+  - 下一项目为 `105`
+
+### 已修复：105 API 接口文档生成与测试用例管理平台
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并为账号、日志、接口项目、分组、接口定义、参数字段、Mock 规则、测试用例、执行记录、结果明细、文档快照等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `api_testcase_105` 与 Redis
+  - 下一项目为 `106`
+
+### 已修复：106 DevOps 发布审批与回滚管理系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并为账号、环境、应用服务、流水线、发布计划、发布单、审批流、审批记录、制品、部署、回滚、检查、日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `devops_release_106` 与 Redis
+  - 下一项目为 `107`

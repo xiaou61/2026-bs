@@ -32,33 +32,35 @@ public class RequirementController {
     private OperationLogService operationLogService;
 
     @GetMapping("/page")
-    public Result<Page<JobRequirement>> page(@RequestParam(defaultValue = "1") Integer pageNum,
+    public Result<Page<JobRequirement>> page(@RequestAttribute String role,
+                                      @RequestParam(defaultValue = "1") Integer pageNum,
                                       @RequestParam(defaultValue = "10") Integer pageSize,
                                       String keyword,
                                       Long jobId,
                                       Integer status) {
+        authService.assertHrOnly(role);
         LambdaQueryWrapper<JobRequirement> wrapper = new LambdaQueryWrapper<>(); wrapper.and(org.springframework.util.StringUtils.hasText(keyword), item -> item.like(JobRequirement::getKeyword, keyword).or().like(JobRequirement::getDescription, keyword)); wrapper.eq(jobId != null, JobRequirement::getJobId, jobId); wrapper.eq(status != null, JobRequirement::getStatus, status); wrapper.orderByDesc(JobRequirement::getId); return Result.success(service.page(new Page<>(pageNum, pageSize), wrapper));
     }
 
     @PostMapping
     public Result<Void> add(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody JobRequirement entity) {
-        authService.assertHr(role);
-        service.save(entity);
+        authService.assertHrOnly(role);
+        service.saveEntity(entity);
         operationLogService.record(userId, "岗位要求", "新增", "新增岗位要求");
         return Result.success();
     }
 
     @PutMapping
     public Result<Void> update(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody JobRequirement entity) {
-        authService.assertHr(role);
-        service.updateById(entity);
+        authService.assertHrOnly(role);
+        service.saveEntity(entity);
         operationLogService.record(userId, "岗位要求", "编辑", "编辑岗位要求：" + entity.getId());
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
     public Result<Void> delete(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
-        authService.assertHr(role);
+        authService.assertHrOnly(role);
         service.removeById(id);
         operationLogService.record(userId, "岗位要求", "删除", "删除岗位要求：" + id);
         return Result.success();

@@ -31,20 +31,23 @@ public class AppointmentRecordController {
     private OperationLogService operationLogService;
 
     @GetMapping("/page")
-    public Result<PageInfo<AppointmentRecord>> page(@RequestParam(defaultValue = "1") Integer pageNum,
+    public Result<PageInfo<AppointmentRecord>> page(@RequestAttribute Long userId,
+                                          @RequestAttribute String role,
+                                          @RequestParam(defaultValue = "1") Integer pageNum,
                                           @RequestParam(defaultValue = "10") Integer pageSize,
                                           String keyword,
                                           Long caseId,
                                           Long clientId,
                                           Long lawyerId,
                                           Integer status) {
-        return Result.success(service.page(pageNum, pageSize, keyword, caseId, clientId, lawyerId, status));
+        authService.assertClient(role);
+        return Result.success(service.pageByRole(pageNum, pageSize, keyword, caseId, clientId, lawyerId, status, userId, role));
     }
 
     @PostMapping
     public Result<Void> add(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody AppointmentRecord appointmentRecord) {
         authService.assertStaff(role);
-        service.saveEntity(appointmentRecord);
+        service.saveEntity(appointmentRecord, userId, role);
         operationLogService.record(userId, "咨询预约", "新增", "新增咨询预约");
         return Result.success();
     }
@@ -52,7 +55,7 @@ public class AppointmentRecordController {
     @PutMapping
     public Result<Void> update(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody AppointmentRecord appointmentRecord) {
         authService.assertStaff(role);
-        service.saveEntity(appointmentRecord);
+        service.saveEntity(appointmentRecord, userId, role);
         operationLogService.record(userId, "咨询预约", "编辑", "编辑咨询预约：" + appointmentRecord.getId());
         return Result.success();
     }
@@ -60,7 +63,7 @@ public class AppointmentRecordController {
     @PutMapping("/confirm/{id}")
     public Result<Void> confirm(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
         authService.assertStaff(role);
-        service.updateStatus(id, 1);
+        service.updateStatus(id, 1, userId, role);
         operationLogService.record(userId, "咨询预约", "确认", "确认预约：" + id);
         return Result.success();
     }
@@ -68,7 +71,7 @@ public class AppointmentRecordController {
     @PutMapping("/cancel/{id}")
     public Result<Void> cancel(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
         authService.assertStaff(role);
-        service.updateStatus(id, 2);
+        service.updateStatus(id, 2, userId, role);
         operationLogService.record(userId, "咨询预约", "取消", "取消预约：" + id);
         return Result.success();
     }
@@ -76,7 +79,7 @@ public class AppointmentRecordController {
     @PutMapping("/finish/{id}")
     public Result<Void> finish(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
         authService.assertStaff(role);
-        service.updateStatus(id, 3);
+        service.updateStatus(id, 3, userId, role);
         operationLogService.record(userId, "咨询预约", "完成", "完成预约：" + id);
         return Result.success();
     }
@@ -84,7 +87,7 @@ public class AppointmentRecordController {
     @DeleteMapping("/{id}")
     public Result<Void> delete(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
         authService.assertStaff(role);
-        service.delete(id);
+        service.delete(id, userId, role);
         operationLogService.record(userId, "咨询预约", "删除", "删除咨询预约：" + id);
         return Result.success();
     }

@@ -33,33 +33,36 @@ public class CertificateController {
     private OperationLogService operationLogService;
 
     @GetMapping("/page")
-    public Result<Page<CertificateRecord>> page(@RequestParam(defaultValue = "1") Integer pageNum,
+    public Result<Page<CertificateRecord>> page(@RequestAttribute Long userId,
+                                                @RequestAttribute String role,
+                                                @RequestParam(defaultValue = "1") Integer pageNum,
                                                 @RequestParam(defaultValue = "10") Integer pageSize,
                                                 String keyword,
                                                 Long candidateId,
                                                 Integer verifyStatus) {
-        return Result.success(service.page(pageNum, pageSize, keyword, candidateId, verifyStatus));
+        authService.assertHrOrCandidate(role);
+        return Result.success(service.pageByRole(pageNum, pageSize, keyword, candidateId, verifyStatus, userId, role));
     }
 
     @PostMapping
     public Result<Void> add(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody CertificateRecord entity) {
-        authService.assertCandidate(role);
-        service.saveEntity(entity);
+        authService.assertHrOrCandidate(role);
+        service.saveEntity(entity, userId, role);
         operationLogService.record(userId, "证书材料", "新增", "新增证书：" + entity.getCertName());
         return Result.success();
     }
 
     @PutMapping
     public Result<Void> update(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody CertificateRecord entity) {
-        authService.assertCandidate(role);
-        service.saveEntity(entity);
+        authService.assertHrOrCandidate(role);
+        service.saveEntity(entity, userId, role);
         operationLogService.record(userId, "证书材料", "编辑", "编辑证书：" + entity.getCertName());
         return Result.success();
     }
 
     @PutMapping("/verify/{id}")
     public Result<Void> verify(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id, @RequestBody(required = false) Map<String, String> body) {
-        authService.assertHr(role);
+        authService.assertHrOnly(role);
         service.verify(id, body == null ? "核验通过" : body.get("comment"));
         operationLogService.record(userId, "证书材料", "核验", "核验证书：" + id);
         return Result.success();
@@ -67,7 +70,7 @@ public class CertificateController {
 
     @PutMapping("/reject/{id}")
     public Result<Void> reject(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id, @RequestBody(required = false) Map<String, String> body) {
-        authService.assertHr(role);
+        authService.assertHrOnly(role);
         service.reject(id, body == null ? "核验驳回" : body.get("comment"));
         operationLogService.record(userId, "证书材料", "驳回", "驳回证书：" + id);
         return Result.success();
@@ -75,8 +78,8 @@ public class CertificateController {
 
     @DeleteMapping("/{id}")
     public Result<Void> delete(@RequestAttribute Long userId, @RequestAttribute String role, @PathVariable Long id) {
-        authService.assertCandidate(role);
-        service.removeById(id);
+        authService.assertHrOrCandidate(role);
+        service.deleteByRole(id, userId, role);
         operationLogService.record(userId, "证书材料", "删除", "删除证书：" + id);
         return Result.success();
     }

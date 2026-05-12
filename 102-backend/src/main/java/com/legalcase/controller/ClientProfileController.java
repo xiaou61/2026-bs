@@ -31,10 +31,12 @@ public class ClientProfileController {
     private OperationLogService operationLogService;
 
     @GetMapping("/page")
-    public Result<PageInfo<ClientProfile>> page(@RequestParam(defaultValue = "1") Integer pageNum,
+    public Result<PageInfo<ClientProfile>> page(@RequestAttribute String role,
+                                          @RequestParam(defaultValue = "1") Integer pageNum,
                                           @RequestParam(defaultValue = "10") Integer pageSize,
                                           String keyword,
                                           Integer status) {
+        authService.assertStaff(role);
         return Result.success(service.page(pageNum, pageSize, keyword, status));
     }
 

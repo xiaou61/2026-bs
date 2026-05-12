@@ -28,6 +28,9 @@ public class MatchResultService extends ServiceImpl<MatchResultMapper, MatchResu
         if (result == null) {
             throw new BusinessException(400, "匹配结果不存在");
         }
+        if (result.getReviewStatus() != null && result.getReviewStatus() != 0) {
+            throw new BusinessException(400, "匹配结果已完成复核");
+        }
         result.setReviewStatus(entity.getReviewStatus() == null ? 1 : entity.getReviewStatus());
         result.setReviewComment(StringUtils.hasText(entity.getReviewComment()) ? entity.getReviewComment() : "匹配复核完成");
         result.setUpdateTime(LocalDateTime.now());

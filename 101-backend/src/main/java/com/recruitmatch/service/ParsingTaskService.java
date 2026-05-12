@@ -48,10 +48,21 @@ public class ParsingTaskService extends ServiceImpl<ParsingTaskMapper, ParsingTa
     public void saveEntity(ParsingTask entity, Long userId) {
         if (entity.getId() == null) {
             entity.setTaskNo(entity.getTaskNo() == null ? "PT" + System.currentTimeMillis() : entity.getTaskNo());
-            entity.setStatus(entity.getStatus() == null ? 0 : entity.getStatus());
+            entity.setStatus(0);
             entity.setHandlerId(userId);
             entity.setCreateTime(LocalDateTime.now());
+        } else {
+            ParsingTask db = getById(entity.getId());
+            if (db == null) {
+                throw new BusinessException(400, "解析任务不存在");
+            }
+            entity.setTaskNo(db.getTaskNo());
+            entity.setStatus(db.getStatus());
+            entity.setHandlerId(db.getHandlerId());
+            entity.setCreateTime(db.getCreateTime());
+            entity.setFinishTime(db.getFinishTime());
         }
+        entity.setUpdateTime(LocalDateTime.now());
         saveOrUpdate(entity);
     }
 
@@ -59,6 +70,9 @@ public class ParsingTaskService extends ServiceImpl<ParsingTaskMapper, ParsingTa
         ParsingTask task = getById(id);
         if (task == null) {
             throw new BusinessException(400, "解析任务不存在");
+        }
+        if (task.getStatus() == null || task.getStatus() != 0) {
+            throw new BusinessException(400, "仅待处理任务可以启动");
         }
         ResumeFile resume = resumeFileMapper.selectById(task.getResumeId());
         if (resume == null) {
@@ -70,8 +84,12 @@ public class ParsingTaskService extends ServiceImpl<ParsingTaskMapper, ParsingTa
         if (score.compareTo(new BigDecimal("98")) > 0) {
             score = new BigDecimal("98");
         }
-        ParsingResult result = new ParsingResult();
-        result.setTaskId(id);
+        ParsingResult result = parsingResultMapper.selectOne(new LambdaQueryWrapper<ParsingResult>().eq(ParsingResult::getTaskId, id).last("limit 1"));
+        if (result == null) {
+            result = new ParsingResult();
+            result.setTaskId(id);
+            result.setCreateTime(LocalDateTime.now());
+        }
         result.setResumeId(resume.getId());
         result.setCandidateId(resume.getCandidateId());
         result.setExtractedEducation(resume.getEducation());
@@ -80,9 +98,10 @@ public class ParsingTaskService extends ServiceImpl<ParsingTaskMapper, ParsingTa
         result.setScore(score);
         result.setConclusion(score.compareTo(new BigDecimal("80")) >= 0 ? "材料完整度高，适合进入岗位匹配" : "材料仍需补充证书或项目经历");
         result.setReviewStatus(0);
-        result.setCreateTime(LocalDateTime.now());
+        result.setReviewComment(null);
         result.setUpdateTime(LocalDateTime.now());
-        parsingResultMapper.insert(result);
+        if (result.getId() == null) parsingResultMapper.insert(result);
+        else parsingResultMapper.updateById(result);
         resume.setParseStatus(1);
         resume.setUpdateTime(LocalDateTime.now());
         resumeFileMapper.updateById(resume);
@@ -94,6 +113,7 @@ public class ParsingTaskService extends ServiceImpl<ParsingTaskMapper, ParsingTa
             candidateProfileMapper.updateById(candidate);
         }
         task.setStatus(1);
+        task.setUpdateTime(LocalDateTime.now());
         updateById(task);
     }
 
@@ -102,8 +122,12 @@ public class ParsingTaskService extends ServiceImpl<ParsingTaskMapper, ParsingTa
         if (task == null) {
             throw new BusinessException(400, "解析任务不存在");
         }
+        if (task.getStatus() == null || task.getStatus() != 1) {
+            throw new BusinessException(400, "仅已执行任务可以完成");
+        }
         task.setStatus(2);
         task.setFinishTime(LocalDateTime.now());
+        task.setUpdateTime(LocalDateTime.now());
         updateById(task);
     }
 
@@ -112,7 +136,11 @@ public class ParsingTaskService extends ServiceImpl<ParsingTaskMapper, ParsingTa
         if (task == null) {
             throw new BusinessException(400, "解析任务不存在");
         }
+        if (task.getStatus() == null || (task.getStatus() != 0 && task.getStatus() != 1)) {
+            throw new BusinessException(400, "仅待处理或已执行任务可以驳回");
+        }
         task.setStatus(3);
+        task.setUpdateTime(LocalDateTime.now());
         updateById(task);
     }
 

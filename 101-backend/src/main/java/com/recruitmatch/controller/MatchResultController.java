@@ -26,18 +26,20 @@ public class MatchResultController {
     private OperationLogService operationLogService;
 
     @GetMapping("/page")
-    public Result<Page<MatchResult>> page(@RequestParam(defaultValue = "1") Integer pageNum,
+    public Result<Page<MatchResult>> page(@RequestAttribute String role,
+                                          @RequestParam(defaultValue = "1") Integer pageNum,
                                           @RequestParam(defaultValue = "10") Integer pageSize,
                                           Long candidateId,
                                           Long jobId,
                                           String recommendLevel,
                                           Integer reviewStatus) {
+        authService.assertHrOnly(role);
         return Result.success(service.page(pageNum, pageSize, candidateId, jobId, recommendLevel, reviewStatus));
     }
 
     @PutMapping("/review")
     public Result<Void> review(@RequestAttribute Long userId, @RequestAttribute String role, @RequestBody MatchResult entity) {
-        authService.assertHr(role);
+        authService.assertHrOnly(role);
         service.review(entity);
         operationLogService.record(userId, "匹配结果", "复核", "复核匹配结果：" + entity.getId());
         return Result.success();

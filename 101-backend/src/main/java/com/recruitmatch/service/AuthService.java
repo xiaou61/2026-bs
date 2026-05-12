@@ -39,6 +39,7 @@ public class AuthService {
         }
         String token = jwtUtils.generateToken(user.getId(), user.getRole());
         tokenService.store(user.getId(), token);
+        user.setPassword(null);
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
         result.put("user", user);
@@ -51,6 +52,7 @@ public class AuthService {
         if (user == null) {
             throw new BusinessException(401, "用户不存在");
         }
+        user.setPassword(null);
         return user;
     }
 
@@ -71,14 +73,38 @@ public class AuthService {
         }
     }
 
+    public void assertHrOnly(String role) {
+        if (!"HR".equals(role)) {
+            throw new BusinessException(403, "无权限操作");
+        }
+    }
+
     public void assertCandidate(String role) {
         if (!"ADMIN".equals(role) && !"HR".equals(role) && !"CANDIDATE".equals(role)) {
             throw new BusinessException(403, "无权限操作");
         }
     }
 
+    public void assertHrOrCandidate(String role) {
+        if (!"HR".equals(role) && !"CANDIDATE".equals(role)) {
+            throw new BusinessException(403, "无权限操作");
+        }
+    }
+
     public void assertInterviewer(String role) {
         if (!"ADMIN".equals(role) && !"HR".equals(role) && !"INTERVIEWER".equals(role)) {
+            throw new BusinessException(403, "无权限操作");
+        }
+    }
+
+    public void assertHrOrInterviewer(String role) {
+        if (!"HR".equals(role) && !"INTERVIEWER".equals(role)) {
+            throw new BusinessException(403, "无权限操作");
+        }
+    }
+
+    public void assertInterviewerOnly(String role) {
+        if (!"INTERVIEWER".equals(role)) {
             throw new BusinessException(403, "无权限操作");
         }
     }

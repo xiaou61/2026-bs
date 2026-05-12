@@ -32,12 +32,15 @@ public class EvidenceMaterialController {
     private OperationLogService operationLogService;
 
     @GetMapping("/page")
-    public Result<PageInfo<EvidenceMaterial>> page(@RequestParam(defaultValue = "1") Integer pageNum,
+    public Result<PageInfo<EvidenceMaterial>> page(@RequestAttribute Long userId,
+                                          @RequestAttribute String role,
+                                          @RequestParam(defaultValue = "1") Integer pageNum,
                                           @RequestParam(defaultValue = "10") Integer pageSize,
                                           String keyword,
                                           Long caseId,
                                           Integer verifyStatus) {
-        return Result.success(service.page(pageNum, pageSize, keyword, caseId, verifyStatus));
+        authService.assertClient(role);
+        return Result.success(service.pageByRole(pageNum, pageSize, keyword, caseId, verifyStatus, userId, role));
     }
 
     @PostMapping

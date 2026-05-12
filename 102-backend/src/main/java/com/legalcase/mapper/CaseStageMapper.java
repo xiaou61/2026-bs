@@ -24,6 +24,19 @@ public interface CaseStageMapper {
             "</script>"})
     List<CaseStage> selectPage(@Param("keyword") String keyword, @Param("caseId") Long caseId, @Param("status") Integer status);
 
+    @Select({"<script>",
+            "SELECT cs.* FROM case_stage cs",
+            "INNER JOIN legal_case lc ON cs.case_id = lc.id",
+            "<where>",
+            "lc.lawyer_id = #{lawyerId}",
+            "<if test=\"keyword != null and keyword != \'\'\"> AND (cs.stage_name LIKE CONCAT('%',#{keyword},'%') OR cs.remark LIKE CONCAT('%',#{keyword},'%')) </if>",
+            "<if test=\"caseId != null\"> AND cs.case_id = #{caseId} </if>",
+            "<if test=\"status != null\"> AND cs.status = #{status} </if>",
+            "</where>",
+            "ORDER BY cs.id DESC",
+            "</script>"})
+    List<CaseStage> selectPageByLawyerId(@Param("keyword") String keyword, @Param("caseId") Long caseId, @Param("status") Integer status, @Param("lawyerId") Long lawyerId);
+
     @Select("SELECT * FROM case_stage WHERE id=#{id}")
     CaseStage selectById(Long id);
 

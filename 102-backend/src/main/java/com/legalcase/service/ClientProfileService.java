@@ -24,10 +24,20 @@ public class ClientProfileService {
         return mapper.selectById(id);
     }
 
+    public ClientProfile getByUserId(Long userId) {
+        return mapper.selectByUserId(userId);
+    }
+
     public void saveEntity(ClientProfile entity) {
         if (entity.getId() == null) {
             entity.setStatus(entity.getStatus() == null ? 1 : entity.getStatus());
             entity.setCreateTime(LocalDateTime.now());
+        } else {
+            ClientProfile db = mapper.selectById(entity.getId());
+            if (db == null) {
+                throw new BusinessException(400, "委托人档案不存在");
+            }
+            entity.setCreateTime(db.getCreateTime());
         }
         entity.setUpdateTime(LocalDateTime.now());
         if (entity.getId() == null) {
