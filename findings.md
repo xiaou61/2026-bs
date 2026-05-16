@@ -3146,3 +3146,19 @@
 - 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证。
 - 已清理 `190-frontend/node_modules`；全仓库 `node_modules` 扫描未发现残留。
 - 剩余风险：尚未连接真实 MySQL/Redis 做登录和业务接口联调；当前结论覆盖源码主题化与静态结构验证。下一项目为 `191`。
+
+## 2026-05-16 191 正式开发记录
+
+### Findings
+- `191` 批量版原始状态仍是通用模板：后端包名为 `com.p191`，业务类为 `BizRecord01-12`，数据库名为 `project_191`，前端页面和接口路径仍以 `record01-12` 命名。
+- 已基于 `190` 正式化流水线生成并执行 `scripts/develop_191.py`；端口切换为后端 `8191`、前端 `3191`。
+- 已将后端切换为 `com.assistivecare` 包，启动类为 `AssistiveCareApplication`，artifactId 为 `assistive-device-care-191`，数据库为 `assistive_care_191`，Redis token 前缀为 `assistivecare:token:`。
+- 已重建默认账号与角色口径：`ADMIN/admin`、`COMMUNITY/community`、`AIDSTAFF/aidstaff`、`THERAPIST/therapist`、`VOLUNTEER/volunteer`、`RESIDENT/resident`，统一密码 `123456`。
+- 已生成 12 个正式业务模块：`ServiceCenter`、`ResidentProfile`、`AssistiveDevice`、`BorrowApplication`、`BorrowApproval`、`DeviceDelivery`、`RehabPlan`、`RehabTraining`、`FollowupRecord`、`RecoveryReminder`、`DeviceMaintenance`、`OperationLog`。
+- 已为前后端角色口径收口：社区服务员维护服务站点、居民档案和借用审核；器具管理员维护助残器具、器具交付、回收提醒和器具维护；康复治疗师制定康复计划、记录康复训练并参与随访评估；随访志愿者协助交付、随访和回收提醒；居民用户提交器具借用申请、查看康复计划和随访进度。
+- 已重写前端路由、角色首页跳转、动态菜单、登录页、通用数据页、看板和全部业务页字段，页面语义切回服务站点、居民档案、助残器具、器具借用、借用审核、器具交付、康复计划、康复训练、随访记录、回收提醒、器具维护、操作日志。
+- 源码残留扫描未发现 `com.p191`、`BizRecord`、`project_191`、旧楼宇角色/模块名、旧 `record01` 路径、通配符 CORS、`printStackTrace`、`System.out.print*`。
+- 静态结构验证：13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图。
+- 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证。
+- 全仓库 `node_modules` 扫描未发现残留。
+- 剩余风险：尚未连接真实 MySQL/Redis 做登录和业务接口联调；当前结论覆盖源码主题化与静态结构验证。下一项目为 `192`。

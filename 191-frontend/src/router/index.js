@@ -1,6 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '../store/user'
 
+const ROLE_HOME = {
+  ADMIN: '/dashboard',
+  COMMUNITY: '/center',
+  AIDSTAFF: '/device',
+  THERAPIST: '/plan',
+  VOLUNTEER: '/followup',
+  RESIDENT: '/borrow'
+}
+
 const routes = [
   { path: '/login', component: () => import('../views/Login.vue') },
   {
@@ -8,20 +17,20 @@ const routes = [
     component: () => import('../views/Layout.vue'),
     redirect: '/dashboard',
     children: [
-      { path: 'dashboard', component: () => import('../views/Dashboard.vue') },
-      { path: 'user', component: () => import('../views/SysUser.vue') },
-      { path: 'record01', component: () => import('../views/BizRecord01.vue') },
-      { path: 'record02', component: () => import('../views/BizRecord02.vue') },
-      { path: 'record03', component: () => import('../views/BizRecord03.vue') },
-      { path: 'record04', component: () => import('../views/BizRecord04.vue') },
-      { path: 'record05', component: () => import('../views/BizRecord05.vue') },
-      { path: 'record06', component: () => import('../views/BizRecord06.vue') },
-      { path: 'record07', component: () => import('../views/BizRecord07.vue') },
-      { path: 'record08', component: () => import('../views/BizRecord08.vue') },
-      { path: 'record09', component: () => import('../views/BizRecord09.vue') },
-      { path: 'record10', component: () => import('../views/BizRecord10.vue') },
-      { path: 'record11', component: () => import('../views/BizRecord11.vue') },
-      { path: 'record12', component: () => import('../views/BizRecord12.vue') }
+      { path: 'dashboard', component: () => import('../views/Dashboard.vue'), meta: { roles: ['ADMIN', 'COMMUNITY', 'AIDSTAFF', 'THERAPIST', 'VOLUNTEER', 'RESIDENT'] } },
+      { path: 'user', component: () => import('../views/SysUser.vue'), meta: { roles: ['ADMIN'] } },
+      { path: 'center', component: () => import('../views/ServiceCenter.vue'), meta: { roles: ['ADMIN', 'COMMUNITY'] } },
+      { path: 'resident', component: () => import('../views/ResidentProfile.vue'), meta: { roles: ['ADMIN', 'COMMUNITY', 'THERAPIST', 'VOLUNTEER'] } },
+      { path: 'device', component: () => import('../views/AssistiveDevice.vue'), meta: { roles: ['ADMIN', 'COMMUNITY', 'AIDSTAFF'] } },
+      { path: 'borrow', component: () => import('../views/BorrowApplication.vue'), meta: { roles: ['ADMIN', 'COMMUNITY', 'AIDSTAFF', 'RESIDENT'] } },
+      { path: 'approval', component: () => import('../views/BorrowApproval.vue'), meta: { roles: ['ADMIN', 'COMMUNITY', 'AIDSTAFF'] } },
+      { path: 'delivery', component: () => import('../views/DeviceDelivery.vue'), meta: { roles: ['ADMIN', 'COMMUNITY', 'AIDSTAFF', 'VOLUNTEER'] } },
+      { path: 'plan', component: () => import('../views/RehabPlan.vue'), meta: { roles: ['ADMIN', 'COMMUNITY', 'THERAPIST', 'RESIDENT'] } },
+      { path: 'training', component: () => import('../views/RehabTraining.vue'), meta: { roles: ['ADMIN', 'COMMUNITY', 'THERAPIST'] } },
+      { path: 'followup', component: () => import('../views/FollowupRecord.vue'), meta: { roles: ['ADMIN', 'COMMUNITY', 'THERAPIST', 'VOLUNTEER', 'RESIDENT'] } },
+      { path: 'reminder', component: () => import('../views/RecoveryReminder.vue'), meta: { roles: ['ADMIN', 'COMMUNITY', 'AIDSTAFF', 'VOLUNTEER'] } },
+      { path: 'maintenance', component: () => import('../views/DeviceMaintenance.vue'), meta: { roles: ['ADMIN', 'COMMUNITY', 'AIDSTAFF'] } },
+      { path: 'log', component: () => import('../views/OperationLog.vue'), meta: { roles: ['ADMIN'] } }
     ]
   }
 ]
@@ -29,8 +38,11 @@ const routes = [
 const router = createRouter({ history: createWebHistory(), routes })
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore()
+  const role = userStore.user?.role
+  const home = ROLE_HOME[role] || '/login'
   if (to.path !== '/login' && !userStore.token) return next('/login')
-  if (to.path === '/login' && userStore.token) return next('/dashboard')
+  if (to.path === '/login' && userStore.token) return next(home)
+  if (to.meta?.roles && !to.meta.roles.includes(role)) return next(home)
   next()
 })
 export default router

@@ -2391,3 +2391,19 @@
   - 已清理 `190-frontend/node_modules`，并完成全仓库 `node_modules` 扫描，未发现残留
   - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `smart_building_190` 与 Redis
   - 下一项目为 `191`
+
+### 已正式开发：191 社区助残器具借用与康复随访平台
+- 本轮新增：
+  - 检查发现 `191` 批量版仍为 `com.p191 / BizRecord / project_191` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `190` 正式化流水线生成并执行 `scripts/develop_191.py`；端口切换为后端 `8191`、前端 `3191`
+  - 将后端切换为 `com.assistivecare` 包，启动类为 `AssistiveCareApplication`，artifactId 为 `assistive-device-care-191`，数据库为 `assistive_care_191`，Redis token 前缀为 `assistivecare:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`COMMUNITY/community`、`AIDSTAFF/aidstaff`、`THERAPIST/therapist`、`VOLUNTEER/volunteer`、`RESIDENT/resident`，统一密码 `123456`
+  - 重建 12 个业务模块：服务站点、居民档案、助残器具、器具借用、借用审核、器具交付、康复计划、康复训练、随访记录、回收提醒、器具维护、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / COMMUNITY / AIDSTAFF / THERAPIST / VOLUNTEER / RESIDENT` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `191` 详情已从批量泛化模块改为正式社区助残器具借用与康复随访闭环模块说明
+  - 残留扫描未发现 `com.p191`、`BizRecord`、`project_191`、旧楼宇角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 静态结构确认：13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+  - 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证；如需正式交付再单独运行，并在前端构建后清理 `node_modules`
+  - 完成全仓库 `node_modules` 扫描，未发现残留
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `assistive_care_191` 与 Redis
+  - 下一项目为 `192`

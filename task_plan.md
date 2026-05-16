@@ -2589,6 +2589,25 @@ Status: Completed
 - [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
 - [x] 下一项目为 `191`
 
+# Task Plan: 191 项目正式开发
+
+完成 `191` 社区助残器具借用与康复随访平台的主题化开发、权限收口、静态结构验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `191` 批量版状态，确认仍存在 `com.p191 / BizRecord / project_191` 泛化模板
+- [x] 基于 `190` 正式化流水线生成 `scripts/develop_191.py`，并改造为服务站点、居民档案、助残器具、器具借用、借用审核、器具交付、康复计划、康复训练、随访记录、回收提醒和器具维护闭环
+- [x] 将后端切换为 `com.assistivecare`，artifactId 为 `assistive-device-care-191`，数据库为 `assistive_care_191`
+- [x] 完成服务站点、居民档案、助残器具、器具借用、借用审核、器具交付、康复计划、康复训练、随访记录、回收提醒、器具维护、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / COMMUNITY / AIDSTAFF / THERAPIST / VOLUNTEER / RESIDENT` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p191`、`BizRecord`、`project_191`、旧楼宇角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 静态结构确认 13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+- [x] 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证
+- [x] 完成全仓库 `node_modules` 扫描，未发现残留
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `192`
+
 ## Errors Encountered
 
 | Error | Attempt | Resolution |
