@@ -3210,3 +3210,19 @@
 - 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证。
 - 全仓库 `node_modules` 扫描未发现残留。
 - 剩余风险：尚未连接真实 MySQL/Redis 做登录和业务接口联调；当前结论覆盖源码主题化与静态结构验证。下一项目为 `195`。
+
+## 2026-05-16 195 正式开发记录
+
+### Findings
+- `195` 批量版原始状态仍是通用模板：后端包名为 `com.p195`，业务类为 `BizRecord01-12`，数据库名为 `project_195`，前端页面和接口路径仍以 `record01-12` 命名。
+- 已基于 `194` 正式化流水线生成并执行 `scripts/develop_195.py`；端口切换为后端 `8195`、前端 `3195`。
+- 已将后端切换为 `com.publicservice` 包，启动类为 `PublicServiceApplication`，artifactId 为 `public-service-center-195`，数据库为 `public_service_195`，Redis token 前缀为 `publicservice:token:`。
+- 已重建默认账号与角色口径：`ADMIN/admin`、`CENTER/center`、`WINDOW/window`、`REVIEW/review`、`SUPERVISE/supervise`、`CITIZEN/citizen`，统一密码 `123456`。
+- 已生成 12 个正式业务模块：`ServiceItem`、`WindowProfile`、`ClerkRoster`、`AppointmentBooking`、`QueueCall`、`MaterialReview`、`ProcessProgress`、`MessageNotice`、`ServiceEvaluation`、`ComplaintHandling`、`PerformanceArchive`、`OperationLog`。
+- 已为前后端角色口径收口：中心管理员维护事项档案、窗口档案、人员排班和窗口服务规则；窗口经办处理事项预约、窗口叫号、办理进度和通知提醒；材料审核人员处理材料审核和办理流转；督办人员查看满意评价、投诉处理和绩效统计；办事群众提交事项预约、查看办理进度并完成评价。
+- 已重写前端路由、角色首页跳转、动态菜单、登录页、通用数据页、看板和全部业务页字段，页面语义切回事项档案、窗口档案、人员排班、事项预约、窗口叫号、材料审核、办理进度、通知提醒、满意评价、投诉处理、绩效统计、操作日志。
+- 源码残留扫描未发现 `com.p195`、`BizRecord`、`project_195`、旧危废监管角色/模块名、旧 `record01` 路径、通配符 CORS、`printStackTrace`、`System.out.print*`。
+- 静态结构验证：13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图。
+- 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证。
+- 全仓库 `node_modules` 扫描未发现残留。
+- 剩余风险：尚未连接真实 MySQL/Redis 做登录和业务接口联调；当前结论覆盖源码主题化与静态结构验证。下一项目为 `196`。

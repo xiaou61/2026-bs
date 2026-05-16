@@ -2455,3 +2455,19 @@
   - 完成全仓库 `node_modules` 扫描，未发现残留
   - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `hazard_waste_194` 与 Redis
   - 下一项目为 `195`
+
+### 已正式开发：195 便民服务中心事项预约与窗口评价平台
+- 本轮新增：
+  - 检查发现 `195` 批量版仍为 `com.p195 / BizRecord / project_195` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `194` 正式化流水线生成并执行 `scripts/develop_195.py`；端口切换为后端 `8195`、前端 `3195`
+  - 将后端切换为 `com.publicservice` 包，启动类为 `PublicServiceApplication`，artifactId 为 `public-service-center-195`，数据库为 `public_service_195`，Redis token 前缀为 `publicservice:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`CENTER/center`、`WINDOW/window`、`REVIEW/review`、`SUPERVISE/supervise`、`CITIZEN/citizen`，统一密码 `123456`
+  - 重建 12 个业务模块：事项档案、窗口档案、人员排班、事项预约、窗口叫号、材料审核、办理进度、通知提醒、满意评价、投诉处理、绩效统计、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / CENTER / WINDOW / REVIEW / SUPERVISE / CITIZEN` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `195` 详情已从批量泛化模块改为正式便民服务中心事项预约与窗口评价闭环模块说明
+  - 残留扫描未发现 `com.p195`、`BizRecord`、`project_195`、旧危废监管角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 静态结构确认：13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+  - 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证；如需正式交付再单独运行，并在前端构建后清理 `node_modules`
+  - 完成全仓库 `node_modules` 扫描，未发现残留
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `public_service_195` 与 Redis
+  - 下一项目为 `196`
