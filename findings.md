@@ -3162,3 +3162,19 @@
 - 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证。
 - 全仓库 `node_modules` 扫描未发现残留。
 - 剩余风险：尚未连接真实 MySQL/Redis 做登录和业务接口联调；当前结论覆盖源码主题化与静态结构验证。下一项目为 `192`。
+
+## 2026-05-16 192 正式开发记录
+
+### Findings
+- `192` 批量版原始状态仍是通用模板：后端包名为 `com.p192`，业务类为 `BizRecord01-12`，数据库名为 `project_192`，前端页面和接口路径仍以 `record01-12` 命名。
+- 已基于 `191` 正式化流水线生成并执行 `scripts/develop_192.py`；端口切换为后端 `8192`、前端 `3192`。
+- 已将后端切换为 `com.hospitalcare` 包，启动类为 `HospitalCareApplication`，artifactId 为 `hospital-care-service-192`，数据库为 `hospital_care_192`，Redis token 前缀为 `hospitalcare:token:`。
+- 已重建默认账号与角色口径：`ADMIN/admin`、`HOSPITAL/hospital`、`COORDINATOR/coordinator`、`CAREGIVER/caregiver`、`FINANCE/finance`、`FAMILY/family`，统一密码 `123456`。
+- 已生成 12 个正式业务模块：`HospitalWard`、`PatientProfile`、`CaregiverProfile`、`CareAppointment`、`AppointmentReview`、`CaregiverSchedule`、`ServiceAssignment`、`CareServiceRecord`、`FamilyCommunication`、`CareEvaluation`、`SettlementRecord`、`OperationLog`。
+- 已为前后端角色口径收口：院区管理员维护病区、患者和护工档案；陪护协调员处理陪护预约、预约审核、护工排班和服务派单；护工人员查看排班任务、执行陪护服务并登记服务记录；结算人员核对服务记录、护工评价和费用结算；患者家属提交陪护预约、查看服务记录并完成评价和结算确认。
+- 已重写前端路由、角色首页跳转、动态菜单、登录页、通用数据页、看板和全部业务页字段，页面语义切回病区档案、患者档案、护工档案、陪护预约、预约审核、护工排班、服务派单、服务记录、家属沟通、护工评价、评价结算、操作日志。
+- 源码残留扫描未发现 `com.p192`、`BizRecord`、`project_192`、旧助残角色/模块名、旧 `record01` 路径、通配符 CORS、`printStackTrace`、`System.out.print*`。
+- 静态结构验证：13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图。
+- 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证。
+- 全仓库 `node_modules` 扫描未发现残留。
+- 剩余风险：尚未连接真实 MySQL/Redis 做登录和业务接口联调；当前结论覆盖源码主题化与静态结构验证。下一项目为 `193`。

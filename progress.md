@@ -2407,3 +2407,19 @@
   - 完成全仓库 `node_modules` 扫描，未发现残留
   - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `assistive_care_191` 与 Redis
   - 下一项目为 `192`
+
+### 已正式开发：192 医院陪护服务预约与护工评价管理系统
+- 本轮新增：
+  - 检查发现 `192` 批量版仍为 `com.p192 / BizRecord / project_192` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `191` 正式化流水线生成并执行 `scripts/develop_192.py`；端口切换为后端 `8192`、前端 `3192`
+  - 将后端切换为 `com.hospitalcare` 包，启动类为 `HospitalCareApplication`，artifactId 为 `hospital-care-service-192`，数据库为 `hospital_care_192`，Redis token 前缀为 `hospitalcare:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`HOSPITAL/hospital`、`COORDINATOR/coordinator`、`CAREGIVER/caregiver`、`FINANCE/finance`、`FAMILY/family`，统一密码 `123456`
+  - 重建 12 个业务模块：病区档案、患者档案、护工档案、陪护预约、预约审核、护工排班、服务派单、服务记录、家属沟通、护工评价、评价结算、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / HOSPITAL / COORDINATOR / CAREGIVER / FINANCE / FAMILY` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `192` 详情已从批量泛化模块改为正式医院陪护服务预约与护工评价闭环模块说明
+  - 残留扫描未发现 `com.p192`、`BizRecord`、`project_192`、旧助残角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 静态结构确认：13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+  - 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证；如需正式交付再单独运行，并在前端构建后清理 `node_modules`
+  - 完成全仓库 `node_modules` 扫描，未发现残留
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `hospital_care_192` 与 Redis
+  - 下一项目为 `193`

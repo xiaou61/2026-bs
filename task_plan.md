@@ -2608,6 +2608,25 @@ Status: Completed
 - [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
 - [x] 下一项目为 `192`
 
+# Task Plan: 192 项目正式开发
+
+完成 `192` 医院陪护服务预约与护工评价管理系统的主题化开发、权限收口、静态结构验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `192` 批量版状态，确认仍存在 `com.p192 / BizRecord / project_192` 泛化模板
+- [x] 基于 `191` 正式化流水线生成 `scripts/develop_192.py`，并改造为病区档案、患者档案、护工档案、陪护预约、预约审核、护工排班、服务派单、服务记录、家属沟通、护工评价和评价结算闭环
+- [x] 将后端切换为 `com.hospitalcare`，artifactId 为 `hospital-care-service-192`，数据库为 `hospital_care_192`
+- [x] 完成病区档案、患者档案、护工档案、陪护预约、预约审核、护工排班、服务派单、服务记录、家属沟通、护工评价、评价结算、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / HOSPITAL / COORDINATOR / CAREGIVER / FINANCE / FAMILY` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p192`、`BizRecord`、`project_192`、旧助残角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 静态结构确认 13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+- [x] 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证
+- [x] 完成全仓库 `node_modules` 扫描，未发现残留
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `193`
+
 ## Errors Encountered
 
 | Error | Attempt | Resolution |
