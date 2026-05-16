@@ -2646,6 +2646,25 @@ Status: Completed
 - [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
 - [x] 下一项目为 `194`
 
+# Task Plan: 194 项目正式开发
+
+完成 `194` 工业园区危废暂存与转运联动监管平台的主题化开发、权限收口、静态结构验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `194` 批量版状态，确认仍存在 `com.p194 / BizRecord / project_194` 泛化模板
+- [x] 基于 `193` 正式化流水线生成 `scripts/develop_194.py`，并改造为园区企业、危废类别、暂存设施、入库登记、暂存巡检、转运联单、车辆调度、称重记录、处置交接、风险预警和台账审计闭环
+- [x] 将后端切换为 `com.hazardwaste`，artifactId 为 `industrial-hazard-waste-194`，数据库为 `hazard_waste_194`
+- [x] 完成园区企业、危废类别、暂存设施、入库登记、暂存巡检、转运联单、车辆调度、称重记录、处置交接、风险预警、台账审计、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / PARK / WAREHOUSE / TRANSPORT / INSPECTOR / ENTERPRISE` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p194`、`BizRecord`、`project_194`、旧创新实验班角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 静态结构确认 13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+- [x] 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证
+- [x] 完成全仓库 `node_modules` 扫描，未发现残留
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `195`
+
 ## Errors Encountered
 
 | Error | Attempt | Resolution |

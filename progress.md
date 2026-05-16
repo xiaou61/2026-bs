@@ -2439,3 +2439,19 @@
   - 完成全仓库 `node_modules` 扫描，未发现残留
   - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `innovation_class_193` 与 Redis
   - 下一项目为 `194`
+
+### 已正式开发：194 工业园区危废暂存与转运联动监管平台
+- 本轮新增：
+  - 检查发现 `194` 批量版仍为 `com.p194 / BizRecord / project_194` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `193` 正式化流水线生成并执行 `scripts/develop_194.py`；端口切换为后端 `8194`、前端 `3194`
+  - 将后端切换为 `com.hazardwaste` 包，启动类为 `HazardWasteApplication`，artifactId 为 `industrial-hazard-waste-194`，数据库为 `hazard_waste_194`，Redis token 前缀为 `hazardwaste:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`PARK/park`、`WAREHOUSE/warehouse`、`TRANSPORT/transport`、`INSPECTOR/inspector`、`ENTERPRISE/enterprise`，统一密码 `123456`
+  - 重建 12 个业务模块：园区企业、危废类别、暂存设施、入库登记、暂存巡检、转运联单、车辆调度、称重记录、处置交接、风险预警、台账审计、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / PARK / WAREHOUSE / TRANSPORT / INSPECTOR / ENTERPRISE` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `194` 详情已从批量泛化模块改为正式工业园区危废暂存与转运联动监管闭环模块说明
+  - 残留扫描未发现 `com.p194`、`BizRecord`、`project_194`、旧创新实验班角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 静态结构确认：13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+  - 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证；如需正式交付再单独运行，并在前端构建后清理 `node_modules`
+  - 完成全仓库 `node_modules` 扫描，未发现残留
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `hazard_waste_194` 与 Redis
+  - 下一项目为 `195`
