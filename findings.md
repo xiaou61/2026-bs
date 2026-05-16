@@ -3130,3 +3130,19 @@
 - 验证结果：`189-backend` 执行 `mvn.cmd -q clean test` 通过；`189-frontend` 执行 `npm.cmd install` 与 `npm.cmd run build` 通过。前端仍有 Vite CJS deprecation 和大 chunk warning，不阻塞。
 - 已按 `skills.md` 约定删除 `189-frontend/node_modules`；全仓库 `node_modules` 扫描未发现残留。
 - 剩余风险：尚未连接真实 MySQL/Redis 做登录和业务接口联调；当前结论覆盖源码、编译与前端生产构建。下一项目为 `190`。
+
+## 2026-05-16 190 正式开发记录
+
+### Findings
+- `190` 批量版原始状态仍是通用模板：后端包名为 `com.p190`，业务类为 `BizRecord01-12`，数据库名为 `project_190`，前端页面和接口路径仍以 `record01-12` 命名。
+- 已基于 `189` 正式化流水线生成并执行 `scripts/develop_190.py`；端口切换为后端 `8190`、前端 `3190`。
+- 已将后端切换为 `com.smartbuilding` 包，启动类为 `SmartBuildingApplication`，artifactId 为 `smart-building-maintenance-190`，数据库为 `smart_building_190`，Redis token 前缀为 `smartbuilding:token:`。
+- 已重建默认账号与角色口径：`ADMIN/admin`、`PROPERTY/property`、`DISPATCH/dispatch`、`TECHNICIAN/technician`、`INSPECTOR/inspector`、`TENANT/tenant`，统一密码 `123456`。
+- 已生成 12 个正式业务模块：`BuildingProfile`、`EquipmentAsset`、`TenantProfile`、`VisitRepairTicket`、`RepairDispatch`、`MaintenancePlan`、`MaintenanceTask`、`FaultAlert`、`InspectionRecord`、`SparePartStock`、`ServiceFeedback`、`OperationLog`。
+- 已为前后端角色口径收口：物业管理员维护楼宇、设备和入驻档案；访修调度员处理访修工单、维修派工和服务评价；维修技师接收派工、执行保养任务并处置故障预警；设备巡检员登记巡检记录和预警；入驻用户提交访修工单并查看进度、评价服务。
+- 已重写前端路由、角色首页跳转、动态菜单、登录页、通用数据页、看板和全部业务页字段，页面语义切回楼宇档案、设备档案、入驻档案、访修工单、维修派工、保养计划、保养任务、故障预警、巡检记录、备件库存、服务评价、操作日志。
+- 源码残留扫描未发现 `com.p190`、`BizRecord`、`project_190`、旧农机角色/模块名、旧 `record01` 路径、通配符 CORS、`printStackTrace`、`System.out.print*`。
+- 静态结构验证：13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图。
+- 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证。
+- 已清理 `190-frontend/node_modules`；全仓库 `node_modules` 扫描未发现残留。
+- 剩余风险：尚未连接真实 MySQL/Redis 做登录和业务接口联调；当前结论覆盖源码主题化与静态结构验证。下一项目为 `191`。

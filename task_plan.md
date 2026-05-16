@@ -2570,6 +2570,25 @@ Status: Completed
 - [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
 - [x] 下一项目为 `190`
 
+# Task Plan: 190 项目正式开发
+
+完成 `190` 智慧楼宇访修协同与设备保养提醒系统的主题化开发、权限收口、静态结构验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `190` 批量版状态，确认仍存在 `com.p190 / BizRecord / project_190` 泛化模板
+- [x] 基于 `189` 正式化流水线生成 `scripts/develop_190.py`，并改造为楼宇档案、设备档案、入驻档案、访修工单、维修派工、保养计划、保养任务、故障预警、巡检记录、备件库存和服务评价闭环
+- [x] 将后端切换为 `com.smartbuilding`，artifactId 为 `smart-building-maintenance-190`，数据库为 `smart_building_190`
+- [x] 完成楼宇档案、设备档案、入驻档案、访修工单、维修派工、保养计划、保养任务、故障预警、巡检记录、备件库存、服务评价、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / PROPERTY / DISPATCH / TECHNICIAN / INSPECTOR / TENANT` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p190`、`BizRecord`、`project_190`、旧农机角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 静态结构确认 13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+- [x] 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证
+- [x] 清理 `190-frontend/node_modules`，并完成全仓库 `node_modules` 扫描，未发现残留
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `191`
+
 ## Errors Encountered
 
 | Error | Attempt | Resolution |

@@ -2375,3 +2375,19 @@
   - 已按 `skills.md` 约定删除 `189-frontend/node_modules`，并完成全仓库 `node_modules` 扫描，未发现残留
   - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `farm_machinery_189` 与 Redis
   - 下一项目为 `190`
+
+### 已正式开发：190 智慧楼宇访修协同与设备保养提醒系统
+- 本轮新增：
+  - 检查发现 `190` 批量版仍为 `com.p190 / BizRecord / project_190` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `189` 正式化流水线生成并执行 `scripts/develop_190.py`；端口切换为后端 `8190`、前端 `3190`
+  - 将后端切换为 `com.smartbuilding` 包，启动类为 `SmartBuildingApplication`，artifactId 为 `smart-building-maintenance-190`，数据库为 `smart_building_190`，Redis token 前缀为 `smartbuilding:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`PROPERTY/property`、`DISPATCH/dispatch`、`TECHNICIAN/technician`、`INSPECTOR/inspector`、`TENANT/tenant`，统一密码 `123456`
+  - 重建 12 个业务模块：楼宇档案、设备档案、入驻档案、访修工单、维修派工、保养计划、保养任务、故障预警、巡检记录、备件库存、服务评价、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / PROPERTY / DISPATCH / TECHNICIAN / INSPECTOR / TENANT` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `190` 详情已从批量泛化模块改为正式智慧楼宇访修协同与设备保养闭环模块说明
+  - 残留扫描未发现 `com.p190`、`BizRecord`、`project_190`、旧农机角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 静态结构确认：13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+  - 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证；如需正式交付再单独运行，并在前端构建后清理 `node_modules`
+  - 已清理 `190-frontend/node_modules`，并完成全仓库 `node_modules` 扫描，未发现残留
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `smart_building_190` 与 Redis
+  - 下一项目为 `191`

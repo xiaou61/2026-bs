@@ -1,4 +1,4 @@
-<template><div class="login"><el-card><h2>智慧楼宇访修协同与设备保养提醒系统</h2><el-form :model="form"><el-form-item><el-input v-model="form.username" placeholder="账号" /></el-form-item><el-form-item><el-input v-model="form.password" placeholder="密码" type="password" /></el-form-item><el-button type="primary" style="width:100%" @click="handleLogin">登录</el-button></el-form></el-card></div></template>
+<template><div class="login"><el-card><h2>智慧楼宇访修协同与设备保养提醒系统</h2><el-form :model="form"><el-form-item><el-input v-model="form.username" placeholder="账号" /></el-form-item><el-form-item><el-input v-model="form.password" placeholder="密码" type="password" /></el-form-item><el-button type="primary" style="width:100%" @click="handleLogin">登录</el-button></el-form><div class="accounts"><span>admin</span><span>property</span><span>dispatch</span><span>technician</span><span>inspector</span><span>tenant</span></div></el-card></div></template>
 <script setup>
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
@@ -7,6 +7,7 @@ import { useUserStore } from '../store/user'
 const router = useRouter()
 const userStore = useUserStore()
 const form = reactive({ username: 'admin', password: '123456' })
-const handleLogin = async () => { const res = await login(form); userStore.setLogin(res.data); router.push('/dashboard') }
+const home = { ADMIN: '/dashboard', PROPERTY: '/building', DISPATCH: '/ticket', TECHNICIAN: '/repair', INSPECTOR: '/inspection', TENANT: '/ticket' }
+const handleLogin = async () => { const res = await login(form); userStore.setLogin(res.data); router.push(home[res.data.user.role] || '/dashboard') }
 </script>
-<style scoped>.login{height:100vh;display:flex;align-items:center;justify-content:center;background:#eef2f7}.el-card{width:420px}h2{font-size:20px;margin:0 0 22px;text-align:center}</style>
+<style scoped>.login{height:100vh;display:flex;align-items:center;justify-content:center;background:#edf4f2}.el-card{width:430px}h2{font-size:20px;margin:0 0 22px;text-align:center}.accounts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;color:#64748b;font-size:13px}.accounts span{background:#f1f5f9;border-radius:6px;padding:4px 8px}</style>
