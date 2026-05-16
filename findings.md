@@ -3178,3 +3178,19 @@
 - 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证。
 - 全仓库 `node_modules` 扫描未发现残留。
 - 剩余风险：尚未连接真实 MySQL/Redis 做登录和业务接口联调；当前结论覆盖源码主题化与静态结构验证。下一项目为 `193`。
+
+## 2026-05-16 193 正式开发记录
+
+### Findings
+- `193` 批量版原始状态仍是通用模板：后端包名为 `com.p193`，业务类为 `BizRecord01-12`，数据库名为 `project_193`，前端页面和接口路径仍以 `record01-12` 命名。
+- 已基于 `192` 正式化流水线生成并执行 `scripts/develop_193.py`；端口切换为后端 `8193`、前端 `3193`。
+- 已将后端切换为 `com.innovationclass` 包，启动类为 `InnovationClassApplication`，artifactId 为 `campus-innovation-class-193`，数据库为 `innovation_class_193`，Redis token 前缀为 `innovationclass:token:`。
+- 已重建默认账号与角色口径：`ADMIN/admin`、`ACADEMIC/academic`、`REVIEWER/reviewer`、`MENTOR/mentor`、`COUNSELOR/counselor`、`STUDENT/student`，统一密码 `123456`。
+- 已生成 12 个正式业务模块：`InnovationProgram`、`StudentProfile`、`MentorProfile`、`SelectionNotice`、`ApplicationRegistration`、`SelectionReview`、`InterviewAssessment`、`MentorMatch`、`TrainingPlan`、`ProcessTracking`、`AchievementArchive`、`OperationLog`。
+- 已为前后端角色口径收口：教务管理员维护实验班项目、学生档案、导师档案和选拔公告；评审教师处理报名选拔、资格评审和面试考核；导师查看匹配学生、维护培养计划并跟踪过程记录；辅导员协同学生档案、报名进度、导师匹配和过程跟踪；学生查看公告、提交报名、查看培养计划和成果归档。
+- 已重写前端路由、角色首页跳转、动态菜单、登录页、通用数据页、看板和全部业务页字段，页面语义切回实验班项目、学生档案、导师档案、选拔公告、报名选拔、资格评审、面试考核、导师匹配、培养计划、过程跟踪、成果档案、操作日志。
+- 源码残留扫描未发现 `com.p193`、`BizRecord`、`project_193`、旧医院陪护角色/模块名、旧 `record01` 路径、通配符 CORS、`printStackTrace`、`System.out.print*`。
+- 静态结构验证：13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图。
+- 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证。
+- 全仓库 `node_modules` 扫描未发现残留。
+- 剩余风险：尚未连接真实 MySQL/Redis 做登录和业务接口联调；当前结论覆盖源码主题化与静态结构验证。下一项目为 `194`。

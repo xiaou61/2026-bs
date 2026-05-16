@@ -2627,6 +2627,25 @@ Status: Completed
 - [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
 - [x] 下一项目为 `193`
 
+# Task Plan: 193 项目正式开发
+
+完成 `193` 校园创新实验班选拔与导师跟踪管理系统的主题化开发、权限收口、静态结构验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `193` 批量版状态，确认仍存在 `com.p193 / BizRecord / project_193` 泛化模板
+- [x] 基于 `192` 正式化流水线生成 `scripts/develop_193.py`，并改造为实验班项目、学生档案、导师档案、选拔公告、报名选拔、资格评审、面试考核、导师匹配、培养计划、过程跟踪和成果档案闭环
+- [x] 将后端切换为 `com.innovationclass`，artifactId 为 `campus-innovation-class-193`，数据库为 `innovation_class_193`
+- [x] 完成实验班项目、学生档案、导师档案、选拔公告、报名选拔、资格评审、面试考核、导师匹配、培养计划、过程跟踪、成果档案、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / ACADEMIC / REVIEWER / MENTOR / COUNSELOR / STUDENT` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p193`、`BizRecord`、`project_193`、旧医院陪护角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 静态结构确认 13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+- [x] 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证
+- [x] 完成全仓库 `node_modules` 扫描，未发现残留
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `194`
+
 ## Errors Encountered
 
 | Error | Attempt | Resolution |

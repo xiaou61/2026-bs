@@ -2423,3 +2423,19 @@
   - 完成全仓库 `node_modules` 扫描，未发现残留
   - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `hospital_care_192` 与 Redis
   - 下一项目为 `193`
+
+### 已正式开发：193 校园创新实验班选拔与导师跟踪管理系统
+- 本轮新增：
+  - 检查发现 `193` 批量版仍为 `com.p193 / BizRecord / project_193` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `192` 正式化流水线生成并执行 `scripts/develop_193.py`；端口切换为后端 `8193`、前端 `3193`
+  - 将后端切换为 `com.innovationclass` 包，启动类为 `InnovationClassApplication`，artifactId 为 `campus-innovation-class-193`，数据库为 `innovation_class_193`，Redis token 前缀为 `innovationclass:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`ACADEMIC/academic`、`REVIEWER/reviewer`、`MENTOR/mentor`、`COUNSELOR/counselor`、`STUDENT/student`，统一密码 `123456`
+  - 重建 12 个业务模块：实验班项目、学生档案、导师档案、选拔公告、报名选拔、资格评审、面试考核、导师匹配、培养计划、过程跟踪、成果档案、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / ACADEMIC / REVIEWER / MENTOR / COUNSELOR / STUDENT` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `193` 详情已从批量泛化模块改为正式校园创新实验班选拔与导师跟踪闭环模块说明
+  - 残留扫描未发现 `com.p193`、`BizRecord`、`project_193`、旧医院陪护角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 静态结构确认：13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+  - 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证；如需正式交付再单独运行，并在前端构建后清理 `node_modules`
+  - 完成全仓库 `node_modules` 扫描，未发现残留
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `innovation_class_193` 与 Redis
+  - 下一项目为 `194`
