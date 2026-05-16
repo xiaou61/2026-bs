@@ -15,9 +15,9 @@ import java.util.List;
 public interface MaterialReviewMapper {
     @Select({
         "<script>",
-        "SELECT * FROM payment_record",
+        "SELECT * FROM material_review",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (payment_no LIKE CONCAT('%',#{keyword},'%') OR claim_no LIKE CONCAT('%',#{keyword},'%') OR payment_amount LIKE CONCAT('%',#{keyword},'%') OR payment_time LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (review_no LIKE CONCAT('%',#{keyword},'%') OR report_no LIKE CONCAT('%',#{keyword},'%') OR review_result LIKE CONCAT('%',#{keyword},'%') OR reviewer_name LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,26 +25,22 @@ public interface MaterialReviewMapper {
     })
     List<MaterialReview> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM payment_record WHERE id = #{id}")
+    @Select("SELECT * FROM material_review WHERE id = #{id}")
     MaterialReview selectById(Long id);
 
-    @Insert("INSERT INTO payment_record (payment_no, claim_no, payment_amount, payment_time, operator_name, status, created_time, updated_time) VALUES (#{paymentNo}, #{claimNo}, #{paymentAmount}, #{paymentTime}, #{operatorName}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO material_review (review_no, report_no, review_result, review_time, reviewer_name, status, created_time, updated_time) VALUES (#{reviewNo}, #{reportNo}, #{reviewResult}, #{reviewTime}, #{reviewerName}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(MaterialReview entity);
 
-    @Update("UPDATE payment_record SET payment_no = #{paymentNo}, claim_no = #{claimNo}, payment_amount = #{paymentAmount}, payment_time = #{paymentTime}, operator_name = #{operatorName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE material_review SET review_no = #{reviewNo}, report_no = #{reportNo}, review_result = #{reviewResult}, review_time = #{reviewTime}, reviewer_name = #{reviewerName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(MaterialReview entity);
 
-    @Delete("DELETE FROM payment_record WHERE id = #{id}")
+    @Delete("DELETE FROM material_review WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM payment_record")
+    @Select("SELECT COUNT(*) FROM material_review")
     long countAll();
 
-    @Update("UPDATE payment_record SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE material_review SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-

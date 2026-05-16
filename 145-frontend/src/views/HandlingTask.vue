@@ -1,16 +1,65 @@
 <template>
-  <DataPage title="审稿专家" description="专家编号、专家姓名、研究方向、所在单位、邀请时间和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage
+    title="处置任务"
+    description="维护任务编号、投诉标题、责任人、下发时间和处理时限，支撑执法处置流转与审批"
+    :api="api"
+    :columns="columns"
+    :form-fields="formFields"
+    :row-actions="rowActions"
+    :defaults="defaults"
+    :can-create="canManage"
+    :can-edit="canManage"
+    :can-delete="canManage"
+    @row-action="handleAction"
+  />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getHandlingTaskPage, addHandlingTask, updateHandlingTask, deleteHandlingTask, submitHandlingTask, approveHandlingTask } from '../api'
+
 const api = { page: getHandlingTaskPage, add: addHandlingTask, update: updateHandlingTask, delete: deleteHandlingTask }
-const columns = [{"prop": "requestNo", "label": "专家编号"}, {"prop": "consumableName", "label": "专家姓名"}, {"prop": "requestQty", "label": "评审负载"}, {"prop": "applicantName", "label": "研究方向"}, {"prop": "requestTime", "label": "邀请时间"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "requestNo", "label": "专家编号"}, {"prop": "consumableName", "label": "专家姓名"}, {"prop": "requestQty", "label": "评审负载", "type": "number"}, {"prop": "applicantName", "label": "研究方向"}, {"prop": "requestTime", "label": "邀请时间"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "submit", "label": "提交", "type": "primary"}, {"command": "approve", "label": "通过", "type": "success"}]
-const defaults = {"status": "SUBMITTED"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'SUPERVISOR'].includes(role.value))
+const canSubmit = computed(() => ['ADMIN', 'OFFICER'].includes(role.value))
+const canApprove = computed(() => ['ADMIN', 'SUPERVISOR'].includes(role.value))
+const columns = [
+  { prop: 'taskNo', label: '任务编号' },
+  { prop: 'complaintTitle', label: '投诉标题', width: 180 },
+  { prop: 'assigneeName', label: '责任人', width: 140 },
+  { prop: 'assignTime', label: '下发时间', width: 160 },
+  { prop: 'deadlineTime', label: '处理时限', width: 160 },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'taskNo', label: '任务编号' },
+  { prop: 'complaintTitle', label: '投诉标题' },
+  { prop: 'assigneeName', label: '责任人' },
+  { prop: 'assignTime', label: '下发时间' },
+  { prop: 'deadlineTime', label: '处理时限' },
+  {
+    prop: 'status',
+    label: '状态',
+    type: 'select',
+    options: [
+      { label: '待处理', value: 'OPEN' },
+      { label: '已提交', value: 'SUBMITTED' },
+      { label: '已审批', value: 'APPROVED' }
+    ]
+  }
+]
+const rowActions = computed(() => {
+  const actions = []
+  if (canSubmit.value) actions.push({ command: 'submit', label: '提交', type: 'primary' })
+  if (canApprove.value) actions.push({ command: 'approve', label: '审批', type: 'success' })
+  return actions
+})
+const defaults = { status: 'OPEN' }
+
 const handleAction = async ({ command, row, refresh }) => {
   if (command === 'submit') await submitHandlingTask(row.id)
   if (command === 'approve') await approveHandlingTask(row.id)
@@ -18,10 +67,3 @@ const handleAction = async ({ command, row, refresh }) => {
   refresh()
 }
 </script>
-
-
-
-
-
-
-

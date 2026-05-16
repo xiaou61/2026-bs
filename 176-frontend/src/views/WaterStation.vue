@@ -1,0 +1,8 @@
+<template><DataPage title="水务站点" description="站点编号、站点名称、服务区域、负责人、启用时间和站点状态维护" :api="api" :columns="columns" :form-fields="formFields" :manage-roles="['ADMIN', 'DISPATCH', 'SUPERVISOR']" /></template>
+<script setup>
+import DataPage from '../components/DataPage.vue'
+import { addWaterStation, deleteWaterStation, finishWaterStation, getWaterStationPage, processWaterStation, updateWaterStation } from '../api'
+const api = { page: getWaterStationPage, add: addWaterStation, update: updateWaterStation, delete: deleteWaterStation, process: processWaterStation, finish: finishWaterStation }
+const columns = [{ prop: 'recordNo', label: '站点编号' }, { prop: 'recordName', label: '站点名称' }, { prop: 'category', label: '服务区域' }, { prop: 'ownerName', label: '负责人' }, { prop: 'planTime', label: '启用时间' }, { prop: 'status', label: '站点状态' }, { prop: 'remark', label: '站点说明' }]
+const formFields = [{ prop: 'recordNo', label: '站点编号' }, { prop: 'recordName', label: '站点名称' }, { prop: 'category', label: '服务区域' }, { prop: 'ownerName', label: '负责人' }, { prop: 'planTime', label: '启用时间' }, { prop: 'status', label: '站点状态', type: 'select' }, { prop: 'remark', label: '站点说明', type: 'textarea' }]
+</script>

@@ -7,15 +7,15 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("inbound_record")
+@TableName("violation_record")
 public class ViolationRecord {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String inboundNo;
-    private String orderNo;
-    private String consumableName;
-    private Integer inboundQty;
-    private String operatorName;
+    private String violationNo;
+    private String equipmentName;
+    private String handlerName;
+    private String violationType;
+    private String violationTime;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;

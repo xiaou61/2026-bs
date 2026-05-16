@@ -14,41 +14,33 @@ import java.util.List;
 @Mapper
 public interface ReportDeliveryMapper {
     @Select({
-        "<script>",
-        "SELECT * FROM paper_record",
-        "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (paper_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR paper_title LIKE CONCAT('%',#{keyword},'%') OR journal_name LIKE CONCAT('%',#{keyword},'%'))</if>",
-        "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
-        "</where>",
-        "ORDER BY id DESC",
-        "</script>"
+            "<script>",
+            "SELECT * FROM report_delivery",
+            "<where>",
+            "<if test='keyword != null and keyword != \"\"'> AND (delivery_no LIKE CONCAT('%',#{keyword},'%') OR patient_name LIKE CONCAT('%',#{keyword},'%') OR delivery_method LIKE CONCAT('%',#{keyword},'%') OR receiver_name LIKE CONCAT('%',#{keyword},'%'))</if>",
+            "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
+            "</where>",
+            "ORDER BY id DESC",
+            "</script>"
     })
     List<ReportDelivery> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM paper_record WHERE id = #{id}")
+    @Select("SELECT * FROM report_delivery WHERE id = #{id}")
     ReportDelivery selectById(Long id);
 
-    @Insert("INSERT INTO paper_record (paper_no, project_no, paper_title, journal_name, publish_time, status, created_time, updated_time) VALUES (#{paperNo}, #{projectNo}, #{paperTitle}, #{journalName}, #{publishTime}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO report_delivery (delivery_no, patient_name, delivery_method, delivery_time, receiver_name, status, created_time, updated_time) VALUES (#{deliveryNo}, #{patientName}, #{deliveryMethod}, #{deliveryTime}, #{receiverName}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(ReportDelivery entity);
 
-    @Update("UPDATE paper_record SET paper_no = #{paperNo}, project_no = #{projectNo}, paper_title = #{paperTitle}, journal_name = #{journalName}, publish_time = #{publishTime}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE report_delivery SET delivery_no = #{deliveryNo}, patient_name = #{patientName}, delivery_method = #{deliveryMethod}, delivery_time = #{deliveryTime}, receiver_name = #{receiverName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(ReportDelivery entity);
 
-    @Delete("DELETE FROM paper_record WHERE id = #{id}")
+    @Delete("DELETE FROM report_delivery WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM paper_record")
+    @Select("SELECT COUNT(*) FROM report_delivery")
     long countAll();
 
-    @Update("UPDATE paper_record SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE report_delivery SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-
-
-
-
-

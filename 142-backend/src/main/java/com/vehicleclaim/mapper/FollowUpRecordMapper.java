@@ -15,9 +15,9 @@ import java.util.List;
 public interface FollowUpRecordMapper {
     @Select({
         "<script>",
-        "SELECT * FROM performance_statistic",
+        "SELECT * FROM follow_up_record",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (stat_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR stat_month LIKE CONCAT('%',#{keyword},'%') OR claim_count LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (followup_no LIKE CONCAT('%',#{keyword},'%') OR report_no LIKE CONCAT('%',#{keyword},'%') OR followup_method LIKE CONCAT('%',#{keyword},'%') OR customer_feedback LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,26 +25,22 @@ public interface FollowUpRecordMapper {
     })
     List<FollowUpRecord> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM performance_statistic WHERE id = #{id}")
+    @Select("SELECT * FROM follow_up_record WHERE id = #{id}")
     FollowUpRecord selectById(Long id);
 
-    @Insert("INSERT INTO performance_statistic (stat_no, project_no, stat_month, claim_count, achievement_count, status, created_time, updated_time) VALUES (#{statNo}, #{projectNo}, #{statMonth}, #{claimCount}, #{achievementCount}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO follow_up_record (followup_no, report_no, followup_method, followup_content, customer_feedback, status, created_time, updated_time) VALUES (#{followupNo}, #{reportNo}, #{followupMethod}, #{followupContent}, #{customerFeedback}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(FollowUpRecord entity);
 
-    @Update("UPDATE performance_statistic SET stat_no = #{statNo}, project_no = #{projectNo}, stat_month = #{statMonth}, claim_count = #{claimCount}, achievement_count = #{achievementCount}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE follow_up_record SET followup_no = #{followupNo}, report_no = #{reportNo}, followup_method = #{followupMethod}, followup_content = #{followupContent}, customer_feedback = #{customerFeedback}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(FollowUpRecord entity);
 
-    @Delete("DELETE FROM performance_statistic WHERE id = #{id}")
+    @Delete("DELETE FROM follow_up_record WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM performance_statistic")
+    @Select("SELECT COUNT(*) FROM follow_up_record")
     long countAll();
 
-    @Update("UPDATE performance_statistic SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE follow_up_record SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-

@@ -15,9 +15,9 @@ import java.util.List;
 public interface RiskClauseMapper {
     @Select({
         "<script>",
-        "SELECT * FROM performance_statistic",
+        "SELECT * FROM risk_clause",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (stat_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR stat_month LIKE CONCAT('%',#{keyword},'%') OR claim_count LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (clause_no LIKE CONCAT('%',#{keyword},'%') OR contract_title LIKE CONCAT('%',#{keyword},'%') OR clause_type LIKE CONCAT('%',#{keyword},'%') OR risk_level LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,23 +25,23 @@ public interface RiskClauseMapper {
     })
     List<RiskClause> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM performance_statistic WHERE id = #{id}")
+    @Select("SELECT * FROM risk_clause WHERE id = #{id}")
     RiskClause selectById(Long id);
 
-    @Insert("INSERT INTO performance_statistic (stat_no, project_no, stat_month, claim_count, achievement_count, status, created_time, updated_time) VALUES (#{statNo}, #{projectNo}, #{statMonth}, #{claimCount}, #{achievementCount}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO risk_clause (clause_no, contract_title, clause_type, risk_level, reviewer_name, status, created_time, updated_time) VALUES (#{clauseNo}, #{contractTitle}, #{clauseType}, #{riskLevel}, #{reviewerName}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(RiskClause entity);
 
-    @Update("UPDATE performance_statistic SET stat_no = #{statNo}, project_no = #{projectNo}, stat_month = #{statMonth}, claim_count = #{claimCount}, achievement_count = #{achievementCount}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE risk_clause SET clause_no = #{clauseNo}, contract_title = #{contractTitle}, clause_type = #{clauseType}, risk_level = #{riskLevel}, reviewer_name = #{reviewerName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(RiskClause entity);
 
-    @Delete("DELETE FROM performance_statistic WHERE id = #{id}")
+    @Delete("DELETE FROM risk_clause WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM performance_statistic")
+    @Select("SELECT COUNT(*) FROM risk_clause")
     long countAll();
 
-    @Update("UPDATE performance_statistic SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE risk_clause SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
 

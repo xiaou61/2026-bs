@@ -2,6 +2,8 @@ package com.worksite.config;
 
 import com.worksite.common.BusinessException;
 import com.worksite.service.TokenService;
+import com.worksite.utils.JwtUtils;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -20,6 +22,10 @@ public class JwtInterceptor implements HandlerInterceptor {
         String token = request.getHeader("Authorization");
         if (token != null && token.startsWith("Bearer ")) token = token.substring(7);
         if (token == null || !tokenService.valid(token)) throw new BusinessException("登录已失效");
+        Claims claims = JwtUtils.parse(token);
+        request.setAttribute("userId", Long.valueOf(claims.getSubject()));
+        request.setAttribute("username", claims.get("username", String.class));
+        request.setAttribute("role", claims.get("role", String.class));
         return true;
     }
 }

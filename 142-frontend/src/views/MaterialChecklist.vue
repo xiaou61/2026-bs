@@ -1,25 +1,52 @@
 <template>
-  <DataPage title="双选确认" description="确认编号、报案编号、确认结果、导师姓名、确认意见和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage title="材料清单" description="维护材料编号、报案编号、材料类型和提交时间，支撑理赔补件、材料归档和审核流转" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" :can-create="canManage" :can-edit="canManage" :can-delete="canDelete" @row-action="handleAction" />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getMaterialChecklistPage, addMaterialChecklist, updateMaterialChecklist, deleteMaterialChecklist, submitMaterialChecklist, approveMaterialChecklist } from '../api'
+
 const api = { page: getMaterialChecklistPage, add: addMaterialChecklist, update: updateMaterialChecklist, delete: deleteMaterialChecklist }
-const columns = [{"prop": "approvalNo", "label": "确认编号"}, {"prop": "claimNo", "label": "报案编号"}, {"prop": "nodeName", "label": "确认结果"}, {"prop": "approverName", "label": "导师姓名"}, {"prop": "approvalOpinion", "label": "确认意见"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "approvalNo", "label": "确认编号"}, {"prop": "claimNo", "label": "报案编号"}, {"prop": "nodeName", "label": "确认结果"}, {"prop": "approverName", "label": "导师姓名"}, {"prop": "approvalOpinion", "label": "确认意见", "type": "textarea"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "submit", "label": "提交", "type": "primary"}, {"command": "approve", "label": "通过", "type": "success"}]
-const defaults = {"status": "REVIEWING"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'APPLICANT'].includes(role.value))
+const canApprove = computed(() => ['ADMIN', 'LEGAL', 'APPROVER'].includes(role.value))
+const canDelete = computed(() => canManage.value)
+const columns = [
+  { prop: 'checklistNo', label: '清单编号' },
+  { prop: 'reportNo', label: '报案编号' },
+  { prop: 'materialType', label: '材料类型' },
+  { prop: 'materialDesc', label: '材料说明', width: 220 },
+  { prop: 'submitTime', label: '提交时间', width: 160 },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'checklistNo', label: '清单编号' },
+  { prop: 'reportNo', label: '报案编号' },
+  { prop: 'materialType', label: '材料类型' },
+  { prop: 'materialDesc', label: '材料说明', type: 'textarea' },
+  { prop: 'submitTime', label: '提交时间' },
+  { prop: 'status', label: '状态', type: 'select', options: [{ label: '草稿', value: 'DRAFT' }, { label: '已提交', value: 'SUBMITTED' }, { label: '已审批', value: 'APPROVED' }] }
+]
+const rowActions = computed(() => {
+  const actions = []
+  if (canManage.value) actions.push({ command: 'submit', label: '提交', type: 'warning' })
+  if (canApprove.value) actions.push({ command: 'approve', label: '审批通过', type: 'success' })
+  return actions
+})
+const defaults = { status: 'DRAFT' }
+
 const handleAction = async ({ command, row, refresh }) => {
-  if (command === 'submit') await submitMaterialChecklist(row.id)
-  if (command === 'approve') await approveMaterialChecklist(row.id)
+  if (command === 'submit') {
+    await submitMaterialChecklist(row.id)
+  }
+  if (command === 'approve') {
+    await approveMaterialChecklist(row.id)
+  }
   ElMessage.success('操作成功')
   refresh()
 }
 </script>
-
-
-
-
-

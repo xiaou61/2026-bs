@@ -1,24 +1,46 @@
 <template>
-  <DataPage title="开题答辩" description="答辩编号、课题编号、答辩主题、答辩小组、答辩时间和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage title="归档记录" description="维护合同归档编号、归档位置、归档人和归档日期，支撑签后档案留存" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" :can-create="canManage" :can-edit="canManage" :can-delete="canDelete" @row-action="handleAction" />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getArchiveRecordPage, addArchiveRecord, updateArchiveRecord, deleteArchiveRecord, activateArchiveRecord, finishArchiveRecord } from '../api'
+
 const api = { page: getArchiveRecordPage, add: addArchiveRecord, update: updateArchiveRecord, delete: deleteArchiveRecord }
-const columns = [{"prop": "paperNo", "label": "答辩编号"}, {"prop": "projectNo", "label": "课题编号"}, {"prop": "paperTitle", "label": "答辩主题"}, {"prop": "journalName", "label": "答辩小组"}, {"prop": "publishTime", "label": "答辩时间"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "paperNo", "label": "答辩编号"}, {"prop": "projectNo", "label": "课题编号"}, {"prop": "paperTitle", "label": "答辩主题"}, {"prop": "journalName", "label": "答辩小组"}, {"prop": "publishTime", "label": "答辩时间"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "activate", "label": "启用", "type": "success"}, {"command": "finish", "label": "完成", "type": "primary"}]
-const defaults = {"status": "PUBLISHED"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'LEGAL'].includes(role.value))
+const canDelete = computed(() => role.value === 'ADMIN')
+const columns = [
+  { prop: 'archiveNo', label: '归档编号' },
+  { prop: 'contractTitle', label: '合同标题', width: 220 },
+  { prop: 'archiveLocation', label: '归档位置' },
+  { prop: 'archivistName', label: '归档人' },
+  { prop: 'archiveDate', label: '归档日期', width: 160 },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'archiveNo', label: '归档编号' },
+  { prop: 'contractTitle', label: '合同标题' },
+  { prop: 'archiveLocation', label: '归档位置' },
+  { prop: 'archivistName', label: '归档人' },
+  { prop: 'archiveDate', label: '归档日期' },
+  { prop: 'status', label: '状态', type: 'select', options: [{ label: '启用', value: 'ACTIVE' }, { label: '已完成', value: 'FINISHED' }] }
+]
+const rowActions = computed(() => canManage.value ? [{ command: 'activate', label: '启用', type: 'success' }, { command: 'finish', label: '完成', type: 'primary' }] : [])
+const defaults = { status: 'ACTIVE' }
+
 const handleAction = async ({ command, row, refresh }) => {
-  if (command === 'activate') await activateArchiveRecord(row.id)
-  if (command === 'finish') await finishArchiveRecord(row.id)
+  if (command === 'activate') {
+    await activateArchiveRecord(row.id)
+  }
+  if (command === 'finish') {
+    await finishArchiveRecord(row.id)
+  }
   ElMessage.success('操作成功')
   refresh()
 }
 </script>
-
-
-
-

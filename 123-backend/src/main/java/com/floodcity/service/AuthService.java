@@ -1,11 +1,11 @@
 package com.floodcity.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.floodcity.common.BusinessException;
 import com.floodcity.dto.LoginRequest;
 import com.floodcity.entity.SysUser;
 import com.floodcity.mapper.SysUserMapper;
 import com.floodcity.utils.JwtUtils;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -46,5 +46,45 @@ public class AuthService {
     private String clean(String token) {
         if (token != null && token.startsWith("Bearer ")) return token.substring(7);
         return token;
+    }
+
+    public void assertAdmin(String role) {
+        assertAny(role, "ADMIN");
+    }
+
+    public void assertAdminOrMonitor(String role) {
+        assertAny(role, "ADMIN", "MONITOR");
+    }
+
+    public void assertAdminOrDispatcher(String role) {
+        assertAny(role, "ADMIN", "DISPATCHER");
+    }
+
+    public void assertAdminOrManager(String role) {
+        assertAny(role, "ADMIN", "MANAGER");
+    }
+
+    public void assertAdminOrMonitorOrManager(String role) {
+        assertAny(role, "ADMIN", "MONITOR", "MANAGER");
+    }
+
+    public void assertAdminOrDispatcherOrManager(String role) {
+        assertAny(role, "ADMIN", "DISPATCHER", "MANAGER");
+    }
+
+    public void assertAdminOrMonitorOrDispatcherOrManager(String role) {
+        assertAny(role, "ADMIN", "MONITOR", "DISPATCHER", "MANAGER");
+    }
+
+    public void assertAuthenticated(String role) {
+        assertAdminOrMonitorOrDispatcherOrManager(role);
+    }
+
+    private void assertAny(String role, String... allowedRoles) {
+        if (role == null) throw new BusinessException("无权限操作");
+        for (String allowedRole : allowedRoles) {
+            if (allowedRole.equals(role)) return;
+        }
+        throw new BusinessException("无权限操作");
     }
 }

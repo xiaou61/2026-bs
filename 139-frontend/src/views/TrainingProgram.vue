@@ -1,16 +1,22 @@
 <template>
-  <DataPage title="会议信息" description="会议编号、会议名称、会议主题、主办单位、会场数量和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage title="培训项目" description="项目编号、项目名称、目标岗位、组织单位、课时安排和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" :can-create="canManage" :can-edit="canManage" :can-delete="canDelete" @row-action="handleAction" />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getTrainingProgramPage, addTrainingProgram, updateTrainingProgram, deleteTrainingProgram, activateTrainingProgram, finishTrainingProgram } from '../api'
 const api = { page: getTrainingProgramPage, add: addTrainingProgram, update: updateTrainingProgram, delete: deleteTrainingProgram }
-const columns = [{"prop": "consumableNo", "label": "会议编号"}, {"prop": "consumableName", "label": "会议名称"}, {"prop": "specModel", "label": "会议主题"}, {"prop": "unitName", "label": "主办单位"}, {"prop": "safeStock", "label": "会场数量"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "consumableNo", "label": "会议编号"}, {"prop": "consumableName", "label": "会议名称"}, {"prop": "specModel", "label": "会议主题"}, {"prop": "unitName", "label": "主办单位"}, {"prop": "safeStock", "label": "会场数量", "type": "number"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "activate", "label": "启用", "type": "success"}, {"command": "finish", "label": "完成", "type": "primary"}]
-const defaults = {"status": "ACTIVE"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'TRAINER', 'MANAGER'].includes(role.value))
+const canDelete = computed(() => role.value === 'ADMIN')
+const columns = [{"prop": "programNo", "label": "项目编号"}, {"prop": "programName", "label": "项目名称"}, {"prop": "targetRole", "label": "目标岗位"}, {"prop": "organizerName", "label": "组织单位"}, {"prop": "sessionCount", "label": "课时安排"}, {"prop": "status", "label": "状态"}]
+const formFields = [{"prop": "programNo", "label": "项目编号"}, {"prop": "programName", "label": "项目名称"}, {"prop": "targetRole", "label": "目标岗位"}, {"prop": "organizerName", "label": "组织单位"}, {"prop": "sessionCount", "label": "课时安排", "type": "number"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "草稿", "value": "DRAFT"}, {"label": "启用", "value": "ACTIVE"}, {"label": "已完成", "value": "FINISHED"}]}]
+const rowActions = computed(() => canManage.value ? [{"command": "activate", "label": "启用", "type": "success"}, {"command": "finish", "label": "完成", "type": "primary"}] : [])
+const defaults = {"status": "DRAFT"}
 const handleAction = async ({ command, row, refresh }) => {
   if (command === 'activate') await activateTrainingProgram(row.id)
   if (command === 'finish') await finishTrainingProgram(row.id)

@@ -16,6 +16,7 @@ request.interceptors.response.use(response => {
     ElMessage.error(res.message || '请求失败')
     if (res.message && res.message.includes('登录')) {
       localStorage.removeItem('token')
+      localStorage.removeItem('user')
       router.push('/login')
     }
     return Promise.reject(res)

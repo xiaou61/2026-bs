@@ -3,21 +3,7 @@
     <el-aside width="236px">
       <div class="logo">LIVE COMMERCE 116</div>
       <el-menu router :default-active="$route.path">
-        <el-menu-item index="/dashboard">数据看板</el-menu-item>
-        <el-menu-item index='/user'>账号权限</el-menu-item>
-        <el-menu-item index='/channel'>直播渠道</el-menu-item>
-        <el-menu-item index='/anchor'>主播档案</el-menu-item>
-        <el-menu-item index='/supplier'>供应商品牌</el-menu-item>
-        <el-menu-item index='/selection'>选品池</el-menu-item>
-        <el-menu-item index='/session'>直播场次</el-menu-item>
-        <el-menu-item index='/schedule'>排期计划</el-menu-item>
-        <el-menu-item index='/sample'>样品申请</el-menu-item>
-        <el-menu-item index='/script'>话术脚本</el-menu-item>
-        <el-menu-item index='/order'>直播订单</el-menu-item>
-        <el-menu-item index='/ticket'>售后工单</el-menu-item>
-        <el-menu-item index='/refund'>退款记录</el-menu-item>
-        <el-menu-item index='/performance'>主播绩效</el-menu-item>
-        <el-menu-item index='/log'>操作日志</el-menu-item>
+        <el-menu-item v-for="item in visibleMenus" :key="item.index" :index="item.index">{{ item.label }}</el-menu-item>
       </el-menu>
     </el-aside>
     <el-container>
@@ -31,11 +17,34 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { logout } from '../api'
 import { useUserStore } from '../store/user'
+
 const router = useRouter()
 const userStore = useUserStore()
+const menus = [
+  { index: '/dashboard', label: '数据看板', roles: ['ADMIN', 'OPERATOR', 'SERVICE', 'MERCHANT'] },
+  { index: '/user', label: '账号权限', roles: ['ADMIN'] },
+  { index: '/channel', label: '直播渠道', roles: ['ADMIN', 'OPERATOR'] },
+  { index: '/anchor', label: '主播档案', roles: ['ADMIN', 'OPERATOR'] },
+  { index: '/supplier', label: '供应商品牌', roles: ['ADMIN', 'OPERATOR', 'MERCHANT'] },
+  { index: '/selection', label: '选品池', roles: ['ADMIN', 'OPERATOR', 'MERCHANT'] },
+  { index: '/session', label: '直播场次', roles: ['ADMIN', 'OPERATOR'] },
+  { index: '/schedule', label: '排期计划', roles: ['ADMIN', 'OPERATOR'] },
+  { index: '/sample', label: '样品申请', roles: ['ADMIN', 'OPERATOR', 'MERCHANT'] },
+  { index: '/script', label: '话术脚本', roles: ['ADMIN', 'OPERATOR'] },
+  { index: '/order', label: '直播订单', roles: ['ADMIN', 'OPERATOR', 'SERVICE'] },
+  { index: '/ticket', label: '售后工单', roles: ['ADMIN', 'SERVICE'] },
+  { index: '/refund', label: '退款记录', roles: ['ADMIN', 'SERVICE'] },
+  { index: '/performance', label: '主播绩效', roles: ['ADMIN', 'OPERATOR'] },
+  { index: '/log', label: '操作日志', roles: ['ADMIN'] }
+]
+const visibleMenus = computed(() => {
+  const role = userStore.user?.role
+  return menus.filter(item => item.roles.includes(role))
+})
 const handleLogout = async () => {
   await logout().catch(() => null)
   userStore.clear()

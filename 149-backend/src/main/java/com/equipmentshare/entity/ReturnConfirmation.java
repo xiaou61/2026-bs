@@ -7,15 +7,15 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("inventory_check")
+@TableName("return_confirmation")
 public class ReturnConfirmation {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String checkNo;
-    private String labName;
-    private String consumableName;
-    private Integer bookQty;
-    private Integer actualQty;
+    private String confirmNo;
+    private String equipmentName;
+    private String returnerName;
+    private String returnStatus;
+    private String confirmTime;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;

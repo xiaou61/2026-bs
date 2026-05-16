@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class StudyTaskService extends BaseCrudService<StudyTask> {
-    private final StudyTaskMapper purchaseRequestMapper;
+    private final StudyTaskMapper studyTaskMapper;
 
     @Override
     protected BaseMapper<StudyTask> mapper() {
-        return purchaseRequestMapper;
+        return studyTaskMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"request_no", "consumable_name", "request_qty", "applicant_name"};
+        return new String[]{"task_no", "path_name", "task_name", "assignee_name"};
     }
 }
 

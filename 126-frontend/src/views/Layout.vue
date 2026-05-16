@@ -3,21 +3,7 @@
     <el-aside width="236px">
       <div class="logo">PROJECT 126</div>
       <el-menu router :default-active="$route.path">
-        <el-menu-item index="/dashboard">数据看板</el-menu-item>
-        <el-menu-item index='/user'>账号权限</el-menu-item>
-        <el-menu-item index='/home'>家庭档案</el-menu-item>
-        <el-menu-item index='/member'>家庭成员</el-menu-item>
-        <el-menu-item index='/meter'>智能电表</el-menu-item>
-        <el-menu-item index='/device'>用电设备</el-menu-item>
-        <el-menu-item index='/reading'>用电读数</el-menu-item>
-        <el-menu-item index='/bill'>电费账单</el-menu-item>
-        <el-menu-item index='/usage'>设备用电</el-menu-item>
-        <el-menu-item index='/budget'>能耗预算</el-menu-item>
-        <el-menu-item index='/suggestion'>节能建议</el-menu-item>
-        <el-menu-item index='/alert'>异常预警</el-menu-item>
-        <el-menu-item index='/carbon'>碳排统计</el-menu-item>
-        <el-menu-item index='/ticket'>维修工单</el-menu-item>
-        <el-menu-item index='/log'>操作日志</el-menu-item>
+        <el-menu-item v-for="item in visibleMenus" :key="item.index" :index="item.index">{{ item.label }}</el-menu-item>
       </el-menu>
     </el-aside>
     <el-container>
@@ -31,11 +17,34 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { logout } from '../api'
 import { useUserStore } from '../store/user'
+
 const router = useRouter()
 const userStore = useUserStore()
+const menus = [
+  { index: '/dashboard', label: '数据看板', roles: ['ADMIN', 'RESIDENT', 'ANALYST', 'MAINTAINER'] },
+  { index: '/user', label: '账号权限', roles: ['ADMIN'] },
+  { index: '/home', label: '家庭档案', roles: ['ADMIN', 'RESIDENT', 'ANALYST', 'MAINTAINER'] },
+  { index: '/member', label: '家庭成员', roles: ['ADMIN', 'RESIDENT', 'ANALYST'] },
+  { index: '/meter', label: '智能电表', roles: ['ADMIN', 'RESIDENT', 'ANALYST', 'MAINTAINER'] },
+  { index: '/device', label: '用电设备', roles: ['ADMIN', 'RESIDENT', 'ANALYST', 'MAINTAINER'] },
+  { index: '/reading', label: '用电读数', roles: ['ADMIN', 'RESIDENT', 'ANALYST', 'MAINTAINER'] },
+  { index: '/bill', label: '电费账单', roles: ['ADMIN', 'RESIDENT', 'ANALYST'] },
+  { index: '/usage', label: '设备用电', roles: ['ADMIN', 'RESIDENT', 'ANALYST'] },
+  { index: '/budget', label: '能耗预算', roles: ['ADMIN', 'RESIDENT', 'ANALYST'] },
+  { index: '/suggestion', label: '节能建议', roles: ['ADMIN', 'RESIDENT', 'ANALYST'] },
+  { index: '/alert', label: '异常预警', roles: ['ADMIN', 'RESIDENT', 'ANALYST', 'MAINTAINER'] },
+  { index: '/carbon', label: '碳排统计', roles: ['ADMIN', 'RESIDENT', 'ANALYST'] },
+  { index: '/ticket', label: '维修工单', roles: ['ADMIN', 'RESIDENT', 'ANALYST', 'MAINTAINER'] },
+  { index: '/log', label: '操作日志', roles: ['ADMIN'] }
+]
+const visibleMenus = computed(() => {
+  const role = userStore.user?.role
+  return menus.filter(item => item.roles.includes(role))
+})
 const handleLogout = async () => {
   await logout().catch(() => null)
   userStore.clear()

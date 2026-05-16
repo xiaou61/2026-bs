@@ -15,9 +15,9 @@ import java.util.List;
 public interface CompensationRecordMapper {
     @Select({
         "<script>",
-        "SELECT * FROM paper_record",
+        "SELECT * FROM compensation_record",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (paper_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR paper_title LIKE CONCAT('%',#{keyword},'%') OR journal_name LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (compensation_no LIKE CONCAT('%',#{keyword},'%') OR report_no LIKE CONCAT('%',#{keyword},'%') OR payee_name LIKE CONCAT('%',#{keyword},'%') OR compensation_amount LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,26 +25,22 @@ public interface CompensationRecordMapper {
     })
     List<CompensationRecord> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM paper_record WHERE id = #{id}")
+    @Select("SELECT * FROM compensation_record WHERE id = #{id}")
     CompensationRecord selectById(Long id);
 
-    @Insert("INSERT INTO paper_record (paper_no, project_no, paper_title, journal_name, publish_time, status, created_time, updated_time) VALUES (#{paperNo}, #{projectNo}, #{paperTitle}, #{journalName}, #{publishTime}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO compensation_record (compensation_no, report_no, compensation_amount, compensation_time, payee_name, status, created_time, updated_time) VALUES (#{compensationNo}, #{reportNo}, #{compensationAmount}, #{compensationTime}, #{payeeName}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(CompensationRecord entity);
 
-    @Update("UPDATE paper_record SET paper_no = #{paperNo}, project_no = #{projectNo}, paper_title = #{paperTitle}, journal_name = #{journalName}, publish_time = #{publishTime}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE compensation_record SET compensation_no = #{compensationNo}, report_no = #{reportNo}, compensation_amount = #{compensationAmount}, compensation_time = #{compensationTime}, payee_name = #{payeeName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(CompensationRecord entity);
 
-    @Delete("DELETE FROM paper_record WHERE id = #{id}")
+    @Delete("DELETE FROM compensation_record WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM paper_record")
+    @Select("SELECT COUNT(*) FROM compensation_record")
     long countAll();
 
-    @Update("UPDATE paper_record SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE compensation_record SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-

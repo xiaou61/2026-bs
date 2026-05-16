@@ -10,24 +10,24 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ContractTemplateService {
-    private final ContractTemplateMapper researchProjectMapper;
+    private final ContractTemplateMapper contractTemplateMapper;
 
     public PageInfo<ContractTemplate> page(Integer pageNum, Integer pageSize, String keyword, String status) {
         PageHelper.startPage(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
-        return new PageInfo<>(researchProjectMapper.selectPage(keyword, status));
+        return new PageInfo<>(contractTemplateMapper.selectPage(keyword, status));
     }
 
     public void save(ContractTemplate entity) {
-        if (entity.getId() == null) researchProjectMapper.insert(entity);
-        else researchProjectMapper.update(entity);
+        if (entity.getId() == null) contractTemplateMapper.insert(entity);
+        else contractTemplateMapper.update(entity);
     }
 
     public void delete(Long id) {
-        researchProjectMapper.deleteById(id);
+        contractTemplateMapper.deleteById(id);
     }
 
     public void updateStatus(Long id, String status) {
-        researchProjectMapper.updateStatus(id, status);
+        contractTemplateMapper.updateStatus(id, status);
     }
 }
 

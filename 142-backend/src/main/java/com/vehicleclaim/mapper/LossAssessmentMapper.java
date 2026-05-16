@@ -15,9 +15,9 @@ import java.util.List;
 public interface LossAssessmentMapper {
     @Select({
         "<script>",
-        "SELECT * FROM research_achievement",
+        "SELECT * FROM loss_assessment",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (achievement_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR achievement_name LIKE CONCAT('%',#{keyword},'%') OR achievement_type LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (assessment_no LIKE CONCAT('%',#{keyword},'%') OR report_no LIKE CONCAT('%',#{keyword},'%') OR assessor_name LIKE CONCAT('%',#{keyword},'%') OR assessment_amount LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,26 +25,22 @@ public interface LossAssessmentMapper {
     })
     List<LossAssessment> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM research_achievement WHERE id = #{id}")
+    @Select("SELECT * FROM loss_assessment WHERE id = #{id}")
     LossAssessment selectById(Long id);
 
-    @Insert("INSERT INTO research_achievement (achievement_no, project_no, achievement_name, achievement_type, owner_name, status, created_time, updated_time) VALUES (#{achievementNo}, #{projectNo}, #{achievementName}, #{achievementType}, #{ownerName}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO loss_assessment (assessment_no, report_no, assessment_amount, assessment_time, assessor_name, status, created_time, updated_time) VALUES (#{assessmentNo}, #{reportNo}, #{assessmentAmount}, #{assessmentTime}, #{assessorName}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(LossAssessment entity);
 
-    @Update("UPDATE research_achievement SET achievement_no = #{achievementNo}, project_no = #{projectNo}, achievement_name = #{achievementName}, achievement_type = #{achievementType}, owner_name = #{ownerName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE loss_assessment SET assessment_no = #{assessmentNo}, report_no = #{reportNo}, assessment_amount = #{assessmentAmount}, assessment_time = #{assessmentTime}, assessor_name = #{assessorName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(LossAssessment entity);
 
-    @Delete("DELETE FROM research_achievement WHERE id = #{id}")
+    @Delete("DELETE FROM loss_assessment WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM research_achievement")
+    @Select("SELECT COUNT(*) FROM loss_assessment")
     long countAll();
 
-    @Update("UPDATE research_achievement SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE loss_assessment SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-

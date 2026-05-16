@@ -7,15 +7,15 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("purchase_approval")
+@TableName("course_enrollment")
 public class CourseEnrollment {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String approvalNo;
-    private String requestNo;
+    private String enrollmentNo;
+    private String courseName;
+    private String learnerName;
+    private String applyTime;
     private String approverName;
-    private String approvalOpinion;
-    private String approvalTime;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;

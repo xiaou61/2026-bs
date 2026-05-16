@@ -1,16 +1,47 @@
 <template>
-  <DataPage title="会议日程" description="日程编号、日程主题、开始时间、日程类型、主持人和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage title="巡检计划" description="巡检编号、设备名称、巡检主题、巡检内容、巡检时间和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
 import { getInspectionPlanPage, addInspectionPlan, updateInspectionPlan, deleteInspectionPlan, activateInspectionPlan, finishInspectionPlan } from '../api'
+import { useUserStore } from '../store/user'
+
+const userStore = useUserStore()
 const api = { page: getInspectionPlanPage, add: addInspectionPlan, update: updateInspectionPlan, delete: deleteInspectionPlan }
-const columns = [{"prop": "ruleNo", "label": "日程编号"}, {"prop": "categoryName", "label": "日程主题"}, {"prop": "minStock", "label": "开始顺序"}, {"prop": "warningLevel", "label": "日程类型"}, {"prop": "noticeTarget", "label": "主持人"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "ruleNo", "label": "日程编号"}, {"prop": "categoryName", "label": "日程主题"}, {"prop": "minStock", "label": "开始顺序", "type": "number"}, {"prop": "warningLevel", "label": "日程类型"}, {"prop": "noticeTarget", "label": "主持人"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "activate", "label": "启用", "type": "success"}, {"command": "finish", "label": "完成", "type": "primary"}]
-const defaults = {"status": "ACTIVE"}
+const canToggle = computed(() => ['ADMIN', 'MANAGER'].includes(userStore.user?.role))
+const columns = [
+  { prop: 'inspectionNo', label: '巡检编号' },
+  { prop: 'equipmentName', label: '设备名称' },
+  { prop: 'inspectionTheme', label: '巡检主题' },
+  { prop: 'inspectionContent', label: '巡检内容' },
+  { prop: 'inspectionTime', label: '巡检时间' },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'inspectionNo', label: '巡检编号' },
+  { prop: 'equipmentName', label: '设备名称' },
+  { prop: 'inspectionTheme', label: '巡检主题' },
+  { prop: 'inspectionContent', label: '巡检内容', type: 'textarea' },
+  { prop: 'inspectionTime', label: '巡检时间' },
+  {
+    prop: 'status',
+    label: '状态',
+    type: 'select',
+    options: [
+      { label: '启用中', value: 'ACTIVE' },
+      { label: '停用', value: 'DISABLED' }
+    ]
+  }
+]
+const rowActions = computed(() => canToggle.value ? [
+  { command: 'activate', label: '启用', type: 'success' },
+  { command: 'finish', label: '停用', type: 'warning' }
+] : [])
+const defaults = { status: 'ACTIVE' }
+
 const handleAction = async ({ command, row, refresh }) => {
   if (command === 'activate') await activateInspectionPlan(row.id)
   if (command === 'finish') await finishInspectionPlan(row.id)
@@ -18,12 +49,3 @@ const handleAction = async ({ command, row, refresh }) => {
   refresh()
 }
 </script>
-
-
-
-
-
-
-
-
-

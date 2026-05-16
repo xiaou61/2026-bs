@@ -15,9 +15,9 @@ import java.util.List;
 public interface AlertEventMapper {
     @Select({
         "<script>",
-        "SELECT * FROM performance_statistic",
+        "SELECT * FROM alert_event",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (stat_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR stat_month LIKE CONCAT('%',#{keyword},'%') OR claim_count LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (alert_no LIKE CONCAT('%',#{keyword},'%') OR elder_name LIKE CONCAT('%',#{keyword},'%') OR alert_type LIKE CONCAT('%',#{keyword},'%') OR handling_suggestion LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,29 +25,22 @@ public interface AlertEventMapper {
     })
     List<AlertEvent> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM performance_statistic WHERE id = #{id}")
+    @Select("SELECT * FROM alert_event WHERE id = #{id}")
     AlertEvent selectById(Long id);
 
-    @Insert("INSERT INTO performance_statistic (stat_no, project_no, stat_month, claim_count, achievement_count, status, created_time, updated_time) VALUES (#{statNo}, #{projectNo}, #{statMonth}, #{claimCount}, #{achievementCount}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO alert_event (alert_no, elder_name, report_time, alert_type, handling_suggestion, status, created_time, updated_time) VALUES (#{alertNo}, #{elderName}, #{reportTime}, #{alertType}, #{handlingSuggestion}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(AlertEvent entity);
 
-    @Update("UPDATE performance_statistic SET stat_no = #{statNo}, project_no = #{projectNo}, stat_month = #{statMonth}, claim_count = #{claimCount}, achievement_count = #{achievementCount}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE alert_event SET alert_no = #{alertNo}, elder_name = #{elderName}, report_time = #{reportTime}, alert_type = #{alertType}, handling_suggestion = #{handlingSuggestion}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(AlertEvent entity);
 
-    @Delete("DELETE FROM performance_statistic WHERE id = #{id}")
+    @Delete("DELETE FROM alert_event WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM performance_statistic")
+    @Select("SELECT COUNT(*) FROM alert_event")
     long countAll();
 
-    @Update("UPDATE performance_statistic SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE alert_event SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-
-
-
-

@@ -7,15 +7,15 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("purchase_approval")
+@TableName("borrow_record")
 public class BorrowRecord {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String approvalNo;
-    private String requestNo;
-    private String approverName;
-    private String approvalOpinion;
-    private String approvalTime;
+    private String borrowNo;
+    private String equipmentName;
+    private String borrowerName;
+    private String borrowTime;
+    private String borrowPurpose;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;

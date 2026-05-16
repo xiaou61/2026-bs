@@ -2,6 +2,7 @@ package com.datamasking.controller;
 
 import com.datamasking.common.Result;
 import com.datamasking.entity.RiskAlert;
+import com.datamasking.service.AuthService;
 import com.datamasking.service.RiskAlertService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,48 +21,57 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/risk-alert")
 @RequiredArgsConstructor
 public class RiskAlertController {
+    private final AuthService authService;
     private final RiskAlertService service;
 
     @GetMapping("/page")
-    public Result<IPage<RiskAlert>> page(@RequestParam(required = false) Integer pageNum,
+    public Result<IPage<RiskAlert>> page(@RequestAttribute String role,
+                                            @RequestParam(required = false) Integer pageNum,
                                             @RequestParam(required = false) Integer pageSize,
                                             @RequestParam(required = false) String keyword,
                                             @RequestParam(required = false) String status) {
+        authService.assertAuthenticated(role);
         return Result.success(service.page(pageNum, pageSize, keyword, status));
     }
 
     @PostMapping
-    public Result<Void> add(@RequestBody RiskAlert entity) {
+    public Result<Void> add(@RequestAttribute String role, @RequestBody RiskAlert entity) {
+        authService.assertAdminOrSecurity(role);
         service.save(entity);
         return Result.success();
     }
 
     @PutMapping
-    public Result<Void> update(@RequestBody RiskAlert entity) {
+    public Result<Void> update(@RequestAttribute String role, @RequestBody RiskAlert entity) {
+        authService.assertAdminOrSecurity(role);
         service.save(entity);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
-    public Result<Void> delete(@PathVariable Long id) {
+    public Result<Void> delete(@RequestAttribute String role, @PathVariable Long id) {
+        authService.assertAdmin(role);
         service.delete(id);
         return Result.success();
     }
 
     @PutMapping("/ack/{id}")
-    public Result<Void> ack(@PathVariable Long id) {
+    public Result<Void> ack(@RequestAttribute String role, @PathVariable Long id) {
+        authService.assertAdminOrSecurity(role);
         service.updateStatus(id, "ACKED");
         return Result.success();
     }
 
     @PutMapping("/resolve/{id}")
-    public Result<Void> resolve(@PathVariable Long id) {
+    public Result<Void> resolve(@RequestAttribute String role, @PathVariable Long id) {
+        authService.assertAdminOrSecurity(role);
         service.updateStatus(id, "RESOLVED");
         return Result.success();
     }
 
     @PutMapping("/close/{id}")
-    public Result<Void> close(@PathVariable Long id) {
+    public Result<Void> close(@RequestAttribute String role, @PathVariable Long id) {
+        authService.assertAdminOrOwner(role);
         service.updateStatus(id, "CLOSED");
         return Result.success();
     }

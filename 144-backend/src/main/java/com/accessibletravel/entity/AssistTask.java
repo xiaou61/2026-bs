@@ -1,23 +1,18 @@
 package com.accessibletravel.entity;
 
 import lombok.Data;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
 public class AssistTask {
     private Long id;
-    private String paymentNo;
-    private String claimNo;
-    private BigDecimal paymentAmount;
-    private String paymentTime;
-    private String operatorName;
+    private String taskNo;
+    private String volunteerNo;
+    private String taskType;
+    private String executeTime;
+    private String executorName;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
 }
-
-
-
-
 

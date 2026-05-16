@@ -1,16 +1,49 @@
 <template>
-  <DataPage title="任务书下达" description="任务书编号、课题编号、阶段任务、下达时间、指导教师和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage title="检查报告" description="报告编号、患者姓名、检查结论、完成时间、检查技师和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" :can-create="canManage" :can-edit="canManage" :can-delete="canManage" @row-action="handleAction" />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
-import { getExamReportPage, addExamReport, updateExamReport, deleteExamReport, processExamReport, finishExamReport } from '../api'
+import { addExamReport, deleteExamReport, finishExamReport, getExamReportPage, processExamReport, updateExamReport } from '../api'
+import { useUserStore } from '../store/user'
+
+const userStore = useUserStore()
+const canManage = computed(() => ['ADMIN', 'TECHNICIAN'].includes(userStore.user?.role))
+const rowActions = computed(() => canManage.value
+  ? [
+      { command: 'process', label: '处理中', type: 'warning' },
+      { command: 'finish', label: '完成报告', type: 'success' }
+    ]
+  : [])
 const api = { page: getExamReportPage, add: addExamReport, update: updateExamReport, delete: deleteExamReport }
-const columns = [{"prop": "paymentNo", "label": "任务书编号"}, {"prop": "claimNo", "label": "课题编号"}, {"prop": "paymentAmount", "label": "阶段任务"}, {"prop": "paymentTime", "label": "下达时间"}, {"prop": "operatorName", "label": "指导教师"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "paymentNo", "label": "任务书编号"}, {"prop": "claimNo", "label": "课题编号"}, {"prop": "paymentAmount", "label": "阶段任务", "type": "number"}, {"prop": "paymentTime", "label": "下达时间"}, {"prop": "operatorName", "label": "指导教师"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "process", "label": "处理", "type": "warning"}, {"command": "finish", "label": "完成", "type": "success"}]
-const defaults = {"status": "FINISHED"}
+const columns = [
+  { prop: 'reportNo', label: '报告编号' },
+  { prop: 'patientName', label: '患者姓名' },
+  { prop: 'conclusion', label: '检查结论', width: 220 },
+  { prop: 'completedTime', label: '完成时间' },
+  { prop: 'technicianName', label: '检查技师' },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'reportNo', label: '报告编号' },
+  { prop: 'patientName', label: '患者姓名' },
+  { prop: 'conclusion', label: '检查结论', type: 'textarea' },
+  { prop: 'completedTime', label: '完成时间' },
+  { prop: 'technicianName', label: '检查技师' },
+  {
+    prop: 'status',
+    label: '状态',
+    type: 'select',
+    options: [
+      { label: '处理中', value: 'PROCESSING' },
+      { label: '已完成', value: 'FINISHED' }
+    ]
+  }
+]
+const defaults = { status: 'PROCESSING' }
+
 const handleAction = async ({ command, row, refresh }) => {
   if (command === 'process') await processExamReport(row.id)
   if (command === 'finish') await finishExamReport(row.id)
@@ -18,12 +51,3 @@ const handleAction = async ({ command, row, refresh }) => {
   refresh()
 }
 </script>
-
-
-
-
-
-
-
-
-

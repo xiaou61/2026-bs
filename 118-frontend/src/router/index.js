@@ -1,6 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '../store/user'
 
+const ROLE_HOME = {
+  ADMIN: '/dashboard',
+  DISPATCHER: '/task',
+  KEEPER: '/inventory',
+  MAINTAINER: '/maintenance'
+}
+
+const canAccess = (role, allowedRoles) => !allowedRoles || allowedRoles.includes(role)
+
 const routes = [
   { path: '/login', component: () => import('../views/Login.vue') },
   {
@@ -8,21 +17,21 @@ const routes = [
     component: () => import('../views/Layout.vue'),
     redirect: '/dashboard',
     children: [
-      { path: 'dashboard', component: () => import('../views/Dashboard.vue') },
-      { path: 'user', component: () => import('../views/SysUser.vue') },
-      { path: 'zone', component: () => import('../views/WarehouseZone.vue') },
-      { path: 'location', component: () => import('../views/StorageLocation.vue') },
-      { path: 'agv', component: () => import('../views/AgvVehicle.vue') },
-      { path: 'station', component: () => import('../views/ChargingStation.vue') },
-      { path: 'inventory', component: () => import('../views/InventoryItem.vue') },
-      { path: 'inbound', component: () => import('../views/InboundOrder.vue') },
-      { path: 'outbound', component: () => import('../views/OutboundOrder.vue') },
-      { path: 'task', component: () => import('../views/AgvTask.vue') },
-      { path: 'route', component: () => import('../views/TaskRoute.vue') },
-      { path: 'recommendation', component: () => import('../views/LocationRecommendation.vue') },
-      { path: 'maintenance', component: () => import('../views/DeviceMaintenance.vue') },
-      { path: 'alert', component: () => import('../views/ExceptionAlert.vue') },
-      { path: 'log', component: () => import('../views/OperationLog.vue') }
+      { path: 'dashboard', component: () => import('../views/Dashboard.vue'), meta: { roles: ['ADMIN', 'DISPATCHER', 'KEEPER', 'MAINTAINER'] } },
+      { path: 'user', component: () => import('../views/SysUser.vue'), meta: { roles: ['ADMIN'] } },
+      { path: 'zone', component: () => import('../views/WarehouseZone.vue'), meta: { roles: ['ADMIN'] } },
+      { path: 'location', component: () => import('../views/StorageLocation.vue'), meta: { roles: ['ADMIN', 'KEEPER'] } },
+      { path: 'agv', component: () => import('../views/AgvVehicle.vue'), meta: { roles: ['ADMIN', 'DISPATCHER', 'MAINTAINER'] } },
+      { path: 'station', component: () => import('../views/ChargingStation.vue'), meta: { roles: ['ADMIN', 'MAINTAINER'] } },
+      { path: 'inventory', component: () => import('../views/InventoryItem.vue'), meta: { roles: ['ADMIN', 'KEEPER'] } },
+      { path: 'inbound', component: () => import('../views/InboundOrder.vue'), meta: { roles: ['ADMIN', 'DISPATCHER', 'KEEPER'] } },
+      { path: 'outbound', component: () => import('../views/OutboundOrder.vue'), meta: { roles: ['ADMIN', 'DISPATCHER', 'KEEPER'] } },
+      { path: 'task', component: () => import('../views/AgvTask.vue'), meta: { roles: ['ADMIN', 'DISPATCHER', 'KEEPER'] } },
+      { path: 'route', component: () => import('../views/TaskRoute.vue'), meta: { roles: ['ADMIN', 'DISPATCHER'] } },
+      { path: 'recommendation', component: () => import('../views/LocationRecommendation.vue'), meta: { roles: ['ADMIN', 'DISPATCHER', 'KEEPER'] } },
+      { path: 'maintenance', component: () => import('../views/DeviceMaintenance.vue'), meta: { roles: ['ADMIN', 'MAINTAINER'] } },
+      { path: 'alert', component: () => import('../views/ExceptionAlert.vue'), meta: { roles: ['ADMIN', 'DISPATCHER', 'MAINTAINER'] } },
+      { path: 'log', component: () => import('../views/OperationLog.vue'), meta: { roles: ['ADMIN'] } }
     ]
   }
 ]
@@ -31,9 +40,21 @@ const router = createRouter({ history: createWebHistory(), routes })
 
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore()
-  if (to.path !== '/login' && !userStore.token) next('/login')
-  else if (to.path === '/login' && userStore.token) next('/dashboard')
-  else next()
+  const role = userStore.user?.role
+  const home = ROLE_HOME[role] || '/login'
+  if (to.path !== '/login' && !userStore.token) {
+    next('/login')
+    return
+  }
+  if (to.path === '/login' && userStore.token) {
+    next(home)
+    return
+  }
+  if (to.meta?.roles && !canAccess(role, to.meta.roles)) {
+    next(home)
+    return
+  }
+  next()
 })
 
 export default router

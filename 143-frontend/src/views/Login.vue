@@ -1,17 +1,19 @@
 <template>
-  <div class="login-page">
+  <div class="login">
     <el-card class="login-card">
-      <h2>社区公益时间银行互助服务平台</h2>
-      <p>面向企业培训学习场景的课程学习、志愿者档案、公益活动和积分规则平台</p>
+      <div class="login-title">
+        <h2>社区公益时间银行互助服务平台</h2>
+        <p>面向社区互助服务场景的居民预约、志愿服务、时长兑换、公益活动和站点协同管理平台</p>
+      </div>
       <el-form :model="form" label-width="70px" @keyup.enter="submit">
         <el-form-item label="账号"><el-input v-model="form.username" /></el-form-item>
         <el-form-item label="密码"><el-input v-model="form.password" type="password" show-password /></el-form-item>
         <el-button type="primary" style="width: 100%" @click="submit">登录</el-button>
       </el-form>
-      <div class="account-list">
+      <div class="account-tags">
         <el-tag>admin / 123456</el-tag>
-        <el-tag>trainer / 123456</el-tag>
-        <el-tag>employee / 123456</el-tag>
+        <el-tag>resident / 123456</el-tag>
+        <el-tag>volunteer / 123456</el-tag>
         <el-tag>manager / 123456</el-tag>
       </div>
     </el-card>
@@ -24,21 +26,22 @@ import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { login } from '../api'
 import { useUserStore } from '../store/user'
+
+const ROLE_HOME = {
+  ADMIN: '/dashboard',
+  RESIDENT: '/booking',
+  VOLUNTEER: '/checkin',
+  MANAGER: '/project'
+}
+
 const router = useRouter()
 const userStore = useUserStore()
 const form = reactive({ username: 'admin', password: '123456' })
+
 const submit = async () => {
   const res = await login(form)
   userStore.setAuth(res.data.token, res.data.user)
   ElMessage.success('登录成功')
-  router.push('/dashboard')
+  router.push(ROLE_HOME[res.data.user?.role] || '/dashboard')
 }
 </script>
-
-
-
-
-
-
-
-

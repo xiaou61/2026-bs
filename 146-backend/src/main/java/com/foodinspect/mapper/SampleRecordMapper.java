@@ -15,9 +15,9 @@ import java.util.List;
 public interface SampleRecordMapper {
     @Select({
         "<script>",
-        "SELECT * FROM approval_task",
+        "SELECT * FROM sample_record",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (approval_no LIKE CONCAT('%',#{keyword},'%') OR claim_no LIKE CONCAT('%',#{keyword},'%') OR node_name LIKE CONCAT('%',#{keyword},'%') OR approver_name LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (sample_no LIKE CONCAT('%',#{keyword},'%') OR food_name LIKE CONCAT('%',#{keyword},'%') OR sample_type LIKE CONCAT('%',#{keyword},'%') OR sampling_remark LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,23 +25,23 @@ public interface SampleRecordMapper {
     })
     List<SampleRecord> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM approval_task WHERE id = #{id}")
+    @Select("SELECT * FROM sample_record WHERE id = #{id}")
     SampleRecord selectById(Long id);
 
-    @Insert("INSERT INTO approval_task (approval_no, claim_no, node_name, approver_name, approval_opinion, status, created_time, updated_time) VALUES (#{approvalNo}, #{claimNo}, #{nodeName}, #{approverName}, #{approvalOpinion}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO sample_record (sample_no, food_name, sample_type, sampling_remark, recorded_time, status, created_time, updated_time) VALUES (#{sampleNo}, #{foodName}, #{sampleType}, #{samplingRemark}, #{recordedTime}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(SampleRecord entity);
 
-    @Update("UPDATE approval_task SET approval_no = #{approvalNo}, claim_no = #{claimNo}, node_name = #{nodeName}, approver_name = #{approverName}, approval_opinion = #{approvalOpinion}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE sample_record SET sample_no = #{sampleNo}, food_name = #{foodName}, sample_type = #{sampleType}, sampling_remark = #{samplingRemark}, recorded_time = #{recordedTime}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(SampleRecord entity);
 
-    @Delete("DELETE FROM approval_task WHERE id = #{id}")
+    @Delete("DELETE FROM sample_record WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM approval_task")
+    @Select("SELECT COUNT(*) FROM sample_record")
     long countAll();
 
-    @Update("UPDATE approval_task SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE sample_record SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
 

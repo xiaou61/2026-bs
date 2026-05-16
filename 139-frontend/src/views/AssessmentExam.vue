@@ -1,15 +1,21 @@
 <template>
-  <DataPage title="盲审记录" description="评审编号、稿件编号、论文题目、评审得分、提交日期和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage title="考核考试" description="考试编号、考试名称、关联课程、考试日期、参与人数和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" :can-create="canManage" :can-edit="canManage" :can-delete="canDelete" @row-action="handleAction" />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getAssessmentExamPage, addAssessmentExam, updateAssessmentExam, deleteAssessmentExam, processAssessmentExam, finishAssessmentExam } from '../api'
 const api = { page: getAssessmentExamPage, add: addAssessmentExam, update: updateAssessmentExam, delete: deleteAssessmentExam }
-const columns = [{"prop": "orderNo", "label": "评审编号"}, {"prop": "supplierName", "label": "稿件编号"}, {"prop": "consumableName", "label": "论文题目"}, {"prop": "orderAmount", "label": "评审得分"}, {"prop": "arrivalDate", "label": "提交日期"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "orderNo", "label": "评审编号"}, {"prop": "supplierName", "label": "稿件编号"}, {"prop": "consumableName", "label": "论文题目"}, {"prop": "orderAmount", "label": "评审得分", "type": "number"}, {"prop": "arrivalDate", "label": "提交日期"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "process", "label": "处理", "type": "warning"}, {"command": "finish", "label": "完成", "type": "success"}]
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'TRAINER', 'MANAGER'].includes(role.value))
+const canDelete = computed(() => role.value === 'ADMIN')
+const columns = [{"prop": "examNo", "label": "考试编号"}, {"prop": "examName", "label": "考试名称"}, {"prop": "courseName", "label": "关联课程"}, {"prop": "examDate", "label": "考试日期"}, {"prop": "participantCount", "label": "参与人数"}, {"prop": "status", "label": "状态"}]
+const formFields = [{"prop": "examNo", "label": "考试编号"}, {"prop": "examName", "label": "考试名称"}, {"prop": "courseName", "label": "关联课程"}, {"prop": "examDate", "label": "考试日期"}, {"prop": "participantCount", "label": "参与人数", "type": "number"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "待处理", "value": "OPEN"}, {"label": "处理中", "value": "PROCESSING"}, {"label": "已完成", "value": "FINISHED"}]}]
+const rowActions = computed(() => canManage.value ? [{"command": "process", "label": "处理", "type": "warning"}, {"command": "finish", "label": "完成", "type": "success"}] : [])
 const defaults = {"status": "OPEN"}
 const handleAction = async ({ command, row, refresh }) => {
   if (command === 'process') await processAssessmentExam(row.id)

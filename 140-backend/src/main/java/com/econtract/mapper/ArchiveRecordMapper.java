@@ -15,9 +15,9 @@ import java.util.List;
 public interface ArchiveRecordMapper {
     @Select({
         "<script>",
-        "SELECT * FROM paper_record",
+        "SELECT * FROM archive_record",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (paper_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR paper_title LIKE CONCAT('%',#{keyword},'%') OR journal_name LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (archive_no LIKE CONCAT('%',#{keyword},'%') OR contract_title LIKE CONCAT('%',#{keyword},'%') OR archive_location LIKE CONCAT('%',#{keyword},'%') OR archivist_name LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,23 +25,23 @@ public interface ArchiveRecordMapper {
     })
     List<ArchiveRecord> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM paper_record WHERE id = #{id}")
+    @Select("SELECT * FROM archive_record WHERE id = #{id}")
     ArchiveRecord selectById(Long id);
 
-    @Insert("INSERT INTO paper_record (paper_no, project_no, paper_title, journal_name, publish_time, status, created_time, updated_time) VALUES (#{paperNo}, #{projectNo}, #{paperTitle}, #{journalName}, #{publishTime}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO archive_record (archive_no, contract_title, archive_location, archivist_name, archive_date, status, created_time, updated_time) VALUES (#{archiveNo}, #{contractTitle}, #{archiveLocation}, #{archivistName}, #{archiveDate}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(ArchiveRecord entity);
 
-    @Update("UPDATE paper_record SET paper_no = #{paperNo}, project_no = #{projectNo}, paper_title = #{paperTitle}, journal_name = #{journalName}, publish_time = #{publishTime}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE archive_record SET archive_no = #{archiveNo}, contract_title = #{contractTitle}, archive_location = #{archiveLocation}, archivist_name = #{archivistName}, archive_date = #{archiveDate}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(ArchiveRecord entity);
 
-    @Delete("DELETE FROM paper_record WHERE id = #{id}")
+    @Delete("DELETE FROM archive_record WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM paper_record")
+    @Select("SELECT COUNT(*) FROM archive_record")
     long countAll();
 
-    @Update("UPDATE paper_record SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE archive_record SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
 

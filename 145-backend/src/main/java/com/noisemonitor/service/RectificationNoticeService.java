@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class RectificationNoticeService extends BaseCrudService<RectificationNotice> {
-    private final RectificationNoticeMapper purchaseOrderMapper;
+    private final RectificationNoticeMapper rectificationNoticeMapper;
 
     @Override
     protected BaseMapper<RectificationNotice> mapper() {
-        return purchaseOrderMapper;
+        return rectificationNoticeMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"order_no", "supplier_name", "consumable_name", "order_amount"};
+        return new String[]{"notice_no", "complaint_title", "rectify_requirement", "responsible_unit"};
     }
 }
 

@@ -7,15 +7,15 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("stock_item")
+@TableName("officer_profile")
 public class OfficerProfile {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String stockNo;
-    private String consumableName;
-    private String labName;
-    private Integer currentQty;
-    private Integer lockedQty;
+    private String officerNo;
+    private String officerName;
+    private String dutyArea;
+    private String contactPhone;
+    private String entryTime;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;

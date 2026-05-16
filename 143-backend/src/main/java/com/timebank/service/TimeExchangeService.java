@@ -9,20 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class TimeExchangeService extends BaseCrudService<TimeExchange> {
-    private final TimeExchangeMapper inboundRecordMapper;
+    private final TimeExchangeMapper timeExchangeMapper;
 
     @Override
     protected BaseMapper<TimeExchange> mapper() {
-        return inboundRecordMapper;
+        return timeExchangeMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"inbound_no", "order_no", "consumable_name", "inbound_qty"};
+        return new String[]{"exchange_no", "project_name", "exchanger_name", "exchange_time"};
     }
 }
-
-
-
-
 

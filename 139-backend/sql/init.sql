@@ -17,202 +17,202 @@ CREATE TABLE sys_user (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO sys_user (username, password, nickname, role, department, phone, email, status, created_time, updated_time) VALUES
-('admin', '123456', '系统管理员', 'ADMIN', '实验中心', '139133000100', 'admin@demo.local', 1, NOW(), NOW()),
+('admin', '123456', '系统管理员', 'ADMIN', '组织发展部', '139139000100', 'admin@demo.local', 1, NOW(), NOW()),
 ('trainer', '123456', '培训讲师', 'TRAINER', '企业大学', '139139000200', 'trainer@demo.local', 1, NOW(), NOW()),
-('employee', '123456', '企业员工', 'EMPLOYEE', '业务部门', '139139000300', 'employee@demo.local', 1, NOW(), NOW()),
-('manager', '123456', '部门主管', 'MANAGER', '管理中心', '139139000400', 'manager@demo.local', 1, NOW(), NOW());
+('employee', '123456', '企业员工', 'EMPLOYEE', '客户成功部', '139139000300', 'employee@demo.local', 1, NOW(), NOW()),
+('manager', '123456', '部门主管', 'MANAGER', '运营管理部', '139139000400', 'manager@demo.local', 1, NOW(), NOW());
 
-CREATE TABLE consumable_catalog (
+CREATE TABLE training_program (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  consumable_no VARCHAR(120),
-  consumable_name VARCHAR(120),
-  spec_model VARCHAR(120),
-  unit_name VARCHAR(120),
-  safe_stock INT,
+  program_no VARCHAR(120),
+  program_name VARCHAR(120),
+  target_role VARCHAR(120),
+  organizer_name VARCHAR(120),
+  session_count INT,
   status VARCHAR(120),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO consumable_catalog (consumable_no, consumable_name, spec_model, unit_name, safe_stock, status, created_time, updated_time) VALUES
-('CON-133-001', '耗材名称一', '规格型号一', '计量单位一', 35, 'ACTIVE', NOW(), NOW()),
-('CON-133-002', '耗材名称二', '规格型号二', '计量单位二', 40, 'ACTIVE', NOW(), NOW());
+INSERT INTO training_program (program_no, program_name, target_role, organizer_name, session_count, status, created_time, updated_time) VALUES
+('PRG-139-001', '新员工启航训练营', 'EMPLOYEE', '企业大学', 8, 'ACTIVE', NOW(), NOW()),
+('PRG-139-002', '中层管理者领导力提升', 'MANAGER', '组织发展部', 6, 'DRAFT', NOW(), NOW());
 
-CREATE TABLE supplier_profile (
+CREATE TABLE course_catalog (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  supplier_no VARCHAR(120),
-  supplier_name VARCHAR(120),
-  contact_name VARCHAR(120),
+  course_no VARCHAR(120),
+  course_name VARCHAR(120),
+  lecturer_name VARCHAR(120),
+  credit_hours INT,
+  delivery_mode VARCHAR(120),
+  status VARCHAR(120),
+  created_time DATETIME,
+  updated_time DATETIME
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO course_catalog (course_no, course_name, lecturer_name, credit_hours, delivery_mode, status, created_time, updated_time) VALUES
+('CRS-139-001', '项目复盘与经验萃取', '周珊', 12, '线上直播', 'ACTIVE', NOW(), NOW()),
+('CRS-139-002', '销售顾问实战陪练', '李程', 16, '线下面授', 'DRAFT', NOW(), NOW());
+
+CREATE TABLE learner_profile (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  learner_no VARCHAR(120),
+  learner_name VARCHAR(120),
+  department_name VARCHAR(120),
+  position_name VARCHAR(120),
   phone_number VARCHAR(120),
-  qualification_level VARCHAR(120),
   status VARCHAR(120),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO supplier_profile (supplier_no, supplier_name, contact_name, phone_number, qualification_level, status, created_time, updated_time) VALUES
-('SUP-133-001', '供应商名称一', '联系人一', '139133000101', '资质等级一', 'ACTIVE', NOW(), NOW()),
-('SUP-133-002', '供应商名称二', '联系人二', '139133000201', '资质等级二', 'ACTIVE', NOW(), NOW());
+INSERT INTO learner_profile (learner_no, learner_name, department_name, position_name, phone_number, status, created_time, updated_time) VALUES
+('LRN-139-001', '王楠', '客户成功部', '客户经理', '139139100101', 'ACTIVE', NOW(), NOW()),
+('LRN-139-002', '陈璐', '运营管理部', '招商主管', '139139100102', 'ACTIVE', NOW(), NOW());
 
-CREATE TABLE lab_room (
+CREATE TABLE learning_path_plan (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  lab_no VARCHAR(120),
-  lab_name VARCHAR(120),
-  building_name VARCHAR(120),
-  manager_name VARCHAR(120),
-  phone_number VARCHAR(120),
+  path_no VARCHAR(120),
+  learner_name VARCHAR(120),
+  path_name VARCHAR(120),
+  stage_count INT,
+  completed_rate INT,
   status VARCHAR(120),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO lab_room (lab_no, lab_name, building_name, manager_name, phone_number, status, created_time, updated_time) VALUES
-('LAB-133-001', '实验室名称一', '楼栋位置一', '负责人一', '139133000101', 'ACTIVE', NOW(), NOW()),
-('LAB-133-002', '实验室名称二', '楼栋位置二', '负责人二', '139133000201', 'ACTIVE', NOW(), NOW());
+INSERT INTO learning_path_plan (path_no, learner_name, path_name, stage_count, completed_rate, status, created_time, updated_time) VALUES
+('PAT-139-001', '王楠', '客户经理90天成长路径', 4, 50, 'PROCESSING', NOW(), NOW()),
+('PAT-139-002', '陈璐', '招商主管晋升预备路径', 5, 20, 'OPEN', NOW(), NOW());
 
-CREATE TABLE stock_item (
+CREATE TABLE study_task (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  stock_no VARCHAR(120),
-  consumable_name VARCHAR(120),
-  lab_name VARCHAR(120),
-  current_qty INT,
-  locked_qty INT,
+  task_no VARCHAR(120),
+  path_name VARCHAR(120),
+  task_name VARCHAR(120),
+  deadline_time VARCHAR(120),
+  assignee_name VARCHAR(120),
   status VARCHAR(120),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO stock_item (stock_no, consumable_name, lab_name, current_qty, locked_qty, status, created_time, updated_time) VALUES
-('STK-133-001', '耗材名称一', '实验室一', 35, 35, 'NORMAL', NOW(), NOW()),
-('STK-133-002', '耗材名称二', '实验室二', 40, 40, 'NORMAL', NOW(), NOW());
+INSERT INTO study_task (task_no, path_name, task_name, deadline_time, assignee_name, status, created_time, updated_time) VALUES
+('TSK-139-001', '客户经理90天成长路径', '完成客户异议处理课程', '2026-05-20 18:00', '王楠', 'SUBMITTED', NOW(), NOW()),
+('TSK-139-002', '招商主管晋升预备路径', '提交招商主管复盘报告', '2026-05-24 18:00', '陈璐', 'DRAFT', NOW(), NOW());
 
-CREATE TABLE purchase_request (
+CREATE TABLE course_enrollment (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  request_no VARCHAR(120),
-  consumable_name VARCHAR(120),
-  request_qty INT,
-  applicant_name VARCHAR(120),
-  request_time VARCHAR(120),
-  status VARCHAR(120),
-  created_time DATETIME,
-  updated_time DATETIME
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO purchase_request (request_no, consumable_name, request_qty, applicant_name, request_time, status, created_time, updated_time) VALUES
-('REQ-133-001', '耗材名称一', 35, '申请人一', '2026-05-6 10:00', 'SUBMITTED', NOW(), NOW()),
-('REQ-133-002', '耗材名称二', 40, '申请人二', '2026-05-7 10:00', 'SUBMITTED', NOW(), NOW());
-
-CREATE TABLE purchase_approval (
-  id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  approval_no VARCHAR(120),
-  request_no VARCHAR(120),
+  enrollment_no VARCHAR(120),
+  course_name VARCHAR(120),
+  learner_name VARCHAR(120),
+  apply_time VARCHAR(120),
   approver_name VARCHAR(120),
-  approval_opinion VARCHAR(120),
-  approval_time VARCHAR(120),
   status VARCHAR(120),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO purchase_approval (approval_no, request_no, approver_name, approval_opinion, approval_time, status, created_time, updated_time) VALUES
-('APR-133-001', 'APR-133-001', '审批人一', '审批意见一', '2026-05-6 10:00', 'REVIEWING', NOW(), NOW()),
-('APR-133-002', 'APR-133-002', '审批人二', '审批意见二', '2026-05-7 10:00', 'REVIEWING', NOW(), NOW());
+INSERT INTO course_enrollment (enrollment_no, course_name, learner_name, apply_time, approver_name, status, created_time, updated_time) VALUES
+('ENR-139-001', '项目复盘与经验萃取', '王楠', '2026-05-12 09:30', '孙倩', 'APPROVED', NOW(), NOW()),
+('ENR-139-002', '销售顾问实战陪练', '陈璐', '2026-05-13 14:20', '赵宁', 'SUBMITTED', NOW(), NOW());
 
-CREATE TABLE purchase_order (
+CREATE TABLE assessment_exam (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  order_no VARCHAR(120),
-  supplier_name VARCHAR(120),
-  consumable_name VARCHAR(120),
-  order_amount DECIMAL(12,2),
-  arrival_date VARCHAR(120),
+  exam_no VARCHAR(120),
+  exam_name VARCHAR(120),
+  course_name VARCHAR(120),
+  exam_date VARCHAR(120),
+  participant_count INT,
   status VARCHAR(120),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO purchase_order (order_no, supplier_name, consumable_name, order_amount, arrival_date, status, created_time, updated_time) VALUES
-('ORD-133-001', '供应商一', '耗材名称一', 38.5, '2026-05-6', 'OPEN', NOW(), NOW()),
-('ORD-133-002', '供应商二', '耗材名称二', 51.5, '2026-05-7', 'OPEN', NOW(), NOW());
+INSERT INTO assessment_exam (exam_no, exam_name, course_name, exam_date, participant_count, status, created_time, updated_time) VALUES
+('EXM-139-001', '复盘方法论结业考核', '项目复盘与经验萃取', '2026-05-26', 24, 'PROCESSING', NOW(), NOW()),
+('EXM-139-002', '销售陪练阶段测试', '销售顾问实战陪练', '2026-05-30', 18, 'OPEN', NOW(), NOW());
 
-CREATE TABLE inbound_record (
+CREATE TABLE exam_score (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  inbound_no VARCHAR(120),
-  order_no VARCHAR(120),
-  consumable_name VARCHAR(120),
-  inbound_qty INT,
-  operator_name VARCHAR(120),
+  score_no VARCHAR(120),
+  exam_name VARCHAR(120),
+  learner_name VARCHAR(120),
+  score_value INT,
+  evaluator_name VARCHAR(120),
   status VARCHAR(120),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO inbound_record (inbound_no, order_no, consumable_name, inbound_qty, operator_name, status, created_time, updated_time) VALUES
-('INB-133-001', 'INB-133-001', '耗材名称一', 35, '入库人一', 'FINISHED', NOW(), NOW()),
-('INB-133-002', 'INB-133-002', '耗材名称二', 40, '入库人二', 'FINISHED', NOW(), NOW());
+INSERT INTO exam_score (score_no, exam_name, learner_name, score_value, evaluator_name, status, created_time, updated_time) VALUES
+('SCR-139-001', '复盘方法论结业考核', '王楠', 92, '周珊', 'APPROVED', NOW(), NOW()),
+('SCR-139-002', '销售陪练阶段测试', '陈璐', 86, '李程', 'SUBMITTED', NOW(), NOW());
 
-CREATE TABLE outbound_record (
+CREATE TABLE skill_tag (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  outbound_no VARCHAR(120),
-  consumable_name VARCHAR(120),
-  lab_name VARCHAR(120),
-  outbound_qty INT,
-  receiver_name VARCHAR(120),
-  status VARCHAR(120),
-  created_time DATETIME,
-  updated_time DATETIME
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO outbound_record (outbound_no, consumable_name, lab_name, outbound_qty, receiver_name, status, created_time, updated_time) VALUES
-('OUT-133-001', '耗材名称一', '领用实验室一', 35, '领用人一', 'SUBMITTED', NOW(), NOW()),
-('OUT-133-002', '耗材名称二', '领用实验室二', 40, '领用人二', 'SUBMITTED', NOW(), NOW());
-
-CREATE TABLE inventory_check (
-  id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  check_no VARCHAR(120),
-  lab_name VARCHAR(120),
-  consumable_name VARCHAR(120),
-  book_qty INT,
-  actual_qty INT,
-  status VARCHAR(120),
-  created_time DATETIME,
-  updated_time DATETIME
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO inventory_check (check_no, lab_name, consumable_name, book_qty, actual_qty, status, created_time, updated_time) VALUES
-('CHK-133-001', '实验室一', '耗材名称一', 35, 35, 'PROCESSING', NOW(), NOW()),
-('CHK-133-002', '实验室二', '耗材名称二', 40, 40, 'PROCESSING', NOW(), NOW());
-
-CREATE TABLE warning_rule (
-  id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  rule_no VARCHAR(120),
+  tag_no VARCHAR(120),
+  tag_name VARCHAR(120),
   category_name VARCHAR(120),
-  min_stock INT,
-  warning_level VARCHAR(120),
-  notice_target VARCHAR(120),
+  tag_level VARCHAR(120),
+  owner_name VARCHAR(120),
   status VARCHAR(120),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO warning_rule (rule_no, category_name, min_stock, warning_level, notice_target, status, created_time, updated_time) VALUES
-('RUL-133-001', '耗材分类一', 35, '预警级别一', '通知对象一', 'ACTIVE', NOW(), NOW()),
-('RUL-133-002', '耗材分类二', 40, '预警级别二', '通知对象二', 'ACTIVE', NOW(), NOW());
+INSERT INTO skill_tag (tag_no, tag_name, category_name, tag_level, owner_name, status, created_time, updated_time) VALUES
+('TAG-139-001', '客户异议处理', '销售能力', '高级', '周珊', 'APPROVED', NOW(), NOW()),
+('TAG-139-002', '复盘表达', '管理能力', '中级', '李程', 'SUBMITTED', NOW(), NOW());
 
-CREATE TABLE stock_warning (
+CREATE TABLE competency_profile (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  warning_no VARCHAR(120),
-  consumable_name VARCHAR(120),
-  current_qty INT,
-  warning_level VARCHAR(120),
-  handler_name VARCHAR(120),
+  profile_no VARCHAR(120),
+  learner_name VARCHAR(120),
+  competency_level VARCHAR(120),
+  gap_count INT,
+  evaluator_name VARCHAR(120),
   status VARCHAR(120),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO stock_warning (warning_no, consumable_name, current_qty, warning_level, handler_name, status, created_time, updated_time) VALUES
-('WAR-133-001', '耗材名称一', 35, '预警级别一', '处理人一', 'WARNING', NOW(), NOW()),
-('WAR-133-002', '耗材名称二', 40, '预警级别二', '处理人二', 'WARNING', NOW(), NOW());
+INSERT INTO competency_profile (profile_no, learner_name, competency_level, gap_count, evaluator_name, status, created_time, updated_time) VALUES
+('CPF-139-001', '王楠', '中级', 2, '孙倩', 'PROCESSING', NOW(), NOW()),
+('CPF-139-002', '陈璐', '高级', 1, '赵宁', 'OPEN', NOW(), NOW());
+
+CREATE TABLE certification_record (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  cert_no VARCHAR(120),
+  learner_name VARCHAR(120),
+  certification_name VARCHAR(120),
+  issuer_name VARCHAR(120),
+  issue_date VARCHAR(120),
+  status VARCHAR(120),
+  created_time DATETIME,
+  updated_time DATETIME
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO certification_record (cert_no, learner_name, certification_name, issuer_name, issue_date, status, created_time, updated_time) VALUES
+('CER-139-001', '王楠', '项目复盘内训师认证', '企业大学', '2026-04-30', 'ACTIVE', NOW(), NOW()),
+('CER-139-002', '陈璐', '销售顾问带教认证', '组织发展部', '2026-05-08', 'DRAFT', NOW(), NOW());
+
+CREATE TABLE learning_reminder (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  reminder_no VARCHAR(120),
+  learner_name VARCHAR(120),
+  reminder_type VARCHAR(120),
+  remind_time VARCHAR(120),
+  channel_name VARCHAR(120),
+  status VARCHAR(120),
+  created_time DATETIME,
+  updated_time DATETIME
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO learning_reminder (reminder_no, learner_name, reminder_type, remind_time, channel_name, status, created_time, updated_time) VALUES
+('REM-139-001', '王楠', '课程开课提醒', '2026-05-18 08:30', '企业微信', 'PROCESSING', NOW(), NOW()),
+('REM-139-002', '陈璐', '考试待参加提醒', '2026-05-28 09:00', '短信', 'OPEN', NOW(), NOW());
 
 CREATE TABLE operation_log (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -227,8 +227,8 @@ CREATE TABLE operation_log (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO operation_log (operator_name, module_name, action_type, target_name, detail_info, status, created_time, updated_time) VALUES
-('操作人一', '模块名称一', '动作类型一', '操作对象一', '操作详情一', 'SUCCESS', NOW(), NOW()),
-('操作人二', '模块名称二', '动作类型二', '操作对象二', '操作详情二', 'SUCCESS', NOW(), NOW());
+('系统管理员', '培训项目', '新增', '新员工启航训练营', '创建培训项目并分配讲师', 'SUCCESS', NOW(), NOW()),
+('培训讲师', '成绩记录', '审批', '复盘方法论结业考核', '完成学员成绩确认', 'SUCCESS', NOW(), NOW());
 
 
 

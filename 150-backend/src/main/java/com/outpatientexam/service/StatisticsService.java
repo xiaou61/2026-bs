@@ -1,18 +1,9 @@
 package com.outpatientexam.service;
 
-import com.outpatientexam.mapper.ExamItemMapper;
-import com.outpatientexam.mapper.PatientProfileMapper;
-import com.outpatientexam.mapper.DoctorProfileMapper;
-import com.outpatientexam.mapper.ExamAppointmentMapper;
 import com.outpatientexam.mapper.ExamDepartmentMapper;
-import com.outpatientexam.mapper.CheckinRecordMapper;
+import com.outpatientexam.mapper.ExamItemMapper;
 import com.outpatientexam.mapper.ExamReportMapper;
-import com.outpatientexam.mapper.AbnormalAlertMapper;
-import com.outpatientexam.mapper.ReportDeliveryMapper;
-import com.outpatientexam.mapper.RevisitAdviceMapper;
 import com.outpatientexam.mapper.QueueCallMapper;
-import com.outpatientexam.mapper.HospitalNoticeMapper;
-import com.outpatientexam.mapper.OperationLogMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,18 +15,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class StatisticsService {
     private final ExamItemMapper examItemMapper;
-    private final PatientProfileMapper patientProfileMapper;
-    private final DoctorProfileMapper doctorProfileMapper;
-    private final ExamAppointmentMapper examAppointmentMapper;
     private final ExamDepartmentMapper examDepartmentMapper;
-    private final CheckinRecordMapper checkinRecordMapper;
     private final ExamReportMapper examReportMapper;
-    private final AbnormalAlertMapper abnormalAlertMapper;
-    private final ReportDeliveryMapper reportDeliveryMapper;
-    private final RevisitAdviceMapper revisitAdviceMapper;
     private final QueueCallMapper queueCallMapper;
-    private final HospitalNoticeMapper hospitalNoticeMapper;
-    private final OperationLogMapper operationLogMapper;
 
     public Map<String, Object> dashboard() {
         Map<String, Object> data = new HashMap<>();
@@ -43,8 +25,12 @@ public class StatisticsService {
         data.put("departmentCount", examDepartmentMapper.countAll());
         data.put("reportCount", examReportMapper.countAll());
         data.put("queueCount", queueCallMapper.countAll());
-        data.put("examTrend", Arrays.asList(12, 22, 31, 44, 53, 62, 70));
-        data.put("examPie", Arrays.asList(map("待检查", 35), map("检查中", 31), map("已完成", 34)));
+        data.put("examTrend", Arrays.asList(16, 24, 21, 29, 33, 31, 38));
+        data.put("examPie", Arrays.asList(
+                map("预约提交", 28),
+                map("报告处理中", 22),
+                map("报告完成", 50)
+        ));
         return data;
     }
 
@@ -55,14 +41,3 @@ public class StatisticsService {
         return item;
     }
 }
-
-
-
-
-
-
-
-
-
-
-

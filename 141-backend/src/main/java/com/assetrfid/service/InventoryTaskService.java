@@ -9,19 +9,15 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class InventoryTaskService extends BaseCrudService<InventoryTask> {
-    private final InventoryTaskMapper purchaseRequestMapper;
+    private final InventoryTaskMapper inventoryTaskMapper;
 
     @Override
     protected BaseMapper<InventoryTask> mapper() {
-        return purchaseRequestMapper;
+        return inventoryTaskMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"request_no", "consumable_name", "request_qty", "applicant_name"};
+        return new String[]{"task_no", "asset_name", "planned_count", "executor_name"};
     }
 }
-
-
-
-

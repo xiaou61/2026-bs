@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CompetencyProfileService extends BaseCrudService<CompetencyProfile> {
-    private final CompetencyProfileMapper inventoryCheckMapper;
+    private final CompetencyProfileMapper competencyProfileMapper;
 
     @Override
     protected BaseMapper<CompetencyProfile> mapper() {
-        return inventoryCheckMapper;
+        return competencyProfileMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"check_no", "lab_name", "consumable_name", "book_qty"};
+        return new String[]{"profile_no", "learner_name", "competency_level", "evaluator_name"};
     }
 }
 

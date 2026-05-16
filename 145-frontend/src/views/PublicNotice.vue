@@ -1,16 +1,52 @@
 <template>
-  <DataPage title="签到记录" description="巡查编号、参会人、签到次数、签到方式、会务人员和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage
+    title="公告公示"
+    description="维护公告编号、公告类型、公告内容和发布时间，支撑治理结果公示与提醒发布"
+    :api="api"
+    :columns="columns"
+    :form-fields="formFields"
+    :row-actions="rowActions"
+    :defaults="defaults"
+    :can-create="canManage"
+    :can-edit="canManage"
+    :can-delete="canManage"
+    @row-action="handleAction"
+  />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getPublicNoticePage, addPublicNotice, updatePublicNotice, deletePublicNotice, processPublicNotice, finishPublicNotice } from '../api'
+
 const api = { page: getPublicNoticePage, add: addPublicNotice, update: updatePublicNotice, delete: deletePublicNotice }
-const columns = [{"prop": "warningNo", "label": "巡查编号"}, {"prop": "consumableName", "label": "参会人"}, {"prop": "currentQty", "label": "签到次数"}, {"prop": "warningLevel", "label": "签到方式"}, {"prop": "handlerName", "label": "会务人员"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "warningNo", "label": "巡查编号"}, {"prop": "consumableName", "label": "参会人"}, {"prop": "currentQty", "label": "签到次数", "type": "number"}, {"prop": "warningLevel", "label": "签到方式"}, {"prop": "handlerName", "label": "会务人员"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "process", "label": "处理", "type": "warning"}, {"command": "finish", "label": "完成", "type": "success"}]
-const defaults = {"status": "WARNING"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'SUPERVISOR'].includes(role.value))
+const columns = [
+  { prop: 'noticeNo', label: '公告编号' },
+  { prop: 'complaintTitle', label: '关联投诉', width: 180 },
+  { prop: 'noticeType', label: '公告类型', width: 140 },
+  { prop: 'noticeContent', label: '公告内容', width: 240 },
+  { prop: 'publishTime', label: '发布时间', width: 160 },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'noticeNo', label: '公告编号' },
+  { prop: 'complaintTitle', label: '关联投诉' },
+  { prop: 'noticeType', label: '公告类型' },
+  { prop: 'noticeContent', label: '公告内容', type: 'textarea' },
+  { prop: 'publishTime', label: '发布时间' },
+  { prop: 'status', label: '状态', type: 'select', options: [{ label: '发布中', value: 'PROCESSING' }, { label: '公示完成', value: 'FINISHED' }] }
+]
+const rowActions = computed(() => canManage.value ? [
+  { command: 'process', label: '发布中', type: 'primary' },
+  { command: 'finish', label: '公示完成', type: 'success' }
+] : [])
+const defaults = { status: 'PROCESSING' }
+
 const handleAction = async ({ command, row, refresh }) => {
   if (command === 'process') await processPublicNotice(row.id)
   if (command === 'finish') await finishPublicNotice(row.id)
@@ -18,10 +54,3 @@ const handleAction = async ({ command, row, refresh }) => {
   refresh()
 }
 </script>
-
-
-
-
-
-
-

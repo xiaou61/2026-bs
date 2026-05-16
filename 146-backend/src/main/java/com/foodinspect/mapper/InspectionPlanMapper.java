@@ -15,9 +15,9 @@ import java.util.List;
 public interface InspectionPlanMapper {
     @Select({
         "<script>",
-        "SELECT * FROM research_project",
+        "SELECT * FROM inspection_plan",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (project_no LIKE CONCAT('%',#{keyword},'%') OR project_name LIKE CONCAT('%',#{keyword},'%') OR leader_name LIKE CONCAT('%',#{keyword},'%') OR college_name LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (plan_no LIKE CONCAT('%',#{keyword},'%') OR plan_name LIKE CONCAT('%',#{keyword},'%') OR inspection_type LIKE CONCAT('%',#{keyword},'%') OR region_name LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,23 +25,23 @@ public interface InspectionPlanMapper {
     })
     List<InspectionPlan> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM research_project WHERE id = #{id}")
+    @Select("SELECT * FROM inspection_plan WHERE id = #{id}")
     InspectionPlan selectById(Long id);
 
-    @Insert("INSERT INTO research_project (project_no, project_name, leader_name, college_name, start_year, status, created_time, updated_time) VALUES (#{projectNo}, #{projectName}, #{leaderName}, #{collegeName}, #{startYear}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO inspection_plan (plan_no, plan_name, inspection_type, region_name, inspection_cycle, status, created_time, updated_time) VALUES (#{planNo}, #{planName}, #{inspectionType}, #{regionName}, #{inspectionCycle}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(InspectionPlan entity);
 
-    @Update("UPDATE research_project SET project_no = #{projectNo}, project_name = #{projectName}, leader_name = #{leaderName}, college_name = #{collegeName}, start_year = #{startYear}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE inspection_plan SET plan_no = #{planNo}, plan_name = #{planName}, inspection_type = #{inspectionType}, region_name = #{regionName}, inspection_cycle = #{inspectionCycle}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(InspectionPlan entity);
 
-    @Delete("DELETE FROM research_project WHERE id = #{id}")
+    @Delete("DELETE FROM inspection_plan WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM research_project")
+    @Select("SELECT COUNT(*) FROM inspection_plan")
     long countAll();
 
-    @Update("UPDATE research_project SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE inspection_plan SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
 

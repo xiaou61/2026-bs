@@ -1,0 +1,1134 @@
+from pathlib import Path
+import shutil
+
+ROOT = Path(__file__).resolve().parents[1]
+BACKEND = ROOT / "158-backend"
+FRONTEND = ROOT / "158-frontend"
+PACKAGE = "trainingrefund"
+BASE = BACKEND / "src/main/java/com" / PACKAGE
+
+ROLES = [
+    ("ADMIN", "系统管理员", "admin", "/dashboard"),
+    ("PRINCIPAL", "校区校长", "principal", "/dashboard"),
+    ("ACADEMIC", "教务主管", "academic", "/schedule"),
+    ("TEACHER", "任课老师", "teacher", "/attendance"),
+    ("FINANCE", "财务审核员", "finance", "/refund"),
+    ("PARENT", "学员家长", "parent", "/consumption"),
+]
+
+MODULES = [
+    ("CampusBranch", "campus_branch", "branch", "CampusBranch", "校区档案", "校区编号、校区名称、校区类型、负责人、启用时间和校区状态维护", ["ADMIN", "PRINCIPAL"], ["校区编号", "校区名称", "校区类型", "负责人", "启用时间", "校区状态", "校区说明"]),
+    ("CourseCatalog", "course_catalog", "course", "CourseCatalog", "课程产品", "课程编号、课程名称、课程类型、负责人、上架时间和课程状态维护", ["ADMIN", "PRINCIPAL", "ACADEMIC", "FINANCE"], ["课程编号", "课程名称", "课程类型", "负责人", "上架时间", "课程状态", "课程说明"]),
+    ("StudentProfile", "student_profile", "student", "StudentProfile", "学员档案", "学员编号、学员姓名、报名课程、监护人、报名时间和学籍状态维护", ["ADMIN", "PRINCIPAL", "ACADEMIC", "PARENT"], ["学员编号", "学员姓名", "报名课程", "监护人", "报名时间", "学籍状态", "学员说明"]),
+    ("TeacherProfile", "teacher_profile", "teacher", "TeacherProfile", "教师档案", "教师编号、教师姓名、授课类型、所属校区、入职时间和教师状态维护", ["ADMIN", "PRINCIPAL", "ACADEMIC", "TEACHER"], ["教师编号", "教师姓名", "授课类型", "所属校区", "入职时间", "教师状态", "教师说明"]),
+    ("ClassGroup", "class_group", "classgroup", "ClassGroup", "班级台账", "班级编号、班级名称、班级类型、班主任、开班时间和班级状态维护", ["ADMIN", "PRINCIPAL", "ACADEMIC", "TEACHER"], ["班级编号", "班级名称", "班级类型", "班主任", "开班时间", "班级状态", "班级说明"]),
+    ("LessonSchedule", "lesson_schedule", "schedule", "LessonSchedule", "排课计划", "排课编号、课程班级、排课类型、授课老师、上课时间和排课状态维护", ["ADMIN", "PRINCIPAL", "ACADEMIC", "TEACHER"], ["排课编号", "课程班级", "排课类型", "授课老师", "上课时间", "排课状态", "排课说明"]),
+    ("AttendanceRecord", "attendance_record", "attendance", "AttendanceRecord", "上课考勤", "考勤编号、上课班级、考勤类型、点名老师、考勤时间和考勤状态维护", ["ADMIN", "ACADEMIC", "TEACHER", "PARENT"], ["考勤编号", "上课班级", "考勤类型", "点名老师", "考勤时间", "考勤状态", "考勤说明"]),
+    ("ConsumptionRecord", "consumption_record", "consumption", "ConsumptionRecord", "课消记录", "课消编号、课消课程、课消类型、确认人、课消时间和课消状态维护", ["ADMIN", "ACADEMIC", "TEACHER", "FINANCE", "PARENT"], ["课消编号", "课消课程", "课消类型", "确认人", "课消时间", "课消状态", "课消说明"]),
+    ("RefundApplication", "refund_application", "refund", "RefundApplication", "退费申请", "申请编号、申请学员、退费类型、申请人、申请时间和申请状态维护", ["ADMIN", "PRINCIPAL", "FINANCE", "PARENT"], ["申请编号", "申请学员", "退费类型", "申请人", "申请时间", "申请状态", "申请说明"]),
+    ("RefundApproval", "refund_approval", "approval", "RefundApproval", "退费审批", "审批编号、退费申请、审批类型、审批人、审批时间和审批状态维护", ["ADMIN", "PRINCIPAL", "FINANCE"], ["审批编号", "退费申请", "审批类型", "审批人", "审批时间", "审批状态", "审批说明"]),
+    ("FinanceLedger", "finance_ledger", "ledger", "FinanceLedger", "财务流水", "流水编号、流水事项、收支类型、经办人、发生时间和流水状态维护", ["ADMIN", "PRINCIPAL", "FINANCE"], ["流水编号", "流水事项", "收支类型", "经办人", "发生时间", "流水状态", "流水说明"]),
+    ("OperationLog", "operation_log", "log", "OperationLog", "操作日志", "日志编号、操作模块、操作类型、操作人、操作时间和执行结果维护", ["ADMIN", "PRINCIPAL"], ["日志编号", "操作模块", "操作类型", "操作人", "操作时间", "执行结果", "操作详情"]),
+]
+
+
+def write(path, text):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(text.replace("\r\n", "\n"), encoding="utf-8")
+
+
+def remove_tree(path, root):
+    target = path.resolve()
+    base = root.resolve()
+    if target.exists() and str(target).startswith(str(base)):
+        shutil.rmtree(target)
+
+
+def roles_java(roles):
+    return ", ".join(f'"{role}"' for role in roles)
+
+
+def java_common():
+    write(BASE / "common/Result.java", f"""package com.{PACKAGE}.common;
+
+import lombok.Data;
+
+@Data
+public class Result<T> {{
+    private Integer code;
+    private String message;
+    private T data;
+
+    public static <T> Result<T> success(T data) {{
+        Result<T> result = new Result<>();
+        result.setCode(200);
+        result.setMessage("success");
+        result.setData(data);
+        return result;
+    }}
+
+    public static Result<Void> success() {{
+        return success(null);
+    }}
+
+    public static <T> Result<T> fail(String message) {{
+        Result<T> result = new Result<>();
+        result.setCode(500);
+        result.setMessage(message);
+        return result;
+    }}
+}}
+""")
+    write(BASE / "common/BusinessException.java", f"""package com.{PACKAGE}.common;
+
+public class BusinessException extends RuntimeException {{
+    public BusinessException(String message) {{
+        super(message);
+    }}
+}}
+""")
+    write(BASE / "common/GlobalExceptionHandler.java", f"""package com.{PACKAGE}.common;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+@RestControllerAdvice
+@Slf4j
+public class GlobalExceptionHandler {{
+    @ExceptionHandler(BusinessException.class)
+    public Result<Void> handleBusiness(BusinessException e) {{
+        return Result.fail(e.getLocalizedMessage());
+    }}
+
+    @ExceptionHandler(Exception.class)
+    public Result<Void> handle(Exception e) {{
+        log.error("Unhandled system exception", e);
+        return Result.fail("系统异常，请稍后重试");
+    }}
+}}
+""")
+
+
+def java_config():
+    write(BASE / "TrainingRefundApplication.java", f"""package com.{PACKAGE};
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class TrainingRefundApplication {{
+    public static void main(String[] args) {{
+        SpringApplication.run(TrainingRefundApplication.class, args);
+    }}
+}}
+""")
+    write(BASE / "dto/LoginRequest.java", f"""package com.{PACKAGE}.dto;
+
+import lombok.Data;
+
+@Data
+public class LoginRequest {{
+    private String username;
+    private String password;
+}}
+""")
+    write(BASE / "entity/SysUser.java", f"""package com.{PACKAGE}.entity;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+@Data
+public class SysUser {{
+    private Long id;
+    private String username;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
+    private String nickname;
+    private String role;
+    private String department;
+    private String phone;
+    private String email;
+    private Integer status;
+    private LocalDateTime createdTime;
+    private LocalDateTime updatedTime;
+}}
+""")
+    write(BASE / "utils/JwtUtils.java", f"""package com.{PACKAGE}.utils;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
+import java.util.Date;
+
+public class JwtUtils {{
+    private static final String SECRET = "training-consumption-refund-158-secret";
+    private static final long EXPIRE = 24 * 60 * 60 * 1000L;
+
+    public static String generateToken(Long userId, String username, String role) {{
+        return Jwts.builder().setSubject(String.valueOf(userId)).claim("username", username).claim("role", role).setExpiration(new Date(System.currentTimeMillis() + EXPIRE)).signWith(SignatureAlgorithm.HS512, SECRET).compact();
+    }}
+
+    public static Claims parse(String token) {{
+        return Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
+    }}
+}}
+""")
+    write(BASE / "service/TokenService.java", f"""package com.{PACKAGE}.service;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Service;
+
+import java.util.concurrent.TimeUnit;
+
+@Service
+@RequiredArgsConstructor
+public class TokenService {{
+    private final StringRedisTemplate redisTemplate;
+
+    public void save(String token, String userId) {{
+        redisTemplate.opsForValue().set("trainingrefund:token:" + token, userId, 24, TimeUnit.HOURS);
+    }}
+
+    public boolean exists(String token) {{
+        return Boolean.TRUE.equals(redisTemplate.hasKey("trainingrefund:token:" + token));
+    }}
+
+    public void remove(String token) {{
+        redisTemplate.delete("trainingrefund:token:" + token);
+    }}
+}}
+""")
+    write(BASE / "config/JwtInterceptor.java", f"""package com.{PACKAGE}.config;
+
+import com.{PACKAGE}.common.BusinessException;
+import com.{PACKAGE}.service.TokenService;
+import com.{PACKAGE}.utils.JwtUtils;
+import io.jsonwebtoken.Claims;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@Component
+@RequiredArgsConstructor
+public class JwtInterceptor implements HandlerInterceptor {{
+    private final TokenService tokenService;
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {{
+        String token = request.getHeader("Authorization");
+        if (token != null && token.startsWith("Bearer ")) token = token.substring(7);
+        if (token == null || !tokenService.exists(token)) throw new BusinessException("登录已失效");
+        Claims claims = JwtUtils.parse(token);
+        request.setAttribute("userId", Long.valueOf(claims.getSubject()));
+        request.setAttribute("username", claims.get("username", String.class));
+        request.setAttribute("role", claims.get("role", String.class));
+        return true;
+    }}
+}}
+""")
+    write(BASE / "config/WebMvcConfig.java", f"""package com.{PACKAGE}.config;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+@RequiredArgsConstructor
+public class WebMvcConfig implements WebMvcConfigurer {{
+    private final JwtInterceptor jwtInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {{
+        registry.addInterceptor(jwtInterceptor).addPathPatterns("/api/**").excludePathPatterns("/api/auth/login");
+    }}
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {{
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:3158", "http://127.0.0.1:3158", "http://localhost:4173", "http://127.0.0.1:4173")
+                .allowedMethods("*")
+                .allowedHeaders("*")
+                .allowCredentials(true);
+    }}
+}}
+""")
+    write(BASE / "config/RedisConfig.java", f"""package com.{PACKAGE}.config;
+
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class RedisConfig {{
+}}
+""")
+
+
+def sys_user_layers():
+    write(BASE / "mapper/SysUserMapper.java", f"""package com.{PACKAGE}.mapper;
+
+import com.{PACKAGE}.entity.SysUser;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+
+import java.util.List;
+
+@Mapper
+public interface SysUserMapper {{
+    @Select("SELECT * FROM sys_user WHERE username = #{{username}}")
+    SysUser selectByUsername(String username);
+
+    @Select("SELECT * FROM sys_user WHERE id = #{{id}}")
+    SysUser selectById(Long id);
+
+    @Select({{"<script>", "SELECT * FROM sys_user", "<where>", "<if test='keyword != null and keyword != \\"\\"'> AND (username LIKE CONCAT('%',#{{keyword}},'%') OR nickname LIKE CONCAT('%',#{{keyword}},'%') OR role LIKE CONCAT('%',#{{keyword}},'%') OR department LIKE CONCAT('%',#{{keyword}},'%'))</if>", "<if test='status != null'> AND status = #{{status}}</if>", "</where>", "ORDER BY id DESC", "</script>"}})
+    List<SysUser> selectPage(@Param("keyword") String keyword, @Param("status") Integer status);
+
+    @Insert("INSERT INTO sys_user (username,password,nickname,role,department,phone,email,status,created_time,updated_time) VALUES (#{{username}},#{{password}},#{{nickname}},#{{role}},#{{department}},#{{phone}},#{{email}},#{{status}},NOW(),NOW())")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    int insert(SysUser entity);
+
+    @Update("UPDATE sys_user SET nickname=#{{nickname}},role=#{{role}},department=#{{department}},phone=#{{phone}},email=#{{email}},status=#{{status}},updated_time=NOW() WHERE id=#{{id}}")
+    int update(SysUser entity);
+
+    @Delete("DELETE FROM sys_user WHERE id=#{{id}}")
+    int deleteById(Long id);
+
+    @Update("UPDATE sys_user SET status=#{{status}},updated_time=NOW() WHERE id=#{{id}}")
+    int updateStatus(@Param("id") Long id, @Param("status") Integer status);
+}}
+""")
+    write(BASE / "service/AuthService.java", f"""package com.{PACKAGE}.service;
+
+import com.{PACKAGE}.common.BusinessException;
+import com.{PACKAGE}.dto.LoginRequest;
+import com.{PACKAGE}.entity.SysUser;
+import com.{PACKAGE}.mapper.SysUserMapper;
+import com.{PACKAGE}.utils.JwtUtils;
+import io.jsonwebtoken.Claims;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Service
+@RequiredArgsConstructor
+public class AuthService {{
+    private final SysUserMapper userMapper;
+    private final TokenService tokenService;
+
+    public Map<String, Object> login(LoginRequest request) {{
+        SysUser user = userMapper.selectByUsername(request.getUsername());
+        if (user == null || !user.getPassword().equals(request.getPassword())) throw new BusinessException("账号或密码错误");
+        if (user.getStatus() == null || user.getStatus() != 1) throw new BusinessException("账号已停用");
+        String token = JwtUtils.generateToken(user.getId(), user.getUsername(), user.getRole());
+        tokenService.save(token, String.valueOf(user.getId()));
+        Map<String, Object> data = new HashMap<>();
+        data.put("token", token);
+        data.put("user", user);
+        return data;
+    }}
+
+    public SysUser info(String token) {{
+        Claims claims = JwtUtils.parse(clean(token));
+        return userMapper.selectById(Long.valueOf(claims.getSubject()));
+    }}
+
+    public void logout(String token) {{
+        if (token != null) tokenService.remove(clean(token));
+    }}
+
+    public void assertAdmin(String role) {{
+        assertAnyRole(role, "ADMIN");
+    }}
+
+    public void assertAuthenticated(String role) {{
+        if (!StringUtils.hasText(role)) throw new BusinessException("无权限访问");
+    }}
+
+    public void assertAnyRole(String role, String... roles) {{
+        assertAuthenticated(role);
+        for (String item : roles) if (item.equals(role)) return;
+        throw new BusinessException("无权限访问");
+    }}
+
+    private String clean(String token) {{
+        if (token != null && token.startsWith("Bearer ")) return token.substring(7);
+        return token;
+    }}
+}}
+""")
+    write(BASE / "service/SysUserService.java", f"""package com.{PACKAGE}.service;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.{PACKAGE}.entity.SysUser;
+import com.{PACKAGE}.mapper.SysUserMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class SysUserService {{
+    private final SysUserMapper mapper;
+
+    public PageInfo<SysUser> page(Integer pageNum, Integer pageSize, String keyword, Integer status) {{
+        PageHelper.startPage(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
+        return new PageInfo<>(mapper.selectPage(keyword, status));
+    }}
+
+    public void save(SysUser entity) {{
+        if (entity.getStatus() == null) entity.setStatus(1);
+        if (entity.getId() == null) {{
+            if (entity.getPassword() == null || entity.getPassword().isEmpty()) entity.setPassword("123456");
+            mapper.insert(entity);
+        }} else {{
+            mapper.update(entity);
+        }}
+    }}
+
+    public void delete(Long id) {{
+        mapper.deleteById(id);
+    }}
+
+    public void updateStatus(Long id, Integer status) {{
+        mapper.updateStatus(id, status);
+    }}
+}}
+""")
+    write(BASE / "controller/AuthController.java", f"""package com.{PACKAGE}.controller;
+
+import com.{PACKAGE}.common.Result;
+import com.{PACKAGE}.dto.LoginRequest;
+import com.{PACKAGE}.entity.SysUser;
+import com.{PACKAGE}.service.AuthService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/auth")
+@RequiredArgsConstructor
+public class AuthController {{
+    private final AuthService authService;
+
+    @PostMapping("/login")
+    public Result<Map<String, Object>> login(@RequestBody LoginRequest request) {{
+        return Result.success(authService.login(request));
+    }}
+
+    @GetMapping("/info")
+    public Result<SysUser> info(@RequestHeader("Authorization") String token) {{
+        return Result.success(authService.info(token));
+    }}
+
+    @PostMapping("/logout")
+    public Result<Void> logout(@RequestHeader(value = "Authorization", required = false) String token) {{
+        authService.logout(token);
+        return Result.success();
+    }}
+}}
+""")
+    write(BASE / "controller/SysUserController.java", f"""package com.{PACKAGE}.controller;
+
+import com.github.pagehelper.PageInfo;
+import com.{PACKAGE}.common.Result;
+import com.{PACKAGE}.entity.SysUser;
+import com.{PACKAGE}.service.AuthService;
+import com.{PACKAGE}.service.SysUserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/user")
+@RequiredArgsConstructor
+public class SysUserController {{
+    private final AuthService authService;
+    private final SysUserService service;
+
+    @GetMapping("/page")
+    public Result<PageInfo<SysUser>> page(@RequestAttribute("role") String role, @RequestParam(required = false) Integer pageNum, @RequestParam(required = false) Integer pageSize, @RequestParam(required = false) String keyword, @RequestParam(required = false) Integer status) {{
+        authService.assertAdmin(role);
+        return Result.success(service.page(pageNum, pageSize, keyword, status));
+    }}
+
+    @PostMapping
+    public Result<Void> add(@RequestAttribute("role") String role, @RequestBody SysUser entity) {{
+        authService.assertAdmin(role);
+        service.save(entity);
+        return Result.success();
+    }}
+
+    @PutMapping
+    public Result<Void> update(@RequestAttribute("role") String role, @RequestBody SysUser entity) {{
+        authService.assertAdmin(role);
+        service.save(entity);
+        return Result.success();
+    }}
+
+    @DeleteMapping("/{{id}}")
+    public Result<Void> delete(@RequestAttribute("role") String role, @PathVariable Long id) {{
+        authService.assertAdmin(role);
+        service.delete(id);
+        return Result.success();
+    }}
+
+    @PutMapping("/enable/{{id}}")
+    public Result<Void> enable(@RequestAttribute("role") String role, @PathVariable Long id) {{
+        authService.assertAdmin(role);
+        service.updateStatus(id, 1);
+        return Result.success();
+    }}
+
+    @PutMapping("/disable/{{id}}")
+    public Result<Void> disable(@RequestAttribute("role") String role, @PathVariable Long id) {{
+        authService.assertAdmin(role);
+        service.updateStatus(id, 0);
+        return Result.success();
+    }}
+}}
+""")
+
+
+def module_layers():
+    for cls, table, api, view, title, desc, roles, labels in MODULES:
+        lower = cls[0].lower() + cls[1:]
+        allowed = roles_java(roles)
+        write(BASE / f"entity/{cls}.java", f"""package com.{PACKAGE}.entity;
+
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+@Data
+public class {cls} {{
+    private Long id;
+    private String recordNo;
+    private String recordName;
+    private String category;
+    private String ownerName;
+    private String planTime;
+    private String status;
+    private String remark;
+    private LocalDateTime createdTime;
+    private LocalDateTime updatedTime;
+}}
+""")
+        write(BASE / f"mapper/{cls}Mapper.java", f"""package com.{PACKAGE}.mapper;
+
+import com.{PACKAGE}.entity.{cls};
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+
+import java.util.List;
+
+@Mapper
+public interface {cls}Mapper {{
+    @Select({{"<script>", "SELECT * FROM {table}", "<where>", "<if test='keyword != null and keyword != \\"\\"'> AND (record_no LIKE CONCAT('%',#{{keyword}},'%') OR record_name LIKE CONCAT('%',#{{keyword}},'%') OR category LIKE CONCAT('%',#{{keyword}},'%') OR owner_name LIKE CONCAT('%',#{{keyword}},'%'))</if>", "<if test='status != null and status != \\"\\"'> AND status = #{{status}}</if>", "</where>", "ORDER BY id DESC", "</script>"}})
+    List<{cls}> selectPage(@Param("keyword") String keyword, @Param("status") String status);
+
+    @Insert("INSERT INTO {table} (record_no,record_name,category,owner_name,plan_time,status,remark,created_time,updated_time) VALUES (#{{recordNo}},#{{recordName}},#{{category}},#{{ownerName}},#{{planTime}},#{{status}},#{{remark}},NOW(),NOW())")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    int insert({cls} entity);
+
+    @Update("UPDATE {table} SET record_no=#{{recordNo}},record_name=#{{recordName}},category=#{{category}},owner_name=#{{ownerName}},plan_time=#{{planTime}},status=#{{status}},remark=#{{remark}},updated_time=NOW() WHERE id=#{{id}}")
+    int update({cls} entity);
+
+    @Delete("DELETE FROM {table} WHERE id=#{{id}}")
+    int deleteById(Long id);
+
+    @Select("SELECT COUNT(*) FROM {table}")
+    long countAll();
+
+    @Update("UPDATE {table} SET status=#{{status}},updated_time=NOW() WHERE id=#{{id}}")
+    int updateStatus(@Param("id") Long id, @Param("status") String status);
+}}
+""")
+        write(BASE / f"service/{cls}Service.java", f"""package com.{PACKAGE}.service;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.{PACKAGE}.entity.{cls};
+import com.{PACKAGE}.mapper.{cls}Mapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class {cls}Service {{
+    private final {cls}Mapper mapper;
+
+    public PageInfo<{cls}> page(Integer pageNum, Integer pageSize, String keyword, String status) {{
+        PageHelper.startPage(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
+        return new PageInfo<>(mapper.selectPage(keyword, status));
+    }}
+
+    public void save({cls} entity) {{
+        if (entity.getId() == null) mapper.insert(entity);
+        else mapper.update(entity);
+    }}
+
+    public void delete(Long id) {{
+        mapper.deleteById(id);
+    }}
+
+    public void updateStatus(Long id, String status) {{
+        mapper.updateStatus(id, status);
+    }}
+}}
+""")
+        write(BASE / f"controller/{cls}Controller.java", f"""package com.{PACKAGE}.controller;
+
+import com.github.pagehelper.PageInfo;
+import com.{PACKAGE}.common.Result;
+import com.{PACKAGE}.entity.{cls};
+import com.{PACKAGE}.service.AuthService;
+import com.{PACKAGE}.service.{cls}Service;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/{api}")
+@RequiredArgsConstructor
+public class {cls}Controller {{
+    private final AuthService authService;
+    private final {cls}Service service;
+
+    @GetMapping("/page")
+    public Result<PageInfo<{cls}>> page(@RequestAttribute("role") String role, @RequestParam(required = false) Integer pageNum, @RequestParam(required = false) Integer pageSize, @RequestParam(required = false) String keyword, @RequestParam(required = false) String status) {{
+        authService.assertAuthenticated(role);
+        return Result.success(service.page(pageNum, pageSize, keyword, status));
+    }}
+
+    @PostMapping
+    public Result<Void> add(@RequestAttribute("role") String role, @RequestBody {cls} entity) {{
+        authService.assertAnyRole(role, {allowed});
+        service.save(entity);
+        return Result.success();
+    }}
+
+    @PutMapping
+    public Result<Void> update(@RequestAttribute("role") String role, @RequestBody {cls} entity) {{
+        authService.assertAnyRole(role, {allowed});
+        service.save(entity);
+        return Result.success();
+    }}
+
+    @DeleteMapping("/{{id}}")
+    public Result<Void> delete(@RequestAttribute("role") String role, @PathVariable Long id) {{
+        authService.assertAdmin(role);
+        service.delete(id);
+        return Result.success();
+    }}
+
+    @PutMapping("/process/{{id}}")
+    public Result<Void> process(@RequestAttribute("role") String role, @PathVariable Long id) {{
+        authService.assertAnyRole(role, {allowed});
+        service.updateStatus(id, "PROCESSING");
+        return Result.success();
+    }}
+
+    @PutMapping("/finish/{{id}}")
+    public Result<Void> finish(@RequestAttribute("role") String role, @PathVariable Long id) {{
+        authService.assertAnyRole(role, {allowed});
+        service.updateStatus(id, "FINISHED");
+        return Result.success();
+    }}
+}}
+""")
+
+
+def statistics_layers():
+    imports = "\n".join(f"import com.{PACKAGE}.mapper.{cls}Mapper;" for cls, *_ in MODULES[:4])
+    fields = "\n".join(f"    private final {cls}Mapper {cls[0].lower() + cls[1:]}Mapper;" for cls, *_ in MODULES[:4])
+    puts = "\n".join(f'        data.put("{api}Count", {cls[0].lower() + cls[1:]}Mapper.countAll());' for cls, _, api, *_ in MODULES[:4])
+    write(BASE / "service/StatisticsService.java", f"""package com.{PACKAGE}.service;
+
+{imports}
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+@Service
+@RequiredArgsConstructor
+public class StatisticsService {{
+{fields}
+
+    public Map<String, Object> dashboard() {{
+        Map<String, Object> data = new HashMap<>();
+{puts}
+        data.put("trend", Arrays.asList(120, 146, 163, 188, 201, 234, 260));
+        data.put("pie", Arrays.asList(map("待上课", 32), map("已消课", 58), map("退费审批中", 25), map("财务已结清", 8)));
+        return data;
+    }}
+
+    private Map<String, Object> map(String name, Integer value) {{
+        Map<String, Object> item = new HashMap<>();
+        item.put("name", name);
+        item.put("value", value);
+        return item;
+    }}
+}}
+""")
+    write(BASE / "controller/StatisticsController.java", f"""package com.{PACKAGE}.controller;
+
+import com.{PACKAGE}.common.Result;
+import com.{PACKAGE}.service.StatisticsService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/statistics")
+@RequiredArgsConstructor
+public class StatisticsController {{
+    private final StatisticsService service;
+
+    @GetMapping("/dashboard")
+    public Result<Map<String, Object>> dashboard() {{
+        return Result.success(service.dashboard());
+    }}
+}}
+""")
+
+
+def backend_files():
+    write(BACKEND / "pom.xml", """<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-parent</artifactId><version>2.7.18</version></parent>
+    <groupId>com.trainingrefund</groupId>
+    <artifactId>training-consumption-refund-158</artifactId>
+    <version>1.0.0</version>
+    <properties><java.version>17</java.version></properties>
+    <dependencies>
+        <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-web</artifactId></dependency>
+        <dependency><groupId>org.mybatis.spring.boot</groupId><artifactId>mybatis-spring-boot-starter</artifactId><version>2.3.1</version></dependency>
+        <dependency><groupId>com.github.pagehelper</groupId><artifactId>pagehelper-spring-boot-starter</artifactId><version>1.4.7</version></dependency>
+        <dependency><groupId>com.mysql</groupId><artifactId>mysql-connector-j</artifactId><version>8.0.33</version></dependency>
+        <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-data-redis</artifactId></dependency>
+        <dependency><groupId>io.jsonwebtoken</groupId><artifactId>jjwt</artifactId><version>0.9.1</version></dependency>
+        <dependency><groupId>javax.xml.bind</groupId><artifactId>jaxb-api</artifactId><version>2.3.1</version></dependency>
+        <dependency><groupId>org.glassfish.jaxb</groupId><artifactId>jaxb-runtime</artifactId><version>2.3.8</version></dependency>
+        <dependency><groupId>org.projectlombok</groupId><artifactId>lombok</artifactId><optional>true</optional></dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin><groupId>org.springframework.boot</groupId><artifactId>spring-boot-maven-plugin</artifactId></plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path><groupId>org.projectlombok</groupId><artifactId>lombok</artifactId><version>1.18.30</version></path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+""")
+    write(BACKEND / "src/main/resources/application.yml", """server:
+  port: 8158
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/training_refund_158?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 1234
+  redis:
+    host: localhost
+    port: 6379
+    database: 61
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+""")
+    java_common()
+    java_config()
+    sys_user_layers()
+    module_layers()
+    statistics_layers()
+    sql_lines = ["DROP DATABASE IF EXISTS training_refund_158;", "CREATE DATABASE training_refund_158 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;", "USE training_refund_158;", "", """CREATE TABLE sys_user (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  username VARCHAR(60) NOT NULL UNIQUE,
+  password VARCHAR(100) NOT NULL,
+  nickname VARCHAR(80),
+  role VARCHAR(40),
+  department VARCHAR(100),
+  phone VARCHAR(30),
+  email VARCHAR(100),
+  status INT DEFAULT 1,
+  created_time DATETIME,
+  updated_time DATETIME
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;"""]
+    user_values = []
+    for pos, (role, nickname, username, _) in enumerate(ROLES, 1):
+        user_values.append(f"('{username}', '123456', '{nickname}', '{role}', '教培运营中心', '139158{pos:05d}', '{username}@edu158.local', 1, NOW(), NOW())")
+    sql_lines.append("INSERT INTO sys_user (username, password, nickname, role, department, phone, email, status, created_time, updated_time) VALUES\n" + ",\n".join(user_values) + ";")
+    statuses = ["ACTIVE", "BOOKED", "SCHEDULED", "VERIFIED", "PROCESSING", "FINISHED", "WARNING", "PUBLISHED"]
+    for pos, (cls, table, api, view, title, desc, roles, labels) in enumerate(MODULES, 1):
+        sql_lines.append("")
+        sql_lines.append(f"""CREATE TABLE {table} (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  record_no VARCHAR(120),
+  record_name VARCHAR(120),
+  category VARCHAR(120),
+  owner_name VARCHAR(120),
+  plan_time VARCHAR(120),
+  status VARCHAR(40),
+  remark VARCHAR(255),
+  created_time DATETIME,
+  updated_time DATETIME
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;""")
+        sql_lines.append(f"""INSERT INTO {table} (record_no, record_name, category, owner_name, plan_time, status, remark, created_time, updated_time) VALUES
+('158-{pos:02d}-001', '{title}示例一', '{labels[2]}', '{labels[3]}A', '2026-05-16 09:00', '{statuses[pos % len(statuses)]}', '{desc}', NOW(), NOW()),
+('158-{pos:02d}-002', '{title}示例二', '{labels[2]}', '{labels[3]}B', '2026-05-17 14:00', '{statuses[(pos + 2) % len(statuses)]}', '{title}演示数据二', NOW(), NOW());""")
+    write(BACKEND / "sql/init.sql", "\n".join(sql_lines) + "\n")
+
+
+def frontend_files():
+    write(FRONTEND / "package.json", """{"scripts":{"dev":"vite","build":"vite build","preview":"vite preview"},"dependencies":{"@vitejs/plugin-vue":"5.0.4","vite":"5.0.0","vue":"3.4.0","vue-router":"4.2.5","pinia":"2.1.7","axios":"1.6.2","element-plus":"2.4.4","echarts":"5.4.3"},"devDependencies":{}}
+""")
+    write(FRONTEND / "index.html", '<div id="app"></div><script type="module" src="/src/main.js"></script>\n')
+    write(FRONTEND / "vite.config.js", """import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+export default defineConfig({
+  root: process.cwd(),
+  plugins: [vue()],
+  server: { port: 3158, proxy: { '/api': { target: 'http://localhost:8158', changeOrigin: true } } }
+})
+""")
+    write(FRONTEND / "src/main.js", """import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+import './style.css'
+import App from './App.vue'
+import router from './router'
+createApp(App).use(createPinia()).use(router).use(ElementPlus).mount('#app')
+""")
+    write(FRONTEND / "src/App.vue", "<template><router-view /></template>\n")
+    write(FRONTEND / "src/style.css", """body{margin:0;background:#f6f7fb;font-family:Arial,"Microsoft YaHei",sans-serif}.page{padding:18px}.layout{height:100vh}.el-aside{background:#203040;color:#fff}.logo{height:60px;display:flex;align-items:center;padding:0 18px;font-weight:700;letter-spacing:0}.el-menu{border-right:0}.el-header{background:#fff;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e5e7eb}.el-header span{margin-left:12px;color:#6b7280}.user-box{display:flex;gap:10px;align-items:center}.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.toolbar h3{margin:0}.toolbar p{margin:6px 0 0;color:#6b7280}.search-bar{display:flex;gap:10px;margin-bottom:14px}.dashboard-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.metric{background:#fff;padding:20px;border-radius:8px;border:1px solid #e5e7eb}.metric strong{display:block;font-size:28px;margin-top:10px;color:#0f766e}.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}.chart{height:360px;background:#fff;border-radius:8px;border:1px solid #e5e7eb}@media(max-width:900px){.dashboard-grid,.chart-grid{grid-template-columns:1fr}.el-aside{width:210px!important}}
+""")
+    write(FRONTEND / "src/api/request.js", """import axios from 'axios'
+import { ElMessage } from 'element-plus'
+const request = axios.create({ baseURL: '', timeout: 10000 })
+request.interceptors.request.use(config => {
+  const token = localStorage.getItem('token')
+  if (token) config.headers.Authorization = `Bearer ${token}`
+  return config
+})
+request.interceptors.response.use(response => {
+  const res = response.data
+  if (res.code !== 200) {
+    ElMessage.error(res.message || '请求失败')
+    return Promise.reject(res)
+  }
+  return res
+}, error => {
+  ElMessage.error(error.message || '网络错误')
+  return Promise.reject(error)
+})
+export default request
+""")
+    api_lines = ["import request from './request'", "", "export const login = (data) => request.post('/api/auth/login', data)", "export const logout = () => request.post('/api/auth/logout')", "export const getDashboard = () => request.get('/api/statistics/dashboard')", "", "export const getSysUserPage = (params) => request.get('/api/user/page', { params })", "export const addSysUser = (data) => request.post('/api/user', data)", "export const updateSysUser = (data) => request.put('/api/user', data)", "export const deleteSysUser = (id) => request.delete(`/api/user/${id}`)", "export const enableSysUser = (id) => request.put(`/api/user/enable/${id}`)", "export const disableSysUser = (id) => request.put(`/api/user/disable/${id}`)"]
+    for cls, table, api, *_ in MODULES:
+        api_lines += ["", f"export const get{cls}Page = (params) => request.get('/api/{api}/page', {{ params }})", f"export const add{cls} = (data) => request.post('/api/{api}', data)", f"export const update{cls} = (data) => request.put('/api/{api}', data)", f"export const delete{cls} = (id) => request.delete(`/api/{api}/${{id}}`)", f"export const process{cls} = (id) => request.put(`/api/{api}/process/${{id}}`)", f"export const finish{cls} = (id) => request.put(`/api/{api}/finish/${{id}}`)"]
+    write(FRONTEND / "src/api/index.js", "\n".join(api_lines) + "\n")
+    write(FRONTEND / "src/store/user.js", """import { defineStore } from 'pinia'
+export const useUserStore = defineStore('user', {
+  state: () => ({ token: localStorage.getItem('token') || '', user: JSON.parse(localStorage.getItem('user') || 'null') }),
+  actions: {
+    setLogin(data) {
+      this.token = data.token
+      this.user = data.user
+      localStorage.setItem('token', data.token)
+      localStorage.setItem('user', JSON.stringify(data.user))
+    },
+    clear() {
+      this.token = ''
+      this.user = null
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+    }
+  }
+})
+""")
+    route_lines = ["      { path: 'dashboard', component: () => import('../views/Dashboard.vue'), meta: { roles: ['ADMIN', 'PRINCIPAL', 'ACADEMIC', 'TEACHER', 'FINANCE', 'PARENT'] } },", "      { path: 'user', component: () => import('../views/SysUser.vue'), meta: { roles: ['ADMIN'] } },"]
+    for cls, table, api, view, title, desc, roles, labels in MODULES:
+        role_list = ", ".join(f"'{role}'" for role in roles)
+        route_lines.append(f"      {{ path: '{api}', component: () => import('../views/{view}.vue'), meta: {{ roles: [{role_list}] }} }},")
+    route_lines[-1] = route_lines[-1].rstrip(",")
+    home_map = ",\n  ".join(f"{role}: '{home}'" for role, _, _, home in ROLES)
+    write(FRONTEND / "src/router/index.js", f"""import {{ createRouter, createWebHistory }} from 'vue-router'
+import {{ useUserStore }} from '../store/user'
+
+const ROLE_HOME = {{
+  {home_map}
+}}
+
+const routes = [
+  {{ path: '/login', component: () => import('../views/Login.vue') }},
+  {{
+    path: '/',
+    component: () => import('../views/Layout.vue'),
+    redirect: '/dashboard',
+    children: [
+{chr(10).join(route_lines)}
+    ]
+  }}
+]
+
+const router = createRouter({{ history: createWebHistory(), routes }})
+router.beforeEach((to, from, next) => {{
+  const userStore = useUserStore()
+  const role = userStore.user?.role
+  const home = ROLE_HOME[role] || '/login'
+  if (to.path !== '/login' && !userStore.token) return next('/login')
+  if (to.path === '/login' && userStore.token) return next(home)
+  if (to.meta?.roles && !to.meta.roles.includes(role)) return next(home)
+  next()
+}})
+export default router
+""")
+    write(FRONTEND / "src/components/DataPage.vue", """<template>
+  <div class="page">
+    <el-card>
+      <div class="toolbar"><div><h3>{{ title }}</h3><p>{{ description }}</p></div><el-button v-if="canManage" type="primary" @click="openDialog()">新增</el-button></div>
+      <div class="search-bar"><el-input v-model="query.keyword" placeholder="关键词" clearable style="width:220px" /><el-select v-model="query.status" placeholder="状态" clearable style="width:160px"><el-option v-for="item in normalizedStatusOptions" :key="item.value" :label="item.label" :value="item.value" /></el-select><el-button type="primary" @click="loadData">查询</el-button><el-button @click="reset">重置</el-button></div>
+      <el-table :data="tableData" v-loading="loading" border>
+        <el-table-column v-for="col in columns" :key="col.prop" :prop="col.prop" :label="col.label" :min-width="col.width || 120" show-overflow-tooltip />
+        <el-table-column label="操作" fixed="right" width="260"><template #default="{ row }"><el-button v-if="canManage" link type="primary" @click="openDialog(row)">编辑</el-button><el-button v-if="canManage" link type="warning" @click="handleProcess(row.id)">处理</el-button><el-button v-if="canManage" link type="success" @click="handleFinish(row.id)">完成</el-button><el-popconfirm v-if="canDelete" title="确认删除该记录？" @confirm="handleDelete(row.id)"><template #reference><el-button link type="danger">删除</el-button></template></el-popconfirm></template></el-table-column>
+      </el-table>
+      <el-pagination v-model:current-page="query.pageNum" v-model:page-size="query.pageSize" :total="total" layout="total, prev, pager, next, sizes" style="margin-top:14px" @current-change="loadData" @size-change="loadData" />
+    </el-card>
+    <el-dialog v-model="dialogVisible" :title="form.id ? '编辑记录' : '新增记录'" width="680px">
+      <el-form :model="form" label-width="112px"><el-form-item v-for="field in formFields" :key="field.prop" :label="field.label"><el-select v-if="field.type === 'select'" v-model="form[field.prop]" clearable style="width:100%"><el-option v-for="item in field.options || normalizedStatusOptions" :key="item.value" :label="item.label" :value="item.value" /></el-select><el-input v-else-if="field.type === 'textarea'" v-model="form[field.prop]" type="textarea" :rows="3" /><el-input v-else v-model="form[field.prop]" /></el-form-item></el-form>
+      <template #footer><el-button @click="dialogVisible=false">取消</el-button><el-button type="primary" @click="submit">保存</el-button></template>
+    </el-dialog>
+  </div>
+</template>
+<script setup>
+import { computed, onMounted, reactive, ref } from 'vue'
+import { ElMessage } from 'element-plus'
+import { useUserStore } from '../store/user'
+const props = defineProps({ title: String, description: String, api: Object, columns: Array, formFields: Array, manageRoles: Array, deleteRoles: Array, statusOptions: Array, defaultStatus: { type: [String, Number], default: 'ACTIVE' } })
+const userStore = useUserStore()
+const normalizedStatusOptions = computed(() => props.statusOptions || [{ label: '启用', value: 'ACTIVE' }, { label: '已排课', value: 'BOOKED' }, { label: '已消课', value: 'SCHEDULED' }, { label: '已退费', value: 'VERIFIED' }, { label: '处理中', value: 'PROCESSING' }, { label: '已完成', value: 'FINISHED' }, { label: '预警中', value: 'WARNING' }, { label: '已发布', value: 'PUBLISHED' }])
+const canManage = computed(() => (props.manageRoles || []).includes(userStore.user?.role))
+const canDelete = computed(() => (props.deleteRoles || ['ADMIN']).includes(userStore.user?.role))
+const loading = ref(false)
+const tableData = ref([])
+const total = ref(0)
+const dialogVisible = ref(false)
+const query = reactive({ pageNum: 1, pageSize: 10, keyword: '', status: '' })
+const form = reactive({})
+const loadData = async () => { loading.value = true; try { const res = await props.api.page(query); tableData.value = res.data.records || res.data.list || []; total.value = res.data.total || 0 } finally { loading.value = false } }
+const reset = () => { query.pageNum = 1; query.keyword = ''; query.status = ''; loadData() }
+const openDialog = row => { Object.keys(form).forEach(key => delete form[key]); Object.assign(form, { status: props.defaultStatus }, row || {}); dialogVisible.value = true }
+const submit = async () => { if (form.id) await props.api.update(form); else await props.api.add(form); ElMessage.success('操作成功'); dialogVisible.value = false; loadData() }
+const handleDelete = async id => { await props.api.delete(id); ElMessage.success('删除成功'); loadData() }
+const handleProcess = async id => { await props.api.process(id); ElMessage.success('操作成功'); loadData() }
+const handleFinish = async id => { await props.api.finish(id); ElMessage.success('操作成功'); loadData() }
+onMounted(loadData)
+</script>
+""")
+    write(FRONTEND / "src/views/Login.vue", """<template><div class="login"><el-card><h2>校外培训机构课消统计与退费审批系统</h2><el-form :model="form"><el-form-item><el-input v-model="form.username" placeholder="账号" /></el-form-item><el-form-item><el-input v-model="form.password" placeholder="密码" type="password" /></el-form-item><el-button type="primary" style="width:100%" @click="handleLogin">登录</el-button></el-form><div class="accounts"><span>admin</span><span>principal</span><span>academic</span><span>teacher</span><span>finance</span><span>parent</span></div></el-card></div></template>
+<script setup>
+import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import { login } from '../api'
+import { useUserStore } from '../store/user'
+const router = useRouter()
+const userStore = useUserStore()
+const form = reactive({ username: 'admin', password: '123456' })
+const home = { ADMIN: '/dashboard', PRINCIPAL: '/dashboard', ACADEMIC: '/schedule', TEACHER: '/attendance', FINANCE: '/refund', PARENT: '/consumption' }
+const handleLogin = async () => { const res = await login(form); userStore.setLogin(res.data); router.push(home[res.data.user.role] || '/dashboard') }
+</script>
+<style scoped>.login{height:100vh;display:flex;align-items:center;justify-content:center;background:#edf4f2}.el-card{width:430px}h2{font-size:20px;margin:0 0 22px;text-align:center}.accounts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;color:#64748b;font-size:13px}.accounts span{background:#f1f5f9;border-radius:6px;padding:4px 8px}</style>
+""")
+    menu_lines = ["  { index: '/dashboard', label: '数据看板', roles: ['ADMIN', 'PRINCIPAL', 'ACADEMIC', 'TEACHER', 'FINANCE', 'PARENT'] },", "  { index: '/user', label: '账号权限', roles: ['ADMIN'] },"]
+    for cls, table, api, view, title, desc, roles, labels in MODULES:
+        role_list = ", ".join(f"'{r}'" for r in roles)
+        menu_lines.append(f"  {{ index: '/{api}', label: '{title}', roles: [{role_list}] }},")
+    menu_lines[-1] = menu_lines[-1].rstrip(",")
+    write(FRONTEND / "src/views/Layout.vue", f"""<template>
+  <el-container class="layout">
+    <el-aside width="236px"><div class="logo">教培课消 158</div><el-menu router :default-active="$route.path"><el-menu-item v-for="item in menusForRole" :key="item.index" :index="item.index">{{{{ item.label }}}}</el-menu-item></el-menu></el-aside>
+    <el-container><el-header><div><strong>校外培训机构课消统计与退费审批系统</strong><span>排课签到、课消统计、退费审批、财务流水一体化管理</span></div><div class="user-box"><el-tag>{{{{ userStore.user?.role }}}}</el-tag><span>{{{{ userStore.user?.nickname }}}}</span><el-button link type="danger" @click="handleLogout">退出</el-button></div></el-header><el-main><router-view /></el-main></el-container>
+  </el-container>
+</template>
+<script setup>
+import {{ computed }} from 'vue'
+import {{ useRouter }} from 'vue-router'
+import {{ logout }} from '../api'
+import {{ useUserStore }} from '../store/user'
+const router = useRouter()
+const userStore = useUserStore()
+const menus = [
+{chr(10).join(menu_lines)}
+]
+const menusForRole = computed(() => menus.filter(item => item.roles.includes(userStore.user?.role)))
+const handleLogout = async () => {{ await logout().catch(() => null); userStore.clear(); router.push('/login') }}
+</script>
+""")
+    card_expr = "\n".join(f"      <div class=\"metric\">{title}<strong>{{{{ data['{api}Count'] || 0 }}}}</strong></div>" for _, _, api, _, title, *_ in MODULES[:4])
+    write(FRONTEND / "src/views/Dashboard.vue", f"""<template>
+  <div class="page">
+    <div class="dashboard-grid">
+{card_expr}
+    </div>
+    <div class="chart-grid"><div ref="trendRef" class="chart"></div><div ref="pieRef" class="chart"></div></div>
+  </div>
+</template>
+<script setup>
+import {{ nextTick, onMounted, reactive, ref }} from 'vue'
+import * as echarts from 'echarts'
+import {{ getDashboard }} from '../api'
+const data = reactive({{}})
+const trendRef = ref()
+const pieRef = ref()
+const draw = () => {{
+  echarts.init(trendRef.value).setOption({{ title: {{ text: '近7日课消与退费趋势' }}, tooltip: {{}}, xAxis: {{ type: 'category', data: ['周一','周二','周三','周四','周五','周六','周日'] }}, yAxis: {{ type: 'value' }}, series: [{{ type: 'line', smooth: true, areaStyle: {{}}, data: data.trend || [] }}] }})
+  echarts.init(pieRef.value).setOption({{ title: {{ text: '教培管理状态分布' }}, tooltip: {{}}, series: [{{ type: 'pie', radius: '62%', data: data.pie || [] }}] }})
+}}
+onMounted(async () => {{ const res = await getDashboard(); Object.assign(data, res.data); nextTick(draw) }})
+</script>
+""")
+    write(FRONTEND / "src/views/SysUser.vue", """<template><DataPage title="账号权限" description="校区校长、教务主管、任课老师、财务审核员、学员家长账号与状态维护" :api="api" :columns="columns" :form-fields="formFields" :manage-roles="['ADMIN']" :delete-roles="['ADMIN']" :status-options="statusOptions" :default-status="1" /></template>
+<script setup>
+import DataPage from '../components/DataPage.vue'
+import { addSysUser, deleteSysUser, disableSysUser, enableSysUser, getSysUserPage, updateSysUser } from '../api'
+const api = { page: getSysUserPage, add: addSysUser, update: updateSysUser, delete: deleteSysUser, process: disableSysUser, finish: enableSysUser }
+const statusOptions = [{ label: '启用', value: 1 }, { label: '停用', value: 0 }]
+const columns = [{ prop: 'username', label: '账号' }, { prop: 'nickname', label: '姓名' }, { prop: 'role', label: '角色' }, { prop: 'department', label: '部门' }, { prop: 'phone', label: '电话' }, { prop: 'status', label: '状态' }]
+const formFields = [{ prop: 'username', label: '账号' }, { prop: 'password', label: '密码' }, { prop: 'nickname', label: '姓名' }, { prop: 'role', label: '角色' }, { prop: 'department', label: '部门' }, { prop: 'phone', label: '电话' }, { prop: 'email', label: '邮箱' }]
+</script>
+""")
+    for cls, table, api, view, title, desc, roles, labels in MODULES:
+        role_list = ", ".join(f"'{r}'" for r in roles)
+        write(FRONTEND / f"src/views/{view}.vue", f"""<template><DataPage title="{title}" description="{desc}" :api="api" :columns="columns" :form-fields="formFields" :manage-roles="[{role_list}]" /></template>
+<script setup>
+import DataPage from '../components/DataPage.vue'
+import {{ add{cls}, delete{cls}, finish{cls}, get{cls}Page, process{cls}, update{cls} }} from '../api'
+const api = {{ page: get{cls}Page, add: add{cls}, update: update{cls}, delete: delete{cls}, process: process{cls}, finish: finish{cls} }}
+const columns = [{{ prop: 'recordNo', label: '{labels[0]}' }}, {{ prop: 'recordName', label: '{labels[1]}' }}, {{ prop: 'category', label: '{labels[2]}' }}, {{ prop: 'ownerName', label: '{labels[3]}' }}, {{ prop: 'planTime', label: '{labels[4]}' }}, {{ prop: 'status', label: '{labels[5]}' }}, {{ prop: 'remark', label: '{labels[6]}' }}]
+const formFields = [{{ prop: 'recordNo', label: '{labels[0]}' }}, {{ prop: 'recordName', label: '{labels[1]}' }}, {{ prop: 'category', label: '{labels[2]}' }}, {{ prop: 'ownerName', label: '{labels[3]}' }}, {{ prop: 'planTime', label: '{labels[4]}' }}, {{ prop: 'status', label: '{labels[5]}', type: 'select' }}, {{ prop: 'remark', label: '{labels[6]}', type: 'textarea' }}]
+</script>
+""")
+
+
+def docs():
+    module_lines = "\n".join(f"- {title}：{desc}" for _, _, _, _, title, desc, _, _ in MODULES)
+    write(BACKEND / "PRD.md", f"""# 校外培训机构课消统计与退费审批系统 PRD
+
+## 项目概述
+本系统面向校外培训机构教务与财务协同场景，提供校区档案、课程产品、学员档案、教师档案、班级台账、排课计划、上课考勤、课消记录、退费申请、退费审批和财务流水的一体化后台管理能力。
+
+## 用户角色
+- 系统管理员：账号权限、基础配置和全部数据维护
+- 校区校长：校区档案、课程产品、班级台账、课消统计和财务总览维护
+- 教务主管：排课计划、上课考勤、课消记录和调课补课处理
+- 任课老师：上课考勤、课堂反馈、课消确认和学员沟通维护
+- 财务审核员：退费审批、财务流水、收入核对和退款结算维护
+- 学员家长：课消记录、退费申请、剩余课时和财务流水查看
+
+## 功能模块
+{module_lines}
+
+## 技术栈
+- 后端：Spring Boot 2.7.18、MyBatis 注解 SQL、PageHelper、MySQL、Redis、JWT
+- 前端：Vue3、Element Plus、Pinia、Axios、ECharts、Vite
+- 数据库：training_refund_158
+
+## 默认账号
+- admin/123456
+- principal/123456
+- academic/123456
+- teacher/123456
+- finance/123456
+- parent/123456
+""")
+    write(BACKEND / "PLAN.md", f"""# 校外培训机构课消统计与退费审批系统 开发计划
+
+## 后端
+- 完成 `com.trainingrefund` 包结构、统一响应、异常处理、JWT 拦截、Redis Token、CORS 收口
+- 完成账号权限、{MODULES[0][4]}、{MODULES[1][4]}、{MODULES[2][4]}、{MODULES[3][4]}、{MODULES[4][4]}、{MODULES[5][4]}、{MODULES[6][4]}、{MODULES[7][4]}、{MODULES[8][4]}、{MODULES[9][4]}、{MODULES[10][4]}、{MODULES[11][4]}接口
+- 完成统计看板接口和 MySQL 初始化脚本
+
+## 前端
+- 完成登录、角色首页跳转、动态菜单、通用数据页、业务页面和 ECharts 看板
+- 按 ADMIN / PRINCIPAL / ACADEMIC / TEACHER / FINANCE / PARENT 收口页面操作权限
+
+## 验收
+- 后端 `mvn.cmd clean test` 通过
+- 前端 `npm.cmd run build` 通过
+- 源码不再残留批量脚手架的通用包名与通用业务命名
+""")
+
+
+def main():
+    remove_tree(BACKEND / "src/main/java/com/p158", BACKEND)
+    for view in (FRONTEND / "src/views").glob("Biz" + "Record*.vue"):
+        view.unlink()
+    backend_files()
+    frontend_files()
+    docs()
+
+
+if __name__ == "__main__":
+    main()

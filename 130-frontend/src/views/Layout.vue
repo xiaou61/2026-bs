@@ -3,21 +3,7 @@
     <el-aside width="236px">
       <div class="logo">PROJECT 130</div>
       <el-menu router :default-active="$route.path">
-        <el-menu-item index="/dashboard">数据看板</el-menu-item>
-        <el-menu-item index='/user'>账号权限</el-menu-item>
-        <el-menu-item index='/greenhouse'>温室档案</el-menu-item>
-        <el-menu-item index='/crop'>作物批次</el-menu-item>
-        <el-menu-item index='/sensor'>环境传感器</el-menu-item>
-        <el-menu-item index='/reading'>环境读数</el-menu-item>
-        <el-menu-item index='/irrigation'>灌溉任务</el-menu-item>
-        <el-menu-item index='/fertilizer'>施肥计划</el-menu-item>
-        <el-menu-item index='/pest'>虫害预警</el-menu-item>
-        <el-menu-item index='/diagnosis'>病害诊断</el-menu-item>
-        <el-menu-item index='/device'>控制设备</el-menu-item>
-        <el-menu-item index='/command'>远程指令</el-menu-item>
-        <el-menu-item index='/harvest'>采收记录</el-menu-item>
-        <el-menu-item index='/ticket'>维护工单</el-menu-item>
-        <el-menu-item index='/log'>操作日志</el-menu-item>
+        <el-menu-item v-for="item in visibleMenus" :key="item.index" :index="item.index">{{ item.label }}</el-menu-item>
       </el-menu>
     </el-aside>
     <el-container>
@@ -31,11 +17,33 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { logout } from '../api'
 import { useUserStore } from '../store/user'
 const router = useRouter()
 const userStore = useUserStore()
+const menus = [
+  { index: '/dashboard', label: '数据看板', roles: ['ADMIN', 'GROWER', 'TECHNICIAN', 'MANAGER'] },
+  { index: '/user', label: '账号权限', roles: ['ADMIN'] },
+  { index: '/greenhouse', label: '温室档案', roles: ['ADMIN', 'GROWER', 'TECHNICIAN', 'MANAGER'] },
+  { index: '/crop', label: '作物批次', roles: ['ADMIN', 'GROWER', 'MANAGER'] },
+  { index: '/sensor', label: '环境传感器', roles: ['ADMIN', 'TECHNICIAN', 'MANAGER'] },
+  { index: '/reading', label: '环境读数', roles: ['ADMIN', 'GROWER', 'TECHNICIAN', 'MANAGER'] },
+  { index: '/irrigation', label: '灌溉任务', roles: ['ADMIN', 'GROWER', 'MANAGER'] },
+  { index: '/fertilizer', label: '施肥计划', roles: ['ADMIN', 'GROWER', 'MANAGER'] },
+  { index: '/pest', label: '虫害预警', roles: ['ADMIN', 'GROWER', 'TECHNICIAN', 'MANAGER'] },
+  { index: '/diagnosis', label: '病害诊断', roles: ['ADMIN', 'GROWER', 'TECHNICIAN', 'MANAGER'] },
+  { index: '/device', label: '控制设备', roles: ['ADMIN', 'TECHNICIAN', 'MANAGER'] },
+  { index: '/command', label: '远程指令', roles: ['ADMIN', 'TECHNICIAN', 'MANAGER'] },
+  { index: '/harvest', label: '采收记录', roles: ['ADMIN', 'GROWER', 'MANAGER'] },
+  { index: '/ticket', label: '维护工单', roles: ['ADMIN', 'TECHNICIAN', 'MANAGER'] },
+  { index: '/log', label: '操作日志', roles: ['ADMIN'] }
+]
+const visibleMenus = computed(() => {
+  const role = userStore.user?.role
+  return menus.filter(item => item.roles.includes(role))
+})
 const handleLogout = async () => {
   await logout().catch(() => null)
   userStore.clear()

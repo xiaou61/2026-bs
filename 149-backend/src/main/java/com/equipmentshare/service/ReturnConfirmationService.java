@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ReturnConfirmationService extends BaseCrudService<ReturnConfirmation> {
-    private final ReturnConfirmationMapper inventoryCheckMapper;
+    private final ReturnConfirmationMapper returnConfirmationMapper;
 
     @Override
     protected BaseMapper<ReturnConfirmation> mapper() {
-        return inventoryCheckMapper;
+        return returnConfirmationMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"check_no", "lab_name", "consumable_name", "book_qty"};
+        return new String[]{"confirm_no", "equipment_name", "returner_name", "confirm_time"};
     }
 }
 

@@ -10,28 +10,24 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class TravelerProfileService {
-    private final TravelerProfileMapper budgetAllocationMapper;
+    private final TravelerProfileMapper travelerProfileMapper;
 
     public PageInfo<TravelerProfile> page(Integer pageNum, Integer pageSize, String keyword, String status) {
         PageHelper.startPage(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
-        return new PageInfo<>(budgetAllocationMapper.selectPage(keyword, status));
+        return new PageInfo<>(travelerProfileMapper.selectPage(keyword, status));
     }
 
     public void save(TravelerProfile entity) {
-        if (entity.getId() == null) budgetAllocationMapper.insert(entity);
-        else budgetAllocationMapper.update(entity);
+        if (entity.getId() == null) travelerProfileMapper.insert(entity);
+        else travelerProfileMapper.update(entity);
     }
 
     public void delete(Long id) {
-        budgetAllocationMapper.deleteById(id);
+        travelerProfileMapper.deleteById(id);
     }
 
     public void updateStatus(Long id, String status) {
-        budgetAllocationMapper.updateStatus(id, status);
+        travelerProfileMapper.updateStatus(id, status);
     }
 }
-
-
-
-
 

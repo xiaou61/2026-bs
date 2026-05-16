@@ -17,202 +17,202 @@ CREATE TABLE sys_user (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO sys_user (username, password, nickname, role, department, phone, email, status, created_time, updated_time) VALUES
-('admin', '123456', '系统管理员', 'ADMIN', '科研管理处', '139134000100', 'admin@demo.local', 1, NOW(), NOW()),
-('legal', '123456', '养老顾问', 'LEGAL', '法务部', '139140000200', 'legal@demo.local', 1, NOW(), NOW()),
-('applicant', '123456', '护理人员', 'APPLICANT', '业务部门', '139140000300', 'applicant@demo.local', 1, NOW(), NOW()),
-('approver', '123456', '家属监护人', 'APPROVER', '管理委员会', '139140000400', 'approver@demo.local', 1, NOW(), NOW());
+('admin', '123456', '系统管理员', 'ADMIN', '社区养老服务中心', '139148000100', 'admin@eldercare.local', 1, NOW(), NOW()),
+('consultant', '123456', '养老顾问', 'CONSULTANT', '服务调度组', '139148000200', 'consultant@eldercare.local', 1, NOW(), NOW()),
+('caregiver', '123456', '护理人员', 'CAREGIVER', '上门照护组', '139148000300', 'caregiver@eldercare.local', 1, NOW(), NOW()),
+('family', '123456', '家属监护人', 'FAMILY', '家庭联络组', '139148000400', 'family@eldercare.local', 1, NOW(), NOW());
 
-CREATE TABLE research_project (
+CREATE TABLE service_package (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  project_no VARCHAR(120),
-  project_name VARCHAR(120),
-  leader_name VARCHAR(120),
-  college_name VARCHAR(120),
-  start_year INT,
-  status VARCHAR(120),
+  package_no VARCHAR(120),
+  package_name VARCHAR(120),
+  service_category VARCHAR(120),
+  target_group VARCHAR(120),
+  service_cycle VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO research_project (project_no, project_name, leader_name, college_name, start_year, status, created_time, updated_time) VALUES
-('PRO-134-001', '项目名称一', '负责人一', '所属学院一', 2026, 'ACTIVE', NOW(), NOW()),
-('PRO-134-002', '项目名称二', '负责人二', '所属学院二', 2027, 'ACTIVE', NOW(), NOW());
+INSERT INTO service_package (package_no, package_name, service_category, target_group, service_cycle, status, created_time, updated_time) VALUES
+('PKG-148-001', '长者居家关怀包', '上门照护', '高龄独居老人', '每周 3 次', 'ACTIVE', NOW(), NOW()),
+('PKG-148-002', '慢病健康跟踪包', '健康随访', '慢病管理老人', '每周 1 次', 'ACTIVE', NOW(), NOW());
 
-CREATE TABLE budget_category (
+CREATE TABLE elder_profile (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  category_no VARCHAR(120),
-  category_name VARCHAR(120),
-  usage_scope VARCHAR(120),
-  control_mode VARCHAR(120),
-  manager_name VARCHAR(120),
-  status VARCHAR(120),
+  elder_no VARCHAR(120),
+  elder_name VARCHAR(120),
+  age_group VARCHAR(120),
+  home_address VARCHAR(255),
+  care_level VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO budget_category (category_no, category_name, usage_scope, control_mode, manager_name, status, created_time, updated_time) VALUES
-('CAT-134-001', '科目名称一', '经费用途一', '控制方式一', '负责人一', 'ACTIVE', NOW(), NOW()),
-('CAT-134-002', '科目名称二', '经费用途二', '控制方式二', '负责人二', 'ACTIVE', NOW(), NOW());
+INSERT INTO elder_profile (elder_no, elder_name, age_group, home_address, care_level, status, created_time, updated_time) VALUES
+('ELD-148-001', '张桂芳', '80-89 岁', '幸福社区 3 栋 202', '重点照护', 'ACTIVE', NOW(), NOW()),
+('ELD-148-002', '李春兰', '70-79 岁', '康宁社区 6 栋 501', '常规照护', 'ACTIVE', NOW(), NOW());
 
-CREATE TABLE budget_allocation (
+CREATE TABLE caregiver_profile (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  budget_no VARCHAR(120),
-  project_no VARCHAR(120),
-  category_name VARCHAR(120),
-  budget_amount DECIMAL(12,2),
-  used_amount DECIMAL(12,2),
-  status VARCHAR(120),
+  caregiver_no VARCHAR(120),
+  caregiver_name VARCHAR(120),
+  phone_number VARCHAR(60),
+  caregiver_level VARCHAR(120),
+  organization_name VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO budget_allocation (budget_no, project_no, category_name, budget_amount, used_amount, status, created_time, updated_time) VALUES
-('BUD-134-001', 'BUD-134-001', '预算科目一', 38.5, 38.5, 'OPEN', NOW(), NOW()),
-('BUD-134-002', 'BUD-134-002', '预算科目二', 51.5, 51.5, 'OPEN', NOW(), NOW());
+INSERT INTO caregiver_profile (caregiver_no, caregiver_name, phone_number, caregiver_level, organization_name, status, created_time, updated_time) VALUES
+('CAR-148-001', '王秀梅', '138148000501', '高级护理员', '安心照护站', 'PROCESSING', NOW(), NOW()),
+('CAR-148-002', '陈建华', '138148000502', '中级护理员', '乐龄服务站', 'PROCESSING', NOW(), NOW());
 
-CREATE TABLE expense_claim (
+CREATE TABLE service_order (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  claim_no VARCHAR(120),
-  project_no VARCHAR(120),
-  applicant_name VARCHAR(120),
-  claim_amount DECIMAL(12,2),
-  claim_time VARCHAR(120),
-  status VARCHAR(120),
+  order_no VARCHAR(120),
+  service_subject VARCHAR(120),
+  service_address VARCHAR(255),
+  visit_time VARCHAR(120),
+  dispatcher_name VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO expense_claim (claim_no, project_no, applicant_name, claim_amount, claim_time, status, created_time, updated_time) VALUES
-('CLM-134-001', 'CLM-134-001', '服务片区一', 38.5, '2026-05-6 10:00', 'SUBMITTED', NOW(), NOW()),
-('CLM-134-002', 'CLM-134-002', '服务片区二', 51.5, '2026-05-7 10:00', 'SUBMITTED', NOW(), NOW());
+INSERT INTO service_order (order_no, service_subject, service_address, visit_time, dispatcher_name, status, created_time, updated_time) VALUES
+('ORD-148-001', '陪诊与送药服务', '幸福社区 3 栋 202', '2026-05-16 09:30', '刘顾问', 'SUBMITTED', NOW(), NOW()),
+('ORD-148-002', '术后康复上门照护', '康宁社区 6 栋 501', '2026-05-17 14:00', '赵调度', 'APPROVED', NOW(), NOW());
 
-CREATE TABLE invoice_record (
+CREATE TABLE care_team (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  invoice_no VARCHAR(120),
-  claim_no VARCHAR(120),
-  invoice_type VARCHAR(120),
-  invoice_amount DECIMAL(12,2),
-  issuer_name VARCHAR(120),
-  status VARCHAR(120),
+  team_no VARCHAR(120),
+  team_name VARCHAR(120),
+  service_expertise VARCHAR(120),
+  build_time VARCHAR(120),
+  service_area VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO invoice_record (invoice_no, claim_no, invoice_type, invoice_amount, issuer_name, status, created_time, updated_time) VALUES
-('INV-134-001', 'INV-134-001', '发票类型一', 38.5, '开票单位一', 'SUBMITTED', NOW(), NOW()),
-('INV-134-002', 'INV-134-002', '发票类型二', 51.5, '开票单位二', 'SUBMITTED', NOW(), NOW());
+INSERT INTO care_team (team_no, team_name, service_expertise, build_time, service_area, status, created_time, updated_time) VALUES
+('TEAM-148-001', '东片区长者关怀组', '慢病照护', '2026-04-20', '东片区', 'APPROVED', NOW(), NOW()),
+('TEAM-148-002', '西片区康复随访组', '康复训练', '2026-04-28', '西片区', 'APPROVED', NOW(), NOW());
 
-CREATE TABLE approval_task (
+CREATE TABLE visit_checkin (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  approval_no VARCHAR(120),
-  claim_no VARCHAR(120),
-  node_name VARCHAR(120),
-  approver_name VARCHAR(120),
-  approval_opinion VARCHAR(120),
-  status VARCHAR(120),
+  checkin_no VARCHAR(120),
+  elder_name VARCHAR(120),
+  checkin_type VARCHAR(120),
+  checkin_remark VARCHAR(255),
+  checkin_time VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO approval_task (approval_no, claim_no, node_name, approver_name, approval_opinion, status, created_time, updated_time) VALUES
-('APR-134-001', 'APR-134-001', '签到类型一', '审批人一', '签到说明一', 'REVIEWING', NOW(), NOW()),
-('APR-134-002', 'APR-134-002', '签到类型二', '审批人二', '签到说明二', 'REVIEWING', NOW(), NOW());
+INSERT INTO visit_checkin (checkin_no, elder_name, checkin_type, checkin_remark, checkin_time, status, created_time, updated_time) VALUES
+('CHK-148-001', '张桂芳', '上门签到', '已完成血压测量与服药核验', '2026-05-15 09:10', 'APPROVED', NOW(), NOW()),
+('CHK-148-002', '李春兰', '电话签到', '老人表示今日精神状态良好', '2026-05-15 16:20', 'SUBMITTED', NOW(), NOW());
 
-CREATE TABLE payment_record (
+CREATE TABLE service_record (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  payment_no VARCHAR(120),
-  claim_no VARCHAR(120),
-  payment_amount DECIMAL(12,2),
-  payment_time VARCHAR(120),
-  operator_name VARCHAR(120),
-  status VARCHAR(120),
+  record_no VARCHAR(120),
+  elder_name VARCHAR(120),
+  service_conclusion VARCHAR(255),
+  service_time VARCHAR(120),
+  caregiver_name VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO payment_record (payment_no, claim_no, payment_amount, payment_time, operator_name, status, created_time, updated_time) VALUES
-('PAY-134-001', 'PAY-134-001', 38.5, '2026-05-6 10:00', '评估人一', 'FINISHED', NOW(), NOW()),
-('PAY-134-002', 'PAY-134-002', 51.5, '2026-05-7 10:00', '评估人二', 'FINISHED', NOW(), NOW());
+INSERT INTO service_record (record_no, elder_name, service_conclusion, service_time, caregiver_name, status, created_time, updated_time) VALUES
+('REC-148-001', '张桂芳', '完成陪诊并提醒晚间服药', '2026-05-15 11:00', '王秀梅', 'PROCESSING', NOW(), NOW()),
+('REC-148-002', '李春兰', '完成康复训练并记录步态情况', '2026-05-15 15:30', '陈建华', 'FINISHED', NOW(), NOW());
 
-CREATE TABLE research_achievement (
+CREATE TABLE health_assessment (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  achievement_no VARCHAR(120),
-  project_no VARCHAR(120),
-  achievement_name VARCHAR(120),
-  achievement_type VARCHAR(120),
-  owner_name VARCHAR(120),
-  status VARCHAR(120),
+  assessment_no VARCHAR(120),
+  elder_name VARCHAR(120),
+  assessment_item VARCHAR(120),
+  assessment_time VARCHAR(120),
+  assessor_name VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO research_achievement (achievement_no, project_no, achievement_name, achievement_type, owner_name, status, created_time, updated_time) VALUES
-('ACH-134-001', 'ACH-134-001', '成果名称一', '成果类型一', '完成人一', 'PUBLISHED', NOW(), NOW()),
-('ACH-134-002', 'ACH-134-002', '成果名称二', '成果类型二', '完成人二', 'PUBLISHED', NOW(), NOW());
+INSERT INTO health_assessment (assessment_no, elder_name, assessment_item, assessment_time, assessor_name, status, created_time, updated_time) VALUES
+('ASM-148-001', '张桂芳', '跌倒风险评估', '2026-05-15 09:40', '刘顾问', 'ACTIVE', NOW(), NOW()),
+('ASM-148-002', '李春兰', '营养状态评估', '2026-05-15 14:10', '陈建华', 'FINISHED', NOW(), NOW());
 
-CREATE TABLE paper_record (
+CREATE TABLE medication_reminder (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  paper_no VARCHAR(120),
-  project_no VARCHAR(120),
-  paper_title VARCHAR(120),
-  journal_name VARCHAR(120),
-  publish_time VARCHAR(120),
-  status VARCHAR(120),
+  reminder_no VARCHAR(120),
+  elder_name VARCHAR(120),
+  reminder_type VARCHAR(120),
+  reminder_time VARCHAR(120),
+  receiver_name VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO paper_record (paper_no, project_no, paper_title, journal_name, publish_time, status, created_time, updated_time) VALUES
-('PAP-134-001', 'PAP-134-001', '论文题目一', '期刊名称一', '2026-05-6 10:00', 'PUBLISHED', NOW(), NOW()),
-('PAP-134-002', 'PAP-134-002', '论文题目二', '期刊名称二', '2026-05-7 10:00', 'PUBLISHED', NOW(), NOW());
+INSERT INTO medication_reminder (reminder_no, elder_name, reminder_type, reminder_time, receiver_name, status, created_time, updated_time) VALUES
+('REM-148-001', '张桂芳', '高血压药物提醒', '2026-05-15 20:00', '张桂芳家属', 'ACTIVE', NOW(), NOW()),
+('REM-148-002', '李春兰', '降糖药复核提醒', '2026-05-16 08:00', '李春兰', 'FINISHED', NOW(), NOW());
 
-CREATE TABLE patent_record (
+CREATE TABLE family_visit (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  patent_no VARCHAR(120),
-  project_no VARCHAR(120),
-  patent_name VARCHAR(120),
-  applicant_name VARCHAR(120),
-  grant_time VARCHAR(120),
-  status VARCHAR(120),
+  visit_no VARCHAR(120),
+  elder_name VARCHAR(120),
+  visit_subject VARCHAR(120),
+  visit_method VARCHAR(120),
+  visit_time VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO patent_record (patent_no, project_no, patent_name, applicant_name, grant_time, status, created_time, updated_time) VALUES
-('PAT-134-001', 'PAT-134-001', '专利名称一', '服务片区一', '2026-05-6 10:00', 'PUBLISHED', NOW(), NOW()),
-('PAT-134-002', 'PAT-134-002', '专利名称二', '服务片区二', '2026-05-7 10:00', 'PUBLISHED', NOW(), NOW());
+INSERT INTO family_visit (visit_no, elder_name, visit_subject, visit_method, visit_time, status, created_time, updated_time) VALUES
+('FAM-148-001', '张桂芳', '本周照护满意度回访', '电话回访', '2026-05-15 18:00', 'ACTIVE', NOW(), NOW()),
+('FAM-148-002', '李春兰', '康复进展同步', '微信回访', '2026-05-16 19:30', 'FINISHED', NOW(), NOW());
 
-CREATE TABLE performance_statistic (
+CREATE TABLE alert_event (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  stat_no VARCHAR(120),
-  project_no VARCHAR(120),
-  stat_month VARCHAR(120),
-  claim_count INT,
-  achievement_count INT,
-  status VARCHAR(120),
+  alert_no VARCHAR(120),
+  elder_name VARCHAR(120),
+  report_time VARCHAR(120),
+  alert_type VARCHAR(120),
+  handling_suggestion VARCHAR(255),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO performance_statistic (stat_no, project_no, stat_month, claim_count, achievement_count, status, created_time, updated_time) VALUES
-('STA-134-001', 'STA-134-001', '2026-06', 35, 35, 'FINISHED', NOW(), NOW()),
-('STA-134-002', 'STA-134-002', '2026-07', 40, 40, 'FINISHED', NOW(), NOW());
+INSERT INTO alert_event (alert_no, elder_name, report_time, alert_type, handling_suggestion, status, created_time, updated_time) VALUES
+('ALT-148-001', '张桂芳', '2026-05-15 08:45', '血压异常预警', '建议今日加密随访并联系家属确认复测', 'PROCESSING', NOW(), NOW()),
+('ALT-148-002', '李春兰', '2026-05-15 13:20', '情绪波动预警', '建议安排顾问回访并记录睡眠情况', 'FINISHED', NOW(), NOW());
 
-CREATE TABLE risk_warning (
+CREATE TABLE care_notice (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  warning_no VARCHAR(120),
-  project_no VARCHAR(120),
-  risk_level VARCHAR(120),
-  trigger_reason VARCHAR(120),
-  handler_name VARCHAR(120),
-  status VARCHAR(120),
+  notice_no VARCHAR(120),
+  elder_name VARCHAR(120),
+  notice_type VARCHAR(120),
+  notice_content VARCHAR(255),
+  receiver_name VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO risk_warning (warning_no, project_no, risk_level, trigger_reason, handler_name, status, created_time, updated_time) VALUES
-('RSK-134-001', 'RSK-134-001', '风险级别一', '触发原因一', '处理人一', 'WARNING', NOW(), NOW()),
-('RSK-134-002', 'RSK-134-002', '风险级别二', '触发原因二', '处理人二', 'WARNING', NOW(), NOW());
+INSERT INTO care_notice (notice_no, elder_name, notice_type, notice_content, receiver_name, status, created_time, updated_time) VALUES
+('NOT-148-001', '张桂芳', '服务提醒', '请明日上午 9 点前保持电话畅通，护理员将上门随访。', '张桂芳家属', 'PROCESSING', NOW(), NOW()),
+('NOT-148-002', '李春兰', '健康提示', '本周复诊材料已准备完毕，请家属协助确认出行安排。', '李春兰家属', 'FINISHED', NOW(), NOW());
 
 CREATE TABLE operation_log (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -220,22 +220,12 @@ CREATE TABLE operation_log (
   module_name VARCHAR(120),
   action_type VARCHAR(120),
   target_name VARCHAR(120),
-  detail_info VARCHAR(120),
-  status VARCHAR(120),
+  detail_info VARCHAR(255),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO operation_log (operator_name, module_name, action_type, target_name, detail_info, status, created_time, updated_time) VALUES
-('操作人一', '模块名称一', '动作类型一', '操作对象一', '操作详情一', 'SUCCESS', NOW(), NOW()),
-('操作人二', '模块名称二', '动作类型二', '操作对象二', '操作详情二', 'SUCCESS', NOW(), NOW());
-
-
-
-
-
-
-
-
-
-
+('系统管理员', '服务工单', '审批通过', 'ORD-148-002', '已完成上门照护工单审批并推送护理班组', 'SUCCESS', NOW(), NOW()),
+('养老顾问', '预警事件', '跟进处理', 'ALT-148-001', '已联系家属并安排当日二次随访', 'SUCCESS', NOW(), NOW());

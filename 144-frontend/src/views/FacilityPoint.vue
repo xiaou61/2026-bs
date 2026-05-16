@@ -1,16 +1,41 @@
 <template>
-  <DataPage title="导师档案" description="导师编号、导师姓名、所属学院、研究方向、可带人数和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage title="设施点位" description="维护设施编号、设施名称、设施类型、地址位置和开放状态，支撑无障碍服务点维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" :can-create="canManage" :can-edit="canManage" :can-delete="canDelete" @row-action="handleAction" />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getFacilityPointPage, addFacilityPoint, updateFacilityPoint, deleteFacilityPoint, activateFacilityPoint, finishFacilityPoint } from '../api'
+
 const api = { page: getFacilityPointPage, add: addFacilityPoint, update: updateFacilityPoint, delete: deleteFacilityPoint }
-const columns = [{"prop": "categoryNo", "label": "导师编号"}, {"prop": "categoryName", "label": "导师姓名"}, {"prop": "usageScope", "label": "所属学院"}, {"prop": "controlMode", "label": "研究方向"}, {"prop": "managerName", "label": "可带人数"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "categoryNo", "label": "导师编号"}, {"prop": "categoryName", "label": "导师姓名"}, {"prop": "usageScope", "label": "所属学院"}, {"prop": "controlMode", "label": "研究方向"}, {"prop": "managerName", "label": "可带人数"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "activate", "label": "启用", "type": "success"}, {"command": "finish", "label": "完成", "type": "primary"}]
-const defaults = {"status": "ACTIVE"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'DISPATCHER'].includes(role.value))
+const canDelete = computed(() => role.value === 'ADMIN')
+const columns = [
+  { prop: 'pointNo', label: '设施编号' },
+  { prop: 'pointName', label: '设施名称' },
+  { prop: 'facilityType', label: '设施类型' },
+  { prop: 'addressDetail', label: '地址位置', width: 220 },
+  { prop: 'openStatus', label: '开放状态' },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'pointNo', label: '设施编号' },
+  { prop: 'pointName', label: '设施名称' },
+  { prop: 'facilityType', label: '设施类型' },
+  { prop: 'addressDetail', label: '地址位置' },
+  { prop: 'openStatus', label: '开放状态' },
+  { prop: 'status', label: '状态', type: 'select', options: [{ label: '启用', value: 'ACTIVE' }, { label: '已完成', value: 'FINISHED' }] }
+]
+const rowActions = computed(() => canManage.value ? [
+  { command: 'activate', label: '启用', type: 'success' },
+  { command: 'finish', label: '完成', type: 'primary' }
+] : [])
+const defaults = { status: 'ACTIVE' }
+
 const handleAction = async ({ command, row, refresh }) => {
   if (command === 'activate') await activateFacilityPoint(row.id)
   if (command === 'finish') await finishFacilityPoint(row.id)
@@ -18,9 +43,3 @@ const handleAction = async ({ command, row, refresh }) => {
   refresh()
 }
 </script>
-
-
-
-
-
-

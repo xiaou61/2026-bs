@@ -15,9 +15,9 @@ import java.util.List;
 public interface MerchantProfileMapper {
     @Select({
         "<script>",
-        "SELECT * FROM budget_allocation",
+        "SELECT * FROM merchant_profile",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (budget_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR category_name LIKE CONCAT('%',#{keyword},'%') OR budget_amount LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (merchant_no LIKE CONCAT('%',#{keyword},'%') OR merchant_name LIKE CONCAT('%',#{keyword},'%') OR contact_name LIKE CONCAT('%',#{keyword},'%') OR business_address LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,23 +25,23 @@ public interface MerchantProfileMapper {
     })
     List<MerchantProfile> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM budget_allocation WHERE id = #{id}")
+    @Select("SELECT * FROM merchant_profile WHERE id = #{id}")
     MerchantProfile selectById(Long id);
 
-    @Insert("INSERT INTO budget_allocation (budget_no, project_no, category_name, budget_amount, used_amount, status, created_time, updated_time) VALUES (#{budgetNo}, #{projectNo}, #{categoryName}, #{budgetAmount}, #{usedAmount}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO merchant_profile (merchant_no, merchant_name, contact_name, contact_phone, business_address, status, created_time, updated_time) VALUES (#{merchantNo}, #{merchantName}, #{contactName}, #{contactPhone}, #{businessAddress}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(MerchantProfile entity);
 
-    @Update("UPDATE budget_allocation SET budget_no = #{budgetNo}, project_no = #{projectNo}, category_name = #{categoryName}, budget_amount = #{budgetAmount}, used_amount = #{usedAmount}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE merchant_profile SET merchant_no = #{merchantNo}, merchant_name = #{merchantName}, contact_name = #{contactName}, contact_phone = #{contactPhone}, business_address = #{businessAddress}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(MerchantProfile entity);
 
-    @Delete("DELETE FROM budget_allocation WHERE id = #{id}")
+    @Delete("DELETE FROM merchant_profile WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM budget_allocation")
+    @Select("SELECT COUNT(*) FROM merchant_profile")
     long countAll();
 
-    @Update("UPDATE budget_allocation SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE merchant_profile SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
 

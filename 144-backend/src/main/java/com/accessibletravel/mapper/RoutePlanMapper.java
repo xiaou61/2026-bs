@@ -15,9 +15,9 @@ import java.util.List;
 public interface RoutePlanMapper {
     @Select({
         "<script>",
-        "SELECT * FROM approval_task",
+        "SELECT * FROM route_plan",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (approval_no LIKE CONCAT('%',#{keyword},'%') OR claim_no LIKE CONCAT('%',#{keyword},'%') OR node_name LIKE CONCAT('%',#{keyword},'%') OR approver_name LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (plan_no LIKE CONCAT('%',#{keyword},'%') OR volunteer_no LIKE CONCAT('%',#{keyword},'%') OR route_type LIKE CONCAT('%',#{keyword},'%') OR route_detail LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,27 +25,23 @@ public interface RoutePlanMapper {
     })
     List<RoutePlan> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM approval_task WHERE id = #{id}")
+    @Select("SELECT * FROM route_plan WHERE id = #{id}")
     RoutePlan selectById(Long id);
 
-    @Insert("INSERT INTO approval_task (approval_no, claim_no, node_name, approver_name, approval_opinion, status, created_time, updated_time) VALUES (#{approvalNo}, #{claimNo}, #{nodeName}, #{approverName}, #{approvalOpinion}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO route_plan (plan_no, volunteer_no, route_type, route_detail, generate_time, status, created_time, updated_time) VALUES (#{planNo}, #{volunteerNo}, #{routeType}, #{routeDetail}, #{generateTime}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(RoutePlan entity);
 
-    @Update("UPDATE approval_task SET approval_no = #{approvalNo}, claim_no = #{claimNo}, node_name = #{nodeName}, approver_name = #{approverName}, approval_opinion = #{approvalOpinion}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE route_plan SET plan_no = #{planNo}, volunteer_no = #{volunteerNo}, route_type = #{routeType}, route_detail = #{routeDetail}, generate_time = #{generateTime}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(RoutePlan entity);
 
-    @Delete("DELETE FROM approval_task WHERE id = #{id}")
+    @Delete("DELETE FROM route_plan WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM approval_task")
+    @Select("SELECT COUNT(*) FROM route_plan")
     long countAll();
 
-    @Update("UPDATE approval_task SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE route_plan SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-
 

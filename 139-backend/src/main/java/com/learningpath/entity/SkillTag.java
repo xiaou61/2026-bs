@@ -7,15 +7,15 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("outbound_record")
+@TableName("skill_tag")
 public class SkillTag {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String outboundNo;
-    private String consumableName;
-    private String labName;
-    private Integer outboundQty;
-    private String receiverName;
+    private String tagNo;
+    private String tagName;
+    private String categoryName;
+    private String tagLevel;
+    private String ownerName;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;

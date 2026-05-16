@@ -15,9 +15,9 @@ import java.util.List;
 public interface ContractTemplateMapper {
     @Select({
         "<script>",
-        "SELECT * FROM research_project",
+        "SELECT * FROM contract_template",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (project_no LIKE CONCAT('%',#{keyword},'%') OR project_name LIKE CONCAT('%',#{keyword},'%') OR leader_name LIKE CONCAT('%',#{keyword},'%') OR college_name LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (template_no LIKE CONCAT('%',#{keyword},'%') OR template_name LIKE CONCAT('%',#{keyword},'%') OR contract_type LIKE CONCAT('%',#{keyword},'%') OR maintainer_name LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,23 +25,23 @@ public interface ContractTemplateMapper {
     })
     List<ContractTemplate> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM research_project WHERE id = #{id}")
+    @Select("SELECT * FROM contract_template WHERE id = #{id}")
     ContractTemplate selectById(Long id);
 
-    @Insert("INSERT INTO research_project (project_no, project_name, leader_name, college_name, start_year, status, created_time, updated_time) VALUES (#{projectNo}, #{projectName}, #{leaderName}, #{collegeName}, #{startYear}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO contract_template (template_no, template_name, contract_type, version_no, maintainer_name, status, created_time, updated_time) VALUES (#{templateNo}, #{templateName}, #{contractType}, #{versionNo}, #{maintainerName}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(ContractTemplate entity);
 
-    @Update("UPDATE research_project SET project_no = #{projectNo}, project_name = #{projectName}, leader_name = #{leaderName}, college_name = #{collegeName}, start_year = #{startYear}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE contract_template SET template_no = #{templateNo}, template_name = #{templateName}, contract_type = #{contractType}, version_no = #{versionNo}, maintainer_name = #{maintainerName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(ContractTemplate entity);
 
-    @Delete("DELETE FROM research_project WHERE id = #{id}")
+    @Delete("DELETE FROM contract_template WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM research_project")
+    @Select("SELECT COUNT(*) FROM contract_template")
     long countAll();
 
-    @Update("UPDATE research_project SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE contract_template SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
 

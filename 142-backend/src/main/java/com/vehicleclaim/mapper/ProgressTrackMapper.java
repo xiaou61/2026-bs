@@ -15,9 +15,9 @@ import java.util.List;
 public interface ProgressTrackMapper {
     @Select({
         "<script>",
-        "SELECT * FROM patent_record",
+        "SELECT * FROM progress_track",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (patent_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR patent_name LIKE CONCAT('%',#{keyword},'%') OR applicant_name LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (track_no LIKE CONCAT('%',#{keyword},'%') OR report_no LIKE CONCAT('%',#{keyword},'%') OR current_node LIKE CONCAT('%',#{keyword},'%') OR handle_dept LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,26 +25,22 @@ public interface ProgressTrackMapper {
     })
     List<ProgressTrack> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM patent_record WHERE id = #{id}")
+    @Select("SELECT * FROM progress_track WHERE id = #{id}")
     ProgressTrack selectById(Long id);
 
-    @Insert("INSERT INTO patent_record (patent_no, project_no, patent_name, applicant_name, grant_time, status, created_time, updated_time) VALUES (#{patentNo}, #{projectNo}, #{patentName}, #{applicantName}, #{grantTime}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO progress_track (track_no, report_no, current_node, handle_dept, expected_finish_time, status, created_time, updated_time) VALUES (#{trackNo}, #{reportNo}, #{currentNode}, #{handleDept}, #{expectedFinishTime}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(ProgressTrack entity);
 
-    @Update("UPDATE patent_record SET patent_no = #{patentNo}, project_no = #{projectNo}, patent_name = #{patentName}, applicant_name = #{applicantName}, grant_time = #{grantTime}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE progress_track SET track_no = #{trackNo}, report_no = #{reportNo}, current_node = #{currentNode}, handle_dept = #{handleDept}, expected_finish_time = #{expectedFinishTime}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(ProgressTrack entity);
 
-    @Delete("DELETE FROM patent_record WHERE id = #{id}")
+    @Delete("DELETE FROM progress_track WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM patent_record")
+    @Select("SELECT COUNT(*) FROM progress_track")
     long countAll();
 
-    @Update("UPDATE patent_record SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE progress_track SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-

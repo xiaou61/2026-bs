@@ -9,19 +9,15 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class RfidTagService extends BaseCrudService<RfidTag> {
-    private final RfidTagMapper labRoomMapper;
+    private final RfidTagMapper rfidTagMapper;
 
     @Override
     protected BaseMapper<RfidTag> mapper() {
-        return labRoomMapper;
+        return rfidTagMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"lab_no", "lab_name", "building_name", "manager_name"};
+        return new String[]{"tag_no", "epc_code", "asset_name", "storage_area"};
     }
 }
-
-
-
-

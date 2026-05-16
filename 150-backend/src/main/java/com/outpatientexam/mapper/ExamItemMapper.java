@@ -14,41 +14,33 @@ import java.util.List;
 @Mapper
 public interface ExamItemMapper {
     @Select({
-        "<script>",
-        "SELECT * FROM research_project",
-        "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (project_no LIKE CONCAT('%',#{keyword},'%') OR project_name LIKE CONCAT('%',#{keyword},'%') OR leader_name LIKE CONCAT('%',#{keyword},'%') OR college_name LIKE CONCAT('%',#{keyword},'%'))</if>",
-        "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
-        "</where>",
-        "ORDER BY id DESC",
-        "</script>"
+            "<script>",
+            "SELECT * FROM exam_item",
+            "<where>",
+            "<if test='keyword != null and keyword != \"\"'> AND (item_no LIKE CONCAT('%',#{keyword},'%') OR item_name LIKE CONCAT('%',#{keyword},'%') OR category LIKE CONCAT('%',#{keyword},'%') OR department_name LIKE CONCAT('%',#{keyword},'%'))</if>",
+            "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
+            "</where>",
+            "ORDER BY id DESC",
+            "</script>"
     })
     List<ExamItem> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM research_project WHERE id = #{id}")
+    @Select("SELECT * FROM exam_item WHERE id = #{id}")
     ExamItem selectById(Long id);
 
-    @Insert("INSERT INTO research_project (project_no, project_name, leader_name, college_name, start_year, status, created_time, updated_time) VALUES (#{projectNo}, #{projectName}, #{leaderName}, #{collegeName}, #{startYear}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO exam_item (item_no, item_name, category, department_name, duration_minutes, status, created_time, updated_time) VALUES (#{itemNo}, #{itemName}, #{category}, #{departmentName}, #{durationMinutes}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(ExamItem entity);
 
-    @Update("UPDATE research_project SET project_no = #{projectNo}, project_name = #{projectName}, leader_name = #{leaderName}, college_name = #{collegeName}, start_year = #{startYear}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE exam_item SET item_no = #{itemNo}, item_name = #{itemName}, category = #{category}, department_name = #{departmentName}, duration_minutes = #{durationMinutes}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(ExamItem entity);
 
-    @Delete("DELETE FROM research_project WHERE id = #{id}")
+    @Delete("DELETE FROM exam_item WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM research_project")
+    @Select("SELECT COUNT(*) FROM exam_item")
     long countAll();
 
-    @Update("UPDATE research_project SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE exam_item SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-
-
-
-
-

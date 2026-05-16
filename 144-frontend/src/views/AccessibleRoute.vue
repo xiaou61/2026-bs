@@ -1,16 +1,41 @@
 <template>
-  <DataPage title="课题发布" description="课题编号、课题名称、导师姓名、所属方向、计划容量和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage title="无障碍路线" description="维护路线编号、路线名称、路线类型、适用场景和建议时长，支撑出行路径规划与发布" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" :can-create="canManage" :can-edit="canManage" :can-delete="canDelete" @row-action="handleAction" />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getAccessibleRoutePage, addAccessibleRoute, updateAccessibleRoute, deleteAccessibleRoute, activateAccessibleRoute, finishAccessibleRoute } from '../api'
+
 const api = { page: getAccessibleRoutePage, add: addAccessibleRoute, update: updateAccessibleRoute, delete: deleteAccessibleRoute }
-const columns = [{"prop": "projectNo", "label": "课题编号"}, {"prop": "projectName", "label": "课题名称"}, {"prop": "leaderName", "label": "导师姓名"}, {"prop": "collegeName", "label": "所属方向"}, {"prop": "startYear", "label": "计划容量"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "projectNo", "label": "课题编号"}, {"prop": "projectName", "label": "课题名称"}, {"prop": "leaderName", "label": "导师姓名"}, {"prop": "collegeName", "label": "所属方向"}, {"prop": "startYear", "label": "计划容量", "type": "number"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "activate", "label": "启用", "type": "success"}, {"command": "finish", "label": "完成", "type": "primary"}]
-const defaults = {"status": "ACTIVE"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'DISPATCHER'].includes(role.value))
+const canDelete = computed(() => role.value === 'ADMIN')
+const columns = [
+  { prop: 'routeNo', label: '路线编号' },
+  { prop: 'routeName', label: '路线名称' },
+  { prop: 'routeType', label: '路线类型' },
+  { prop: 'travelScenario', label: '适用场景', width: 180 },
+  { prop: 'suggestedDuration', label: '建议时长(分钟)', width: 150 },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'routeNo', label: '路线编号' },
+  { prop: 'routeName', label: '路线名称' },
+  { prop: 'routeType', label: '路线类型' },
+  { prop: 'travelScenario', label: '适用场景' },
+  { prop: 'suggestedDuration', label: '建议时长(分钟)', type: 'number' },
+  { prop: 'status', label: '状态', type: 'select', options: [{ label: '启用', value: 'ACTIVE' }, { label: '已完成', value: 'FINISHED' }] }
+]
+const rowActions = computed(() => canManage.value ? [
+  { command: 'activate', label: '启用', type: 'success' },
+  { command: 'finish', label: '完成', type: 'primary' }
+] : [])
+const defaults = { status: 'ACTIVE' }
+
 const handleAction = async ({ command, row, refresh }) => {
   if (command === 'activate') await activateAccessibleRoute(row.id)
   if (command === 'finish') await finishAccessibleRoute(row.id)
@@ -18,9 +43,3 @@ const handleAction = async ({ command, row, refresh }) => {
   refresh()
 }
 </script>
-
-
-
-
-
-

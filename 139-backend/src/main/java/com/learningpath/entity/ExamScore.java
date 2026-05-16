@@ -7,15 +7,15 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("inbound_record")
+@TableName("exam_score")
 public class ExamScore {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String inboundNo;
-    private String orderNo;
-    private String consumableName;
-    private Integer inboundQty;
-    private String operatorName;
+    private String scoreNo;
+    private String examName;
+    private String learnerName;
+    private Integer scoreValue;
+    private String evaluatorName;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;

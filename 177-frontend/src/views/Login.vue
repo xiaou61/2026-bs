@@ -1,0 +1,13 @@
+<template><div class="login"><el-card><h2>直播基地主播排班与选品样品管理系统</h2><el-form :model="form"><el-form-item><el-input v-model="form.username" placeholder="账号" /></el-form-item><el-form-item><el-input v-model="form.password" placeholder="密码" type="password" /></el-form-item><el-button type="primary" style="width:100%" @click="handleLogin">登录</el-button></el-form><div class="accounts"><span>admin</span><span>base</span><span>anchor</span><span>selector</span><span>sample</span><span>merchant</span></div></el-card></div></template>
+<script setup>
+import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import { login } from '../api'
+import { useUserStore } from '../store/user'
+const router = useRouter()
+const userStore = useUserStore()
+const form = reactive({ username: 'admin', password: '123456' })
+const home = { ADMIN: '/dashboard', BASE: '/studio', ANCHOR: '/schedule', SELECTOR: '/review', SAMPLE: '/sample', MERCHANT: '/product' }
+const handleLogin = async () => { const res = await login(form); userStore.setLogin(res.data); router.push(home[res.data.user.role] || '/dashboard') }
+</script>
+<style scoped>.login{height:100vh;display:flex;align-items:center;justify-content:center;background:#edf4f2}.el-card{width:430px}h2{font-size:20px;margin:0 0 22px;text-align:center}.accounts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;color:#64748b;font-size:13px}.accounts span{background:#f1f5f9;border-radius:6px;padding:4px 8px}</style>

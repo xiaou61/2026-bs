@@ -15,9 +15,9 @@ import java.util.List;
 public interface SignerProfileMapper {
     @Select({
         "<script>",
-        "SELECT * FROM budget_allocation",
+        "SELECT * FROM signer_profile",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (budget_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR category_name LIKE CONCAT('%',#{keyword},'%') OR budget_amount LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (signer_no LIKE CONCAT('%',#{keyword},'%') OR signer_name LIKE CONCAT('%',#{keyword},'%') OR signer_type LIKE CONCAT('%',#{keyword},'%') OR certificate_no LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,23 +25,23 @@ public interface SignerProfileMapper {
     })
     List<SignerProfile> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM budget_allocation WHERE id = #{id}")
+    @Select("SELECT * FROM signer_profile WHERE id = #{id}")
     SignerProfile selectById(Long id);
 
-    @Insert("INSERT INTO budget_allocation (budget_no, project_no, category_name, budget_amount, used_amount, status, created_time, updated_time) VALUES (#{budgetNo}, #{projectNo}, #{categoryName}, #{budgetAmount}, #{usedAmount}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO signer_profile (signer_no, signer_name, signer_type, certificate_no, authorization_status, status, created_time, updated_time) VALUES (#{signerNo}, #{signerName}, #{signerType}, #{certificateNo}, #{authorizationStatus}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(SignerProfile entity);
 
-    @Update("UPDATE budget_allocation SET budget_no = #{budgetNo}, project_no = #{projectNo}, category_name = #{categoryName}, budget_amount = #{budgetAmount}, used_amount = #{usedAmount}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE signer_profile SET signer_no = #{signerNo}, signer_name = #{signerName}, signer_type = #{signerType}, certificate_no = #{certificateNo}, authorization_status = #{authorizationStatus}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(SignerProfile entity);
 
-    @Delete("DELETE FROM budget_allocation WHERE id = #{id}")
+    @Delete("DELETE FROM signer_profile WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM budget_allocation")
+    @Select("SELECT COUNT(*) FROM signer_profile")
     long countAll();
 
-    @Update("UPDATE budget_allocation SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE signer_profile SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
 

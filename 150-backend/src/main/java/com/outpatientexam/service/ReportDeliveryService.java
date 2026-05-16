@@ -10,31 +10,23 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ReportDeliveryService {
-    private final ReportDeliveryMapper paperRecordMapper;
+    private final ReportDeliveryMapper mapper;
 
     public PageInfo<ReportDelivery> page(Integer pageNum, Integer pageSize, String keyword, String status) {
         PageHelper.startPage(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
-        return new PageInfo<>(paperRecordMapper.selectPage(keyword, status));
+        return new PageInfo<>(mapper.selectPage(keyword, status));
     }
 
     public void save(ReportDelivery entity) {
-        if (entity.getId() == null) paperRecordMapper.insert(entity);
-        else paperRecordMapper.update(entity);
+        if (entity.getId() == null) mapper.insert(entity);
+        else mapper.update(entity);
     }
 
     public void delete(Long id) {
-        paperRecordMapper.deleteById(id);
+        mapper.deleteById(id);
     }
 
     public void updateStatus(Long id, String status) {
-        paperRecordMapper.updateStatus(id, status);
+        mapper.updateStatus(id, status);
     }
 }
-
-
-
-
-
-
-
-

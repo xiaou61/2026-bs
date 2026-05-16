@@ -15,9 +15,9 @@ import java.util.List;
 public interface ContractDraftMapper {
     @Select({
         "<script>",
-        "SELECT * FROM expense_claim",
+        "SELECT * FROM contract_draft",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (claim_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR applicant_name LIKE CONCAT('%',#{keyword},'%') OR claim_amount LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (draft_no LIKE CONCAT('%',#{keyword},'%') OR template_name LIKE CONCAT('%',#{keyword},'%') OR contract_title LIKE CONCAT('%',#{keyword},'%') OR applicant_name LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,23 +25,23 @@ public interface ContractDraftMapper {
     })
     List<ContractDraft> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM expense_claim WHERE id = #{id}")
+    @Select("SELECT * FROM contract_draft WHERE id = #{id}")
     ContractDraft selectById(Long id);
 
-    @Insert("INSERT INTO expense_claim (claim_no, project_no, applicant_name, claim_amount, claim_time, status, created_time, updated_time) VALUES (#{claimNo}, #{projectNo}, #{applicantName}, #{claimAmount}, #{claimTime}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO contract_draft (draft_no, template_name, contract_title, applicant_name, submit_time, status, created_time, updated_time) VALUES (#{draftNo}, #{templateName}, #{contractTitle}, #{applicantName}, #{submitTime}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(ContractDraft entity);
 
-    @Update("UPDATE expense_claim SET claim_no = #{claimNo}, project_no = #{projectNo}, applicant_name = #{applicantName}, claim_amount = #{claimAmount}, claim_time = #{claimTime}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE contract_draft SET draft_no = #{draftNo}, template_name = #{templateName}, contract_title = #{contractTitle}, applicant_name = #{applicantName}, submit_time = #{submitTime}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(ContractDraft entity);
 
-    @Delete("DELETE FROM expense_claim WHERE id = #{id}")
+    @Delete("DELETE FROM contract_draft WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM expense_claim")
+    @Select("SELECT COUNT(*) FROM contract_draft")
     long countAll();
 
-    @Update("UPDATE expense_claim SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE contract_draft SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
 

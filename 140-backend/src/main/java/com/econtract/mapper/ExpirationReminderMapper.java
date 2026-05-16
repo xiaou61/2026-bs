@@ -15,9 +15,9 @@ import java.util.List;
 public interface ExpirationReminderMapper {
     @Select({
         "<script>",
-        "SELECT * FROM patent_record",
+        "SELECT * FROM expiration_reminder",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (patent_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR patent_name LIKE CONCAT('%',#{keyword},'%') OR applicant_name LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (reminder_no LIKE CONCAT('%',#{keyword},'%') OR contract_title LIKE CONCAT('%',#{keyword},'%') OR counterparty_name LIKE CONCAT('%',#{keyword},'%') OR reminder_method LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,23 +25,23 @@ public interface ExpirationReminderMapper {
     })
     List<ExpirationReminder> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM patent_record WHERE id = #{id}")
+    @Select("SELECT * FROM expiration_reminder WHERE id = #{id}")
     ExpirationReminder selectById(Long id);
 
-    @Insert("INSERT INTO patent_record (patent_no, project_no, patent_name, applicant_name, grant_time, status, created_time, updated_time) VALUES (#{patentNo}, #{projectNo}, #{patentName}, #{applicantName}, #{grantTime}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO expiration_reminder (reminder_no, contract_title, counterparty_name, expiry_date, reminder_method, status, created_time, updated_time) VALUES (#{reminderNo}, #{contractTitle}, #{counterpartyName}, #{expiryDate}, #{reminderMethod}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(ExpirationReminder entity);
 
-    @Update("UPDATE patent_record SET patent_no = #{patentNo}, project_no = #{projectNo}, patent_name = #{patentName}, applicant_name = #{applicantName}, grant_time = #{grantTime}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE expiration_reminder SET reminder_no = #{reminderNo}, contract_title = #{contractTitle}, counterparty_name = #{counterpartyName}, expiry_date = #{expiryDate}, reminder_method = #{reminderMethod}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(ExpirationReminder entity);
 
-    @Delete("DELETE FROM patent_record WHERE id = #{id}")
+    @Delete("DELETE FROM expiration_reminder WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM patent_record")
+    @Select("SELECT COUNT(*) FROM expiration_reminder")
     long countAll();
 
-    @Update("UPDATE patent_record SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE expiration_reminder SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
 

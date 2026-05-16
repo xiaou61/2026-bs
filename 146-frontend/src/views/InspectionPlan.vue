@@ -1,16 +1,60 @@
 <template>
-  <DataPage title="课题发布" description="课题编号、课题名称、导师姓名、所属方向、计划容量和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage
+    title="抽检计划"
+    description="维护食品安全抽检计划、区域范围和执行周期"
+    :api="api"
+    :columns="columns"
+    :form-fields="formFields"
+    :row-actions="rowActions"
+    :defaults="defaults"
+    :can-create="canManage"
+    :can-edit="canManage"
+    :can-delete="canDelete"
+    @row-action="handleAction"
+  />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
-import { getInspectionPlanPage, addInspectionPlan, updateInspectionPlan, deleteInspectionPlan, activateInspectionPlan, finishInspectionPlan } from '../api'
+import { activateInspectionPlan, addInspectionPlan, deleteInspectionPlan, finishInspectionPlan, getInspectionPlanPage, updateInspectionPlan } from '../api'
+import { useUserStore } from '../store/user'
+
 const api = { page: getInspectionPlanPage, add: addInspectionPlan, update: updateInspectionPlan, delete: deleteInspectionPlan }
-const columns = [{"prop": "projectNo", "label": "课题编号"}, {"prop": "projectName", "label": "课题名称"}, {"prop": "leaderName", "label": "导师姓名"}, {"prop": "collegeName", "label": "所属方向"}, {"prop": "startYear", "label": "计划容量"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "projectNo", "label": "课题编号"}, {"prop": "projectName", "label": "课题名称"}, {"prop": "leaderName", "label": "导师姓名"}, {"prop": "collegeName", "label": "所属方向"}, {"prop": "startYear", "label": "计划容量", "type": "number"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "activate", "label": "启用", "type": "success"}, {"command": "finish", "label": "完成", "type": "primary"}]
-const defaults = {"status": "ACTIVE"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role)
+const canManage = computed(() => ['ADMIN', 'INSPECTOR'].includes(role.value))
+const canDelete = computed(() => role.value === 'ADMIN')
+const rowActions = computed(() => {
+  const actions = []
+  if (['ADMIN', 'INSPECTOR'].includes(role.value)) actions.push({ command: 'activate', label: '发布计划', type: 'success' })
+  if (['ADMIN', 'REVIEWER'].includes(role.value)) actions.push({ command: 'finish', label: '完结', type: 'warning' })
+  return actions
+})
+const statusOptions = [
+  { label: '待排期', value: 'PENDING' },
+  { label: '已发布', value: 'ACTIVE' },
+  { label: '已完成', value: 'FINISHED' }
+]
+const columns = [
+  { prop: 'planNo', label: '计划编号' },
+  { prop: 'planName', label: '计划名称' },
+  { prop: 'inspectionType', label: '抽检类型' },
+  { prop: 'regionName', label: '负责区域' },
+  { prop: 'inspectionCycle', label: '计划周期' },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'planNo', label: '计划编号' },
+  { prop: 'planName', label: '计划名称' },
+  { prop: 'inspectionType', label: '抽检类型' },
+  { prop: 'regionName', label: '负责区域' },
+  { prop: 'inspectionCycle', label: '计划周期' },
+  { prop: 'status', label: '状态', type: 'select', options: statusOptions }
+]
+const defaults = { status: 'PENDING' }
+
 const handleAction = async ({ command, row, refresh }) => {
   if (command === 'activate') await activateInspectionPlan(row.id)
   if (command === 'finish') await finishInspectionPlan(row.id)
@@ -18,10 +62,3 @@ const handleAction = async ({ command, row, refresh }) => {
   refresh()
 }
 </script>
-
-
-
-
-
-
-

@@ -24,6 +24,12 @@ import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { login } from '../api'
 import { useUserStore } from '../store/user'
+const ROLE_HOME = {
+  ADMIN: '/dashboard',
+  INVIGILATOR: '/session',
+  CANDIDATE: '/appeal',
+  REVIEWER: '/task'
+}
 const router = useRouter()
 const userStore = useUserStore()
 const form = reactive({ username: 'admin', password: '123456' })
@@ -31,7 +37,7 @@ const submit = async () => {
   const res = await login(form)
   userStore.setAuth(res.data.token, res.data.user)
   ElMessage.success('登录成功')
-  router.push('/dashboard')
+  router.push(ROLE_HOME[res.data.user?.role] || '/dashboard')
 }
 </script>
 

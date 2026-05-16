@@ -9,19 +9,15 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class DisposalRecordService extends BaseCrudService<DisposalRecord> {
-    private final DisposalRecordMapper warningRuleMapper;
+    private final DisposalRecordMapper disposalRecordMapper;
 
     @Override
     protected BaseMapper<DisposalRecord> mapper() {
-        return warningRuleMapper;
+        return disposalRecordMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"rule_no", "category_name", "min_stock", "warning_level"};
+        return new String[]{"disposal_no", "asset_name", "disposal_type", "handler_name"};
     }
 }
-
-
-
-

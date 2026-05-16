@@ -7,15 +7,15 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("consumable_catalog")
+@TableName("training_program")
 public class TrainingProgram {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String consumableNo;
-    private String consumableName;
-    private String specModel;
-    private String unitName;
-    private Integer safeStock;
+    private String programNo;
+    private String programName;
+    private String targetRole;
+    private String organizerName;
+    private Integer sessionCount;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;

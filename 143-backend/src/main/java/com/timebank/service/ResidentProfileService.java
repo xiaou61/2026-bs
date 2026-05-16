@@ -9,20 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ResidentProfileService extends BaseCrudService<ResidentProfile> {
-    private final ResidentProfileMapper labRoomMapper;
+    private final ResidentProfileMapper residentProfileMapper;
 
     @Override
     protected BaseMapper<ResidentProfile> mapper() {
-        return labRoomMapper;
+        return residentProfileMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"lab_no", "lab_name", "building_name", "manager_name"};
+        return new String[]{"resident_no", "resident_name", "community_name", "service_preference"};
     }
 }
-
-
-
-
 

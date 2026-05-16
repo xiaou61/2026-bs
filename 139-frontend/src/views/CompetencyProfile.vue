@@ -1,16 +1,22 @@
 <template>
-  <DataPage title="会场安排" description="会场编号、会场名称、对应议题、座位数量、签到数量和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage title="胜任力画像" description="画像编号、学员姓名、能力等级、差距项数、评估人和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" :can-create="canManage" :can-edit="canManage" :can-delete="canDelete" @row-action="handleAction" />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getCompetencyProfilePage, addCompetencyProfile, updateCompetencyProfile, deleteCompetencyProfile, processCompetencyProfile, finishCompetencyProfile } from '../api'
 const api = { page: getCompetencyProfilePage, add: addCompetencyProfile, update: updateCompetencyProfile, delete: deleteCompetencyProfile }
-const columns = [{"prop": "checkNo", "label": "会场编号"}, {"prop": "labName", "label": "会场名称"}, {"prop": "consumableName", "label": "对应议题"}, {"prop": "bookQty", "label": "座位数量"}, {"prop": "actualQty", "label": "签到数量"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "checkNo", "label": "会场编号"}, {"prop": "labName", "label": "会场名称"}, {"prop": "consumableName", "label": "对应议题"}, {"prop": "bookQty", "label": "座位数量", "type": "number"}, {"prop": "actualQty", "label": "签到数量", "type": "number"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "process", "label": "处理", "type": "warning"}, {"command": "finish", "label": "完成", "type": "success"}]
-const defaults = {"status": "PROCESSING"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'TRAINER', 'MANAGER'].includes(role.value))
+const canDelete = computed(() => role.value === 'ADMIN')
+const columns = [{"prop": "profileNo", "label": "画像编号"}, {"prop": "learnerName", "label": "学员姓名"}, {"prop": "competencyLevel", "label": "能力等级"}, {"prop": "gapCount", "label": "差距项数"}, {"prop": "evaluatorName", "label": "评估人"}, {"prop": "status", "label": "状态"}]
+const formFields = [{"prop": "profileNo", "label": "画像编号"}, {"prop": "learnerName", "label": "学员姓名"}, {"prop": "competencyLevel", "label": "能力等级"}, {"prop": "gapCount", "label": "差距项数", "type": "number"}, {"prop": "evaluatorName", "label": "评估人"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "待处理", "value": "OPEN"}, {"label": "处理中", "value": "PROCESSING"}, {"label": "已完成", "value": "FINISHED"}]}]
+const rowActions = computed(() => canManage.value ? [{"command": "process", "label": "处理", "type": "warning"}, {"command": "finish", "label": "完成", "type": "success"}] : [])
+const defaults = {"status": "OPEN"}
 const handleAction = async ({ command, row, refresh }) => {
   if (command === 'process') await processCompetencyProfile(row.id)
   if (command === 'finish') await finishCompetencyProfile(row.id)

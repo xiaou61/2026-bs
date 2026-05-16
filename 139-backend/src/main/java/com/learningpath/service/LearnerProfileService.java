@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class LearnerProfileService extends BaseCrudService<LearnerProfile> {
-    private final LearnerProfileMapper labRoomMapper;
+    private final LearnerProfileMapper learnerProfileMapper;
 
     @Override
     protected BaseMapper<LearnerProfile> mapper() {
-        return labRoomMapper;
+        return learnerProfileMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"lab_no", "lab_name", "building_name", "manager_name"};
+        return new String[]{"learner_no", "learner_name", "department_name", "position_name"};
     }
 }
 

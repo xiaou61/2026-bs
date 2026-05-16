@@ -7,21 +7,17 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("purchase_approval")
+@TableName("service_checkin")
 public class ServiceCheckin {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String approvalNo;
-    private String requestNo;
-    private String approverName;
-    private String approvalOpinion;
-    private String approvalTime;
+    private String checkinNo;
+    private String projectName;
+    private String checkinName;
+    private String checkinTime;
+    private String serviceResult;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
 }
-
-
-
-
 

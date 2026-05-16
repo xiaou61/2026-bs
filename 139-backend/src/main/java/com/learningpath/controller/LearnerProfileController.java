@@ -3,6 +3,7 @@ package com.learningpath.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.learningpath.common.Result;
 import com.learningpath.entity.LearnerProfile;
+import com.learningpath.service.AuthService;
 import com.learningpath.service.LearnerProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,42 +21,50 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/learner")
 @RequiredArgsConstructor
 public class LearnerProfileController {
+    private final AuthService authService;
     private final LearnerProfileService service;
 
     @GetMapping("/page")
-    public Result<IPage<LearnerProfile>> page(@RequestParam(required = false) Integer pageNum,
-                                    @RequestParam(required = false) Integer pageSize,
-                                    @RequestParam(required = false) String keyword,
-                                    @RequestParam(required = false) String status) {
+    public Result<IPage<LearnerProfile>> page(@RequestAttribute String role,
+                                              @RequestParam(required = false) Integer pageNum,
+                                              @RequestParam(required = false) Integer pageSize,
+                                              @RequestParam(required = false) String keyword,
+                                              @RequestParam(required = false) String status) {
+        authService.assertAuthenticated(role);
         return Result.success(service.page(pageNum, pageSize, keyword, status));
     }
 
     @PostMapping
-    public Result<Void> add(@RequestBody LearnerProfile entity) {
+    public Result<Void> add(@RequestAttribute String role, @RequestBody LearnerProfile entity) {
+        authService.assertAdminOrTrainerOrManager(role);
         service.save(entity);
         return Result.success();
     }
 
     @PutMapping
-    public Result<Void> update(@RequestBody LearnerProfile entity) {
+    public Result<Void> update(@RequestAttribute String role, @RequestBody LearnerProfile entity) {
+        authService.assertAdminOrTrainerOrManager(role);
         service.save(entity);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
-    public Result<Void> delete(@PathVariable Long id) {
+    public Result<Void> delete(@RequestAttribute String role, @PathVariable Long id) {
+        authService.assertAdmin(role);
         service.delete(id);
         return Result.success();
     }
 
     @PutMapping("/activate/{id}")
-    public Result<Void> activate(@PathVariable Long id) {
+    public Result<Void> activate(@RequestAttribute String role, @PathVariable Long id) {
+        authService.assertAdminOrTrainerOrManager(role);
         service.updateStatus(id, "ACTIVE");
         return Result.success();
     }
 
     @PutMapping("/finish/{id}")
-    public Result<Void> finish(@PathVariable Long id) {
+    public Result<Void> finish(@RequestAttribute String role, @PathVariable Long id) {
+        authService.assertAdminOrTrainerOrManager(role);
         service.updateStatus(id, "FINISHED");
         return Result.success();
     }

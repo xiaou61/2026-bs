@@ -7,21 +7,17 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("inbound_record")
+@TableName("time_exchange")
 public class TimeExchange {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String inboundNo;
-    private String orderNo;
-    private String consumableName;
-    private Integer inboundQty;
-    private String operatorName;
+    private String exchangeNo;
+    private String projectName;
+    private String exchangerName;
+    private Integer exchangeHours;
+    private String exchangeTime;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
 }
-
-
-
-
 

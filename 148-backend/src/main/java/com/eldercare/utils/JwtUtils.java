@@ -7,7 +7,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
 
 public class JwtUtils {
-    private static final String SECRET = "electronic-contract-140-secret";
+    private static final String SECRET = "elder-service-148-secret";
     private static final long EXPIRE = 24 * 60 * 60 * 1000L;
 
     public static String generateToken(Long userId, String username, String role) {
@@ -18,10 +18,4 @@ public class JwtUtils {
         return Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
     }
 }
-
-
-
-
-
-
 

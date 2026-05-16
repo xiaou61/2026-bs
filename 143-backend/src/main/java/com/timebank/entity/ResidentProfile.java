@@ -7,21 +7,17 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("lab_room")
+@TableName("resident_profile")
 public class ResidentProfile {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String labNo;
-    private String labName;
-    private String buildingName;
-    private String managerName;
-    private String phoneNumber;
+    private String residentNo;
+    private String residentName;
+    private String communityName;
+    private String servicePreference;
+    private String phone;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
 }
-
-
-
-
 

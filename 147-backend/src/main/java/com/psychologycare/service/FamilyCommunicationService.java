@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class FamilyCommunicationService extends BaseCrudService<FamilyCommunication> {
-    private final FamilyCommunicationMapper inventoryCheckMapper;
+    private final FamilyCommunicationMapper familyCommunicationMapper;
 
     @Override
     protected BaseMapper<FamilyCommunication> mapper() {
-        return inventoryCheckMapper;
+        return familyCommunicationMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"check_no", "lab_name", "consumable_name", "book_qty"};
+        return new String[]{"communication_no", "case_theme", "communication_topic", "communication_method"};
     }
 }
 

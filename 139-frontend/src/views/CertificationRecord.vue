@@ -1,16 +1,22 @@
 <template>
-  <DataPage title="会议日程" description="日程编号、日程主题、开始时间、日程类型、主持人和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage title="认证记录" description="认证编号、学员姓名、认证名称、颁发机构、发证日期和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" :can-create="canManage" :can-edit="canManage" :can-delete="canDelete" @row-action="handleAction" />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getCertificationRecordPage, addCertificationRecord, updateCertificationRecord, deleteCertificationRecord, activateCertificationRecord, finishCertificationRecord } from '../api'
 const api = { page: getCertificationRecordPage, add: addCertificationRecord, update: updateCertificationRecord, delete: deleteCertificationRecord }
-const columns = [{"prop": "ruleNo", "label": "日程编号"}, {"prop": "categoryName", "label": "日程主题"}, {"prop": "minStock", "label": "开始顺序"}, {"prop": "warningLevel", "label": "日程类型"}, {"prop": "noticeTarget", "label": "主持人"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "ruleNo", "label": "日程编号"}, {"prop": "categoryName", "label": "日程主题"}, {"prop": "minStock", "label": "开始顺序", "type": "number"}, {"prop": "warningLevel", "label": "日程类型"}, {"prop": "noticeTarget", "label": "主持人"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "activate", "label": "启用", "type": "success"}, {"command": "finish", "label": "完成", "type": "primary"}]
-const defaults = {"status": "ACTIVE"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'TRAINER', 'MANAGER'].includes(role.value))
+const canDelete = computed(() => role.value === 'ADMIN')
+const columns = [{"prop": "certNo", "label": "认证编号"}, {"prop": "learnerName", "label": "学员姓名"}, {"prop": "certificationName", "label": "认证名称"}, {"prop": "issuerName", "label": "颁发机构"}, {"prop": "issueDate", "label": "发证日期"}, {"prop": "status", "label": "状态"}]
+const formFields = [{"prop": "certNo", "label": "认证编号"}, {"prop": "learnerName", "label": "学员姓名"}, {"prop": "certificationName", "label": "认证名称"}, {"prop": "issuerName", "label": "颁发机构"}, {"prop": "issueDate", "label": "发证日期"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "草稿", "value": "DRAFT"}, {"label": "启用", "value": "ACTIVE"}, {"label": "已完成", "value": "FINISHED"}]}]
+const rowActions = computed(() => canManage.value ? [{"command": "activate", "label": "启用", "type": "success"}, {"command": "finish", "label": "完成", "type": "primary"}] : [])
+const defaults = {"status": "DRAFT"}
 const handleAction = async ({ command, row, refresh }) => {
   if (command === 'activate') await activateCertificationRecord(row.id)
   if (command === 'finish') await finishCertificationRecord(row.id)

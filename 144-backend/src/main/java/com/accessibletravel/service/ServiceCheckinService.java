@@ -10,28 +10,24 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ServiceCheckinService {
-    private final ServiceCheckinMapper researchAchievementMapper;
+    private final ServiceCheckinMapper serviceCheckinMapper;
 
     public PageInfo<ServiceCheckin> page(Integer pageNum, Integer pageSize, String keyword, String status) {
         PageHelper.startPage(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
-        return new PageInfo<>(researchAchievementMapper.selectPage(keyword, status));
+        return new PageInfo<>(serviceCheckinMapper.selectPage(keyword, status));
     }
 
     public void save(ServiceCheckin entity) {
-        if (entity.getId() == null) researchAchievementMapper.insert(entity);
-        else researchAchievementMapper.update(entity);
+        if (entity.getId() == null) serviceCheckinMapper.insert(entity);
+        else serviceCheckinMapper.update(entity);
     }
 
     public void delete(Long id) {
-        researchAchievementMapper.deleteById(id);
+        serviceCheckinMapper.deleteById(id);
     }
 
     public void updateStatus(Long id, String status) {
-        researchAchievementMapper.updateStatus(id, status);
+        serviceCheckinMapper.updateStatus(id, status);
     }
 }
-
-
-
-
 

@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class LearningPathPlanService extends BaseCrudService<LearningPathPlan> {
-    private final LearningPathPlanMapper stockItemMapper;
+    private final LearningPathPlanMapper learningPathPlanMapper;
 
     @Override
     protected BaseMapper<LearningPathPlan> mapper() {
-        return stockItemMapper;
+        return learningPathPlanMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"stock_no", "consumable_name", "lab_name", "current_qty"};
+        return new String[]{"path_no", "learner_name", "path_name"};
     }
 }
 

@@ -1,16 +1,52 @@
 <template>
-  <DataPage title="论文投稿" description="投稿编号、论文题目、作者姓名、提交版本、附件数量和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage
+    title="值班安排"
+    description="维护排班编号、值班老师、日期、时段和生效时间，支撑预约分流与值守安排"
+    :api="api"
+    :columns="columns"
+    :form-fields="formFields"
+    :row-actions="rowActions"
+    :defaults="defaults"
+    :can-create="canManage"
+    :can-edit="canManage"
+    :can-delete="canManage"
+    @row-action="handleAction"
+  />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getDutySchedulePage, addDutySchedule, updateDutySchedule, deleteDutySchedule, processDutySchedule, finishDutySchedule } from '../api'
+
 const api = { page: getDutySchedulePage, add: addDutySchedule, update: updateDutySchedule, delete: deleteDutySchedule }
-const columns = [{"prop": "stockNo", "label": "投稿编号"}, {"prop": "consumableName", "label": "论文题目"}, {"prop": "labName", "label": "作者姓名"}, {"prop": "currentQty", "label": "提交版本"}, {"prop": "lockedQty", "label": "附件数量"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "stockNo", "label": "投稿编号"}, {"prop": "consumableName", "label": "论文题目"}, {"prop": "labName", "label": "作者姓名"}, {"prop": "currentQty", "label": "提交版本", "type": "number"}, {"prop": "lockedQty", "label": "附件数量", "type": "number"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "process", "label": "处理", "type": "warning"}, {"command": "finish", "label": "完成", "type": "success"}]
-const defaults = {"status": "NORMAL"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'TEACHER'].includes(role.value))
+const columns = [
+  { prop: 'scheduleNo', label: '排班编号' },
+  { prop: 'dutyTeacher', label: '值班老师', width: 160 },
+  { prop: 'dutyDate', label: '值班日期', width: 140 },
+  { prop: 'dutyPeriod', label: '值班时段', width: 180 },
+  { prop: 'effectiveTime', label: '生效时间', width: 160 },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'scheduleNo', label: '排班编号' },
+  { prop: 'dutyTeacher', label: '值班老师' },
+  { prop: 'dutyDate', label: '值班日期' },
+  { prop: 'dutyPeriod', label: '值班时段' },
+  { prop: 'effectiveTime', label: '生效时间' },
+  { prop: 'status', label: '状态', type: 'select', options: [{ label: '排班中', value: 'PROCESSING' }, { label: '已结束', value: 'FINISHED' }] }
+]
+const rowActions = computed(() => canManage.value ? [
+  { command: 'process', label: '排班中', type: 'primary' },
+  { command: 'finish', label: '已结束', type: 'success' }
+] : [])
+const defaults = { status: 'PROCESSING' }
+
 const handleAction = async ({ command, row, refresh }) => {
   if (command === 'process') await processDutySchedule(row.id)
   if (command === 'finish') await finishDutySchedule(row.id)

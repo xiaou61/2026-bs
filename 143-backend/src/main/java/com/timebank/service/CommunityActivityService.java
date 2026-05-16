@@ -9,20 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CommunityActivityService extends BaseCrudService<CommunityActivity> {
-    private final CommunityActivityMapper inventoryCheckMapper;
+    private final CommunityActivityMapper communityActivityMapper;
 
     @Override
     protected BaseMapper<CommunityActivity> mapper() {
-        return inventoryCheckMapper;
+        return communityActivityMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"check_no", "lab_name", "consumable_name", "book_qty"};
+        return new String[]{"activity_no", "project_name", "activity_theme", "activity_location"};
     }
 }
-
-
-
-
 

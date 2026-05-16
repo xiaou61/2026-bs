@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class SkillTagService extends BaseCrudService<SkillTag> {
-    private final SkillTagMapper outboundRecordMapper;
+    private final SkillTagMapper skillTagMapper;
 
     @Override
     protected BaseMapper<SkillTag> mapper() {
-        return outboundRecordMapper;
+        return skillTagMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"outbound_no", "consumable_name", "lab_name", "outbound_qty"};
+        return new String[]{"tag_no", "tag_name", "category_name", "owner_name"};
     }
 }
 

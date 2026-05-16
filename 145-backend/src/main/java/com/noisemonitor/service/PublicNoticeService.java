@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class PublicNoticeService extends BaseCrudService<PublicNotice> {
-    private final PublicNoticeMapper stockWarningMapper;
+    private final PublicNoticeMapper publicNoticeMapper;
 
     @Override
     protected BaseMapper<PublicNotice> mapper() {
-        return stockWarningMapper;
+        return publicNoticeMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"warning_no", "consumable_name", "current_qty", "warning_level"};
+        return new String[]{"notice_no", "complaint_title", "notice_type", "notice_content"};
     }
 }
 

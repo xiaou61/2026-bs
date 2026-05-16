@@ -17,202 +17,202 @@ CREATE TABLE sys_user (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO sys_user (username, password, nickname, role, department, phone, email, status, created_time, updated_time) VALUES
-('admin', '123456', '系统管理员', 'ADMIN', '科研管理处', '139134000100', 'admin@demo.local', 1, NOW(), NOW()),
-('legal', '123456', '法务专员', 'LEGAL', '法务部', '139140000200', 'legal@demo.local', 1, NOW(), NOW()),
-('applicant', '123456', '业务申请人', 'APPLICANT', '业务部门', '139140000300', 'applicant@demo.local', 1, NOW(), NOW()),
-('approver', '123456', '审批负责人', 'APPROVER', '管理委员会', '139140000400', 'approver@demo.local', 1, NOW(), NOW());
+('admin', '123456', '系统管理员', 'ADMIN', '信息管理部', '139140000100', 'admin@demo.local', 1, NOW(), NOW()),
+('legal', '123456', '法务专员', 'LEGAL', '法务合规部', '139140000200', 'legal@demo.local', 1, NOW(), NOW()),
+('applicant', '123456', '业务申请人', 'APPLICANT', '业务运营部', '139140000300', 'applicant@demo.local', 1, NOW(), NOW()),
+('approver', '123456', '审批负责人', 'APPROVER', '综合管理部', '139140000400', 'approver@demo.local', 1, NOW(), NOW());
 
-CREATE TABLE research_project (
+CREATE TABLE contract_template (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  project_no VARCHAR(120),
-  project_name VARCHAR(120),
-  leader_name VARCHAR(120),
-  college_name VARCHAR(120),
-  start_year INT,
-  status VARCHAR(120),
+  template_no VARCHAR(120),
+  template_name VARCHAR(120),
+  contract_type VARCHAR(120),
+  version_no VARCHAR(60),
+  maintainer_name VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO research_project (project_no, project_name, leader_name, college_name, start_year, status, created_time, updated_time) VALUES
-('PRO-134-001', '项目名称一', '负责人一', '所属学院一', 2026, 'ACTIVE', NOW(), NOW()),
-('PRO-134-002', '项目名称二', '负责人二', '所属学院二', 2027, 'ACTIVE', NOW(), NOW());
+INSERT INTO contract_template (template_no, template_name, contract_type, version_no, maintainer_name, status, created_time, updated_time) VALUES
+('TPL-140-001', '标准采购合同模板', '采购合同', 'V1.0', '法务专员', 'ACTIVE', NOW(), NOW()),
+('TPL-140-002', '软件服务合同模板', '服务合同', 'V2.1', '系统管理员', 'DRAFT', NOW(), NOW());
 
-CREATE TABLE budget_category (
+CREATE TABLE counterparty_profile (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  category_no VARCHAR(120),
-  category_name VARCHAR(120),
-  usage_scope VARCHAR(120),
-  control_mode VARCHAR(120),
-  manager_name VARCHAR(120),
-  status VARCHAR(120),
+  counterparty_no VARCHAR(120),
+  counterparty_name VARCHAR(120),
+  credit_code VARCHAR(120),
+  contact_name VARCHAR(120),
+  contact_phone VARCHAR(30),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO budget_category (category_no, category_name, usage_scope, control_mode, manager_name, status, created_time, updated_time) VALUES
-('CAT-134-001', '科目名称一', '经费用途一', '控制方式一', '负责人一', 'ACTIVE', NOW(), NOW()),
-('CAT-134-002', '科目名称二', '经费用途二', '控制方式二', '负责人二', 'ACTIVE', NOW(), NOW());
+INSERT INTO counterparty_profile (counterparty_no, counterparty_name, credit_code, contact_name, contact_phone, status, created_time, updated_time) VALUES
+('CP-140-001', '华东数字科技有限公司', '91310112MA8AB1234X', '李峰', '13800138001', 'ACTIVE', NOW(), NOW()),
+('CP-140-002', '卓越供应链服务有限公司', '91440300MA5CD5678Y', '王敏', '13800138002', 'FINISHED', NOW(), NOW());
 
-CREATE TABLE budget_allocation (
+CREATE TABLE signer_profile (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  budget_no VARCHAR(120),
-  project_no VARCHAR(120),
-  category_name VARCHAR(120),
-  budget_amount DECIMAL(12,2),
-  used_amount DECIMAL(12,2),
-  status VARCHAR(120),
+  signer_no VARCHAR(120),
+  signer_name VARCHAR(120),
+  signer_type VARCHAR(80),
+  certificate_no VARCHAR(120),
+  authorization_status VARCHAR(40),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO budget_allocation (budget_no, project_no, category_name, budget_amount, used_amount, status, created_time, updated_time) VALUES
-('BUD-134-001', 'BUD-134-001', '预算科目一', 38.5, 38.5, 'OPEN', NOW(), NOW()),
-('BUD-134-002', 'BUD-134-002', '预算科目二', 51.5, 51.5, 'OPEN', NOW(), NOW());
+INSERT INTO signer_profile (signer_no, signer_name, signer_type, certificate_no, authorization_status, status, created_time, updated_time) VALUES
+('SIG-140-001', '张琳', '企业签署人', 'CERT-EC-2026001', 'AUTHORIZED', 'ACTIVE', NOW(), NOW()),
+('SIG-140-002', '陈涛', '代理签署人', 'CERT-EC-2026002', 'PENDING', 'PROCESSING', NOW(), NOW());
 
-CREATE TABLE expense_claim (
+CREATE TABLE contract_draft (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  claim_no VARCHAR(120),
-  project_no VARCHAR(120),
+  draft_no VARCHAR(120),
+  template_name VARCHAR(120),
+  contract_title VARCHAR(120),
   applicant_name VARCHAR(120),
-  claim_amount DECIMAL(12,2),
-  claim_time VARCHAR(120),
-  status VARCHAR(120),
+  submit_time VARCHAR(40),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO expense_claim (claim_no, project_no, applicant_name, claim_amount, claim_time, status, created_time, updated_time) VALUES
-('CLM-134-001', 'CLM-134-001', '申请人一', 38.5, '2026-05-6 10:00', 'SUBMITTED', NOW(), NOW()),
-('CLM-134-002', 'CLM-134-002', '申请人二', 51.5, '2026-05-7 10:00', 'SUBMITTED', NOW(), NOW());
+INSERT INTO contract_draft (draft_no, template_name, contract_title, applicant_name, submit_time, status, created_time, updated_time) VALUES
+('DR-140-001', '标准采购合同模板', '2026年办公设备采购合同', '业务申请人', '2026-05-12 09:30', 'DRAFT', NOW(), NOW()),
+('DR-140-002', '软件服务合同模板', '云平台运维服务续签合同', '系统管理员', '2026-05-13 15:20', 'SUBMITTED', NOW(), NOW());
 
-CREATE TABLE invoice_record (
+CREATE TABLE seal_application (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  invoice_no VARCHAR(120),
-  claim_no VARCHAR(120),
-  invoice_type VARCHAR(120),
-  invoice_amount DECIMAL(12,2),
-  issuer_name VARCHAR(120),
-  status VARCHAR(120),
+  application_no VARCHAR(120),
+  contract_title VARCHAR(120),
+  seal_type VARCHAR(80),
+  applicant_name VARCHAR(120),
+  use_date VARCHAR(40),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO invoice_record (invoice_no, claim_no, invoice_type, invoice_amount, issuer_name, status, created_time, updated_time) VALUES
-('INV-134-001', 'INV-134-001', '发票类型一', 38.5, '开票单位一', 'SUBMITTED', NOW(), NOW()),
-('INV-134-002', 'INV-134-002', '发票类型二', 51.5, '开票单位二', 'SUBMITTED', NOW(), NOW());
+INSERT INTO seal_application (application_no, contract_title, seal_type, applicant_name, use_date, status, created_time, updated_time) VALUES
+('SEA-140-001', '2026年办公设备采购合同', '合同专用章', '业务申请人', '2026-05-16', 'SUBMITTED', NOW(), NOW()),
+('SEA-140-002', '云平台运维服务续签合同', '公司公章', '系统管理员', '2026-05-18', 'APPROVED', NOW(), NOW());
 
-CREATE TABLE approval_task (
+CREATE TABLE approval_flow (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  approval_no VARCHAR(120),
-  claim_no VARCHAR(120),
-  node_name VARCHAR(120),
+  flow_no VARCHAR(120),
+  contract_title VARCHAR(120),
+  current_node VARCHAR(120),
   approver_name VARCHAR(120),
-  approval_opinion VARCHAR(120),
-  status VARCHAR(120),
+  approval_opinion VARCHAR(255),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO approval_task (approval_no, claim_no, node_name, approver_name, approval_opinion, status, created_time, updated_time) VALUES
-('APR-134-001', 'APR-134-001', '审批节点一', '审批人一', '审批意见一', 'REVIEWING', NOW(), NOW()),
-('APR-134-002', 'APR-134-002', '审批节点二', '审批人二', '审批意见二', 'REVIEWING', NOW(), NOW());
+INSERT INTO approval_flow (flow_no, contract_title, current_node, approver_name, approval_opinion, status, created_time, updated_time) VALUES
+('APR-140-001', '2026年办公设备采购合同', '法务审查', '法务专员', '条款清晰，可进入用印审批', 'SUBMITTED', NOW(), NOW()),
+('APR-140-002', '云平台运维服务续签合同', '分管领导审批', '审批负责人', '同意签署并归档', 'APPROVED', NOW(), NOW());
 
-CREATE TABLE payment_record (
+CREATE TABLE contract_signing (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  payment_no VARCHAR(120),
-  claim_no VARCHAR(120),
-  payment_amount DECIMAL(12,2),
-  payment_time VARCHAR(120),
+  signing_no VARCHAR(120),
+  contract_title VARCHAR(120),
+  signatory_name VARCHAR(120),
+  sign_time VARCHAR(40),
+  signing_status VARCHAR(40),
+  status VARCHAR(40),
+  created_time DATETIME,
+  updated_time DATETIME
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO contract_signing (signing_no, contract_title, signatory_name, sign_time, signing_status, status, created_time, updated_time) VALUES
+('CS-140-001', '2026年办公设备采购合同', '张琳', '2026-05-18 10:30', 'PENDING', 'PROCESSING', NOW(), NOW()),
+('CS-140-002', '云平台运维服务续签合同', '陈涛', '2026-05-19 14:00', 'SIGNED', 'FINISHED', NOW(), NOW());
+
+CREATE TABLE seal_record (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  seal_record_no VARCHAR(120),
+  contract_title VARCHAR(120),
+  seal_type VARCHAR(80),
   operator_name VARCHAR(120),
-  status VARCHAR(120),
+  seal_time VARCHAR(40),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO payment_record (payment_no, claim_no, payment_amount, payment_time, operator_name, status, created_time, updated_time) VALUES
-('PAY-134-001', 'PAY-134-001', 38.5, '2026-05-6 10:00', '经办人一', 'FINISHED', NOW(), NOW()),
-('PAY-134-002', 'PAY-134-002', 51.5, '2026-05-7 10:00', '经办人二', 'FINISHED', NOW(), NOW());
+INSERT INTO seal_record (seal_record_no, contract_title, seal_type, operator_name, seal_time, status, created_time, updated_time) VALUES
+('SR-140-001', '2026年办公设备采购合同', '合同专用章', '法务专员', '2026-05-18 11:00', 'ACTIVE', NOW(), NOW()),
+('SR-140-002', '云平台运维服务续签合同', '公司公章', '系统管理员', '2026-05-19 14:30', 'FINISHED', NOW(), NOW());
 
-CREATE TABLE research_achievement (
+CREATE TABLE archive_record (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  achievement_no VARCHAR(120),
-  project_no VARCHAR(120),
-  achievement_name VARCHAR(120),
-  achievement_type VARCHAR(120),
-  owner_name VARCHAR(120),
-  status VARCHAR(120),
+  archive_no VARCHAR(120),
+  contract_title VARCHAR(120),
+  archive_location VARCHAR(120),
+  archivist_name VARCHAR(120),
+  archive_date VARCHAR(40),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO research_achievement (achievement_no, project_no, achievement_name, achievement_type, owner_name, status, created_time, updated_time) VALUES
-('ACH-134-001', 'ACH-134-001', '成果名称一', '成果类型一', '完成人一', 'PUBLISHED', NOW(), NOW()),
-('ACH-134-002', 'ACH-134-002', '成果名称二', '成果类型二', '完成人二', 'PUBLISHED', NOW(), NOW());
+INSERT INTO archive_record (archive_no, contract_title, archive_location, archivist_name, archive_date, status, created_time, updated_time) VALUES
+('AR-140-001', '2026年办公设备采购合同', '电子档案室-A01', '法务专员', '2026-05-20', 'ACTIVE', NOW(), NOW()),
+('AR-140-002', '云平台运维服务续签合同', '电子档案室-B03', '系统管理员', '2026-05-21', 'FINISHED', NOW(), NOW());
 
-CREATE TABLE paper_record (
+CREATE TABLE expiration_reminder (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  paper_no VARCHAR(120),
-  project_no VARCHAR(120),
-  paper_title VARCHAR(120),
-  journal_name VARCHAR(120),
-  publish_time VARCHAR(120),
-  status VARCHAR(120),
+  reminder_no VARCHAR(120),
+  contract_title VARCHAR(120),
+  counterparty_name VARCHAR(120),
+  expiry_date VARCHAR(40),
+  reminder_method VARCHAR(80),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO paper_record (paper_no, project_no, paper_title, journal_name, publish_time, status, created_time, updated_time) VALUES
-('PAP-134-001', 'PAP-134-001', '论文题目一', '期刊名称一', '2026-05-6 10:00', 'PUBLISHED', NOW(), NOW()),
-('PAP-134-002', 'PAP-134-002', '论文题目二', '期刊名称二', '2026-05-7 10:00', 'PUBLISHED', NOW(), NOW());
+INSERT INTO expiration_reminder (reminder_no, contract_title, counterparty_name, expiry_date, reminder_method, status, created_time, updated_time) VALUES
+('RM-140-001', '2026年办公设备采购合同', '华东数字科技有限公司', '2027-05-30', '邮件提醒', 'ACTIVE', NOW(), NOW()),
+('RM-140-002', '云平台运维服务续签合同', '卓越供应链服务有限公司', '2026-12-31', '短信提醒', 'FINISHED', NOW(), NOW());
 
-CREATE TABLE patent_record (
+CREATE TABLE risk_clause (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  patent_no VARCHAR(120),
-  project_no VARCHAR(120),
-  patent_name VARCHAR(120),
-  applicant_name VARCHAR(120),
-  grant_time VARCHAR(120),
-  status VARCHAR(120),
+  clause_no VARCHAR(120),
+  contract_title VARCHAR(120),
+  clause_type VARCHAR(120),
+  risk_level VARCHAR(40),
+  reviewer_name VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO patent_record (patent_no, project_no, patent_name, applicant_name, grant_time, status, created_time, updated_time) VALUES
-('PAT-134-001', 'PAT-134-001', '专利名称一', '申请人一', '2026-05-6 10:00', 'PUBLISHED', NOW(), NOW()),
-('PAT-134-002', 'PAT-134-002', '专利名称二', '申请人二', '2026-05-7 10:00', 'PUBLISHED', NOW(), NOW());
+INSERT INTO risk_clause (clause_no, contract_title, clause_type, risk_level, reviewer_name, status, created_time, updated_time) VALUES
+('RK-140-001', '2026年办公设备采购合同', '违约责任条款', 'HIGH', '法务专员', 'PROCESSING', NOW(), NOW()),
+('RK-140-002', '云平台运维服务续签合同', '数据安全条款', 'MEDIUM', '系统管理员', 'FINISHED', NOW(), NOW());
 
-CREATE TABLE performance_statistic (
+CREATE TABLE contract_notice (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  stat_no VARCHAR(120),
-  project_no VARCHAR(120),
-  stat_month VARCHAR(120),
-  claim_count INT,
-  achievement_count INT,
-  status VARCHAR(120),
+  notice_no VARCHAR(120),
+  notice_title VARCHAR(120),
+  notice_type VARCHAR(120),
+  receiver_name VARCHAR(120),
+  publish_time VARCHAR(40),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO performance_statistic (stat_no, project_no, stat_month, claim_count, achievement_count, status, created_time, updated_time) VALUES
-('STA-134-001', 'STA-134-001', '2026-06', 35, 35, 'FINISHED', NOW(), NOW()),
-('STA-134-002', 'STA-134-002', '2026-07', 40, 40, 'FINISHED', NOW(), NOW());
-
-CREATE TABLE risk_warning (
-  id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  warning_no VARCHAR(120),
-  project_no VARCHAR(120),
-  risk_level VARCHAR(120),
-  trigger_reason VARCHAR(120),
-  handler_name VARCHAR(120),
-  status VARCHAR(120),
-  created_time DATETIME,
-  updated_time DATETIME
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO risk_warning (warning_no, project_no, risk_level, trigger_reason, handler_name, status, created_time, updated_time) VALUES
-('RSK-134-001', 'RSK-134-001', '风险级别一', '触发原因一', '处理人一', 'WARNING', NOW(), NOW()),
-('RSK-134-002', 'RSK-134-002', '风险级别二', '触发原因二', '处理人二', 'WARNING', NOW(), NOW());
+INSERT INTO contract_notice (notice_no, notice_title, notice_type, receiver_name, publish_time, status, created_time, updated_time) VALUES
+('NT-140-001', '采购合同待签通知', '待签提醒', '业务申请人', '2026-05-18 12:00', 'PROCESSING', NOW(), NOW()),
+('NT-140-002', '服务合同归档完成通知', '归档通知', '审批负责人', '2026-05-21 16:20', 'FINISHED', NOW(), NOW());
 
 CREATE TABLE operation_log (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -220,18 +220,12 @@ CREATE TABLE operation_log (
   module_name VARCHAR(120),
   action_type VARCHAR(120),
   target_name VARCHAR(120),
-  detail_info VARCHAR(120),
-  status VARCHAR(120),
+  detail_info VARCHAR(255),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO operation_log (operator_name, module_name, action_type, target_name, detail_info, status, created_time, updated_time) VALUES
-('操作人一', '模块名称一', '动作类型一', '操作对象一', '操作详情一', 'SUCCESS', NOW(), NOW()),
-('操作人二', '模块名称二', '动作类型二', '操作对象二', '操作详情二', 'SUCCESS', NOW(), NOW());
-
-
-
-
-
-
+('系统管理员', '合同模板', '新增', '标准采购合同模板', '新增采购合同模板并提交法务复核', 'SUCCESS', NOW(), NOW()),
+('法务专员', '审批流程', '审批', '云平台运维服务续签合同', '完成法务审查并推送至签署环节', 'SUCCESS', NOW(), NOW());

@@ -15,9 +15,9 @@ import java.util.List;
 public interface SamplingTaskMapper {
     @Select({
         "<script>",
-        "SELECT * FROM expense_claim",
+        "SELECT * FROM sampling_task",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (claim_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR applicant_name LIKE CONCAT('%',#{keyword},'%') OR claim_amount LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (task_no LIKE CONCAT('%',#{keyword},'%') OR task_title LIKE CONCAT('%',#{keyword},'%') OR sampling_location LIKE CONCAT('%',#{keyword},'%') OR inspector_name LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,23 +25,23 @@ public interface SamplingTaskMapper {
     })
     List<SamplingTask> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM expense_claim WHERE id = #{id}")
+    @Select("SELECT * FROM sampling_task WHERE id = #{id}")
     SamplingTask selectById(Long id);
 
-    @Insert("INSERT INTO expense_claim (claim_no, project_no, applicant_name, claim_amount, claim_time, status, created_time, updated_time) VALUES (#{claimNo}, #{projectNo}, #{applicantName}, #{claimAmount}, #{claimTime}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO sampling_task (task_no, task_title, sampling_location, sampling_time, inspector_name, status, created_time, updated_time) VALUES (#{taskNo}, #{taskTitle}, #{samplingLocation}, #{samplingTime}, #{inspectorName}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(SamplingTask entity);
 
-    @Update("UPDATE expense_claim SET claim_no = #{claimNo}, project_no = #{projectNo}, applicant_name = #{applicantName}, claim_amount = #{claimAmount}, claim_time = #{claimTime}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE sampling_task SET task_no = #{taskNo}, task_title = #{taskTitle}, sampling_location = #{samplingLocation}, sampling_time = #{samplingTime}, inspector_name = #{inspectorName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(SamplingTask entity);
 
-    @Delete("DELETE FROM expense_claim WHERE id = #{id}")
+    @Delete("DELETE FROM sampling_task WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM expense_claim")
+    @Select("SELECT COUNT(*) FROM sampling_task")
     long countAll();
 
-    @Update("UPDATE expense_claim SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE sampling_task SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
 

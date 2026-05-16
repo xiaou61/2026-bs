@@ -3,6 +3,10 @@ import { ElMessage } from 'element-plus'
 import router from '../router'
 
 const request = axios.create({ baseURL: '', timeout: 15000 })
+const clearAuth = () => {
+  localStorage.removeItem('token')
+  localStorage.removeItem('user')
+}
 
 request.interceptors.request.use(config => {
   const token = localStorage.getItem('token')
@@ -15,13 +19,17 @@ request.interceptors.response.use(response => {
   if (res.code !== 200) {
     ElMessage.error(res.message || '请求失败')
     if (res.message && res.message.includes('登录')) {
-      localStorage.removeItem('token')
+      clearAuth()
       router.push('/login')
     }
     return Promise.reject(res)
   }
   return res
 }, error => {
+  if (error.response?.status === 401 || error.response?.status === 403) {
+    clearAuth()
+    router.push('/login')
+  }
   ElMessage.error(error.message || '网络错误')
   return Promise.reject(error)
 })

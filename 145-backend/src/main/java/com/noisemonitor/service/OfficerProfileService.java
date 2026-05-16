@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class OfficerProfileService extends BaseCrudService<OfficerProfile> {
-    private final OfficerProfileMapper stockItemMapper;
+    private final OfficerProfileMapper officerProfileMapper;
 
     @Override
     protected BaseMapper<OfficerProfile> mapper() {
-        return stockItemMapper;
+        return officerProfileMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"stock_no", "consumable_name", "lab_name", "current_qty"};
+        return new String[]{"officer_no", "officer_name", "duty_area", "contact_phone"};
     }
 }
 

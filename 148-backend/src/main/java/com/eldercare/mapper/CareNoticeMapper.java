@@ -15,9 +15,9 @@ import java.util.List;
 public interface CareNoticeMapper {
     @Select({
         "<script>",
-        "SELECT * FROM risk_warning",
+        "SELECT * FROM care_notice",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (warning_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR risk_level LIKE CONCAT('%',#{keyword},'%') OR trigger_reason LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (notice_no LIKE CONCAT('%',#{keyword},'%') OR elder_name LIKE CONCAT('%',#{keyword},'%') OR notice_type LIKE CONCAT('%',#{keyword},'%') OR receiver_name LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,29 +25,22 @@ public interface CareNoticeMapper {
     })
     List<CareNotice> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM risk_warning WHERE id = #{id}")
+    @Select("SELECT * FROM care_notice WHERE id = #{id}")
     CareNotice selectById(Long id);
 
-    @Insert("INSERT INTO risk_warning (warning_no, project_no, risk_level, trigger_reason, handler_name, status, created_time, updated_time) VALUES (#{warningNo}, #{projectNo}, #{riskLevel}, #{triggerReason}, #{handlerName}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO care_notice (notice_no, elder_name, notice_type, notice_content, receiver_name, status, created_time, updated_time) VALUES (#{noticeNo}, #{elderName}, #{noticeType}, #{noticeContent}, #{receiverName}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(CareNotice entity);
 
-    @Update("UPDATE risk_warning SET warning_no = #{warningNo}, project_no = #{projectNo}, risk_level = #{riskLevel}, trigger_reason = #{triggerReason}, handler_name = #{handlerName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE care_notice SET notice_no = #{noticeNo}, elder_name = #{elderName}, notice_type = #{noticeType}, notice_content = #{noticeContent}, receiver_name = #{receiverName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(CareNotice entity);
 
-    @Delete("DELETE FROM risk_warning WHERE id = #{id}")
+    @Delete("DELETE FROM care_notice WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM risk_warning")
+    @Select("SELECT COUNT(*) FROM care_notice")
     long countAll();
 
-    @Update("UPDATE risk_warning SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE care_notice SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-
-
-
-

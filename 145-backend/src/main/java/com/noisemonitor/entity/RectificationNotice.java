@@ -8,15 +8,15 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("purchase_order")
+@TableName("rectification_notice")
 public class RectificationNotice {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String orderNo;
-    private String supplierName;
-    private String consumableName;
-    private BigDecimal orderAmount;
-    private String arrivalDate;
+    private String noticeNo;
+    private String complaintTitle;
+    private String rectifyRequirement;
+    private String issueTime;
+    private String responsibleUnit;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;

@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class TrainingProgramService extends BaseCrudService<TrainingProgram> {
-    private final TrainingProgramMapper consumableCatalogMapper;
+    private final TrainingProgramMapper trainingProgramMapper;
 
     @Override
     protected BaseMapper<TrainingProgram> mapper() {
-        return consumableCatalogMapper;
+        return trainingProgramMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"consumable_no", "consumable_name", "spec_model", "unit_name"};
+        return new String[]{"program_no", "program_name", "target_role", "organizer_name"};
     }
 }
 

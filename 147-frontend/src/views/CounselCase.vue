@@ -1,16 +1,52 @@
 <template>
-  <DataPage title="会议信息" description="会议编号、会议名称、会议主题、主办单位、会场数量和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage
+    title="咨询个案"
+    description="维护个案编号、咨询主题、问题类型、所属学院和提交时间，支撑来访受理与结案跟踪"
+    :api="api"
+    :columns="columns"
+    :form-fields="formFields"
+    :row-actions="rowActions"
+    :defaults="defaults"
+    :can-create="canManage"
+    :can-edit="canManage"
+    :can-delete="canManage"
+    @row-action="handleAction"
+  />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getCounselCasePage, addCounselCase, updateCounselCase, deleteCounselCase, activateCounselCase, finishCounselCase } from '../api'
+
 const api = { page: getCounselCasePage, add: addCounselCase, update: updateCounselCase, delete: deleteCounselCase }
-const columns = [{"prop": "consumableNo", "label": "会议编号"}, {"prop": "consumableName", "label": "会议名称"}, {"prop": "specModel", "label": "会议主题"}, {"prop": "unitName", "label": "主办单位"}, {"prop": "safeStock", "label": "会场数量"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "consumableNo", "label": "会议编号"}, {"prop": "consumableName", "label": "会议名称"}, {"prop": "specModel", "label": "会议主题"}, {"prop": "unitName", "label": "主办单位"}, {"prop": "safeStock", "label": "会场数量", "type": "number"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "activate", "label": "启用", "type": "success"}, {"command": "finish", "label": "完成", "type": "primary"}]
-const defaults = {"status": "ACTIVE"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'TEACHER', 'COUNSELOR'].includes(role.value))
+const columns = [
+  { prop: 'caseNo', label: '个案编号' },
+  { prop: 'caseTheme', label: '咨询主题', width: 180 },
+  { prop: 'issueType', label: '问题类型', width: 140 },
+  { prop: 'collegeName', label: '所属学院', width: 160 },
+  { prop: 'submitTime', label: '提交时间', width: 160 },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'caseNo', label: '个案编号' },
+  { prop: 'caseTheme', label: '咨询主题' },
+  { prop: 'issueType', label: '问题类型' },
+  { prop: 'collegeName', label: '所属学院' },
+  { prop: 'submitTime', label: '提交时间' },
+  { prop: 'status', label: '状态', type: 'select', options: [{ label: '待受理', value: 'OPEN' }, { label: '跟进中', value: 'ACTIVE' }, { label: '已结案', value: 'FINISHED' }] }
+]
+const rowActions = computed(() => canManage.value ? [
+  { command: 'activate', label: '受理', type: 'success' },
+  { command: 'finish', label: '结案', type: 'primary' }
+] : [])
+const defaults = { status: 'OPEN' }
+
 const handleAction = async ({ command, row, refresh }) => {
   if (command === 'activate') await activateCounselCase(row.id)
   if (command === 'finish') await finishCounselCase(row.id)

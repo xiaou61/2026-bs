@@ -4,23 +4,20 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+
 import java.time.LocalDateTime;
 
 @Data
-@TableName("lab_room")
+@TableName("rfid_tag")
 public class RfidTag {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String labNo;
-    private String labName;
-    private String buildingName;
-    private String managerName;
-    private String phoneNumber;
+    private String tagNo;
+    private String epcCode;
+    private String assetName;
+    private String storageArea;
+    private String managerPhone;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
 }
-
-
-
-

@@ -15,9 +15,9 @@ import java.util.List;
 public interface AccessibleRouteMapper {
     @Select({
         "<script>",
-        "SELECT * FROM research_project",
+        "SELECT * FROM accessible_route",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (project_no LIKE CONCAT('%',#{keyword},'%') OR project_name LIKE CONCAT('%',#{keyword},'%') OR leader_name LIKE CONCAT('%',#{keyword},'%') OR college_name LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (route_no LIKE CONCAT('%',#{keyword},'%') OR route_name LIKE CONCAT('%',#{keyword},'%') OR route_type LIKE CONCAT('%',#{keyword},'%') OR travel_scenario LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,27 +25,23 @@ public interface AccessibleRouteMapper {
     })
     List<AccessibleRoute> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM research_project WHERE id = #{id}")
+    @Select("SELECT * FROM accessible_route WHERE id = #{id}")
     AccessibleRoute selectById(Long id);
 
-    @Insert("INSERT INTO research_project (project_no, project_name, leader_name, college_name, start_year, status, created_time, updated_time) VALUES (#{projectNo}, #{projectName}, #{leaderName}, #{collegeName}, #{startYear}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO accessible_route (route_no, route_name, route_type, travel_scenario, suggested_duration, status, created_time, updated_time) VALUES (#{routeNo}, #{routeName}, #{routeType}, #{travelScenario}, #{suggestedDuration}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(AccessibleRoute entity);
 
-    @Update("UPDATE research_project SET project_no = #{projectNo}, project_name = #{projectName}, leader_name = #{leaderName}, college_name = #{collegeName}, start_year = #{startYear}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE accessible_route SET route_no = #{routeNo}, route_name = #{routeName}, route_type = #{routeType}, travel_scenario = #{travelScenario}, suggested_duration = #{suggestedDuration}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(AccessibleRoute entity);
 
-    @Delete("DELETE FROM research_project WHERE id = #{id}")
+    @Delete("DELETE FROM accessible_route WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM research_project")
+    @Select("SELECT COUNT(*) FROM accessible_route")
     long countAll();
 
-    @Update("UPDATE research_project SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE accessible_route SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-
 

@@ -9,20 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ServiceCheckinService extends BaseCrudService<ServiceCheckin> {
-    private final ServiceCheckinMapper purchaseApprovalMapper;
+    private final ServiceCheckinMapper serviceCheckinMapper;
 
     @Override
     protected BaseMapper<ServiceCheckin> mapper() {
-        return purchaseApprovalMapper;
+        return serviceCheckinMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"approval_no", "request_no", "approver_name", "approval_opinion"};
+        return new String[]{"checkin_no", "project_name", "checkin_name", "service_result"};
     }
 }
-
-
-
-
 

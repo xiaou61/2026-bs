@@ -18,7 +18,7 @@ public class InspectionPlanService extends BaseCrudService<InspectionPlan> {
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"rule_no", "category_name", "min_stock", "warning_level"};
+        return new String[]{"inspection_no", "equipment_name", "inspection_theme", "inspection_content"};
     }
 }
 

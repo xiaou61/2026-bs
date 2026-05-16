@@ -9,19 +9,15 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class InventoryRecordService extends BaseCrudService<InventoryRecord> {
-    private final InventoryRecordMapper purchaseApprovalMapper;
+    private final InventoryRecordMapper inventoryRecordMapper;
 
     @Override
     protected BaseMapper<InventoryRecord> mapper() {
-        return purchaseApprovalMapper;
+        return inventoryRecordMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"approval_no", "request_no", "approver_name", "approval_opinion"};
+        return new String[]{"record_no", "task_no", "checker_name", "difference_note"};
     }
 }
-
-
-
-

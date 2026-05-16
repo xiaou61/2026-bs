@@ -8,6 +8,7 @@ import com.outpatientexam.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,6 +41,26 @@ public class AuthService {
 
     public void logout(String token) {
         if (token != null) tokenService.remove(clean(token));
+    }
+
+    public void assertAdmin(String role) {
+        assertAnyRole(role, "ADMIN");
+    }
+
+    public void assertAuthenticated(String role) {
+        if (!StringUtils.hasText(role)) {
+            throw new BusinessException("无权限访问");
+        }
+    }
+
+    public void assertAnyRole(String role, String... roles) {
+        assertAuthenticated(role);
+        for (String item : roles) {
+            if (item.equals(role)) {
+                return;
+            }
+        }
+        throw new BusinessException("无权限访问");
     }
 
     private String clean(String token) {

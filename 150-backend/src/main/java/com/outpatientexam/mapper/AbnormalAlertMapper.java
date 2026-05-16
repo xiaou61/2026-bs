@@ -14,41 +14,33 @@ import java.util.List;
 @Mapper
 public interface AbnormalAlertMapper {
     @Select({
-        "<script>",
-        "SELECT * FROM research_achievement",
-        "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (achievement_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR achievement_name LIKE CONCAT('%',#{keyword},'%') OR achievement_type LIKE CONCAT('%',#{keyword},'%'))</if>",
-        "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
-        "</where>",
-        "ORDER BY id DESC",
-        "</script>"
+            "<script>",
+            "SELECT * FROM abnormal_alert",
+            "<where>",
+            "<if test='keyword != null and keyword != \"\"'> AND (alert_no LIKE CONCAT('%',#{keyword},'%') OR patient_name LIKE CONCAT('%',#{keyword},'%') OR alert_type LIKE CONCAT('%',#{keyword},'%') OR handler_name LIKE CONCAT('%',#{keyword},'%'))</if>",
+            "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
+            "</where>",
+            "ORDER BY id DESC",
+            "</script>"
     })
     List<AbnormalAlert> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM research_achievement WHERE id = #{id}")
+    @Select("SELECT * FROM abnormal_alert WHERE id = #{id}")
     AbnormalAlert selectById(Long id);
 
-    @Insert("INSERT INTO research_achievement (achievement_no, project_no, achievement_name, achievement_type, owner_name, status, created_time, updated_time) VALUES (#{achievementNo}, #{projectNo}, #{achievementName}, #{achievementType}, #{ownerName}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO abnormal_alert (alert_no, patient_name, alert_type, alert_time, handler_name, status, created_time, updated_time) VALUES (#{alertNo}, #{patientName}, #{alertType}, #{alertTime}, #{handlerName}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(AbnormalAlert entity);
 
-    @Update("UPDATE research_achievement SET achievement_no = #{achievementNo}, project_no = #{projectNo}, achievement_name = #{achievementName}, achievement_type = #{achievementType}, owner_name = #{ownerName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE abnormal_alert SET alert_no = #{alertNo}, patient_name = #{patientName}, alert_type = #{alertType}, alert_time = #{alertTime}, handler_name = #{handlerName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(AbnormalAlert entity);
 
-    @Delete("DELETE FROM research_achievement WHERE id = #{id}")
+    @Delete("DELETE FROM abnormal_alert WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM research_achievement")
+    @Select("SELECT COUNT(*) FROM abnormal_alert")
     long countAll();
 
-    @Update("UPDATE research_achievement SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE abnormal_alert SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-
-
-
-
-

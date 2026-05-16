@@ -10,31 +10,23 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class DoctorProfileService {
-    private final DoctorProfileMapper budgetAllocationMapper;
+    private final DoctorProfileMapper mapper;
 
     public PageInfo<DoctorProfile> page(Integer pageNum, Integer pageSize, String keyword, String status) {
         PageHelper.startPage(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
-        return new PageInfo<>(budgetAllocationMapper.selectPage(keyword, status));
+        return new PageInfo<>(mapper.selectPage(keyword, status));
     }
 
     public void save(DoctorProfile entity) {
-        if (entity.getId() == null) budgetAllocationMapper.insert(entity);
-        else budgetAllocationMapper.update(entity);
+        if (entity.getId() == null) mapper.insert(entity);
+        else mapper.update(entity);
     }
 
     public void delete(Long id) {
-        budgetAllocationMapper.deleteById(id);
+        mapper.deleteById(id);
     }
 
     public void updateStatus(Long id, String status) {
-        budgetAllocationMapper.updateStatus(id, status);
+        mapper.updateStatus(id, status);
     }
 }
-
-
-
-
-
-
-
-

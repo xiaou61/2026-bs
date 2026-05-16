@@ -14,41 +14,33 @@ import java.util.List;
 @Mapper
 public interface DoctorProfileMapper {
     @Select({
-        "<script>",
-        "SELECT * FROM budget_allocation",
-        "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (budget_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR category_name LIKE CONCAT('%',#{keyword},'%') OR budget_amount LIKE CONCAT('%',#{keyword},'%'))</if>",
-        "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
-        "</where>",
-        "ORDER BY id DESC",
-        "</script>"
+            "<script>",
+            "SELECT * FROM doctor_profile",
+            "<where>",
+            "<if test='keyword != null and keyword != \"\"'> AND (doctor_no LIKE CONCAT('%',#{keyword},'%') OR doctor_name LIKE CONCAT('%',#{keyword},'%') OR phone LIKE CONCAT('%',#{keyword},'%') OR department_name LIKE CONCAT('%',#{keyword},'%') OR title_level LIKE CONCAT('%',#{keyword},'%'))</if>",
+            "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
+            "</where>",
+            "ORDER BY id DESC",
+            "</script>"
     })
     List<DoctorProfile> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM budget_allocation WHERE id = #{id}")
+    @Select("SELECT * FROM doctor_profile WHERE id = #{id}")
     DoctorProfile selectById(Long id);
 
-    @Insert("INSERT INTO budget_allocation (budget_no, project_no, category_name, budget_amount, used_amount, status, created_time, updated_time) VALUES (#{budgetNo}, #{projectNo}, #{categoryName}, #{budgetAmount}, #{usedAmount}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO doctor_profile (doctor_no, doctor_name, phone, department_name, title_level, status, created_time, updated_time) VALUES (#{doctorNo}, #{doctorName}, #{phone}, #{departmentName}, #{titleLevel}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(DoctorProfile entity);
 
-    @Update("UPDATE budget_allocation SET budget_no = #{budgetNo}, project_no = #{projectNo}, category_name = #{categoryName}, budget_amount = #{budgetAmount}, used_amount = #{usedAmount}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE doctor_profile SET doctor_no = #{doctorNo}, doctor_name = #{doctorName}, phone = #{phone}, department_name = #{departmentName}, title_level = #{titleLevel}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(DoctorProfile entity);
 
-    @Delete("DELETE FROM budget_allocation WHERE id = #{id}")
+    @Delete("DELETE FROM doctor_profile WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM budget_allocation")
+    @Select("SELECT COUNT(*) FROM doctor_profile")
     long countAll();
 
-    @Update("UPDATE budget_allocation SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE doctor_profile SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-
-
-
-
-

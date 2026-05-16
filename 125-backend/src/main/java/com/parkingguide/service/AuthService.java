@@ -1,11 +1,11 @@
 package com.parkingguide.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.parkingguide.common.BusinessException;
 import com.parkingguide.dto.LoginRequest;
 import com.parkingguide.entity.SysUser;
 import com.parkingguide.mapper.SysUserMapper;
 import com.parkingguide.utils.JwtUtils;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -46,5 +46,49 @@ public class AuthService {
     private String clean(String token) {
         if (token != null && token.startsWith("Bearer ")) return token.substring(7);
         return token;
+    }
+
+    public void assertAdmin(String role) {
+        assertAny(role, "ADMIN");
+    }
+
+    public void assertAdminOrOperator(String role) {
+        assertAny(role, "ADMIN", "OPERATOR");
+    }
+
+    public void assertAdminOrGuard(String role) {
+        assertAny(role, "ADMIN", "GUARD");
+    }
+
+    public void assertAdminOrAnalyst(String role) {
+        assertAny(role, "ADMIN", "ANALYST");
+    }
+
+    public void assertAdminOrOperatorOrGuard(String role) {
+        assertAny(role, "ADMIN", "OPERATOR", "GUARD");
+    }
+
+    public void assertAdminOrOperatorOrAnalyst(String role) {
+        assertAny(role, "ADMIN", "OPERATOR", "ANALYST");
+    }
+
+    public void assertAdminOrGuardOrAnalyst(String role) {
+        assertAny(role, "ADMIN", "GUARD", "ANALYST");
+    }
+
+    public void assertAdminOrOperatorOrGuardOrAnalyst(String role) {
+        assertAny(role, "ADMIN", "OPERATOR", "GUARD", "ANALYST");
+    }
+
+    public void assertAuthenticated(String role) {
+        assertAdminOrOperatorOrGuardOrAnalyst(role);
+    }
+
+    private void assertAny(String role, String... allowedRoles) {
+        if (role == null) throw new BusinessException("无权限操作");
+        for (String allowedRole : allowedRoles) {
+            if (allowedRole.equals(role)) return;
+        }
+        throw new BusinessException("无权限操作");
     }
 }

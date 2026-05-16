@@ -1,16 +1,53 @@
 <template>
-  <DataPage title="开题材料" description="材料编号、课题编号、材料名称、签到类型、提交学生和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage
+    title="健康评估"
+    description="维护评估编号、老人姓名、评估项目、评估时间和评估人，支撑长者健康跟踪随访"
+    :api="api"
+    :columns="columns"
+    :form-fields="formFields"
+    :row-actions="rowActions"
+    :defaults="defaults"
+    :can-create="canManage"
+    :can-edit="canManage"
+    :can-delete="canManage"
+    @row-action="handleAction"
+  />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getHealthAssessmentPage, addHealthAssessment, updateHealthAssessment, deleteHealthAssessment, activateHealthAssessment, finishHealthAssessment } from '../api'
+
 const api = { page: getHealthAssessmentPage, add: addHealthAssessment, update: updateHealthAssessment, delete: deleteHealthAssessment }
-const columns = [{"prop": "achievementNo", "label": "材料编号"}, {"prop": "projectNo", "label": "课题编号"}, {"prop": "achievementName", "label": "材料名称"}, {"prop": "achievementType", "label": "签到类型"}, {"prop": "ownerName", "label": "提交学生"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "achievementNo", "label": "材料编号"}, {"prop": "projectNo", "label": "课题编号"}, {"prop": "achievementName", "label": "材料名称"}, {"prop": "achievementType", "label": "签到类型"}, {"prop": "ownerName", "label": "提交学生"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "activate", "label": "启用", "type": "success"}, {"command": "finish", "label": "完成", "type": "primary"}]
-const defaults = {"status": "PUBLISHED"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'CONSULTANT', 'CAREGIVER'].includes(role.value))
+const canClose = computed(() => ['ADMIN', 'CONSULTANT'].includes(role.value))
+const columns = [
+  { prop: 'assessmentNo', label: '评估编号' },
+  { prop: 'elderName', label: '老人姓名', width: 140 },
+  { prop: 'assessmentItem', label: '评估项目', width: 180 },
+  { prop: 'assessmentTime', label: '评估时间', width: 160 },
+  { prop: 'assessorName', label: '评估人', width: 140 },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'assessmentNo', label: '评估编号' },
+  { prop: 'elderName', label: '老人姓名' },
+  { prop: 'assessmentItem', label: '评估项目' },
+  { prop: 'assessmentTime', label: '评估时间' },
+  { prop: 'assessorName', label: '评估人' },
+  { prop: 'status', label: '状态', type: 'select', options: [{ label: '启用中', value: 'ACTIVE' }, { label: '已完成', value: 'FINISHED' }] }
+]
+const rowActions = computed(() => canClose.value ? [
+  { command: 'activate', label: '启动评估', type: 'primary' },
+  { command: 'finish', label: '完成评估', type: 'success' }
+] : [])
+const defaults = { status: 'ACTIVE' }
+
 const handleAction = async ({ command, row, refresh }) => {
   if (command === 'activate') await activateHealthAssessment(row.id)
   if (command === 'finish') await finishHealthAssessment(row.id)
@@ -18,11 +55,3 @@ const handleAction = async ({ command, row, refresh }) => {
   refresh()
 }
 </script>
-
-
-
-
-
-
-
-

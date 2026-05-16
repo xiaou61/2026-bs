@@ -7,15 +7,15 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("inventory_check")
+@TableName("public_feedback")
 public class PublicFeedback {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String checkNo;
-    private String labName;
-    private String consumableName;
-    private Integer bookQty;
-    private Integer actualQty;
+    private String feedbackNo;
+    private String complaintTitle;
+    private String feedbackTopic;
+    private String feedbackChannel;
+    private String feedbackTime;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;

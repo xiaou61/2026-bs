@@ -10,24 +10,24 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class RiskClauseService {
-    private final RiskClauseMapper performanceStatisticMapper;
+    private final RiskClauseMapper riskClauseMapper;
 
     public PageInfo<RiskClause> page(Integer pageNum, Integer pageSize, String keyword, String status) {
         PageHelper.startPage(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
-        return new PageInfo<>(performanceStatisticMapper.selectPage(keyword, status));
+        return new PageInfo<>(riskClauseMapper.selectPage(keyword, status));
     }
 
     public void save(RiskClause entity) {
-        if (entity.getId() == null) performanceStatisticMapper.insert(entity);
-        else performanceStatisticMapper.update(entity);
+        if (entity.getId() == null) riskClauseMapper.insert(entity);
+        else riskClauseMapper.update(entity);
     }
 
     public void delete(Long id) {
-        performanceStatisticMapper.deleteById(id);
+        riskClauseMapper.deleteById(id);
     }
 
     public void updateStatus(Long id, String status) {
-        performanceStatisticMapper.updateStatus(id, status);
+        riskClauseMapper.updateStatus(id, status);
     }
 }
 

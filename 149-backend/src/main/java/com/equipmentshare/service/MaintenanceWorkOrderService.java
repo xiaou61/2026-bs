@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class MaintenanceWorkOrderService extends BaseCrudService<MaintenanceWorkOrder> {
-    private final MaintenanceWorkOrderMapper outboundRecordMapper;
+    private final MaintenanceWorkOrderMapper maintenanceWorkOrderMapper;
 
     @Override
     protected BaseMapper<MaintenanceWorkOrder> mapper() {
-        return outboundRecordMapper;
+        return maintenanceWorkOrderMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"outbound_no", "consumable_name", "lab_name", "outbound_qty"};
+        return new String[]{"work_order_no", "equipment_name", "fault_type", "reporter_name"};
     }
 }
 

@@ -7,7 +7,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
 
 public class JwtUtils {
-    private static final String SECRET = "learning-path-139-secret";
+    private static final String SECRET = "equipment-share-149-secret";
     private static final long EXPIRE = 24 * 60 * 60 * 1000L;
 
     public static String generateToken(Long userId, String username, String role) {

@@ -10,28 +10,24 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class VolunteerProfileService {
-    private final VolunteerProfileMapper invoiceRecordMapper;
+    private final VolunteerProfileMapper volunteerProfileMapper;
 
     public PageInfo<VolunteerProfile> page(Integer pageNum, Integer pageSize, String keyword, String status) {
         PageHelper.startPage(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
-        return new PageInfo<>(invoiceRecordMapper.selectPage(keyword, status));
+        return new PageInfo<>(volunteerProfileMapper.selectPage(keyword, status));
     }
 
     public void save(VolunteerProfile entity) {
-        if (entity.getId() == null) invoiceRecordMapper.insert(entity);
-        else invoiceRecordMapper.update(entity);
+        if (entity.getId() == null) volunteerProfileMapper.insert(entity);
+        else volunteerProfileMapper.update(entity);
     }
 
     public void delete(Long id) {
-        invoiceRecordMapper.deleteById(id);
+        volunteerProfileMapper.deleteById(id);
     }
 
     public void updateStatus(Long id, String status) {
-        invoiceRecordMapper.updateStatus(id, status);
+        volunteerProfileMapper.updateStatus(id, status);
     }
 }
-
-
-
-
 

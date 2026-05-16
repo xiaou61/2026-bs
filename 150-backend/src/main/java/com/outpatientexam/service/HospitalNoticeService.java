@@ -10,31 +10,23 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class HospitalNoticeService {
-    private final HospitalNoticeMapper queueCallMapper;
+    private final HospitalNoticeMapper mapper;
 
     public PageInfo<HospitalNotice> page(Integer pageNum, Integer pageSize, String keyword, String status) {
         PageHelper.startPage(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
-        return new PageInfo<>(queueCallMapper.selectPage(keyword, status));
+        return new PageInfo<>(mapper.selectPage(keyword, status));
     }
 
     public void save(HospitalNotice entity) {
-        if (entity.getId() == null) queueCallMapper.insert(entity);
-        else queueCallMapper.update(entity);
+        if (entity.getId() == null) mapper.insert(entity);
+        else mapper.update(entity);
     }
 
     public void delete(Long id) {
-        queueCallMapper.deleteById(id);
+        mapper.deleteById(id);
     }
 
     public void updateStatus(Long id, String status) {
-        queueCallMapper.updateStatus(id, status);
+        mapper.updateStatus(id, status);
     }
 }
-
-
-
-
-
-
-
-

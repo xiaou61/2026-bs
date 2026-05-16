@@ -3,21 +3,7 @@
     <el-aside width="236px">
       <div class="logo">PROJECT 128</div>
       <el-menu router :default-active="$route.path">
-        <el-menu-item index="/dashboard">数据看板</el-menu-item>
-        <el-menu-item index='/user'>账号权限</el-menu-item>
-        <el-menu-item index='/indicator'>指标库</el-menu-item>
-        <el-menu-item index='/template'>披露模板</el-menu-item>
-        <el-menu-item index='/period'>报告周期</el-menu-item>
-        <el-menu-item index='/submission'>企业填报</el-menu-item>
-        <el-menu-item index='/data'>指标数据</el-menu-item>
-        <el-menu-item index='/evidence'>佐证材料</el-menu-item>
-        <el-menu-item index='/review'>审核任务</el-menu-item>
-        <el-menu-item index='/model'>评分模型</el-menu-item>
-        <el-menu-item index='/score'>ESG评分</el-menu-item>
-        <el-menu-item index='/improvement'>改进任务</el-menu-item>
-        <el-menu-item index='/feedback'>利益相关方反馈</el-menu-item>
-        <el-menu-item index='/export'>报告导出</el-menu-item>
-        <el-menu-item index='/log'>操作日志</el-menu-item>
+        <el-menu-item v-for="item in visibleMenus" :key="item.index" :index="item.index">{{ item.label }}</el-menu-item>
       </el-menu>
     </el-aside>
     <el-container>
@@ -31,11 +17,34 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { logout } from '../api'
 import { useUserStore } from '../store/user'
+
 const router = useRouter()
 const userStore = useUserStore()
+const menus = [
+  { index: '/dashboard', label: '数据看板', roles: ['ADMIN', 'EDITOR', 'REVIEWER', 'ESG_MANAGER'] },
+  { index: '/user', label: '账号权限', roles: ['ADMIN'] },
+  { index: '/indicator', label: '指标库', roles: ['ADMIN', 'EDITOR', 'REVIEWER', 'ESG_MANAGER'] },
+  { index: '/template', label: '披露模板', roles: ['ADMIN', 'EDITOR', 'REVIEWER', 'ESG_MANAGER'] },
+  { index: '/period', label: '报告周期', roles: ['ADMIN', 'EDITOR', 'REVIEWER', 'ESG_MANAGER'] },
+  { index: '/submission', label: '企业填报', roles: ['ADMIN', 'EDITOR', 'REVIEWER', 'ESG_MANAGER'] },
+  { index: '/data', label: '指标数据', roles: ['ADMIN', 'EDITOR', 'REVIEWER', 'ESG_MANAGER'] },
+  { index: '/evidence', label: '佐证材料', roles: ['ADMIN', 'EDITOR', 'REVIEWER'] },
+  { index: '/review', label: '审核任务', roles: ['ADMIN', 'EDITOR', 'REVIEWER', 'ESG_MANAGER'] },
+  { index: '/model', label: '评分模型', roles: ['ADMIN', 'EDITOR', 'REVIEWER', 'ESG_MANAGER'] },
+  { index: '/score', label: 'ESG评分', roles: ['ADMIN', 'EDITOR', 'REVIEWER', 'ESG_MANAGER'] },
+  { index: '/improvement', label: '改进任务', roles: ['ADMIN', 'EDITOR', 'REVIEWER', 'ESG_MANAGER'] },
+  { index: '/feedback', label: '利益相关方反馈', roles: ['ADMIN', 'EDITOR', 'REVIEWER', 'ESG_MANAGER'] },
+  { index: '/export', label: '报告导出', roles: ['ADMIN', 'EDITOR', 'REVIEWER', 'ESG_MANAGER'] },
+  { index: '/log', label: '操作日志', roles: ['ADMIN'] }
+]
+const visibleMenus = computed(() => {
+  const role = userStore.user?.role
+  return menus.filter(item => item.roles.includes(role))
+})
 const handleLogout = async () => {
   await logout().catch(() => null)
   userStore.clear()

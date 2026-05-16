@@ -3,21 +3,7 @@
     <el-aside width="236px">
       <div class="logo">PROJECT 137</div>
       <el-menu router :default-active="$route.path">
-        <el-menu-item index="/dashboard">数据看板</el-menu-item>
-        <el-menu-item index='/user'>账号权限</el-menu-item>
-        <el-menu-item index='/project'>孵化项目</el-menu-item>
-        <el-menu-item index='/mentor'>导师档案</el-menu-item>
-        <el-menu-item index='/team'>团队档案</el-menu-item>
-        <el-menu-item index='/application'>项目申报</el-menu-item>
-        <el-menu-item index='/plan'>孵化计划</el-menu-item>
-        <el-menu-item index='/coaching'>导师辅导</el-menu-item>
-        <el-menu-item index='/review'>路演活动</el-menu-item>
-        <el-menu-item index='/score'>路演评分</el-menu-item>
-        <el-menu-item index='/funding'>经费记录</el-menu-item>
-        <el-menu-item index='/milestone'>里程碑任务</el-menu-item>
-        <el-menu-item index='/achievement'>成果展示</el-menu-item>
-        <el-menu-item index='/notice'>孵化通知</el-menu-item>
-        <el-menu-item index='/log'>操作日志</el-menu-item>
+        <el-menu-item v-for="item in visibleMenus" :key="item.index" :index="item.index">{{ item.label }}</el-menu-item>
       </el-menu>
     </el-aside>
     <el-container>
@@ -31,11 +17,33 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { logout } from '../api'
 import { useUserStore } from '../store/user'
 const router = useRouter()
 const userStore = useUserStore()
+const menus = [
+  { index: '/dashboard', label: '数据看板', roles: ['ADMIN', 'MENTOR', 'STUDENT', 'JUDGE'] },
+  { index: '/user', label: '账号权限', roles: ['ADMIN'] },
+  { index: '/project', label: '孵化项目', roles: ['ADMIN', 'MENTOR', 'STUDENT', 'JUDGE'] },
+  { index: '/mentor', label: '导师档案', roles: ['ADMIN', 'MENTOR', 'STUDENT', 'JUDGE'] },
+  { index: '/team', label: '团队档案', roles: ['ADMIN', 'MENTOR', 'STUDENT', 'JUDGE'] },
+  { index: '/application', label: '项目申报', roles: ['ADMIN', 'MENTOR', 'STUDENT', 'JUDGE'] },
+  { index: '/plan', label: '孵化计划', roles: ['ADMIN', 'MENTOR', 'STUDENT', 'JUDGE'] },
+  { index: '/coaching', label: '导师辅导', roles: ['ADMIN', 'MENTOR', 'STUDENT', 'JUDGE'] },
+  { index: '/roadshow', label: '路演活动', roles: ['ADMIN', 'MENTOR', 'STUDENT', 'JUDGE'] },
+  { index: '/score', label: '路演评分', roles: ['ADMIN', 'MENTOR', 'STUDENT', 'JUDGE'] },
+  { index: '/funding', label: '经费记录', roles: ['ADMIN', 'MENTOR', 'STUDENT', 'JUDGE'] },
+  { index: '/milestone', label: '里程碑任务', roles: ['ADMIN', 'MENTOR', 'STUDENT', 'JUDGE'] },
+  { index: '/achievement', label: '成果展示', roles: ['ADMIN', 'MENTOR', 'STUDENT', 'JUDGE'] },
+  { index: '/notice', label: '孵化通知', roles: ['ADMIN', 'MENTOR', 'STUDENT', 'JUDGE'] },
+  { index: '/log', label: '操作日志', roles: ['ADMIN'] }
+]
+const visibleMenus = computed(() => {
+  const role = userStore.user?.role
+  return menus.filter(item => item.roles.includes(role))
+})
 const handleLogout = async () => {
   await logout().catch(() => null)
   userStore.clear()

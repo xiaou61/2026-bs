@@ -10,24 +10,24 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ApprovalFlowService {
-    private final ApprovalFlowMapper approvalTaskMapper;
+    private final ApprovalFlowMapper approvalFlowMapper;
 
     public PageInfo<ApprovalFlow> page(Integer pageNum, Integer pageSize, String keyword, String status) {
         PageHelper.startPage(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
-        return new PageInfo<>(approvalTaskMapper.selectPage(keyword, status));
+        return new PageInfo<>(approvalFlowMapper.selectPage(keyword, status));
     }
 
     public void save(ApprovalFlow entity) {
-        if (entity.getId() == null) approvalTaskMapper.insert(entity);
-        else approvalTaskMapper.update(entity);
+        if (entity.getId() == null) approvalFlowMapper.insert(entity);
+        else approvalFlowMapper.update(entity);
     }
 
     public void delete(Long id) {
-        approvalTaskMapper.deleteById(id);
+        approvalFlowMapper.deleteById(id);
     }
 
     public void updateStatus(Long id, String status) {
-        approvalTaskMapper.updateStatus(id, status);
+        approvalFlowMapper.updateStatus(id, status);
     }
 }
 

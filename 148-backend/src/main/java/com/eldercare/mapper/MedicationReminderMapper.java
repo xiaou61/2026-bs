@@ -15,9 +15,9 @@ import java.util.List;
 public interface MedicationReminderMapper {
     @Select({
         "<script>",
-        "SELECT * FROM paper_record",
+        "SELECT * FROM medication_reminder",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (paper_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR paper_title LIKE CONCAT('%',#{keyword},'%') OR journal_name LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (reminder_no LIKE CONCAT('%',#{keyword},'%') OR elder_name LIKE CONCAT('%',#{keyword},'%') OR reminder_type LIKE CONCAT('%',#{keyword},'%') OR receiver_name LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,29 +25,22 @@ public interface MedicationReminderMapper {
     })
     List<MedicationReminder> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM paper_record WHERE id = #{id}")
+    @Select("SELECT * FROM medication_reminder WHERE id = #{id}")
     MedicationReminder selectById(Long id);
 
-    @Insert("INSERT INTO paper_record (paper_no, project_no, paper_title, journal_name, publish_time, status, created_time, updated_time) VALUES (#{paperNo}, #{projectNo}, #{paperTitle}, #{journalName}, #{publishTime}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO medication_reminder (reminder_no, elder_name, reminder_type, reminder_time, receiver_name, status, created_time, updated_time) VALUES (#{reminderNo}, #{elderName}, #{reminderType}, #{reminderTime}, #{receiverName}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(MedicationReminder entity);
 
-    @Update("UPDATE paper_record SET paper_no = #{paperNo}, project_no = #{projectNo}, paper_title = #{paperTitle}, journal_name = #{journalName}, publish_time = #{publishTime}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE medication_reminder SET reminder_no = #{reminderNo}, elder_name = #{elderName}, reminder_type = #{reminderType}, reminder_time = #{reminderTime}, receiver_name = #{receiverName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(MedicationReminder entity);
 
-    @Delete("DELETE FROM paper_record WHERE id = #{id}")
+    @Delete("DELETE FROM medication_reminder WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM paper_record")
+    @Select("SELECT COUNT(*) FROM medication_reminder")
     long countAll();
 
-    @Update("UPDATE paper_record SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE medication_reminder SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-
-
-
-

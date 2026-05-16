@@ -9,20 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class PointRuleService extends BaseCrudService<PointRule> {
-    private final PointRuleMapper warningRuleMapper;
+    private final PointRuleMapper pointRuleMapper;
 
     @Override
     protected BaseMapper<PointRule> mapper() {
-        return warningRuleMapper;
+        return pointRuleMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"rule_no", "category_name", "min_stock", "warning_level"};
+        return new String[]{"rule_no", "project_name", "point_item", "effective_time"};
     }
 }
-
-
-
-
 

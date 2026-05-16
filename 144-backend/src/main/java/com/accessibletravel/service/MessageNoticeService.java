@@ -10,28 +10,24 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class MessageNoticeService {
-    private final MessageNoticeMapper riskWarningMapper;
+    private final MessageNoticeMapper messageNoticeMapper;
 
     public PageInfo<MessageNotice> page(Integer pageNum, Integer pageSize, String keyword, String status) {
         PageHelper.startPage(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
-        return new PageInfo<>(riskWarningMapper.selectPage(keyword, status));
+        return new PageInfo<>(messageNoticeMapper.selectPage(keyword, status));
     }
 
     public void save(MessageNotice entity) {
-        if (entity.getId() == null) riskWarningMapper.insert(entity);
-        else riskWarningMapper.update(entity);
+        if (entity.getId() == null) messageNoticeMapper.insert(entity);
+        else messageNoticeMapper.update(entity);
     }
 
     public void delete(Long id) {
-        riskWarningMapper.deleteById(id);
+        messageNoticeMapper.deleteById(id);
     }
 
     public void updateStatus(Long id, String status) {
-        riskWarningMapper.updateStatus(id, status);
+        messageNoticeMapper.updateStatus(id, status);
     }
 }
-
-
-
-
 

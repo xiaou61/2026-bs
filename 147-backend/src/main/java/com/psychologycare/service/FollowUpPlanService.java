@@ -18,7 +18,7 @@ public class FollowUpPlanService extends BaseCrudService<FollowUpPlan> {
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"rule_no", "category_name", "min_stock", "warning_level"};
+        return new String[]{"follow_up_no", "case_theme", "follow_up_stage", "follow_up_content"};
     }
 }
 

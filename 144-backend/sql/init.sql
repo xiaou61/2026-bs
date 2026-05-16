@@ -17,202 +17,202 @@ CREATE TABLE sys_user (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO sys_user (username, password, nickname, role, department, phone, email, status, created_time, updated_time) VALUES
-('admin', '123456', '系统管理员', 'ADMIN', '科研管理处', '139134000100', 'admin@demo.local', 1, NOW(), NOW()),
-('legal', '123456', '出行用户', 'LEGAL', '法务部', '139140000200', 'legal@demo.local', 1, NOW(), NOW()),
-('applicant', '123456', '志愿者', 'APPLICANT', '业务部门', '139140000300', 'applicant@demo.local', 1, NOW(), NOW()),
-('approver', '123456', '调度员', 'APPROVER', '管理委员会', '139140000400', 'approver@demo.local', 1, NOW(), NOW());
+('admin', '123456', '系统管理员', 'ADMIN', '平台运营中心', '139144000100', 'admin@demo.local', 1, NOW(), NOW()),
+('traveler', '123456', '出行用户', 'TRAVELER', '出行服务中心', '139144000200', 'traveler@demo.local', 1, NOW(), NOW()),
+('volunteer', '123456', '志愿者', 'VOLUNTEER', '志愿服务队', '139144000300', 'volunteer@demo.local', 1, NOW(), NOW()),
+('dispatcher', '123456', '调度员', 'DISPATCHER', '调度中心', '139144000400', 'dispatcher@demo.local', 1, NOW(), NOW());
 
-CREATE TABLE research_project (
+CREATE TABLE accessible_route (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  project_no VARCHAR(120),
-  project_name VARCHAR(120),
-  leader_name VARCHAR(120),
-  college_name VARCHAR(120),
-  start_year INT,
-  status VARCHAR(120),
+  route_no VARCHAR(120),
+  route_name VARCHAR(120),
+  route_type VARCHAR(120),
+  travel_scenario VARCHAR(120),
+  suggested_duration INT,
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO research_project (project_no, project_name, leader_name, college_name, start_year, status, created_time, updated_time) VALUES
-('PRO-134-001', '项目名称一', '负责人一', '所属学院一', 2026, 'ACTIVE', NOW(), NOW()),
-('PRO-134-002', '项目名称二', '负责人二', '所属学院二', 2027, 'ACTIVE', NOW(), NOW());
+INSERT INTO accessible_route (route_no, route_name, route_type, travel_scenario, suggested_duration, status, created_time, updated_time) VALUES
+('ROU-144-001', '市民中心无障碍通勤线', '地铁接驳', '轮椅通勤', 45, 'ACTIVE', NOW(), NOW()),
+('ROU-144-002', '医院门诊陪同保障线', '步行引导', '陪诊出行', 60, 'FINISHED', NOW(), NOW());
 
-CREATE TABLE budget_category (
+CREATE TABLE facility_point (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  category_no VARCHAR(120),
-  category_name VARCHAR(120),
-  usage_scope VARCHAR(120),
-  control_mode VARCHAR(120),
-  manager_name VARCHAR(120),
-  status VARCHAR(120),
+  point_no VARCHAR(120),
+  point_name VARCHAR(120),
+  facility_type VARCHAR(120),
+  address_detail VARCHAR(255),
+  open_status VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO budget_category (category_no, category_name, usage_scope, control_mode, manager_name, status, created_time, updated_time) VALUES
-('CAT-134-001', '科目名称一', '经费用途一', '控制方式一', '负责人一', 'ACTIVE', NOW(), NOW()),
-('CAT-134-002', '科目名称二', '经费用途二', '控制方式二', '负责人二', 'ACTIVE', NOW(), NOW());
+INSERT INTO facility_point (point_no, point_name, facility_type, address_detail, open_status, status, created_time, updated_time) VALUES
+('POI-144-001', '地铁 A 口无障碍电梯', '无障碍电梯', '幸福路地铁站 A 口', '开放', 'ACTIVE', NOW(), NOW()),
+('POI-144-002', '市民中心低位服务台', '低位柜台', '市民中心一层东侧', '维护中', 'FINISHED', NOW(), NOW());
 
-CREATE TABLE budget_allocation (
+CREATE TABLE traveler_profile (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  budget_no VARCHAR(120),
-  project_no VARCHAR(120),
-  category_name VARCHAR(120),
-  budget_amount DECIMAL(12,2),
-  used_amount DECIMAL(12,2),
-  status VARCHAR(120),
+  traveler_no VARCHAR(120),
+  traveler_name VARCHAR(120),
+  phone VARCHAR(30),
+  assistance_need VARCHAR(120),
+  travel_preference VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO budget_allocation (budget_no, project_no, category_name, budget_amount, used_amount, status, created_time, updated_time) VALUES
-('BUD-134-001', 'BUD-134-001', '预算科目一', 38.5, 38.5, 'OPEN', NOW(), NOW()),
-('BUD-134-002', 'BUD-134-002', '预算科目二', 51.5, 51.5, 'OPEN', NOW(), NOW());
+INSERT INTO traveler_profile (traveler_no, traveler_name, phone, assistance_need, travel_preference, status, created_time, updated_time) VALUES
+('TRA-144-001', '王女士', '138144000201', '轮椅推行协助', '避开台阶路线', 'PROCESSING', NOW(), NOW()),
+('TRA-144-002', '陈先生', '138144000202', '视障语音引导', '优先电梯换乘', 'FINISHED', NOW(), NOW());
 
-CREATE TABLE expense_claim (
+CREATE TABLE assist_request (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  claim_no VARCHAR(120),
-  project_no VARCHAR(120),
-  applicant_name VARCHAR(120),
-  claim_amount DECIMAL(12,2),
-  claim_time VARCHAR(120),
-  status VARCHAR(120),
+  request_no VARCHAR(120),
+  request_title VARCHAR(120),
+  departure_point VARCHAR(120),
+  request_time VARCHAR(40),
+  destination VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO expense_claim (claim_no, project_no, applicant_name, claim_amount, claim_time, status, created_time, updated_time) VALUES
-('CLM-134-001', 'CLM-134-001', '服务区域一', 38.5, '2026-05-6 10:00', 'SUBMITTED', NOW(), NOW()),
-('CLM-134-002', 'CLM-134-002', '服务区域二', 51.5, '2026-05-7 10:00', 'SUBMITTED', NOW(), NOW());
+INSERT INTO assist_request (request_no, request_title, departure_point, request_time, destination, status, created_time, updated_time) VALUES
+('REQ-144-001', '门诊陪诊预约', '幸福里社区南门', '2026-05-18 09:00', '市第一人民医院门诊大厅', 'SUBMITTED', NOW(), NOW()),
+('REQ-144-002', '政务大厅办事协助', '和睦苑小区北门', '2026-05-19 14:30', '市民中心办事大厅', 'APPROVED', NOW(), NOW());
 
-CREATE TABLE invoice_record (
+CREATE TABLE volunteer_profile (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  invoice_no VARCHAR(120),
-  claim_no VARCHAR(120),
-  invoice_type VARCHAR(120),
-  invoice_amount DECIMAL(12,2),
-  issuer_name VARCHAR(120),
-  status VARCHAR(120),
+  volunteer_no VARCHAR(120),
+  volunteer_name VARCHAR(120),
+  service_expertise VARCHAR(120),
+  join_time VARCHAR(40),
+  service_area VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO invoice_record (invoice_no, claim_no, invoice_type, invoice_amount, issuer_name, status, created_time, updated_time) VALUES
-('INV-134-001', 'INV-134-001', '发票类型一', 38.5, '开票单位一', 'SUBMITTED', NOW(), NOW()),
-('INV-134-002', 'INV-134-002', '发票类型二', 51.5, '开票单位二', 'SUBMITTED', NOW(), NOW());
+INSERT INTO volunteer_profile (volunteer_no, volunteer_name, service_expertise, join_time, service_area, status, created_time, updated_time) VALUES
+('VOL-144-001', '李志愿', '轮椅陪行', '2026-03-02', '市民中心片区', 'SUBMITTED', NOW(), NOW()),
+('VOL-144-002', '周志愿', '视障语音引导', '2026-03-15', '医院服务片区', 'APPROVED', NOW(), NOW());
 
-CREATE TABLE approval_task (
+CREATE TABLE route_plan (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  approval_no VARCHAR(120),
-  claim_no VARCHAR(120),
-  node_name VARCHAR(120),
-  approver_name VARCHAR(120),
-  approval_opinion VARCHAR(120),
-  status VARCHAR(120),
+  plan_no VARCHAR(120),
+  volunteer_no VARCHAR(120),
+  route_type VARCHAR(120),
+  route_detail VARCHAR(255),
+  generate_time VARCHAR(40),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO approval_task (approval_no, claim_no, node_name, approver_name, approval_opinion, status, created_time, updated_time) VALUES
-('APR-134-001', 'APR-134-001', '路径类型一', '审批人一', '路线说明一', 'REVIEWING', NOW(), NOW()),
-('APR-134-002', 'APR-134-002', '路径类型二', '审批人二', '路线说明二', 'REVIEWING', NOW(), NOW());
+INSERT INTO route_plan (plan_no, volunteer_no, route_type, route_detail, generate_time, status, created_time, updated_time) VALUES
+('PLA-144-001', 'VOL-144-001', '轮椅避障路线', '社区南门 - 地铁无障碍电梯 - 医院绿色通道', '2026-05-17 18:30', 'SUBMITTED', NOW(), NOW()),
+('PLA-144-002', 'VOL-144-002', '视障语音引导路线', '小区北门 - 公交无障碍站台 - 市民中心东门', '2026-05-18 08:20', 'APPROVED', NOW(), NOW());
 
-CREATE TABLE payment_record (
+CREATE TABLE assist_task (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  payment_no VARCHAR(120),
-  claim_no VARCHAR(120),
-  payment_amount DECIMAL(12,2),
-  payment_time VARCHAR(120),
-  operator_name VARCHAR(120),
-  status VARCHAR(120),
+  task_no VARCHAR(120),
+  volunteer_no VARCHAR(120),
+  task_type VARCHAR(120),
+  execute_time VARCHAR(40),
+  executor_name VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO payment_record (payment_no, claim_no, payment_amount, payment_time, operator_name, status, created_time, updated_time) VALUES
-('PAY-134-001', 'PAY-134-001', 38.5, '2026-05-6 10:00', '签到人一', 'FINISHED', NOW(), NOW()),
-('PAY-134-002', 'PAY-134-002', 51.5, '2026-05-7 10:00', '签到人二', 'FINISHED', NOW(), NOW());
+INSERT INTO assist_task (task_no, volunteer_no, task_type, execute_time, executor_name, status, created_time, updated_time) VALUES
+('TAS-144-001', 'VOL-144-001', '门诊陪诊', '2026-05-18 09:00', '李志愿', 'PROCESSING', NOW(), NOW()),
+('TAS-144-002', 'VOL-144-002', '政务办事引导', '2026-05-19 14:30', '周志愿', 'FINISHED', NOW(), NOW());
 
-CREATE TABLE research_achievement (
+CREATE TABLE service_checkin (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  achievement_no VARCHAR(120),
-  project_no VARCHAR(120),
-  achievement_name VARCHAR(120),
-  achievement_type VARCHAR(120),
-  owner_name VARCHAR(120),
-  status VARCHAR(120),
+  checkin_no VARCHAR(120),
+  volunteer_no VARCHAR(120),
+  checkin_location VARCHAR(120),
+  checkin_time VARCHAR(40),
+  checkin_name VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO research_achievement (achievement_no, project_no, achievement_name, achievement_type, owner_name, status, created_time, updated_time) VALUES
-('ACH-134-001', 'ACH-134-001', '成果名称一', '成果类型一', '完成人一', 'PUBLISHED', NOW(), NOW()),
-('ACH-134-002', 'ACH-134-002', '成果名称二', '成果类型二', '完成人二', 'PUBLISHED', NOW(), NOW());
+INSERT INTO service_checkin (checkin_no, volunteer_no, checkin_location, checkin_time, checkin_name, status, created_time, updated_time) VALUES
+('CHK-144-001', 'VOL-144-001', '市第一人民医院门诊大厅', '2026-05-18 08:55', '李志愿', 'ACTIVE', NOW(), NOW()),
+('CHK-144-002', 'VOL-144-002', '市民中心东门服务点', '2026-05-19 14:20', '周志愿', 'FINISHED', NOW(), NOW());
 
-CREATE TABLE paper_record (
+CREATE TABLE feedback_review (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  paper_no VARCHAR(120),
-  project_no VARCHAR(120),
-  paper_title VARCHAR(120),
-  journal_name VARCHAR(120),
-  publish_time VARCHAR(120),
-  status VARCHAR(120),
+  feedback_no VARCHAR(120),
+  volunteer_no VARCHAR(120),
+  satisfaction_level INT,
+  feedback_time VARCHAR(40),
+  review_target VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO paper_record (paper_no, project_no, paper_title, journal_name, publish_time, status, created_time, updated_time) VALUES
-('PAP-134-001', 'PAP-134-001', '论文题目一', '期刊名称一', '2026-05-6 10:00', 'PUBLISHED', NOW(), NOW()),
-('PAP-134-002', 'PAP-134-002', '论文题目二', '期刊名称二', '2026-05-7 10:00', 'PUBLISHED', NOW(), NOW());
+INSERT INTO feedback_review (feedback_no, volunteer_no, satisfaction_level, feedback_time, review_target, status, created_time, updated_time) VALUES
+('FED-144-001', 'VOL-144-001', 5, '2026-05-18 12:10', '门诊陪诊服务', 'ACTIVE', NOW(), NOW()),
+('FED-144-002', 'VOL-144-002', 4, '2026-05-19 17:40', '政务引导服务', 'FINISHED', NOW(), NOW());
 
-CREATE TABLE patent_record (
+CREATE TABLE emergency_contact (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  patent_no VARCHAR(120),
-  project_no VARCHAR(120),
-  patent_name VARCHAR(120),
-  applicant_name VARCHAR(120),
-  grant_time VARCHAR(120),
-  status VARCHAR(120),
+  contact_no VARCHAR(120),
+  traveler_no VARCHAR(120),
+  contact_name VARCHAR(120),
+  contact_phone VARCHAR(30),
+  relation_remark VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO patent_record (patent_no, project_no, patent_name, applicant_name, grant_time, status, created_time, updated_time) VALUES
-('PAT-134-001', 'PAT-134-001', '专利名称一', '服务区域一', '2026-05-6 10:00', 'PUBLISHED', NOW(), NOW()),
-('PAT-134-002', 'PAT-134-002', '专利名称二', '服务区域二', '2026-05-7 10:00', 'PUBLISHED', NOW(), NOW());
+INSERT INTO emergency_contact (contact_no, traveler_no, contact_name, contact_phone, relation_remark, status, created_time, updated_time) VALUES
+('EMG-144-001', 'TRA-144-001', '王先生', '137144000211', '家属联系人', 'ACTIVE', NOW(), NOW()),
+('EMG-144-002', 'TRA-144-002', '陈女士', '137144000212', '同住家人', 'FINISHED', NOW(), NOW());
 
-CREATE TABLE performance_statistic (
+CREATE TABLE trip_record (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  stat_no VARCHAR(120),
-  project_no VARCHAR(120),
-  stat_month VARCHAR(120),
-  claim_count INT,
-  achievement_count INT,
-  status VARCHAR(120),
+  trip_no VARCHAR(120),
+  traveler_no VARCHAR(120),
+  travel_date VARCHAR(40),
+  travel_route VARCHAR(255),
+  completion_status VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO performance_statistic (stat_no, project_no, stat_month, claim_count, achievement_count, status, created_time, updated_time) VALUES
-('STA-134-001', 'STA-134-001', '2026-06', 35, 35, 'FINISHED', NOW(), NOW()),
-('STA-134-002', 'STA-134-002', '2026-07', 40, 40, 'FINISHED', NOW(), NOW());
+INSERT INTO trip_record (trip_no, traveler_no, travel_date, travel_route, completion_status, status, created_time, updated_time) VALUES
+('TRI-144-001', 'TRA-144-001', '2026-05-18', '幸福里社区南门 - 医院门诊大厅', '陪诊中', 'PROCESSING', NOW(), NOW()),
+('TRI-144-002', 'TRA-144-002', '2026-05-19', '和睦苑北门 - 市民中心东门', '已完成全程引导', 'FINISHED', NOW(), NOW());
 
-CREATE TABLE risk_warning (
+CREATE TABLE message_notice (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  warning_no VARCHAR(120),
-  project_no VARCHAR(120),
-  risk_level VARCHAR(120),
-  trigger_reason VARCHAR(120),
-  handler_name VARCHAR(120),
-  status VARCHAR(120),
+  notice_no VARCHAR(120),
+  traveler_no VARCHAR(120),
+  notice_type VARCHAR(120),
+  notice_content VARCHAR(255),
+  receiver_name VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO risk_warning (warning_no, project_no, risk_level, trigger_reason, handler_name, status, created_time, updated_time) VALUES
-('RSK-134-001', 'RSK-134-001', '风险级别一', '触发原因一', '处理人一', 'WARNING', NOW(), NOW()),
-('RSK-134-002', 'RSK-134-002', '风险级别二', '触发原因二', '处理人二', 'WARNING', NOW(), NOW());
+INSERT INTO message_notice (notice_no, traveler_no, notice_type, notice_content, receiver_name, status, created_time, updated_time) VALUES
+('NOT-144-001', 'TRA-144-001', '签到提醒', '志愿者已在医院门诊大厅签到，请按约定时间到达。', '王女士', 'PROCESSING', NOW(), NOW()),
+('NOT-144-002', 'TRA-144-002', '路线更新', '市民中心东门无障碍电梯恢复开放，建议按新方案出行。', '陈先生', 'FINISHED', NOW(), NOW());
 
 CREATE TABLE operation_log (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -220,20 +220,12 @@ CREATE TABLE operation_log (
   module_name VARCHAR(120),
   action_type VARCHAR(120),
   target_name VARCHAR(120),
-  detail_info VARCHAR(120),
+  detail_info VARCHAR(255),
   status VARCHAR(120),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO operation_log (operator_name, module_name, action_type, target_name, detail_info, status, created_time, updated_time) VALUES
-('操作人一', '模块名称一', '动作类型一', '操作对象一', '操作详情一', 'SUCCESS', NOW(), NOW()),
-('操作人二', '模块名称二', '动作类型二', '操作对象二', '操作详情二', 'SUCCESS', NOW(), NOW());
-
-
-
-
-
-
-
-
+('系统管理员', '无障碍路线', '新增', '市民中心无障碍通勤线', '已发布市民中心无障碍路线方案', 'SUCCESS', NOW(), NOW()),
+('调度员', '协助任务', '派发', '门诊陪诊任务', '已为李志愿分配门诊陪诊协助任务', 'SUCCESS', NOW(), NOW());

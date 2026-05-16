@@ -46,4 +46,48 @@ public class AuthService {
         if (token != null && token.startsWith("Bearer ")) return token.substring(7);
         return token;
     }
+
+    public void assertAdmin(String role) {
+        assertAny(role, "ADMIN");
+    }
+
+    public void assertAdminOrOperator(String role) {
+        assertAny(role, "ADMIN", "OPERATOR");
+    }
+
+    public void assertAdminOrMaintainer(String role) {
+        assertAny(role, "ADMIN", "MAINTAINER");
+    }
+
+    public void assertAdminOrOwner(String role) {
+        assertAny(role, "ADMIN", "OWNER");
+    }
+
+    public void assertAdminOrOperatorOrMaintainer(String role) {
+        assertAny(role, "ADMIN", "OPERATOR", "MAINTAINER");
+    }
+
+    public void assertAdminOrOperatorOrOwner(String role) {
+        assertAny(role, "ADMIN", "OPERATOR", "OWNER");
+    }
+
+    public void assertAdminOrMaintainerOrOwner(String role) {
+        assertAny(role, "ADMIN", "MAINTAINER", "OWNER");
+    }
+
+    public void assertAdminOrOperatorOrMaintainerOrOwner(String role) {
+        assertAny(role, "ADMIN", "OPERATOR", "MAINTAINER", "OWNER");
+    }
+
+    public void assertAuthenticated(String role) {
+        assertAdminOrOperatorOrMaintainerOrOwner(role);
+    }
+
+    private void assertAny(String role, String... allowedRoles) {
+        if (role == null) throw new BusinessException("无权限操作");
+        for (String allowedRole : allowedRoles) {
+            if (allowedRole.equals(role)) return;
+        }
+        throw new BusinessException("无权限操作");
+    }
 }

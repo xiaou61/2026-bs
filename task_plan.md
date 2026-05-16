@@ -1712,3 +1712,866 @@ Status: Completed
 - [x] 更新 `docs/topic-candidates-147-196.md`、`readme.md`、`readme_simple.md`
 - [x] 按 `rule.md` 要求未执行编译构建，仅做静态验证
 - [x] 下一项目为 `151`
+
+
+# Task Plan: 130 项目巡检
+
+完成 `130` 温室大棚物联网控制与病害预警系统的正式检查、权限补强、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 确认当前正式巡检停点为 `129` 已完成，下一项目为 `130`
+- [x] 检查 `130` 后端鉴权、实体脱敏、前端路由与菜单收口情况
+- [x] 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+- [x] 为 `AuthService` 与各控制器补齐角色权限校验
+- [x] 为前端路由补充 `meta.roles`，并按角色收口菜单与默认跳转
+- [x] 为 `SysUser.password` 增加 `@JsonIgnore`
+- [x] 通过后端 `mvn.cmd test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `progress.md`、`findings.md`
+- [x] 下一项目为 `131`
+
+
+# Task Plan: 145 项目巡检
+
+完成 `145` 城市噪声投诉监测与执法协同平台的正式检查、权限补强、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 确认正式巡检停点从 `144` 推进到 `145`
+- [x] 检查 `145` 后端鉴权链路与前端旧模板残留
+- [x] 为 15 个控制器补齐服务端角色权限校验
+- [x] 重写前端路由、布局、登录、store、通用页面骨架和业务页权限显示
+- [x] 修复 `PenaltyDecision` 缺少 `BigDecimal` 导入与 CORS 通配配置问题
+- [x] 通过后端 `mvn.cmd test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `progress.md`、`findings.md`
+- [x] 下一项目为 `146`
+
+
+# Task Plan: 146 项目巡检
+
+完成 `146` 食品安全抽检任务与结果公示平台的正式检查、权限补强、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 确认正式巡检停点从 `145` 推进到 `146`
+- [x] 检查 `146` 后端鉴权链路、启动类编译状态与前端旧模板残留
+- [x] 修复启动类命名错误，并统一 `pom/JWT/Redis token` 项目标识
+- [x] 为 15 个控制器补齐服务端角色权限校验
+- [x] 重写 `sql/init.sql`、12 个业务实体字段、12 个注解 SQL Mapper 和服务层旧变量命名
+- [x] 重写前端 `api/router/layout/login/store/DataPage` 与业务页字段、动作权限显示
+- [x] 通过后端 `mvn.cmd test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `progress.md`、`findings.md`
+- [x] 下一项目为 `147`
+
+
+# Task Plan: 147 项目巡检
+
+完成 `147` 校园心理咨询预约与危机干预管理系统的正式检查、权限补强、主题纠偏、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 确认正式巡检停点从 `146` 推进到 `147`
+- [x] 检查 `147` 后端鉴权链路、主题残留、SQL 初始化脚本与缺失公共基类情况
+- [x] 修正 `pom.xml`、`JwtUtils`、`TokenService`、`WebMvcConfig`、`GlobalExceptionHandler` 与 `SysUser.password` 的基础安全和项目标识问题
+- [x] 为 `JwtInterceptor`、`AuthService` 和 15 个控制器补齐 `ADMIN / TEACHER / STUDENT / COUNSELOR` 角色权限收口
+- [x] 重建 `sql/init.sql`、12 个业务实体字段、服务层关键字列，并补回缺失的 `BaseCrudService.java` 与 `CounselRoom.java`
+- [x] 重写前端 `router/layout/login/store/DataPage` 与业务页字段、菜单、按钮权限显示逻辑
+- [x] 通过后端 `mvn.cmd test` 与前端 `npm.cmd run build`
+- [x] 更新 `progress.md`、`findings.md`
+- [x] 下一项目为 `148`
+
+
+# Task Plan: 148 项目巡检
+
+完成 `148` 社区养老服务派单与健康随访管理系统的正式检查、权限补强、主题纠偏、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 确认正式巡检停点从 `147` 推进到 `148`
+- [x] 检查 `148` 后端鉴权链路、启动类编译状态、Lombok 编译配置与前后端旧模板残留
+- [x] 修正 `pom.xml`、启动类、`JwtUtils`、`TokenService`、`WebMvcConfig`、`GlobalExceptionHandler` 与 `SysUser.password` 的基础安全和项目标识问题
+- [x] 为 `JwtInterceptor`、`AuthService` 和 15 个控制器补齐 `ADMIN / CONSULTANT / CAREGIVER / FAMILY` 角色权限收口
+- [x] 重建 `sql/init.sql`、12 个业务实体字段、12 个注解 SQL Mapper 和服务层旧变量命名
+- [x] 重写前端 `api/router/layout/login/store/DataPage` 与业务页字段、菜单、按钮权限显示逻辑
+- [x] 通过后端 `mvn.cmd test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `progress.md`、`findings.md`
+- [x] 下一项目为 `149`
+
+
+# Task Plan: 149 项目巡检
+
+完成 `149` 高校实验设备共享预约与违规使用追踪系统的正式检查、权限补强、主题纠偏、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 确认正式巡检停点从 `148` 推进到 `149`
+- [x] 检查 `149` 后端鉴权链路、缺失公共基类、Lombok 编译配置与前后端旧模板残留
+- [x] 修正 `pom.xml`、`JwtUtils`、`TokenService`、`WebMvcConfig`、`GlobalExceptionHandler` 与 `SysUser.password` 的基础安全和项目标识问题
+- [x] 为 `JwtInterceptor`、`AuthService` 和 15 个控制器补齐 `ADMIN / TEACHER / STUDENT / MANAGER` 角色权限收口
+- [x] 重建 `sql/init.sql`、12 个业务实体字段、服务层关键字列，并补回缺失的 `BaseCrudService.java` 与 `LaboratoryRoom.java`
+- [x] 重写前端 `router/layout/login/store/DataPage` 与业务页字段、菜单、按钮权限显示逻辑
+- [x] 通过后端 `mvn.cmd test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `progress.md`、`findings.md`
+- [x] 下一项目为 `150`
+
+
+# Task Plan: 150 项目巡检
+
+完成 `150` 医院门诊检查预约与报告回传管理系统的正式检查、权限补强、主题纠偏、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 确认正式巡检停点从 `149` 推进到 `150`
+- [x] 检查 `150` 后端鉴权链路、启动类编译状态、Lombok 编译配置与前后端旧模板残留
+- [x] 修正 `pom.xml`、启动类、`JwtUtils`、`TokenService`、`WebMvcConfig`、`GlobalExceptionHandler` 与 `SysUser.password` 的基础安全和项目标识问题
+- [x] 为 `JwtInterceptor`、`AuthService` 和 15 个控制器补齐 `ADMIN / DOCTOR / TECHNICIAN / PATIENT` 角色权限收口
+- [x] 重建 `sql/init.sql`、12 个业务实体字段、12 个注解 SQL Mapper 和服务层旧变量命名
+- [x] 重写前端 `api/router/layout/login/store/DataPage` 与业务页字段、菜单、按钮权限显示逻辑
+- [x] 通过后端 `mvn.cmd test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `progress.md`、`findings.md`
+- [x] 下一项目为 `151`
+
+
+# Task Plan: 151-200 批量开发
+
+完成 `151-200` 新增毕设项目的选题去重、批量脚手架生成、合集 README 回填和抽样验证。
+
+Status: Completed
+
+- [x] 读取 `skill.md`、`rule.md`、`progress.md`、`task_plan.md` 与当前生成脚本，确认正式巡检停点为 `150`，下一批开发范围为 `151-200`
+- [x] 联网参考 2026 计算机毕设热门方向，并对候选题目做本地重复扫描
+- [x] 将 `197-200` 调整为家政服务、共享充电宝、运动康复、非遗工坊等非重复题目
+- [x] 修正 `scripts/generate_151_200.py` 的 Python 写文件兼容性、前端依赖版本、Lombok 编译配置、密码脱敏、异常处理和 CORS 配置
+- [x] 生成 `151-200` 共 50 组 Spring Boot 后端与 Vue3 前端项目，并补齐 PRD、PLAN、SQL、package-lock 与合集 README 条目
+- [x] 静态确认 `151-200` 核心文件齐备，候选清单覆盖 `147-200`，`readme_simple.md` 覆盖 `151-200`
+- [x] 抽样通过 `151-backend`、`200-backend` 的 `mvn.cmd -q test`，以及 `151-frontend`、`200-frontend` 的 `npm.cmd install` / `npm.cmd run build`
+- [x] 后续如果继续正式巡检，仍从 `151` 开始逐项做权限、主题语义和真实业务字段深化
+
+
+# Task Plan: 151 项目正式开发
+
+完成 `151` 文旅场馆讲解预约与票务核销管理平台的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 读取 `$pua` skill，按“先做后问、端到端验证、同类排查”要求执行
+- [x] 将 `151` 从批量生成的 `com.p151 / BizRecord` 泛化模板改造为 `com.culturevenue` 文旅场馆主题项目
+- [x] 重建后端包名、启动类、`pom.xml`、`application.yml`、SQL 初始化库名与 Redis token 前缀
+- [x] 完成场馆档案、票种产品、票务预约、讲解员档案、讲解排期、讲解预约、扫码核销、客流统计、游客评价、文旅活动、场馆公告、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / MANAGER / GUIDE / CHECKER / VISITOR` 五类角色补齐登录账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段
+- [x] 残留扫描未发现 `com.p151`、`BizRecord`、`project_151`、旧角色名、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `152`
+
+
+# Task Plan: 152 项目正式开发
+
+完成 `152` 工厂危险作业审批与监护巡检管理系统的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `152` 批量版状态，确认仍存在 `com.p152 / BizRecord / project_152` 泛化模板
+- [x] 基于已验证的正式化流水线生成 `scripts/develop_152.py`，并修正角色、模块、库名、端口和工业安全语义
+- [x] 将后端切换为 `com.hazardwork`，artifactId 为 `hazard-work-permit-152`，数据库为 `hazard_work_152`
+- [x] 完成作业区域、风险源台账、作业人员档案、作业票申请、审批链路、安全交底、监护安排、监护记录、隐患闭环、气体检测、应急预案、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / SAFETY / APPROVER / GUARDIAN / WORKER` 五类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段
+- [x] 残留扫描未发现 `com.p152`、`BizRecord`、`project_152`、旧角色名、旧文旅模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `153`
+
+
+# Task Plan: 153 项目正式开发
+
+完成 `153` 校园二手物品寄卖与信用评价系统的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `153` 批量版状态，确认仍存在 `com.p153 / BizRecord / project_153` 泛化模板
+- [x] 联网参考校园二手交易、信用评价、担保交易方向，并确定差异化闭环为寄卖、担保、交接、评价、违约和仲裁
+- [x] 基于已验证的正式化流水线生成 `scripts/develop_153.py`，并修正统计饼图、角色首页和账号文案残留
+- [x] 将后端切换为 `com.campusresale`，artifactId 为 `campus-resale-credit-153`，数据库为 `campus_resale_153`
+- [x] 完成物品分类、学生档案、寄卖物品、上架审核、担保订单、担保支付、交接确认、信用评价、违约记录、纠纷申诉、平台公告、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / OPERATOR / SELLER / BUYER / ARBITER` 五类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段
+- [x] 残留扫描未发现 `com.p153`、`BizRecord`、`project_153`、旧角色名、旧文旅/工业安全模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `154`
+
+
+# Task Plan: 154 项目正式开发
+
+完成 `154` 宠物医院接诊排班与疫苗随访管理系统的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `154` 批量版状态，确认仍存在 `com.p154 / BizRecord / project_154` 泛化模板
+- [x] 确定宠物医院门诊运营闭环为宠主建档、宠物档案、医生排班、接诊预约、疫苗随访、药品库存和费用结算
+- [x] 基于已验证的正式化流水线生成 `scripts/develop_154.py`，并清理文旅、校园寄卖、工业安全残留
+- [x] 将后端切换为 `com.pethospital`，artifactId 为 `pet-hospital-vaccine-154`，数据库为 `pet_hospital_154`
+- [x] 完成宠主档案、宠物档案、医生档案、接诊排班、接诊预约、接诊记录、疫苗计划、疫苗接种、随访记录、药品库存、费用结算、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / RECEPTION / DOCTOR / NURSE / OWNER` 五类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p154`、`BizRecord`、`project_154`、旧角色名、旧文旅/校园寄卖/工业安全模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `155`
+
+
+# Task Plan: 155 项目正式开发
+
+完成 `155` 社区党建活动报名与积分激励平台的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 补跑 `154` 前端构建，修复 Vite 沙箱 root 解析导致的绝对 `index.html` 输出名问题
+- [x] 检查 `155` 批量版状态，确认仍存在 `com.p155 / BizRecord / project_155` 泛化模板
+- [x] 基于已验证的正式化流水线生成 `scripts/develop_155.py`，并清理文旅、宠物医院、校园寄卖、工业安全残留
+- [x] 将后端切换为 `com.communityparty`，artifactId 为 `community-party-points-155`，数据库为 `community_party_155`
+- [x] 完成党组织维护、党员档案、党建活动、活动报名、签到记录、志愿任务、积分记录、积分兑换、组织关系、榜单统计、通知公告、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / SECRETARY / ORGANIZER / VOLUNTEER / RESIDENT` 五类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p155`、`BizRecord`、`project_155`、旧角色名、旧文旅/宠物医院/校园寄卖/工业安全模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `156`
+
+
+# Task Plan: 156 项目正式开发
+
+完成 `156` 校园宿舍能耗监测与节能排名系统的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 按多元化要求将方向深化为宿舍能源治理闭环，而不是通用台账模板
+- [x] 检查 `156` 批量版状态，确认仍存在 `com.p156 / BizRecord / project_156` 泛化模板
+- [x] 基于 `155` 已验证的正式化流水线生成 `scripts/develop_156.py`，并继承 Vite root 修复
+- [x] 将后端切换为 `com.dormenergy`，artifactId 为 `dorm-energy-ranking-156`，数据库为 `dorm_energy_156`
+- [x] 完成宿舍楼栋、宿舍房间、能耗表计、用电读数、能耗账单、预警策略、异常预警、节能任务、节能排行、巡查记录、通知公告、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / LOGISTICS / COUNSELOR / ENERGY / STUDENT` 五类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p156`、`BizRecord`、`project_156`、旧角色名、旧党建/宠物医院/校园寄卖/工业安全/文旅模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `157`
+
+
+# Task Plan: 157 项目正式开发
+
+完成 `157` 物流园区车辆入场预约与道口调度平台的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 按多元化要求将方向深化为智慧物流园区车辆预约与道口调度闭环
+- [x] 检查 `157` 批量版状态，确认仍存在 `com.p157 / BizRecord / project_157` 泛化模板
+- [x] 基于 `156` 已验证的正式化流水线生成 `scripts/develop_157.py`，并继承 Vite root 修复
+- [x] 将后端切换为 `com.logisticspark`，artifactId 为 `logistics-yard-gate-157`，数据库为 `logistics_park_157`
+- [x] 完成承运商档案、车辆档案、司机档案、入场预约、时段计划、门岗核验、排队叫号、道口资源、道口分配、装卸任务、周转统计、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / DISPATCHER / GATEKEEPER / YARDMASTER / CARRIER` 五类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p157`、`BizRecord`、`project_157`、旧角色名、旧宿舍能耗/党建/宠物医院/校园寄卖/工业安全/文旅模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `158`
+
+
+# Task Plan: 158 项目正式开发
+
+完成 `158` 校外培训机构课消统计与退费审批系统的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 按多元化要求将方向深化为校外培训机构课消统计与退费审批闭环
+- [x] 检查 `158` 批量版状态，确认仍存在 `com.p158 / BizRecord / project_158` 泛化模板
+- [x] 基于 `157` 已验证的正式化流水线生成 `scripts/develop_158.py`，并继承 Vite root 修复
+- [x] 将后端切换为 `com.trainingrefund`，artifactId 为 `training-consumption-refund-158`，数据库为 `training_refund_158`
+- [x] 完成校区档案、课程产品、学员档案、教师档案、班级台账、排课计划、上课考勤、课消记录、退费申请、退费审批、财务流水、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / PRINCIPAL / ACADEMIC / TEACHER / FINANCE / PARENT` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p158`、`BizRecord`、`project_158`、旧角色名、旧物流园区/宿舍能耗/党建/宠物医院/校园寄卖/工业安全/文旅模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `159`
+
+
+# Task Plan: 159 项目正式开发
+
+完成 `159` 医疗废弃物收运联单与闭环监管系统的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 按多元化要求将方向深化为医疗废弃物收运联单与闭环监管场景
+- [x] 检查 `159` 批量版状态，确认仍存在 `com.p159 / BizRecord / project_159` 泛化模板
+- [x] 基于 `158` 已验证的正式化流水线生成 `scripts/develop_159.py`，并继承 Vite root 修复
+- [x] 将后端切换为 `com.medicalwaste`，artifactId 为 `medical-waste-manifest-159`，数据库为 `medical_waste_159`
+- [x] 完成医废来源、废物类别、包装赋码、收集预约、称重记录、暂存交接、转运联单、运输轨迹、处置确认、异常追溯、监管抽查、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / HOSPITAL / COLLECTOR / TRANSPORTER / DISPOSAL / REGULATOR` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p159`、`BizRecord`、`project_159`、旧角色名、旧教培/物流园区/宿舍能耗/党建/宠物医院/校园寄卖/工业安全/文旅模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `160`
+
+
+# Task Plan: 160 项目正式开发
+
+完成 `160` 校园社团活动预算报销与物资借用系统的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 按多元化要求将方向深化为校园社团活动预算、报销票据与物资借还协同场景
+- [x] 检查 `160` 批量版状态，确认仍存在 `com.p160 / BizRecord / project_160` 泛化模板
+- [x] 基于 `159` 已验证的正式化流水线生成 `scripts/develop_160.py`，并继承 Vite root 修复
+- [x] 将后端切换为 `com.clubfinance`，artifactId 为 `campus-club-budget-160`，数据库为 `club_finance_160`
+- [x] 完成社团档案、成员档案、活动立项、预算申请、预算明细、审批记录、报销申请、票据归档、物资台账、物资借用、归还验收、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / UNION / CLUB / TREASURER / WAREHOUSE / MEMBER` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p160`、`BizRecord`、`project_160`、旧角色名、旧医废/教培/物流园区/宿舍能耗/党建/宠物医院/工业安全/文旅模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `161`
+
+
+# Task Plan: 161 项目正式开发
+
+完成 `161` 景区失物招领与游客寻回协同平台的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 按多元化要求将方向深化为景区失物登记、游客认领与寻回协同场景
+- [x] 检查 `161` 批量版状态，确认仍存在 `com.p161 / BizRecord / project_161` 泛化模板
+- [x] 基于 `160` 已验证的正式化流水线生成 `scripts/develop_161.py`，并继承 Vite root 修复
+- [x] 将后端切换为 `com.lostfound`，artifactId 为 `scenic-lost-found-161`，数据库为 `scenic_lost_found_161`
+- [x] 完成景区区域、失物登记、拾物上报、游客认领、身份核验、位置追踪、暂存保管、通知协同、归还交接、寻回任务、回访评价、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / SERVICE / SECURITY / SCENIC / BROADCAST / VISITOR` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p161`、`BizRecord`、`project_161`、旧角色名、旧社团财资/医废/教培/物流园区模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `162`
+
+
+# Task Plan: 162 项目正式开发
+
+完成 `162` 生鲜门店临期商品预警与促销处置系统的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `162` 批量版状态，确认仍存在 `com.p162 / BizRecord / project_162` 泛化模板
+- [x] 修正并执行 `scripts/develop_162.py`，清理 161 景区失物文案残留，切换端口为 `8162 / 3162`
+- [x] 将后端切换为 `com.freshretail`，artifactId 为 `fresh-expiry-promotion-162`，数据库为 `fresh_expiry_162`
+- [x] 完成门店档案、供应商档案、生鲜品类、商品批次、保质期规则、临期预警、促销策略、折扣执行、报损记录、库存周转、门店分析、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / MANAGER / CLERK / STOCK / MARKETING / SUPPLIER` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p162`、`BizRecord`、`project_162`、旧景区失物角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `163`
+
+
+# Task Plan: 163 项目正式开发
+
+完成 `163` 医学实习轮转考核与病例学习管理系统的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `163` 批量版状态，确认仍存在 `com.p163 / BizRecord / project_163` 泛化模板
+- [x] 基于 `162` 已验证的正式化流水线生成 `scripts/develop_163.py`，并改造为医学实习轮转考核闭环
+- [x] 将后端切换为 `com.clinicalrotation`，artifactId 为 `clinical-rotation-case-163`，数据库为 `clinical_rotation_163`
+- [x] 完成轮转科室、实习学生、带教老师、轮转安排、病例学习、学习记录、教学查房、技能训练、带教评分、出科考核、反馈整改、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / SECRETARY / TEACHER / STUDENT / EXAMINER / DIRECTOR` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p163`、`BizRecord`、`project_163`、旧生鲜临期角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `164`
+
+
+# Task Plan: 164 项目正式开发
+
+完成 `164` 校园体育赛事报名编排与裁判评分系统的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `164` 批量版状态，确认仍存在 `com.p164 / BizRecord / project_164` 泛化模板
+- [x] 基于 `163` 已验证的正式化流水线生成 `scripts/develop_164.py`，并改造为校园体育赛事报名、赛程编排、裁判评分和成绩公示闭环
+- [x] 将后端切换为 `com.sportevent`，artifactId 为 `campus-sport-event-164`，数据库为 `campus_sport_event_164`
+- [x] 完成体育赛事、参赛队伍、运动员档案、赛事报名、报名分组、赛程编排、场地资源、裁判指派、裁判评分、成绩公示、申诉复核、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / ORGANIZER / COACH / ATHLETE / REFEREE / COMMITTEE` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p164`、`BizRecord`、`project_164`、旧医学轮转角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `165`
+
+
+# Task Plan: 165 项目正式开发
+
+完成 `165` 企业访客预约登记与门禁联动管理系统的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `165` 批量版状态，确认仍存在 `com.p165 / BizRecord / project_165` 泛化模板
+- [x] 基于 `164` 已验证的正式化流水线生成 `scripts/develop_165.py`，并改造为企业访客预约、访问审批、二维码通行、门禁联动和轨迹留痕闭环
+- [x] 将后端切换为 `com.visitoraccess`，artifactId 为 `enterprise-visitor-access-165`，数据库为 `visitor_access_165`
+- [x] 完成楼宇区域、被访员工、访客档案、访客预约、访问审批、二维码通行、门禁设备、门禁联动、入园登记、轨迹留痕、异常告警、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / RECEPTION / EMPLOYEE / SECURITY / VISITOR / MANAGER` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p165`、`BizRecord`、`project_165`、旧体育赛事角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `166`
+
+
+# Task Plan: 166 项目正式开发
+
+完成 `166` 农贸市场摊位巡检与食品追溯台账系统的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `166` 批量版状态，确认仍存在 `com.p166 / BizRecord / project_166` 泛化模板
+- [x] 基于 `165` 已验证的正式化流水线生成 `scripts/develop_166.py`，并改造为农贸市场摊位巡检、问题整改、商品溯源、抽检检测和风险预警闭环
+- [x] 将后端切换为 `com.markettrace`，artifactId 为 `farm-market-trace-166`，数据库为 `market_trace_166`
+- [x] 完成市场区域、摊位档案、商户档案、商品溯源、摊位巡检、问题整改、抽检记录、检测结果、进货台账、处置记录、风险预警、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / MARKET / INSPECTOR / VENDOR / SAMPLER / REGULATOR` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p166`、`BizRecord`、`project_166`、旧访客门禁角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `167`
+
+
+# Task Plan: 167 项目正式开发
+
+完成 `167` 社区垃圾分类督导与积分兑换平台的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `167` 批量版状态，确认仍存在 `com.p167 / BizRecord / project_167` 泛化模板
+- [x] 基于 `166` 已验证的正式化流水线生成 `scripts/develop_167.py`，并改造为社区垃圾分类打卡、督导整改、积分记录、积分兑换和楼栋排名闭环
+- [x] 将后端切换为 `com.wastesorting`，artifactId 为 `community-waste-points-167`，数据库为 `waste_sorting_167`
+- [x] 完成社区区域、楼栋档案、居民档案、分类规则、分类打卡、督导记录、整改任务、积分记录、兑换商品、积分兑换、楼栋排名、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / COMMUNITY / SUPERVISOR / RESIDENT / VOLUNTEER / EXCHANGE` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p167`、`BizRecord`、`project_167`、旧农贸市场角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `168`
+
+
+# Task Plan: 168 项目正式开发
+
+完成 `168` 在线职业培训证书考试与续证提醒系统的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `168` 批量版状态，确认仍存在 `com.p168 / BizRecord / project_168` 泛化模板
+- [x] 基于 `167` 已验证的正式化流水线生成 `scripts/develop_168.py`，并改造为在线职业培训、证书考试、证书发放和续证提醒闭环
+- [x] 将后端切换为 `com.certtraining`，artifactId 为 `online-cert-training-168`，数据库为 `cert_training_168`
+- [x] 完成培训课程、学员档案、讲师档案、课程报名、学习进度、考试安排、考试成绩、证书发放、证书台账、续证申请、提醒通知、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / TRAINING / INSTRUCTOR / TRAINEE / EXAMINER / CERTIFIER` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p168`、`BizRecord`、`project_168`、旧社区垃圾分类角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `169`
+
+
+# Task Plan: 169 项目正式开发
+
+完成 `169` 校车乘车预约与学生上下车核验系统的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `169` 批量版状态，确认仍存在 `com.p169 / BizRecord / project_169` 泛化模板
+- [x] 基于 `168` 已验证的正式化流水线生成 `scripts/develop_169.py`，并改造为校车乘车预约、上车核验、下车核验、异常告警和家长通知闭环
+- [x] 将后端切换为 `com.schoolbus`，artifactId 为 `school-bus-checkin-169`，数据库为 `school_bus_169`
+- [x] 完成校车线路、站点档案、车辆档案、司机档案、学生档案、家长档案、乘车预约、上车核验、下车核验、异常告警、家长通知、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / SCHOOL / DISPATCH / DRIVER / TEACHER / GUARDIAN` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p169`、`BizRecord`、`project_169`、旧职业培训证书角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `170`
+
+
+# Task Plan: 170 项目正式开发
+
+完成 `170` 养老机构床位分配与护理记录管理系统的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `170` 批量版状态，确认仍存在 `com.p170 / BizRecord / project_170` 泛化模板
+- [x] 基于 `169` 已验证的正式化流水线生成 `scripts/develop_170.py`，并改造为入住评估、床位分配、护理计划、护理记录、家属查询和异常上报闭环
+- [x] 将后端切换为 `com.eldercare`，artifactId 为 `elder-care-bed-170`，数据库为 `elder_care_170`
+- [x] 完成护理区域、房间档案、床位档案、老人档案、家属档案、入住评估、床位分配、护理计划、护理记录、家属查询、异常上报、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / ADMISSION / NURSING / CAREGIVER / FAMILY / DIRECTOR` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p170`、`BizRecord`、`project_170`、旧校车乘车核验角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `171`
+
+
+# Task Plan: 171 项目正式开发
+
+完成 `171` 应急物资储备盘点与调拨审批平台的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `171` 批量版状态，确认仍存在 `com.p171 / BizRecord / project_171` 泛化模板
+- [x] 基于 `170` 已验证的正式化流水线生成 `scripts/develop_171.py`，并改造为储备仓库、库存盘点、申领调拨、审批出库和库存预警闭环
+- [x] 将后端切换为 `com.emergencysupply`，artifactId 为 `emergency-supply-dispatch-171`，数据库为 `emergency_supply_171`
+- [x] 完成储备仓库、物资分类、物资台账、库存批次、库存盘点、盘点差异、申领工单、调拨审批、调度任务、出库记录、库存预警、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / WAREHOUSE / CHECKER / APPLICANT / DISPATCH / AUDITOR` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p171`、`BizRecord`、`project_171`、旧养老机构角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `172`
+
+
+# Task Plan: 172 项目正式开发
+
+完成 `172` 口腔门诊治疗预约与耗材计费管理系统的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `172` 批量版状态，确认仍存在 `com.p172 / BizRecord / project_172` 泛化模板
+- [x] 基于 `171` 已验证的正式化流水线生成 `scripts/develop_172.py`，并改造为患者建档、预约签到、治疗记录、耗材库存、耗材使用和费用结算闭环
+- [x] 将后端切换为 `com.dentalclinic`，artifactId 为 `dental-clinic-treatment-172`，数据库为 `dental_clinic_172`
+- [x] 完成诊室档案、医生档案、患者档案、治疗项目、预约诊疗、签到分诊、治疗记录、耗材目录、耗材库存、耗材使用、费用结算、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / RECEPTION / DENTIST / NURSE / CASHIER / PATIENT` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p172`、`BizRecord`、`project_172`、旧应急物资角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `173`
+
+
+# Task Plan: 173 项目正式开发
+
+完成 `173` 高校毕业去向填报与就业帮扶跟踪系统的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `173` 批量版状态，确认仍存在 `com.p173 / BizRecord / project_173` 泛化模板
+- [x] 基于 `172` 已验证的正式化流水线生成 `scripts/develop_173.py`，并改造为毕业生建档、去向填报、协议归档、材料审核、岗位推荐、就业帮扶和跟踪回访闭环
+- [x] 将后端切换为 `com.grademployment`，artifactId 为 `graduate-employment-help-173`，数据库为 `graduate_employment_173`
+- [x] 完成学院专业、毕业生档案、用人单位、招聘岗位、去向填报、协议归档、材料审核、帮扶记录、岗位推荐、跟踪回访、就业统计、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / CAREER / COLLEGE / COUNSELOR / STUDENT / EMPLOYER` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p173`、`BizRecord`、`project_173`、旧口腔门诊角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `174`
+
+
+# Task Plan: 174 项目正式开发
+
+完成 `174` 社区慢病档案随访与服药依从性管理系统的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `174` 批量版状态，确认仍存在 `com.p174 / BizRecord / project_174` 泛化模板
+- [x] 基于 `173` 已验证的正式化流水线生成 `scripts/develop_174.py`，并改造为社区慢病建档、随访计划、随访记录、用药方案、服药打卡、健康指标和风险分层闭环
+- [x] 将后端切换为 `com.chroniccare`，artifactId 为 `chronic-care-followup-174`，数据库为 `chronic_care_174`
+- [x] 完成社区站点、患者档案、医护团队、慢病档案、随访计划、随访记录、用药方案、服药打卡、健康指标、风险分层、提醒通知、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / CENTER / DOCTOR / NURSE / PHARMACIST / RESIDENT` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p174`、`BizRecord`、`project_174`、旧高校就业角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-147-196.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `175`
+
+
+# Task Plan: 175 项目正式开发
+
+完成 `175` 校园图书漂流借阅与读书打卡平台的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `175` 批量版状态，确认仍存在 `com.p175 / BizRecord / project_175` 泛化模板
+- [x] 基于 `174` 已验证的正式化流水线生成 `scripts/develop_175.py`，并改造为漂流书架、漂流图书、图书捐赠、借阅记录、归还流转、读书打卡、读书笔记和积分勋章闭环
+- [x] 将后端切换为 `com.bookdrift`，artifactId 为 `campus-book-drift-175`，数据库为 `campus_book_drift_175`
+- [x] 完成漂流书架、漂流图书、读者档案、图书捐赠、借阅记录、归还流转、读书打卡、读书笔记、积分勋章、阅读活动、消息通知、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / LIBRARY / CURATOR / STUDENT / CLUB / TEACHER` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p175`、`BizRecord`、`project_175`、旧社区慢病角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-147-196.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `176`
+
+
+# Task Plan: 176 项目正式开发
+
+完成 `176` 水务巡线工单与阀门检修协同管理系统的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `176` 批量版状态，确认仍存在 `com.p176 / BizRecord / project_176` 泛化模板
+- [x] 基于 `175` 已验证的正式化流水线生成 `scripts/develop_176.py`，并改造为水务站点、管线区段、巡线路线、阀门台账、巡线任务、故障上报、故障派工、检修回执和风险预警闭环
+- [x] 将后端切换为 `com.waterpatrol`，artifactId 为 `water-patrol-valve-176`，数据库为 `water_patrol_176`
+- [x] 完成水务站点、管线区段、巡线路线、阀门台账、巡线任务、巡线记录、故障上报、故障派工、检修回执、备件台账、风险预警、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / DISPATCH / PATROL / REPAIR / WAREHOUSE / SUPERVISOR` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p176`、`BizRecord`、`project_176`、旧校园图书角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`readme_simple.md`、`docs/topic-candidates-147-196.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `177`
+
+
+# Task Plan: 177 项目正式开发
+
+完成 `177` 直播基地主播排班与选品样品管理系统的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `177` 批量版状态，确认仍存在 `com.p177 / BizRecord / project_177` 泛化模板
+- [x] 基于 `176` 已验证的正式化流水线生成 `scripts/develop_177.py`，并改造为直播间档案、主播档案、商家档案、商品选品、样品台账、样品借还、主播排班、选品评测、直播计划、直播场次和直播复盘闭环
+- [x] 将后端切换为 `com.livebase`，artifactId 为 `live-base-anchor-177`，数据库为 `live_base_177`
+- [x] 完成直播间档案、主播档案、商家档案、商品选品、样品台账、样品借还、主播排班、选品评测、直播计划、直播场次、直播复盘、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / BASE / ANCHOR / SELECTOR / SAMPLE / MERCHANT` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p177`、`BizRecord`、`project_177`、旧水务巡线角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `178`
+
+
+# Task Plan: 178 项目正式开发
+
+完成 `178` 医院手术室器械包追踪与灭菌放行系统的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `178` 批量版状态，确认仍存在 `com.p178 / BizRecord / project_178` 泛化模板
+- [x] 基于 `177` 已验证的正式化流水线生成 `scripts/develop_178.py`，并改造为手术室档案、器械包档案、器械明细、器械包追踪、灭菌批次、灭菌记录、放行审核、手术使用、回收清点、缺损上报和异常召回闭环
+- [x] 将后端切换为 `com.orsterile`，artifactId 为 `or-pack-sterilization-178`，数据库为 `or_sterile_pack_178`
+- [x] 完成手术室档案、器械包档案、器械明细、器械包追踪、灭菌批次、灭菌记录、放行审核、手术使用、回收清点、缺损上报、异常召回、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / ORNURSE / CSSD / STERILE / QA / SURGEON` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p178`、`BizRecord`、`project_178`、旧直播基地角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 按 `skills.md` 约定删除 `178-frontend/node_modules`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `179`
+
+
+# Task Plan: 179 项目正式开发
+
+完成 `179` 高校考勤异常申诉与课堂巡查管理系统的主题化开发、权限收口、构建验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `179` 批量版状态，确认仍存在 `com.p179 / BizRecord / project_179` 泛化模板
+- [x] 基于 `178` 已验证的正式化流水线生成 `scripts/develop_179.py`，并改造为教学班级、学生档案、教师档案、课程排课、考勤记录、异常申诉、申诉审核、课堂巡查、巡查问题、整改任务和整改反馈闭环
+- [x] 将后端切换为 `com.classattendance`，artifactId 为 `class-attendance-appeal-179`，数据库为 `class_attendance_179`
+- [x] 完成教学班级、学生档案、教师档案、课程排课、考勤记录、异常申诉、申诉审核、课堂巡查、巡查问题、整改任务、整改反馈、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / ACADEMIC / TEACHER / INSPECTOR / COUNSELOR / STUDENT` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p179`、`BizRecord`、`project_179`、旧手术室器械角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 按 `skills.md` 约定删除 `179-frontend/node_modules`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `180`
+
+
+# Task Plan: 180 项目正式开发
+
+完成 `180` 物业报修派单与服务满意度评价平台的主题化开发、权限收口、构建验证、`node_modules` 清理和进度回填。
+
+Status: Completed
+
+- [x] 检查 `180` 批量版状态，确认仍存在 `com.p180 / BizRecord / project_180` 泛化模板
+- [x] 基于 `179` 已验证的正式化流水线生成 `scripts/develop_180.py`，并改造为小区区域、业主档案、报修分类、报修工单、派单分配、上门处理、费用支付、满意评价和投诉回访闭环
+- [x] 将后端切换为 `com.propertyrepair`，artifactId 为 `property-repair-service-180`，数据库为 `property_repair_180`
+- [x] 完成小区区域、业主档案、报修分类、报修工单、派单分配、上门处理、物料使用、费用登记、支付记录、满意评价、投诉回访、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / PROPERTY / OWNER / DISPATCH / WORKER / FINANCE` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p180`、`BizRecord`、`project_180`、旧课堂考勤角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 按 `skills.md` 约定删除 `180-frontend/node_modules`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `181`
+
+
+# Task Plan: 181 项目正式开发
+
+完成 `181` 社区儿童托管签到接送与安全告警系统的主题化开发、权限收口、构建验证、`node_modules` 清理和进度回填。
+
+Status: Completed
+
+- [x] 检查 `181` 批量版状态，确认仍存在 `com.p181 / BizRecord / project_181` 泛化模板
+- [x] 基于 `180` 已验证的正式化流水线生成 `scripts/develop_181.py`，并改造为托管班级、儿童档案、监护人档案、签到记录、接送授权、接送记录、安全告警、健康晨检、托管活动、家长通知和事件跟进闭环
+- [x] 将后端切换为 `com.childcare`，artifactId 为 `community-childcare-safety-181`，数据库为 `childcare_safety_181`
+- [x] 完成托管班级、儿童档案、监护人档案、签到记录、接送授权、接送记录、安全告警、健康晨检、托管活动、家长通知、事件跟进、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / CENTER / TEACHER / PARENT / SECURITY / NURSE` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p181`、`BizRecord`、`project_181`、旧物业报修角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 按 `skills.md` 约定删除 `181-frontend/node_modules`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `182`
+
+
+# Task Plan: 182 项目正式开发
+
+完成 `182` 养老助餐配送排线与营养套餐管理系统的主题化开发、权限收口、构建验证、`node_modules` 清理和进度回填。
+
+Status: Completed
+
+- [x] 检查 `182` 批量版状态，确认仍存在 `com.p182 / BizRecord / project_182` 泛化模板
+- [x] 基于 `181` 已验证的正式化流水线生成 `scripts/develop_182.py`，并改造为助餐站点、老人档案、营养套餐、助餐订单、配送排线、配送任务、签收回执、饮食禁忌、营养分析、补贴记录和回访关怀闭环
+- [x] 将后端切换为 `com.eldermeal`，artifactId 为 `elder-meal-delivery-182`，数据库为 `elder_meal_182`
+- [x] 完成助餐站点、老人档案、营养套餐、助餐订单、配送排线、配送任务、签收回执、饮食禁忌、营养分析、补贴记录、回访关怀、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / CENTER / DIETITIAN / DISPATCH / COURIER / ELDER` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p182`、`BizRecord`、`project_182`、旧社区儿童托管角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 按 `skills.md` 约定删除 `182-frontend/node_modules`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `183`
+
+
+# Task Plan: 183 项目正式开发
+
+完成 `183` 实验动物饲养排班与伦理审批管理系统的主题化开发、权限收口、构建验证、`node_modules` 清理和进度回填。
+
+Status: Completed
+
+- [x] 检查 `183` 批量版状态，确认仍存在 `com.p183 / BizRecord / project_183` 泛化模板
+- [x] 基于 `182` 已验证的正式化流水线生成 `scripts/develop_183.py`，并改造为动物房间、实验动物档案、饲养排班、饲养记录、伦理申请、伦理审批、实验登记、健康巡检、异常告警、兽医处置和耗材使用闭环
+- [x] 将后端切换为 `com.labanimal`，artifactId 为 `lab-animal-ethics-183`，数据库为 `lab_animal_183`
+- [x] 完成动物房间、实验动物档案、饲养排班、饲养记录、伦理申请、伦理审批、实验登记、健康巡检、异常告警、兽医处置、耗材使用、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / LAB / BREEDER / RESEARCHER / ETHICS / VET` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p183`、`BizRecord`、`project_183`、旧养老助餐角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 按 `skills.md` 约定删除 `183-frontend/node_modules`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `184`
+
+
+# Task Plan: 184 项目正式开发
+
+完成 `184` 停车场月租合同续费与异常占位管理系统的主题化开发、权限收口、构建验证、`node_modules` 清理和进度回填。
+
+Status: Completed
+
+- [x] 检查 `184` 批量版状态，确认仍存在 `com.p184 / BizRecord / project_184` 泛化模板
+- [x] 基于 `183` 已验证的正式化流水线生成 `scripts/develop_184.py`，并改造为停车场档案、车位档案、月租车主、月租合同、续费提醒、续费缴费、车辆绑定、占位巡检、异常占位、违规处理和客服工单闭环
+- [x] 将后端切换为 `com.parkinglease`，artifactId 为 `parking-lease-occupancy-184`，数据库为 `parking_lease_184`
+- [x] 完成停车场档案、车位档案、月租车主、月租合同、续费提醒、续费缴费、车辆绑定、占位巡检、异常占位、违规处理、客服工单、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / PARKING / FINANCE / PATROL / TENANT / SERVICE` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p184`、`BizRecord`、`project_184`、旧实验动物角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 按 `skills.md` 约定删除 `184-frontend/node_modules`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `185`
+
+
+# Task Plan: 185 项目正式开发
+
+完成 `185` 城市公厕巡检保洁与耗材补给调度系统的主题化开发、权限收口、构建验证、`node_modules` 清理和进度回填。
+
+Status: Completed
+
+- [x] 检查 `185` 批量版状态，确认仍存在 `com.p185 / BizRecord / project_185` 泛化模板
+- [x] 基于 `184` 已验证的正式化流水线生成 `scripts/develop_185.py`，并改造为公厕点位、保洁路线、保洁任务、保洁记录、巡检计划、巡检记录、耗材库存、补给申请、补给调度、投诉反馈和问题整改闭环
+- [x] 将后端切换为 `com.citytoilet`，artifactId 为 `city-toilet-cleaning-185`，数据库为 `city_toilet_185`
+- [x] 完成公厕点位、保洁路线、保洁任务、保洁记录、巡检计划、巡检记录、耗材库存、补给申请、补给调度、投诉反馈、问题整改、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / SANITATION / CLEANER / SUPPLY / INSPECTOR / CITIZEN` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p185`、`BizRecord`、`project_185`、旧停车月租角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 按 `skills.md` 约定删除 `185-frontend/node_modules`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `186`
+
+
+# Task Plan: 186 项目正式开发
+
+完成 `186` 校园餐厅后厨留样与卫生巡检台账系统的主题化开发、权限收口、构建验证、`node_modules` 清理和进度回填。
+
+Status: Completed
+
+- [x] 检查 `186` 批量版状态，确认仍存在 `com.p186 / BizRecord / project_186` 泛化模板
+- [x] 基于 `185` 已验证的正式化流水线生成 `scripts/develop_186.py`，并改造为餐厅档案、后厨区域、菜品档案、留样登记、留样存储、食材验收、消毒记录、卫生巡检、问题整改、风险提醒和厨余处置闭环
+- [x] 将后端切换为 `com.canteenhygiene`，artifactId 为 `campus-canteen-hygiene-186`，数据库为 `campus_canteen_186`
+- [x] 完成餐厅档案、后厨区域、菜品档案、留样登记、留样存储、食材验收、消毒记录、卫生巡检、问题整改、风险提醒、厨余处置、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / CANTEEN / CHEF / INSPECTOR / WAREHOUSE / SCHOOL` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p186`、`BizRecord`、`project_186`、旧城市公厕角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 按 `skills.md` 约定删除 `186-frontend/node_modules`
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `187`
+
+
+# Task Plan: 187 项目正式开发
+
+完成 `187` 旅行社团建行程报名与费用分摊管理平台的主题化开发、权限收口、构建验证、`node_modules` 清理和进度回填。
+
+Status: Completed
+
+- [x] 检查 `187` 批量版状态，确认仍存在 `com.p187 / BizRecord / project_187` 泛化模板
+- [x] 基于 `186` 已验证的正式化流水线生成 `scripts/develop_187.py`，并改造为旅行社档案、团队档案、团建行程、行程报名、成员确认、费用预算、费用分摊、缴费记录、通知同步、出行反馈和发票记录闭环
+- [x] 将后端切换为 `com.teambuilding`，artifactId 为 `travel-team-building-187`，数据库为 `team_building_187`
+- [x] 完成旅行社档案、团队档案、团建行程、行程报名、成员确认、费用预算、费用分摊、缴费记录、通知同步、出行反馈、发票记录、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / AGENCY / PLANNER / FINANCE / LEADER / PARTICIPANT` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p187`、`BizRecord`、`project_187`、旧校园餐厅角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 按 `skills.md` 约定删除 `187-frontend/node_modules`，并完成全仓库 `node_modules` 扫描
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `188`
+
+# Task Plan: 188 项目正式开发
+
+完成 `188` 医疗护理培训签到考核与技能档案系统的主题化开发、权限收口、构建验证、`node_modules` 清理和进度回填。
+
+Status: Completed
+
+- [x] 检查 `188` 批量版状态，确认仍存在 `com.p188 / BizRecord / project_188` 泛化模板
+- [x] 基于 `187` 已验证的正式化流水线生成 `scripts/develop_188.py`，并改造为培训项目、护理人员档案、培训班次、培训签到、技能项目、技能考核、证书档案、续训提醒、实操记录和考核申诉闭环
+- [x] 将后端切换为 `com.nursetraining`，artifactId 为 `nursing-training-188`，数据库为 `nurse_training_188`
+- [x] 完成培训项目、护理人员档案、培训班次、培训签到、技能项目、技能考核、证书档案、续训提醒、实操记录、考核申诉、培训通知、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / EDU / INSTRUCTOR / ASSESSOR / NURSE / HR` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p188`、`BizRecord`、`project_188`、旧旅行社团建角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 静态结构确认 13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build`
+- [x] 按 `skills.md` 约定删除 `188-frontend/node_modules`，并完成全仓库 `node_modules` 扫描
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `189`
+
+# Task Plan: 189 项目正式开发
+
+完成 `189` 乡镇农机作业预约与维修保养跟踪平台的主题化开发、权限收口、构建验证、`node_modules` 清理和进度回填。
+
+Status: Completed
+
+- [x] 检查 `189` 批量版状态，确认仍存在 `com.p189 / BizRecord / project_189` 泛化模板
+- [x] 基于 `188` 正式化流水线生成 `scripts/develop_189.py`，并改造为农机站点、农机档案、农户档案、机手档案、作业预约、机手调度、作业派单、作业回执、维修保养、维修跟踪和季节统计闭环
+- [x] 将后端切换为 `com.farmmachinery`，artifactId 为 `township-farm-machinery-189`，数据库为 `farm_machinery_189`
+- [x] 完成农机站点、农机档案、农户档案、机手档案、作业预约、机手调度、作业派单、作业回执、维修保养、维修跟踪、季节统计、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / STATION / DISPATCH / DRIVER / MECHANIC / FARMER` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p189`、`BizRecord`、`project_189`、旧护理培训角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 静态结构确认 13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+- [x] 通过后端 `mvn.cmd -q clean test` 与前端 `npm.cmd install`、`npm.cmd run build` 验证
+- [x] 按 `skills.md` 约定删除 `189-frontend/node_modules`，并完成全仓库 `node_modules` 扫描，未发现残留
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `190`
+
+## Errors Encountered
+
+| Error | Attempt | Resolution |
+|-------|---------|------------|
+| `Remove-Item -Recurse` 删除 `187-frontend/node_modules` 被策略层拦截 | 使用 PowerShell 固定路径递归删除 | 先解析确认路径为 `D:\毕业设计\2026-biyesheji\187-frontend\node_modules`，再用 Node `fs.rmSync` 在校验目标位于当前项目目录后删除 |

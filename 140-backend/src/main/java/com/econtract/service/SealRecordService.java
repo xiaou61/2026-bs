@@ -10,24 +10,24 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class SealRecordService {
-    private final SealRecordMapper researchAchievementMapper;
+    private final SealRecordMapper sealRecordMapper;
 
     public PageInfo<SealRecord> page(Integer pageNum, Integer pageSize, String keyword, String status) {
         PageHelper.startPage(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
-        return new PageInfo<>(researchAchievementMapper.selectPage(keyword, status));
+        return new PageInfo<>(sealRecordMapper.selectPage(keyword, status));
     }
 
     public void save(SealRecord entity) {
-        if (entity.getId() == null) researchAchievementMapper.insert(entity);
-        else researchAchievementMapper.update(entity);
+        if (entity.getId() == null) sealRecordMapper.insert(entity);
+        else sealRecordMapper.update(entity);
     }
 
     public void delete(Long id) {
-        researchAchievementMapper.deleteById(id);
+        sealRecordMapper.deleteById(id);
     }
 
     public void updateStatus(Long id, String status) {
-        researchAchievementMapper.updateStatus(id, status);
+        sealRecordMapper.updateStatus(id, status);
     }
 }
 

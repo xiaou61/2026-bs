@@ -6,17 +6,13 @@ import java.time.LocalDateTime;
 @Data
 public class ServiceCheckin {
     private Long id;
-    private String achievementNo;
-    private String projectNo;
-    private String achievementName;
-    private String achievementType;
-    private String ownerName;
+    private String checkinNo;
+    private String volunteerNo;
+    private String checkinLocation;
+    private String checkinTime;
+    private String checkinName;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
 }
-
-
-
-
 

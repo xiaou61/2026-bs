@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class RetestRecordService extends BaseCrudService<RetestRecord> {
-    private final RetestRecordMapper inboundRecordMapper;
+    private final RetestRecordMapper retestRecordMapper;
 
     @Override
     protected BaseMapper<RetestRecord> mapper() {
-        return inboundRecordMapper;
+        return retestRecordMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"inbound_no", "order_no", "consumable_name", "inbound_qty"};
+        return new String[]{"retest_no", "complaint_title", "retest_officer", "retest_time"};
     }
 }
 

@@ -7,21 +7,17 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("inventory_check")
+@TableName("community_activity")
 public class CommunityActivity {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String checkNo;
-    private String labName;
-    private String consumableName;
-    private Integer bookQty;
-    private Integer actualQty;
+    private String activityNo;
+    private String projectName;
+    private String activityTheme;
+    private String activityLocation;
+    private String activityTime;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
 }
-
-
-
-
 

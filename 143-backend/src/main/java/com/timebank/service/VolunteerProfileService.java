@@ -9,20 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class VolunteerProfileService extends BaseCrudService<VolunteerProfile> {
-    private final VolunteerProfileMapper stockItemMapper;
+    private final VolunteerProfileMapper volunteerProfileMapper;
 
     @Override
     protected BaseMapper<VolunteerProfile> mapper() {
-        return stockItemMapper;
+        return volunteerProfileMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"stock_no", "consumable_name", "lab_name", "current_qty"};
+        return new String[]{"volunteer_no", "volunteer_name", "service_expertise", "available_time"};
     }
 }
-
-
-
-
 

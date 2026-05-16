@@ -1,25 +1,52 @@
 <template>
-  <DataPage title="双选审核" description="审核编号、报案编号、审核节点、审核意见、审核人和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage title="事故报案" description="维护报案编号、事故类型、报案时间和报案人信息，为材料收集、定损和赔付处理建立案件入口" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" :can-create="canManage" :can-edit="canManage" :can-delete="canDelete" @row-action="handleAction" />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getAccidentReportPage, addAccidentReport, updateAccidentReport, deleteAccidentReport, submitAccidentReport, approveAccidentReport } from '../api'
+
 const api = { page: getAccidentReportPage, add: addAccidentReport, update: updateAccidentReport, delete: deleteAccidentReport }
-const columns = [{"prop": "invoiceNo", "label": "审核编号"}, {"prop": "claimNo", "label": "报案编号"}, {"prop": "invoiceType", "label": "审核节点"}, {"prop": "invoiceAmount", "label": "审核意见"}, {"prop": "issuerName", "label": "审核人"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "invoiceNo", "label": "审核编号"}, {"prop": "claimNo", "label": "报案编号"}, {"prop": "invoiceType", "label": "审核节点"}, {"prop": "invoiceAmount", "label": "审核意见", "type": "number"}, {"prop": "issuerName", "label": "审核人"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "submit", "label": "提交", "type": "primary"}, {"command": "approve", "label": "通过", "type": "success"}]
-const defaults = {"status": "SUBMITTED"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'APPLICANT'].includes(role.value))
+const canApprove = computed(() => ['ADMIN', 'LEGAL', 'APPROVER'].includes(role.value))
+const canDelete = computed(() => canManage.value)
+const columns = [
+  { prop: 'reportNo', label: '报案编号' },
+  { prop: 'caseName', label: '案件名称', width: 180 },
+  { prop: 'accidentType', label: '事故类型' },
+  { prop: 'reportTime', label: '报案时间', width: 160 },
+  { prop: 'reporterName', label: '报案人' },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'reportNo', label: '报案编号' },
+  { prop: 'caseName', label: '案件名称' },
+  { prop: 'accidentType', label: '事故类型' },
+  { prop: 'reportTime', label: '报案时间' },
+  { prop: 'reporterName', label: '报案人' },
+  { prop: 'status', label: '状态', type: 'select', options: [{ label: '草稿', value: 'DRAFT' }, { label: '已提交', value: 'SUBMITTED' }, { label: '已审批', value: 'APPROVED' }] }
+]
+const rowActions = computed(() => {
+  const actions = []
+  if (canManage.value) actions.push({ command: 'submit', label: '提交', type: 'warning' })
+  if (canApprove.value) actions.push({ command: 'approve', label: '审批通过', type: 'success' })
+  return actions
+})
+const defaults = { status: 'DRAFT' }
+
 const handleAction = async ({ command, row, refresh }) => {
-  if (command === 'submit') await submitAccidentReport(row.id)
-  if (command === 'approve') await approveAccidentReport(row.id)
+  if (command === 'submit') {
+    await submitAccidentReport(row.id)
+  }
+  if (command === 'approve') {
+    await approveAccidentReport(row.id)
+  }
   ElMessage.success('操作成功')
   refresh()
 }
 </script>
-
-
-
-
-

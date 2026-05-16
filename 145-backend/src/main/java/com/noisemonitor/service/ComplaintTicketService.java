@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ComplaintTicketService extends BaseCrudService<ComplaintTicket> {
-    private final ComplaintTicketMapper consumableCatalogMapper;
+    private final ComplaintTicketMapper complaintTicketMapper;
 
     @Override
     protected BaseMapper<ComplaintTicket> mapper() {
-        return consumableCatalogMapper;
+        return complaintTicketMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"consumable_no", "consumable_name", "spec_model", "unit_name"};
+        return new String[]{"ticket_no", "complaint_title", "noise_type", "complaint_area"};
     }
 }
 

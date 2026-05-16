@@ -15,9 +15,9 @@ import java.util.List;
 public interface FacilityPointMapper {
     @Select({
         "<script>",
-        "SELECT * FROM budget_category",
+        "SELECT * FROM facility_point",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (category_no LIKE CONCAT('%',#{keyword},'%') OR category_name LIKE CONCAT('%',#{keyword},'%') OR usage_scope LIKE CONCAT('%',#{keyword},'%') OR control_mode LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (point_no LIKE CONCAT('%',#{keyword},'%') OR point_name LIKE CONCAT('%',#{keyword},'%') OR facility_type LIKE CONCAT('%',#{keyword},'%') OR address_detail LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,27 +25,23 @@ public interface FacilityPointMapper {
     })
     List<FacilityPoint> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM budget_category WHERE id = #{id}")
+    @Select("SELECT * FROM facility_point WHERE id = #{id}")
     FacilityPoint selectById(Long id);
 
-    @Insert("INSERT INTO budget_category (category_no, category_name, usage_scope, control_mode, manager_name, status, created_time, updated_time) VALUES (#{categoryNo}, #{categoryName}, #{usageScope}, #{controlMode}, #{managerName}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO facility_point (point_no, point_name, facility_type, address_detail, open_status, status, created_time, updated_time) VALUES (#{pointNo}, #{pointName}, #{facilityType}, #{addressDetail}, #{openStatus}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(FacilityPoint entity);
 
-    @Update("UPDATE budget_category SET category_no = #{categoryNo}, category_name = #{categoryName}, usage_scope = #{usageScope}, control_mode = #{controlMode}, manager_name = #{managerName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE facility_point SET point_no = #{pointNo}, point_name = #{pointName}, facility_type = #{facilityType}, address_detail = #{addressDetail}, open_status = #{openStatus}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(FacilityPoint entity);
 
-    @Delete("DELETE FROM budget_category WHERE id = #{id}")
+    @Delete("DELETE FROM facility_point WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM budget_category")
+    @Select("SELECT COUNT(*) FROM facility_point")
     long countAll();
 
-    @Update("UPDATE budget_category SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE facility_point SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-
 

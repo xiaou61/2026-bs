@@ -23,26 +23,26 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class StatisticsService {
-    private final ContractTemplateMapper researchProjectMapper;
-    private final CounterpartyProfileMapper budgetCategoryMapper;
-    private final SignerProfileMapper budgetAllocationMapper;
-    private final ContractDraftMapper expenseClaimMapper;
-    private final SealApplicationMapper invoiceRecordMapper;
-    private final ApprovalFlowMapper approvalTaskMapper;
-    private final ContractSigningMapper paymentRecordMapper;
-    private final SealRecordMapper researchAchievementMapper;
-    private final ArchiveRecordMapper paperRecordMapper;
-    private final ExpirationReminderMapper patentRecordMapper;
-    private final RiskClauseMapper performanceStatisticMapper;
-    private final ContractNoticeMapper riskWarningMapper;
+    private final ContractTemplateMapper contractTemplateMapper;
+    private final CounterpartyProfileMapper counterpartyProfileMapper;
+    private final SignerProfileMapper signerProfileMapper;
+    private final ContractDraftMapper contractDraftMapper;
+    private final SealApplicationMapper sealApplicationMapper;
+    private final ApprovalFlowMapper approvalFlowMapper;
+    private final ContractSigningMapper contractSigningMapper;
+    private final SealRecordMapper sealRecordMapper;
+    private final ArchiveRecordMapper archiveRecordMapper;
+    private final ExpirationReminderMapper expirationReminderMapper;
+    private final RiskClauseMapper riskClauseMapper;
+    private final ContractNoticeMapper contractNoticeMapper;
     private final OperationLogMapper operationLogMapper;
 
     public Map<String, Object> dashboard() {
         Map<String, Object> data = new HashMap<>();
-        data.put("templateCount", researchProjectMapper.countAll());
-        data.put("sealCount", expenseClaimMapper.countAll());
-        data.put("signCount", researchAchievementMapper.countAll());
-        data.put("reminderCount", riskWarningMapper.countAll());
+        data.put("templateCount", contractTemplateMapper.countAll());
+        data.put("sealCount", sealApplicationMapper.countAll());
+        data.put("signCount", contractSigningMapper.countAll());
+        data.put("reminderCount", expirationReminderMapper.countAll());
         data.put("contractTrend", Arrays.asList(12, 22, 31, 44, 53, 62, 70));
         data.put("contractPie", Arrays.asList(map("草稿", 35), map("审批中", 31), map("已归档", 34)));
         return data;

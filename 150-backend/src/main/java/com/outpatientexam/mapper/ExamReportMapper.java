@@ -14,41 +14,33 @@ import java.util.List;
 @Mapper
 public interface ExamReportMapper {
     @Select({
-        "<script>",
-        "SELECT * FROM payment_record",
-        "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (payment_no LIKE CONCAT('%',#{keyword},'%') OR claim_no LIKE CONCAT('%',#{keyword},'%') OR payment_amount LIKE CONCAT('%',#{keyword},'%') OR payment_time LIKE CONCAT('%',#{keyword},'%'))</if>",
-        "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
-        "</where>",
-        "ORDER BY id DESC",
-        "</script>"
+            "<script>",
+            "SELECT * FROM exam_report",
+            "<where>",
+            "<if test='keyword != null and keyword != \"\"'> AND (report_no LIKE CONCAT('%',#{keyword},'%') OR patient_name LIKE CONCAT('%',#{keyword},'%') OR conclusion LIKE CONCAT('%',#{keyword},'%') OR technician_name LIKE CONCAT('%',#{keyword},'%'))</if>",
+            "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
+            "</where>",
+            "ORDER BY id DESC",
+            "</script>"
     })
     List<ExamReport> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM payment_record WHERE id = #{id}")
+    @Select("SELECT * FROM exam_report WHERE id = #{id}")
     ExamReport selectById(Long id);
 
-    @Insert("INSERT INTO payment_record (payment_no, claim_no, payment_amount, payment_time, operator_name, status, created_time, updated_time) VALUES (#{paymentNo}, #{claimNo}, #{paymentAmount}, #{paymentTime}, #{operatorName}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO exam_report (report_no, patient_name, conclusion, completed_time, technician_name, status, created_time, updated_time) VALUES (#{reportNo}, #{patientName}, #{conclusion}, #{completedTime}, #{technicianName}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(ExamReport entity);
 
-    @Update("UPDATE payment_record SET payment_no = #{paymentNo}, claim_no = #{claimNo}, payment_amount = #{paymentAmount}, payment_time = #{paymentTime}, operator_name = #{operatorName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE exam_report SET report_no = #{reportNo}, patient_name = #{patientName}, conclusion = #{conclusion}, completed_time = #{completedTime}, technician_name = #{technicianName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(ExamReport entity);
 
-    @Delete("DELETE FROM payment_record WHERE id = #{id}")
+    @Delete("DELETE FROM exam_report WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM payment_record")
+    @Select("SELECT COUNT(*) FROM exam_report")
     long countAll();
 
-    @Update("UPDATE payment_record SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE exam_report SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-
-
-
-
-

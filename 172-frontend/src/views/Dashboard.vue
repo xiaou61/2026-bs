@@ -1,0 +1,24 @@
+<template>
+  <div class="page">
+    <div class="dashboard-grid">
+      <div class="metric">诊室档案<strong>{{ data['roomCount'] || 0 }}</strong></div>
+      <div class="metric">医生档案<strong>{{ data['dentistCount'] || 0 }}</strong></div>
+      <div class="metric">患者档案<strong>{{ data['patientCount'] || 0 }}</strong></div>
+      <div class="metric">治疗项目<strong>{{ data['treatmentCount'] || 0 }}</strong></div>
+    </div>
+    <div class="chart-grid"><div ref="trendRef" class="chart"></div><div ref="pieRef" class="chart"></div></div>
+  </div>
+</template>
+<script setup>
+import { nextTick, onMounted, reactive, ref } from 'vue'
+import * as echarts from 'echarts'
+import { getDashboard } from '../api'
+const data = reactive({})
+const trendRef = ref()
+const pieRef = ref()
+const draw = () => {
+  echarts.init(trendRef.value).setOption({ title: { text: '近7日预约诊疗与耗材使用趋势' }, tooltip: {}, xAxis: { type: 'category', data: ['周一','周二','周三','周四','周五','周六','周日'] }, yAxis: { type: 'value' }, series: [{ type: 'line', smooth: true, areaStyle: {}, data: data.trend || [] }] })
+  echarts.init(pieRef.value).setOption({ title: { text: '口腔门诊就诊状态分布' }, tooltip: {}, series: [{ type: 'pie', radius: '62%', data: data.pie || [] }] })
+}
+onMounted(async () => { const res = await getDashboard(); Object.assign(data, res.data); nextTick(draw) })
+</script>

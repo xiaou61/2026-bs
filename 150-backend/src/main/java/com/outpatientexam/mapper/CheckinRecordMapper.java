@@ -14,41 +14,33 @@ import java.util.List;
 @Mapper
 public interface CheckinRecordMapper {
     @Select({
-        "<script>",
-        "SELECT * FROM approval_task",
-        "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (approval_no LIKE CONCAT('%',#{keyword},'%') OR claim_no LIKE CONCAT('%',#{keyword},'%') OR node_name LIKE CONCAT('%',#{keyword},'%') OR approver_name LIKE CONCAT('%',#{keyword},'%'))</if>",
-        "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
-        "</where>",
-        "ORDER BY id DESC",
-        "</script>"
+            "<script>",
+            "SELECT * FROM checkin_record",
+            "<where>",
+            "<if test='keyword != null and keyword != \"\"'> AND (checkin_no LIKE CONCAT('%',#{keyword},'%') OR patient_name LIKE CONCAT('%',#{keyword},'%') OR checkin_method LIKE CONCAT('%',#{keyword},'%') OR checkin_window LIKE CONCAT('%',#{keyword},'%') OR checkin_time LIKE CONCAT('%',#{keyword},'%'))</if>",
+            "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
+            "</where>",
+            "ORDER BY id DESC",
+            "</script>"
     })
     List<CheckinRecord> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM approval_task WHERE id = #{id}")
+    @Select("SELECT * FROM checkin_record WHERE id = #{id}")
     CheckinRecord selectById(Long id);
 
-    @Insert("INSERT INTO approval_task (approval_no, claim_no, node_name, approver_name, approval_opinion, status, created_time, updated_time) VALUES (#{approvalNo}, #{claimNo}, #{nodeName}, #{approverName}, #{approvalOpinion}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO checkin_record (checkin_no, patient_name, checkin_method, checkin_window, checkin_time, status, created_time, updated_time) VALUES (#{checkinNo}, #{patientName}, #{checkinMethod}, #{checkinWindow}, #{checkinTime}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(CheckinRecord entity);
 
-    @Update("UPDATE approval_task SET approval_no = #{approvalNo}, claim_no = #{claimNo}, node_name = #{nodeName}, approver_name = #{approverName}, approval_opinion = #{approvalOpinion}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE checkin_record SET checkin_no = #{checkinNo}, patient_name = #{patientName}, checkin_method = #{checkinMethod}, checkin_window = #{checkinWindow}, checkin_time = #{checkinTime}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(CheckinRecord entity);
 
-    @Delete("DELETE FROM approval_task WHERE id = #{id}")
+    @Delete("DELETE FROM checkin_record WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM approval_task")
+    @Select("SELECT COUNT(*) FROM checkin_record")
     long countAll();
 
-    @Update("UPDATE approval_task SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE checkin_record SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-
-
-
-
-

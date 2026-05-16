@@ -7,21 +7,17 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("outbound_record")
+@TableName("feedback_review")
 public class FeedbackReview {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String outboundNo;
-    private String consumableName;
-    private String labName;
-    private Integer outboundQty;
-    private String receiverName;
+    private String feedbackNo;
+    private String projectName;
+    private String feedbackType;
+    private String reviewTarget;
+    private Integer satisfactionLevel;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
 }
-
-
-
-
 

@@ -1,11 +1,11 @@
 package com.carbonmanage.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.carbonmanage.common.BusinessException;
 import com.carbonmanage.dto.LoginRequest;
 import com.carbonmanage.entity.SysUser;
 import com.carbonmanage.mapper.SysUserMapper;
 import com.carbonmanage.utils.JwtUtils;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -46,5 +46,49 @@ public class AuthService {
     private String clean(String token) {
         if (token != null && token.startsWith("Bearer ")) return token.substring(7);
         return token;
+    }
+
+    public void assertAdmin(String role) {
+        assertAny(role, "ADMIN");
+    }
+
+    public void assertAdminOrAccountant(String role) {
+        assertAny(role, "ADMIN", "ACCOUNTANT");
+    }
+
+    public void assertAdminOrAuditor(String role) {
+        assertAny(role, "ADMIN", "AUDITOR");
+    }
+
+    public void assertAdminOrManager(String role) {
+        assertAny(role, "ADMIN", "MANAGER");
+    }
+
+    public void assertAdminOrAccountantOrAuditor(String role) {
+        assertAny(role, "ADMIN", "ACCOUNTANT", "AUDITOR");
+    }
+
+    public void assertAdminOrAccountantOrManager(String role) {
+        assertAny(role, "ADMIN", "ACCOUNTANT", "MANAGER");
+    }
+
+    public void assertAdminOrAuditorOrManager(String role) {
+        assertAny(role, "ADMIN", "AUDITOR", "MANAGER");
+    }
+
+    public void assertAdminOrAccountantOrAuditorOrManager(String role) {
+        assertAny(role, "ADMIN", "ACCOUNTANT", "AUDITOR", "MANAGER");
+    }
+
+    public void assertAuthenticated(String role) {
+        assertAdminOrAccountantOrAuditorOrManager(role);
+    }
+
+    private void assertAny(String role, String... allowedRoles) {
+        if (role == null) throw new BusinessException("无权限操作");
+        for (String allowedRole : allowedRoles) {
+            if (allowedRole.equals(role)) return;
+        }
+        throw new BusinessException("无权限操作");
     }
 }

@@ -10,30 +10,26 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ElderProfileService {
-    private final ElderProfileMapper budgetCategoryMapper;
+    private final ElderProfileMapper mapper;
 
     public PageInfo<ElderProfile> page(Integer pageNum, Integer pageSize, String keyword, String status) {
         PageHelper.startPage(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
-        return new PageInfo<>(budgetCategoryMapper.selectPage(keyword, status));
+        return new PageInfo<>(mapper.selectPage(keyword, status));
     }
 
     public void save(ElderProfile entity) {
-        if (entity.getId() == null) budgetCategoryMapper.insert(entity);
-        else budgetCategoryMapper.update(entity);
+        if (entity.getId() == null) {
+            mapper.insert(entity);
+        } else {
+            mapper.update(entity);
+        }
     }
 
     public void delete(Long id) {
-        budgetCategoryMapper.deleteById(id);
+        mapper.deleteById(id);
     }
 
     public void updateStatus(Long id, String status) {
-        budgetCategoryMapper.updateStatus(id, status);
+        mapper.updateStatus(id, status);
     }
 }
-
-
-
-
-
-
-

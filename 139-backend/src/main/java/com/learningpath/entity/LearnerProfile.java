@@ -7,14 +7,14 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("lab_room")
+@TableName("learner_profile")
 public class LearnerProfile {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String labNo;
-    private String labName;
-    private String buildingName;
-    private String managerName;
+    private String learnerNo;
+    private String learnerName;
+    private String departmentName;
+    private String positionName;
     private String phoneNumber;
     private String status;
     private LocalDateTime createdTime;

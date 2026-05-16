@@ -6,17 +6,12 @@ import java.time.LocalDateTime;
 @Data
 public class FacilityPoint {
     private Long id;
-    private String categoryNo;
-    private String categoryName;
-    private String usageScope;
-    private String controlMode;
-    private String managerName;
+    private String pointNo;
+    private String pointName;
+    private String facilityType;
+    private String addressDetail;
+    private String openStatus;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
 }
-
-
-
-
-

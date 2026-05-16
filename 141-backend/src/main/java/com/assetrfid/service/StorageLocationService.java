@@ -9,19 +9,15 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class StorageLocationService extends BaseCrudService<StorageLocation> {
-    private final StorageLocationMapper stockItemMapper;
+    private final StorageLocationMapper storageLocationMapper;
 
     @Override
     protected BaseMapper<StorageLocation> mapper() {
-        return stockItemMapper;
+        return storageLocationMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"stock_no", "consumable_name", "lab_name", "current_qty"};
+        return new String[]{"location_no", "asset_name", "location_name", "current_qty"};
     }
 }
-
-
-
-

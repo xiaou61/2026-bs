@@ -1,24 +1,46 @@
 <template>
-  <DataPage title="节点通知" description="通知编号、课题编号、节点类型、提醒内容、接收人和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage title="合同通知" description="维护待签提醒、审批通知、归档通知等消息，支撑合同流程节点通知分发" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" :can-create="canManage" :can-edit="canManage" :can-delete="canDelete" @row-action="handleAction" />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getContractNoticePage, addContractNotice, updateContractNotice, deleteContractNotice, processContractNotice, finishContractNotice } from '../api'
+
 const api = { page: getContractNoticePage, add: addContractNotice, update: updateContractNotice, delete: deleteContractNotice }
-const columns = [{"prop": "warningNo", "label": "通知编号"}, {"prop": "projectNo", "label": "课题编号"}, {"prop": "riskLevel", "label": "节点类型"}, {"prop": "triggerReason", "label": "提醒内容"}, {"prop": "handlerName", "label": "接收人"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "warningNo", "label": "通知编号"}, {"prop": "projectNo", "label": "课题编号"}, {"prop": "riskLevel", "label": "节点类型"}, {"prop": "triggerReason", "label": "提醒内容", "type": "textarea"}, {"prop": "handlerName", "label": "接收人"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "process", "label": "处理", "type": "warning"}, {"command": "finish", "label": "完成", "type": "success"}]
-const defaults = {"status": "WARNING"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'LEGAL', 'APPROVER'].includes(role.value))
+const canDelete = computed(() => role.value === 'ADMIN')
+const columns = [
+  { prop: 'noticeNo', label: '通知编号' },
+  { prop: 'noticeTitle', label: '通知标题', width: 220 },
+  { prop: 'noticeType', label: '通知类型' },
+  { prop: 'receiverName', label: '接收人' },
+  { prop: 'publishTime', label: '发布时间', width: 180 },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'noticeNo', label: '通知编号' },
+  { prop: 'noticeTitle', label: '通知标题' },
+  { prop: 'noticeType', label: '通知类型', type: 'select', options: [{ label: '待签提醒', value: '待签提醒' }, { label: '审批提醒', value: '审批提醒' }, { label: '用印通知', value: '用印通知' }, { label: '归档通知', value: '归档通知' }] },
+  { prop: 'receiverName', label: '接收人' },
+  { prop: 'publishTime', label: '发布时间' },
+  { prop: 'status', label: '状态', type: 'select', options: [{ label: '草稿', value: 'DRAFT' }, { label: '处理中', value: 'PROCESSING' }, { label: '已完成', value: 'FINISHED' }] }
+]
+const rowActions = computed(() => canManage.value ? [{ command: 'process', label: '发布处理', type: 'warning' }, { command: 'finish', label: '完成', type: 'success' }] : [])
+const defaults = { noticeType: '待签提醒', status: 'DRAFT' }
+
 const handleAction = async ({ command, row, refresh }) => {
-  if (command === 'process') await processContractNotice(row.id)
-  if (command === 'finish') await finishContractNotice(row.id)
+  if (command === 'process') {
+    await processContractNotice(row.id)
+  }
+  if (command === 'finish') {
+    await finishContractNotice(row.id)
+  }
   ElMessage.success('操作成功')
   refresh()
 }
 </script>
-
-
-
-

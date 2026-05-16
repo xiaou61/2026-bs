@@ -7,15 +7,15 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("stock_warning")
+@TableName("learning_reminder")
 public class LearningReminder {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String warningNo;
-    private String consumableName;
-    private Integer currentQty;
-    private String warningLevel;
-    private String handlerName;
+    private String reminderNo;
+    private String learnerName;
+    private String reminderType;
+    private String remindTime;
+    private String channelName;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;

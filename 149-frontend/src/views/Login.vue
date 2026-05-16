@@ -2,7 +2,7 @@
   <div class="login-page">
     <el-card class="login-card">
       <h2>高校实验设备共享预约与违规使用追踪系统</h2>
-      <p>面向企业培训学习场景的课程学习、学生使用者档案、归还确认和巡检计划平台</p>
+      <p>面向高校实验教学场景的设备共享预约、借用审批、违规追踪和巡检维护一体化平台</p>
       <el-form :model="form" label-width="70px" @keyup.enter="submit">
         <el-form-item label="账号"><el-input v-model="form.username" /></el-form-item>
         <el-form-item label="密码"><el-input v-model="form.password" type="password" show-password /></el-form-item>
@@ -10,8 +10,8 @@
       </el-form>
       <div class="account-list">
         <el-tag>admin / 123456</el-tag>
-        <el-tag>trainer / 123456</el-tag>
-        <el-tag>employee / 123456</el-tag>
+        <el-tag>teacher / 123456</el-tag>
+        <el-tag>student / 123456</el-tag>
         <el-tag>manager / 123456</el-tag>
       </div>
     </el-card>
@@ -24,14 +24,23 @@ import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { login } from '../api'
 import { useUserStore } from '../store/user'
+
+const ROLE_HOME = {
+  ADMIN: '/dashboard',
+  TEACHER: '/reservation',
+  STUDENT: '/reservation',
+  MANAGER: '/asset'
+}
+
 const router = useRouter()
 const userStore = useUserStore()
 const form = reactive({ username: 'admin', password: '123456' })
+
 const submit = async () => {
   const res = await login(form)
   userStore.setAuth(res.data.token, res.data.user)
   ElMessage.success('登录成功')
-  router.push('/dashboard')
+  router.push(ROLE_HOME[res.data.user?.role] || '/dashboard')
 }
 </script>
 

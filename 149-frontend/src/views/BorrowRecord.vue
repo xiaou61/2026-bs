@@ -1,16 +1,49 @@
 <template>
-  <DataPage title="审稿分配" description="分配编号、投稿编号、审稿专家、分配意见、分配时间和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage title="借用记录" description="借用编号、设备名称、借用人、借出时间、借用用途和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
 import { getBorrowRecordPage, addBorrowRecord, updateBorrowRecord, deleteBorrowRecord, submitBorrowRecord, approveBorrowRecord } from '../api'
+import { useUserStore } from '../store/user'
+
+const userStore = useUserStore()
 const api = { page: getBorrowRecordPage, add: addBorrowRecord, update: updateBorrowRecord, delete: deleteBorrowRecord }
-const columns = [{"prop": "approvalNo", "label": "分配编号"}, {"prop": "requestNo", "label": "投稿编号"}, {"prop": "approverName", "label": "审稿专家"}, {"prop": "approvalOpinion", "label": "分配意见"}, {"prop": "approvalTime", "label": "分配时间"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "approvalNo", "label": "分配编号"}, {"prop": "requestNo", "label": "投稿编号"}, {"prop": "approverName", "label": "审稿专家"}, {"prop": "approvalOpinion", "label": "分配意见", "type": "textarea"}, {"prop": "approvalTime", "label": "分配时间"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "submit", "label": "提交", "type": "primary"}, {"command": "approve", "label": "通过", "type": "success"}]
-const defaults = {"status": "REVIEWING"}
+const canApprove = computed(() => ['ADMIN', 'TEACHER'].includes(userStore.user?.role))
+const columns = [
+  { prop: 'borrowNo', label: '借用编号' },
+  { prop: 'equipmentName', label: '设备名称' },
+  { prop: 'borrowerName', label: '借用人' },
+  { prop: 'borrowTime', label: '借出时间' },
+  { prop: 'borrowPurpose', label: '借用用途' },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'borrowNo', label: '借用编号' },
+  { prop: 'equipmentName', label: '设备名称' },
+  { prop: 'borrowerName', label: '借用人' },
+  { prop: 'borrowTime', label: '借出时间' },
+  { prop: 'borrowPurpose', label: '借用用途', type: 'textarea' },
+  {
+    prop: 'status',
+    label: '状态',
+    type: 'select',
+    options: [
+      { label: '待提交', value: 'OPEN' },
+      { label: '已提交', value: 'SUBMITTED' },
+      { label: '已通过', value: 'APPROVED' }
+    ]
+  }
+]
+const rowActions = computed(() => {
+  const actions = [{ command: 'submit', label: '提交', type: 'primary' }]
+  if (canApprove.value) actions.push({ command: 'approve', label: '通过', type: 'success' })
+  return actions
+})
+const defaults = { status: 'OPEN' }
+
 const handleAction = async ({ command, row, refresh }) => {
   if (command === 'submit') await submitBorrowRecord(row.id)
   if (command === 'approve') await approveBorrowRecord(row.id)
@@ -18,12 +51,3 @@ const handleAction = async ({ command, row, refresh }) => {
   refresh()
 }
 </script>
-
-
-
-
-
-
-
-
-

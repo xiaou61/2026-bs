@@ -1,23 +1,17 @@
 package com.accessibletravel.entity;
 
 import lombok.Data;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
 public class VolunteerProfile {
     private Long id;
-    private String invoiceNo;
-    private String claimNo;
-    private String invoiceType;
-    private BigDecimal invoiceAmount;
-    private String issuerName;
+    private String volunteerNo;
+    private String volunteerName;
+    private String serviceExpertise;
+    private String joinTime;
+    private String serviceArea;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
 }
-
-
-
-
-

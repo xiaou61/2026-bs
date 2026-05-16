@@ -7,21 +7,17 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("warning_rule")
+@TableName("point_rule")
 public class PointRule {
     @TableId(type = IdType.AUTO)
     private Long id;
     private String ruleNo;
-    private String categoryName;
-    private Integer minStock;
-    private String warningLevel;
-    private String noticeTarget;
+    private String projectName;
+    private String pointItem;
+    private Integer pointValue;
+    private String effectiveTime;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
 }
-
-
-
-
 

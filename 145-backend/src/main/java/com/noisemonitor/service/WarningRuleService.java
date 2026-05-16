@@ -18,7 +18,7 @@ public class WarningRuleService extends BaseCrudService<WarningRule> {
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"rule_no", "category_name", "min_stock", "warning_level"};
+        return new String[]{"rule_no", "complaint_title", "warning_metric", "threshold_config"};
     }
 }
 

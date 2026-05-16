@@ -9,20 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ServiceProjectService extends BaseCrudService<ServiceProject> {
-    private final ServiceProjectMapper consumableCatalogMapper;
+    private final ServiceProjectMapper serviceProjectMapper;
 
     @Override
     protected BaseMapper<ServiceProject> mapper() {
-        return consumableCatalogMapper;
+        return serviceProjectMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"consumable_no", "consumable_name", "spec_model", "unit_name"};
+        return new String[]{"project_no", "project_name", "service_topic", "service_target"};
     }
 }
-
-
-
-
 

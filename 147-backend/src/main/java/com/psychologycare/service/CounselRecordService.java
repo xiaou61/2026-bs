@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CounselRecordService extends BaseCrudService<CounselRecord> {
-    private final CounselRecordMapper purchaseApprovalMapper;
+    private final CounselRecordMapper counselRecordMapper;
 
     @Override
     protected BaseMapper<CounselRecord> mapper() {
-        return purchaseApprovalMapper;
+        return counselRecordMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"approval_no", "request_no", "approver_name", "approval_opinion"};
+        return new String[]{"record_no", "case_theme", "counselor_name", "conclusion_summary"};
     }
 }
 

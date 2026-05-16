@@ -15,9 +15,9 @@ import java.util.List;
 public interface ServicePackageMapper {
     @Select({
         "<script>",
-        "SELECT * FROM research_project",
+        "SELECT * FROM service_package",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (project_no LIKE CONCAT('%',#{keyword},'%') OR project_name LIKE CONCAT('%',#{keyword},'%') OR leader_name LIKE CONCAT('%',#{keyword},'%') OR college_name LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (package_no LIKE CONCAT('%',#{keyword},'%') OR package_name LIKE CONCAT('%',#{keyword},'%') OR service_category LIKE CONCAT('%',#{keyword},'%') OR target_group LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,29 +25,22 @@ public interface ServicePackageMapper {
     })
     List<ServicePackage> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM research_project WHERE id = #{id}")
+    @Select("SELECT * FROM service_package WHERE id = #{id}")
     ServicePackage selectById(Long id);
 
-    @Insert("INSERT INTO research_project (project_no, project_name, leader_name, college_name, start_year, status, created_time, updated_time) VALUES (#{projectNo}, #{projectName}, #{leaderName}, #{collegeName}, #{startYear}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO service_package (package_no, package_name, service_category, target_group, service_cycle, status, created_time, updated_time) VALUES (#{packageNo}, #{packageName}, #{serviceCategory}, #{targetGroup}, #{serviceCycle}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(ServicePackage entity);
 
-    @Update("UPDATE research_project SET project_no = #{projectNo}, project_name = #{projectName}, leader_name = #{leaderName}, college_name = #{collegeName}, start_year = #{startYear}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE service_package SET package_no = #{packageNo}, package_name = #{packageName}, service_category = #{serviceCategory}, target_group = #{targetGroup}, service_cycle = #{serviceCycle}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(ServicePackage entity);
 
-    @Delete("DELETE FROM research_project WHERE id = #{id}")
+    @Delete("DELETE FROM service_package WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM research_project")
+    @Select("SELECT COUNT(*) FROM service_package")
     long countAll();
 
-    @Update("UPDATE research_project SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE service_package SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-
-
-
-

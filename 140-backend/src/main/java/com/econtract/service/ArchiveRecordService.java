@@ -10,24 +10,24 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ArchiveRecordService {
-    private final ArchiveRecordMapper paperRecordMapper;
+    private final ArchiveRecordMapper archiveRecordMapper;
 
     public PageInfo<ArchiveRecord> page(Integer pageNum, Integer pageSize, String keyword, String status) {
         PageHelper.startPage(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
-        return new PageInfo<>(paperRecordMapper.selectPage(keyword, status));
+        return new PageInfo<>(archiveRecordMapper.selectPage(keyword, status));
     }
 
     public void save(ArchiveRecord entity) {
-        if (entity.getId() == null) paperRecordMapper.insert(entity);
-        else paperRecordMapper.update(entity);
+        if (entity.getId() == null) archiveRecordMapper.insert(entity);
+        else archiveRecordMapper.update(entity);
     }
 
     public void delete(Long id) {
-        paperRecordMapper.deleteById(id);
+        archiveRecordMapper.deleteById(id);
     }
 
     public void updateStatus(Long id, String status) {
-        paperRecordMapper.updateStatus(id, status);
+        archiveRecordMapper.updateStatus(id, status);
     }
 }
 

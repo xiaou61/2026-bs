@@ -9,20 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class TimeAccountService extends BaseCrudService<TimeAccount> {
-    private final TimeAccountMapper purchaseOrderMapper;
+    private final TimeAccountMapper timeAccountMapper;
 
     @Override
     protected BaseMapper<TimeAccount> mapper() {
-        return purchaseOrderMapper;
+        return timeAccountMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"order_no", "supplier_name", "consumable_name", "order_amount"};
+        return new String[]{"account_no", "project_name", "account_type", "owner_name"};
     }
 }
-
-
-
-
 

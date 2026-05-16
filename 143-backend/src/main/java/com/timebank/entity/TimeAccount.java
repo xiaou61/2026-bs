@@ -8,21 +8,17 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("purchase_order")
+@TableName("time_account")
 public class TimeAccount {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String orderNo;
-    private String supplierName;
-    private String consumableName;
-    private BigDecimal orderAmount;
-    private String arrivalDate;
+    private String accountNo;
+    private String projectName;
+    private String accountType;
+    private String openTime;
+    private String ownerName;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
 }
-
-
-
-
 

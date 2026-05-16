@@ -15,9 +15,9 @@ import java.util.List;
 public interface PublicReportMapper {
     @Select({
         "<script>",
-        "SELECT * FROM patent_record",
+        "SELECT * FROM public_report",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (patent_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR patent_name LIKE CONCAT('%',#{keyword},'%') OR applicant_name LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (report_no LIKE CONCAT('%',#{keyword},'%') OR food_name LIKE CONCAT('%',#{keyword},'%') OR report_title LIKE CONCAT('%',#{keyword},'%') OR publish_channel LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,23 +25,23 @@ public interface PublicReportMapper {
     })
     List<PublicReport> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM patent_record WHERE id = #{id}")
+    @Select("SELECT * FROM public_report WHERE id = #{id}")
     PublicReport selectById(Long id);
 
-    @Insert("INSERT INTO patent_record (patent_no, project_no, patent_name, applicant_name, grant_time, status, created_time, updated_time) VALUES (#{patentNo}, #{projectNo}, #{patentName}, #{applicantName}, #{grantTime}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO public_report (report_no, food_name, report_title, publish_channel, publish_time, status, created_time, updated_time) VALUES (#{reportNo}, #{foodName}, #{reportTitle}, #{publishChannel}, #{publishTime}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(PublicReport entity);
 
-    @Update("UPDATE patent_record SET patent_no = #{patentNo}, project_no = #{projectNo}, patent_name = #{patentName}, applicant_name = #{applicantName}, grant_time = #{grantTime}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE public_report SET report_no = #{reportNo}, food_name = #{foodName}, report_title = #{reportTitle}, publish_channel = #{publishChannel}, publish_time = #{publishTime}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(PublicReport entity);
 
-    @Delete("DELETE FROM patent_record WHERE id = #{id}")
+    @Delete("DELETE FROM public_report WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM patent_record")
+    @Select("SELECT COUNT(*) FROM public_report")
     long countAll();
 
-    @Update("UPDATE patent_record SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE public_report SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
 

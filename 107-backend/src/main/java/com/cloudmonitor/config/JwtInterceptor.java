@@ -2,6 +2,8 @@ package com.cloudmonitor.config;
 
 import com.cloudmonitor.common.BusinessException;
 import com.cloudmonitor.service.TokenService;
+import com.cloudmonitor.utils.JwtUtils;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -26,6 +28,10 @@ public class JwtInterceptor implements HandlerInterceptor {
         if (token == null || !tokenService.valid(token)) {
             throw new BusinessException("登录已失效");
         }
+        Claims claims = JwtUtils.parse(token);
+        request.setAttribute("userId", Long.valueOf(claims.getSubject()));
+        request.setAttribute("username", claims.get("username", String.class));
+        request.setAttribute("role", claims.get("role", String.class));
         return true;
     }
 }

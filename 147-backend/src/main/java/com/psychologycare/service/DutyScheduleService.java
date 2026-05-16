@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class DutyScheduleService extends BaseCrudService<DutySchedule> {
-    private final DutyScheduleMapper stockItemMapper;
+    private final DutyScheduleMapper dutyScheduleMapper;
 
     @Override
     protected BaseMapper<DutySchedule> mapper() {
-        return stockItemMapper;
+        return dutyScheduleMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"stock_no", "consumable_name", "lab_name", "current_qty"};
+        return new String[]{"schedule_no", "duty_teacher", "duty_date", "duty_period"};
     }
 }
 

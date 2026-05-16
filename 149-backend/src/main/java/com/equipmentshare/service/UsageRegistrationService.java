@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UsageRegistrationService extends BaseCrudService<UsageRegistration> {
-    private final UsageRegistrationMapper purchaseOrderMapper;
+    private final UsageRegistrationMapper usageRegistrationMapper;
 
     @Override
     protected BaseMapper<UsageRegistration> mapper() {
-        return purchaseOrderMapper;
+        return usageRegistrationMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"order_no", "supplier_name", "consumable_name", "order_amount"};
+        return new String[]{"registration_no", "equipment_name", "usage_scene", "teacher_name"};
     }
 }
 

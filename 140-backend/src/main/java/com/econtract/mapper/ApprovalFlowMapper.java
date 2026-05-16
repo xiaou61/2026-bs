@@ -15,9 +15,9 @@ import java.util.List;
 public interface ApprovalFlowMapper {
     @Select({
         "<script>",
-        "SELECT * FROM approval_task",
+        "SELECT * FROM approval_flow",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (approval_no LIKE CONCAT('%',#{keyword},'%') OR claim_no LIKE CONCAT('%',#{keyword},'%') OR node_name LIKE CONCAT('%',#{keyword},'%') OR approver_name LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (flow_no LIKE CONCAT('%',#{keyword},'%') OR contract_title LIKE CONCAT('%',#{keyword},'%') OR current_node LIKE CONCAT('%',#{keyword},'%') OR approver_name LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,23 +25,23 @@ public interface ApprovalFlowMapper {
     })
     List<ApprovalFlow> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM approval_task WHERE id = #{id}")
+    @Select("SELECT * FROM approval_flow WHERE id = #{id}")
     ApprovalFlow selectById(Long id);
 
-    @Insert("INSERT INTO approval_task (approval_no, claim_no, node_name, approver_name, approval_opinion, status, created_time, updated_time) VALUES (#{approvalNo}, #{claimNo}, #{nodeName}, #{approverName}, #{approvalOpinion}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO approval_flow (flow_no, contract_title, current_node, approver_name, approval_opinion, status, created_time, updated_time) VALUES (#{flowNo}, #{contractTitle}, #{currentNode}, #{approverName}, #{approvalOpinion}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(ApprovalFlow entity);
 
-    @Update("UPDATE approval_task SET approval_no = #{approvalNo}, claim_no = #{claimNo}, node_name = #{nodeName}, approver_name = #{approverName}, approval_opinion = #{approvalOpinion}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE approval_flow SET flow_no = #{flowNo}, contract_title = #{contractTitle}, current_node = #{currentNode}, approver_name = #{approverName}, approval_opinion = #{approvalOpinion}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(ApprovalFlow entity);
 
-    @Delete("DELETE FROM approval_task WHERE id = #{id}")
+    @Delete("DELETE FROM approval_flow WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM approval_task")
+    @Select("SELECT COUNT(*) FROM approval_flow")
     long countAll();
 
-    @Update("UPDATE approval_task SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE approval_flow SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
 

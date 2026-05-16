@@ -10,28 +10,24 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class FeedbackReviewService {
-    private final FeedbackReviewMapper paperRecordMapper;
+    private final FeedbackReviewMapper feedbackReviewMapper;
 
     public PageInfo<FeedbackReview> page(Integer pageNum, Integer pageSize, String keyword, String status) {
         PageHelper.startPage(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
-        return new PageInfo<>(paperRecordMapper.selectPage(keyword, status));
+        return new PageInfo<>(feedbackReviewMapper.selectPage(keyword, status));
     }
 
     public void save(FeedbackReview entity) {
-        if (entity.getId() == null) paperRecordMapper.insert(entity);
-        else paperRecordMapper.update(entity);
+        if (entity.getId() == null) feedbackReviewMapper.insert(entity);
+        else feedbackReviewMapper.update(entity);
     }
 
     public void delete(Long id) {
-        paperRecordMapper.deleteById(id);
+        feedbackReviewMapper.deleteById(id);
     }
 
     public void updateStatus(Long id, String status) {
-        paperRecordMapper.updateStatus(id, status);
+        feedbackReviewMapper.updateStatus(id, status);
     }
 }
-
-
-
-
 

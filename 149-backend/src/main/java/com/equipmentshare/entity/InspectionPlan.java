@@ -7,15 +7,15 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("warning_rule")
+@TableName("inspection_plan")
 public class InspectionPlan {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String ruleNo;
-    private String categoryName;
-    private Integer minStock;
-    private String warningLevel;
-    private String noticeTarget;
+    private String inspectionNo;
+    private String equipmentName;
+    private String inspectionTheme;
+    private String inspectionContent;
+    private String inspectionTime;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;

@@ -15,9 +15,9 @@ import java.util.List;
 public interface ContractSigningMapper {
     @Select({
         "<script>",
-        "SELECT * FROM payment_record",
+        "SELECT * FROM contract_signing",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (payment_no LIKE CONCAT('%',#{keyword},'%') OR claim_no LIKE CONCAT('%',#{keyword},'%') OR payment_amount LIKE CONCAT('%',#{keyword},'%') OR payment_time LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (signing_no LIKE CONCAT('%',#{keyword},'%') OR contract_title LIKE CONCAT('%',#{keyword},'%') OR signatory_name LIKE CONCAT('%',#{keyword},'%') OR signing_status LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,23 +25,23 @@ public interface ContractSigningMapper {
     })
     List<ContractSigning> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM payment_record WHERE id = #{id}")
+    @Select("SELECT * FROM contract_signing WHERE id = #{id}")
     ContractSigning selectById(Long id);
 
-    @Insert("INSERT INTO payment_record (payment_no, claim_no, payment_amount, payment_time, operator_name, status, created_time, updated_time) VALUES (#{paymentNo}, #{claimNo}, #{paymentAmount}, #{paymentTime}, #{operatorName}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO contract_signing (signing_no, contract_title, signatory_name, sign_time, signing_status, status, created_time, updated_time) VALUES (#{signingNo}, #{contractTitle}, #{signatoryName}, #{signTime}, #{signingStatus}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(ContractSigning entity);
 
-    @Update("UPDATE payment_record SET payment_no = #{paymentNo}, claim_no = #{claimNo}, payment_amount = #{paymentAmount}, payment_time = #{paymentTime}, operator_name = #{operatorName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE contract_signing SET signing_no = #{signingNo}, contract_title = #{contractTitle}, signatory_name = #{signatoryName}, sign_time = #{signTime}, signing_status = #{signingStatus}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(ContractSigning entity);
 
-    @Delete("DELETE FROM payment_record WHERE id = #{id}")
+    @Delete("DELETE FROM contract_signing WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM payment_record")
+    @Select("SELECT COUNT(*) FROM contract_signing")
     long countAll();
 
-    @Update("UPDATE payment_record SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE contract_signing SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
 

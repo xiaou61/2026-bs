@@ -15,9 +15,9 @@ import java.util.List;
 public interface TripRecordMapper {
     @Select({
         "<script>",
-        "SELECT * FROM performance_statistic",
+        "SELECT * FROM trip_record",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (stat_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR stat_month LIKE CONCAT('%',#{keyword},'%') OR claim_count LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (trip_no LIKE CONCAT('%',#{keyword},'%') OR traveler_no LIKE CONCAT('%',#{keyword},'%') OR travel_date LIKE CONCAT('%',#{keyword},'%') OR completion_status LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,27 +25,23 @@ public interface TripRecordMapper {
     })
     List<TripRecord> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM performance_statistic WHERE id = #{id}")
+    @Select("SELECT * FROM trip_record WHERE id = #{id}")
     TripRecord selectById(Long id);
 
-    @Insert("INSERT INTO performance_statistic (stat_no, project_no, stat_month, claim_count, achievement_count, status, created_time, updated_time) VALUES (#{statNo}, #{projectNo}, #{statMonth}, #{claimCount}, #{achievementCount}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO trip_record (trip_no, traveler_no, travel_date, travel_route, completion_status, status, created_time, updated_time) VALUES (#{tripNo}, #{travelerNo}, #{travelDate}, #{travelRoute}, #{completionStatus}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(TripRecord entity);
 
-    @Update("UPDATE performance_statistic SET stat_no = #{statNo}, project_no = #{projectNo}, stat_month = #{statMonth}, claim_count = #{claimCount}, achievement_count = #{achievementCount}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE trip_record SET trip_no = #{tripNo}, traveler_no = #{travelerNo}, travel_date = #{travelDate}, travel_route = #{travelRoute}, completion_status = #{completionStatus}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(TripRecord entity);
 
-    @Delete("DELETE FROM performance_statistic WHERE id = #{id}")
+    @Delete("DELETE FROM trip_record WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM performance_statistic")
+    @Select("SELECT COUNT(*) FROM trip_record")
     long countAll();
 
-    @Update("UPDATE performance_statistic SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE trip_record SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-
 

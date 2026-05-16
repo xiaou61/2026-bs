@@ -1,5 +1,6 @@
 package com.vehicleclaim.service;
 
+import com.vehicleclaim.common.BusinessException;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.vehicleclaim.entity.SysUser;
@@ -18,8 +19,27 @@ public class SysUserService {
     }
 
     public void save(SysUser entity) {
-        if (entity.getId() == null) mapper.insert(entity);
-        else mapper.update(entity);
+        if (entity.getId() == null) {
+            if (entity.getPassword() == null || entity.getPassword().trim().isEmpty()) {
+                entity.setPassword("123456");
+            }
+            if (entity.getStatus() == null) {
+                entity.setStatus(1);
+            }
+            mapper.insert(entity);
+            return;
+        }
+        SysUser current = mapper.selectById(entity.getId());
+        if (current == null) {
+            throw new BusinessException("用户不存在");
+        }
+        if (entity.getPassword() == null || entity.getPassword().trim().isEmpty()) {
+            entity.setPassword(current.getPassword());
+        }
+        if (entity.getStatus() == null) {
+            entity.setStatus(current.getStatus());
+        }
+        mapper.update(entity);
     }
 
     public void delete(Long id) {
@@ -30,7 +50,3 @@ public class SysUserService {
         mapper.updateStatus(id, status);
     }
 }
-
-
-
-

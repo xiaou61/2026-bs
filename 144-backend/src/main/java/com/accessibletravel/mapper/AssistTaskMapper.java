@@ -15,9 +15,9 @@ import java.util.List;
 public interface AssistTaskMapper {
     @Select({
         "<script>",
-        "SELECT * FROM payment_record",
+        "SELECT * FROM assist_task",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (payment_no LIKE CONCAT('%',#{keyword},'%') OR claim_no LIKE CONCAT('%',#{keyword},'%') OR payment_amount LIKE CONCAT('%',#{keyword},'%') OR payment_time LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (task_no LIKE CONCAT('%',#{keyword},'%') OR volunteer_no LIKE CONCAT('%',#{keyword},'%') OR task_type LIKE CONCAT('%',#{keyword},'%') OR executor_name LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,27 +25,23 @@ public interface AssistTaskMapper {
     })
     List<AssistTask> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM payment_record WHERE id = #{id}")
+    @Select("SELECT * FROM assist_task WHERE id = #{id}")
     AssistTask selectById(Long id);
 
-    @Insert("INSERT INTO payment_record (payment_no, claim_no, payment_amount, payment_time, operator_name, status, created_time, updated_time) VALUES (#{paymentNo}, #{claimNo}, #{paymentAmount}, #{paymentTime}, #{operatorName}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO assist_task (task_no, volunteer_no, task_type, execute_time, executor_name, status, created_time, updated_time) VALUES (#{taskNo}, #{volunteerNo}, #{taskType}, #{executeTime}, #{executorName}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(AssistTask entity);
 
-    @Update("UPDATE payment_record SET payment_no = #{paymentNo}, claim_no = #{claimNo}, payment_amount = #{paymentAmount}, payment_time = #{paymentTime}, operator_name = #{operatorName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE assist_task SET task_no = #{taskNo}, volunteer_no = #{volunteerNo}, task_type = #{taskType}, execute_time = #{executeTime}, executor_name = #{executorName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(AssistTask entity);
 
-    @Delete("DELETE FROM payment_record WHERE id = #{id}")
+    @Delete("DELETE FROM assist_task WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM payment_record")
+    @Select("SELECT COUNT(*) FROM assist_task")
     long countAll();
 
-    @Update("UPDATE payment_record SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE assist_task SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-
 

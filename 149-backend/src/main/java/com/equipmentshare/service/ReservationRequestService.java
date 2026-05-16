@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ReservationRequestService extends BaseCrudService<ReservationRequest> {
-    private final ReservationRequestMapper purchaseRequestMapper;
+    private final ReservationRequestMapper reservationRequestMapper;
 
     @Override
     protected BaseMapper<ReservationRequest> mapper() {
-        return purchaseRequestMapper;
+        return reservationRequestMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"request_no", "consumable_name", "request_qty", "applicant_name"};
+        return new String[]{"reservation_no", "equipment_name", "applicant_name", "reservation_time"};
     }
 }
 

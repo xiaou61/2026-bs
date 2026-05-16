@@ -7,15 +7,15 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("supplier_profile")
+@TableName("course_catalog")
 public class CourseCatalog {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String supplierNo;
-    private String supplierName;
-    private String contactName;
-    private String phoneNumber;
-    private String qualificationLevel;
+    private String courseNo;
+    private String courseName;
+    private String lecturerName;
+    private Integer creditHours;
+    private String deliveryMode;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;

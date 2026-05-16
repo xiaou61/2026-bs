@@ -3,21 +3,7 @@
     <el-aside width="236px">
       <div class="logo">PROJECT 121</div>
       <el-menu router :default-active="$route.path">
-        <el-menu-item index="/dashboard">数据看板</el-menu-item>
-        <el-menu-item index='/user'>账号权限</el-menu-item>
-        <el-menu-item index='/drone'>无人机设备</el-menu-item>
-        <el-menu-item index='/pilot'>飞手档案</el-menu-item>
-        <el-menu-item index='/zone'>巡检区域</el-menu-item>
-        <el-menu-item index='/route'>航线规划</el-menu-item>
-        <el-menu-item index='/task'>巡检任务</el-menu-item>
-        <el-menu-item index='/flight'>飞行记录</el-menu-item>
-        <el-menu-item index='/defect'>缺陷报告</el-menu-item>
-        <el-menu-item index='/image'>缺陷图片</el-menu-item>
-        <el-menu-item index='/rectify'>整改工单</el-menu-item>
-        <el-menu-item index='/station'>电池站点</el-menu-item>
-        <el-menu-item index='/maintenance'>维保记录</el-menu-item>
-        <el-menu-item index='/warning'>风险预警</el-menu-item>
-        <el-menu-item index='/log'>操作日志</el-menu-item>
+        <el-menu-item v-for="item in visibleMenus" :key="item.index" :index="item.index">{{ item.label }}</el-menu-item>
       </el-menu>
     </el-aside>
     <el-container>
@@ -31,11 +17,34 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { logout } from '../api'
 import { useUserStore } from '../store/user'
+
 const router = useRouter()
 const userStore = useUserStore()
+const menus = [
+  { index: '/dashboard', label: '数据看板', roles: ['ADMIN', 'PILOT', 'ENGINEER', 'MANAGER'] },
+  { index: '/user', label: '账号权限', roles: ['ADMIN'] },
+  { index: '/drone', label: '无人机设备', roles: ['ADMIN', 'PILOT', 'ENGINEER'] },
+  { index: '/pilot', label: '飞手档案', roles: ['ADMIN', 'PILOT', 'ENGINEER'] },
+  { index: '/zone', label: '巡检区域', roles: ['ADMIN', 'PILOT', 'ENGINEER'] },
+  { index: '/route', label: '航线规划', roles: ['ADMIN', 'PILOT', 'ENGINEER'] },
+  { index: '/task', label: '巡检任务', roles: ['ADMIN', 'PILOT', 'ENGINEER'] },
+  { index: '/flight', label: '飞行记录', roles: ['ADMIN', 'PILOT', 'ENGINEER'] },
+  { index: '/defect', label: '缺陷报告', roles: ['ADMIN', 'PILOT', 'ENGINEER'] },
+  { index: '/image', label: '缺陷图片', roles: ['ADMIN', 'PILOT', 'ENGINEER'] },
+  { index: '/rectify', label: '整改工单', roles: ['ADMIN', 'ENGINEER', 'MANAGER'] },
+  { index: '/station', label: '电池站点', roles: ['ADMIN', 'ENGINEER', 'MANAGER'] },
+  { index: '/maintenance', label: '维保记录', roles: ['ADMIN', 'ENGINEER', 'MANAGER'] },
+  { index: '/warning', label: '风险预警', roles: ['ADMIN', 'ENGINEER', 'MANAGER'] },
+  { index: '/log', label: '操作日志', roles: ['ADMIN'] }
+]
+const visibleMenus = computed(() => {
+  const role = userStore.user?.role
+  return menus.filter(item => item.roles.includes(role))
+})
 const handleLogout = async () => {
   await logout().catch(() => null)
   userStore.clear()

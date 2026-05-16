@@ -1,16 +1,53 @@
 <template>
-  <DataPage title="作者档案" description="作者编号、作者姓名、所属单位、联系人、联系人和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage
+    title="噪声源档案"
+    description="维护噪声源编号、责任单位、源头类型和联系人，支撑重点噪声源识别与归口管理"
+    :api="api"
+    :columns="columns"
+    :form-fields="formFields"
+    :row-actions="rowActions"
+    :defaults="defaults"
+    :can-create="canManage"
+    :can-edit="canManage"
+    :can-delete="canDelete"
+    @row-action="handleAction"
+  />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getNoiseSourcePage, addNoiseSource, updateNoiseSource, deleteNoiseSource, activateNoiseSource, finishNoiseSource } from '../api'
+
 const api = { page: getNoiseSourcePage, add: addNoiseSource, update: updateNoiseSource, delete: deleteNoiseSource }
-const columns = [{"prop": "labNo", "label": "作者编号"}, {"prop": "labName", "label": "作者姓名"}, {"prop": "buildingName", "label": "所属单位"}, {"prop": "managerName", "label": "联系人"}, {"prop": "phoneNumber", "label": "联系人"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "labNo", "label": "作者编号"}, {"prop": "labName", "label": "作者姓名"}, {"prop": "buildingName", "label": "所属单位"}, {"prop": "managerName", "label": "联系人"}, {"prop": "phoneNumber", "label": "联系人"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "activate", "label": "启用", "type": "success"}, {"command": "finish", "label": "完成", "type": "primary"}]
-const defaults = {"status": "ACTIVE"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'SUPERVISOR'].includes(role.value))
+const canDelete = computed(() => role.value === 'ADMIN')
+const columns = [
+  { prop: 'sourceNo', label: '源档编号' },
+  { prop: 'sourceName', label: '噪声源名称', width: 180 },
+  { prop: 'responsibleUnit', label: '责任单位', width: 180 },
+  { prop: 'sourceType', label: '源头类型', width: 140 },
+  { prop: 'contactName', label: '联系人', width: 120 },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'sourceNo', label: '源档编号' },
+  { prop: 'sourceName', label: '噪声源名称' },
+  { prop: 'responsibleUnit', label: '责任单位' },
+  { prop: 'sourceType', label: '源头类型' },
+  { prop: 'contactName', label: '联系人' },
+  { prop: 'status', label: '状态', type: 'select', options: [{ label: '启用', value: 'ACTIVE' }, { label: '已归档', value: 'FINISHED' }] }
+]
+const rowActions = computed(() => canManage.value ? [
+  { command: 'activate', label: '启用', type: 'success' },
+  { command: 'finish', label: '归档', type: 'warning' }
+] : [])
+const defaults = { status: 'ACTIVE' }
+
 const handleAction = async ({ command, row, refresh }) => {
   if (command === 'activate') await activateNoiseSource(row.id)
   if (command === 'finish') await finishNoiseSource(row.id)
@@ -18,10 +55,3 @@ const handleAction = async ({ command, row, refresh }) => {
   refresh()
 }
 </script>
-
-
-
-
-
-
-

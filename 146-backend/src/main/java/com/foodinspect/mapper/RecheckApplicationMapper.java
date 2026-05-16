@@ -15,9 +15,9 @@ import java.util.List;
 public interface RecheckApplicationMapper {
     @Select({
         "<script>",
-        "SELECT * FROM research_achievement",
+        "SELECT * FROM recheck_application",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (achievement_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR achievement_name LIKE CONCAT('%',#{keyword},'%') OR achievement_type LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (application_no LIKE CONCAT('%',#{keyword},'%') OR food_name LIKE CONCAT('%',#{keyword},'%') OR recheck_reason LIKE CONCAT('%',#{keyword},'%') OR applicant_name LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,23 +25,23 @@ public interface RecheckApplicationMapper {
     })
     List<RecheckApplication> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM research_achievement WHERE id = #{id}")
+    @Select("SELECT * FROM recheck_application WHERE id = #{id}")
     RecheckApplication selectById(Long id);
 
-    @Insert("INSERT INTO research_achievement (achievement_no, project_no, achievement_name, achievement_type, owner_name, status, created_time, updated_time) VALUES (#{achievementNo}, #{projectNo}, #{achievementName}, #{achievementType}, #{ownerName}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO recheck_application (application_no, food_name, recheck_reason, application_time, applicant_name, status, created_time, updated_time) VALUES (#{applicationNo}, #{foodName}, #{recheckReason}, #{applicationTime}, #{applicantName}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(RecheckApplication entity);
 
-    @Update("UPDATE research_achievement SET achievement_no = #{achievementNo}, project_no = #{projectNo}, achievement_name = #{achievementName}, achievement_type = #{achievementType}, owner_name = #{ownerName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE recheck_application SET application_no = #{applicationNo}, food_name = #{foodName}, recheck_reason = #{recheckReason}, application_time = #{applicationTime}, applicant_name = #{applicantName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(RecheckApplication entity);
 
-    @Delete("DELETE FROM research_achievement WHERE id = #{id}")
+    @Delete("DELETE FROM recheck_application WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM research_achievement")
+    @Select("SELECT COUNT(*) FROM recheck_application")
     long countAll();
 
-    @Update("UPDATE research_achievement SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE recheck_application SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
 

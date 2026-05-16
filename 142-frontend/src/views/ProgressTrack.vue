@@ -1,25 +1,47 @@
 <template>
-  <DataPage title="中期检查" description="检查编号、课题编号、检查节点、检查教师、检查时间和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage title="进度跟踪" description="维护跟踪编号、当前节点、处理部门和预计完成时间，为客户、理赔专员和审核主管提供案件可视化进度" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" :can-create="canManage" :can-edit="canManage" :can-delete="canDelete" @row-action="handleAction" />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getProgressTrackPage, addProgressTrack, updateProgressTrack, deleteProgressTrack, activateProgressTrack, finishProgressTrack } from '../api'
+
 const api = { page: getProgressTrackPage, add: addProgressTrack, update: updateProgressTrack, delete: deleteProgressTrack }
-const columns = [{"prop": "patentNo", "label": "检查编号"}, {"prop": "projectNo", "label": "课题编号"}, {"prop": "patentName", "label": "检查节点"}, {"prop": "applicantName", "label": "检查教师"}, {"prop": "grantTime", "label": "检查时间"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "patentNo", "label": "检查编号"}, {"prop": "projectNo", "label": "课题编号"}, {"prop": "patentName", "label": "检查节点"}, {"prop": "applicantName", "label": "检查教师"}, {"prop": "grantTime", "label": "检查时间"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "activate", "label": "启用", "type": "success"}, {"command": "finish", "label": "完成", "type": "primary"}]
-const defaults = {"status": "PUBLISHED"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'LEGAL'].includes(role.value))
+const canWorkflow = computed(() => ['ADMIN', 'LEGAL', 'APPROVER'].includes(role.value))
+const canDelete = computed(() => role.value === 'ADMIN')
+const columns = [
+  { prop: 'trackNo', label: '跟踪编号' },
+  { prop: 'reportNo', label: '报案编号' },
+  { prop: 'currentNode', label: '当前节点' },
+  { prop: 'handleDept', label: '处理部门' },
+  { prop: 'expectedFinishTime', label: '预计完成', width: 160 },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'trackNo', label: '跟踪编号' },
+  { prop: 'reportNo', label: '报案编号' },
+  { prop: 'currentNode', label: '当前节点' },
+  { prop: 'handleDept', label: '处理部门' },
+  { prop: 'expectedFinishTime', label: '预计完成' },
+  { prop: 'status', label: '状态', type: 'select', options: [{ label: '草稿', value: 'DRAFT' }, { label: '启用', value: 'ACTIVE' }, { label: '已完成', value: 'FINISHED' }] }
+]
+const rowActions = computed(() => canWorkflow.value ? [{ command: 'activate', label: '推进', type: 'warning' }, { command: 'finish', label: '完成', type: 'success' }] : [])
+const defaults = { status: 'DRAFT' }
+
 const handleAction = async ({ command, row, refresh }) => {
-  if (command === 'activate') await activateProgressTrack(row.id)
-  if (command === 'finish') await finishProgressTrack(row.id)
+  if (command === 'activate') {
+    await activateProgressTrack(row.id)
+  }
+  if (command === 'finish') {
+    await finishProgressTrack(row.id)
+  }
   ElMessage.success('操作成功')
   refresh()
 }
 </script>
-
-
-
-
-

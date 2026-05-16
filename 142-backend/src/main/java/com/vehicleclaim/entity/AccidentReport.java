@@ -1,22 +1,17 @@
 package com.vehicleclaim.entity;
 
 import lombok.Data;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
 public class AccidentReport {
     private Long id;
-    private String invoiceNo;
-    private String claimNo;
-    private String invoiceType;
-    private BigDecimal invoiceAmount;
-    private String issuerName;
+    private String reportNo;
+    private String caseName;
+    private String accidentType;
+    private String reportTime;
+    private String reporterName;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
 }
-
-
-
-

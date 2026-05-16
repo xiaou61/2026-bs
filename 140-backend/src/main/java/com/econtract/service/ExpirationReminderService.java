@@ -10,24 +10,24 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ExpirationReminderService {
-    private final ExpirationReminderMapper patentRecordMapper;
+    private final ExpirationReminderMapper expirationReminderMapper;
 
     public PageInfo<ExpirationReminder> page(Integer pageNum, Integer pageSize, String keyword, String status) {
         PageHelper.startPage(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
-        return new PageInfo<>(patentRecordMapper.selectPage(keyword, status));
+        return new PageInfo<>(expirationReminderMapper.selectPage(keyword, status));
     }
 
     public void save(ExpirationReminder entity) {
-        if (entity.getId() == null) patentRecordMapper.insert(entity);
-        else patentRecordMapper.update(entity);
+        if (entity.getId() == null) expirationReminderMapper.insert(entity);
+        else expirationReminderMapper.update(entity);
     }
 
     public void delete(Long id) {
-        patentRecordMapper.deleteById(id);
+        expirationReminderMapper.deleteById(id);
     }
 
     public void updateStatus(Long id, String status) {
-        patentRecordMapper.updateStatus(id, status);
+        expirationReminderMapper.updateStatus(id, status);
     }
 }
 

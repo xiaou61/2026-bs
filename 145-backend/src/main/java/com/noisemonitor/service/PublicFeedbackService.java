@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class PublicFeedbackService extends BaseCrudService<PublicFeedback> {
-    private final PublicFeedbackMapper inventoryCheckMapper;
+    private final PublicFeedbackMapper publicFeedbackMapper;
 
     @Override
     protected BaseMapper<PublicFeedback> mapper() {
-        return inventoryCheckMapper;
+        return publicFeedbackMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"check_no", "lab_name", "consumable_name", "book_qty"};
+        return new String[]{"feedback_no", "complaint_title", "feedback_topic", "feedback_channel"};
     }
 }
 

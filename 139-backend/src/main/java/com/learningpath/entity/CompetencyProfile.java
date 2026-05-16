@@ -7,15 +7,15 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("inventory_check")
+@TableName("competency_profile")
 public class CompetencyProfile {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String checkNo;
-    private String labName;
-    private String consumableName;
-    private Integer bookQty;
-    private Integer actualQty;
+    private String profileNo;
+    private String learnerName;
+    private String competencyLevel;
+    private Integer gapCount;
+    private String evaluatorName;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;

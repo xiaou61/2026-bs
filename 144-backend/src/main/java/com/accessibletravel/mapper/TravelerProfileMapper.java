@@ -15,9 +15,9 @@ import java.util.List;
 public interface TravelerProfileMapper {
     @Select({
         "<script>",
-        "SELECT * FROM budget_allocation",
+        "SELECT * FROM traveler_profile",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (budget_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR category_name LIKE CONCAT('%',#{keyword},'%') OR budget_amount LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (traveler_no LIKE CONCAT('%',#{keyword},'%') OR traveler_name LIKE CONCAT('%',#{keyword},'%') OR phone LIKE CONCAT('%',#{keyword},'%') OR assistance_need LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,27 +25,23 @@ public interface TravelerProfileMapper {
     })
     List<TravelerProfile> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM budget_allocation WHERE id = #{id}")
+    @Select("SELECT * FROM traveler_profile WHERE id = #{id}")
     TravelerProfile selectById(Long id);
 
-    @Insert("INSERT INTO budget_allocation (budget_no, project_no, category_name, budget_amount, used_amount, status, created_time, updated_time) VALUES (#{budgetNo}, #{projectNo}, #{categoryName}, #{budgetAmount}, #{usedAmount}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO traveler_profile (traveler_no, traveler_name, phone, assistance_need, travel_preference, status, created_time, updated_time) VALUES (#{travelerNo}, #{travelerName}, #{phone}, #{assistanceNeed}, #{travelPreference}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(TravelerProfile entity);
 
-    @Update("UPDATE budget_allocation SET budget_no = #{budgetNo}, project_no = #{projectNo}, category_name = #{categoryName}, budget_amount = #{budgetAmount}, used_amount = #{usedAmount}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE traveler_profile SET traveler_no = #{travelerNo}, traveler_name = #{travelerName}, phone = #{phone}, assistance_need = #{assistanceNeed}, travel_preference = #{travelPreference}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(TravelerProfile entity);
 
-    @Delete("DELETE FROM budget_allocation WHERE id = #{id}")
+    @Delete("DELETE FROM traveler_profile WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM budget_allocation")
+    @Select("SELECT COUNT(*) FROM traveler_profile")
     long countAll();
 
-    @Update("UPDATE budget_allocation SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE traveler_profile SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-
 

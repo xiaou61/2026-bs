@@ -7,15 +7,15 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("stock_item")
+@TableName("learning_path_plan")
 public class LearningPathPlan {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String stockNo;
-    private String consumableName;
-    private String labName;
-    private Integer currentQty;
-    private Integer lockedQty;
+    private String pathNo;
+    private String learnerName;
+    private String pathName;
+    private Integer stageCount;
+    private Integer completedRate;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;

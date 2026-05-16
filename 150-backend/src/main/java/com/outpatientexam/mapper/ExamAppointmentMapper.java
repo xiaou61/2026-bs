@@ -14,41 +14,33 @@ import java.util.List;
 @Mapper
 public interface ExamAppointmentMapper {
     @Select({
-        "<script>",
-        "SELECT * FROM expense_claim",
-        "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (claim_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR applicant_name LIKE CONCAT('%',#{keyword},'%') OR claim_amount LIKE CONCAT('%',#{keyword},'%'))</if>",
-        "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
-        "</where>",
-        "ORDER BY id DESC",
-        "</script>"
+            "<script>",
+            "SELECT * FROM exam_appointment",
+            "<where>",
+            "<if test='keyword != null and keyword != \"\"'> AND (appointment_no LIKE CONCAT('%',#{keyword},'%') OR item_name LIKE CONCAT('%',#{keyword},'%') OR appointment_date LIKE CONCAT('%',#{keyword},'%') OR time_slot LIKE CONCAT('%',#{keyword},'%') OR doctor_name LIKE CONCAT('%',#{keyword},'%'))</if>",
+            "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
+            "</where>",
+            "ORDER BY id DESC",
+            "</script>"
     })
     List<ExamAppointment> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM expense_claim WHERE id = #{id}")
+    @Select("SELECT * FROM exam_appointment WHERE id = #{id}")
     ExamAppointment selectById(Long id);
 
-    @Insert("INSERT INTO expense_claim (claim_no, project_no, applicant_name, claim_amount, claim_time, status, created_time, updated_time) VALUES (#{claimNo}, #{projectNo}, #{applicantName}, #{claimAmount}, #{claimTime}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO exam_appointment (appointment_no, item_name, appointment_date, time_slot, doctor_name, status, created_time, updated_time) VALUES (#{appointmentNo}, #{itemName}, #{appointmentDate}, #{timeSlot}, #{doctorName}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(ExamAppointment entity);
 
-    @Update("UPDATE expense_claim SET claim_no = #{claimNo}, project_no = #{projectNo}, applicant_name = #{applicantName}, claim_amount = #{claimAmount}, claim_time = #{claimTime}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE exam_appointment SET appointment_no = #{appointmentNo}, item_name = #{itemName}, appointment_date = #{appointmentDate}, time_slot = #{timeSlot}, doctor_name = #{doctorName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(ExamAppointment entity);
 
-    @Delete("DELETE FROM expense_claim WHERE id = #{id}")
+    @Delete("DELETE FROM exam_appointment WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM expense_claim")
+    @Select("SELECT COUNT(*) FROM exam_appointment")
     long countAll();
 
-    @Update("UPDATE expense_claim SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE exam_appointment SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-
-
-
-
-

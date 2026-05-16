@@ -1,5 +1,6 @@
 package com.researchfund.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import java.time.LocalDateTime;
 
@@ -7,6 +8,7 @@ import java.time.LocalDateTime;
 public class SysUser {
     private Long id;
     private String username;
+    @JsonIgnore
     private String password;
     private String nickname;
     private String role;

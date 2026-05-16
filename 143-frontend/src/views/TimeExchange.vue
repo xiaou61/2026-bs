@@ -1,16 +1,43 @@
 <template>
-  <DataPage title="录用通知" description="通知编号、稿件编号、论文题目、录用结果、通知人和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage title="互助兑换" description="维护兑换编号、关联项目、兑换人、兑换时长和兑换时间，支撑互助时长兑换申请与审批" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" :can-create="canManage" :can-edit="canManage" :can-delete="canManage" @row-action="handleAction" />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getTimeExchangePage, addTimeExchange, updateTimeExchange, deleteTimeExchange, submitTimeExchange, approveTimeExchange } from '../api'
+
 const api = { page: getTimeExchangePage, add: addTimeExchange, update: updateTimeExchange, delete: deleteTimeExchange }
-const columns = [{"prop": "inboundNo", "label": "通知编号"}, {"prop": "orderNo", "label": "稿件编号"}, {"prop": "consumableName", "label": "论文题目"}, {"prop": "inboundQty", "label": "录用结果"}, {"prop": "operatorName", "label": "通知人"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "inboundNo", "label": "通知编号"}, {"prop": "orderNo", "label": "稿件编号"}, {"prop": "consumableName", "label": "论文题目"}, {"prop": "inboundQty", "label": "录用结果", "type": "number"}, {"prop": "operatorName", "label": "通知人"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "submit", "label": "提交", "type": "primary"}, {"command": "approve", "label": "通过", "type": "success"}]
-const defaults = {"status": "FINISHED"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'RESIDENT', 'VOLUNTEER'].includes(role.value))
+const canApprove = computed(() => ['ADMIN', 'MANAGER'].includes(role.value))
+const columns = [
+  { prop: 'exchangeNo', label: '兑换编号' },
+  { prop: 'projectName', label: '关联项目' },
+  { prop: 'exchangerName', label: '兑换人' },
+  { prop: 'exchangeHours', label: '兑换时长(小时)' },
+  { prop: 'exchangeTime', label: '兑换时间', width: 160 },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'exchangeNo', label: '兑换编号' },
+  { prop: 'projectName', label: '关联项目' },
+  { prop: 'exchangerName', label: '兑换人' },
+  { prop: 'exchangeHours', label: '兑换时长(小时)', type: 'number' },
+  { prop: 'exchangeTime', label: '兑换时间' },
+  { prop: 'status', label: '状态', type: 'select', options: [{ label: '草稿', value: 'DRAFT' }, { label: '已提交', value: 'SUBMITTED' }, { label: '已审批', value: 'APPROVED' }] }
+]
+const rowActions = computed(() => {
+  const actions = []
+  if (canManage.value) actions.push({ command: 'submit', label: '提交', type: 'warning' })
+  if (canApprove.value) actions.push({ command: 'approve', label: '审批通过', type: 'success' })
+  return actions
+})
+const defaults = { status: 'DRAFT' }
+
 const handleAction = async ({ command, row, refresh }) => {
   if (command === 'submit') await submitTimeExchange(row.id)
   if (command === 'approve') await approveTimeExchange(row.id)
@@ -18,9 +45,3 @@ const handleAction = async ({ command, row, refresh }) => {
   refresh()
 }
 </script>
-
-
-
-
-
-

@@ -4,18 +4,20 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("outbound_record")
+@TableName("penalty_decision")
 public class PenaltyDecision {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String outboundNo;
-    private String consumableName;
-    private String labName;
-    private Integer outboundQty;
-    private String receiverName;
+    private String penaltyNo;
+    private String complaintTitle;
+    private String penaltyType;
+    private String penaltyTarget;
+    private BigDecimal penaltyAmount;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;

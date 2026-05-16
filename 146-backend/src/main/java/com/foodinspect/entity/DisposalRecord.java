@@ -6,11 +6,11 @@ import java.time.LocalDateTime;
 @Data
 public class DisposalRecord {
     private Long id;
-    private String paperNo;
-    private String projectNo;
-    private String paperTitle;
-    private String journalName;
-    private String publishTime;
+    private String disposalNo;
+    private String foodName;
+    private String disposalMethod;
+    private String disposalTime;
+    private String responsibleUnit;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;

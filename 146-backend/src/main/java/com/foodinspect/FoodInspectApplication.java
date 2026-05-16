@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class VehicleSamplingTask {
+public class FoodInspectApplication {
     public static void main(String[] args) {
-        SpringApplication.run(VehicleSamplingTask.class, args);
+        SpringApplication.run(FoodInspectApplication.class, args);
     }
 }
 

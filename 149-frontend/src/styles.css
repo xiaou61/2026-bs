@@ -1,7 +1,7 @@
 * { box-sizing: border-box; }
-body { margin: 0; font-family: Arial, "Microsoft YaHei", sans-serif; background: #f3f6f8; color: #1f2937; }
+body { margin: 0; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; background: #eef4f8; color: #1f2937; }
 .layout { min-height: 100vh; }
-.logo { height: 58px; display: flex; align-items: center; padding-left: 22px; font-weight: 700; color: #ffffff; background: #2563eb; letter-spacing: 0; }
+.logo { height: 58px; display: flex; align-items: center; padding-left: 22px; font-weight: 700; color: #ffffff; background: linear-gradient(135deg, #2563eb, #0f766e); letter-spacing: 0.04em; }
 .el-aside { background: #ffffff; border-right: 1px solid #e5e7eb; }
 .el-menu { border-right: 0; }
 .el-header { height: 64px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; background: #ffffff; border-bottom: 1px solid #e5e7eb; }
@@ -18,12 +18,11 @@ body { margin: 0; font-family: Arial, "Microsoft YaHei", sans-serif; background:
 .metric strong { display: block; margin-top: 12px; font-size: 32px; color: #2563eb; }
 .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .chart { height: 360px; padding: 16px; border-radius: 8px; background: #ffffff; border: 1px solid #e5e7eb; }
-.login { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #2563eb, #0f766e); }
-.login-card { width: 470px; border-radius: 8px; }
-.login-title { text-align: center; margin-bottom: 22px; }
-.login-title h2 { margin: 0; font-size: 23px; }
-.login-title p { margin: 10px 0 0; color: #64748b; line-height: 1.6; }
-.account-tags { margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+.login-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.18), transparent 34%), linear-gradient(135deg, #dbeafe, #ecfeff); }
+.login-card { width: 470px; border-radius: 14px; border: 0; box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12); }
+.login-card h2 { margin-top: 0; margin-bottom: 12px; color: #0f172a; }
+.login-card p { margin: 0 0 18px; color: #64748b; line-height: 1.7; }
+.account-list { margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
 @media (max-width: 900px) {
   .dashboard-grid { grid-template-columns: repeat(2, minmax(140px, 1fr)); }
   .chart-grid { grid-template-columns: 1fr; }

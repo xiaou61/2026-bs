@@ -9,19 +9,15 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ReturnRecordService extends BaseCrudService<ReturnRecord> {
-    private final ReturnRecordMapper inboundRecordMapper;
+    private final ReturnRecordMapper returnRecordMapper;
 
     @Override
     protected BaseMapper<ReturnRecord> mapper() {
-        return inboundRecordMapper;
+        return returnRecordMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"inbound_no", "order_no", "consumable_name", "inbound_qty"};
+        return new String[]{"return_no", "application_no", "asset_name", "operator_name"};
     }
 }
-
-
-
-

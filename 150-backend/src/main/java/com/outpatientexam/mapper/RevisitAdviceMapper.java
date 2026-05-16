@@ -14,41 +14,33 @@ import java.util.List;
 @Mapper
 public interface RevisitAdviceMapper {
     @Select({
-        "<script>",
-        "SELECT * FROM patent_record",
-        "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (patent_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR patent_name LIKE CONCAT('%',#{keyword},'%') OR applicant_name LIKE CONCAT('%',#{keyword},'%'))</if>",
-        "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
-        "</where>",
-        "ORDER BY id DESC",
-        "</script>"
+            "<script>",
+            "SELECT * FROM revisit_advice",
+            "<where>",
+            "<if test='keyword != null and keyword != \"\"'> AND (advice_no LIKE CONCAT('%',#{keyword},'%') OR patient_name LIKE CONCAT('%',#{keyword},'%') OR advice_subject LIKE CONCAT('%',#{keyword},'%') OR advice_type LIKE CONCAT('%',#{keyword},'%'))</if>",
+            "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
+            "</where>",
+            "ORDER BY id DESC",
+            "</script>"
     })
     List<RevisitAdvice> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM patent_record WHERE id = #{id}")
+    @Select("SELECT * FROM revisit_advice WHERE id = #{id}")
     RevisitAdvice selectById(Long id);
 
-    @Insert("INSERT INTO patent_record (patent_no, project_no, patent_name, applicant_name, grant_time, status, created_time, updated_time) VALUES (#{patentNo}, #{projectNo}, #{patentName}, #{applicantName}, #{grantTime}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO revisit_advice (advice_no, patient_name, advice_subject, advice_type, advice_time, status, created_time, updated_time) VALUES (#{adviceNo}, #{patientName}, #{adviceSubject}, #{adviceType}, #{adviceTime}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(RevisitAdvice entity);
 
-    @Update("UPDATE patent_record SET patent_no = #{patentNo}, project_no = #{projectNo}, patent_name = #{patentName}, applicant_name = #{applicantName}, grant_time = #{grantTime}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE revisit_advice SET advice_no = #{adviceNo}, patient_name = #{patientName}, advice_subject = #{adviceSubject}, advice_type = #{adviceType}, advice_time = #{adviceTime}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(RevisitAdvice entity);
 
-    @Delete("DELETE FROM patent_record WHERE id = #{id}")
+    @Delete("DELETE FROM revisit_advice WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM patent_record")
+    @Select("SELECT COUNT(*) FROM revisit_advice")
     long countAll();
 
-    @Update("UPDATE patent_record SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE revisit_advice SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-
-
-
-
-

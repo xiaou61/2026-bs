@@ -15,39 +15,32 @@ import java.util.List;
 public interface ElderProfileMapper {
     @Select({
         "<script>",
-        "SELECT * FROM budget_category",
+        "SELECT * FROM elder_profile",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (category_no LIKE CONCAT('%',#{keyword},'%') OR category_name LIKE CONCAT('%',#{keyword},'%') OR usage_scope LIKE CONCAT('%',#{keyword},'%') OR control_mode LIKE CONCAT('%',#{keyword},'%'))</if>",
-        "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
+        "<if test='keyword != null && keyword != \"\"'> AND (elder_no LIKE CONCAT('%',#{keyword},'%') OR elder_name LIKE CONCAT('%',#{keyword},'%') OR age_group LIKE CONCAT('%',#{keyword},'%') OR home_address LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='status != null && status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
         "</script>"
     })
     List<ElderProfile> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM budget_category WHERE id = #{id}")
+    @Select("SELECT * FROM elder_profile WHERE id = #{id}")
     ElderProfile selectById(Long id);
 
-    @Insert("INSERT INTO budget_category (category_no, category_name, usage_scope, control_mode, manager_name, status, created_time, updated_time) VALUES (#{categoryNo}, #{categoryName}, #{usageScope}, #{controlMode}, #{managerName}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO elder_profile (elder_no, elder_name, age_group, home_address, care_level, status, created_time, updated_time) VALUES (#{elderNo}, #{elderName}, #{ageGroup}, #{homeAddress}, #{careLevel}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(ElderProfile entity);
 
-    @Update("UPDATE budget_category SET category_no = #{categoryNo}, category_name = #{categoryName}, usage_scope = #{usageScope}, control_mode = #{controlMode}, manager_name = #{managerName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE elder_profile SET elder_no = #{elderNo}, elder_name = #{elderName}, age_group = #{ageGroup}, home_address = #{homeAddress}, care_level = #{careLevel}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(ElderProfile entity);
 
-    @Delete("DELETE FROM budget_category WHERE id = #{id}")
+    @Delete("DELETE FROM elder_profile WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM budget_category")
+    @Select("SELECT COUNT(*) FROM elder_profile")
     long countAll();
 
-    @Update("UPDATE budget_category SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE elder_profile SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-
-
-
-

@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class RiskAssessmentService extends BaseCrudService<RiskAssessment> {
-    private final RiskAssessmentMapper inboundRecordMapper;
+    private final RiskAssessmentMapper riskAssessmentMapper;
 
     @Override
     protected BaseMapper<RiskAssessment> mapper() {
-        return inboundRecordMapper;
+        return riskAssessmentMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"inbound_no", "order_no", "consumable_name", "inbound_qty"};
+        return new String[]{"assessment_no", "case_theme", "assessor_name", "risk_level"};
     }
 }
 

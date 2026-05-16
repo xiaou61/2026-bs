@@ -9,19 +9,15 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AssetInfoService extends BaseCrudService<AssetInfo> {
-    private final AssetInfoMapper consumableCatalogMapper;
+    private final AssetInfoMapper assetInfoMapper;
 
     @Override
     protected BaseMapper<AssetInfo> mapper() {
-        return consumableCatalogMapper;
+        return assetInfoMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"consumable_no", "consumable_name", "spec_model", "unit_name"};
+        return new String[]{"asset_no", "asset_name", "asset_model", "department_name"};
     }
 }
-
-
-
-

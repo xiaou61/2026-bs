@@ -4,15 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class VehicleServiceOrder {
+public class ElderCareApplication {
     public static void main(String[] args) {
-        SpringApplication.run(VehicleServiceOrder.class, args);
+        SpringApplication.run(ElderCareApplication.class, args);
     }
 }
-
-
-
-
-
-
 

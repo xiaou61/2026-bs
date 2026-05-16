@@ -10,28 +10,24 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class EmergencyContactService {
-    private final EmergencyContactMapper patentRecordMapper;
+    private final EmergencyContactMapper emergencyContactMapper;
 
     public PageInfo<EmergencyContact> page(Integer pageNum, Integer pageSize, String keyword, String status) {
         PageHelper.startPage(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
-        return new PageInfo<>(patentRecordMapper.selectPage(keyword, status));
+        return new PageInfo<>(emergencyContactMapper.selectPage(keyword, status));
     }
 
     public void save(EmergencyContact entity) {
-        if (entity.getId() == null) patentRecordMapper.insert(entity);
-        else patentRecordMapper.update(entity);
+        if (entity.getId() == null) emergencyContactMapper.insert(entity);
+        else emergencyContactMapper.update(entity);
     }
 
     public void delete(Long id) {
-        patentRecordMapper.deleteById(id);
+        emergencyContactMapper.deleteById(id);
     }
 
     public void updateStatus(Long id, String status) {
-        patentRecordMapper.updateStatus(id, status);
+        emergencyContactMapper.updateStatus(id, status);
     }
 }
-
-
-
-
 

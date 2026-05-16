@@ -7,15 +7,15 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("purchase_request")
+@TableName("handling_task")
 public class HandlingTask {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String requestNo;
-    private String consumableName;
-    private Integer requestQty;
-    private String applicantName;
-    private String requestTime;
+    private String taskNo;
+    private String complaintTitle;
+    private String assigneeName;
+    private String assignTime;
+    private String deadlineTime;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;

@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class EquipmentCategoryService extends BaseCrudService<EquipmentCategory> {
-    private final EquipmentCategoryMapper labRoomMapper;
+    private final EquipmentCategoryMapper equipmentCategoryMapper;
 
     @Override
     protected BaseMapper<EquipmentCategory> mapper() {
-        return labRoomMapper;
+        return equipmentCategoryMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"lab_no", "lab_name", "building_name", "manager_name"};
+        return new String[]{"category_no", "category_name", "equipment_type", "storage_area"};
     }
 }
 

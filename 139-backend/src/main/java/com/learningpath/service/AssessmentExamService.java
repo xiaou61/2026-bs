@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AssessmentExamService extends BaseCrudService<AssessmentExam> {
-    private final AssessmentExamMapper purchaseOrderMapper;
+    private final AssessmentExamMapper assessmentExamMapper;
 
     @Override
     protected BaseMapper<AssessmentExam> mapper() {
-        return purchaseOrderMapper;
+        return assessmentExamMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"order_no", "supplier_name", "consumable_name", "order_amount"};
+        return new String[]{"exam_no", "exam_name", "course_name"};
     }
 }
 

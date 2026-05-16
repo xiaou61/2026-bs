@@ -6,16 +6,12 @@ import java.time.LocalDateTime;
 @Data
 public class LossAssessment {
     private Long id;
-    private String achievementNo;
-    private String projectNo;
-    private String achievementName;
-    private String achievementType;
-    private String ownerName;
+    private String assessmentNo;
+    private String reportNo;
+    private java.math.BigDecimal assessmentAmount;
+    private String assessmentTime;
+    private String assessorName;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
 }
-
-
-
-

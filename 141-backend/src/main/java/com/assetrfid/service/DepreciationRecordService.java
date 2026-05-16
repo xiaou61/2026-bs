@@ -9,19 +9,15 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class DepreciationRecordService extends BaseCrudService<DepreciationRecord> {
-    private final DepreciationRecordMapper inventoryCheckMapper;
+    private final DepreciationRecordMapper depreciationRecordMapper;
 
     @Override
     protected BaseMapper<DepreciationRecord> mapper() {
-        return inventoryCheckMapper;
+        return depreciationRecordMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"check_no", "lab_name", "consumable_name", "book_qty"};
+        return new String[]{"depreciation_no", "asset_name", "department_name", "original_value"};
     }
 }
-
-
-
-

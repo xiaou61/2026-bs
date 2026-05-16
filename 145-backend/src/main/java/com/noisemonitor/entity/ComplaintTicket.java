@@ -7,15 +7,15 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("consumable_catalog")
+@TableName("complaint_ticket")
 public class ComplaintTicket {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String consumableNo;
-    private String consumableName;
-    private String specModel;
-    private String unitName;
-    private Integer safeStock;
+    private String ticketNo;
+    private String complaintTitle;
+    private String noiseType;
+    private String complaintArea;
+    private String complaintTime;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;

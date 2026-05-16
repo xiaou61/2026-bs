@@ -10,24 +10,24 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class SamplingTaskService {
-    private final SamplingTaskMapper expenseClaimMapper;
+    private final SamplingTaskMapper mapper;
 
     public PageInfo<SamplingTask> page(Integer pageNum, Integer pageSize, String keyword, String status) {
         PageHelper.startPage(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
-        return new PageInfo<>(expenseClaimMapper.selectPage(keyword, status));
+        return new PageInfo<>(mapper.selectPage(keyword, status));
     }
 
     public void save(SamplingTask entity) {
-        if (entity.getId() == null) expenseClaimMapper.insert(entity);
-        else expenseClaimMapper.update(entity);
+        if (entity.getId() == null) mapper.insert(entity);
+        else mapper.update(entity);
     }
 
     public void delete(Long id) {
-        expenseClaimMapper.deleteById(id);
+        mapper.deleteById(id);
     }
 
     public void updateStatus(Long id, String status) {
-        expenseClaimMapper.updateStatus(id, status);
+        mapper.updateStatus(id, status);
     }
 }
 

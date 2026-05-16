@@ -1,16 +1,37 @@
 <template>
-  <DataPage title="征稿通知" description="通知编号、通知标题、发布人、截稿日期、投稿指引和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage title="服务分类" description="维护分类编号、分类名称、服务类型、目标群体和建议时长，支撑时间银行服务分类管理" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" :can-create="canManage" :can-edit="canManage" :can-delete="canManage" @row-action="handleAction" />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getServiceCategoryPage, addServiceCategory, updateServiceCategory, deleteServiceCategory, activateServiceCategory, finishServiceCategory } from '../api'
+
 const api = { page: getServiceCategoryPage, add: addServiceCategory, update: updateServiceCategory, delete: deleteServiceCategory }
-const columns = [{"prop": "supplierNo", "label": "通知编号"}, {"prop": "supplierName", "label": "供应商通知标题"}, {"prop": "contactName", "label": "发布人"}, {"prop": "phoneNumber", "label": "截稿日期"}, {"prop": "qualificationLevel", "label": "投稿指引"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "supplierNo", "label": "通知编号"}, {"prop": "supplierName", "label": "供应商通知标题"}, {"prop": "contactName", "label": "发布人"}, {"prop": "phoneNumber", "label": "截稿日期"}, {"prop": "qualificationLevel", "label": "投稿指引"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "activate", "label": "启用", "type": "success"}, {"command": "finish", "label": "完成", "type": "primary"}]
-const defaults = {"status": "ACTIVE"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'MANAGER'].includes(role.value))
+const columns = [
+  { prop: 'categoryNo', label: '分类编号' },
+  { prop: 'categoryName', label: '分类名称' },
+  { prop: 'serviceType', label: '服务类型' },
+  { prop: 'targetGroup', label: '目标群体' },
+  { prop: 'suggestedDuration', label: '建议时长(分钟)' },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'categoryNo', label: '分类编号' },
+  { prop: 'categoryName', label: '分类名称' },
+  { prop: 'serviceType', label: '服务类型' },
+  { prop: 'targetGroup', label: '目标群体' },
+  { prop: 'suggestedDuration', label: '建议时长(分钟)', type: 'number' },
+  { prop: 'status', label: '状态', type: 'select', options: [{ label: '启用', value: 'ACTIVE' }, { label: '已完成', value: 'FINISHED' }] }
+]
+const rowActions = computed(() => canManage.value ? [{ command: 'activate', label: '启用', type: 'success' }, { command: 'finish', label: '完成', type: 'primary' }] : [])
+const defaults = { status: 'ACTIVE' }
+
 const handleAction = async ({ command, row, refresh }) => {
   if (command === 'activate') await activateServiceCategory(row.id)
   if (command === 'finish') await finishServiceCategory(row.id)
@@ -18,9 +39,3 @@ const handleAction = async ({ command, row, refresh }) => {
   refresh()
 }
 </script>
-
-
-
-
-
-

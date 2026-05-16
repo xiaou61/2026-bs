@@ -15,9 +15,9 @@ import java.util.List;
 public interface AccidentReportMapper {
     @Select({
         "<script>",
-        "SELECT * FROM invoice_record",
+        "SELECT * FROM accident_report",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (invoice_no LIKE CONCAT('%',#{keyword},'%') OR claim_no LIKE CONCAT('%',#{keyword},'%') OR invoice_type LIKE CONCAT('%',#{keyword},'%') OR invoice_amount LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (report_no LIKE CONCAT('%',#{keyword},'%') OR case_name LIKE CONCAT('%',#{keyword},'%') OR accident_type LIKE CONCAT('%',#{keyword},'%') OR reporter_name LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,26 +25,22 @@ public interface AccidentReportMapper {
     })
     List<AccidentReport> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM invoice_record WHERE id = #{id}")
+    @Select("SELECT * FROM accident_report WHERE id = #{id}")
     AccidentReport selectById(Long id);
 
-    @Insert("INSERT INTO invoice_record (invoice_no, claim_no, invoice_type, invoice_amount, issuer_name, status, created_time, updated_time) VALUES (#{invoiceNo}, #{claimNo}, #{invoiceType}, #{invoiceAmount}, #{issuerName}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO accident_report (report_no, case_name, accident_type, report_time, reporter_name, status, created_time, updated_time) VALUES (#{reportNo}, #{caseName}, #{accidentType}, #{reportTime}, #{reporterName}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(AccidentReport entity);
 
-    @Update("UPDATE invoice_record SET invoice_no = #{invoiceNo}, claim_no = #{claimNo}, invoice_type = #{invoiceType}, invoice_amount = #{invoiceAmount}, issuer_name = #{issuerName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE accident_report SET report_no = #{reportNo}, case_name = #{caseName}, accident_type = #{accidentType}, report_time = #{reportTime}, reporter_name = #{reporterName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(AccidentReport entity);
 
-    @Delete("DELETE FROM invoice_record WHERE id = #{id}")
+    @Delete("DELETE FROM accident_report WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM invoice_record")
+    @Select("SELECT COUNT(*) FROM accident_report")
     long countAll();
 
-    @Update("UPDATE invoice_record SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE accident_report SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-

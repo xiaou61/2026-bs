@@ -15,9 +15,9 @@ import java.util.List;
 public interface VisitCheckinMapper {
     @Select({
         "<script>",
-        "SELECT * FROM approval_task",
+        "SELECT * FROM visit_checkin",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (approval_no LIKE CONCAT('%',#{keyword},'%') OR claim_no LIKE CONCAT('%',#{keyword},'%') OR node_name LIKE CONCAT('%',#{keyword},'%') OR approver_name LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (checkin_no LIKE CONCAT('%',#{keyword},'%') OR elder_name LIKE CONCAT('%',#{keyword},'%') OR checkin_type LIKE CONCAT('%',#{keyword},'%') OR checkin_remark LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,29 +25,22 @@ public interface VisitCheckinMapper {
     })
     List<VisitCheckin> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM approval_task WHERE id = #{id}")
+    @Select("SELECT * FROM visit_checkin WHERE id = #{id}")
     VisitCheckin selectById(Long id);
 
-    @Insert("INSERT INTO approval_task (approval_no, claim_no, node_name, approver_name, approval_opinion, status, created_time, updated_time) VALUES (#{approvalNo}, #{claimNo}, #{nodeName}, #{approverName}, #{approvalOpinion}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO visit_checkin (checkin_no, elder_name, checkin_type, checkin_remark, checkin_time, status, created_time, updated_time) VALUES (#{checkinNo}, #{elderName}, #{checkinType}, #{checkinRemark}, #{checkinTime}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(VisitCheckin entity);
 
-    @Update("UPDATE approval_task SET approval_no = #{approvalNo}, claim_no = #{claimNo}, node_name = #{nodeName}, approver_name = #{approverName}, approval_opinion = #{approvalOpinion}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE visit_checkin SET checkin_no = #{checkinNo}, elder_name = #{elderName}, checkin_type = #{checkinType}, checkin_remark = #{checkinRemark}, checkin_time = #{checkinTime}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(VisitCheckin entity);
 
-    @Delete("DELETE FROM approval_task WHERE id = #{id}")
+    @Delete("DELETE FROM visit_checkin WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM approval_task")
+    @Select("SELECT COUNT(*) FROM visit_checkin")
     long countAll();
 
-    @Update("UPDATE approval_task SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE visit_checkin SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-
-
-
-

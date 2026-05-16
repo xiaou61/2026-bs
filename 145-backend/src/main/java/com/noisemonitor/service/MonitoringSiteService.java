@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class MonitoringSiteService extends BaseCrudService<MonitoringSite> {
-    private final MonitoringSiteMapper supplierProfileMapper;
+    private final MonitoringSiteMapper monitoringSiteMapper;
 
     @Override
     protected BaseMapper<MonitoringSite> mapper() {
-        return supplierProfileMapper;
+        return monitoringSiteMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"supplier_no", "supplier_name", "contact_name", "phone_number"};
+        return new String[]{"site_no", "site_name", "site_type", "street_name"};
     }
 }
 

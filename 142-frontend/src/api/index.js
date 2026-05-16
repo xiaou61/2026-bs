@@ -25,7 +25,7 @@ export const getCustomerProfilePage = (params) => request.get('/api/customer/pag
 export const addCustomerProfile = (data) => request.post('/api/customer', data)
 export const updateCustomerProfile = (data) => request.put('/api/customer', data)
 export const deleteCustomerProfile = (id) => request.delete(`/api/customer/${id}`)
-export const processCustomerProfile = (id) => request.put(`/api/customer/process/${id}`)
+export const activateCustomerProfile = (id) => request.put(`/api/customer/activate/${id}`)
 export const finishCustomerProfile = (id) => request.put(`/api/customer/finish/${id}`)
 export const getClaimApplicationPage = (params) => request.get('/api/claim/page', { params })
 export const addClaimApplication = (data) => request.post('/api/claim', data)
@@ -85,8 +85,4 @@ export const getOperationLogPage = (params) => request.get('/api/log/page', { pa
 export const addOperationLog = (data) => request.post('/api/log', data)
 export const updateOperationLog = (data) => request.put('/api/log', data)
 export const deleteOperationLog = (id) => request.delete(`/api/log/${id}`)
-
-
-
-
 

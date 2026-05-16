@@ -1,25 +1,18 @@
 package com.eldercare.entity;
 
 import lombok.Data;
-import java.math.BigDecimal;
+
 import java.time.LocalDateTime;
 
 @Data
 public class ServiceOrder {
     private Long id;
-    private String claimNo;
-    private String projectNo;
-    private String applicantName;
-    private BigDecimal claimAmount;
-    private String claimTime;
+    private String orderNo;
+    private String serviceSubject;
+    private String serviceAddress;
+    private String visitTime;
+    private String dispatcherName;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
 }
-
-
-
-
-
-
-

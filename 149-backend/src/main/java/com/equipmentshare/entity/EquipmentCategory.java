@@ -7,15 +7,15 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("lab_room")
+@TableName("equipment_category")
 public class EquipmentCategory {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String labNo;
-    private String labName;
-    private String buildingName;
-    private String managerName;
-    private String phoneNumber;
+    private String categoryNo;
+    private String categoryName;
+    private String equipmentType;
+    private String storageArea;
+    private String statusTag;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;

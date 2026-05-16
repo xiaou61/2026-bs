@@ -1,16 +1,59 @@
 <template>
-  <DataPage title="会议信息" description="会议编号、会议名称、会议主题、主办单位、会场数量和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage
+    title="设备档案"
+    description="设备编号、设备名称、设备型号、所属实验室、入库时间和状态维护"
+    :api="api"
+    :columns="columns"
+    :form-fields="formFields"
+    :row-actions="rowActions"
+    :defaults="defaults"
+    :can-create="canManage"
+    :can-edit="canManage"
+    :can-delete="canManage"
+    @row-action="handleAction"
+  />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
 import { getEquipmentAssetPage, addEquipmentAsset, updateEquipmentAsset, deleteEquipmentAsset, activateEquipmentAsset, finishEquipmentAsset } from '../api'
+import { useUserStore } from '../store/user'
+
+const userStore = useUserStore()
 const api = { page: getEquipmentAssetPage, add: addEquipmentAsset, update: updateEquipmentAsset, delete: deleteEquipmentAsset }
-const columns = [{"prop": "consumableNo", "label": "会议编号"}, {"prop": "consumableName", "label": "会议名称"}, {"prop": "specModel", "label": "会议主题"}, {"prop": "unitName", "label": "主办单位"}, {"prop": "safeStock", "label": "会场数量"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "consumableNo", "label": "会议编号"}, {"prop": "consumableName", "label": "会议名称"}, {"prop": "specModel", "label": "会议主题"}, {"prop": "unitName", "label": "主办单位"}, {"prop": "safeStock", "label": "会场数量", "type": "number"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "activate", "label": "启用", "type": "success"}, {"command": "finish", "label": "完成", "type": "primary"}]
-const defaults = {"status": "ACTIVE"}
+const canManage = computed(() => ['ADMIN', 'MANAGER'].includes(userStore.user?.role))
+const columns = [
+  { prop: 'assetNo', label: '设备编号' },
+  { prop: 'assetName', label: '设备名称' },
+  { prop: 'assetModel', label: '设备型号' },
+  { prop: 'laboratoryName', label: '所属实验室' },
+  { prop: 'storageTime', label: '入库时间' },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'assetNo', label: '设备编号' },
+  { prop: 'assetName', label: '设备名称' },
+  { prop: 'assetModel', label: '设备型号' },
+  { prop: 'laboratoryName', label: '所属实验室' },
+  { prop: 'storageTime', label: '入库时间' },
+  {
+    prop: 'status',
+    label: '状态',
+    type: 'select',
+    options: [
+      { label: '启用中', value: 'ACTIVE' },
+      { label: '停用', value: 'DISABLED' }
+    ]
+  }
+]
+const rowActions = computed(() => canManage.value ? [
+  { command: 'activate', label: '启用', type: 'success' },
+  { command: 'finish', label: '停用', type: 'warning' }
+] : [])
+const defaults = { status: 'ACTIVE' }
+
 const handleAction = async ({ command, row, refresh }) => {
   if (command === 'activate') await activateEquipmentAsset(row.id)
   if (command === 'finish') await finishEquipmentAsset(row.id)
@@ -18,12 +61,3 @@ const handleAction = async ({ command, row, refresh }) => {
   refresh()
 }
 </script>
-
-
-
-
-
-
-
-
-

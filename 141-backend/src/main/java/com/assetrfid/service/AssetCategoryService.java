@@ -9,19 +9,15 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AssetCategoryService extends BaseCrudService<AssetCategory> {
-    private final AssetCategoryMapper supplierProfileMapper;
+    private final AssetCategoryMapper assetCategoryMapper;
 
     @Override
     protected BaseMapper<AssetCategory> mapper() {
-        return supplierProfileMapper;
+        return assetCategoryMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"supplier_no", "supplier_name", "contact_name", "phone_number"};
+        return new String[]{"category_no", "category_name", "depreciation_method", "manager_name"};
     }
 }
-
-
-
-

@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CounselCaseService extends BaseCrudService<CounselCase> {
-    private final CounselCaseMapper consumableCatalogMapper;
+    private final CounselCaseMapper counselCaseMapper;
 
     @Override
     protected BaseMapper<CounselCase> mapper() {
-        return consumableCatalogMapper;
+        return counselCaseMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"consumable_no", "consumable_name", "spec_model", "unit_name"};
+        return new String[]{"case_no", "case_theme", "issue_type", "college_name"};
     }
 }
 

@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class NoiseSourceService extends BaseCrudService<NoiseSource> {
-    private final NoiseSourceMapper labRoomMapper;
+    private final NoiseSourceMapper noiseSourceMapper;
 
     @Override
     protected BaseMapper<NoiseSource> mapper() {
-        return labRoomMapper;
+        return noiseSourceMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"lab_no", "lab_name", "building_name", "manager_name"};
+        return new String[]{"source_no", "source_name", "responsible_unit", "source_type"};
     }
 }
 

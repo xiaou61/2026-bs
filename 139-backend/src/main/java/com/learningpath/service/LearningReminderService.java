@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class LearningReminderService extends BaseCrudService<LearningReminder> {
-    private final LearningReminderMapper stockWarningMapper;
+    private final LearningReminderMapper learningReminderMapper;
 
     @Override
     protected BaseMapper<LearningReminder> mapper() {
-        return stockWarningMapper;
+        return learningReminderMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"warning_no", "consumable_name", "current_qty", "warning_level"};
+        return new String[]{"reminder_no", "learner_name", "reminder_type", "channel_name"};
     }
 }
 

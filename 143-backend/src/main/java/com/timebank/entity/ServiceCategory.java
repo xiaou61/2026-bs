@@ -7,21 +7,17 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("supplier_profile")
+@TableName("service_category")
 public class ServiceCategory {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String supplierNo;
-    private String supplierName;
-    private String contactName;
-    private String phoneNumber;
-    private String qualificationLevel;
+    private String categoryNo;
+    private String categoryName;
+    private String serviceType;
+    private String targetGroup;
+    private Integer suggestedDuration;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
 }
-
-
-
-
 

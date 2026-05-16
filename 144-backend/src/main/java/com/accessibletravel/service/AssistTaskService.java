@@ -10,28 +10,24 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AssistTaskService {
-    private final AssistTaskMapper paymentRecordMapper;
+    private final AssistTaskMapper assistTaskMapper;
 
     public PageInfo<AssistTask> page(Integer pageNum, Integer pageSize, String keyword, String status) {
         PageHelper.startPage(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
-        return new PageInfo<>(paymentRecordMapper.selectPage(keyword, status));
+        return new PageInfo<>(assistTaskMapper.selectPage(keyword, status));
     }
 
     public void save(AssistTask entity) {
-        if (entity.getId() == null) paymentRecordMapper.insert(entity);
-        else paymentRecordMapper.update(entity);
+        if (entity.getId() == null) assistTaskMapper.insert(entity);
+        else assistTaskMapper.update(entity);
     }
 
     public void delete(Long id) {
-        paymentRecordMapper.deleteById(id);
+        assistTaskMapper.deleteById(id);
     }
 
     public void updateStatus(Long id, String status) {
-        paymentRecordMapper.updateStatus(id, status);
+        assistTaskMapper.updateStatus(id, status);
     }
 }
-
-
-
-
 

@@ -15,9 +15,9 @@ import java.util.List;
 public interface FeedbackReviewMapper {
     @Select({
         "<script>",
-        "SELECT * FROM paper_record",
+        "SELECT * FROM feedback_review",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (paper_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR paper_title LIKE CONCAT('%',#{keyword},'%') OR journal_name LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (feedback_no LIKE CONCAT('%',#{keyword},'%') OR volunteer_no LIKE CONCAT('%',#{keyword},'%') OR review_target LIKE CONCAT('%',#{keyword},'%') OR feedback_time LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,27 +25,23 @@ public interface FeedbackReviewMapper {
     })
     List<FeedbackReview> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM paper_record WHERE id = #{id}")
+    @Select("SELECT * FROM feedback_review WHERE id = #{id}")
     FeedbackReview selectById(Long id);
 
-    @Insert("INSERT INTO paper_record (paper_no, project_no, paper_title, journal_name, publish_time, status, created_time, updated_time) VALUES (#{paperNo}, #{projectNo}, #{paperTitle}, #{journalName}, #{publishTime}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO feedback_review (feedback_no, volunteer_no, satisfaction_level, feedback_time, review_target, status, created_time, updated_time) VALUES (#{feedbackNo}, #{volunteerNo}, #{satisfactionLevel}, #{feedbackTime}, #{reviewTarget}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(FeedbackReview entity);
 
-    @Update("UPDATE paper_record SET paper_no = #{paperNo}, project_no = #{projectNo}, paper_title = #{paperTitle}, journal_name = #{journalName}, publish_time = #{publishTime}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE feedback_review SET feedback_no = #{feedbackNo}, volunteer_no = #{volunteerNo}, satisfaction_level = #{satisfactionLevel}, feedback_time = #{feedbackTime}, review_target = #{reviewTarget}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(FeedbackReview entity);
 
-    @Delete("DELETE FROM paper_record WHERE id = #{id}")
+    @Delete("DELETE FROM feedback_review WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM paper_record")
+    @Select("SELECT COUNT(*) FROM feedback_review")
     long countAll();
 
-    @Update("UPDATE paper_record SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE feedback_review SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-
 

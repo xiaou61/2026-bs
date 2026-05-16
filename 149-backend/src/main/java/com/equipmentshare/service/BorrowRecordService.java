@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class BorrowRecordService extends BaseCrudService<BorrowRecord> {
-    private final BorrowRecordMapper purchaseApprovalMapper;
+    private final BorrowRecordMapper borrowRecordMapper;
 
     @Override
     protected BaseMapper<BorrowRecord> mapper() {
-        return purchaseApprovalMapper;
+        return borrowRecordMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"approval_no", "request_no", "approver_name", "approval_opinion"};
+        return new String[]{"borrow_no", "equipment_name", "borrower_name", "borrow_purpose"};
     }
 }
 

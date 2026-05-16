@@ -7,21 +7,17 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("purchase_request")
+@TableName("service_booking")
 public class ServiceBooking {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String requestNo;
-    private String consumableName;
-    private Integer requestQty;
-    private String applicantName;
-    private String requestTime;
+    private String bookingNo;
+    private String projectName;
+    private String reserverName;
+    private String bookingTime;
+    private Integer bookingCount;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
 }
-
-
-
-
 

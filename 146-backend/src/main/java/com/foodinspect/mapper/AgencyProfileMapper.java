@@ -15,9 +15,9 @@ import java.util.List;
 public interface AgencyProfileMapper {
     @Select({
         "<script>",
-        "SELECT * FROM invoice_record",
+        "SELECT * FROM agency_profile",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (invoice_no LIKE CONCAT('%',#{keyword},'%') OR claim_no LIKE CONCAT('%',#{keyword},'%') OR invoice_type LIKE CONCAT('%',#{keyword},'%') OR invoice_amount LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (agency_no LIKE CONCAT('%',#{keyword},'%') OR agency_name LIKE CONCAT('%',#{keyword},'%') OR qualification_level LIKE CONCAT('%',#{keyword},'%') OR specialty_area LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,23 +25,23 @@ public interface AgencyProfileMapper {
     })
     List<AgencyProfile> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM invoice_record WHERE id = #{id}")
+    @Select("SELECT * FROM agency_profile WHERE id = #{id}")
     AgencyProfile selectById(Long id);
 
-    @Insert("INSERT INTO invoice_record (invoice_no, claim_no, invoice_type, invoice_amount, issuer_name, status, created_time, updated_time) VALUES (#{invoiceNo}, #{claimNo}, #{invoiceType}, #{invoiceAmount}, #{issuerName}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO agency_profile (agency_no, agency_name, qualification_level, entry_date, specialty_area, status, created_time, updated_time) VALUES (#{agencyNo}, #{agencyName}, #{qualificationLevel}, #{entryDate}, #{specialtyArea}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(AgencyProfile entity);
 
-    @Update("UPDATE invoice_record SET invoice_no = #{invoiceNo}, claim_no = #{claimNo}, invoice_type = #{invoiceType}, invoice_amount = #{invoiceAmount}, issuer_name = #{issuerName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE agency_profile SET agency_no = #{agencyNo}, agency_name = #{agencyName}, qualification_level = #{qualificationLevel}, entry_date = #{entryDate}, specialty_area = #{specialtyArea}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(AgencyProfile entity);
 
-    @Delete("DELETE FROM invoice_record WHERE id = #{id}")
+    @Delete("DELETE FROM agency_profile WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM invoice_record")
+    @Select("SELECT COUNT(*) FROM agency_profile")
     long countAll();
 
-    @Update("UPDATE invoice_record SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE agency_profile SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
 

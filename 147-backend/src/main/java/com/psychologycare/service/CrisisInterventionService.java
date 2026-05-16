@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CrisisInterventionService extends BaseCrudService<CrisisIntervention> {
-    private final CrisisInterventionMapper outboundRecordMapper;
+    private final CrisisInterventionMapper crisisInterventionMapper;
 
     @Override
     protected BaseMapper<CrisisIntervention> mapper() {
-        return outboundRecordMapper;
+        return crisisInterventionMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"outbound_no", "consumable_name", "lab_name", "outbound_qty"};
+        return new String[]{"intervention_no", "case_theme", "intervention_type", "target_person"};
     }
 }
 

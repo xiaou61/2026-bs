@@ -3,7 +3,7 @@
     <el-card>
       <div class="toolbar">
         <div><h3>{{ title }}</h3><p>{{ description }}</p></div>
-        <el-button v-if="!readonly" type="primary" @click="openDialog()">新增</el-button>
+        <el-button v-if="allowCreate" type="primary" @click="openDialog()">新增</el-button>
       </div>
       <div class="search-bar">
         <el-input v-model="query.keyword" placeholder="关键词" clearable style="width: 220px" />
@@ -15,11 +15,11 @@
       </div>
       <el-table :data="tableData" v-loading="loading" border>
         <el-table-column v-for="col in columns" :key="col.prop" :prop="col.prop" :label="col.label" :min-width="col.width || 120" show-overflow-tooltip />
-        <el-table-column v-if="!readonly || rowActions.length" label="操作" fixed="right" width="316">
+        <el-table-column v-if="showActionColumn" label="操作" fixed="right" width="316">
           <template #default="{ row }">
-            <el-button v-if="!readonly" link type="primary" @click="openDialog(row)">编辑</el-button>
+            <el-button v-if="allowEdit" link type="primary" @click="openDialog(row)">编辑</el-button>
             <el-button v-for="act in rowActions" :key="act.command" link :type="act.type || 'primary'" @click="emitAction(act.command, row)">{{ act.label }}</el-button>
-            <el-popconfirm v-if="!readonly" title="确认删除该记录？" @confirm="handleDelete(row.id)">
+            <el-popconfirm v-if="allowDelete" title="确认删除该记录？" @confirm="handleDelete(row.id)">
               <template #reference><el-button link type="danger">删除</el-button></template>
             </el-popconfirm>
           </template>
@@ -45,10 +45,25 @@
     </el-dialog>
   </div>
 </template>
+
 <script setup>
-import { onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
-const props = defineProps({ title: String, description: String, api: Object, columns: Array, formFields: Array, rowActions: { type: Array, default: () => [] }, defaults: { type: Object, default: () => ({}) }, readonly: Boolean })
+
+const props = defineProps({
+  title: String,
+  description: String,
+  api: Object,
+  columns: Array,
+  formFields: Array,
+  rowActions: { type: Array, default: () => [] },
+  defaults: { type: Object, default: () => ({}) },
+  readonly: Boolean,
+  canCreate: { type: Boolean, default: undefined },
+  canEdit: { type: Boolean, default: undefined },
+  canDelete: { type: Boolean, default: undefined }
+})
+
 const emit = defineEmits(['row-action'])
 const loading = ref(false)
 const tableData = ref([])
@@ -56,7 +71,26 @@ const total = ref(0)
 const dialogVisible = ref(false)
 const query = reactive({ pageNum: 1, pageSize: 10, keyword: '', status: '' })
 const form = reactive({})
-const statusOptions = [{ label: '启用', value: 1 }, { label: '停用', value: 0 }, { label: '正常', value: 'NORMAL' }, { label: '运行', value: 'RUNNING' }, { label: '待处理', value: 'OPEN' }, { label: '已完成', value: 'FINISHED' }, { label: '成功', value: 'SUCCESS' }]
+const allowCreate = computed(() => props.canCreate ?? !props.readonly)
+const allowEdit = computed(() => props.canEdit ?? !props.readonly)
+const allowDelete = computed(() => props.canDelete ?? !props.readonly)
+const showActionColumn = computed(() => allowEdit.value || allowDelete.value || (props.rowActions || []).length > 0)
+const statusOptions = [
+  { label: '启用', value: 1 },
+  { label: '停用', value: 0 },
+  { label: '启用中', value: 'ACTIVE' },
+  { label: '停用', value: 'DISABLED' },
+  { label: '正常', value: 'NORMAL' },
+  { label: '待处理', value: 'OPEN' },
+  { label: '已提交', value: 'SUBMITTED' },
+  { label: '处理中', value: 'PROCESSING' },
+  { label: '已通过', value: 'APPROVED' },
+  { label: '已发布', value: 'PUBLISHED' },
+  { label: '已完成', value: 'FINISHED' },
+  { label: '成功', value: 'SUCCESS' },
+  { label: '预警中', value: 'WARNING' }
+]
+
 const loadData = async () => {
   loading.value = true
   try {
@@ -67,17 +101,20 @@ const loadData = async () => {
     loading.value = false
   }
 }
+
 const reset = () => {
   query.pageNum = 1
   query.keyword = ''
   query.status = ''
   loadData()
 }
+
 const openDialog = (row) => {
   Object.keys(form).forEach(key => delete form[key])
   Object.assign(form, props.defaults, row || {})
   dialogVisible.value = true
 }
+
 const submit = async () => {
   if (form.id) await props.api.update(form)
   else await props.api.add(form)
@@ -85,14 +122,14 @@ const submit = async () => {
   dialogVisible.value = false
   loadData()
 }
+
 const handleDelete = async (id) => {
   await props.api.delete(id)
   ElMessage.success('删除成功')
   loadData()
 }
+
 const emitAction = (command, row) => emit('row-action', { command, row, refresh: loadData })
+
 onMounted(loadData)
 </script>
-
-
-

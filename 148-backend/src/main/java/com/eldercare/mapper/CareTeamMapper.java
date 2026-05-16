@@ -15,9 +15,9 @@ import java.util.List;
 public interface CareTeamMapper {
     @Select({
         "<script>",
-        "SELECT * FROM invoice_record",
+        "SELECT * FROM care_team",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (invoice_no LIKE CONCAT('%',#{keyword},'%') OR claim_no LIKE CONCAT('%',#{keyword},'%') OR invoice_type LIKE CONCAT('%',#{keyword},'%') OR invoice_amount LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (team_no LIKE CONCAT('%',#{keyword},'%') OR team_name LIKE CONCAT('%',#{keyword},'%') OR service_expertise LIKE CONCAT('%',#{keyword},'%') OR service_area LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,29 +25,22 @@ public interface CareTeamMapper {
     })
     List<CareTeam> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM invoice_record WHERE id = #{id}")
+    @Select("SELECT * FROM care_team WHERE id = #{id}")
     CareTeam selectById(Long id);
 
-    @Insert("INSERT INTO invoice_record (invoice_no, claim_no, invoice_type, invoice_amount, issuer_name, status, created_time, updated_time) VALUES (#{invoiceNo}, #{claimNo}, #{invoiceType}, #{invoiceAmount}, #{issuerName}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO care_team (team_no, team_name, service_expertise, build_time, service_area, status, created_time, updated_time) VALUES (#{teamNo}, #{teamName}, #{serviceExpertise}, #{buildTime}, #{serviceArea}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(CareTeam entity);
 
-    @Update("UPDATE invoice_record SET invoice_no = #{invoiceNo}, claim_no = #{claimNo}, invoice_type = #{invoiceType}, invoice_amount = #{invoiceAmount}, issuer_name = #{issuerName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE care_team SET team_no = #{teamNo}, team_name = #{teamName}, service_expertise = #{serviceExpertise}, build_time = #{buildTime}, service_area = #{serviceArea}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(CareTeam entity);
 
-    @Delete("DELETE FROM invoice_record WHERE id = #{id}")
+    @Delete("DELETE FROM care_team WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM invoice_record")
+    @Select("SELECT COUNT(*) FROM care_team")
     long countAll();
 
-    @Update("UPDATE invoice_record SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE care_team SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-
-
-
-

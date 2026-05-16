@@ -1,16 +1,37 @@
 <template>
-  <DataPage title="会场安排" description="会场编号、会场名称、对应议题、座位数量、签到数量和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage title="公益活动" description="维护活动编号、关联项目、活动主题、活动地点和活动时间，支撑社区公益活动发布与归档" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" :can-create="canManage" :can-edit="canManage" :can-delete="canManage" @row-action="handleAction" />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getCommunityActivityPage, addCommunityActivity, updateCommunityActivity, deleteCommunityActivity, processCommunityActivity, finishCommunityActivity } from '../api'
+
 const api = { page: getCommunityActivityPage, add: addCommunityActivity, update: updateCommunityActivity, delete: deleteCommunityActivity }
-const columns = [{"prop": "checkNo", "label": "会场编号"}, {"prop": "labName", "label": "会场名称"}, {"prop": "consumableName", "label": "对应议题"}, {"prop": "bookQty", "label": "座位数量"}, {"prop": "actualQty", "label": "签到数量"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "checkNo", "label": "会场编号"}, {"prop": "labName", "label": "会场名称"}, {"prop": "consumableName", "label": "对应议题"}, {"prop": "bookQty", "label": "座位数量", "type": "number"}, {"prop": "actualQty", "label": "签到数量", "type": "number"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "process", "label": "处理", "type": "warning"}, {"command": "finish", "label": "完成", "type": "success"}]
-const defaults = {"status": "PROCESSING"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'MANAGER'].includes(role.value))
+const columns = [
+  { prop: 'activityNo', label: '活动编号' },
+  { prop: 'projectName', label: '关联项目' },
+  { prop: 'activityTheme', label: '活动主题' },
+  { prop: 'activityLocation', label: '活动地点' },
+  { prop: 'activityTime', label: '活动时间', width: 160 },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'activityNo', label: '活动编号' },
+  { prop: 'projectName', label: '关联项目' },
+  { prop: 'activityTheme', label: '活动主题' },
+  { prop: 'activityLocation', label: '活动地点' },
+  { prop: 'activityTime', label: '活动时间' },
+  { prop: 'status', label: '状态', type: 'select', options: [{ label: '已发布', value: 'PUBLISHED' }, { label: '已完成', value: 'FINISHED' }] }
+]
+const rowActions = computed(() => canManage.value ? [{ command: 'process', label: '发布', type: 'warning' }, { command: 'finish', label: '结束', type: 'success' }] : [])
+const defaults = { status: 'PUBLISHED' }
+
 const handleAction = async ({ command, row, refresh }) => {
   if (command === 'process') await processCommunityActivity(row.id)
   if (command === 'finish') await finishCommunityActivity(row.id)
@@ -18,9 +39,3 @@ const handleAction = async ({ command, row, refresh }) => {
   refresh()
 }
 </script>
-
-
-
-
-
-

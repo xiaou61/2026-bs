@@ -15,9 +15,9 @@ import java.util.List;
 public interface ServiceRecordMapper {
     @Select({
         "<script>",
-        "SELECT * FROM payment_record",
+        "SELECT * FROM service_record",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (payment_no LIKE CONCAT('%',#{keyword},'%') OR claim_no LIKE CONCAT('%',#{keyword},'%') OR payment_amount LIKE CONCAT('%',#{keyword},'%') OR payment_time LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (record_no LIKE CONCAT('%',#{keyword},'%') OR elder_name LIKE CONCAT('%',#{keyword},'%') OR service_conclusion LIKE CONCAT('%',#{keyword},'%') OR caregiver_name LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,29 +25,22 @@ public interface ServiceRecordMapper {
     })
     List<ServiceRecord> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM payment_record WHERE id = #{id}")
+    @Select("SELECT * FROM service_record WHERE id = #{id}")
     ServiceRecord selectById(Long id);
 
-    @Insert("INSERT INTO payment_record (payment_no, claim_no, payment_amount, payment_time, operator_name, status, created_time, updated_time) VALUES (#{paymentNo}, #{claimNo}, #{paymentAmount}, #{paymentTime}, #{operatorName}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO service_record (record_no, elder_name, service_conclusion, service_time, caregiver_name, status, created_time, updated_time) VALUES (#{recordNo}, #{elderName}, #{serviceConclusion}, #{serviceTime}, #{caregiverName}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(ServiceRecord entity);
 
-    @Update("UPDATE payment_record SET payment_no = #{paymentNo}, claim_no = #{claimNo}, payment_amount = #{paymentAmount}, payment_time = #{paymentTime}, operator_name = #{operatorName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE service_record SET record_no = #{recordNo}, elder_name = #{elderName}, service_conclusion = #{serviceConclusion}, service_time = #{serviceTime}, caregiver_name = #{caregiverName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(ServiceRecord entity);
 
-    @Delete("DELETE FROM payment_record WHERE id = #{id}")
+    @Delete("DELETE FROM service_record WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM payment_record")
+    @Select("SELECT COUNT(*) FROM service_record")
     long countAll();
 
-    @Update("UPDATE payment_record SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE service_record SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-
-
-
-

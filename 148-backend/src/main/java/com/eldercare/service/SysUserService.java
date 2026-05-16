@@ -2,6 +2,7 @@ package com.eldercare.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.eldercare.common.BusinessException;
 import com.eldercare.entity.SysUser;
 import com.eldercare.mapper.SysUserMapper;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,28 @@ public class SysUserService {
     }
 
     public void save(SysUser entity) {
-        if (entity.getId() == null) mapper.insert(entity);
-        else mapper.update(entity);
+        if (entity.getId() == null) {
+            if (entity.getPassword() == null || entity.getPassword().trim().isEmpty()) {
+                entity.setPassword("123456");
+            }
+            if (entity.getStatus() == null) {
+                entity.setStatus(1);
+            }
+            mapper.insert(entity);
+            return;
+        }
+
+        SysUser dbEntity = mapper.selectById(entity.getId());
+        if (dbEntity == null) {
+            throw new BusinessException("用户不存在");
+        }
+        if (entity.getPassword() == null || entity.getPassword().trim().isEmpty()) {
+            entity.setPassword(dbEntity.getPassword());
+        }
+        if (entity.getStatus() == null) {
+            entity.setStatus(dbEntity.getStatus());
+        }
+        mapper.update(entity);
     }
 
     public void delete(Long id) {
@@ -30,10 +51,4 @@ public class SysUserService {
         mapper.updateStatus(id, status);
     }
 }
-
-
-
-
-
-
 

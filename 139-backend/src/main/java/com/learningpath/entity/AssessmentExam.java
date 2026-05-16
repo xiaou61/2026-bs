@@ -4,19 +4,18 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("purchase_order")
+@TableName("assessment_exam")
 public class AssessmentExam {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String orderNo;
-    private String supplierName;
-    private String consumableName;
-    private BigDecimal orderAmount;
-    private String arrivalDate;
+    private String examNo;
+    private String examName;
+    private String courseName;
+    private String examDate;
+    private Integer participantCount;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;

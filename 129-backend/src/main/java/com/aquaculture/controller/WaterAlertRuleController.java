@@ -3,6 +3,7 @@ package com.aquaculture.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.aquaculture.common.Result;
 import com.aquaculture.entity.WaterAlertRule;
+import com.aquaculture.service.AuthService;
 import com.aquaculture.service.WaterAlertRuleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,42 +21,50 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/rule")
 @RequiredArgsConstructor
 public class WaterAlertRuleController {
+    private final AuthService authService;
     private final WaterAlertRuleService service;
 
     @GetMapping("/page")
-    public Result<IPage<WaterAlertRule>> page(@RequestParam(required = false) Integer pageNum,
-                                    @RequestParam(required = false) Integer pageSize,
-                                    @RequestParam(required = false) String keyword,
-                                    @RequestParam(required = false) String status) {
+    public Result<IPage<WaterAlertRule>> page(@RequestAttribute String role,
+                                              @RequestParam(required = false) Integer pageNum,
+                                              @RequestParam(required = false) Integer pageSize,
+                                              @RequestParam(required = false) String keyword,
+                                              @RequestParam(required = false) String status) {
+        authService.assertAdminOrTechnicianOrManager(role);
         return Result.success(service.page(pageNum, pageSize, keyword, status));
     }
 
     @PostMapping
-    public Result<Void> add(@RequestBody WaterAlertRule entity) {
+    public Result<Void> add(@RequestAttribute String role, @RequestBody WaterAlertRule entity) {
+        authService.assertAdminOrTechnician(role);
         service.save(entity);
         return Result.success();
     }
 
     @PutMapping
-    public Result<Void> update(@RequestBody WaterAlertRule entity) {
+    public Result<Void> update(@RequestAttribute String role, @RequestBody WaterAlertRule entity) {
+        authService.assertAdminOrTechnician(role);
         service.save(entity);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
-    public Result<Void> delete(@PathVariable Long id) {
+    public Result<Void> delete(@RequestAttribute String role, @PathVariable Long id) {
+        authService.assertAdmin(role);
         service.delete(id);
         return Result.success();
     }
 
     @PutMapping("/activate/{id}")
-    public Result<Void> activate(@PathVariable Long id) {
+    public Result<Void> activate(@RequestAttribute String role, @PathVariable Long id) {
+        authService.assertAdminOrTechnician(role);
         service.updateStatus(id, "ACTIVE");
         return Result.success();
     }
 
     @PutMapping("/finish/{id}")
-    public Result<Void> finish(@PathVariable Long id) {
+    public Result<Void> finish(@RequestAttribute String role, @PathVariable Long id) {
+        authService.assertAdminOrManager(role);
         service.updateStatus(id, "FINISHED");
         return Result.success();
     }

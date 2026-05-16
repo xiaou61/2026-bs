@@ -15,9 +15,9 @@ import java.util.List;
 public interface CounterpartyProfileMapper {
     @Select({
         "<script>",
-        "SELECT * FROM budget_category",
+        "SELECT * FROM counterparty_profile",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (category_no LIKE CONCAT('%',#{keyword},'%') OR category_name LIKE CONCAT('%',#{keyword},'%') OR usage_scope LIKE CONCAT('%',#{keyword},'%') OR control_mode LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (counterparty_no LIKE CONCAT('%',#{keyword},'%') OR counterparty_name LIKE CONCAT('%',#{keyword},'%') OR credit_code LIKE CONCAT('%',#{keyword},'%') OR contact_name LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,23 +25,23 @@ public interface CounterpartyProfileMapper {
     })
     List<CounterpartyProfile> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM budget_category WHERE id = #{id}")
+    @Select("SELECT * FROM counterparty_profile WHERE id = #{id}")
     CounterpartyProfile selectById(Long id);
 
-    @Insert("INSERT INTO budget_category (category_no, category_name, usage_scope, control_mode, manager_name, status, created_time, updated_time) VALUES (#{categoryNo}, #{categoryName}, #{usageScope}, #{controlMode}, #{managerName}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO counterparty_profile (counterparty_no, counterparty_name, credit_code, contact_name, contact_phone, status, created_time, updated_time) VALUES (#{counterpartyNo}, #{counterpartyName}, #{creditCode}, #{contactName}, #{contactPhone}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(CounterpartyProfile entity);
 
-    @Update("UPDATE budget_category SET category_no = #{categoryNo}, category_name = #{categoryName}, usage_scope = #{usageScope}, control_mode = #{controlMode}, manager_name = #{managerName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE counterparty_profile SET counterparty_no = #{counterpartyNo}, counterparty_name = #{counterpartyName}, credit_code = #{creditCode}, contact_name = #{contactName}, contact_phone = #{contactPhone}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(CounterpartyProfile entity);
 
-    @Delete("DELETE FROM budget_category WHERE id = #{id}")
+    @Delete("DELETE FROM counterparty_profile WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM budget_category")
+    @Select("SELECT COUNT(*) FROM counterparty_profile")
     long countAll();
 
-    @Update("UPDATE budget_category SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE counterparty_profile SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
 

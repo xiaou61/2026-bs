@@ -12,8 +12,8 @@ public class OperationLog {
     @TableId(type = IdType.AUTO)
     private Long id;
     private String operatorName;
-    private String moduleName;
     private String actionType;
+    private String moduleName;
     private String targetName;
     private String detailInfo;
     private String status;

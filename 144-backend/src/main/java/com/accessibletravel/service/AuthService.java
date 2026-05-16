@@ -8,6 +8,7 @@ import com.accessibletravel.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,13 +43,48 @@ public class AuthService {
         if (token != null) tokenService.remove(clean(token));
     }
 
+    public void assertAdmin(String role) {
+        assertAny(role, "ADMIN");
+    }
+
+    public void assertAdminOrDispatcher(String role) {
+        assertAny(role, "ADMIN", "DISPATCHER");
+    }
+
+    public void assertAdminOrTraveler(String role) {
+        assertAny(role, "ADMIN", "TRAVELER");
+    }
+
+    public void assertAdminOrVolunteer(String role) {
+        assertAny(role, "ADMIN", "VOLUNTEER");
+    }
+
+    public void assertAdminOrDispatcherOrVolunteer(String role) {
+        assertAny(role, "ADMIN", "DISPATCHER", "VOLUNTEER");
+    }
+
+    public void assertAdminOrTravelerOrDispatcher(String role) {
+        assertAny(role, "ADMIN", "TRAVELER", "DISPATCHER");
+    }
+
+    public void assertAdminOrTravelerOrDispatcherOrVolunteer(String role) {
+        assertAny(role, "ADMIN", "TRAVELER", "DISPATCHER", "VOLUNTEER");
+    }
+
+    public void assertAuthenticated(String role) {
+        if (!StringUtils.hasText(role)) throw new BusinessException("无权限访问");
+    }
+
     private String clean(String token) {
         if (token != null && token.startsWith("Bearer ")) return token.substring(7);
         return token;
     }
+
+    private void assertAny(String role, String... roles) {
+        if (!StringUtils.hasText(role)) throw new BusinessException("无权限访问");
+        for (String item : roles) {
+            if (item.equals(role)) return;
+        }
+        throw new BusinessException("无权限访问");
+    }
 }
-
-
-
-
-

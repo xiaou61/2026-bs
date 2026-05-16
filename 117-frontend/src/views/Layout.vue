@@ -3,21 +3,7 @@
     <el-aside width="236px">
       <div class="logo">LOCAL VOUCHER 117</div>
       <el-menu router :default-active="$route.path">
-        <el-menu-item index="/dashboard">数据看板</el-menu-item>
-        <el-menu-item index='/user'>账号权限</el-menu-item>
-        <el-menu-item index='/merchant'>商户档案</el-menu-item>
-        <el-menu-item index='/store'>门店网点</el-menu-item>
-        <el-menu-item index='/consumer'>用户档案</el-menu-item>
-        <el-menu-item index='/template'>券模板</el-menu-item>
-        <el-menu-item index='/activity'>营销活动</el-menu-item>
-        <el-menu-item index='/coupon'>用户领券</el-menu-item>
-        <el-menu-item index='/verification'>核销记录</el-menu-item>
-        <el-menu-item index='/settlement'>商户结算</el-menu-item>
-        <el-menu-item index='/detail'>结算明细</el-menu-item>
-        <el-menu-item index='/transfer'>打款记录</el-menu-item>
-        <el-menu-item index='/complaint'>申诉工单</el-menu-item>
-        <el-menu-item index='/statRecord'>活动统计</el-menu-item>
-        <el-menu-item index='/log'>操作日志</el-menu-item>
+        <el-menu-item v-for="item in visibleMenus" :key="item.index" :index="item.index">{{ item.label }}</el-menu-item>
       </el-menu>
     </el-aside>
     <el-container>
@@ -31,11 +17,34 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { logout } from '../api'
 import { useUserStore } from '../store/user'
+
 const router = useRouter()
 const userStore = useUserStore()
+const menus = [
+  { index: '/dashboard', label: '数据看板', roles: ['ADMIN', 'MERCHANT', 'CASHIER', 'FINANCE'] },
+  { index: '/user', label: '账号权限', roles: ['ADMIN'] },
+  { index: '/merchant', label: '商户档案', roles: ['ADMIN', 'MERCHANT'] },
+  { index: '/store', label: '门店网点', roles: ['ADMIN', 'MERCHANT'] },
+  { index: '/consumer', label: '用户档案', roles: ['ADMIN'] },
+  { index: '/template', label: '券模板', roles: ['ADMIN'] },
+  { index: '/activity', label: '营销活动', roles: ['ADMIN'] },
+  { index: '/coupon', label: '用户领券', roles: ['ADMIN', 'MERCHANT'] },
+  { index: '/verification', label: '核销记录', roles: ['ADMIN', 'MERCHANT', 'CASHIER'] },
+  { index: '/settlement', label: '商户结算', roles: ['ADMIN', 'MERCHANT', 'FINANCE'] },
+  { index: '/detail', label: '结算明细', roles: ['ADMIN', 'MERCHANT', 'FINANCE'] },
+  { index: '/transfer', label: '打款记录', roles: ['ADMIN', 'MERCHANT', 'FINANCE'] },
+  { index: '/complaint', label: '申诉工单', roles: ['ADMIN', 'MERCHANT', 'FINANCE'] },
+  { index: '/statRecord', label: '活动统计', roles: ['ADMIN', 'FINANCE'] },
+  { index: '/log', label: '操作日志', roles: ['ADMIN'] }
+]
+const visibleMenus = computed(() => {
+  const role = userStore.user?.role
+  return menus.filter(item => item.roles.includes(role))
+})
 const handleLogout = async () => {
   await logout().catch(() => null)
   userStore.clear()

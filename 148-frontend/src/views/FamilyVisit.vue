@@ -1,16 +1,52 @@
 <template>
-  <DataPage title="中期检查" description="检查编号、课题编号、检查节点、检查教师、检查时间和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage
+    title="家属回访"
+    description="维护回访编号、老人姓名、回访主题、回访方式和回访时间，支撑家属沟通与满意度跟踪"
+    :api="api"
+    :columns="columns"
+    :form-fields="formFields"
+    :row-actions="rowActions"
+    :defaults="defaults"
+    :can-create="canManage"
+    :can-edit="canManage"
+    :can-delete="canManage"
+    @row-action="handleAction"
+  />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getFamilyVisitPage, addFamilyVisit, updateFamilyVisit, deleteFamilyVisit, activateFamilyVisit, finishFamilyVisit } from '../api'
+
 const api = { page: getFamilyVisitPage, add: addFamilyVisit, update: updateFamilyVisit, delete: deleteFamilyVisit }
-const columns = [{"prop": "patentNo", "label": "检查编号"}, {"prop": "projectNo", "label": "课题编号"}, {"prop": "patentName", "label": "检查节点"}, {"prop": "applicantName", "label": "检查教师"}, {"prop": "grantTime", "label": "检查时间"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "patentNo", "label": "检查编号"}, {"prop": "projectNo", "label": "课题编号"}, {"prop": "patentName", "label": "检查节点"}, {"prop": "applicantName", "label": "检查教师"}, {"prop": "grantTime", "label": "检查时间"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "activate", "label": "启用", "type": "success"}, {"command": "finish", "label": "完成", "type": "primary"}]
-const defaults = {"status": "PUBLISHED"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'CONSULTANT'].includes(role.value))
+const columns = [
+  { prop: 'visitNo', label: '回访编号' },
+  { prop: 'elderName', label: '老人姓名', width: 140 },
+  { prop: 'visitSubject', label: '回访主题', width: 180 },
+  { prop: 'visitMethod', label: '回访方式', width: 140 },
+  { prop: 'visitTime', label: '回访时间', width: 160 },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'visitNo', label: '回访编号' },
+  { prop: 'elderName', label: '老人姓名' },
+  { prop: 'visitSubject', label: '回访主题' },
+  { prop: 'visitMethod', label: '回访方式' },
+  { prop: 'visitTime', label: '回访时间' },
+  { prop: 'status', label: '状态', type: 'select', options: [{ label: '启用中', value: 'ACTIVE' }, { label: '已完成', value: 'FINISHED' }] }
+]
+const rowActions = computed(() => canManage.value ? [
+  { command: 'activate', label: '发起回访', type: 'primary' },
+  { command: 'finish', label: '完成回访', type: 'success' }
+] : [])
+const defaults = { status: 'ACTIVE' }
+
 const handleAction = async ({ command, row, refresh }) => {
   if (command === 'activate') await activateFamilyVisit(row.id)
   if (command === 'finish') await finishFamilyVisit(row.id)
@@ -18,11 +54,3 @@ const handleAction = async ({ command, row, refresh }) => {
   refresh()
 }
 </script>
-
-
-
-
-
-
-
-

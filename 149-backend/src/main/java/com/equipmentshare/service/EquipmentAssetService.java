@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class EquipmentAssetService extends BaseCrudService<EquipmentAsset> {
-    private final EquipmentAssetMapper consumableCatalogMapper;
+    private final EquipmentAssetMapper equipmentAssetMapper;
 
     @Override
     protected BaseMapper<EquipmentAsset> mapper() {
-        return consumableCatalogMapper;
+        return equipmentAssetMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"consumable_no", "consumable_name", "spec_model", "unit_name"};
+        return new String[]{"asset_no", "asset_name", "asset_model", "laboratory_name"};
     }
 }
 

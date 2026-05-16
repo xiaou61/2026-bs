@@ -16,17 +16,20 @@ request.interceptors.response.use(response => {
     ElMessage.error(res.message || '请求失败')
     if (res.message && res.message.includes('登录')) {
       localStorage.removeItem('token')
+      localStorage.removeItem('user')
       router.push('/login')
     }
     return Promise.reject(res)
   }
   return res
 }, error => {
+  if (error.response?.status === 401) {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+    router.push('/login')
+  }
   ElMessage.error(error.message || '网络错误')
   return Promise.reject(error)
 })
 
 export default request
-
-
-

@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CertificationRecordService extends BaseCrudService<CertificationRecord> {
-    private final CertificationRecordMapper warningRuleMapper;
+    private final CertificationRecordMapper certificationRecordMapper;
 
     @Override
     protected BaseMapper<CertificationRecord> mapper() {
-        return warningRuleMapper;
+        return certificationRecordMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"rule_no", "category_name", "min_stock", "warning_level"};
+        return new String[]{"cert_no", "learner_name", "certification_name", "issuer_name"};
     }
 }
 

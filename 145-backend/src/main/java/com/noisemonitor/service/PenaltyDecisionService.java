@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class PenaltyDecisionService extends BaseCrudService<PenaltyDecision> {
-    private final PenaltyDecisionMapper outboundRecordMapper;
+    private final PenaltyDecisionMapper penaltyDecisionMapper;
 
     @Override
     protected BaseMapper<PenaltyDecision> mapper() {
-        return outboundRecordMapper;
+        return penaltyDecisionMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"outbound_no", "consumable_name", "lab_name", "outbound_qty"};
+        return new String[]{"penalty_no", "complaint_title", "penalty_type", "penalty_target"};
     }
 }
 

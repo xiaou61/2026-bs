@@ -1,17 +1,17 @@
 package com.econtract.entity;
 
 import lombok.Data;
-import java.math.BigDecimal;
+
 import java.time.LocalDateTime;
 
 @Data
 public class ContractDraft {
     private Long id;
-    private String claimNo;
-    private String projectNo;
+    private String draftNo;
+    private String templateName;
+    private String contractTitle;
     private String applicantName;
-    private BigDecimal claimAmount;
-    private String claimTime;
+    private String submitTime;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;

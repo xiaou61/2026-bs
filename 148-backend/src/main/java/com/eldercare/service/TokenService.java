@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class TokenService {
-    private static final String PREFIX = "researchfund:token:";
+    private static final String PREFIX = "eldercare:token:";
     private final StringRedisTemplate redisTemplate;
 
     public void save(String token, String userId) {
@@ -24,10 +24,4 @@ public class TokenService {
         redisTemplate.delete(PREFIX + token);
     }
 }
-
-
-
-
-
-
 

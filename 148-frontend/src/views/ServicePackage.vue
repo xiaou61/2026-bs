@@ -1,16 +1,52 @@
 <template>
-  <DataPage title="课题发布" description="课题编号、课题名称、导师姓名、所属方向、计划容量和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage
+    title="服务套餐"
+    description="维护套餐编号、套餐名称、服务类别、适用人群和服务周期，支撑社区养老服务标准化供给"
+    :api="api"
+    :columns="columns"
+    :form-fields="formFields"
+    :row-actions="rowActions"
+    :defaults="defaults"
+    :can-create="canManage"
+    :can-edit="canManage"
+    :can-delete="canManage"
+    @row-action="handleAction"
+  />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getServicePackagePage, addServicePackage, updateServicePackage, deleteServicePackage, activateServicePackage, finishServicePackage } from '../api'
+
 const api = { page: getServicePackagePage, add: addServicePackage, update: updateServicePackage, delete: deleteServicePackage }
-const columns = [{"prop": "projectNo", "label": "课题编号"}, {"prop": "projectName", "label": "课题名称"}, {"prop": "leaderName", "label": "导师姓名"}, {"prop": "collegeName", "label": "所属方向"}, {"prop": "startYear", "label": "计划容量"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "projectNo", "label": "课题编号"}, {"prop": "projectName", "label": "课题名称"}, {"prop": "leaderName", "label": "导师姓名"}, {"prop": "collegeName", "label": "所属方向"}, {"prop": "startYear", "label": "计划容量", "type": "number"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "activate", "label": "启用", "type": "success"}, {"command": "finish", "label": "完成", "type": "primary"}]
-const defaults = {"status": "ACTIVE"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'CONSULTANT'].includes(role.value))
+const columns = [
+  { prop: 'packageNo', label: '套餐编号' },
+  { prop: 'packageName', label: '套餐名称', width: 180 },
+  { prop: 'serviceCategory', label: '服务类别', width: 140 },
+  { prop: 'targetGroup', label: '适用人群', width: 160 },
+  { prop: 'serviceCycle', label: '服务周期', width: 140 },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'packageNo', label: '套餐编号' },
+  { prop: 'packageName', label: '套餐名称' },
+  { prop: 'serviceCategory', label: '服务类别' },
+  { prop: 'targetGroup', label: '适用人群' },
+  { prop: 'serviceCycle', label: '服务周期' },
+  { prop: 'status', label: '状态', type: 'select', options: [{ label: '启用中', value: 'ACTIVE' }, { label: '已归档', value: 'FINISHED' }] }
+]
+const rowActions = computed(() => canManage.value ? [
+  { command: 'activate', label: '启用', type: 'success' },
+  { command: 'finish', label: '归档', type: 'warning' }
+] : [])
+const defaults = { status: 'ACTIVE' }
+
 const handleAction = async ({ command, row, refresh }) => {
   if (command === 'activate') await activateServicePackage(row.id)
   if (command === 'finish') await finishServicePackage(row.id)
@@ -18,11 +54,3 @@ const handleAction = async ({ command, row, refresh }) => {
   refresh()
 }
 </script>
-
-
-
-
-
-
-
-

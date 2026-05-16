@@ -1,24 +1,46 @@
 <template>
-  <DataPage title="指导记录" description="记录编号、课题编号、指导主题、指导时间、完成情况和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage title="风险条款" description="维护合同重点风险条款、风险级别和复核人信息，支撑合同法务审查" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" :can-create="canManage" :can-edit="canManage" :can-delete="canDelete" @row-action="handleAction" />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getRiskClausePage, addRiskClause, updateRiskClause, deleteRiskClause, processRiskClause, finishRiskClause } from '../api'
+
 const api = { page: getRiskClausePage, add: addRiskClause, update: updateRiskClause, delete: deleteRiskClause }
-const columns = [{"prop": "statNo", "label": "记录编号"}, {"prop": "projectNo", "label": "课题编号"}, {"prop": "statMonth", "label": "指导主题"}, {"prop": "claimCount", "label": "指导时间"}, {"prop": "achievementCount", "label": "完成情况"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "statNo", "label": "记录编号"}, {"prop": "projectNo", "label": "课题编号"}, {"prop": "statMonth", "label": "指导主题"}, {"prop": "claimCount", "label": "指导时间", "type": "number"}, {"prop": "achievementCount", "label": "完成情况", "type": "number"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "process", "label": "处理", "type": "warning"}, {"command": "finish", "label": "完成", "type": "success"}]
-const defaults = {"status": "FINISHED"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'LEGAL'].includes(role.value))
+const canDelete = computed(() => role.value === 'ADMIN')
+const columns = [
+  { prop: 'clauseNo', label: '条款编号' },
+  { prop: 'contractTitle', label: '合同标题', width: 220 },
+  { prop: 'clauseType', label: '条款类型', width: 180 },
+  { prop: 'riskLevel', label: '风险级别' },
+  { prop: 'reviewerName', label: '复核人' },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'clauseNo', label: '条款编号' },
+  { prop: 'contractTitle', label: '合同标题' },
+  { prop: 'clauseType', label: '条款类型', type: 'select', options: [{ label: '违约责任条款', value: '违约责任条款' }, { label: '保密条款', value: '保密条款' }, { label: '数据安全条款', value: '数据安全条款' }, { label: '付款结算条款', value: '付款结算条款' }] },
+  { prop: 'riskLevel', label: '风险级别', type: 'select', options: [{ label: '低风险', value: 'LOW' }, { label: '中风险', value: 'MEDIUM' }, { label: '高风险', value: 'HIGH' }] },
+  { prop: 'reviewerName', label: '复核人' },
+  { prop: 'status', label: '状态', type: 'select', options: [{ label: '启用', value: 'ACTIVE' }, { label: '处理中', value: 'PROCESSING' }, { label: '已完成', value: 'FINISHED' }] }
+]
+const rowActions = computed(() => canManage.value ? [{ command: 'process', label: '处理', type: 'warning' }, { command: 'finish', label: '完成', type: 'success' }] : [])
+const defaults = { riskLevel: 'MEDIUM', status: 'ACTIVE' }
+
 const handleAction = async ({ command, row, refresh }) => {
-  if (command === 'process') await processRiskClause(row.id)
-  if (command === 'finish') await finishRiskClause(row.id)
+  if (command === 'process') {
+    await processRiskClause(row.id)
+  }
+  if (command === 'finish') {
+    await finishRiskClause(row.id)
+  }
   ElMessage.success('操作成功')
   refresh()
 }
 </script>
-
-
-
-

@@ -1,16 +1,37 @@
 <template>
-  <DataPage title="盲审记录" description="评审编号、稿件编号、论文题目、评审得分、提交日期和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage title="时长账户" description="维护账户编号、关联项目、账户类型、开户时间和账户归属人，支撑时间银行时长存取管理" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" :can-create="canManage" :can-edit="canManage" :can-delete="canManage" @row-action="handleAction" />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getTimeAccountPage, addTimeAccount, updateTimeAccount, deleteTimeAccount, processTimeAccount, finishTimeAccount } from '../api'
+
 const api = { page: getTimeAccountPage, add: addTimeAccount, update: updateTimeAccount, delete: deleteTimeAccount }
-const columns = [{"prop": "orderNo", "label": "评审编号"}, {"prop": "supplierName", "label": "稿件编号"}, {"prop": "consumableName", "label": "论文题目"}, {"prop": "orderAmount", "label": "评审得分"}, {"prop": "arrivalDate", "label": "提交日期"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "orderNo", "label": "评审编号"}, {"prop": "supplierName", "label": "稿件编号"}, {"prop": "consumableName", "label": "论文题目"}, {"prop": "orderAmount", "label": "评审得分", "type": "number"}, {"prop": "arrivalDate", "label": "提交日期"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "process", "label": "处理", "type": "warning"}, {"command": "finish", "label": "完成", "type": "success"}]
-const defaults = {"status": "OPEN"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'MANAGER'].includes(role.value))
+const columns = [
+  { prop: 'accountNo', label: '账户编号' },
+  { prop: 'projectName', label: '关联项目' },
+  { prop: 'accountType', label: '账户类型' },
+  { prop: 'openTime', label: '开户时间', width: 160 },
+  { prop: 'ownerName', label: '账户归属人' },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'accountNo', label: '账户编号' },
+  { prop: 'projectName', label: '关联项目' },
+  { prop: 'accountType', label: '账户类型' },
+  { prop: 'openTime', label: '开户时间' },
+  { prop: 'ownerName', label: '账户归属人' },
+  { prop: 'status', label: '状态', type: 'select', options: [{ label: '启用', value: 'ACTIVE' }, { label: '已完成', value: 'FINISHED' }] }
+]
+const rowActions = computed(() => canManage.value ? [{ command: 'process', label: '启用', type: 'warning' }, { command: 'finish', label: '完成', type: 'success' }] : [])
+const defaults = { status: 'ACTIVE' }
+
 const handleAction = async ({ command, row, refresh }) => {
   if (command === 'process') await processTimeAccount(row.id)
   if (command === 'finish') await finishTimeAccount(row.id)
@@ -18,9 +39,3 @@ const handleAction = async ({ command, row, refresh }) => {
   refresh()
 }
 </script>
-
-
-
-
-
-

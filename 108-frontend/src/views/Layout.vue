@@ -3,21 +3,7 @@
     <el-aside width="236px">
       <div class="logo">CLOUD COST 108</div>
       <el-menu router :default-active="$route.path">
-        <el-menu-item index="/dashboard">数据看板</el-menu-item>
-        <el-menu-item index='/user'>账号权限</el-menu-item>
-        <el-menu-item index='/account'>云账号</el-menu-item>
-        <el-menu-item index='/namespace'>资源命名空间</el-menu-item>
-        <el-menu-item index='/bill'>成本账单</el-menu-item>
-        <el-menu-item index='/cost-item'>成本明细</el-menu-item>
-        <el-menu-item index='/budget'>预算策略</el-menu-item>
-        <el-menu-item index='/allocation'>成本分摊</el-menu-item>
-        <el-menu-item index='/idle-resource'>闲置资源</el-menu-item>
-        <el-menu-item index='/optimization-rule'>优化规则</el-menu-item>
-        <el-menu-item index='/advice'>优化建议</el-menu-item>
-        <el-menu-item index='/saving-plan'>节省计划</el-menu-item>
-        <el-menu-item index='/anomaly'>成本异常</el-menu-item>
-        <el-menu-item index='/report'>报告快照</el-menu-item>
-        <el-menu-item index='/log'>操作日志</el-menu-item>
+        <el-menu-item v-for="item in visibleMenus" :key="item.index" :index="item.index">{{ item.label }}</el-menu-item>
       </el-menu>
     </el-aside>
     <el-container>
@@ -31,11 +17,33 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { logout } from '../api'
 import { useUserStore } from '../store/user'
 const router = useRouter()
 const userStore = useUserStore()
+const menus = [
+  { index: '/dashboard', label: '数据看板', roles: ['ADMIN', 'FINOPS', 'MANAGER'] },
+  { index: '/user', label: '账号权限', roles: ['ADMIN'] },
+  { index: '/account', label: '云账号', roles: ['ADMIN', 'FINOPS', 'DEVOPS', 'MANAGER'] },
+  { index: '/namespace', label: '资源命名空间', roles: ['ADMIN', 'FINOPS', 'DEVOPS', 'MANAGER'] },
+  { index: '/bill', label: '成本账单', roles: ['ADMIN', 'FINOPS', 'MANAGER'] },
+  { index: '/cost-item', label: '成本明细', roles: ['ADMIN', 'FINOPS', 'MANAGER'] },
+  { index: '/budget', label: '预算策略', roles: ['ADMIN', 'FINOPS', 'MANAGER'] },
+  { index: '/allocation', label: '成本分摊', roles: ['ADMIN', 'FINOPS', 'MANAGER'] },
+  { index: '/idle-resource', label: '闲置资源', roles: ['ADMIN', 'DEVOPS', 'MANAGER'] },
+  { index: '/optimization-rule', label: '优化规则', roles: ['ADMIN', 'DEVOPS', 'MANAGER'] },
+  { index: '/advice', label: '优化建议', roles: ['ADMIN', 'DEVOPS', 'MANAGER'] },
+  { index: '/saving-plan', label: '节省计划', roles: ['ADMIN', 'FINOPS', 'MANAGER'] },
+  { index: '/anomaly', label: '成本异常', roles: ['ADMIN', 'DEVOPS', 'MANAGER'] },
+  { index: '/report', label: '报告快照', roles: ['ADMIN', 'FINOPS', 'MANAGER'] },
+  { index: '/log', label: '操作日志', roles: ['ADMIN'] }
+]
+const visibleMenus = computed(() => {
+  const role = userStore.user?.role
+  return menus.filter(item => item.roles.includes(role))
+})
 const handleLogout = async () => {
   await logout().catch(() => null)
   userStore.clear()

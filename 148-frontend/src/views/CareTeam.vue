@@ -1,16 +1,52 @@
 <template>
-  <DataPage title="双选审核" description="记录编号、护理人员编号、审核节点、审核意见、服务人员和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage
+    title="服务团队"
+    description="维护团队编号、团队名称、擅长服务、组建时间和服务片区，支撑护理班组编排"
+    :api="api"
+    :columns="columns"
+    :form-fields="formFields"
+    :row-actions="rowActions"
+    :defaults="defaults"
+    :can-create="canManage"
+    :can-edit="canManage"
+    :can-delete="canManage"
+    @row-action="handleAction"
+  />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getCareTeamPage, addCareTeam, updateCareTeam, deleteCareTeam, submitCareTeam, approveCareTeam } from '../api'
+
 const api = { page: getCareTeamPage, add: addCareTeam, update: updateCareTeam, delete: deleteCareTeam }
-const columns = [{"prop": "invoiceNo", "label": "记录编号"}, {"prop": "claimNo", "label": "护理人员编号"}, {"prop": "invoiceType", "label": "审核节点"}, {"prop": "invoiceAmount", "label": "审核意见"}, {"prop": "issuerName", "label": "服务人员"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "invoiceNo", "label": "记录编号"}, {"prop": "claimNo", "label": "护理人员编号"}, {"prop": "invoiceType", "label": "审核节点"}, {"prop": "invoiceAmount", "label": "审核意见", "type": "number"}, {"prop": "issuerName", "label": "服务人员"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "submit", "label": "提交", "type": "primary"}, {"command": "approve", "label": "通过", "type": "success"}]
-const defaults = {"status": "SUBMITTED"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'CONSULTANT'].includes(role.value))
+const columns = [
+  { prop: 'teamNo', label: '团队编号' },
+  { prop: 'teamName', label: '团队名称', width: 180 },
+  { prop: 'serviceExpertise', label: '擅长服务', width: 160 },
+  { prop: 'buildTime', label: '组建时间', width: 140 },
+  { prop: 'serviceArea', label: '服务片区', width: 140 },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'teamNo', label: '团队编号' },
+  { prop: 'teamName', label: '团队名称' },
+  { prop: 'serviceExpertise', label: '擅长服务' },
+  { prop: 'buildTime', label: '组建时间' },
+  { prop: 'serviceArea', label: '服务片区' },
+  { prop: 'status', label: '状态', type: 'select', options: [{ label: '已提交', value: 'SUBMITTED' }, { label: '已审批', value: 'APPROVED' }] }
+]
+const rowActions = computed(() => canManage.value ? [
+  { command: 'submit', label: '提交编组', type: 'primary' },
+  { command: 'approve', label: '确认启用', type: 'success' }
+] : [])
+const defaults = { status: 'SUBMITTED' }
+
 const handleAction = async ({ command, row, refresh }) => {
   if (command === 'submit') await submitCareTeam(row.id)
   if (command === 'approve') await approveCareTeam(row.id)
@@ -18,11 +54,3 @@ const handleAction = async ({ command, row, refresh }) => {
   refresh()
 }
 </script>
-
-
-
-
-
-
-
-

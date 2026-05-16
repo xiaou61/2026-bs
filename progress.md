@@ -1283,3 +1283,1095 @@
   - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
   - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `devops_release_106` 与 Redis
   - 下一项目为 `107`
+
+### 已修复：107 云服务器资产监控与告警平台
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并为账号、区域、资产、资源分组、指标、告警、通知、工单、维护窗口、容量规划、看板组件、日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `cloud_monitor_107` 与 Redis
+  - 下一项目为 `108`
+
+### 已修复：108 云原生成本分析与资源优化平台
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / FINOPS / DEVOPS / MANAGER` 口径，为账号、云账号、命名空间、账单、明细、预算、分摊、闲置资源、优化规则、优化建议、节省计划、异常事件、报告快照、日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `cloud_cost_108` 与 Redis
+  - 下一项目为 `109`
+
+### 已修复：109 数据脱敏与敏感信息识别平台
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / SECURITY / OWNER / AUDITOR` 口径，为账号、数据源、数据集、敏感规则、识别任务、识别结果、脱敏策略、脱敏任务、脱敏记录、字段血缘、访问申请、导出审批、风险告警、日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `data_masking_109` 与 Redis
+  - 下一项目为 `110`
+
+### 已修复：110 个人数据隐私授权与访问审计平台
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / PRIVACY / DATAUSER / AUDITOR` 口径，为账号、数据主体、个人数据项、授权目的、授权策略、授权记录、授权范围、访问申请、访问授权、访问日志、撤销申请、风险预警、审计报告、日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `privacy_auth_110` 与 Redis
+  - 下一项目为 `111`
+
+### 已修复：111 网络钓鱼邮件演练与安全意识培训平台
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / SECURITY / TRAINER / AUDITOR` 口径，为账号、员工、部门、邮件模板、演练活动、目标名单、发送记录、点击追踪、培训课程、培训考试、考试题目、考试记录、风险评分、日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `phishing_training_111` 与 Redis
+  - 下一项目为 `112`
+
+### 已修复：112 零信任设备准入与访问控制管理系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / SECURITY / NETWORK / AUDITOR` 口径，为账号、设备资产、员工账号、身份源、风险模型、风险评估、访问策略、策略规则、准入申请、访问会话、网络分区、设备证书、审计事件、日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `zero_trust_112` 与 Redis
+
+### 已修复：113 区块链农产品质量溯源与监管平台
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / REGULATOR / FARMER / INSPECTOR` 口径，为账号权限、种植基地、农户档案、产品分类、产品批次、种植记录、农资投入、质检报告、区块存证、流通节点、物流记录、召回事件、监管检查、操作日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `agri_trace_113` 与 Redis
+
+### 已修复：114 供应链冷链温控追踪与异常预警平台
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / DISPATCHER / CARRIER / SUPERVISOR` 口径，为账号权限、冷链仓点、承运企业、温控设备、冷链货品、运输订单、温控记录、运输轨迹、告警规则、异常告警、处置任务、责任追溯、设备维护、操作日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `cold_chain_114` 与 Redis
+
+### 已修复：115 跨境电商清关订单与汇率结算平台
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / CUSTOMS / FINANCE / OPERATOR` 口径，为账号权限、商家店铺、客户档案、商品SKU、跨境订单、清关申报、清关单证、税费记录、汇率牌价、结算账单、支付记录、物流跟踪、订单对账、操作日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `cross_border_115` 与 Redis
+
+### 已修复：116 直播电商选品排期与售后工单系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / OPERATOR / SERVICE / MERCHANT` 口径，为账号权限、直播渠道、主播档案、供应商品牌、选品池、直播场次、排期计划、样品申请、话术脚本、直播订单、售后工单、退款记录、主播绩效、操作日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `live_commerce_116` 与 Redis
+
+### 已修复：117 本地生活服务券核销与商户结算系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / MERCHANT / CASHIER / FINANCE` 口径，为账号权限、商户档案、门店网点、用户档案、券模板、营销活动、用户领券、核销记录、商户结算、结算明细、打款记录、申诉工单、活动统计、操作日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `local_voucher_117` 与 Redis
+
+### 已修复：118 智能仓储 AGV 任务调度与库位优化系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / DISPATCHER / KEEPER / MAINTAINER` 口径，为账号权限、仓库区域、库位档案、AGV车辆、充电站点、库存物料、入库订单、出库订单、AGV任务、路径规划、库位推荐、设备维保、异常告警、操作日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `smart_warehouse_agv_118` 与 Redis
+
+### 已修复：119 设备备件寿命预测与维保决策系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / DEVICE_ADMIN / MAINTAINER / ANALYST` 口径，为账号权限、设备资产、备件目录、备件库存、入库记录、出库领用、使用记录、运行指标、故障记录、寿命预测、维保计划、采购申请、风险预警、操作日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `spare_life_119` 与 Redis
+
+### 已修复：120 数字孪生园区设备巡检管理系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / INSPECTOR / ENGINEER / MANAGER` 口径，为账号权限、园区楼宇、孪生设备、巡检路线、巡检点位、巡检任务、巡检记录、缺陷报告、维修工单、传感数据、孪生模型、能耗监测、保养计划、操作日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `digital_twin_park_120` 与 Redis
+
+### 已修复：121 无人机巡检任务调度与缺陷上报平台
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / PILOT / ENGINEER / MANAGER` 口径，为账号权限、无人机设备、飞手档案、巡检区域、航线规划、巡检任务、飞行记录、缺陷报告、缺陷图片、整改工单、电池站点、维保记录、风险预警、操作日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `drone_inspection_121` 与 Redis
+
+### 已修复：122 智慧工地安全巡检与隐患整改系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / INSPECTOR / TEAM_LEADER / SUPERVISOR` 口径，为账号权限、工地项目、施工班组、安全员档案、巡检计划、巡检任务、隐患上报、整改工单、验收记录、安全培训、设备检查、防护用品、风险预警、操作日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `smart_worksite_safety_122` 与 Redis
+
+### 已修复：123 城市内涝监测与应急调度平台
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / MONITOR / DISPATCHER / MANAGER` 口径，为账号权限、水位点位、雨量站点、排涝泵站、水位数据、雨量数据、预警规则、内涝预警、应急预案、调度任务、救援队伍、物资储备、避险点位、操作日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `urban_flood_dispatch_123` 与 Redis
+
+### 已修复：124 电动车充电桩预约与运维管理系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / OPERATOR / MAINTAINER / OWNER` 口径，为账号权限、充电站点、充电桩位、用户车辆、预约订单、充电记录、故障报修、维修工单、保养计划、电价策略、支付记录、收益统计、能耗监测、操作日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `smart_chargepile_safety_122` 与 Redis
+
+### 已修复：125 智慧停车诱导与空位预测平台
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / OPERATOR / GUARD / ANALYST` 口径，为账号权限、停车场、停车区域、车位档案、车位传感器、车主车辆、预约订单、停车记录、支付记录、空位预测、诱导屏幕、导航路线、故障报修、操作日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `smart_parking_125` 与 Redis
+
+### 已修复：126 家庭能源用电分析与节能建议平台
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / RESIDENT / ANALYST / MAINTAINER` 口径，为账号权限、家庭档案、家庭成员、智能电表、用电设备、用电读数、电费账单、设备用电、能耗预算、节能建议、异常预警、碳排统计、维修工单、操作日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `home_energy_126` 与 Redis
+
+### 已修复：127 企业碳排放核算与减排任务管理系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / ACCOUNTANT / AUDITOR / MANAGER` 口径，为账号权限、企业档案、排放因子、核算周期、能源消耗、排放记录、减排任务、减排措施、碳配额、核查报告、佐证附件、预警规则、碳排预警、操作日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `carbon_accounting_127` 与 Redis
+
+### 已修复：128 ESG 数据填报与可视化报告系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 确认 `JwtInterceptor` 已透传 `userId/username/role`
+  - 确认 `AuthService` 已具备统一角色断言方法，并按 `ADMIN / EDITOR / REVIEWER / ESG_MANAGER` 口径，为账号权限、指标库、披露模板、报告周期、企业填报、指标数据、佐证材料、审核任务、评分模型、ESG评分、改进任务、利益相关方反馈、报告导出、操作日志、看板等控制器补齐权限收口
+  - 确认前端路由已补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `esg_report_128` 与 Redis
+  - 下一项目为 `129`
+
+### 已修复：129 水产养殖环境监测与投喂预警系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / BREEDER / TECHNICIAN / MANAGER` 口径，为账号权限、养殖池塘、传感设备、水质读数、投喂计划、投喂记录、鱼苗批次、生长采样、病害预警、用药记录、养殖设备、水质规则、产量统计、操作日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 为 `SysUser.password` 增加 `@JsonIgnore`，避免登录与用户查询链路泄露密码字段
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `aquaculture_monitor_129` 与 Redis
+  - 下一项目为 `130`
+
+### 已修复：130 温室大棚物联网控制与病害预警系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / GROWER / TECHNICIAN / MANAGER` 口径，为账号权限、温室档案、作物批次、环境传感器、环境读数、灌溉任务、施肥计划、虫害预警、病害诊断、控制设备、远程指令、采收记录、维护工单、操作日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 为 `SysUser.password` 增加 `@JsonIgnore`，避免登录与用户查询链路泄露密码字段
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `greenhouse_iot_130` 与 Redis
+  - 下一项目为 `131`
+
+### 已修复：131 药品不良反应上报与随访管理系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / REPORTER / REVIEWER / DOCTOR` 口径，为账号权限、患者档案、药品目录、上报人档案、不良反应上报、反应症状、风险评估、随访计划、随访记录、病例复核、处置建议、科室信息、统计报表、操作日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 为 `SysUser.password` 增加 `@JsonIgnore`，避免登录与用户查询链路泄露密码字段
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `drug_reaction_131` 与 Redis
+  - 下一项目为 `132`
+
+### 已修复：132 医疗器械借用消毒与追踪管理系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / NURSE / STERILIZER / MANAGER` 口径，为账号权限、器械档案、器械分类、科室信息、借用申请、借用记录、归还记录、消毒批次、消毒记录、二维码追踪、维护记录、巡检任务、风险预警、操作日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 为 `SysUser.password` 增加 `@JsonIgnore`，避免登录与用户查询链路泄露密码字段
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `medical_device_132` 与 Redis
+  - 下一项目为 `133`
+
+### 已修复：133 实验室耗材采购审批与库存预警系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / KEEPER / TEACHER / APPROVER` 口径，为账号权限、耗材目录、供应商档案、实验室、库存台账、采购申请、采购审批、采购订单、入库记录、领用记录、库存盘点、预警规则、库存预警、操作日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 为 `SysUser.password` 增加 `@JsonIgnore`，避免登录与用户查询链路泄露密码字段
+  - 补回项目缺失的 `133-backend/src/main/java/com/labconsumable/service/BaseCrudService.java`，修复后端原生编译失败
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `lab_consumable_133` 与 Redis
+  - 下一项目为 `134`
+
+### 已修复：134 科研项目经费报销与成果管理系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / RESEARCHER / FINANCE / LEADER` 口径，为账号权限、科研项目、预算科目、经费预算、报销申请、发票记录、审批任务、支付记录、科研成果、论文成果、专利成果、绩效统计、风险预警、操作日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 为 `SysUser.password` 增加 `@JsonIgnore`，避免登录与用户查询链路泄露密码字段
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `research_fund_134` 与 Redis
+  - 下一项目为 `135`
+
+### 已修复：135 学术会议投稿评审与日程管理系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / MANAGER / REVIEWER / SECRETARY` 口径，为账号权限、会议信息、征稿通知、作者档案、论文投稿、审稿专家、审稿分配、盲审记录、录用通知、参会报名、会场安排、会议日程、签到记录、操作日志、看板等控制器补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 为 `SysUser.password` 增加 `@JsonIgnore`，避免登录与用户查询链路泄露密码字段
+  - 补回项目缺失的 `135-backend/src/main/java/com/conferencereview/service/BaseCrudService.java`，修复后端原生编译失败
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `conference_review_135` 与 Redis
+  - 下一项目为 `136`
+
+### 已修复：136 导师课题双选与开题过程管理系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / TEACHER / STUDENT / AFFAIRS` 口径，为账号权限、课题发布、导师档案、学生档案、课题申请、双选审核、双选确认、任务书下达、开题材料、开题答辩、中期检查、指导记录、节点通知、操作日志、统计看板补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转
+  - 为 `SysUser.password` 增加 `@JsonIgnore`，避免登录与用户查询链路泄露密码字段
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `topic_selection_136` 与 Redis
+  - 下一项目为 `137`
+
+### 已修复：137 大学生创新创业项目孵化管理平台
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / MENTOR / STUDENT / JUDGE` 口径，为账号权限、孵化项目、导师档案、团队档案、项目申报、孵化计划、导师辅导、路演活动、路演评分、经费记录、里程碑任务、成果展示、孵化通知、操作日志、统计看板补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转，同时修正“路演活动”菜单索引误指向 `/review` 的残留
+  - 补齐前端 store 的 `setAuth` 兼容动作，并让登录成功后按角色首页跳转，修复登录态未持久化的运行时问题
+  - 为 `SysUser.password` 增加 `@JsonIgnore`，避免登录与用户查询链路泄露密码字段
+  - 补回项目缺失的 `137-backend/src/main/java/com/innovationhub/service/BaseCrudService.java`，修复后端原生编译失败
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `innovation_incubator_137` 与 Redis
+  - 下一项目为 `138`
+
+### 已修复：138 在线考试反作弊行为分析与证据管理系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd install` 与 `npm.cmd run build` 通过
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / INVIGILATOR / CANDIDATE / REVIEWER` 口径，为账号权限、考试计划、监考档案、考生档案、考试场次、异常行为、证据记录、复核任务、复核结论、预警规则、设备监测、违规申诉、告警通知、操作日志、统计看板补齐权限收口
+  - 为前端路由补充 `meta.roles`，并按角色动态收口侧边栏菜单与默认跳转，同时修正“告警通知”菜单索引与登录页 `setAuth` 调用不匹配的运行时问题
+  - 为 `SysUser.password` 增加 `@JsonIgnore`，避免登录与用户查询链路泄露密码字段
+  - 为 `GlobalExceptionHandler` 拆分业务异常与系统异常返回，避免将未处理异常明文透传给前端
+  - 补充记录：`138-backend/sql/init.sql` 的业务表仍带有旧项目模板残留，本轮未重建，若要 fresh DB 初始化还需单独补脚本
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `exam_guard_138` 与 Redis
+  - 下一项目为 `139`
+
+### 已修复：139 企业培训学习路径与能力认证管理系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端 `npm.cmd run build` 通过；仍有大包 warning，但不阻塞当前巡检结论
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / TRAINER / EMPLOYEE / MANAGER` 口径，为账号权限、培训项目、课程目录、学员档案、学习路径、学习任务、选课报名、考核考试、成绩记录、技能标签、胜任力画像、认证记录、学习提醒、操作日志、统计看板补齐权限收口
+  - 为 `SysUser.password` 增加 `@JsonIgnore`，避免登录返回和用户列表链路泄露密码字段
+  - 为 `GlobalExceptionHandler` 拆分业务异常与系统异常返回，避免将未处理异常明文透传给前端
+  - 补齐前端 store 的 `setAuth` 兼容动作，并让登录成功后按角色首页跳转，修复登录态持久化与角色首页跳转问题
+  - 为前端路由补充 `meta.roles`，并让侧边栏菜单与业务页按钮按角色动态收口，避免无权限角色继续看到新增、编辑、删除和审批类动作
+  - 补回项目缺失的 `139-backend/src/main/java/com/learningpath/service/BaseCrudService.java`，恢复后端原生编译能力
+  - 重写 `139-backend/sql/init.sql`、业务实体字段、服务层关键字列和前端 12 个业务页，清除 `133` 实验室耗材项目残留，恢复“企业培训学习路径与能力认证”主题语义
+  - 轻量残留扫描未发现 `labconsumable / consumable / supplier / purchase_*` 等旧模板核心关键词；未发现 `System.out.print*`、`printStackTrace` 或通配符 CORS 残留
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `learning_path_139` 与 Redis
+  - 下一项目为 `140`
+
+### 已修复：140 电子合同签署与印章审批管理系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端补齐 `npm.cmd install` 后，`npm.cmd run build` 通过；仍有大包 warning，但不阻塞当前巡检结论
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / LEGAL / APPLICANT / APPROVER` 口径，为账号权限、合同模板、相对方档案、签署方档案、合同草稿、用印申请、审批流程、合同签署、用印记录、归档记录、到期提醒、风险条款、合同通知、操作日志、统计看板补齐权限收口
+  - 为 `SysUser.password` 增加 `@JsonIgnore`，避免登录返回和用户列表链路泄露密码字段；同时修复用户编辑时密码留空会被更新为 `null` 的问题
+  - 为 `GlobalExceptionHandler` 拆分业务异常与系统异常返回，避免将未处理异常明文透传给前端
+  - 补齐前端 store 的 `setAuth` 兼容动作，并让登录成功后按角色首页跳转，修复登录态持久化与角色首页跳转问题
+  - 为前端路由补充 `meta.roles`，并让侧边栏菜单、通用 `DataPage` 和 12 个业务页按钮按角色动态收口，避免无权限角色继续看到新增、编辑、删除和审批类动作
+  - 重写 `140-backend/sql/init.sql`、业务实体对应表结构与前端 12 个业务页字段，清除 `134` 科研经费与 `136` 导师双选模板残留，恢复“电子合同签署与印章审批管理”主题语义
+  - 轻量残留扫描未发现 `research_* / budget_* / payment_* / approval_task / topic / mutual / 课题 / 导师 / 学院` 等旧模板核心关键词；未发现 `System.out.print*`、`printStackTrace` 或通配符 CORS 残留
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `electronic_contract_140` 与 Redis
+  - 下一项目为 `141`
+
+### 已修复：141 固定资产 RFID 盘点与借用归还系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端补齐 `npm.cmd install` 后，`npm.cmd run build` 通过；仍有大包 warning，但不阻塞当前巡检结论
+  - 为 `pom.xml`、`JwtUtils` 和 `TokenService` 修正 `learning-path-139` / `labconsumable` 模板残留，使 artifactId、JWT secret 和 Redis token 前缀回到 `asset-rfid-141` 主题
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / ASSET_ADMIN / BORROWER / AUDITOR` 口径，为账号权限、资产档案、资产分类、RFID 标签、存放位置、盘点任务、盘点明细、借用申请、归还记录、维修记录、折旧记录、闲置处置、预警通知、操作日志、统计看板补齐权限收口
+  - 为 `SysUser.password` 增加 `@JsonIgnore`，避免登录返回和用户列表链路泄露密码字段；同时修复用户编辑时密码留空会被更新为 `null` 的问题
+  - 为 `GlobalExceptionHandler` 拆分业务异常与系统异常返回，避免将未处理异常明文透传给前端
+  - 补回项目原生缺失的 `141-backend/src/main/java/com/assetrfid/service/BaseCrudService.java`，恢复后端原生编译能力
+  - 补齐前端 store 的 `setAuth` 兼容动作，并让登录成功后按角色首页跳转，修复登录态持久化与角色首页跳转问题
+  - 为前端路由补充 `meta.roles`，并让侧边栏菜单、通用 `DataPage` 和 12 个业务页按钮按角色动态收口
+  - 重写 `141-backend/sql/init.sql`、业务实体字段、服务层关键字列与前端 12 个业务页字段，清除 `133` 实验室耗材与 `135` 学术会议模板残留，恢复“固定资产 RFID 盘点与借用归还”主题语义
+  - 轻量残留扫描未发现 `consumable / supplier / purchase_* / lab_room / stock_warning / 投稿 / 审稿 / 签到 / 会务` 等旧模板核心关键词；未发现 `System.out.print*`、`printStackTrace` 或通配符 CORS 残留
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `asset_rfid_141` 与 Redis
+  - 下一项目为 `142`
+
+### 已修复：142 车辆保险理赔材料审核与进度跟踪系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端补齐 `npm.cmd install` 后，`npm.cmd run build` 通过；仍有大包 warning，但不阻塞当前巡检结论
+  - 为 `pom.xml`、`JwtUtils` 和 `TokenService` 修正 `electronic-contract-140` 模板残留，使 artifactId、JWT secret 和 Redis token 前缀回到 `vehicle-claim-142` 主题
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / LEGAL / APPLICANT / APPROVER` 口径，为账号权限、保险保单、车辆档案、客户档案、理赔申请、事故报案、材料清单、材料审核、定损记录、赔付记录、进度跟踪、回访记录、消息通知、操作日志、统计看板补齐权限收口
+  - 为 `SysUser.password` 增加 `@JsonIgnore`，避免登录返回和用户列表链路泄露密码字段；同时修复用户编辑时密码留空会被更新为 `null` 的问题
+  - 为 `GlobalExceptionHandler` 拆分业务异常与系统异常返回，避免将未处理异常明文透传给前端
+  - 补齐前端 store 的 `setAuth` 兼容动作，并让登录成功后按角色首页跳转，修复登录态持久化与角色首页跳转问题
+  - 为前端路由补充 `meta.roles`，并让侧边栏菜单、通用 `DataPage` 和 12 个业务页按钮按角色动态收口，避免无权限角色继续看到新增、编辑、删除和审批类动作
+  - 重写 `142-backend/sql/init.sql`、12 个业务实体字段、注解 SQL Mapper 与前端 12 个业务页字段，清除 `134` 科研经费与 `136` 选题过程模板残留，恢复“车辆保险理赔材料审核与进度跟踪”主题语义
+  - 轻量残留扫描未发现 `research_* / budget_* / expense_* / invoice_* / approval_task / payment_record / paper_record / patent_record / performance_statistic / risk_warning / 课题 / 导师 / 开题 / 中期检查` 等旧模板核心关键词；未发现 `System.out.print*`、`printStackTrace` 或通配符 CORS 残留
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `vehicle_claim_142` 与 Redis
+  - 下一项目为 `143`
+
+### 已修复：143 社区公益时间银行互助服务平台
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端补齐 `npm.cmd install` 后，`npm.cmd run build` 通过；仍有大包 warning，但不阻塞当前巡检结论
+  - 为 `pom.xml`、`JwtUtils` 和 `TokenService` 修正旧模板残留，使 artifactId、JWT secret 和 Redis token 前缀回到 `time-bank-143` / `timebank` 主题
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / RESIDENT / VOLUNTEER / MANAGER` 口径，为账号权限、服务项目、服务分类、居民档案、志愿者档案、服务预约、服务签到、时长账户、互助兑换、评价反馈、公益活动、积分规则、站内通知、操作日志、统计看板补齐权限收口
+  - 为 `SysUser.password` 增加 `@JsonIgnore`，避免登录返回和用户列表链路泄露密码字段；同时修复用户编辑资料时密码留空会被更新为 `null`、状态会被误覆盖的数据问题
+  - 为 `GlobalExceptionHandler` 拆分业务异常与系统异常返回，避免把未处理异常消息明文透传给前端
+  - 补回项目原生缺失的 `143-backend/src/main/java/com/timebank/service/BaseCrudService.java`，恢复后端原生编译能力
+  - 重写 `143-backend/sql/init.sql`、12 个业务实体字段、服务层关键字列与前端 12 个业务页字段，清除 `133` 实验室耗材与 `135` 学术会议模板残留，恢复“社区公益时间银行互助服务平台”主题语义
+  - 补齐前端 store 的 `setAuth` 兼容动作、登录成功后的角色首页跳转、路由 `meta.roles`、侧边栏菜单收口、通用 `DataPage` 权限开关，以及 `SysUser / OperationLog` 和 12 个业务页的按钮权限显示逻辑
+  - 轻量残留扫描未发现 `consumable / supplier / lab_room / trainer / employee / 会议信息 / 审稿 / 盲审 / 论文投稿` 等旧模板核心关键词；未发现 `System.out.print*`、`printStackTrace` 或通配符 CORS 残留
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `time_bank_143` 与 Redis
+  - 下一项目为 `144`
+
+### 已修复：144 无障碍出行路线规划与志愿协助平台
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，但无自动化测试，日志为 `No tests to run`
+  - 前端补齐 `npm.cmd install` 后，`npm.cmd run build` 通过；仍有大包 warning，但不阻塞当前巡检结论
+  - 为 `pom.xml`、启动类 `AccessibleTravelApplication`、`JwtUtils` 和 `TokenService` 修正旧模板残留，使 artifactId、启动入口、JWT secret 和 Redis token 前缀回到 `accessible-travel-144` / `accessibletravel` 主题
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传
+  - 为 `AuthService` 增加统一角色断言方法，并按 `ADMIN / TRAVELER / VOLUNTEER / DISPATCHER` 口径，为账号权限、无障碍路线、设施点位、出行用户、协助预约、志愿者档案、路线方案、协助任务、服务签到、评价反馈、应急联系人、行程记录、消息通知、操作日志、统计看板补齐权限收口
+  - 为 `SysUser.password` 增加 `@JsonIgnore`，避免登录返回和用户列表链路泄露密码字段；同时保留用户编辑时密码留空不误覆盖的修复
+  - 为 `GlobalExceptionHandler` 拆分业务异常与系统异常返回，避免把未处理异常消息明文透传给前端
+  - 重写 `144-backend/sql/init.sql`、12 个业务实体字段、注解 SQL Mapper 与服务层变量命名，清除 `134/136/140/142` 等旧模板残留，恢复“无障碍出行路线规划与志愿协助平台”主题语义
+  - 补齐前端 store 的 `setAuth` 兼容动作、登录成功后的角色首页跳转、路由 `meta.roles`、侧边栏菜单收口、通用 `DataPage` 权限开关，以及 12 个业务页的字段、文案与动作按钮权限逻辑
+  - 轻量残留扫描未发现 `research_* / budget_* / expense_claim / invoice_record / approval_task / payment_record / paper_record / patent_record / performance_statistic / risk_warning / 课题 / 导师 / 开题 / 中期检查 / 答辩` 等旧模板核心关键词；未发现 `System.out.print*`、`printStackTrace` 或通配符 CORS 残留
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `accessible_travel_144` 与 Redis
+  - 下一项目为 `145`
+
+### 已修复：145 城市噪声投诉监测与执法协同平台
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，日志为 `No tests to run`，仅有不阻塞的 `rdc` profile warning
+  - 前端 `npm.cmd install`、`npm.cmd run build` 通过；构建仍有大包 warning，但不阻塞当前巡检结论
+  - 为 `JwtInterceptor` 已透传的 `role` 请求属性补齐控制器侧使用，并通过 `AuthService` 为 15 个控制器统一补上服务端角色权限校验，角色口径固定为 `ADMIN / CITIZEN / OFFICER / SUPERVISOR`
+  - 重写前端 `router/index.js`、`Layout.vue`、`Login.vue`、`store/user.js`、`components/DataPage.vue`，补齐角色首页跳转、动态菜单、登录演示账号文案与通用按钮权限收口
+  - 重写 `SysUser / ComplaintTicket / MonitoringSite / NoiseSource / OfficerProfile / HandlingTask / PatrolRecord / RectificationNotice / RetestRecord / PenaltyDecision / PublicFeedback / WarningRule / PublicNotice / OperationLog` 等业务页字段、文案与动作可见性，清除旧模板残留
+  - 修复 `145-backend/src/main/java/com/noisemonitor/entity/PenaltyDecision.java` 缺少 `BigDecimal` 导入导致的原生编译失败
+  - 将 `145-backend/src/main/java/com/noisemonitor/config/WebMvcConfig.java` 的通配符 CORS 收紧为本地前端地址 `localhost/127.0.0.1:3145` 与 `4173`
+  - 生成并纳入前端锁定文件 `145-frontend/package-lock.json`
+  - 轻量残留扫描未发现 `trainer / employee / conference / review / consumable / supplier / labconsumable / research_fund / topic_selection / electronic_contract / vehicle_claim / time_bank / accessible_travel` 等旧模板核心关键词；未发现 `System.out.print*`、`printStackTrace`
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `noise_monitor_145` 与 Redis
+  - 下一项目为 `146`
+
+### 已修复：146 食品安全抽检任务与结果公示平台
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，日志为 `No tests to run`，仅有不阻塞的 `rdc` profile warning
+  - 前端 `npm.cmd install`、`npm.cmd run build` 通过；构建仍有大包 warning，但不阻塞当前巡检结论
+  - 修复 `146-backend/src/main/java/com/foodinspect/FoodInspectApplication.java` 中启动类仍命名为 `VehicleSamplingTask` 的原生编译问题，并将 `pom.xml` 的 artifactId、`JwtUtils` 的 secret、`TokenService` 的 Redis token 前缀统一切回 `food-inspection-146` / `foodinspect` 主题
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传，为 `AuthService` 增加统一角色断言，并按 `ADMIN / INSPECTOR / MERCHANT / REVIEWER` 口径为 15 个控制器补齐服务端角色权限校验
+  - 为 `GlobalExceptionHandler` 拆分业务异常与系统异常返回，并将 `WebMvcConfig` 的通配符 CORS 收紧为本地前端地址 `localhost/127.0.0.1:3146` 与 `4173`
+  - 为 `SysUser.password` 增加 `@JsonIgnore`，同时修复用户新增默认密码与编辑时密码留空不被覆盖的问题
+  - 重写 `146-backend/sql/init.sql`、12 个业务实体字段、12 个注解 SQL Mapper 与对应服务层变量命名，彻底清除 `134` 科研经费与 `140` 电子合同模板残留，恢复“食品安全抽检任务与结果公示”主题语义
+  - 重写前端 `api/index.js`、`router/index.js`、`Layout.vue`、`Login.vue`、`store/user.js`、`components/DataPage.vue`，补齐角色首页跳转、动态菜单、接口路径和通用按钮权限收口
+  - 重写 `SysUser / InspectionPlan / FoodItem / MerchantProfile / SamplingTask / AgencyProfile / SampleRecord / TestResult / RecheckApplication / DisposalRecord / PublicReport / RiskWarning / InspectionNotice / OperationLog` 等页面字段、文案与动作可见性，清除旧模板残留
+  - 生成并纳入前端锁定文件 `146-frontend/package-lock.json`
+  - 轻量残留扫描未发现 `research_* / budget_* / expense_* / invoice_* / approval_task / payment_record / paper_record / patent_record / performance_statistic / electronic-contract-140 / LEGAL / APPLICANT / APPROVER` 等旧模板核心关键词；未发现 `System.out.print*`、`printStackTrace` 或通配符 CORS 残留
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `food_inspection_146` 与 Redis
+  - 下一项目为 `147`
+
+### 已修复：147 校园心理咨询预约与危机干预管理系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，日志为 `No tests to run`，仅有不阻塞的 `rdc` profile warning
+  - 前端 `npm.cmd run build` 通过；构建仍有大包 warning，但不阻塞当前巡检结论
+  - 为 `pom.xml`、`JwtUtils` 与 `TokenService` 修正 `learning-path-139` 模板残留，使 artifactId、JWT secret 和 Redis token 前缀回到 `campus-psychology-147` / `psychologycare` 主题
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传，为 `AuthService` 增加统一角色断言，并按 `ADMIN / TEACHER / STUDENT / COUNSELOR` 口径为 15 个控制器补齐服务端角色权限校验
+  - 为 `GlobalExceptionHandler` 拆分业务异常与系统异常返回，并将 `WebMvcConfig` 的通配符 CORS 收紧为 `http://localhost:3147`、`http://127.0.0.1:3147`、`http://localhost:4173`、`http://127.0.0.1:4173`
+  - 为 `SysUser.password` 增加 `@JsonIgnore`，避免登录返回和用户列表链路泄露密码字段；同时修复用户新增默认密码与编辑资料时密码留空不被误覆盖的问题
+  - 补回缺失的 `147-backend/src/main/java/com/psychologycare/service/BaseCrudService.java` 与 `147-backend/src/main/java/com/psychologycare/entity/CounselRoom.java`，并移除错误的 `ServiceCategory.java`
+  - 重写 `147-backend/sql/init.sql`、12 个业务实体字段与服务层关键字列，清除旧模板残留，恢复“校园心理咨询预约与危机干预管理系统”主题语义
+  - 重写前端 `router/index.js`、`Layout.vue`、`Login.vue`、`store/user.js` 与 `components/DataPage.vue`，补齐角色首页跳转、动态菜单、登录示例账号文案与通用按钮权限收口
+  - 重写 `SysUser / CounselCase / CounselRoom / StudentProfile / DutySchedule / AppointmentRequest / CounselRecord / AssessmentQuestionnaire / RiskAssessment / CrisisIntervention / FamilyCommunication / FollowUpPlan / SystemNotice / OperationLog` 等页面字段、文案与动作可见性，清除旧模板残留
+  - 精确残留扫描未发现 `consumable / supplier / conference / review / paper / labconsumable / learning-path-139 / 投稿 / 审稿 / 会场 / 征稿 / 盲审` 等旧模板核心关键词；未发现 `System.out.print*`、`printStackTrace` 或通配符 CORS 残留
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `campus_psychology_147` 与 Redis
+  - 下一项目为 `148`
+
+### 已修复：148 社区养老服务派单与健康随访管理系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，日志为 `No tests to run`，仅有不阻塞的 `rdc` profile warning
+  - 前端 `npm.cmd install`、`npm.cmd run build` 通过；构建仍有大包 warning，但不阻塞当前巡检结论
+  - 修复 `148-backend/src/main/java/com/eldercare/ElderCareApplication.java` 中启动类仍命名为 `VehicleServiceOrder` 的原生编译问题，并为 `pom.xml` 补齐 Lombok 注解处理配置，恢复项目原生编译能力
+  - 为 `pom.xml`、`JwtUtils` 与 `TokenService` 修正 `electronic-contract-140` / `researchfund` 模板残留，使 artifactId、JWT secret 和 Redis token 前缀回到 `elder-service-148` / `eldercare` 主题
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传，为 `AuthService` 增加统一角色断言，并按 `ADMIN / CONSULTANT / CAREGIVER / FAMILY` 口径为 15 个控制器补齐服务端角色权限校验
+  - 为 `GlobalExceptionHandler` 拆分业务异常与系统异常返回，并将 `WebMvcConfig` 的通配符 CORS 收紧为 `http://localhost:3148`、`http://127.0.0.1:3148`、`http://localhost:4173`、`http://127.0.0.1:4173`
+  - 为 `SysUser.password` 增加 `@JsonIgnore`，同时修复用户新增默认密码与编辑资料时密码留空不被覆盖的问题
+  - 重写 `148-backend/sql/init.sql`、12 个业务实体字段、12 个注解 SQL Mapper 与对应服务层变量命名，彻底清除科研经费与电子合同模板残留，恢复“社区养老服务派单与健康随访管理系统”主题语义
+  - 重写前端 `api/index.js`、`router/index.js`、`Layout.vue`、`Login.vue`、`store/user.js`、`components/DataPage.vue`，补齐角色首页跳转、动态菜单、接口路径和通用按钮权限收口
+  - 重写 `SysUser / ServicePackage / ElderProfile / CaregiverProfile / ServiceOrder / CareTeam / VisitCheckin / ServiceRecord / HealthAssessment / MedicationReminder / FamilyVisit / AlertEvent / CareNotice / OperationLog` 等页面字段、文案与动作可见性，清除旧模板残留
+  - 生成并纳入前端锁定文件 `148-frontend/package-lock.json`
+  - 精确残留扫描未发现 `legal / applicant / approver / research_project / budget_category / budget_allocation / expense_claim / paper_record / patent_record / approval_task / payment_record / performance_statistic / electronic-contract-140 / VehicleServiceOrder` 等旧模板核心关键词；未发现 `System.out.print*`、`printStackTrace` 或通配符 CORS 残留
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `elder_service_148` 与 Redis
+  - 下一项目为 `149`
+
+### 已修复：149 高校实验设备共享预约与违规使用追踪系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，日志为 `No tests to run`，仅有不阻塞的 `rdc` profile warning
+  - 前端 `npm.cmd install`、`npm.cmd run build` 通过，并生成 `149-frontend/package-lock.json`；构建仍有大包 warning，但不阻塞当前巡检结论
+  - 为 `pom.xml` 补齐 Lombok 注解处理配置，并修正 `artifactId`、`JwtUtils` 的 secret、`TokenService` 的 Redis token 前缀，统一回到 `equipment-share-149` / `equipmentshare` 主题
+  - 为 `JwtInterceptor` 补齐 `userId/username/role` 请求属性透传，为 `AuthService` 增加统一角色断言，并按 `ADMIN / TEACHER / STUDENT / MANAGER` 口径为 15 个控制器补齐服务端角色权限校验
+  - 为 `GlobalExceptionHandler` 拆分业务异常与系统异常返回，并将 `WebMvcConfig` 的通配符跨域收紧为 `http://localhost:3149`、`http://127.0.0.1:3149`、`http://localhost:4173`、`http://127.0.0.1:4173`
+  - 为 `SysUser.password` 增加 `@JsonProperty(access = WRITE_ONLY)`，避免登录返回和用户列表链路泄露密码字段；同时保留登录、信息查询和列表链路的密码脱敏一致性
+  - 补回缺失的 `149-backend/src/main/java/com/equipmentshare/service/BaseCrudService.java`，并修正错误的 `ServiceCategory.java` 为真实的 `LaboratoryRoom.java`，恢复项目原生编译能力
+  - 重写 `149-backend/sql/init.sql`、12 个业务实体字段与对应服务层关键字列，使后端数据模型完整切回“高校实验设备共享预约与违规使用追踪系统”主题
+  - 重写前端 `router/index.js`、`Layout.vue`、`Login.vue`、`store/user.js`、`components/DataPage.vue` 与 14 个业务页字段、文案、菜单和按钮权限逻辑，清除会议、论文、征稿、耗材等旧模板残留
+  - 精确残留扫描未发现 `learning-path-139`、`labconsumable`、`trainer / employee`、`会议 / 论文 / 征稿 / 耗材 / 供应商 / 投稿 / 会场 / 评审 / 稿件` 等旧模板核心关键词，且未发现 `printStackTrace` 或通配符 CORS 残留
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `equipment_share_149` 与 Redis
+  - 下一项目为 `150`
+
+### 已修复：150 医院门诊检查预约与报告回传管理系统
+- 本轮新增：
+  - 后端 `mvn.cmd test` 通过，日志为 `No tests to run`，仅有不阻塞的 `rdc` profile warning
+  - 前端 `npm.cmd install`、`npm.cmd run build` 通过，并生成 `150-frontend/package-lock.json`；构建仍有大包 warning，但不阻塞当前巡检结论
+  - 修复 `150-backend/src/main/java/com/outpatientexam/OutpatientExamApplication.java` 中启动类仍命名为 `VehicleExamAppointment` 的原生编译问题，并为 `pom.xml` 补齐 Lombok 注解处理配置，恢复项目原生编译能力
+  - 为 `pom.xml`、`JwtUtils` 与 `TokenService` 修正 `electronic-contract-140` / `researchfund` 模板残留，使 artifactId、JWT secret 和 Redis token 前缀回到 `outpatient-exam-150` / `outpatientexam` 主题
+  - 为 `JwtInterceptor` 补充 `userId/username/role` 请求属性透传，为 `AuthService` 增加统一角色断言，并按 `ADMIN / DOCTOR / TECHNICIAN / PATIENT` 口径为 15 个控制器补齐服务端角色权限校验
+  - 为 `GlobalExceptionHandler` 拆分业务异常与系统异常返回，并将 `WebMvcConfig` 的通配符 CORS 收紧为 `http://localhost:3150`、`http://127.0.0.1:3150`、`http://localhost:4173`、`http://127.0.0.1:4173`
+  - 为 `SysUser.password` 增加 `@JsonProperty(access = WRITE_ONLY)`，同时修复用户新增默认密码与编辑资料时密码留空不被误覆盖的问题
+  - 重写 `150-backend/sql/init.sql`、12 个业务实体字段、12 个注解 SQL Mapper 与对应服务层变量命名，彻底清除科研经费与电子合同模板残留，恢复“医院门诊检查预约与报告回传管理系统”主题语义
+  - 重写前端 `api/index.js`、`router/index.js`、`Layout.vue`、`Login.vue`、`store/user.js`、`components/DataPage.vue`，补齐角色首页跳转、动态菜单、接口路径和通用按钮权限收口
+  - 重写 `SysUser / ExamItem / PatientProfile / DoctorProfile / ExamAppointment / ExamDepartment / CheckinRecord / ExamReport / AbnormalAlert / ReportDelivery / RevisitAdvice / QueueCall / HospitalNotice / OperationLog` 等页面字段、文案与动作可见性，清除旧模板残留
+  - 精确残留扫描未发现 `research_project / budget_category / budget_allocation / expense_claim / invoice_record / approval_task / payment_record / research_achievement / paper_record / patent_record / performance_statistic / risk_warning / electronic-contract-140 / LEGAL / APPLICANT / APPROVER / VehicleExamAppointment` 等旧模板核心关键词，且未发现 `printStackTrace` 或通配符 CORS 残留
+  - 当前尚未做真实登录验收；默认环境仍依赖本地 MySQL `outpatient_exam_150` 与 Redis
+  - 下一项目为 `151`
+
+### 已批量生成：151-200 新增毕设项目
+- 本轮新增：
+  - 已联网参考 2026 计算机毕业设计热门方向，并结合本地 `001-150` 标题做重复扫描，确认 `151-196` 候选题目未与既有项目 exact duplicate
+  - 将原脚本中较易与 `136`、`196` 贴近的 `198/199` 方向替换为“城市共享充电宝投放巡检与收益结算系统”“运动康复训练计划与体测评估管理系统”，并补齐 `197` 家政服务、`200` 非遗工坊方向
+  - 修正 `scripts/generate_151_200.py`：兼容当前 Python 写文件接口，前端依赖切到 `@vitejs/plugin-vue 5.0.4` + `vite 5.0.0`，后端补齐 Maven 编译插件和 Lombok 注解处理配置
+  - 生成 `151-backend` 到 `200-backend` 与 `151-frontend` 到 `200-frontend` 共 100 个目录，每个项目包含 `PRD.md`、`PLAN.md`、`pom.xml`、`application.yml`、`sql/init.sql`、后端通用鉴权/CRUD/统计模块与 Vue3 前端页面
+  - 统一补强模板级安全点：`SysUser.password` 使用 `@JsonProperty(access = WRITE_ONLY)`，`GlobalExceptionHandler` 不再向前端透出系统异常明文，`JwtInterceptor` 透传 `userId/username/role`，CORS 收紧为对应本地前端端口与 `4173`
+  - 已为 `151-200` 前端生成 `package-lock.json`，并更新 `readme_simple.md`、`readme.md` 的项目总数与 `151-200` 条目，其中 `200` 标记为最新
+  - 已更新 `docs/topic-candidates-147-196.md` 的标题和表格覆盖范围到 `147-200`，并标记 `151-200` 已实现
+  - 静态检查确认 `151-200` 核心文件齐备，`readme_simple.md` 覆盖 `151-200`，未发现通配符 CORS、`printStackTrace`、`System.out.print*` 残留
+  - 抽样验证通过：`151-backend`、`200-backend` 的 `mvn.cmd -q test` 均通过；`151-frontend`、`200-frontend` 的 `npm.cmd install` 与 `npm.cmd run build` 均通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前 `151-200` 为批量开发版本，尚未做逐项目真实登录验收；后续正式巡检和主题字段深化仍建议从 `151` 逐项推进
+
+### 已正式开发：151 文旅场馆讲解预约与票务核销管理平台
+- 本轮新增：
+  - 已按 `$pua` skill 要求执行“先做后问、端到端验证、同类排查”，从 `151` 开始逐项正式开发
+  - 将批量版 `com.p151 / BizRecord` 泛化模板完整替换为 `com.culturevenue` 文旅场馆主题项目，后端 artifactId 改为 `culture-venue-ticket-151`，数据库改为 `culture_venue_151`，Redis token 前缀改为 `culturevenue:token:`
+  - 后端保留 Spring Boot 2.7.18、MyBatis 注解 SQL、PageHelper、MySQL、Redis、JWT 技术栈，并补齐 Lombok 注解处理、系统异常兜底、密码写入可见脱敏、JWT 请求属性透传和本地端口 CORS 收口
+  - 新增五类角色与默认账号：`ADMIN/admin`、`MANAGER/manager`、`GUIDE/guide`、`CHECKER/checker`、`VISITOR/visitor`，统一密码 `123456`
+  - 重建 12 个业务模块：场馆档案、票种产品、票务预约、讲解员档案、讲解排期、讲解预约、扫码核销、客流统计、游客评价、文旅活动、场馆公告、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮按 `ADMIN / MANAGER / GUIDE / CHECKER / VISITOR` 收口
+  - `readme.md` 的 `151` 详情已从批量泛化模块改为正式文旅场馆模块说明
+  - 残留扫描未发现 `com.p151`、`BizRecord`、`project_151`、`AUDITOR / OPERATOR / MEMBER`、`record01 / record02 / record03`、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `culture_venue_151` 与 Redis
+  - 下一项目为 `152`
+
+### 已正式开发：152 工厂危险作业审批与监护巡检管理系统
+- 本轮新增：
+  - 继续按 `$pua` skill 的端到端闭环推进，未停在批量生成层面
+  - 检查发现 `152` 批量版仍为 `com.p152 / BizRecord / project_152` 泛化模板，并带有通用角色和通用业务字段
+  - 通过 `scripts/make_152_from_151.py` 与 `scripts/develop_152.py` 复用 `151` 已验证的正式化流水线，并在落盘前主动检查脚本内容，修正一次角色/模块替换未生效的问题
+  - 将后端改为 `com.hazardwork` 包，启动类为 `HazardWorkApplication`，artifactId 改为 `hazard-work-permit-152`，数据库改为 `hazard_work_152`，Redis token 前缀改为 `hazardwork:token:`
+  - 新增五类角色与默认账号：`ADMIN/admin`、`SAFETY/safety`、`APPROVER/approver`、`GUARDIAN/guardian`、`WORKER/worker`，统一密码 `123456`
+  - 重建 12 个业务模块：作业区域、风险源台账、作业人员档案、作业票申请、审批链路、安全交底、监护安排、监护记录、隐患闭环、气体检测、应急预案、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮按 `ADMIN / SAFETY / APPROVER / GUARDIAN / WORKER` 收口
+  - `readme.md` 的 `152` 详情已从批量泛化模块改为正式危险作业模块说明
+  - 残留扫描未发现 `com.p152`、`BizRecord`、`project_152`、旧角色名、旧文旅模块名、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `hazard_work_152` 与 Redis
+  - 下一项目为 `153`
+
+### 已正式开发：153 校园二手物品寄卖与信用评价系统
+- 本轮新增：
+  - 继续按 `$pua` skill 的“先做后问、端到端验证、同类排查”方式推进，并联网参考校园二手交易、信用评价、担保交易类题目方向后，确定 153 不做普通商品发布平台，而突出寄卖、担保、信用和仲裁闭环
+  - 检查发现 `153` 批量版仍为 `com.p153 / BizRecord / project_153` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `151` 已验证的正式化流水线生成 `scripts/develop_153.py`；执行前主动检查并修复统计饼图、角色首页跳转、账号文案中的旧文旅残留
+  - 将后端改为 `com.campusresale` 包，启动类为 `CampusResaleApplication`，artifactId 改为 `campus-resale-credit-153`，数据库改为 `campus_resale_153`，Redis token 前缀改为 `campusresale:token:`
+  - 新增五类角色与默认账号：`ADMIN/admin`、`OPERATOR/operator`、`SELLER/seller`、`BUYER/buyer`、`ARBITER/arbiter`，统一密码 `123456`
+  - 重建 12 个业务模块：物品分类、学生档案、寄卖物品、上架审核、担保订单、担保支付、交接确认、信用评价、违约记录、纠纷申诉、平台公告、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮按 `ADMIN / OPERATOR / SELLER / BUYER / ARBITER` 收口
+  - `readme.md` 的 `153` 详情已从批量泛化模块改为正式校园寄卖模块说明
+  - 残留扫描未发现 `com.p153`、`BizRecord`、`project_153`、旧角色名、旧文旅模块名、旧工业安全模块名、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `campus_resale_153` 与 Redis
+  - 下一项目为 `154`
+
+### 已正式开发：154 宠物医院接诊排班与疫苗随访管理系统
+- 本轮新增：
+  - 继续从 `154` 批量模板接力开发，结合宠物医院常见门诊运营能力，将正式化重点收敛到宠主建档、宠物档案、医生排班、接诊预约、诊疗记录、疫苗计划、疫苗接种、随访回访、药品库存和费用结算
+  - 检查发现 `154` 批量版仍为 `com.p154 / BizRecord / project_154` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 通过 `scripts/make_154_from_151.py` 与 `scripts/develop_154.py` 复用已验证的正式化流水线，并额外修正菜单/路由角色数组，使侧边栏可见性按模块实际角色收口
+  - 将后端改为 `com.pethospital` 包，启动类为 `PetHospitalApplication`，artifactId 改为 `pet-hospital-vaccine-154`，数据库改为 `pet_hospital_154`，Redis token 前缀改为 `pethospital:token:`
+  - 新增五类角色与默认账号：`ADMIN/admin`、`RECEPTION/reception`、`DOCTOR/doctor`、`NURSE/nurse`、`OWNER/owner`，统一密码 `123456`
+  - 重建 12 个业务模块：宠主档案、宠物档案、医生档案、接诊排班、接诊预约、接诊记录、疫苗计划、疫苗接种、随访记录、药品库存、费用结算、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / RECEPTION / DOCTOR / NURSE / OWNER` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `154` 详情已从批量泛化模块改为正式宠物医院模块说明
+  - 残留扫描未发现 `com.p154`、`BizRecord`、`project_154`、旧角色名、旧文旅/校园寄卖/工业安全模块名、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `pet_hospital_154` 与 Redis
+  - 下一项目为 `155`
+
+### 已正式开发：155 社区党建活动报名与积分激励平台
+- 本轮新增：
+  - 继续按 `$pua` skill 的“先做后问、端到端验证、同类排查”方式推进，先补跑 `154` 前端构建并修复 Vite 在沙箱路径下的 root 解析问题，再进入 `155`
+  - 检查发现 `155` 批量版仍为 `com.p155 / BizRecord / project_155` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `151` 已验证的正式化流水线生成 `scripts/develop_155.py`，并在落盘前清理统计饼图、默认账号、状态文案中的旧文旅/宠物医院/校园寄卖残留
+  - 将后端切换为 `com.communityparty` 包，启动类为 `CommunityPartyApplication`，artifactId 为 `community-party-points-155`，数据库为 `community_party_155`，Redis token 前缀为 `communityparty:token:`
+  - 新增五类角色与默认账号：`ADMIN/admin`、`SECRETARY/secretary`、`ORGANIZER/organizer`、`VOLUNTEER/volunteer`、`RESIDENT/resident`，统一密码 `123456`
+  - 重建 12 个业务模块：党组织维护、党员档案、党建活动、活动报名、签到记录、志愿任务、积分记录、积分兑换、组织关系、榜单统计、通知公告、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / SECRETARY / ORGANIZER / VOLUNTEER / RESIDENT` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `155` 详情已从批量泛化模块改为正式社区党建模块说明
+  - 残留扫描未发现 `com.p155`、`BizRecord`、`project_155`、旧角色名、旧文旅/宠物医院/校园寄卖/工业安全模块名、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `community_party_155` 与 Redis
+  - 下一项目为 `156`
+
+### 已正式开发：156 校园宿舍能耗监测与节能排名系统
+- 本轮新增：
+  - 按用户“尽量每个都多元化一点”的要求，将 `156` 从批量通用的宿舍能耗方向深化为“楼栋房间 + 表计读数 + 账单核算 + 预警策略 + 异常预警 + 节能任务 + 节能排行 + 后勤巡查”的能源治理闭环
+  - 检查发现 `156` 批量版仍为 `com.p156 / BizRecord / project_156` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `155` 已验证并带有 Vite `root: process.cwd()` 修复的流水线生成 `scripts/develop_156.py`，执行前扫描旧党建、宠物医院、校园寄卖、工业安全与文旅关键词均未命中
+  - 将后端切换为 `com.dormenergy` 包，启动类为 `DormEnergyApplication`，artifactId 为 `dorm-energy-ranking-156`，数据库为 `dorm_energy_156`，Redis token 前缀为 `dormenergy:token:`
+  - 新增五类角色与默认账号：`ADMIN/admin`、`LOGISTICS/logistics`、`COUNSELOR/counselor`、`ENERGY/energy`、`STUDENT/student`，统一密码 `123456`
+  - 重建 12 个业务模块：宿舍楼栋、宿舍房间、能耗表计、用电读数、能耗账单、预警策略、异常预警、节能任务、节能排行、巡查记录、通知公告、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / LOGISTICS / COUNSELOR / ENERGY / STUDENT` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `156` 详情已从批量泛化模块改为正式宿舍能耗模块说明
+  - 残留扫描未发现 `com.p156`、`BizRecord`、`project_156`、旧角色名、旧党建/宠物医院/校园寄卖/工业安全/文旅模块名、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `dorm_energy_156` 与 Redis
+  - 下一项目为 `157`
+
+### 已正式开发：157 物流园区车辆入场预约与道口调度平台
+- 本轮新增：
+  - 按多元化要求将 `157` 聚焦智慧物流园区调度，参考 YMS/车辆预约/门岗核验/道口月台分配等常见能力，形成“预约入场 + 门岗核验 + 排队叫号 + 道口分配 + 装卸任务 + 周转统计”闭环
+  - 检查发现 `157` 批量版仍为 `com.p157 / BizRecord / project_157` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `156` 已验证的正式化流水线生成 `scripts/develop_157.py`，执行前扫描旧宿舍能耗、党建、宠物医院、校园寄卖、工业安全与文旅关键词均未命中
+  - 将后端切换为 `com.logisticspark` 包，启动类为 `LogisticsParkApplication`，artifactId 为 `logistics-yard-gate-157`，数据库为 `logistics_park_157`，Redis token 前缀为 `logisticspark:token:`
+  - 新增五类角色与默认账号：`ADMIN/admin`、`DISPATCHER/dispatcher`、`GATEKEEPER/gatekeeper`、`YARDMASTER/yardmaster`、`CARRIER/carrier`，统一密码 `123456`
+  - 重建 12 个业务模块：承运商档案、车辆档案、司机档案、入场预约、时段计划、门岗核验、排队叫号、道口资源、道口分配、装卸任务、周转统计、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / DISPATCHER / GATEKEEPER / YARDMASTER / CARRIER` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `157` 详情已从批量泛化模块改为正式物流园区模块说明
+  - 残留扫描未发现 `com.p157`、`BizRecord`、`project_157`、旧角色名、旧宿舍能耗/党建/宠物医院/校园寄卖/工业安全/文旅模块名、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `logistics_park_157` 与 Redis
+  - 下一项目为 `158`
+
+### 已正式开发：158 校外培训机构课消统计与退费审批系统
+- 本轮新增：
+  - 按多元化要求将 `158` 聚焦校外培训机构经营合规场景，形成“课程产品 + 排课签到 + 课消确认 + 家长退费 + 财务流水”的教培闭环
+  - 检查发现 `158` 批量版仍为 `com.p158 / BizRecord / project_158` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `157` 已验证的正式化流水线生成 `scripts/develop_158.py`，修正统计饼图状态文案，避免物流园区“门岗/道口/装卸”等旧语义残留
+  - 将后端切换为 `com.trainingrefund` 包，启动类为 `TrainingRefundApplication`，artifactId 为 `training-consumption-refund-158`，数据库为 `training_refund_158`，Redis token 前缀为 `trainingrefund:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`PRINCIPAL/principal`、`ACADEMIC/academic`、`TEACHER/teacher`、`FINANCE/finance`、`PARENT/parent`，统一密码 `123456`
+  - 重建 12 个业务模块：校区档案、课程产品、学员档案、教师档案、班级台账、排课计划、上课考勤、课消记录、退费申请、退费审批、财务流水、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / PRINCIPAL / ACADEMIC / TEACHER / FINANCE / PARENT` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `158` 详情已从批量泛化模块改为正式教培课消退费模块说明
+  - 残留扫描未发现 `com.p158`、`BizRecord`、`project_158`、旧角色名、旧物流园区/宿舍能耗/党建/宠物医院/校园寄卖/工业安全/文旅模块名、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `training_refund_158` 与 Redis
+  - 下一项目为 `159`
+
+### 已正式开发：159 医疗废弃物收运联单与闭环监管系统
+- 本轮新增：
+  - 按多元化要求将 `159` 聚焦医疗废弃物闭环监管，结合公开资料中的分类收集、暂存交接、转运联单、处置确认和监管追溯要求，形成“包装赋码 + 称重交接 + 转运联单 + 处置确认 + 异常追溯 + 监管抽查”闭环
+  - 检查发现 `159` 批量版仍为 `com.p159 / BizRecord / project_159` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `158` 已验证的正式化流水线生成 `scripts/develop_159.py`，执行前扫描并修正旧教培统计饼图文案，避免“待上课/退费审批/财务结清”等残留
+  - 将后端切换为 `com.medicalwaste` 包，启动类为 `MedicalWasteApplication`，artifactId 为 `medical-waste-manifest-159`，数据库为 `medical_waste_159`，Redis token 前缀为 `medicalwaste:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`HOSPITAL/hospital`、`COLLECTOR/collector`、`TRANSPORTER/transporter`、`DISPOSAL/disposal`、`REGULATOR/regulator`，统一密码 `123456`
+  - 重建 12 个业务模块：医废来源、废物类别、包装赋码、收集预约、称重记录、暂存交接、转运联单、运输轨迹、处置确认、异常追溯、监管抽查、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / HOSPITAL / COLLECTOR / TRANSPORTER / DISPOSAL / REGULATOR` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `159` 详情已从批量泛化模块改为正式医疗废弃物联单监管模块说明
+  - 残留扫描未发现 `com.p159`、`BizRecord`、`project_159`、旧角色名、旧教培/物流园区/宿舍能耗/党建/宠物医院/校园寄卖/工业安全/文旅模块名、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `medical_waste_159` 与 Redis
+  - 下一项目为 `160`
+
+### 已正式开发：160 校园社团活动预算报销与物资借用系统
+- 本轮新增：
+  - 按多元化要求将 `160` 聚焦高校社团财务与物资协同场景，形成“活动立项 + 预算申请 + 预算明细 + 报销申请 + 票据归档 + 物资借用 + 归还验收”的闭环
+  - 检查发现 `160` 批量版仍为 `com.p160 / BizRecord / project_160` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `159` 已验证的正式化流水线生成 `scripts/develop_160.py`，执行前扫描旧医疗废弃物联单、教培课消、物流园区等关键词均未命中
+  - 将后端切换为 `com.clubfinance` 包，启动类为 `ClubFinanceApplication`，artifactId 为 `campus-club-budget-160`，数据库为 `club_finance_160`，Redis token 前缀为 `clubfinance:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`UNION/union`、`CLUB/club`、`TREASURER/treasurer`、`WAREHOUSE/warehouse`、`MEMBER/member`，统一密码 `123456`
+  - 重建 12 个业务模块：社团档案、成员档案、活动立项、预算申请、预算明细、审批记录、报销申请、票据归档、物资台账、物资借用、归还验收、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / UNION / CLUB / TREASURER / WAREHOUSE / MEMBER` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `160` 详情已从批量泛化模块改为正式校园社团财资模块说明
+  - 残留扫描未发现 `com.p160`、`BizRecord`、`project_160`、旧角色名、旧医废/教培/物流园区/宿舍能耗/党建/宠物医院/工业安全/文旅模块名、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `club_finance_160` 与 Redis
+  - 下一项目为 `161`
+
+### 已正式开发：161 景区失物招领与游客寻回协同平台
+- 本轮新增：
+  - 按多元化要求将 `161` 聚焦景区游客服务，形成“失物登记 + 拾物上报 + 身份核验 + 暂存保管 + 通知协同 + 归还交接 + 回访评价”的寻回闭环
+  - 检查发现 `161` 批量版仍为 `com.p161 / BizRecord / project_161` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `160` 已验证的正式化流水线生成 `scripts/develop_161.py`，执行前扫描并修正旧社团财资统计饼图文案，避免“预算通过/报销处理中/物资归还”等残留
+  - 将后端切换为 `com.lostfound` 包，启动类为 `ScenicLostFoundApplication`，artifactId 为 `scenic-lost-found-161`，数据库为 `scenic_lost_found_161`，Redis token 前缀为 `lostfound:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`SERVICE/service`、`SECURITY/security`、`SCENIC/scenic`、`BROADCAST/broadcast`、`VISITOR/visitor`，统一密码 `123456`
+  - 重建 12 个业务模块：景区区域、失物登记、拾物上报、游客认领、身份核验、位置追踪、暂存保管、通知协同、归还交接、寻回任务、回访评价、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / SERVICE / SECURITY / SCENIC / BROADCAST / VISITOR` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `161` 详情已从批量泛化模块改为正式景区失物寻回模块说明
+  - 残留扫描未发现 `com.p161`、`BizRecord`、`project_161`、旧角色名、旧社团财资/医废/教培/物流园区模块名、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `scenic_lost_found_161` 与 Redis
+  - 下一项目为 `162`
+
+### 已正式开发：162 生鲜门店临期商品预警与促销处置系统
+- 本轮新增：
+  - 检查发现 `162` 批量版仍为 `com.p162 / BizRecord / project_162` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 修正 `scripts/develop_162.py` 中从 `161` 继承来的景区失物 PRD/PLAN、端口、初始化编号与账号文案残留，并将本项目端口切换为后端 `8162`、前端 `3162`
+  - 将后端切换为 `com.freshretail` 包，启动类为 `FreshRetailApplication`，artifactId 为 `fresh-expiry-promotion-162`，数据库为 `fresh_expiry_162`，Redis token 前缀为 `freshretail:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`MANAGER/manager`、`CLERK/clerk`、`STOCK/stock`、`MARKETING/marketing`、`SUPPLIER/supplier`，统一密码 `123456`
+  - 重建 12 个业务模块：门店档案、供应商档案、生鲜品类、商品批次、保质期规则、临期预警、促销策略、折扣执行、报损记录、库存周转、门店分析、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / MANAGER / CLERK / STOCK / MARKETING / SUPPLIER` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `162` 详情已从批量泛化模块改为正式生鲜临期商品处置模块说明
+  - 残留扫描未发现 `com.p162`、`BizRecord`、`project_162`、旧景区失物角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `fresh_expiry_162` 与 Redis
+  - 下一项目为 `163`
+
+### 已正式开发：163 医学实习轮转考核与病例学习管理系统
+- 本轮新增：
+  - 检查发现 `163` 批量版仍为 `com.p163 / BizRecord / project_163` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `162` 已验证的正式化流水线生成 `scripts/develop_163.py`，将题目深化为医学实习轮转、病例学习、教学查房、技能训练、带教评分、出科考核和反馈整改闭环
+  - 将后端切换为 `com.clinicalrotation` 包，启动类为 `ClinicalRotationApplication`，artifactId 为 `clinical-rotation-case-163`，数据库为 `clinical_rotation_163`，Redis token 前缀为 `clinicalrotation:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`SECRETARY/secretary`、`TEACHER/teacher`、`STUDENT/student`、`EXAMINER/examiner`、`DIRECTOR/director`，统一密码 `123456`
+  - 重建 12 个业务模块：轮转科室、实习学生、带教老师、轮转安排、病例学习、学习记录、教学查房、技能训练、带教评分、出科考核、反馈整改、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / SECRETARY / TEACHER / STUDENT / EXAMINER / DIRECTOR` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `163` 详情已从批量泛化模块改为正式医学实习轮转考核模块说明
+  - 残留扫描未发现 `com.p163`、`BizRecord`、`project_163`、旧生鲜临期角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `clinical_rotation_163` 与 Redis
+  - 下一项目为 `164`
+
+### 已正式开发：164 校园体育赛事报名编排与裁判评分系统
+- 本轮新增：
+  - 检查发现 `164` 批量版仍为 `com.p164 / BizRecord / project_164` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `163` 已验证的正式化流水线生成并执行 `scripts/develop_164.py`；执行前清理医学轮转、病例、带教、出科等旧主题词，端口切换为后端 `8164`、前端 `3164`
+  - 将后端切换为 `com.sportevent` 包，启动类为 `SportEventApplication`，artifactId 为 `campus-sport-event-164`，数据库为 `campus_sport_event_164`，Redis token 前缀为 `sportevent:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`ORGANIZER/organizer`、`COACH/coach`、`ATHLETE/athlete`、`REFEREE/referee`、`COMMITTEE/committee`，统一密码 `123456`
+  - 重建 12 个业务模块：体育赛事、参赛队伍、运动员档案、赛事报名、报名分组、赛程编排、场地资源、裁判指派、裁判评分、成绩公示、申诉复核、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / ORGANIZER / COACH / ATHLETE / REFEREE / COMMITTEE` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `164` 详情已从批量泛化模块改为正式校园体育赛事模块说明
+  - 残留扫描未发现 `com.p164`、`BizRecord`、`project_164`、旧医学轮转角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `campus_sport_event_164` 与 Redis
+  - 下一项目为 `165`
+
+### 已正式开发：165 企业访客预约登记与门禁联动管理系统
+- 本轮新增：
+  - 检查发现 `165` 批量版仍为 `com.p165 / BizRecord / project_165` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `164` 已验证的正式化流水线生成并执行 `scripts/develop_165.py`；执行前清理体育赛事、参赛、裁判、成绩、申诉等旧主题词，端口切换为后端 `8165`、前端 `3165`
+  - 将后端切换为 `com.visitoraccess` 包，启动类为 `VisitorAccessApplication`，artifactId 为 `enterprise-visitor-access-165`，数据库为 `visitor_access_165`，Redis token 前缀为 `visitoraccess:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`RECEPTION/reception`、`EMPLOYEE/employee`、`SECURITY/security`、`VISITOR/visitor`、`MANAGER/manager`，统一密码 `123456`
+  - 重建 12 个业务模块：楼宇区域、被访员工、访客档案、访客预约、访问审批、二维码通行、门禁设备、门禁联动、入园登记、轨迹留痕、异常告警、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / RECEPTION / EMPLOYEE / SECURITY / VISITOR / MANAGER` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `165` 详情已从批量泛化模块改为正式企业访客门禁模块说明
+  - 残留扫描未发现 `com.p165`、`BizRecord`、`project_165`、旧体育赛事角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `visitor_access_165` 与 Redis
+  - 下一项目为 `166`
+
+### 已正式开发：166 农贸市场摊位巡检与食品追溯台账系统
+- 本轮新增：
+  - 检查发现 `166` 批量版仍为 `com.p166 / BizRecord / project_166` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `165` 已验证的正式化流水线生成并执行 `scripts/develop_166.py`；执行前清理访客、门禁、二维码、入园、轨迹留痕等旧主题词，端口切换为后端 `8166`、前端 `3166`
+  - 将后端切换为 `com.markettrace` 包，启动类为 `MarketTraceApplication`，artifactId 为 `farm-market-trace-166`，数据库为 `market_trace_166`，Redis token 前缀为 `markettrace:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`MARKET/market`、`INSPECTOR/inspector`、`VENDOR/vendor`、`SAMPLER/sampler`、`REGULATOR/regulator`，统一密码 `123456`
+  - 重建 12 个业务模块：市场区域、摊位档案、商户档案、商品溯源、摊位巡检、问题整改、抽检记录、检测结果、进货台账、处置记录、风险预警、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / MARKET / INSPECTOR / VENDOR / SAMPLER / REGULATOR` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `166` 详情已从批量泛化模块改为正式农贸市场巡检追溯模块说明
+  - 残留扫描未发现 `com.p166`、`BizRecord`、`project_166`、旧访客门禁角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `market_trace_166` 与 Redis
+  - 下一项目为 `167`
+
+### 已正式开发：167 社区垃圾分类督导与积分兑换平台
+- 本轮新增：
+  - 检查发现 `167` 批量版仍为 `com.p167 / BizRecord / project_167` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `166` 已验证的正式化流水线生成并执行 `scripts/develop_167.py`；执行前清理农贸、摊位、商户、抽检、检测、风险预警等旧主题词，端口切换为后端 `8167`、前端 `3167`
+  - 将后端切换为 `com.wastesorting` 包，启动类为 `WasteSortingApplication`，artifactId 为 `community-waste-points-167`，数据库为 `waste_sorting_167`，Redis token 前缀为 `wastesorting:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`COMMUNITY/community`、`SUPERVISOR/supervisor`、`RESIDENT/resident`、`VOLUNTEER/volunteer`、`EXCHANGE/exchange`，统一密码 `123456`
+  - 重建 12 个业务模块：社区区域、楼栋档案、居民档案、分类规则、分类打卡、督导记录、整改任务、积分记录、兑换商品、积分兑换、楼栋排名、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / COMMUNITY / SUPERVISOR / RESIDENT / VOLUNTEER / EXCHANGE` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `167` 详情已从批量泛化模块改为正式社区垃圾分类积分模块说明
+  - 残留扫描未发现 `com.p167`、`BizRecord`、`project_167`、旧农贸市场角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `waste_sorting_167` 与 Redis
+  - 下一项目为 `168`
+
+### 已正式开发：168 在线职业培训证书考试与续证提醒系统
+- 本轮新增：
+  - 检查发现 `168` 批量版仍为 `com.p168 / BizRecord / project_168` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `167` 已验证的正式化流水线生成并执行 `scripts/develop_168.py`；执行前清理社区垃圾分类、楼栋、居民、积分兑换、督导整改等旧主题词，端口切换为后端 `8168`、前端 `3168`
+  - 将后端切换为 `com.certtraining` 包，启动类为 `CertTrainingApplication`，artifactId 为 `online-cert-training-168`，数据库为 `cert_training_168`，Redis token 前缀为 `certtraining:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`TRAINING/training`、`INSTRUCTOR/instructor`、`TRAINEE/trainee`、`EXAMINER/examiner`、`CERTIFIER/certifier`，统一密码 `123456`
+  - 重建 12 个业务模块：培训课程、学员档案、讲师档案、课程报名、学习进度、考试安排、考试成绩、证书发放、证书台账、续证申请、提醒通知、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / TRAINING / INSTRUCTOR / TRAINEE / EXAMINER / CERTIFIER` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `168` 详情已从批量泛化模块改为正式在线职业培训证书考试模块说明
+  - 残留扫描未发现 `com.p168`、`BizRecord`、`project_168`、旧社区垃圾分类角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `cert_training_168` 与 Redis
+  - 下一项目为 `169`
+
+### 已正式开发：169 校车乘车预约与学生上下车核验系统
+- 本轮新增：
+  - 检查发现 `169` 批量版仍为 `com.p169 / BizRecord / project_169` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `168` 已验证的正式化流水线生成并执行 `scripts/develop_169.py`；执行前清理在线职业培训、证书发放、考试成绩、续证申请、提醒通知等旧主题词，端口切换为后端 `8169`、前端 `3169`
+  - 将后端切换为 `com.schoolbus` 包，启动类为 `SchoolBusApplication`，artifactId 为 `school-bus-checkin-169`，数据库为 `school_bus_169`，Redis token 前缀为 `schoolbus:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`SCHOOL/school`、`DISPATCH/dispatch`、`DRIVER/driver`、`TEACHER/teacher`、`GUARDIAN/guardian`，统一密码 `123456`
+  - 重建 12 个业务模块：校车线路、站点档案、车辆档案、司机档案、学生档案、家长档案、乘车预约、上车核验、下车核验、异常告警、家长通知、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / SCHOOL / DISPATCH / DRIVER / TEACHER / GUARDIAN` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `169` 详情已从批量泛化模块改为正式校车乘车核验模块说明
+  - 残留扫描未发现 `com.p169`、`BizRecord`、`project_169`、旧职业培训证书角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `school_bus_169` 与 Redis
+  - 下一项目为 `170`
+
+### 已正式开发：170 养老机构床位分配与护理记录管理系统
+- 本轮新增：
+  - 检查发现 `170` 批量版仍为 `com.p170 / BizRecord / project_170` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `169` 已验证的正式化流水线生成并执行 `scripts/develop_170.py`；执行前清理校车线路、站点、车辆、司机、学生、乘车预约、上下车核验等旧主题词，端口切换为后端 `8170`、前端 `3170`
+  - 将后端切换为 `com.eldercare` 包，启动类为 `ElderCareApplication`，artifactId 为 `elder-care-bed-170`，数据库为 `elder_care_170`，Redis token 前缀为 `eldercare:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`ADMISSION/admission`、`NURSING/nursing`、`CAREGIVER/caregiver`、`FAMILY/family`、`DIRECTOR/director`，统一密码 `123456`
+  - 重建 12 个业务模块：护理区域、房间档案、床位档案、老人档案、家属档案、入住评估、床位分配、护理计划、护理记录、家属查询、异常上报、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / ADMISSION / NURSING / CAREGIVER / FAMILY / DIRECTOR` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `170` 详情已从批量泛化模块改为正式养老机构床位护理模块说明
+  - 残留扫描未发现 `com.p170`、`BizRecord`、`project_170`、旧校车乘车核验角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `elder_care_170` 与 Redis
+  - 下一项目为 `171`
+
+### 已正式开发：171 应急物资储备盘点与调拨审批平台
+- 本轮新增：
+  - 检查发现 `171` 批量版仍为 `com.p171 / BizRecord / project_171` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `170` 已验证的正式化流水线生成并执行 `scripts/develop_171.py`；执行前清理养老机构、床位、护理、老人、家属、入住等旧主题词，端口切换为后端 `8171`、前端 `3171`
+  - 将后端切换为 `com.emergencysupply` 包，启动类为 `EmergencySupplyApplication`，artifactId 为 `emergency-supply-dispatch-171`，数据库为 `emergency_supply_171`，Redis token 前缀为 `emergencysupply:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`WAREHOUSE/warehouse`、`CHECKER/checker`、`APPLICANT/applicant`、`DISPATCH/dispatch`、`AUDITOR/auditor`，统一密码 `123456`
+  - 重建 12 个业务模块：储备仓库、物资分类、物资台账、库存批次、库存盘点、盘点差异、申领工单、调拨审批、调度任务、出库记录、库存预警、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / WAREHOUSE / CHECKER / APPLICANT / DISPATCH / AUDITOR` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `171` 详情已从批量泛化模块改为正式应急物资储备盘点调拨模块说明
+  - 残留扫描未发现 `com.p171`、`BizRecord`、`project_171`、旧养老机构角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `emergency_supply_171` 与 Redis
+  - 下一项目为 `172`
+
+### 已正式开发：172 口腔门诊治疗预约与耗材计费管理系统
+- 本轮新增：
+  - 检查发现 `172` 批量版仍为 `com.p172 / BizRecord / project_172` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `171` 已验证的正式化流水线生成并执行 `scripts/develop_172.py`；执行前清理应急物资、储备、盘点、调拨、申领等旧主题词，端口切换为后端 `8172`、前端 `3172`
+  - 将后端切换为 `com.dentalclinic` 包，启动类为 `DentalClinicApplication`，artifactId 为 `dental-clinic-treatment-172`，数据库为 `dental_clinic_172`，Redis token 前缀为 `dentalclinic:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`RECEPTION/reception`、`DENTIST/dentist`、`NURSE/nurse`、`CASHIER/cashier`、`PATIENT/patient`，统一密码 `123456`
+  - 重建 12 个业务模块：诊室档案、医生档案、患者档案、治疗项目、预约诊疗、签到分诊、治疗记录、耗材目录、耗材库存、耗材使用、费用结算、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / RECEPTION / DENTIST / NURSE / CASHIER / PATIENT` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `172` 详情已从批量泛化模块改为正式口腔门诊治疗预约耗材计费模块说明
+  - 残留扫描未发现 `com.p172`、`BizRecord`、`project_172`、旧应急物资角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `dental_clinic_172` 与 Redis
+  - 下一项目为 `173`
+
+### 已正式开发：173 高校毕业去向填报与就业帮扶跟踪系统
+- 本轮新增：
+  - 检查发现 `173` 批量版仍为 `com.p173 / BizRecord / project_173` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `172` 已验证的正式化流水线生成并执行 `scripts/develop_173.py`；执行前清理口腔门诊、诊室、医生、患者、治疗、耗材和费用结算等旧主题词，端口切换为后端 `8173`、前端 `3173`
+  - 将后端切换为 `com.grademployment` 包，启动类为 `GraduateEmploymentApplication`，artifactId 为 `graduate-employment-help-173`，数据库为 `graduate_employment_173`，Redis token 前缀为 `grademployment:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`CAREER/career`、`COLLEGE/college`、`COUNSELOR/counselor`、`STUDENT/student`、`EMPLOYER/employer`，统一密码 `123456`
+  - 重建 12 个业务模块：学院专业、毕业生档案、用人单位、招聘岗位、去向填报、协议归档、材料审核、帮扶记录、岗位推荐、跟踪回访、就业统计、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / CAREER / COLLEGE / COUNSELOR / STUDENT / EMPLOYER` 收口
+  - `readme.md`、`readme_simple.md` 与候选清单的 `173` 详情已从批量泛化模块改为正式高校就业帮扶模块说明
+  - 残留扫描未发现 `com.p173`、`BizRecord`、`project_173`、旧口腔门诊角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `graduate_employment_173` 与 Redis
+  - 下一项目为 `174`
+
+### 已正式开发：174 社区慢病档案随访与服药依从性管理系统
+- 本轮新增：
+  - 检查发现 `174` 批量版仍为 `com.p174 / BizRecord / project_174` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `173` 已验证的正式化流水线生成并执行 `scripts/develop_174.py`；执行前清理高校毕业、就业中心、学院就业、去向填报、协议归档、材料审核、帮扶记录、岗位推荐和跟踪回访等旧主题词，端口切换为后端 `8174`、前端 `3174`
+  - 将后端切换为 `com.chroniccare` 包，启动类为 `ChronicCareApplication`，artifactId 为 `chronic-care-followup-174`，数据库为 `chronic_care_174`，Redis token 前缀为 `chroniccare:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`CENTER/center`、`DOCTOR/doctor`、`NURSE/nurse`、`PHARMACIST/pharmacist`、`RESIDENT/resident`，统一密码 `123456`
+  - 重建 12 个业务模块：社区站点、患者档案、医护团队、慢病档案、随访计划、随访记录、用药方案、服药打卡、健康指标、风险分层、提醒通知、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / CENTER / DOCTOR / NURSE / PHARMACIST / RESIDENT` 收口
+  - `readme.md`、`readme_simple.md` 与候选清单的 `174` 详情已从批量泛化模块改为正式社区慢病随访与服药依从性模块说明
+  - 残留扫描未发现 `com.p174`、`BizRecord`、`project_174`、旧高校就业角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `chronic_care_174` 与 Redis
+  - 下一项目为 `175`
+
+### 已正式开发：175 校园图书漂流借阅与读书打卡平台
+- 本轮新增：
+  - 检查发现 `175` 批量版仍为 `com.p175 / BizRecord / project_175` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `174` 已验证的正式化流水线生成并执行 `scripts/develop_175.py`；执行前清理社区慢病、患者档案、医护团队、随访计划、用药方案、服药打卡、健康指标、风险分层等旧主题词，端口切换为后端 `8175`、前端 `3175`
+  - 将后端切换为 `com.bookdrift` 包，启动类为 `CampusBookDriftApplication`，artifactId 为 `campus-book-drift-175`，数据库为 `campus_book_drift_175`，Redis token 前缀为 `bookdrift:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`LIBRARY/library`、`CURATOR/curator`、`STUDENT/student`、`CLUB/club`、`TEACHER/teacher`，统一密码 `123456`
+  - 重建 12 个业务模块：漂流书架、漂流图书、读者档案、图书捐赠、借阅记录、归还流转、读书打卡、读书笔记、积分勋章、阅读活动、消息通知、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / LIBRARY / CURATOR / STUDENT / CLUB / TEACHER` 收口
+  - `readme.md`、`readme_simple.md` 与候选清单的 `175` 详情已从批量泛化模块改为正式校园图书漂流借阅与读书打卡模块说明
+  - 残留扫描未发现 `com.p175`、`BizRecord`、`project_175`、旧社区慢病角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `campus_book_drift_175` 与 Redis
+  - 下一项目为 `176`
+
+### 已正式开发：176 水务巡线工单与阀门检修协同管理系统
+- 本轮新增：
+  - 检查发现 `176` 批量版仍为 `com.p176 / BizRecord / project_176` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `175` 已验证的正式化流水线生成并执行 `scripts/develop_176.py`；执行前清理校园图书漂流、借阅记录、读书打卡、积分勋章、阅读活动、消息通知等旧主题词，端口切换为后端 `8176`、前端 `3176`
+  - 将后端切换为 `com.waterpatrol` 包，启动类为 `WaterPatrolApplication`，artifactId 为 `water-patrol-valve-176`，数据库为 `water_patrol_176`，Redis token 前缀为 `waterpatrol:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`DISPATCH/dispatch`、`PATROL/patrol`、`REPAIR/repair`、`WAREHOUSE/warehouse`、`SUPERVISOR/supervisor`，统一密码 `123456`
+  - 重建 12 个业务模块：水务站点、管线区段、巡线路线、阀门台账、巡线任务、巡线记录、故障上报、故障派工、检修回执、备件台账、风险预警、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / DISPATCH / PATROL / REPAIR / WAREHOUSE / SUPERVISOR` 收口
+  - `readme.md`、`readme_simple.md` 与候选清单的 `176` 详情已从批量泛化模块改为正式水务巡线工单与阀门检修协同模块说明
+  - 残留扫描未发现 `com.p176`、`BizRecord`、`project_176`、旧校园图书角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 与大包 warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `water_patrol_176` 与 Redis
+  - 下一项目为 `177`
+
+### 已正式开发：177 直播基地主播排班与选品样品管理系统
+- 本轮新增：
+  - 检查发现 `177` 批量版仍为 `com.p177 / BizRecord / project_177` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `176` 已验证的正式化流水线生成并执行 `scripts/develop_177.py`；执行前清理水务巡线、管线区段、巡线路线、阀门台账、巡线任务、故障派工、检修回执、风险预警等旧主题词，端口切换为后端 `8177`、前端 `3177`
+  - 将后端切换为 `com.livebase` 包，启动类为 `LiveBaseApplication`，artifactId 为 `live-base-anchor-177`，数据库为 `live_base_177`，Redis token 前缀为 `livebase:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`BASE/base`、`ANCHOR/anchor`、`SELECTOR/selector`、`SAMPLE/sample`、`MERCHANT/merchant`，统一密码 `123456`
+  - 重建 12 个业务模块：直播间档案、主播档案、商家档案、商品选品、样品台账、样品借还、主播排班、选品评测、直播计划、直播场次、直播复盘、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / BASE / ANCHOR / SELECTOR / SAMPLE / MERCHANT` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `177` 详情已从批量泛化模块改为正式直播基地运营模块说明
+  - 残留扫描未发现 `com.p177`、`BizRecord`、`project_177`、旧水务巡线角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 和大 chunk warning，不阻塞当前结论
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `live_base_177` 与 Redis
+  - 下一项目为 `178`
+
+### 已正式开发：178 医院手术室器械包追踪与灭菌放行系统
+- 本轮新增：
+  - 检查发现 `178` 批量版仍为 `com.p178 / BizRecord / project_178` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `177` 已验证的正式化流水线生成并执行 `scripts/develop_178.py`；执行前清理直播基地、主播排班、选品评测、样品借还、直播复盘等旧主题词，端口切换为后端 `8178`、前端 `3178`
+  - 将后端切换为 `com.orsterile` 包，启动类为 `SterileReleaseApplication`，artifactId 为 `or-pack-sterilization-178`，数据库为 `or_sterile_pack_178`，Redis token 前缀为 `orsterile:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`ORNURSE/ornurse`、`CSSD/cssd`、`STERILE/sterile`、`QA/qa`、`SURGEON/surgeon`，统一密码 `123456`
+  - 重建 12 个业务模块：手术室档案、器械包档案、器械明细、器械包追踪、灭菌批次、灭菌记录、放行审核、手术使用、回收清点、缺损上报、异常召回、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / ORNURSE / CSSD / STERILE / QA / SURGEON` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `178` 详情已从批量泛化模块改为正式手术室器械包追踪与灭菌放行模块说明
+  - 残留扫描未发现 `com.p178`、`BizRecord`、`project_178`、旧直播基地角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 和大 chunk warning，不阻塞当前结论
+  - 已按 `skills.md` 约定删除 `178-frontend/node_modules`
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `or_sterile_pack_178` 与 Redis
+  - 下一项目为 `179`
+
+### 已正式开发：179 高校考勤异常申诉与课堂巡查管理系统
+- 本轮新增：
+  - 检查发现 `179` 批量版仍为 `com.p179 / BizRecord / project_179` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `178` 已验证的正式化流水线生成并执行 `scripts/develop_179.py`；执行前清理手术室器械、器械包追踪、灭菌记录、放行审核、异常召回等旧主题词，端口切换为后端 `8179`、前端 `3179`
+  - 将后端切换为 `com.classattendance` 包，启动类为 `ClassAttendanceApplication`，artifactId 为 `class-attendance-appeal-179`，数据库为 `class_attendance_179`，Redis token 前缀为 `classattendance:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`ACADEMIC/academic`、`TEACHER/teacher`、`INSPECTOR/inspector`、`COUNSELOR/counselor`、`STUDENT/student`，统一密码 `123456`
+  - 重建 12 个业务模块：教学班级、学生档案、教师档案、课程排课、考勤记录、异常申诉、申诉审核、课堂巡查、巡查问题、整改任务、整改反馈、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / ACADEMIC / TEACHER / INSPECTOR / COUNSELOR / STUDENT` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `179` 详情已从批量泛化模块改为正式高校课堂考勤与巡查整改模块说明
+  - 残留扫描未发现 `com.p179`、`BizRecord`、`project_179`、旧手术室器械角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 和大 chunk warning，不阻塞当前结论
+  - 已按 `skills.md` 约定删除 `179-frontend/node_modules`
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `class_attendance_179` 与 Redis
+  - 下一项目为 `180`
+
+### 已正式开发：180 物业报修派单与服务满意度评价平台
+- 本轮新增：
+  - 检查发现 `180` 批量版仍为 `com.p180 / BizRecord / project_180` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `179` 已验证的正式化流水线生成并执行 `scripts/develop_180.py`；执行前清理高校考勤、教学班级、课程排课、考勤记录、异常申诉、课堂巡查、整改任务和整改反馈等旧主题词，端口切换为后端 `8180`、前端 `3180`
+  - 将后端切换为 `com.propertyrepair` 包，启动类为 `PropertyRepairApplication`，artifactId 为 `property-repair-service-180`，数据库为 `property_repair_180`，Redis token 前缀为 `propertyrepair:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`PROPERTY/property`、`OWNER/owner`、`DISPATCH/dispatch`、`WORKER/worker`、`FINANCE/finance`，统一密码 `123456`
+  - 重建 12 个业务模块：小区区域、业主档案、报修分类、报修工单、派单分配、上门处理、物料使用、费用登记、支付记录、满意评价、投诉回访、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / PROPERTY / OWNER / DISPATCH / WORKER / FINANCE` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `180` 详情已从批量泛化模块改为正式物业报修派单与满意评价闭环模块说明
+  - 残留扫描未发现 `com.p180`、`BizRecord`、`project_180`、旧高校课堂考勤角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 和大 chunk warning，不阻塞当前结论
+  - 已按 `skills.md` 约定删除 `180-frontend/node_modules`
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `property_repair_180` 与 Redis
+  - 下一项目为 `181`
+
+### 已正式开发：181 社区儿童托管签到接送与安全告警系统
+- 本轮新增：
+  - 检查发现 `181` 批量版仍为 `com.p181 / BizRecord / project_181` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `180` 已验证的正式化流水线生成并执行 `scripts/develop_181.py`；执行前清理物业报修、小区区域、业主档案、报修工单、派单分配、上门处理、费用登记、满意评价和投诉回访等旧主题词，端口切换为后端 `8181`、前端 `3181`
+  - 将后端切换为 `com.childcare` 包，启动类为 `CommunityChildcareApplication`，artifactId 为 `community-childcare-safety-181`，数据库为 `childcare_safety_181`，Redis token 前缀为 `childcare:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`CENTER/center`、`TEACHER/teacher`、`PARENT/parent`、`SECURITY/security`、`NURSE/nurse`，统一密码 `123456`
+  - 重建 12 个业务模块：托管班级、儿童档案、监护人档案、签到记录、接送授权、接送记录、安全告警、健康晨检、托管活动、家长通知、事件跟进、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / CENTER / TEACHER / PARENT / SECURITY / NURSE` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `181` 详情已从批量泛化模块改为正式社区儿童托管签到接送与安全告警闭环模块说明
+  - 残留扫描未发现 `com.p181`、`BizRecord`、`project_181`、旧物业报修角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 和大 chunk warning，不阻塞当前结论
+  - 已按 `skills.md` 约定删除 `181-frontend/node_modules`
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `childcare_safety_181` 与 Redis
+  - 下一项目为 `182`
+
+### 已正式开发：182 养老助餐配送排线与营养套餐管理系统
+- 本轮新增：
+  - 检查发现 `182` 批量版仍为 `com.p182 / BizRecord / project_182` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `181` 已验证的正式化流水线生成并执行 `scripts/develop_182.py`；执行前清理社区儿童托管、托管班级、儿童档案、监护人档案、签到记录、接送授权、接送记录、安全告警、健康晨检、家长通知和事件跟进等旧主题词，端口切换为后端 `8182`、前端 `3182`
+  - 将后端切换为 `com.eldermeal` 包，启动类为 `ElderMealApplication`，artifactId 为 `elder-meal-delivery-182`，数据库为 `elder_meal_182`，Redis token 前缀为 `eldermeal:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`CENTER/center`、`DIETITIAN/dietitian`、`DISPATCH/dispatch`、`COURIER/courier`、`ELDER/elder`，统一密码 `123456`
+  - 重建 12 个业务模块：助餐站点、老人档案、营养套餐、助餐订单、配送排线、配送任务、签收回执、饮食禁忌、营养分析、补贴记录、回访关怀、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / CENTER / DIETITIAN / DISPATCH / COURIER / ELDER` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `182` 详情已从批量泛化模块改为正式养老助餐配送与营养套餐闭环模块说明
+  - 残留扫描未发现 `com.p182`、`BizRecord`、`project_182`、旧社区儿童托管角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 和大 chunk warning，不阻塞当前结论
+  - 已按 `skills.md` 约定删除 `182-frontend/node_modules`
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `elder_meal_182` 与 Redis
+  - 下一项目为 `183`
+
+### 已正式开发：183 实验动物饲养排班与伦理审批管理系统
+- 本轮新增：
+  - 检查发现 `183` 批量版仍为 `com.p183 / BizRecord / project_183` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `182` 已验证的正式化流水线生成并执行 `scripts/develop_183.py`；执行前清理养老助餐、助餐站点、老人档案、营养套餐、助餐订单、配送排线、配送任务、签收回执、饮食禁忌、营养分析、补贴记录和回访关怀等旧主题词，端口切换为后端 `8183`、前端 `3183`
+  - 将后端切换为 `com.labanimal` 包，启动类为 `LabAnimalApplication`，artifactId 为 `lab-animal-ethics-183`，数据库为 `lab_animal_183`，Redis token 前缀为 `labanimal:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`LAB/lab`、`BREEDER/breeder`、`RESEARCHER/researcher`、`ETHICS/ethics`、`VET/vet`，统一密码 `123456`
+  - 重建 12 个业务模块：动物房间、实验动物档案、饲养排班、饲养记录、伦理申请、伦理审批、实验登记、健康巡检、异常告警、兽医处置、耗材使用、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / LAB / BREEDER / RESEARCHER / ETHICS / VET` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `183` 详情已从批量泛化模块改为正式实验动物饲养与伦理审批闭环模块说明
+  - 残留扫描未发现 `com.p183`、`BizRecord`、`project_183`、旧养老助餐角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 和大 chunk warning，不阻塞当前结论
+  - 已按 `skills.md` 约定删除 `183-frontend/node_modules`
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `lab_animal_183` 与 Redis
+  - 下一项目为 `184`
+
+### 已正式开发：184 停车场月租合同续费与异常占位管理系统
+- 本轮新增：
+  - 检查发现 `184` 批量版仍为 `com.p184 / BizRecord / project_184` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `183` 已验证的正式化流水线生成并执行 `scripts/develop_184.py`；执行前清理实验动物、动物房间、实验动物档案、饲养排班、饲养记录、伦理申请、伦理审批、实验登记、健康巡检、异常告警、兽医处置和耗材使用等旧主题词，端口切换为后端 `8184`、前端 `3184`
+  - 将后端切换为 `com.parkinglease` 包，启动类为 `ParkingLeaseApplication`，artifactId 为 `parking-lease-occupancy-184`，数据库为 `parking_lease_184`，Redis token 前缀为 `parkinglease:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`PARKING/parking`、`FINANCE/finance`、`PATROL/patrol`、`TENANT/tenant`、`SERVICE/service`，统一密码 `123456`
+  - 重建 12 个业务模块：停车场档案、车位档案、月租车主、月租合同、续费提醒、续费缴费、车辆绑定、占位巡检、异常占位、违规处理、客服工单、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / PARKING / FINANCE / PATROL / TENANT / SERVICE` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `184` 详情已从批量泛化模块改为正式停车场月租合同续费与异常占位闭环模块说明
+  - 残留扫描未发现 `com.p184`、`BizRecord`、`project_184`、旧实验动物角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 和大 chunk warning，不阻塞当前结论
+  - 已按 `skills.md` 约定删除 `184-frontend/node_modules`
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `parking_lease_184` 与 Redis
+  - 下一项目为 `185`
+
+### 已正式开发：185 城市公厕巡检保洁与耗材补给调度系统
+- 本轮新增：
+  - 检查发现 `185` 批量版仍为 `com.p185 / BizRecord / project_185` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `184` 已验证的正式化流水线生成并执行 `scripts/develop_185.py`；执行前清理停车场月租、停车场档案、车位档案、月租车主、月租合同、续费提醒、续费缴费、车辆绑定、占位巡检、异常占位、违规处理和客服工单等旧主题词，端口切换为后端 `8185`、前端 `3185`
+  - 将后端切换为 `com.citytoilet` 包，启动类为 `CityToiletApplication`，artifactId 为 `city-toilet-cleaning-185`，数据库为 `city_toilet_185`，Redis token 前缀为 `citytoilet:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`SANITATION/sanitation`、`CLEANER/cleaner`、`SUPPLY/supply`、`INSPECTOR/inspector`、`CITIZEN/citizen`，统一密码 `123456`
+  - 重建 12 个业务模块：公厕点位、保洁路线、保洁任务、保洁记录、巡检计划、巡检记录、耗材库存、补给申请、补给调度、投诉反馈、问题整改、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / SANITATION / CLEANER / SUPPLY / INSPECTOR / CITIZEN` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `185` 详情已从批量泛化模块改为正式城市公厕巡检保洁与耗材补给闭环模块说明
+  - 残留扫描未发现 `com.p185`、`BizRecord`、`project_185`、旧停车月租角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 和大 chunk warning，不阻塞当前结论
+  - 已按 `skills.md` 约定删除 `185-frontend/node_modules`
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `city_toilet_185` 与 Redis
+  - 下一项目为 `186`
+
+### 已正式开发：186 校园餐厅后厨留样与卫生巡检台账系统
+- 本轮新增：
+  - 检查发现 `186` 批量版仍为 `com.p186 / BizRecord / project_186` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `185` 已验证的正式化流水线生成并执行 `scripts/develop_186.py`；执行前清理城市公厕、公厕点位、保洁路线、保洁任务、保洁记录、巡检计划、巡检记录、耗材库存、补给申请、补给调度、投诉反馈和问题整改等旧主题词，端口切换为后端 `8186`、前端 `3186`
+  - 将后端切换为 `com.canteenhygiene` 包，启动类为 `CampusCanteenApplication`，artifactId 为 `campus-canteen-hygiene-186`，数据库为 `campus_canteen_186`，Redis token 前缀为 `canteenhygiene:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`CANTEEN/canteen`、`CHEF/chef`、`INSPECTOR/inspector`、`WAREHOUSE/warehouse`、`SCHOOL/school`，统一密码 `123456`
+  - 重建 12 个业务模块：餐厅档案、后厨区域、菜品档案、留样登记、留样存储、食材验收、消毒记录、卫生巡检、问题整改、风险提醒、厨余处置、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / CANTEEN / CHEF / INSPECTOR / WAREHOUSE / SCHOOL` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `186` 详情已从批量泛化模块改为正式校园餐厅后厨留样与卫生巡检闭环模块说明
+  - 残留扫描未发现 `com.p186`、`BizRecord`、`project_186`、旧城市公厕角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 和大 chunk warning，不阻塞当前结论
+  - 已按 `skills.md` 约定删除 `186-frontend/node_modules`
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `campus_canteen_186` 与 Redis
+  - 下一项目为 `187`
+
+### 已正式开发：187 旅行社团建行程报名与费用分摊管理平台
+- 本轮新增：
+  - 检查发现 `187` 批量版仍为 `com.p187 / BizRecord / project_187` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `186` 已验证的正式化流水线生成并执行 `scripts/develop_187.py`；执行前清理校园餐厅、后厨区域、菜品档案、留样登记、留样存储、食材验收、消毒记录、卫生巡检、问题整改、风险提醒和厨余处置等旧主题词，端口切换为后端 `8187`、前端 `3187`
+  - 将后端切换为 `com.teambuilding` 包，启动类为 `TeamBuildingApplication`，artifactId 为 `travel-team-building-187`，数据库为 `team_building_187`，Redis token 前缀为 `teambuilding:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`AGENCY/agency`、`PLANNER/planner`、`FINANCE/finance`、`LEADER/leader`、`PARTICIPANT/participant`，统一密码 `123456`
+  - 重建 12 个业务模块：旅行社档案、团队档案、团建行程、行程报名、成员确认、费用预算、费用分摊、缴费记录、通知同步、出行反馈、发票记录、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / AGENCY / PLANNER / FINANCE / LEADER / PARTICIPANT` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `187` 详情已从批量泛化模块改为正式旅行社团建行程报名与费用分摊闭环模块说明
+  - 残留扫描未发现 `com.p187`、`BizRecord`、`project_187`、旧校园餐厅角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 和大 chunk warning，不阻塞当前结论
+  - 已按 `skills.md` 约定删除 `187-frontend/node_modules`，并完成全仓库 `node_modules` 扫描，未发现残留
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `team_building_187` 与 Redis
+  - 下一项目为 `188`
+
+### 已正式开发：188 医疗护理培训签到考核与技能档案系统
+- 本轮新增：
+  - 检查发现 `188` 批量版仍为 `com.p188 / BizRecord / project_188` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `187` 已验证的正式化流水线生成并执行 `scripts/develop_188.py`；执行前清理旅行社团建、团队档案、团建行程、行程报名、成员确认、费用分摊、缴费记录和通知同步等旧主题词，端口切换为后端 `8188`、前端 `3188`
+  - 将后端切换为 `com.nursetraining` 包，启动类为 `NurseTrainingApplication`，artifactId 为 `nursing-training-188`，数据库为 `nurse_training_188`，Redis token 前缀为 `nursetraining:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`EDU/edu`、`INSTRUCTOR/instructor`、`ASSESSOR/assessor`、`NURSE/nurse`、`HR/hr`，统一密码 `123456`
+  - 重建 12 个业务模块：培训项目、护理人员档案、培训班次、培训签到、技能项目、技能考核、证书档案、续训提醒、实操记录、考核申诉、培训通知、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / EDU / INSTRUCTOR / ASSESSOR / NURSE / HR` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `188` 详情已从批量泛化模块改为正式护理培训签到考核闭环模块说明
+  - 残留扫描未发现 `com.p188`、`BizRecord`、`project_188`、旧旅行社团建角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 静态结构确认：13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 和大 chunk warning，不阻塞当前结论
+  - 已按 `skills.md` 约定删除 `188-frontend/node_modules`，并完成全仓库 `node_modules` 扫描，未发现残留
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `nurse_training_188` 与 Redis
+  - 下一项目为 `189`
+
+### 已正式开发：189 乡镇农机作业预约与维修保养跟踪平台
+- 本轮新增：
+  - 检查发现 `189` 批量版仍为 `com.p189 / BizRecord / project_189` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `188` 正式化流水线生成并执行 `scripts/develop_189.py`；执行前清理护理培训、培训项目、护理人员档案、培训班次、培训签到、技能项目、技能考核、证书档案、续训提醒、实操记录、考核申诉和培训通知等旧主题词，端口切换为后端 `8189`、前端 `3189`
+  - 将后端切换为 `com.farmmachinery` 包，启动类为 `FarmMachineryApplication`，artifactId 为 `township-farm-machinery-189`，数据库为 `farm_machinery_189`，Redis token 前缀为 `farmmachinery:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`STATION/station`、`DISPATCH/dispatch`、`DRIVER/driver`、`MECHANIC/mechanic`、`FARMER/farmer`，统一密码 `123456`
+  - 重建 12 个业务模块：农机站点、农机档案、农户档案、机手档案、作业预约、机手调度、作业派单、作业回执、维修保养、维修跟踪、季节统计、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / STATION / DISPATCH / DRIVER / MECHANIC / FARMER` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `189` 详情已从批量泛化模块改为正式乡镇农机作业预约与维修保养闭环模块说明
+  - 残留扫描未发现 `com.p189`、`BizRecord`、`project_189`、旧护理培训角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 静态结构确认：13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+  - 后端 `mvn.cmd -q clean test` 通过；前端 `npm.cmd install` 与 `npm.cmd run build` 通过，仅有 Vite CJS deprecation 和大 chunk warning，不阻塞当前结论
+  - 已按 `skills.md` 约定删除 `189-frontend/node_modules`，并完成全仓库 `node_modules` 扫描，未发现残留
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `farm_machinery_189` 与 Redis
+  - 下一项目为 `190`

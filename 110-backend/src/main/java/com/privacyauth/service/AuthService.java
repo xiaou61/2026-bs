@@ -56,4 +56,44 @@ public class AuthService {
         }
         return token;
     }
+
+    public void assertAdmin(String role) {
+        assertAny(role, "ADMIN");
+    }
+
+    public void assertAdminOrPrivacy(String role) {
+        assertAny(role, "ADMIN", "PRIVACY");
+    }
+
+    public void assertAdminOrDatauser(String role) {
+        assertAny(role, "ADMIN", "DATAUSER");
+    }
+
+    public void assertAdminOrAuditor(String role) {
+        assertAny(role, "ADMIN", "AUDITOR");
+    }
+
+    public void assertAdminOrPrivacyOrAuditor(String role) {
+        assertAny(role, "ADMIN", "PRIVACY", "AUDITOR");
+    }
+
+    public void assertAdminOrPrivacyOrDatauserOrAuditor(String role) {
+        assertAny(role, "ADMIN", "PRIVACY", "DATAUSER", "AUDITOR");
+    }
+
+    public void assertAuthenticated(String role) {
+        assertAny(role, "ADMIN", "PRIVACY", "DATAUSER", "AUDITOR");
+    }
+
+    private void assertAny(String role, String... allowedRoles) {
+        if (role == null) {
+            throw new BusinessException("无权限操作");
+        }
+        for (String allowedRole : allowedRoles) {
+            if (allowedRole.equals(role)) {
+                return;
+            }
+        }
+        throw new BusinessException("无权限操作");
+    }
 }

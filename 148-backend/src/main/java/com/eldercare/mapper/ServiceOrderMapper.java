@@ -15,9 +15,9 @@ import java.util.List;
 public interface ServiceOrderMapper {
     @Select({
         "<script>",
-        "SELECT * FROM expense_claim",
+        "SELECT * FROM service_order",
         "<where>",
-        "<if test='keyword != null and keyword != \"\"'> AND (claim_no LIKE CONCAT('%',#{keyword},'%') OR project_no LIKE CONCAT('%',#{keyword},'%') OR applicant_name LIKE CONCAT('%',#{keyword},'%') OR claim_amount LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (order_no LIKE CONCAT('%',#{keyword},'%') OR service_subject LIKE CONCAT('%',#{keyword},'%') OR service_address LIKE CONCAT('%',#{keyword},'%') OR dispatcher_name LIKE CONCAT('%',#{keyword},'%'))</if>",
         "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
@@ -25,29 +25,22 @@ public interface ServiceOrderMapper {
     })
     List<ServiceOrder> selectPage(@Param("keyword") String keyword, @Param("status") String status);
 
-    @Select("SELECT * FROM expense_claim WHERE id = #{id}")
+    @Select("SELECT * FROM service_order WHERE id = #{id}")
     ServiceOrder selectById(Long id);
 
-    @Insert("INSERT INTO expense_claim (claim_no, project_no, applicant_name, claim_amount, claim_time, status, created_time, updated_time) VALUES (#{claimNo}, #{projectNo}, #{applicantName}, #{claimAmount}, #{claimTime}, #{status}, NOW(), NOW())")
+    @Insert("INSERT INTO service_order (order_no, service_subject, service_address, visit_time, dispatcher_name, status, created_time, updated_time) VALUES (#{orderNo}, #{serviceSubject}, #{serviceAddress}, #{visitTime}, #{dispatcherName}, #{status}, NOW(), NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(ServiceOrder entity);
 
-    @Update("UPDATE expense_claim SET claim_no = #{claimNo}, project_no = #{projectNo}, applicant_name = #{applicantName}, claim_amount = #{claimAmount}, claim_time = #{claimTime}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE service_order SET order_no = #{orderNo}, service_subject = #{serviceSubject}, service_address = #{serviceAddress}, visit_time = #{visitTime}, dispatcher_name = #{dispatcherName}, status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int update(ServiceOrder entity);
 
-    @Delete("DELETE FROM expense_claim WHERE id = #{id}")
+    @Delete("DELETE FROM service_order WHERE id = #{id}")
     int deleteById(Long id);
 
-    @Select("SELECT COUNT(*) FROM expense_claim")
+    @Select("SELECT COUNT(*) FROM service_order")
     long countAll();
 
-    @Update("UPDATE expense_claim SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
+    @Update("UPDATE service_order SET status = #{status}, updated_time = NOW() WHERE id = #{id}")
     int updateStatus(@Param("id") Long id, @Param("status") String status);
 }
-
-
-
-
-
-
-

@@ -17,202 +17,202 @@ CREATE TABLE sys_user (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO sys_user (username, password, nickname, role, department, phone, email, status, created_time, updated_time) VALUES
-('admin', '123456', '系统管理员', 'ADMIN', '实验中心', '139133000100', 'admin@demo.local', 1, NOW(), NOW()),
-('trainer', '123456', '市民投诉人', 'TRAINER', '企业大学', '139139000200', 'trainer@demo.local', 1, NOW(), NOW()),
-('employee', '123456', '执法人员', 'EMPLOYEE', '业务部门', '139139000300', 'employee@demo.local', 1, NOW(), NOW()),
-('manager', '123456', '环保监督员', 'MANAGER', '管理中心', '139139000400', 'manager@demo.local', 1, NOW(), NOW());
+('admin', '123456', '系统管理员', 'ADMIN', '市级治理中心', '139145000100', 'admin@demo.local', 1, NOW(), NOW()),
+('citizen', '123456', '市民投诉人', 'CITIZEN', '社区居民', '139145000200', 'citizen@demo.local', 1, NOW(), NOW()),
+('officer', '123456', '执法人员', 'OFFICER', '执法支队', '139145000300', 'officer@demo.local', 1, NOW(), NOW()),
+('supervisor', '123456', '环保监督员', 'SUPERVISOR', '监督管理处', '139145000400', 'supervisor@demo.local', 1, NOW(), NOW());
 
-CREATE TABLE consumable_catalog (
+CREATE TABLE complaint_ticket (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  consumable_no VARCHAR(120),
-  consumable_name VARCHAR(120),
-  spec_model VARCHAR(120),
-  unit_name VARCHAR(120),
-  safe_stock INT,
-  status VARCHAR(120),
+  ticket_no VARCHAR(120),
+  complaint_title VARCHAR(120),
+  noise_type VARCHAR(120),
+  complaint_area VARCHAR(120),
+  complaint_time VARCHAR(120),
+  status VARCHAR(60),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO consumable_catalog (consumable_no, consumable_name, spec_model, unit_name, safe_stock, status, created_time, updated_time) VALUES
-('CON-133-001', '耗材名称一', '规格型号一', '计量单位一', 35, 'ACTIVE', NOW(), NOW()),
-('CON-133-002', '耗材名称二', '规格型号二', '计量单位二', 40, 'ACTIVE', NOW(), NOW());
+INSERT INTO complaint_ticket (ticket_no, complaint_title, noise_type, complaint_area, complaint_time, status, created_time, updated_time) VALUES
+('CMP-145-001', '夜间施工噪声投诉', '施工噪声', '朝阳街道一号工地', '2026-05-06 21:30', 'OPEN', NOW(), NOW()),
+('CMP-145-002', '商业街夜市音响扰民', '经营噪声', '滨河商业街A区', '2026-05-07 20:15', 'PROCESSING', NOW(), NOW());
 
-CREATE TABLE supplier_profile (
+CREATE TABLE monitoring_site (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  supplier_no VARCHAR(120),
-  supplier_name VARCHAR(120),
+  site_no VARCHAR(120),
+  site_name VARCHAR(120),
+  site_type VARCHAR(120),
+  street_name VARCHAR(120),
+  noise_threshold VARCHAR(120),
+  status VARCHAR(60),
+  created_time DATETIME,
+  updated_time DATETIME
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO monitoring_site (site_no, site_name, site_type, street_name, noise_threshold, status, created_time, updated_time) VALUES
+('SIT-145-001', '朝阳工地监测点', '固定点位', '朝阳街道', '70dB', 'ACTIVE', NOW(), NOW()),
+('SIT-145-002', '滨河商圈监测点', '移动点位', '滨河路', '65dB', 'ACTIVE', NOW(), NOW());
+
+CREATE TABLE noise_source (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  source_no VARCHAR(120),
+  source_name VARCHAR(120),
+  responsible_unit VARCHAR(120),
+  source_type VARCHAR(120),
   contact_name VARCHAR(120),
-  phone_number VARCHAR(120),
-  qualification_level VARCHAR(120),
-  status VARCHAR(120),
+  status VARCHAR(60),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO supplier_profile (supplier_no, supplier_name, contact_name, phone_number, qualification_level, status, created_time, updated_time) VALUES
-('SUP-133-001', '供应商名称一', '联系人一', '139133000101', '资质等级一', 'ACTIVE', NOW(), NOW()),
-('SUP-133-002', '供应商名称二', '联系人二', '139133000201', '资质等级二', 'ACTIVE', NOW(), NOW());
+INSERT INTO noise_source (source_no, source_name, responsible_unit, source_type, contact_name, status, created_time, updated_time) VALUES
+('SRC-145-001', '朝阳工地夜间施工', '朝阳建设有限公司', '施工源', '李工', 'ACTIVE', NOW(), NOW()),
+('SRC-145-002', '滨河夜市外摆音响', '滨河商业运营公司', '经营源', '王主管', 'ACTIVE', NOW(), NOW());
 
-CREATE TABLE lab_room (
+CREATE TABLE officer_profile (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  lab_no VARCHAR(120),
-  lab_name VARCHAR(120),
-  building_name VARCHAR(120),
-  manager_name VARCHAR(120),
-  phone_number VARCHAR(120),
-  status VARCHAR(120),
+  officer_no VARCHAR(120),
+  officer_name VARCHAR(120),
+  duty_area VARCHAR(120),
+  contact_phone VARCHAR(120),
+  entry_time VARCHAR(120),
+  status VARCHAR(60),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO lab_room (lab_no, lab_name, building_name, manager_name, phone_number, status, created_time, updated_time) VALUES
-('LAB-133-001', '实验室名称一', '楼栋位置一', '负责人一', '139133000101', 'ACTIVE', NOW(), NOW()),
-('LAB-133-002', '实验室名称二', '楼栋位置二', '负责人二', '139133000201', 'ACTIVE', NOW(), NOW());
+INSERT INTO officer_profile (officer_no, officer_name, duty_area, contact_phone, entry_time, status, created_time, updated_time) VALUES
+('OFF-145-001', '张执法', '朝阳街道片区', '139145000501', '2024-03-01', 'PROCESSING', NOW(), NOW()),
+('OFF-145-002', '刘执法', '滨河商圈片区', '139145000502', '2023-11-15', 'FINISHED', NOW(), NOW());
 
-CREATE TABLE stock_item (
+CREATE TABLE handling_task (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  stock_no VARCHAR(120),
-  consumable_name VARCHAR(120),
-  lab_name VARCHAR(120),
-  current_qty INT,
-  locked_qty INT,
-  status VARCHAR(120),
+  task_no VARCHAR(120),
+  complaint_title VARCHAR(120),
+  assignee_name VARCHAR(120),
+  assign_time VARCHAR(120),
+  deadline_time VARCHAR(120),
+  status VARCHAR(60),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO stock_item (stock_no, consumable_name, lab_name, current_qty, locked_qty, status, created_time, updated_time) VALUES
-('STK-133-001', '耗材名称一', '实验室一', 35, 35, 'NORMAL', NOW(), NOW()),
-('STK-133-002', '耗材名称二', '实验室二', 40, 40, 'NORMAL', NOW(), NOW());
+INSERT INTO handling_task (task_no, complaint_title, assignee_name, assign_time, deadline_time, status, created_time, updated_time) VALUES
+('TSK-145-001', '夜间施工噪声投诉', '张执法', '2026-05-06 22:00', '2026-05-07 10:00', 'SUBMITTED', NOW(), NOW()),
+('TSK-145-002', '商业街夜市音响扰民', '刘执法', '2026-05-07 20:30', '2026-05-08 09:00', 'APPROVED', NOW(), NOW());
 
-CREATE TABLE purchase_request (
+CREATE TABLE patrol_record (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  request_no VARCHAR(120),
-  consumable_name VARCHAR(120),
-  request_qty INT,
-  applicant_name VARCHAR(120),
-  request_time VARCHAR(120),
-  status VARCHAR(120),
+  patrol_no VARCHAR(120),
+  complaint_title VARCHAR(120),
+  patrol_officer VARCHAR(120),
+  patrol_time VARCHAR(120),
+  patrol_result VARCHAR(255),
+  status VARCHAR(60),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO purchase_request (request_no, consumable_name, request_qty, applicant_name, request_time, status, created_time, updated_time) VALUES
-('REQ-133-001', '耗材名称一', 35, '申请人一', '2026-05-6 10:00', 'SUBMITTED', NOW(), NOW()),
-('REQ-133-002', '耗材名称二', 40, '申请人二', '2026-05-7 10:00', 'SUBMITTED', NOW(), NOW());
+INSERT INTO patrol_record (patrol_no, complaint_title, patrol_officer, patrol_time, patrol_result, status, created_time, updated_time) VALUES
+('PTR-145-001', '夜间施工噪声投诉', '张执法', '2026-05-06 22:30', '现场检测超标，责令立即降噪', 'SUBMITTED', NOW(), NOW()),
+('PTR-145-002', '商业街夜市音响扰民', '刘执法', '2026-05-07 21:00', '经营者已配合调低音量', 'APPROVED', NOW(), NOW());
 
-CREATE TABLE purchase_approval (
+CREATE TABLE rectification_notice (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  approval_no VARCHAR(120),
-  request_no VARCHAR(120),
-  approver_name VARCHAR(120),
-  approval_opinion VARCHAR(120),
-  approval_time VARCHAR(120),
-  status VARCHAR(120),
+  notice_no VARCHAR(120),
+  complaint_title VARCHAR(120),
+  rectify_requirement VARCHAR(255),
+  issue_time VARCHAR(120),
+  responsible_unit VARCHAR(120),
+  status VARCHAR(60),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO purchase_approval (approval_no, request_no, approver_name, approval_opinion, approval_time, status, created_time, updated_time) VALUES
-('APR-133-001', 'APR-133-001', '审批人一', '审批意见一', '2026-05-6 10:00', 'REVIEWING', NOW(), NOW()),
-('APR-133-002', 'APR-133-002', '审批人二', '审批意见二', '2026-05-7 10:00', 'REVIEWING', NOW(), NOW());
+INSERT INTO rectification_notice (notice_no, complaint_title, rectify_requirement, issue_time, responsible_unit, status, created_time, updated_time) VALUES
+('REC-145-001', '夜间施工噪声投诉', '夜间22点后停止高噪施工，增设隔音围挡', '2026-05-06 23:00', '朝阳建设有限公司', 'PROCESSING', NOW(), NOW()),
+('REC-145-002', '商业街夜市音响扰民', '营业时段音量不得超过65dB，增派现场巡查', '2026-05-07 21:20', '滨河商业运营公司', 'FINISHED', NOW(), NOW());
 
-CREATE TABLE purchase_order (
+CREATE TABLE retest_record (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  order_no VARCHAR(120),
-  supplier_name VARCHAR(120),
-  consumable_name VARCHAR(120),
-  order_amount DECIMAL(12,2),
-  arrival_date VARCHAR(120),
-  status VARCHAR(120),
+  retest_no VARCHAR(120),
+  complaint_title VARCHAR(120),
+  retest_officer VARCHAR(120),
+  noise_db_value DECIMAL(10,2),
+  retest_time VARCHAR(120),
+  status VARCHAR(60),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO purchase_order (order_no, supplier_name, consumable_name, order_amount, arrival_date, status, created_time, updated_time) VALUES
-('ORD-133-001', '供应商一', '耗材名称一', 38.5, '2026-05-6', 'OPEN', NOW(), NOW()),
-('ORD-133-002', '供应商二', '耗材名称二', 51.5, '2026-05-7', 'OPEN', NOW(), NOW());
+INSERT INTO retest_record (retest_no, complaint_title, retest_officer, noise_db_value, retest_time, status, created_time, updated_time) VALUES
+('RET-145-001', '夜间施工噪声投诉', '张执法', 63.50, '2026-05-07 09:30', 'SUBMITTED', NOW(), NOW()),
+('RET-145-002', '商业街夜市音响扰民', '刘执法', 60.20, '2026-05-08 08:40', 'APPROVED', NOW(), NOW());
 
-CREATE TABLE inbound_record (
+CREATE TABLE penalty_decision (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  inbound_no VARCHAR(120),
-  order_no VARCHAR(120),
-  consumable_name VARCHAR(120),
-  inbound_qty INT,
-  operator_name VARCHAR(120),
-  status VARCHAR(120),
+  penalty_no VARCHAR(120),
+  complaint_title VARCHAR(120),
+  penalty_type VARCHAR(120),
+  penalty_target VARCHAR(120),
+  penalty_amount DECIMAL(12,2),
+  status VARCHAR(60),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO inbound_record (inbound_no, order_no, consumable_name, inbound_qty, operator_name, status, created_time, updated_time) VALUES
-('INB-133-001', 'INB-133-001', '耗材名称一', 35, '入库人一', 'FINISHED', NOW(), NOW()),
-('INB-133-002', 'INB-133-002', '耗材名称二', 40, '入库人二', 'FINISHED', NOW(), NOW());
+INSERT INTO penalty_decision (penalty_no, complaint_title, penalty_type, penalty_target, penalty_amount, status, created_time, updated_time) VALUES
+('PEN-145-001', '夜间施工噪声投诉', '行政处罚', '朝阳建设有限公司', 5000.00, 'SUBMITTED', NOW(), NOW()),
+('PEN-145-002', '商业街夜市音响扰民', '责令改正', '滨河商业运营公司', 2000.00, 'APPROVED', NOW(), NOW());
 
-CREATE TABLE outbound_record (
+CREATE TABLE public_feedback (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  outbound_no VARCHAR(120),
-  consumable_name VARCHAR(120),
-  lab_name VARCHAR(120),
-  outbound_qty INT,
-  receiver_name VARCHAR(120),
-  status VARCHAR(120),
+  feedback_no VARCHAR(120),
+  complaint_title VARCHAR(120),
+  feedback_topic VARCHAR(120),
+  feedback_channel VARCHAR(120),
+  feedback_time VARCHAR(120),
+  status VARCHAR(60),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO outbound_record (outbound_no, consumable_name, lab_name, outbound_qty, receiver_name, status, created_time, updated_time) VALUES
-('OUT-133-001', '耗材名称一', '领用实验室一', 35, '领用人一', 'SUBMITTED', NOW(), NOW()),
-('OUT-133-002', '耗材名称二', '领用实验室二', 40, '领用人二', 'SUBMITTED', NOW(), NOW());
-
-CREATE TABLE inventory_check (
-  id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  check_no VARCHAR(120),
-  lab_name VARCHAR(120),
-  consumable_name VARCHAR(120),
-  book_qty INT,
-  actual_qty INT,
-  status VARCHAR(120),
-  created_time DATETIME,
-  updated_time DATETIME
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO inventory_check (check_no, lab_name, consumable_name, book_qty, actual_qty, status, created_time, updated_time) VALUES
-('CHK-133-001', '实验室一', '耗材名称一', 35, 35, 'PROCESSING', NOW(), NOW()),
-('CHK-133-002', '实验室二', '耗材名称二', 40, 40, 'PROCESSING', NOW(), NOW());
+INSERT INTO public_feedback (feedback_no, complaint_title, feedback_topic, feedback_channel, feedback_time, status, created_time, updated_time) VALUES
+('FBK-145-001', '夜间施工噪声投诉', '治理满意度回访', '电话回访', '2026-05-07 11:00', 'PROCESSING', NOW(), NOW()),
+('FBK-145-002', '商业街夜市音响扰民', '整改效果回访', '短信回访', '2026-05-08 10:20', 'FINISHED', NOW(), NOW());
 
 CREATE TABLE warning_rule (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
   rule_no VARCHAR(120),
-  category_name VARCHAR(120),
-  min_stock INT,
-  warning_level VARCHAR(120),
-  notice_target VARCHAR(120),
-  status VARCHAR(120),
+  complaint_title VARCHAR(120),
+  warning_metric VARCHAR(120),
+  threshold_config VARCHAR(120),
+  effective_time VARCHAR(120),
+  status VARCHAR(60),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO warning_rule (rule_no, category_name, min_stock, warning_level, notice_target, status, created_time, updated_time) VALUES
-('RUL-133-001', '耗材分类一', 35, '预警级别一', '通知对象一', 'ACTIVE', NOW(), NOW()),
-('RUL-133-002', '耗材分类二', 40, '预警级别二', '通知对象二', 'ACTIVE', NOW(), NOW());
+INSERT INTO warning_rule (rule_no, complaint_title, warning_metric, threshold_config, effective_time, status, created_time, updated_time) VALUES
+('WRN-145-001', '夜间施工噪声投诉', '夜间分贝阈值', '22:00后>70dB触发', '2026-05-01', 'ACTIVE', NOW(), NOW()),
+('WRN-145-002', '商业街夜市音响扰民', '经营噪声阈值', '20:00后>65dB触发', '2026-05-01', 'ACTIVE', NOW(), NOW());
 
-CREATE TABLE stock_warning (
+CREATE TABLE public_notice (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  warning_no VARCHAR(120),
-  consumable_name VARCHAR(120),
-  current_qty INT,
-  warning_level VARCHAR(120),
-  handler_name VARCHAR(120),
-  status VARCHAR(120),
+  notice_no VARCHAR(120),
+  complaint_title VARCHAR(120),
+  notice_type VARCHAR(120),
+  notice_content VARCHAR(255),
+  publish_time VARCHAR(120),
+  status VARCHAR(60),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO stock_warning (warning_no, consumable_name, current_qty, warning_level, handler_name, status, created_time, updated_time) VALUES
-('WAR-133-001', '耗材名称一', 35, '预警级别一', '处理人一', 'WARNING', NOW(), NOW()),
-('WAR-133-002', '耗材名称二', 40, '预警级别二', '处理人二', 'WARNING', NOW(), NOW());
+INSERT INTO public_notice (notice_no, complaint_title, notice_type, notice_content, publish_time, status, created_time, updated_time) VALUES
+('PUB-145-001', '夜间施工噪声投诉', '治理公示', '已完成整改并通过复测，欢迎社会监督', '2026-05-07 15:00', 'PROCESSING', NOW(), NOW()),
+('PUB-145-002', '商业街夜市音响扰民', '提醒公告', '夜市商户需严格控制扩音设备音量', '2026-05-08 09:30', 'FINISHED', NOW(), NOW());
 
 CREATE TABLE operation_log (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -220,21 +220,12 @@ CREATE TABLE operation_log (
   module_name VARCHAR(120),
   action_type VARCHAR(120),
   target_name VARCHAR(120),
-  detail_info VARCHAR(120),
+  detail_info VARCHAR(255),
   status VARCHAR(120),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO operation_log (operator_name, module_name, action_type, target_name, detail_info, status, created_time, updated_time) VALUES
-('操作人一', '模块名称一', '动作类型一', '操作对象一', '操作详情一', 'SUCCESS', NOW(), NOW()),
-('操作人二', '模块名称二', '动作类型二', '操作对象二', '操作详情二', 'SUCCESS', NOW(), NOW());
-
-
-
-
-
-
-
-
-
+('张执法', '处置任务', '派发任务', '夜间施工噪声投诉', '向朝阳片区执法人员派发现场处置任务', 'SUCCESS', NOW(), NOW()),
+('刘执法', '复测记录', '提交复测', '商业街夜市音响扰民', '提交复测分贝值并更新办结结果', 'SUCCESS', NOW(), NOW());

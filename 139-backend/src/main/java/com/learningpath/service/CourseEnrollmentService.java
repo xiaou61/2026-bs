@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CourseEnrollmentService extends BaseCrudService<CourseEnrollment> {
-    private final CourseEnrollmentMapper purchaseApprovalMapper;
+    private final CourseEnrollmentMapper courseEnrollmentMapper;
 
     @Override
     protected BaseMapper<CourseEnrollment> mapper() {
-        return purchaseApprovalMapper;
+        return courseEnrollmentMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"approval_no", "request_no", "approver_name", "approval_opinion"};
+        return new String[]{"enrollment_no", "course_name", "learner_name", "approver_name"};
     }
 }
 

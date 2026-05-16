@@ -9,19 +9,15 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class RepairRecordService extends BaseCrudService<RepairRecord> {
-    private final RepairRecordMapper outboundRecordMapper;
+    private final RepairRecordMapper repairRecordMapper;
 
     @Override
     protected BaseMapper<RepairRecord> mapper() {
-        return outboundRecordMapper;
+        return repairRecordMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"outbound_no", "consumable_name", "lab_name", "outbound_qty"};
+        return new String[]{"repair_no", "asset_name", "fault_location", "contact_name"};
     }
 }
-
-
-
-

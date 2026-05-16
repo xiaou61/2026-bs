@@ -7,21 +7,17 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("stock_warning")
+@TableName("site_notice")
 public class SiteNotice {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String warningNo;
-    private String consumableName;
-    private Integer currentQty;
-    private String warningLevel;
-    private String handlerName;
+    private String noticeNo;
+    private String projectName;
+    private String noticeType;
+    private String noticeContent;
+    private String publishTime;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
 }
-
-
-
-
 

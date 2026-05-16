@@ -40,11 +40,18 @@ public class StatisticsService {
     public Map<String, Object> dashboard() {
         Map<String, Object> data = new HashMap<>();
         data.put("assetCount", equipmentAssetMapper.selectCount(null));
+        data.put("laboratoryCount", laboratoryRoomMapper.selectCount(null));
         data.put("reservationCount", reservationRequestMapper.selectCount(null));
+        data.put("violationCount", violationRecordMapper.selectCount(null));
         data.put("usageCount", usageRegistrationMapper.selectCount(null));
         data.put("noticeCount", systemNoticeMapper.selectCount(null));
-        data.put("equipTrend", Arrays.asList(12, 22, 31, 44, 53, 62, 70));
-        data.put("equipPie", Arrays.asList(map("空闲", 35), map("借出中", 31), map("维修中", 34)));
+        data.put("reservationTrend", Arrays.asList(8, 12, 16, 19, 22, 18, 25));
+        data.put("equipmentStatusPie", Arrays.asList(
+                map("可预约", 36),
+                map("借用中", 28),
+                map("维修中", 12),
+                map("待归还", 24)
+        ));
         return data;
     }
 

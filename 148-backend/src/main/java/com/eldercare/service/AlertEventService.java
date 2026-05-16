@@ -10,30 +10,26 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AlertEventService {
-    private final AlertEventMapper performanceStatisticMapper;
+    private final AlertEventMapper mapper;
 
     public PageInfo<AlertEvent> page(Integer pageNum, Integer pageSize, String keyword, String status) {
         PageHelper.startPage(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
-        return new PageInfo<>(performanceStatisticMapper.selectPage(keyword, status));
+        return new PageInfo<>(mapper.selectPage(keyword, status));
     }
 
     public void save(AlertEvent entity) {
-        if (entity.getId() == null) performanceStatisticMapper.insert(entity);
-        else performanceStatisticMapper.update(entity);
+        if (entity.getId() == null) {
+            mapper.insert(entity);
+        } else {
+            mapper.update(entity);
+        }
     }
 
     public void delete(Long id) {
-        performanceStatisticMapper.deleteById(id);
+        mapper.deleteById(id);
     }
 
     public void updateStatus(Long id, String status) {
-        performanceStatisticMapper.updateStatus(id, status);
+        mapper.updateStatus(id, status);
     }
 }
-
-
-
-
-
-
-

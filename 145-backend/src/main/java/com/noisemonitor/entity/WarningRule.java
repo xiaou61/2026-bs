@@ -12,10 +12,10 @@ public class WarningRule {
     @TableId(type = IdType.AUTO)
     private Long id;
     private String ruleNo;
-    private String categoryName;
-    private Integer minStock;
-    private String warningLevel;
-    private String noticeTarget;
+    private String complaintTitle;
+    private String warningMetric;
+    private String thresholdConfig;
+    private String effectiveTime;
     private String status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;

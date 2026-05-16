@@ -1,25 +1,46 @@
 <template>
-  <DataPage title="作者档案" description="作者编号、作者姓名、所属单位、盘点区域、联系电话和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage title="RFID 标签" description="维护标签编号、EPC 编码、绑定资产和存放区域，支撑快速盘点与定位追踪" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" :can-create="canManage" :can-edit="canManage" :can-delete="canDelete" @row-action="handleAction" />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
+import { useUserStore } from '../store/user'
 import { getRfidTagPage, addRfidTag, updateRfidTag, deleteRfidTag, activateRfidTag, finishRfidTag } from '../api'
+
 const api = { page: getRfidTagPage, add: addRfidTag, update: updateRfidTag, delete: deleteRfidTag }
-const columns = [{"prop": "labNo", "label": "作者编号"}, {"prop": "labName", "label": "作者姓名"}, {"prop": "buildingName", "label": "所属单位"}, {"prop": "managerName", "label": "盘点区域"}, {"prop": "phoneNumber", "label": "联系电话"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "labNo", "label": "作者编号"}, {"prop": "labName", "label": "作者姓名"}, {"prop": "buildingName", "label": "所属单位"}, {"prop": "managerName", "label": "盘点区域"}, {"prop": "phoneNumber", "label": "联系电话"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "activate", "label": "启用", "type": "success"}, {"command": "finish", "label": "完成", "type": "primary"}]
-const defaults = {"status": "ACTIVE"}
+const userStore = useUserStore()
+const role = computed(() => userStore.user?.role || '')
+const canManage = computed(() => ['ADMIN', 'ASSET_ADMIN'].includes(role.value))
+const canDelete = computed(() => role.value === 'ADMIN')
+const columns = [
+  { prop: 'tagNo', label: '标签编号' },
+  { prop: 'epcCode', label: 'EPC 编码', width: 180 },
+  { prop: 'assetName', label: '绑定资产' },
+  { prop: 'storageArea', label: '存放区域' },
+  { prop: 'managerPhone', label: '负责人电话' },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'tagNo', label: '标签编号' },
+  { prop: 'epcCode', label: 'EPC 编码' },
+  { prop: 'assetName', label: '绑定资产' },
+  { prop: 'storageArea', label: '存放区域' },
+  { prop: 'managerPhone', label: '负责人电话' },
+  { prop: 'status', label: '状态', type: 'select', options: [{ label: '草稿', value: 'DRAFT' }, { label: '启用', value: 'ACTIVE' }, { label: '已完成', value: 'FINISHED' }] }
+]
+const rowActions = computed(() => canManage.value ? [{ command: 'activate', label: '启用', type: 'success' }, { command: 'finish', label: '完成', type: 'primary' }] : [])
+const defaults = { status: 'ACTIVE' }
+
 const handleAction = async ({ command, row, refresh }) => {
-  if (command === 'activate') await activateRfidTag(row.id)
-  if (command === 'finish') await finishRfidTag(row.id)
+  if (command === 'activate') {
+    await activateRfidTag(row.id)
+  }
+  if (command === 'finish') {
+    await finishRfidTag(row.id)
+  }
   ElMessage.success('操作成功')
   refresh()
 }
 </script>
-
-
-
-
-

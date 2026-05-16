@@ -17,202 +17,202 @@ CREATE TABLE sys_user (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO sys_user (username, password, nickname, role, department, phone, email, status, created_time, updated_time) VALUES
-('admin', '123456', '系统管理员', 'ADMIN', '科研管理处', '139134000100', 'admin@demo.local', 1, NOW(), NOW()),
-('legal', '123456', '门诊医生', 'LEGAL', '法务部', '139140000200', 'legal@demo.local', 1, NOW(), NOW()),
-('applicant', '123456', '检查技师', 'APPLICANT', '业务部门', '139140000300', 'applicant@demo.local', 1, NOW(), NOW()),
-('approver', '123456', '患者本人', 'APPROVER', '管理委员会', '139140000400', 'approver@demo.local', 1, NOW(), NOW());
+('admin', '123456', '系统管理员', 'ADMIN', '门诊管理部', '13915000001', 'admin@outpatient.local', 1, NOW(), NOW()),
+('doctor', '123456', '王晨医生', 'DOCTOR', '内科门诊', '13915000002', 'doctor@outpatient.local', 1, NOW(), NOW()),
+('tech', '123456', '刘洋技师', 'TECHNICIAN', '影像科', '13915000003', 'tech@outpatient.local', 1, NOW(), NOW()),
+('patient', '123456', '张敏患者', 'PATIENT', '患者服务', '13915000004', 'patient@outpatient.local', 1, NOW(), NOW());
 
-CREATE TABLE research_project (
+CREATE TABLE exam_item (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  project_no VARCHAR(120),
-  project_name VARCHAR(120),
-  leader_name VARCHAR(120),
-  college_name VARCHAR(120),
-  start_year INT,
-  status VARCHAR(120),
+  item_no VARCHAR(120),
+  item_name VARCHAR(120),
+  category VARCHAR(120),
+  department_name VARCHAR(120),
+  duration_minutes INT,
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO research_project (project_no, project_name, leader_name, college_name, start_year, status, created_time, updated_time) VALUES
-('PRO-134-001', '项目名称一', '负责人一', '所属学院一', 2026, 'ACTIVE', NOW(), NOW()),
-('PRO-134-002', '项目名称二', '负责人二', '所属学院二', 2027, 'ACTIVE', NOW(), NOW());
+INSERT INTO exam_item (item_no, item_name, category, department_name, duration_minutes, status, created_time, updated_time) VALUES
+('EXM-150-001', '胸部CT', 'CT检查', '内科门诊', 30, 'ACTIVE', NOW(), NOW()),
+('EXM-150-002', '腹部彩超', '超声检查', '消化内科', 20, 'ACTIVE', NOW(), NOW());
 
-CREATE TABLE budget_category (
+CREATE TABLE patient_profile (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  category_no VARCHAR(120),
-  category_name VARCHAR(120),
-  usage_scope VARCHAR(120),
-  control_mode VARCHAR(120),
-  manager_name VARCHAR(120),
-  status VARCHAR(120),
+  patient_no VARCHAR(120),
+  patient_name VARCHAR(120),
+  id_card VARCHAR(40),
+  phone VARCHAR(30),
+  visit_card_no VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO budget_category (category_no, category_name, usage_scope, control_mode, manager_name, status, created_time, updated_time) VALUES
-('CAT-134-001', '科目名称一', '经费用途一', '控制方式一', '负责人一', 'ACTIVE', NOW(), NOW()),
-('CAT-134-002', '科目名称二', '经费用途二', '控制方式二', '负责人二', 'ACTIVE', NOW(), NOW());
+INSERT INTO patient_profile (patient_no, patient_name, id_card, phone, visit_card_no, status, created_time, updated_time) VALUES
+('PAT-150-001', '张敏', '320101199312120021', '13800000001', 'CARD-202605-001', 'NORMAL', NOW(), NOW()),
+('PAT-150-002', '李强', '320101198904170034', '13800000002', 'CARD-202605-002', 'NORMAL', NOW(), NOW());
 
-CREATE TABLE budget_allocation (
+CREATE TABLE doctor_profile (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  budget_no VARCHAR(120),
-  project_no VARCHAR(120),
-  category_name VARCHAR(120),
-  budget_amount DECIMAL(12,2),
-  used_amount DECIMAL(12,2),
-  status VARCHAR(120),
+  doctor_no VARCHAR(120),
+  doctor_name VARCHAR(120),
+  phone VARCHAR(30),
+  department_name VARCHAR(120),
+  title_level VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO budget_allocation (budget_no, project_no, category_name, budget_amount, used_amount, status, created_time, updated_time) VALUES
-('BUD-134-001', 'BUD-134-001', '预算科目一', 38.5, 38.5, 'OPEN', NOW(), NOW()),
-('BUD-134-002', 'BUD-134-002', '预算科目二', 51.5, 51.5, 'OPEN', NOW(), NOW());
+INSERT INTO doctor_profile (doctor_no, doctor_name, phone, department_name, title_level, status, created_time, updated_time) VALUES
+('DOC-150-001', '王晨', '13800000011', '内科门诊', '主治医师', 'ACTIVE', NOW(), NOW()),
+('DOC-150-002', '周宁', '13800000012', '消化内科', '副主任医师', 'ACTIVE', NOW(), NOW());
 
-CREATE TABLE expense_claim (
+CREATE TABLE exam_appointment (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  claim_no VARCHAR(120),
-  project_no VARCHAR(120),
-  applicant_name VARCHAR(120),
-  claim_amount DECIMAL(12,2),
-  claim_time VARCHAR(120),
-  status VARCHAR(120),
+  appointment_no VARCHAR(120),
+  item_name VARCHAR(120),
+  appointment_date VARCHAR(40),
+  time_slot VARCHAR(80),
+  doctor_name VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO expense_claim (claim_no, project_no, applicant_name, claim_amount, claim_time, status, created_time, updated_time) VALUES
-('CLM-134-001', 'CLM-134-001', '候诊区域一', 38.5, '2026-05-6 10:00', 'SUBMITTED', NOW(), NOW()),
-('CLM-134-002', 'CLM-134-002', '候诊区域二', 51.5, '2026-05-7 10:00', 'SUBMITTED', NOW(), NOW());
+INSERT INTO exam_appointment (appointment_no, item_name, appointment_date, time_slot, doctor_name, status, created_time, updated_time) VALUES
+('APT-150-001', '胸部CT', '2026-05-16', '09:00-09:30', '王晨', 'SUBMITTED', NOW(), NOW()),
+('APT-150-002', '腹部彩超', '2026-05-16', '10:30-11:00', '周宁', 'APPROVED', NOW(), NOW());
 
-CREATE TABLE invoice_record (
+CREATE TABLE exam_department (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  invoice_no VARCHAR(120),
-  claim_no VARCHAR(120),
-  invoice_type VARCHAR(120),
-  invoice_amount DECIMAL(12,2),
-  issuer_name VARCHAR(120),
-  status VARCHAR(120),
+  department_no VARCHAR(120),
+  department_name VARCHAR(120),
+  device_name VARCHAR(120),
+  open_time VARCHAR(120),
+  waiting_area VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO invoice_record (invoice_no, claim_no, invoice_type, invoice_amount, issuer_name, status, created_time, updated_time) VALUES
-('INV-134-001', 'INV-134-001', '发票类型一', 38.5, '开票单位一', 'SUBMITTED', NOW(), NOW()),
-('INV-134-002', 'INV-134-002', '发票类型二', 51.5, '开票单位二', 'SUBMITTED', NOW(), NOW());
+INSERT INTO exam_department (department_no, department_name, device_name, open_time, waiting_area, status, created_time, updated_time) VALUES
+('DEP-150-001', '影像科', 'CT一号机', '08:00-17:30', 'A区候诊', 'ACTIVE', NOW(), NOW()),
+('DEP-150-002', '超声科', '彩超二号机', '08:00-17:30', 'B区候诊', 'ACTIVE', NOW(), NOW());
 
-CREATE TABLE approval_task (
+CREATE TABLE checkin_record (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  approval_no VARCHAR(120),
-  claim_no VARCHAR(120),
-  node_name VARCHAR(120),
-  approver_name VARCHAR(120),
-  approval_opinion VARCHAR(120),
-  status VARCHAR(120),
+  checkin_no VARCHAR(120),
+  patient_name VARCHAR(120),
+  checkin_method VARCHAR(120),
+  checkin_window VARCHAR(120),
+  checkin_time VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO approval_task (approval_no, claim_no, node_name, approver_name, approval_opinion, status, created_time, updated_time) VALUES
-('APR-134-001', 'APR-134-001', '签到方式一', '审批人一', '签到窗口一', 'REVIEWING', NOW(), NOW()),
-('APR-134-002', 'APR-134-002', '签到方式二', '审批人二', '签到窗口二', 'REVIEWING', NOW(), NOW());
+INSERT INTO checkin_record (checkin_no, patient_name, checkin_method, checkin_window, checkin_time, status, created_time, updated_time) VALUES
+('CHK-150-001', '张敏', '自助机签到', '1号窗口', '2026-05-16 08:50', 'SUBMITTED', NOW(), NOW()),
+('CHK-150-002', '李强', '人工窗口', '2号窗口', '2026-05-16 10:20', 'APPROVED', NOW(), NOW());
 
-CREATE TABLE payment_record (
+CREATE TABLE exam_report (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  payment_no VARCHAR(120),
-  claim_no VARCHAR(120),
-  payment_amount DECIMAL(12,2),
-  payment_time VARCHAR(120),
-  operator_name VARCHAR(120),
-  status VARCHAR(120),
+  report_no VARCHAR(120),
+  patient_name VARCHAR(120),
+  conclusion VARCHAR(255),
+  completed_time VARCHAR(120),
+  technician_name VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO payment_record (payment_no, claim_no, payment_amount, payment_time, operator_name, status, created_time, updated_time) VALUES
-('PAY-134-001', 'PAY-134-001', 38.5, '2026-05-6 10:00', '处理人一', 'FINISHED', NOW(), NOW()),
-('PAY-134-002', 'PAY-134-002', 51.5, '2026-05-7 10:00', '处理人二', 'FINISHED', NOW(), NOW());
+INSERT INTO exam_report (report_no, patient_name, conclusion, completed_time, technician_name, status, created_time, updated_time) VALUES
+('REP-150-001', '张敏', '肺部影像未见明显异常', '2026-05-16 10:05', '刘洋', 'PROCESSING', NOW(), NOW()),
+('REP-150-002', '李强', '提示轻度脂肪肝，建议随诊', '2026-05-16 11:10', '陈琳', 'FINISHED', NOW(), NOW());
 
-CREATE TABLE research_achievement (
+CREATE TABLE abnormal_alert (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  achievement_no VARCHAR(120),
-  project_no VARCHAR(120),
-  achievement_name VARCHAR(120),
-  achievement_type VARCHAR(120),
-  owner_name VARCHAR(120),
-  status VARCHAR(120),
-  created_time DATETIME,
-  updated_time DATETIME
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO research_achievement (achievement_no, project_no, achievement_name, achievement_type, owner_name, status, created_time, updated_time) VALUES
-('ACH-134-001', 'ACH-134-001', '成果名称一', '成果类型一', '完成人一', 'PUBLISHED', NOW(), NOW()),
-('ACH-134-002', 'ACH-134-002', '成果名称二', '成果类型二', '完成人二', 'PUBLISHED', NOW(), NOW());
-
-CREATE TABLE paper_record (
-  id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  paper_no VARCHAR(120),
-  project_no VARCHAR(120),
-  paper_title VARCHAR(120),
-  journal_name VARCHAR(120),
-  publish_time VARCHAR(120),
-  status VARCHAR(120),
-  created_time DATETIME,
-  updated_time DATETIME
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO paper_record (paper_no, project_no, paper_title, journal_name, publish_time, status, created_time, updated_time) VALUES
-('PAP-134-001', 'PAP-134-001', '论文题目一', '期刊名称一', '2026-05-6 10:00', 'PUBLISHED', NOW(), NOW()),
-('PAP-134-002', 'PAP-134-002', '论文题目二', '期刊名称二', '2026-05-7 10:00', 'PUBLISHED', NOW(), NOW());
-
-CREATE TABLE patent_record (
-  id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  patent_no VARCHAR(120),
-  project_no VARCHAR(120),
-  patent_name VARCHAR(120),
-  applicant_name VARCHAR(120),
-  grant_time VARCHAR(120),
-  status VARCHAR(120),
-  created_time DATETIME,
-  updated_time DATETIME
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO patent_record (patent_no, project_no, patent_name, applicant_name, grant_time, status, created_time, updated_time) VALUES
-('PAT-134-001', 'PAT-134-001', '专利名称一', '候诊区域一', '2026-05-6 10:00', 'PUBLISHED', NOW(), NOW()),
-('PAT-134-002', 'PAT-134-002', '专利名称二', '候诊区域二', '2026-05-7 10:00', 'PUBLISHED', NOW(), NOW());
-
-CREATE TABLE performance_statistic (
-  id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  stat_no VARCHAR(120),
-  project_no VARCHAR(120),
-  stat_month VARCHAR(120),
-  claim_count INT,
-  achievement_count INT,
-  status VARCHAR(120),
-  created_time DATETIME,
-  updated_time DATETIME
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO performance_statistic (stat_no, project_no, stat_month, claim_count, achievement_count, status, created_time, updated_time) VALUES
-('STA-134-001', 'STA-134-001', '2026-06', 35, 35, 'FINISHED', NOW(), NOW()),
-('STA-134-002', 'STA-134-002', '2026-07', 40, 40, 'FINISHED', NOW(), NOW());
-
-CREATE TABLE risk_warning (
-  id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  warning_no VARCHAR(120),
-  project_no VARCHAR(120),
-  risk_level VARCHAR(120),
-  trigger_reason VARCHAR(120),
+  alert_no VARCHAR(120),
+  patient_name VARCHAR(120),
+  alert_type VARCHAR(120),
+  alert_time VARCHAR(120),
   handler_name VARCHAR(120),
-  status VARCHAR(120),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO risk_warning (warning_no, project_no, risk_level, trigger_reason, handler_name, status, created_time, updated_time) VALUES
-('RSK-134-001', 'RSK-134-001', '风险级别一', '触发原因一', '处理人一', 'WARNING', NOW(), NOW()),
-('RSK-134-002', 'RSK-134-002', '风险级别二', '触发原因二', '处理人二', 'WARNING', NOW(), NOW());
+INSERT INTO abnormal_alert (alert_no, patient_name, alert_type, alert_time, handler_name, status, created_time, updated_time) VALUES
+('ALT-150-001', '张敏', '危急值提醒', '2026-05-16 10:08', '王晨', 'WARNING', NOW(), NOW()),
+('ALT-150-002', '李强', '复查提醒', '2026-05-16 11:15', '周宁', 'PROCESSING', NOW(), NOW());
+
+CREATE TABLE report_delivery (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  delivery_no VARCHAR(120),
+  patient_name VARCHAR(120),
+  delivery_method VARCHAR(120),
+  delivery_time VARCHAR(120),
+  receiver_name VARCHAR(120),
+  status VARCHAR(40),
+  created_time DATETIME,
+  updated_time DATETIME
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO report_delivery (delivery_no, patient_name, delivery_method, delivery_time, receiver_name, status, created_time, updated_time) VALUES
+('DLV-150-001', '张敏', '短信通知', '2026-05-16 10:20', '张敏', 'PROCESSING', NOW(), NOW()),
+('DLV-150-002', '李强', '自助打印', '2026-05-16 11:25', '李强', 'FINISHED', NOW(), NOW());
+
+CREATE TABLE revisit_advice (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  advice_no VARCHAR(120),
+  patient_name VARCHAR(120),
+  advice_subject VARCHAR(120),
+  advice_type VARCHAR(120),
+  advice_time VARCHAR(120),
+  status VARCHAR(40),
+  created_time DATETIME,
+  updated_time DATETIME
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO revisit_advice (advice_no, patient_name, advice_subject, advice_type, advice_time, status, created_time, updated_time) VALUES
+('ADV-150-001', '张敏', '肺部复查', '复诊提醒', '2026-05-16 10:30', 'PUBLISHED', NOW(), NOW()),
+('ADV-150-002', '李强', '饮食控制', '生活干预', '2026-05-16 11:40', 'FINISHED', NOW(), NOW());
+
+CREATE TABLE queue_call (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  queue_no VARCHAR(120),
+  patient_name VARCHAR(120),
+  call_time VARCHAR(120),
+  waiting_status VARCHAR(120),
+  room_no VARCHAR(120),
+  status VARCHAR(40),
+  created_time DATETIME,
+  updated_time DATETIME
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO queue_call (queue_no, patient_name, call_time, waiting_status, room_no, status, created_time, updated_time) VALUES
+('QUE-150-001', '张敏', '2026-05-16 09:05', '候诊中', '101诊室', 'OPEN', NOW(), NOW()),
+('QUE-150-002', '李强', '2026-05-16 10:35', '已叫号', '202诊室', 'PROCESSING', NOW(), NOW());
+
+CREATE TABLE hospital_notice (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  notice_no VARCHAR(120),
+  patient_name VARCHAR(120),
+  notice_type VARCHAR(120),
+  notice_content VARCHAR(255),
+  receiver_name VARCHAR(120),
+  status VARCHAR(40),
+  created_time DATETIME,
+  updated_time DATETIME
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO hospital_notice (notice_no, patient_name, notice_type, notice_content, receiver_name, status, created_time, updated_time) VALUES
+('NOT-150-001', '张敏', '检查提醒', '请提前15分钟到院签到并准备就诊卡', '张敏', 'PUBLISHED', NOW(), NOW()),
+('NOT-150-002', '李强', '报告提醒', '检查报告已生成，可前往自助机打印', '李强', 'FINISHED', NOW(), NOW());
 
 CREATE TABLE operation_log (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -220,23 +220,12 @@ CREATE TABLE operation_log (
   module_name VARCHAR(120),
   action_type VARCHAR(120),
   target_name VARCHAR(120),
-  detail_info VARCHAR(120),
-  status VARCHAR(120),
+  detail_info VARCHAR(255),
+  status VARCHAR(40),
   created_time DATETIME,
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO operation_log (operator_name, module_name, action_type, target_name, detail_info, status, created_time, updated_time) VALUES
-('操作人一', '模块名称一', '动作类型一', '操作对象一', '操作详情一', 'SUCCESS', NOW(), NOW()),
-('操作人二', '模块名称二', '动作类型二', '操作对象二', '操作详情二', 'SUCCESS', NOW(), NOW());
-
-
-
-
-
-
-
-
-
-
-
+('系统管理员', '检查项目', '新增', '胸部CT', '新增门诊检查项目 EXM-150-001', 'SUCCESS', NOW(), NOW()),
+('刘洋技师', '检查报告', '完成', 'REP-150-002', '完成李强的检查报告并回传患者端', 'SUCCESS', NOW(), NOW());

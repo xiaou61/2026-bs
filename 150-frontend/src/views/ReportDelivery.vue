@@ -1,29 +1,53 @@
 <template>
-  <DataPage title="开题答辩" description="答辩编号、课题编号、答辩主题、答辩小组、答辩时间和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" @row-action="handleAction" />
+  <DataPage title="报告回传" description="回传编号、患者姓名、回传方式、回传时间、接收人和状态维护" :api="api" :columns="columns" :form-fields="formFields" :row-actions="rowActions" :defaults="defaults" :can-create="canManage" :can-edit="canManage" :can-delete="canManage" @row-action="handleAction" />
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import DataPage from '../components/DataPage.vue'
-import { getReportDeliveryPage, addReportDelivery, updateReportDelivery, deleteReportDelivery, activateReportDelivery, finishReportDelivery } from '../api'
+import { addReportDelivery, deleteReportDelivery, finishReportDelivery, getReportDeliveryPage, processReportDelivery, updateReportDelivery } from '../api'
+import { useUserStore } from '../store/user'
+
+const userStore = useUserStore()
+const canManage = computed(() => ['ADMIN', 'DOCTOR', 'TECHNICIAN'].includes(userStore.user?.role))
+const rowActions = computed(() => canManage.value
+  ? [
+      { command: 'process', label: '回传中', type: 'warning' },
+      { command: 'finish', label: '回传完成', type: 'success' }
+    ]
+  : [])
 const api = { page: getReportDeliveryPage, add: addReportDelivery, update: updateReportDelivery, delete: deleteReportDelivery }
-const columns = [{"prop": "paperNo", "label": "答辩编号"}, {"prop": "projectNo", "label": "课题编号"}, {"prop": "paperTitle", "label": "答辩主题"}, {"prop": "journalName", "label": "答辩小组"}, {"prop": "publishTime", "label": "答辩时间"}, {"prop": "status", "label": "状态"}]
-const formFields = [{"prop": "paperNo", "label": "答辩编号"}, {"prop": "projectNo", "label": "课题编号"}, {"prop": "paperTitle", "label": "答辩主题"}, {"prop": "journalName", "label": "答辩小组"}, {"prop": "publishTime", "label": "答辩时间"}, {"prop": "status", "label": "状态", "type": "select", "options": [{"label": "ACTIVE", "value": "ACTIVE"}, {"label": "DISABLED", "value": "DISABLED"}, {"label": "DRAFT", "value": "DRAFT"}, {"label": "SUBMITTED", "value": "SUBMITTED"}, {"label": "REVIEWING", "value": "REVIEWING"}, {"label": "APPROVED", "value": "APPROVED"}, {"label": "OPEN", "value": "OPEN"}, {"label": "PROCESSING", "value": "PROCESSING"}, {"label": "FINISHED", "value": "FINISHED"}, {"label": "WARNING", "value": "WARNING"}, {"label": "PUBLISHED", "value": "PUBLISHED"}, {"label": "NORMAL", "value": "NORMAL"}, {"label": "SUCCESS", "value": "SUCCESS"}]}]
-const rowActions = [{"command": "activate", "label": "启用", "type": "success"}, {"command": "finish", "label": "完成", "type": "primary"}]
-const defaults = {"status": "PUBLISHED"}
+const columns = [
+  { prop: 'deliveryNo', label: '回传编号' },
+  { prop: 'patientName', label: '患者姓名' },
+  { prop: 'deliveryMethod', label: '回传方式' },
+  { prop: 'deliveryTime', label: '回传时间' },
+  { prop: 'receiverName', label: '接收人' },
+  { prop: 'status', label: '状态' }
+]
+const formFields = [
+  { prop: 'deliveryNo', label: '回传编号' },
+  { prop: 'patientName', label: '患者姓名' },
+  { prop: 'deliveryMethod', label: '回传方式' },
+  { prop: 'deliveryTime', label: '回传时间' },
+  { prop: 'receiverName', label: '接收人' },
+  {
+    prop: 'status',
+    label: '状态',
+    type: 'select',
+    options: [
+      { label: '处理中', value: 'PROCESSING' },
+      { label: '已完成', value: 'FINISHED' }
+    ]
+  }
+]
+const defaults = { status: 'PROCESSING' }
+
 const handleAction = async ({ command, row, refresh }) => {
-  if (command === 'activate') await activateReportDelivery(row.id)
+  if (command === 'process') await processReportDelivery(row.id)
   if (command === 'finish') await finishReportDelivery(row.id)
   ElMessage.success('操作成功')
   refresh()
 }
 </script>
-
-
-
-
-
-
-
-
-

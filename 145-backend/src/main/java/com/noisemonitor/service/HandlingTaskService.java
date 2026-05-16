@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class HandlingTaskService extends BaseCrudService<HandlingTask> {
-    private final HandlingTaskMapper purchaseRequestMapper;
+    private final HandlingTaskMapper handlingTaskMapper;
 
     @Override
     protected BaseMapper<HandlingTask> mapper() {
-        return purchaseRequestMapper;
+        return handlingTaskMapper;
     }
 
     @Override
     protected String[] keywordColumns() {
-        return new String[]{"request_no", "consumable_name", "request_qty", "applicant_name"};
+        return new String[]{"task_no", "complaint_title", "assignee_name", "deadline_time"};
     }
 }
 
