@@ -1,6 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '../store/user'
 
+const ROLE_HOME = {
+  ADMIN: '/dashboard',
+  AGENCY: '/station',
+  DISPATCH: '/dispatch',
+  WORKER: '/schedule',
+  QUALITY: '/evaluation',
+  RESIDENT: '/booking'
+}
+
 const routes = [
   { path: '/login', component: () => import('../views/Login.vue') },
   {
@@ -8,20 +17,20 @@ const routes = [
     component: () => import('../views/Layout.vue'),
     redirect: '/dashboard',
     children: [
-      { path: 'dashboard', component: () => import('../views/Dashboard.vue') },
-      { path: 'user', component: () => import('../views/SysUser.vue') },
-      { path: 'record01', component: () => import('../views/BizRecord01.vue') },
-      { path: 'record02', component: () => import('../views/BizRecord02.vue') },
-      { path: 'record03', component: () => import('../views/BizRecord03.vue') },
-      { path: 'record04', component: () => import('../views/BizRecord04.vue') },
-      { path: 'record05', component: () => import('../views/BizRecord05.vue') },
-      { path: 'record06', component: () => import('../views/BizRecord06.vue') },
-      { path: 'record07', component: () => import('../views/BizRecord07.vue') },
-      { path: 'record08', component: () => import('../views/BizRecord08.vue') },
-      { path: 'record09', component: () => import('../views/BizRecord09.vue') },
-      { path: 'record10', component: () => import('../views/BizRecord10.vue') },
-      { path: 'record11', component: () => import('../views/BizRecord11.vue') },
-      { path: 'record12', component: () => import('../views/BizRecord12.vue') }
+      { path: 'dashboard', component: () => import('../views/Dashboard.vue'), meta: { roles: ['ADMIN', 'AGENCY', 'DISPATCH', 'WORKER', 'QUALITY', 'RESIDENT'] } },
+      { path: 'user', component: () => import('../views/SysUser.vue'), meta: { roles: ['ADMIN'] } },
+      { path: 'station', component: () => import('../views/ServiceStation.vue'), meta: { roles: ['ADMIN', 'AGENCY'] } },
+      { path: 'resident', component: () => import('../views/ResidentProfile.vue'), meta: { roles: ['ADMIN', 'AGENCY', 'DISPATCH', 'RESIDENT'] } },
+      { path: 'worker', component: () => import('../views/WorkerProfile.vue'), meta: { roles: ['ADMIN', 'AGENCY', 'DISPATCH', 'WORKER', 'QUALITY'] } },
+      { path: 'service', component: () => import('../views/ServiceCatalog.vue'), meta: { roles: ['ADMIN', 'AGENCY', 'DISPATCH', 'RESIDENT'] } },
+      { path: 'booking', component: () => import('../views/ServiceBooking.vue'), meta: { roles: ['ADMIN', 'AGENCY', 'DISPATCH', 'RESIDENT'] } },
+      { path: 'review', component: () => import('../views/BookingReview.vue'), meta: { roles: ['ADMIN', 'AGENCY', 'DISPATCH'] } },
+      { path: 'dispatch', component: () => import('../views/ScheduleDispatch.vue'), meta: { roles: ['ADMIN', 'AGENCY', 'DISPATCH', 'WORKER'] } },
+      { path: 'record', component: () => import('../views/ServiceRecord.vue'), meta: { roles: ['ADMIN', 'AGENCY', 'DISPATCH', 'WORKER', 'RESIDENT'] } },
+      { path: 'evaluation', component: () => import('../views/CreditEvaluation.vue'), meta: { roles: ['ADMIN', 'AGENCY', 'QUALITY', 'RESIDENT'] } },
+      { path: 'complaint', component: () => import('../views/ComplaintHandling.vue'), meta: { roles: ['ADMIN', 'AGENCY', 'QUALITY', 'RESIDENT'] } },
+      { path: 'settlement', component: () => import('../views/SettlementRecord.vue'), meta: { roles: ['ADMIN', 'AGENCY', 'DISPATCH'] } },
+      { path: 'log', component: () => import('../views/OperationLog.vue'), meta: { roles: ['ADMIN'] } }
     ]
   }
 ]
@@ -29,8 +38,11 @@ const routes = [
 const router = createRouter({ history: createWebHistory(), routes })
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore()
+  const role = userStore.user?.role
+  const home = ROLE_HOME[role] || '/login'
   if (to.path !== '/login' && !userStore.token) return next('/login')
-  if (to.path === '/login' && userStore.token) return next('/dashboard')
+  if (to.path === '/login' && userStore.token) return next(home)
+  if (to.meta?.roles && !to.meta.roles.includes(role)) return next(home)
   next()
 })
 export default router

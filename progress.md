@@ -2471,3 +2471,83 @@
   - 完成全仓库 `node_modules` 扫描，未发现残留
   - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `public_service_195` 与 Redis
   - 下一项目为 `196`
+
+### 已正式开发：196 药店处方审核与慢病续方提醒管理系统
+- 本轮新增：
+  - 检查发现 `196` 批量版仍为 `com.p196 / BizRecord / project_196` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `195` 正式化流水线生成并执行 `scripts/develop_196.py`；端口切换为后端 `8196`、前端 `3196`
+  - 将后端切换为 `com.pharmacycare` 包，启动类为 `PharmacyCareApplication`，artifactId 为 `pharmacy-prescription-care-196`，数据库为 `pharmacy_care_196`，Redis token 前缀为 `pharmacycare:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`PHARMACY/pharmacy`、`PHARMACIST/pharmacist`、`CLERK/clerk`、`FOLLOWUP/followup`、`CUSTOMER/customer`，统一密码 `123456`
+  - 重建 12 个业务模块：药店门店、顾客档案、药品目录、处方登记、处方审核、风险复核、购药记录、用药指导、慢病方案、续方提醒、随访记录、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / PHARMACY / PHARMACIST / CLERK / FOLLOWUP / CUSTOMER` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `196` 详情已从批量泛化模块改为正式药店处方审核与慢病续方提醒闭环模块说明
+  - 残留扫描未发现 `com.p196`、`BizRecord`、`project_196`、旧便民服务角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 静态结构确认：13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+  - 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证；如需正式交付再单独运行，并在前端构建后清理 `node_modules`
+  - 完成全仓库 `node_modules` 扫描，未发现残留
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `pharmacy_care_196` 与 Redis
+  - 下一项目为 `197`
+
+### 已正式开发：197 社区家政服务预约与人员信用评价系统
+- 本轮新增：
+  - 检查发现 `197` 批量版仍为 `com.p197 / BizRecord / project_197` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `196` 正式化流水线生成并执行 `scripts/develop_197.py`；端口切换为后端 `8197`、前端 `3197`
+  - 将后端切换为 `com.housekeeping` 包，启动类为 `HousekeepingApplication`，artifactId 为 `community-housekeeping-197`，数据库为 `housekeeping_197`，Redis token 前缀为 `housekeeping:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`AGENCY/agency`、`DISPATCH/dispatch`、`WORKER/worker`、`QUALITY/quality`、`RESIDENT/resident`，统一密码 `123456`
+  - 重建 12 个业务模块：服务站点、居民档案、人员档案、服务项目、服务预约、预约审核、人员排班、上门记录、信用评价、投诉处理、费用结算、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / AGENCY / DISPATCH / WORKER / QUALITY / RESIDENT` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `197` 详情已从批量泛化模块改为正式社区家政服务预约与人员信用评价闭环模块说明
+  - 残留扫描未发现 `com.p197`、`BizRecord`、`project_197`、旧药店处方角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 静态结构确认：13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+  - 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证；如需正式交付再单独运行，并在前端构建后清理 `node_modules`
+  - 完成全仓库 `node_modules` 扫描，未发现残留
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `housekeeping_197` 与 Redis
+  - 下一项目为 `198`
+
+### 已正式开发：198 城市共享充电宝投放巡检与收益结算系统
+- 本轮新增：
+  - 检查发现 `198` 批量版仍为 `com.p198 / BizRecord / project_198` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `197` 正式化流水线生成并执行 `scripts/develop_198.py`；端口切换为后端 `8198`、前端 `3198`
+  - 将后端切换为 `com.powerbank` 包，启动类为 `PowerBankApplication`，artifactId 为 `urban-powerbank-198`，数据库为 `powerbank_198`，Redis token 前缀为 `powerbank:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`OPERATOR/operator`、`SITE/site`、`INSPECTOR/inspector`、`FINANCE/finance`、`MERCHANT/merchant`，统一密码 `123456`
+  - 重建 12 个业务模块：投放点位、设备柜档案、充电宝档案、点位投放、设备巡检、故障维修、异常回收、租借订单、商户收益、收益结算、库存调拨、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / OPERATOR / SITE / INSPECTOR / FINANCE / MERCHANT` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `198` 详情已从批量泛化模块改为正式城市共享充电宝投放巡检与收益结算闭环模块说明
+  - 残留扫描未发现 `com.p198`、`BizRecord`、`project_198`、旧家政服务角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 静态结构确认：13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+  - 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证；如需正式交付再单独运行，并在前端构建后清理 `node_modules`
+  - 完成全仓库 `node_modules` 扫描，未发现残留
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `powerbank_198` 与 Redis
+  - 下一项目为 `199`
+
+### 已正式开发：199 运动康复训练计划与体测评估管理系统
+- 本轮新增：
+  - 检查发现 `199` 批量版仍为 `com.p199 / BizRecord / project_199` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `198` 正式化流水线生成并执行 `scripts/develop_199.py`；端口切换为后端 `8199`、前端 `3199`
+  - 将后端切换为 `com.sportrehab` 包，启动类为 `SportRehabApplication`，artifactId 为 `sport-rehab-199`，数据库为 `sport_rehab_199`，Redis token 前缀为 `sportrehab:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`CENTER/center`、`ASSESSOR/assessor`、`COACH/coach`、`THERAPIST/therapist`、`MEMBER/member`，统一密码 `123456`
+  - 重建 12 个业务模块：康复中心、会员档案、教练档案、体测项目、体测评估、风险提醒、训练计划、训练安排、训练打卡、康复反馈、复评记录、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / CENTER / ASSESSOR / COACH / THERAPIST / MEMBER` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `199` 详情已从批量泛化模块改为正式运动康复训练计划与体测评估闭环模块说明
+  - 残留扫描未发现 `com.p199`、`BizRecord`、`project_199`、旧共享充电宝角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 静态结构确认：13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+  - 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证；如需正式交付再单独运行，并在前端构建后清理 `node_modules`
+  - 完成全仓库 `node_modules` 扫描，未发现残留
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `sport_rehab_199` 与 Redis
+  - 下一项目为 `200`
+
+### 已正式开发：200 非遗工坊课程预约与作品展销平台
+- 本轮新增：
+  - 检查发现 `200` 批量版仍为 `com.p200 / BizRecord / project_200` 泛化模板，前端仍使用 `record01-12` 路由和通用业务页
+  - 基于 `199` 正式化流水线生成并执行 `scripts/develop_200.py`；端口切换为后端 `8200`、前端 `3200`
+  - 将后端切换为 `com.heritageworkshop` 包，启动类为 `HeritageWorkshopApplication`，artifactId 为 `heritage-workshop-200`，数据库为 `heritage_workshop_200`，Redis token 前缀为 `heritageworkshop:token:`
+  - 新增六类角色与默认账号：`ADMIN/admin`、`WORKSHOP/workshop`、`TEACHER/teacher`、`CURATOR/curator`、`SALES/sales`、`VISITOR/visitor`，统一密码 `123456`
+  - 重建 12 个业务模块：工坊档案、传承人档案、课程目录、工坊排期、课程预约、预约审核、课程签到、作品档案、作品展销、展销订单、展销结算、操作日志
+  - 前端重写路由、角色首页跳转、动态菜单、登录页、通用数据页、统计看板和全部业务页字段，操作按钮与侧边栏菜单按 `ADMIN / WORKSHOP / TEACHER / CURATOR / SALES / VISITOR` 收口
+  - `readme.md` 与 `readme_simple.md` 的 `200` 详情已从批量泛化模块改为正式非遗工坊课程预约与作品展销闭环模块说明
+  - 残留扫描未发现 `com.p200`、`BizRecord`、`project_200`、旧运动康复角色/模块、旧 `record01` 路径、通配符 CORS、`printStackTrace` 或 `System.out.print*`
+  - 静态结构确认：13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+  - 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证；如需正式交付再单独运行，并在前端构建后清理 `node_modules`
+  - 完成全仓库 `node_modules` 扫描，未发现残留
+  - 当前尚未做真实数据库登录联调；默认环境仍依赖本地 MySQL `heritage_workshop_200` 与 Redis
+  - 当前清单已完成到 `200`

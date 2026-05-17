@@ -3226,3 +3226,83 @@
 - 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证。
 - 全仓库 `node_modules` 扫描未发现残留。
 - 剩余风险：尚未连接真实 MySQL/Redis 做登录和业务接口联调；当前结论覆盖源码主题化与静态结构验证。下一项目为 `196`。
+
+## 2026-05-16 196 正式开发记录
+
+### Findings
+- `196` 批量版原始状态仍是通用模板：后端包名为 `com.p196`，业务类为 `BizRecord01-12`，数据库名为 `project_196`，前端页面和接口路径仍以 `record01-12` 命名。
+- 已基于 `195` 正式化流水线生成并执行 `scripts/develop_196.py`；端口切换为后端 `8196`、前端 `3196`。
+- 已将后端切换为 `com.pharmacycare` 包，启动类为 `PharmacyCareApplication`，artifactId 为 `pharmacy-prescription-care-196`，数据库为 `pharmacy_care_196`，Redis token 前缀为 `pharmacycare:token:`。
+- 已重建默认账号与角色口径：`ADMIN/admin`、`PHARMACY/pharmacy`、`PHARMACIST/pharmacist`、`CLERK/clerk`、`FOLLOWUP/followup`、`CUSTOMER/customer`，统一密码 `123456`。
+- 已生成 12 个正式业务模块：`PharmacyStore`、`CustomerProfile`、`MedicineCatalog`、`PrescriptionRecord`、`PrescriptionReview`、`RiskCheck`、`PurchaseRecord`、`MedicationGuide`、`ChronicPlan`、`RenewalReminder`、`FollowupRecord`、`OperationLog`。
+- 已为前后端角色口径收口：药店管理员维护门店、药品目录和慢病服务基础数据；药师审核处理处方审核、风险复核和用药指导；门店店员登记处方并维护购药记录；随访专员维护慢病方案、续方提醒和随访记录；慢病顾客查看个人处方、购药、用药指导和续方提醒。
+- 已重写前端路由、角色首页跳转、动态菜单、登录页、通用数据页、看板和全部业务页字段，页面语义切回药店门店、顾客档案、药品目录、处方登记、处方审核、风险复核、购药记录、用药指导、慢病方案、续方提醒、随访记录、操作日志。
+- 源码残留扫描未发现 `com.p196`、`BizRecord`、`project_196`、旧便民服务角色/模块名、旧 `record01` 路径、通配符 CORS、`printStackTrace`、`System.out.print*`。
+- 静态结构验证：13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图。
+- 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证。
+- 全仓库 `node_modules` 扫描未发现残留。
+- 剩余风险：尚未连接真实 MySQL/Redis 做登录和业务接口联调；当前结论覆盖源码主题化与静态结构验证。下一项目为 `197`。
+
+## 2026-05-17 197 正式开发记录
+
+### Findings
+- `197` 批量版原始状态仍是通用模板：后端包名为 `com.p197`，业务类为 `BizRecord01-12`，数据库名为 `project_197`，前端页面和接口路径仍以 `record01-12` 命名。
+- 已基于 `196` 正式化流水线生成并执行 `scripts/develop_197.py`；端口切换为后端 `8197`、前端 `3197`。
+- 已将后端切换为 `com.housekeeping` 包，启动类为 `HousekeepingApplication`，artifactId 为 `community-housekeeping-197`，数据库为 `housekeeping_197`，Redis token 前缀为 `housekeeping:token:`。
+- 已重建默认账号与角色口径：`ADMIN/admin`、`AGENCY/agency`、`DISPATCH/dispatch`、`WORKER/worker`、`QUALITY/quality`、`RESIDENT/resident`，统一密码 `123456`。
+- 已生成 12 个正式业务模块：`ServiceStation`、`ResidentProfile`、`WorkerProfile`、`ServiceCatalog`、`ServiceBooking`、`BookingReview`、`ScheduleDispatch`、`ServiceRecord`、`CreditEvaluation`、`ComplaintHandling`、`SettlementRecord`、`OperationLog`。
+- 已为前后端角色口径收口：服务站管理员维护服务站点、居民档案、人员档案和服务项目；派单调度处理服务预约、预约审核、人员排班和服务进度流转；家政人员查看排班任务并记录上门服务；品控专员跟踪信用评价、投诉处理和质量闭环；社区居民提交预约、查看上门记录并评价投诉。
+- 已重写前端路由、角色首页跳转、动态菜单、登录页、通用数据页、看板和全部业务页字段，页面语义切回服务站点、居民档案、人员档案、服务项目、服务预约、预约审核、人员排班、上门记录、信用评价、投诉处理、费用结算、操作日志。
+- 源码残留扫描未发现 `com.p197`、`BizRecord`、`project_197`、旧药店处方角色/模块名、旧 `record01` 路径、通配符 CORS、`printStackTrace`、`System.out.print*`。
+- 静态结构验证：13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图。
+- 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证。
+- 全仓库 `node_modules` 扫描未发现残留。
+- 剩余风险：尚未连接真实 MySQL/Redis 做登录和业务接口联调；当前结论覆盖源码主题化与静态结构验证。下一项目为 `198`。
+
+## 2026-05-17 198 正式开发记录
+
+### Findings
+- `198` 批量版原始状态仍是通用模板：后端包名为 `com.p198`，业务类为 `BizRecord01-12`，数据库名为 `project_198`，前端页面和接口路径仍以 `record01-12` 命名。
+- 已基于 `197` 正式化流水线生成并执行 `scripts/develop_198.py`；端口切换为后端 `8198`、前端 `3198`。
+- 已将后端切换为 `com.powerbank` 包，启动类为 `PowerBankApplication`，artifactId 为 `urban-powerbank-198`，数据库为 `powerbank_198`，Redis token 前缀为 `powerbank:token:`。
+- 已重建默认账号与角色口径：`ADMIN/admin`、`OPERATOR/operator`、`SITE/site`、`INSPECTOR/inspector`、`FINANCE/finance`、`MERCHANT/merchant`，统一密码 `123456`。
+- 已生成 12 个正式业务模块：`PlacementSite`、`CabinetProfile`、`PowerBankDevice`、`PlacementPlan`、`InspectionTask`、`FaultRepair`、`AbnormalRecycle`、`LeaseOrder`、`MerchantIncome`、`SettlementRecord`、`InventoryTransfer`、`OperationLog`。
+- 已为前后端角色口径收口：运营管理员维护投放点位、设备柜档案、充电宝档案和点位投放；点位商户查看设备柜、充电宝状态、巡检维修和点位运营记录；巡检人员处理设备巡检、故障维修、异常回收和库存调拨；财务结算核对租借订单、商户收益和收益结算；合作商户查看点位收益、结算记录和订单分成。
+- 已重写前端路由、角色首页跳转、动态菜单、登录页、通用数据页、看板和全部业务页字段，页面语义切回投放点位、设备柜档案、充电宝档案、点位投放、设备巡检、故障维修、异常回收、租借订单、商户收益、收益结算、库存调拨、操作日志。
+- 源码残留扫描未发现 `com.p198`、`BizRecord`、`project_198`、旧家政服务角色/模块名、旧 `record01` 路径、通配符 CORS、`printStackTrace`、`System.out.print*`。
+- 静态结构验证：13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图。
+- 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证。
+- 全仓库 `node_modules` 扫描未发现残留。
+- 剩余风险：尚未连接真实 MySQL/Redis 做登录和业务接口联调；当前结论覆盖源码主题化与静态结构验证。下一项目为 `199`。
+
+## 2026-05-17 199 正式开发记录
+
+### Findings
+- `199` 批量版原始状态仍是通用模板：后端包名为 `com.p199`，业务类为 `BizRecord01-12`，数据库名为 `project_199`，前端页面和接口路径仍以 `record01-12` 命名。
+- 已基于 `198` 正式化流水线生成并执行 `scripts/develop_199.py`；端口切换为后端 `8199`、前端 `3199`。
+- 已将后端切换为 `com.sportrehab` 包，启动类为 `SportRehabApplication`，artifactId 为 `sport-rehab-199`，数据库为 `sport_rehab_199`，Redis token 前缀为 `sportrehab:token:`。
+- 已重建默认账号与角色口径：`ADMIN/admin`、`CENTER/center`、`ASSESSOR/assessor`、`COACH/coach`、`THERAPIST/therapist`、`MEMBER/member`，统一密码 `123456`。
+- 已生成 12 个正式业务模块：`RehabCenter`、`MemberProfile`、`CoachProfile`、`AssessmentItem`、`FitnessAssessment`、`RiskWarning`、`TrainingPlan`、`TrainingSession`、`ExerciseCheckin`、`RehabFeedback`、`ReassessmentRecord`、`OperationLog`。
+- 已为前后端角色口径收口：中心管理员维护康复中心、会员档案、教练档案和体测项目；体测评估师处理体测评估、风险提醒和复评记录；康复教练制定训练计划、维护训练安排并跟进训练打卡；康复治疗师查看评估结果、维护康复反馈并参与复评；训练会员查看个人体测、训练计划、训练打卡和康复反馈。
+- 已重写前端路由、角色首页跳转、动态菜单、登录页、通用数据页、看板和全部业务页字段，页面语义切回康复中心、会员档案、教练档案、体测项目、体测评估、风险提醒、训练计划、训练安排、训练打卡、康复反馈、复评记录、操作日志。
+- 源码残留扫描未发现 `com.p199`、`BizRecord`、`project_199`、旧共享充电宝角色/模块名、旧 `record01` 路径、通配符 CORS、`printStackTrace`、`System.out.print*`。
+- 静态结构验证：13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图。
+- 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证。
+- 全仓库 `node_modules` 扫描未发现残留。
+- 剩余风险：尚未连接真实 MySQL/Redis 做登录和业务接口联调；当前结论覆盖源码主题化与静态结构验证。下一项目为 `200`。
+
+## 2026-05-17 200 正式开发记录
+
+### Findings
+- `200` 批量版原始状态仍是通用模板：后端包名为 `com.p200`，业务类为 `BizRecord01-12`，数据库名为 `project_200`，前端页面和接口路径仍以 `record01-12` 命名。
+- 已基于 `199` 正式化流水线生成并执行 `scripts/develop_200.py`；端口切换为后端 `8200`、前端 `3200`。
+- 已将后端切换为 `com.heritageworkshop` 包，启动类为 `HeritageWorkshopApplication`，artifactId 为 `heritage-workshop-200`，数据库为 `heritage_workshop_200`，Redis token 前缀为 `heritageworkshop:token:`。
+- 已重建默认账号与角色口径：`ADMIN/admin`、`WORKSHOP/workshop`、`TEACHER/teacher`、`CURATOR/curator`、`SALES/sales`、`VISITOR/visitor`，统一密码 `123456`。
+- 已生成 12 个正式业务模块：`WorkshopProfile`、`InheritorProfile`、`CourseCatalog`、`CourseSchedule`、`CourseBooking`、`BookingReview`、`ClassCheckin`、`ArtworkCatalog`、`ExhibitionShowcase`、`ProductOrder`、`SalesSettlement`、`OperationLog`。
+- 已为前后端角色口径收口：工坊管理员维护工坊档案、传承人档案、课程目录和工坊排期；非遗讲师维护课程内容、处理课程预约、预约审核和课程签到；展陈运营维护作品档案、作品展销和展陈状态；展销财务核对展销订单和展销结算闭环；学员访客查看课程排期、提交课程预约、查看作品展销和订单记录。
+- 已重写前端路由、角色首页跳转、动态菜单、登录页、通用数据页、看板和全部业务页字段，页面语义切回工坊档案、传承人档案、课程目录、工坊排期、课程预约、预约审核、课程签到、作品档案、作品展销、展销订单、展销结算、操作日志。
+- 源码残留扫描未发现 `com.p200`、`BizRecord`、`project_200`、旧运动康复角色/模块名、旧 `record01` 路径、通配符 CORS、`printStackTrace`、`System.out.print*`。
+- 静态结构验证：13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图。
+- 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证。
+- 全仓库 `node_modules` 扫描未发现残留。
+- 剩余风险：尚未连接真实 MySQL/Redis 做登录和业务接口联调；当前结论覆盖源码主题化与静态结构验证。当前清单已完成到 `200`。

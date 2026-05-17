@@ -1,6 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '../store/user'
 
+const ROLE_HOME = {
+  ADMIN: '/dashboard',
+  WORKSHOP: '/workshop',
+  TEACHER: '/course',
+  CURATOR: '/showcase',
+  SALES: '/settlement',
+  VISITOR: '/booking'
+}
+
 const routes = [
   { path: '/login', component: () => import('../views/Login.vue') },
   {
@@ -8,20 +17,20 @@ const routes = [
     component: () => import('../views/Layout.vue'),
     redirect: '/dashboard',
     children: [
-      { path: 'dashboard', component: () => import('../views/Dashboard.vue') },
-      { path: 'user', component: () => import('../views/SysUser.vue') },
-      { path: 'record01', component: () => import('../views/BizRecord01.vue') },
-      { path: 'record02', component: () => import('../views/BizRecord02.vue') },
-      { path: 'record03', component: () => import('../views/BizRecord03.vue') },
-      { path: 'record04', component: () => import('../views/BizRecord04.vue') },
-      { path: 'record05', component: () => import('../views/BizRecord05.vue') },
-      { path: 'record06', component: () => import('../views/BizRecord06.vue') },
-      { path: 'record07', component: () => import('../views/BizRecord07.vue') },
-      { path: 'record08', component: () => import('../views/BizRecord08.vue') },
-      { path: 'record09', component: () => import('../views/BizRecord09.vue') },
-      { path: 'record10', component: () => import('../views/BizRecord10.vue') },
-      { path: 'record11', component: () => import('../views/BizRecord11.vue') },
-      { path: 'record12', component: () => import('../views/BizRecord12.vue') }
+      { path: 'dashboard', component: () => import('../views/Dashboard.vue'), meta: { roles: ['ADMIN', 'WORKSHOP', 'TEACHER', 'CURATOR', 'SALES', 'VISITOR'] } },
+      { path: 'user', component: () => import('../views/SysUser.vue'), meta: { roles: ['ADMIN'] } },
+      { path: 'workshop', component: () => import('../views/WorkshopProfile.vue'), meta: { roles: ['ADMIN', 'WORKSHOP'] } },
+      { path: 'inheritor', component: () => import('../views/InheritorProfile.vue'), meta: { roles: ['ADMIN', 'WORKSHOP', 'TEACHER'] } },
+      { path: 'course', component: () => import('../views/CourseCatalog.vue'), meta: { roles: ['ADMIN', 'WORKSHOP', 'TEACHER', 'VISITOR'] } },
+      { path: 'schedule', component: () => import('../views/CourseSchedule.vue'), meta: { roles: ['ADMIN', 'WORKSHOP', 'TEACHER', 'VISITOR'] } },
+      { path: 'booking', component: () => import('../views/CourseBooking.vue'), meta: { roles: ['ADMIN', 'WORKSHOP', 'TEACHER', 'VISITOR'] } },
+      { path: 'review', component: () => import('../views/BookingReview.vue'), meta: { roles: ['ADMIN', 'WORKSHOP', 'TEACHER'] } },
+      { path: 'checkin', component: () => import('../views/ClassCheckin.vue'), meta: { roles: ['ADMIN', 'WORKSHOP', 'TEACHER', 'VISITOR'] } },
+      { path: 'artwork', component: () => import('../views/ArtworkCatalog.vue'), meta: { roles: ['ADMIN', 'WORKSHOP', 'CURATOR', 'SALES'] } },
+      { path: 'showcase', component: () => import('../views/ExhibitionShowcase.vue'), meta: { roles: ['ADMIN', 'WORKSHOP', 'CURATOR', 'SALES', 'VISITOR'] } },
+      { path: 'order', component: () => import('../views/ProductOrder.vue'), meta: { roles: ['ADMIN', 'WORKSHOP', 'SALES', 'VISITOR'] } },
+      { path: 'settlement', component: () => import('../views/SalesSettlement.vue'), meta: { roles: ['ADMIN', 'WORKSHOP', 'SALES'] } },
+      { path: 'log', component: () => import('../views/OperationLog.vue'), meta: { roles: ['ADMIN'] } }
     ]
   }
 ]
@@ -29,8 +38,11 @@ const routes = [
 const router = createRouter({ history: createWebHistory(), routes })
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore()
+  const role = userStore.user?.role
+  const home = ROLE_HOME[role] || '/login'
   if (to.path !== '/login' && !userStore.token) return next('/login')
-  if (to.path === '/login' && userStore.token) return next('/dashboard')
+  if (to.path === '/login' && userStore.token) return next(home)
+  if (to.meta?.roles && !to.meta.roles.includes(role)) return next(home)
   next()
 })
 export default router

@@ -1,10 +1,10 @@
 <template>
   <div class="page">
     <div class="dashboard-grid">
-      <div class="metric">课程预约<strong>{{ data.record01Count || 0 }}</strong></div>
-      <div class="metric">作品展销<strong>{{ data.record02Count || 0 }}</strong></div>
-      <div class="metric">工坊排期<strong>{{ data.record03Count || 0 }}</strong></div>
-      <div class="metric">评价统计<strong>{{ data.record04Count || 0 }}</strong></div>
+      <div class="metric">工坊档案<strong>{{ data['workshopCount'] || 0 }}</strong></div>
+      <div class="metric">传承人档案<strong>{{ data['inheritorCount'] || 0 }}</strong></div>
+      <div class="metric">课程目录<strong>{{ data['courseCount'] || 0 }}</strong></div>
+      <div class="metric">工坊排期<strong>{{ data['scheduleCount'] || 0 }}</strong></div>
     </div>
     <div class="chart-grid"><div ref="trendRef" class="chart"></div><div ref="pieRef" class="chart"></div></div>
   </div>
@@ -17,8 +17,8 @@ const data = reactive({})
 const trendRef = ref()
 const pieRef = ref()
 const draw = () => {
-  echarts.init(trendRef.value).setOption({ title: { text: '近7日业务趋势' }, tooltip: {}, xAxis: { type: 'category', data: ['周一','周二','周三','周四','周五','周六','周日'] }, yAxis: { type: 'value' }, series: [{ type: 'line', smooth: true, data: data.trend || [] }] })
-  echarts.init(pieRef.value).setOption({ title: { text: '业务状态分布' }, tooltip: {}, series: [{ type: 'pie', radius: '62%', data: data.pie || [] }] })
+  echarts.init(trendRef.value).setOption({ title: { text: '近7日课程预约与作品展销趋势' }, tooltip: {}, xAxis: { type: 'category', data: ['周一','周二','周三','周四','周五','周六','周日'] }, yAxis: { type: 'value' }, series: [{ type: 'line', smooth: true, areaStyle: {}, data: data.trend || [] }] })
+  echarts.init(pieRef.value).setOption({ title: { text: '非遗工坊业务状态分布' }, tooltip: {}, series: [{ type: 'pie', radius: '62%', data: data.pie || [] }] })
 }
 onMounted(async () => { const res = await getDashboard(); Object.assign(data, res.data); nextTick(draw) })
 </script>

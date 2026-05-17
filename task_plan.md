@@ -2684,6 +2684,101 @@ Status: Completed
 - [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
 - [x] 下一项目为 `196`
 
+# Task Plan: 196 项目正式开发
+
+完成 `196` 药店处方审核与慢病续方提醒管理系统的主题化开发、权限收口、静态结构验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `196` 批量版状态，确认仍存在 `com.p196 / BizRecord / project_196` 泛化模板
+- [x] 基于 `195` 正式化流水线生成 `scripts/develop_196.py`，并改造为药店门店、顾客档案、药品目录、处方登记、处方审核、风险复核、购药记录、用药指导、慢病方案、续方提醒和随访记录闭环
+- [x] 将后端切换为 `com.pharmacycare`，artifactId 为 `pharmacy-prescription-care-196`，数据库为 `pharmacy_care_196`
+- [x] 完成药店门店、顾客档案、药品目录、处方登记、处方审核、风险复核、购药记录、用药指导、慢病方案、续方提醒、随访记录、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / PHARMACY / PHARMACIST / CLERK / FOLLOWUP / CUSTOMER` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p196`、`BizRecord`、`project_196`、旧便民服务角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 静态结构确认 13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+- [x] 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证
+- [x] 完成全仓库 `node_modules` 扫描，未发现残留
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `197`
+
+# Task Plan: 197 项目正式开发
+
+完成 `197` 社区家政服务预约与人员信用评价系统的主题化开发、权限收口、静态结构验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `197` 批量版状态，确认仍存在 `com.p197 / BizRecord / project_197` 泛化模板
+- [x] 基于 `196` 正式化流水线生成 `scripts/develop_197.py`，并改造为服务站点、居民档案、人员档案、服务项目、服务预约、预约审核、人员排班、上门记录、信用评价、投诉处理和费用结算闭环
+- [x] 将后端切换为 `com.housekeeping`，artifactId 为 `community-housekeeping-197`，数据库为 `housekeeping_197`
+- [x] 完成服务站点、居民档案、人员档案、服务项目、服务预约、预约审核、人员排班、上门记录、信用评价、投诉处理、费用结算、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / AGENCY / DISPATCH / WORKER / QUALITY / RESIDENT` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p197`、`BizRecord`、`project_197`、旧药店处方角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 静态结构确认 13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+- [x] 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证
+- [x] 完成全仓库 `node_modules` 扫描，未发现残留
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `198`
+
+# Task Plan: 198 项目正式开发
+
+完成 `198` 城市共享充电宝投放巡检与收益结算系统的主题化开发、权限收口、静态结构验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `198` 批量版状态，确认仍存在 `com.p198 / BizRecord / project_198` 泛化模板
+- [x] 基于 `197` 正式化流水线生成 `scripts/develop_198.py`，并改造为投放点位、设备柜档案、充电宝档案、点位投放、设备巡检、故障维修、异常回收、租借订单、商户收益、收益结算和库存调拨闭环
+- [x] 将后端切换为 `com.powerbank`，artifactId 为 `urban-powerbank-198`，数据库为 `powerbank_198`
+- [x] 完成投放点位、设备柜档案、充电宝档案、点位投放、设备巡检、故障维修、异常回收、租借订单、商户收益、收益结算、库存调拨、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / OPERATOR / SITE / INSPECTOR / FINANCE / MERCHANT` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p198`、`BizRecord`、`project_198`、旧家政服务角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 静态结构确认 13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+- [x] 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证
+- [x] 完成全仓库 `node_modules` 扫描，未发现残留
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `199`
+
+# Task Plan: 199 项目正式开发
+
+完成 `199` 运动康复训练计划与体测评估管理系统的主题化开发、权限收口、静态结构验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `199` 批量版状态，确认仍存在 `com.p199 / BizRecord / project_199` 泛化模板
+- [x] 基于 `198` 正式化流水线生成 `scripts/develop_199.py`，并改造为康复中心、会员档案、教练档案、体测项目、体测评估、风险提醒、训练计划、训练安排、训练打卡、康复反馈和复评记录闭环
+- [x] 将后端切换为 `com.sportrehab`，artifactId 为 `sport-rehab-199`，数据库为 `sport_rehab_199`
+- [x] 完成康复中心、会员档案、教练档案、体测项目、体测评估、风险提醒、训练计划、训练安排、训练打卡、康复反馈、复评记录、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / CENTER / ASSESSOR / COACH / THERAPIST / MEMBER` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p199`、`BizRecord`、`project_199`、旧共享充电宝角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 静态结构确认 13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+- [x] 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证
+- [x] 完成全仓库 `node_modules` 扫描，未发现残留
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 下一项目为 `200`
+
+# Task Plan: 200 项目正式开发
+
+完成 `200` 非遗工坊课程预约与作品展销平台的主题化开发、权限收口、静态结构验证和进度回填。
+
+Status: Completed
+
+- [x] 检查 `200` 批量版状态，确认仍存在 `com.p200 / BizRecord / project_200` 泛化模板
+- [x] 基于 `199` 正式化流水线生成 `scripts/develop_200.py`，并改造为工坊档案、传承人档案、课程目录、工坊排期、课程预约、预约审核、课程签到、作品档案、作品展销、展销订单和展销结算闭环
+- [x] 将后端切换为 `com.heritageworkshop`，artifactId 为 `heritage-workshop-200`，数据库为 `heritage_workshop_200`
+- [x] 完成工坊档案、传承人档案、课程目录、工坊排期、课程预约、预约审核、课程签到、作品档案、作品展销、展销订单、展销结算、操作日志等 12 个业务模块
+- [x] 按 `ADMIN / WORKSHOP / TEACHER / CURATOR / SALES / VISITOR` 六类角色补齐默认账号、角色首页、菜单和操作权限
+- [x] 重写前端路由、布局、登录页、通用数据页、看板和 12 个业务页面字段，并让菜单/路由按模块角色过滤
+- [x] 残留扫描未发现 `com.p200`、`BizRecord`、`project_200`、旧运动康复角色/模块、旧 record 路径、通配符 CORS、`printStackTrace`、`System.out.print*`
+- [x] 静态结构确认 13 张 SQL 表、13 个实体、13 个 Mapper、15 个 Controller、16 个前端视图
+- [x] 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证
+- [x] 完成全仓库 `node_modules` 扫描，未发现残留
+- [x] 更新 `readme.md`、`readme_simple.md`、`progress.md`、`findings.md`
+- [x] 当前清单已完成到 `200`
+
 ## Errors Encountered
 
 | Error | Attempt | Resolution |
