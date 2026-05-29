@@ -1,24 +1,61 @@
 <template>
   <div class="login-wrap">
-    <el-card class="login-card">
-      <h2 class="title">精简博客系统</h2>
-      <el-tabs v-model="tab">
+    <!-- 装饰背景 -->
+    <div class="bg-decoration">
+      <div class="deco deco-1">✍️</div>
+      <div class="deco deco-2">📝</div>
+      <div class="deco deco-3">📖</div>
+      <div class="deco deco-4">💬</div>
+    </div>
+
+    <el-card class="login-card" shadow="always">
+      <div class="logo-section">
+        <div class="logo-icon">📝</div>
+        <h2 class="title">精简博客系统</h2>
+        <p class="subtitle">记录生活 · 分享精彩</p>
+      </div>
+
+      <el-tabs v-model="tab" class="custom-tabs">
         <el-tab-pane label="登录" name="login">
-          <el-form ref="loginRef" :model="loginForm" :rules="loginRules">
-            <el-form-item prop="username"><el-input v-model="loginForm.username" placeholder="用户名" maxlength="50" /></el-form-item>
-            <el-form-item prop="password"><el-input v-model="loginForm.password" type="password" show-password placeholder="密码" maxlength="100" /></el-form-item>
-            <el-button type="primary" style="width: 100%" :loading="loading" @click="handleLogin">登录</el-button>
+          <el-form ref="loginRef" :model="loginForm" :rules="loginRules" class="login-form">
+            <el-form-item prop="username">
+              <el-input v-model="loginForm.username" placeholder="请输入用户名" prefix-icon="User" size="large" maxlength="50" />
+            </el-form-item>
+            <el-form-item prop="password">
+              <el-input v-model="loginForm.password" type="password" show-password placeholder="请输入密码" prefix-icon="Lock" size="large" maxlength="100" />
+            </el-form-item>
+            <el-button type="primary" size="large" class="submit-btn" :loading="loading" @click="handleLogin">
+              <template v-if="!loading">
+                <el-icon><Key /></el-icon> 进入博客
+              </template>
+              <template v-else>登录中...</template>
+            </el-button>
           </el-form>
         </el-tab-pane>
         <el-tab-pane label="注册" name="register">
-          <el-form ref="regRef" :model="regForm" :rules="regRules">
-            <el-form-item prop="username"><el-input v-model="regForm.username" placeholder="用户名" maxlength="50" /></el-form-item>
-            <el-form-item prop="password"><el-input v-model="regForm.password" type="password" show-password placeholder="密码" maxlength="100" /></el-form-item>
-            <el-form-item prop="nickname"><el-input v-model="regForm.nickname" placeholder="昵称" maxlength="50" /></el-form-item>
-            <el-button type="success" style="width: 100%" :loading="loading" @click="handleRegister">注册账号</el-button>
+          <el-form ref="regRef" :model="regForm" :rules="regRules" class="login-form">
+            <el-form-item prop="username">
+              <el-input v-model="regForm.username" placeholder="请输入用户名" prefix-icon="User" size="large" maxlength="50" />
+            </el-form-item>
+            <el-form-item prop="password">
+              <el-input v-model="regForm.password" type="password" show-password placeholder="请输入密码" prefix-icon="Lock" size="large" maxlength="100" />
+            </el-form-item>
+            <el-form-item prop="nickname">
+              <el-input v-model="regForm.nickname" placeholder="请输入昵称" prefix-icon="UserFilled" size="large" maxlength="50" />
+            </el-form-item>
+            <el-button type="success" size="large" class="submit-btn register-btn" :loading="loading" @click="handleRegister">
+              <template v-if="!loading">
+                <el-icon><CirclePlus /></el-icon> 注册账号
+              </template>
+              <template v-else>注册中...</template>
+            </el-button>
           </el-form>
         </el-tab-pane>
       </el-tabs>
+
+      <div class="blog-tips">
+        <span>📝 用文字记录生活 · 用代码改变世界 📝</span>
+      </div>
     </el-card>
   </div>
 </template>
@@ -80,21 +117,215 @@ const handleRegister = async () => {
 
 <style scoped>
 .login-wrap {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(130deg, #0f766e, #0284c7, #1d4ed8);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 30%, #f093fb 60%, #f5576c 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-decoration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.deco {
+  position: absolute;
+  font-size: 48px;
+  opacity: 0.15;
+  animation: floatDeco 8s ease-in-out infinite;
+}
+
+.deco-1 { top: 15%; left: 10%; animation-delay: 0s; }
+.deco-2 { top: 25%; right: 15%; animation-delay: 2s; }
+.deco-3 { bottom: 25%; left: 20%; animation-delay: 4s; }
+.deco-4 { top: 50%; right: 10%; animation-delay: 1s; font-size: 40px; }
+
+@keyframes floatDeco {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.15; }
+  25% { transform: translateY(-15px) rotate(5deg); opacity: 0.25; }
+  50% { transform: translateY(-8px) rotate(-3deg); opacity: 0.2; }
+  75% { transform: translateY(-12px) rotate(3deg); opacity: 0.18; }
 }
 
 .login-card {
-  width: 430px;
-  border-radius: 14px;
+  width: 460px;
+  padding: 48px 40px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 28px;
+  box-shadow: 0 24px 64px rgba(102, 126, 234, 0.3);
+  position: relative;
+  z-index: 10;
+  backdrop-filter: blur(20px);
+  overflow: hidden;
+}
+
+.login-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c, #667eea);
+  background-size: 400% 100%;
+  animation: gradientMove 5s linear infinite;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 400% 0%; }
+}
+
+.logo-section {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.logo-icon {
+  font-size: 72px;
+  margin-bottom: 16px;
+  animation: bounce 2s ease-in-out infinite;
+  display: inline-block;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 .title {
-  margin: 0 0 18px;
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 8px 0;
+  letter-spacing: 3px;
+}
+
+.subtitle {
+  color: #764ba2;
+  font-size: 14px;
+  margin: 0;
+  letter-spacing: 6px;
+  font-weight: 500;
+}
+
+.custom-tabs {
+  margin-top: 24px;
+}
+
+.custom-tabs :deep(.el-tabs__header) {
+  margin-bottom: 24px;
+}
+
+.custom-tabs :deep(.el-tabs__nav-wrap::after) {
+  display: none;
+}
+
+.custom-tabs :deep(.el-tabs__active-bar) {
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  height: 3px;
+  border-radius: 2px;
+}
+
+.custom-tabs :deep(.el-tabs__item) {
+  font-size: 16px;
+  font-weight: 600;
+  color: #666;
+}
+
+.custom-tabs :deep(.el-tabs__item.is-active) {
+  color: #764ba2;
+}
+
+.login-form {
+  margin-top: 16px;
+}
+
+.login-form :deep(.el-input__wrapper) {
+  border-radius: 12px !important;
+  box-shadow: 0 2px 12px rgba(118, 75, 162, 0.08) !important;
+  padding: 4px 12px;
+  transition: all 0.3s ease;
+}
+
+.login-form :deep(.el-input__wrapper:hover) {
+  box-shadow: 0 4px 16px rgba(118, 75, 162, 0.15) !important;
+}
+
+.login-form :deep(.el-input__wrapper.is-focus) {
+  box-shadow: 0 4px 20px rgba(118, 75, 162, 0.25) !important;
+}
+
+.login-form :deep(.el-input__prefix) {
+  color: #764ba2;
+}
+
+.submit-btn {
+  width: 100%;
+  height: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  border-radius: 14px !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%) !important;
+  border: none !important;
+  box-shadow: 0 8px 24px rgba(118, 75, 162, 0.3) !important;
+  transition: all 0.3s ease !important;
+  margin-top: 8px;
+}
+
+.submit-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(118, 75, 162, 0.4) !important;
+}
+
+.register-btn {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+  box-shadow: 0 8px 24px rgba(240, 147, 251, 0.3) !important;
+}
+
+.register-btn:hover {
+  box-shadow: 0 12px 32px rgba(240, 147, 251, 0.4) !important;
+}
+
+.blog-tips {
   text-align: center;
-  color: #0f172a;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.blog-tips span {
+  color: #764ba2;
+  font-size: 12px;
+  letter-spacing: 2px;
+  opacity: 0.6;
+}
+
+/* 响应式 */
+@media (max-width: 480px) {
+  .login-card {
+    width: 90%;
+    margin: 16px;
+    padding: 32px 24px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .logo-icon {
+    font-size: 56px;
+  }
 }
 </style>
