@@ -1,32 +1,60 @@
 <!--pages/login/login.wxml-->
 <view class="login-container">
+  <!-- 装饰背景 -->
+  <view class="bg-circles">
+    <view class="circle circle-1"></view>
+    <view class="circle circle-2"></view>
+    <view class="circle circle-3"></view>
+  </view>
+
   <!-- 顶部Logo -->
   <view class="logo-section">
-    <view class="logo-badge">码</view>
+    <view class="logo-badge">
+      <text class="logo-icon">💻</text>
+    </view>
     <text class="app-name">编程学习交流平台</text>
     <text class="slogan">让学习编程变得更简单</text>
+  </view>
+
+  <!-- 功能特色 -->
+  <view class="features">
+    <view class="feature-item">
+      <text class="feature-icon">📚</text>
+      <text class="feature-text">丰富课程</text>
+    </view>
+    <view class="feature-item">
+      <text class="feature-icon">💡</text>
+      <text class="feature-text">实战项目</text>
+    </view>
+    <view class="feature-item">
+      <text class="feature-icon">👥</text>
+      <text class="feature-text">社区交流</text>
+    </view>
   </view>
 
   <!-- 登录按钮区域 -->
   <view class="login-section">
     <button class="login-btn" type="primary" bindtap="handleWxLogin">
-      <text class="wx-icon">微</text>
-      微信一键登录
+      <view class="wx-icon-wrap">
+        <text class="wx-icon">微</text>
+      </view>
+      <text class="btn-text">微信一键登录</text>
     </button>
     
     <view class="agreement">
       <checkbox-group bindchange="handleAgreeChange">
-        <checkbox value="agree" checked="{{agreed}}"/>
+        <checkbox value="agree" checked="{{agreed}}" color="#6C63FF"/>
       </checkbox-group>
-      <text>我已阅读并同意</text>
+      <text class="agreement-text">我已阅读并同意</text>
       <text class="link" bindtap="handleViewAgreement">《用户协议》</text>
-      <text>和</text>
+      <text class="agreement-text">和</text>
       <text class="link" bindtap="handleViewPrivacy">《隐私政策》</text>
     </view>
   </view>
 
   <!-- 底部装饰 -->
   <view class="bottom-decoration">
+    <view class="code-icon">{ }</view>
     <text class="version">v1.0.0</text>
   </view>
 </view>
