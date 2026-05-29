@@ -6,21 +6,43 @@
   <title>零食铺子仓储管理前端</title>
   <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
   <style>
-    body { margin: 0; background: #f6f8fb; font-family: "Segoe UI", "PingFang SC", sans-serif; }
-    .app-shell { min-height: 100vh; }
+    body { margin: 0; background: linear-gradient(135deg, #FF6D00 0%, #FF9100 50%, #FF6D00 100%); font-family: "PingFang SC", "Microsoft YaHei", sans-serif; min-height: 100vh; }
+    .app-shell { min-height: 100vh; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
     .header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
-    .title { font-size: 20px; font-weight: 700; color: #1f2f3d; }
-    .subtitle { color: #64748b; font-size: 13px; margin-top: 4px; }
+    .title { font-size: 24px; font-weight: 700; color: #E65100; font-family: "Noto Sans SC", "PingFang SC", sans-serif; }
+    .subtitle { color: #FF8F00; font-size: 13px; margin-top: 4px; letter-spacing: 1px; }
     .header-right { display: flex; align-items: center; gap: 8px; }
-    .card-title { font-weight: 600; margin-bottom: 12px; }
+    .card-title { font-weight: 600; margin-bottom: 12px; color: #E65100; font-size: 16px; }
     .mt16 { margin-top: 16px; }
     .items-table { margin-top: 12px; }
     .section-row { margin-top: 12px; }
     .token-input { margin-top: 8px; }
     .stat-grid { margin-top: 12px; }
-    .stat-card { padding: 12px 14px; background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; }
-    .stat-label { color: #64748b; font-size: 12px; }
-    .stat-value { font-size: 20px; font-weight: 700; color: #1f2f3d; }
+    .stat-card { padding: 16px; background: linear-gradient(135deg, #FF6D00 0%, #FF9100 100%); border: none; border-radius: 12px; color: white; box-shadow: 0 4px 12px rgba(255, 109, 0, 0.3); transition: all 0.3s ease; }
+    .stat-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(255, 109, 0, 0.4); }
+    .stat-label { color: rgba(255, 255, 255, 0.8); font-size: 12px; }
+    .stat-value { font-size: 24px; font-weight: 700; color: white; }
+    
+    /* 卡片样式 */
+    .el-card { border-radius: 16px !important; border: none !important; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important; }
+    
+    /* 按钮样式 */
+    .el-button--primary { background: linear-gradient(135deg, #FF6D00 0%, #FF9100 100%) !important; border: none !important; border-radius: 8px !important; }
+    .el-button--success { background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%) !important; border: none !important; border-radius: 8px !important; }
+    
+    /* 表格样式 */
+    .el-table { border-radius: 12px !important; overflow: hidden !important; }
+    .el-table th { background: #FFF3E0 !important; color: #E65100 !important; font-weight: 600 !important; }
+    
+    /* 标签页样式 */
+    .el-tabs__active-bar { background: linear-gradient(90deg, #FF6D00, #FF9100) !important; height: 3px !important; border-radius: 2px !important; }
+    .el-tabs__item.is-active { color: #FF6D00 !important; font-weight: 600 !important; }
+    
+    /* 输入框样式 */
+    .el-input__wrapper { border-radius: 8px !important; }
+    
+    /* 标签样式 */
+    .el-tag { border-radius: 20px !important; }
   </style>
 </head>
 <body>

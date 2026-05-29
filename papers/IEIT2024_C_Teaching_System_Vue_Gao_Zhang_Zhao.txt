@@ -1,0 +1,330 @@
+Design and Development of C Language Teaching System
+                   Based on Vue
+
+                              Xia Gaoa, Dongdong Zhangb, Xin Zhaoc*
+
+School of information engineering, Shanghai Zhongqiao Vocational and Technical University,
+                                      Shanghai, China
+
+                        a493473225@qq.com, bzddqrs@163.com
+                c*Corresponding                author: zhaoxin203@126.com
+
+         Abstract. With the rapid construction of experimental computer rooms in uni-
+         versities, more and more courses have entered the field of intelligence from tra-
+         ditional classrooms. Compared with the improvement of hardware, how to use
+         computer means to promote the quality of teaching in college education is the
+         key research topic. In order to break the conventional office software teaching
+         mode, this study is based on the programming course C language, through the
+         design and development of a set of programming learning system, so as to im-
+         prove the teaching efficiency of real-time grasp the students' learning progress,
+         the introduction of a new teaching means to subdue the boring characteristics of
+         traditional programming courses. The first point is to break the teaching limita-
+         tions of programming courses through the introduction of the teaching system.
+         Secondly, the main feature of the teaching system is the interaction between
+         teachers and students. The 11 supporting cases integrate the basic knowledge
+         units, and the effective combination of point to point. The development of the
+         whole teaching system is divided into front-end and back-end. The front-end is
+         mainly developed based on Vue framework, and then divided into teacher end
+         and student end according to the function. The back-end is deployed and devel-
+         oped through Spring Boot and Netty network framework, and finally uses Web-
+         Socket protocol for communication. Finally, the real C language teaching scene
+         was simulated for students to simulate training.
+
+         Keywords: Vue framework; Spring Boot; C language.
+
+
+
+
+1        Introduction
+
+The development of programming course believes that C language teaching is a topic
+that cannot be avoided. In Shanghai, for example, more than 95 percent of computer
+majors have opened C language courses [1]. Every year, college students apply for the
+Shanghai Application Technology Level examination of C language level two certifi-
+cate of about 9000 people. According to the data of TIOBE programming community,
+the share of C language is still as high as 12.08% in 2023, ranking second. Especially
+© The Author(s) 2024
+Y. Feng et al. (eds.), Proceedings of the 4th International Conference on Internet, Education and Information
+Technology (IEIT 2024), Atlantis Highlights in Social Sciences, Education and Humanities 26,
+https://doi.org/10.2991/978-94-6463-574-4_33
+          Design and Development of C Language Teaching System Based on Vue         281
+
+in programming situations such as operating system and calling hardware, C language
+is significantly better than other high-level languages, and most large system software
+is also written in C language. The above data is enough to prove that C language is
+still hot after many years on the top list, but for university teaching, the development
+of the course has entered a bottleneck period. After many years of teaching reform,
+there has been no major breakthrough. The reason is that the design of the course is
+boring, and the teaching mode is monotonous, which cannot adapt to the needs of the
+new generation of children, resulting in students unable to apply what they have
+learned [2]. Although there are all kinds of new laboratory construction popularization,
+but more just the improvement of traditional hardware parameters, there is no custom-
+ized development for the course, so this subject will research and develop a set of
+teaching system based on C language based on this demand, through the simulation of
+C language teaching scene to help students directly exercise the application ability of
+programming language [3].
+
+
+2      Key Technologies
+
+2.1    Vue
+Vue is a JavaScript framework for building user interfaces. It was created by Evan
+You in 2014 by taking some features of AngularJS and adopting the MVVM architec-
+ture to make it a more lightweight framework. The whole framework is built based on
+standard HTML, CSS, and JavaScript, with a complete core library of graphics, the
+composition of the progressive framework can help users develop front-end pages
+more efficiently. This system chooses Vue2.0 as the development version, and node.js
+is installed before installation. Because npm and other management tools have been
+integrated into node.js, there is no need to install it repeatedly. Figure 1 shows the
+Vue service startup interface. After starting, you can enter the local IP address and
+port number for verification. The Vue framework mainly solves the functions of data
+transmission and refresh in the whole front-end system, and feeds data back to the
+front-end interface in real time to improve the operating efficiency of the system.
+Especially in the teacher end interface, a large number of log information needs to be
+called to help teachers grasp the programming situation of students in real time.
+282       X. Gao et al.
+
+
+
+
+                               Fig. 1. Starting the server
+
+
+
+2.2    SpringBoot and Netty
+For back-end development, a combination of SpringBoot and Netty was chosen, with
+SpringBoot taking care of one-off network requests and the Netty networking frame-
+work integrated into it for real-time data transfer via the socket service protocol.
+SpringBoot is designed based on Spring4.0, which not only inherits the original ad-
+vantages of the Spring framework, but also further simplifies the construction and
+development of the whole link. Then the integration of Netty is equivalent to simpli-
+fying the programming and development process of network applications. It can be
+divided into three parts: automatic configuration, dependency management and con-
+figuration management. The auto-configuration is mainly responsible for the various
+parameters and Settings of Netty, and the dependency management solves the rela-
+tionship conflict, which can be managed in the configuration file Gradle, and the con-
+figuration management completes the parsing of the operation. Since Netty is an
+event-driven network framework, as shown in Equation 1, E denotes the total number
+of events, n denotes the number of events, and ei denotes the ith event.
+                                           n
+                                  E =  ei                                         (1)
+                                          i =1
+
+   MySQL is used as the back-end database management system, which is accessed
+through MyBatis, a Java-based persistence layer framework that includes SQL Maps
+and DAOs. In addition to supporting SQL queries, stored procedures and advanced
+mappings, MyBatis removes the complexity of JDBC code and uses simple XML to
+handle configuration and raw mapping, and finally maps interfaces and Java objects
+into database records. MappedStatement is the core class, which is mainly used to
+store all kinds of SQL configuration information.
+   Data communication and synchronization is the biggest difficulty of the whole sys-
+tem development, here the data communication is divided into two parts, one is the
+          Design and Development of C Language Teaching System Based on Vue         283
+
+front-end and back-end communication, mainly through the Http protocol and Web-
+socket protocol to complete, the second is the C language program and back-end
+analysis feedback, is completed through the socket. The back-end communication
+between the teacher and the student is also based on socket to complete the transmis-
+sion.
+
+2.3    Tomcat Server
+Since the system is designed by modular division, the front-end and back-end will be
+installed and deployed on each computer. In this way, the coupling of the system
+operation is reduced, and it is more secure and stable. For the convenience of later
+maintenance, this side chooses to use the virtual machine to create image files, the
+front-end program and the back-end program are installed and run in the Tomcat
+server respectively, and the socket protocol is convenient to call and find the IP ad-
+dress. Tomcat is a free open source Web server, belongs to lightweight application
+server, suitable for some small and medium-sized project development, the design
+architecture can be understood as two containers, respectively store the front-end and
+back-end, to ensure that the operation is more stable, independent of each other.
+
+
+3      Development and Research
+
+3.1    System Functions
+The system functions are divided into student end and teacher end, as shown in Figure
+2, which is the login interface of students. Only students who have entered data in the
+database can log in to this system for learning, and the student's account information
+can also be synchronized in the teacher's end to facilitate the teacher's daily teaching
+management.
+
+
+
+
+                             Fig. 2. Student Login interface
+
+   After successful login, you will enter the home page as shown in Figure 3, where
+the system simulates a variety of training scenarios and hardware sensors, including
+human body infrared sensor, LCD display, illumination sensor, temperature and hu-
+284        X. Gao et al.
+
+midity sensor, DC fan, red, yellow and green light, buzzer and expansion IO and other
+resources. Students can use any C language editor to interact with them to control the
+simulated sensors. At present, 11 kinds of teaching case scenarios have been created
+according to the system functions, and the knowledge points of C language are com-
+bined with them to really help students to synchronize with the classroom and practice
+while learning. All the running results of the front-end will also be displayed through
+the log management tool, so that students can understand their programming results at
+a glance.
+
+
+
+
+                                 Fig. 3. Student home page
+
+   The interface style of the teacher side is similar to that of the student side, but user
+management and screen display are added on this basis. After successful login on the
+teacher side, you can select any student interface to display and master the current
+running results of student programming. As shown in Figure 4, the teacher terminal
+interface. When you click the log management tool, you will enter the log menu effect
+interface, where you can view the student's experimental information and whether the
+equipment in the simulation scene has been successfully debugged and run.
+
+
+
+
+                                Fig. 4. Teacher home page
+          Design and Development of C Language Teaching System Based on Vue         285
+
+3.2    Case Study
+At present, 11 teaching scene cases have been set up according to the teaching con-
+tent, covering the knowledge points of input and output, sequential structure, selection
+structure, loop structure, array, function, structure and pointer in C language. In the
+future, it can also be expanded according to the content of the course. Let's share a
+case scenario of choosing a structure. As shown in Figure 5, three smart room modes
+are created and defined under the editor codeblocks, which are room temperature
+mode, light mode and leave mode. When the user switches the mode, the switch
+statement is used to judge the condition value, and the case clause under different
+conditions will enter the corresponding code block. The SocketSend function is re-
+sponsible for controlling the sending of instructions. In the room temperature mode,
+when the temperature is greater than 25, the fan will be turned on. Such a smart home
+teaching example not only exercises students' code example writing, but also intui-
+tively debug the interface to make students' programming more vivid.
+
+
+
+
+                            Fig. 5. Select structural statements
+
+
+
+3.3    Data Synchronization Technology
+The difficulty of the whole system lies in the data transmission and synchronization,
+because the different objects and clients involved need to be handled separately [4].
+The first is the communication between the front end and the back end of the student
+side, using Http protocol and Websocket protocol to achieve and the C language cli-
+ent call parsing is completed through the socket protocol. As shown in Figure 5, the
+back end first opens a port for the front end to call, and first does a shunt analysis.
+The http protocol is mainly responsible for the login and registration module, and the
+Websocket protocol is responsible for the data of the front end. The Websocket data is
+uniformly converted into json format, and then the data is pushed to the C language
+286         X. Gao et al.
+
+client. The reverse is the same, C language client through the socket protocol trans-
+mission to the back-end, converted into json format and then pushed to the front end
+for display, here all the parsing and judgment operations are completed in the
+dealMsg function.
+   Then the communication between the teacher and the student side, in the front C
+language and back-end communication at the same time, the data is pushed to the
+background of the teacher side, which is equivalent to a new socket thread to deal
+with this section of transmission. The teacher end will first store the database after
+receiving the data, and reserve the data source for the later display of the student in-
+terface.
+
+
+4       Comparison of Implementation Effects
+
+The teaching effect of using case teaching has significant advantages compared to
+traditional teaching methods. Case teaching simulates real-life scenarios and prob-
+lems, enabling students to exercise their thinking and practical abilities while solving
+problems. Students need to analyze the causes of problems, propose solutions, and
+evaluate their feasibility. This process can cultivate their ability to analyze and solve
+problems. However, traditional teaching methods often focus on imparting and mem-
+orizing knowledge, while neglecting the cultivation of students' thinking and practical
+abilities [5].
+   Before implementing case teaching, the teaching order may be relatively single and
+fixed, mainly based on teacher lectures, with students passively receiving knowledge.
+However, after the introduction of case teaching, the teaching order has undergone
+significant changes. Students begin to participate more actively in learning, and they
+need to express their opinions in groups and collaborate with others to solve prob-
+lems. This interaction and cooperation make the teaching order more active and inter-
+esting. At the same time, teachers also need to pay more attention to guiding and
+stimulating students' thinking and discussion, so that the teaching order is more in line
+with the needs and development of students.
+   Through case teaching comparison, students have strengthened their interest in
+learning, improved their understanding and mastery of knowledge points, and im-
+proved the quality of teaching. By comparing the teaching order before and after, the
+situation is shown in Table 1.
+
+        Table 1. Comparison of Implementation Effects of Case Teaching in Classroom
+
+                             Before implemen-     After implemen-
+                                                                       Comparison
+                             tation               tation
+        learning interest           45%                  70%               25%
+
+      Case completion rate          40%                  75%               35%
+
+      Mastery of knowledge
+                                    65%                  80%               15%
+             points
+          Design and Development of C Language Teaching System Based on Vue               287
+
+   The implementation of case teaching has significantly improved the quality of
+teaching. Firstly, the increased interest in learning among students makes them more
+willing to invest time and energy in learning, thereby improving learning outcomes.
+Secondly, students have a deeper and more solid understanding and mastery of the
+knowledge points, enabling them to better cope with various exams and practical
+application scenarios. Finally, case teaching focuses on cultivating students' compre-
+hensive qualities and innovative abilities, making them competitive and high-quality
+talents. Therefore, more and more academic fields are adopting case teaching as an
+important teaching method.
+
+
+5      Summary
+
+The C language teaching system mainly simulates the teaching hardware scene
+through the front-end and back-end deployment, so that students can use the C lan-
+guage to call it and improve their practical ability. At the same time, 11 case scenarios
+are set up to help students deepen their understanding of language knowledge points.
+Each scene is closely connected with the chapters of the C language course, step by
+step, and the knowledge points are truly integrated with the teaching system to im-
+prove the teaching efficiency. The difficulty of the whole teaching system is the syn-
+chronization and transmission of data. First of all, each computer needs to be de-
+ployed separately, and two containers are set up by Tomcat to store them respectively.
+The system has a rigorous logical structure in the design, and all these should be re-
+flected in the underlying code to achieve. The completed work is highly practical and
+suitable for the daily teaching of contemporary college students. In the subsequent
+development, more simulation equipment can be added to build a more perfect teach-
+ing scene. At the same time, the management function is more subdivided and the
+score statistics function is added.
+
+
+References
+ 1. Fangqin Xu, Xia G. and Wanying F, "Research on the Application of Virtual Simulation
+    Technology in the IoT programming class, " Proc. SPIE 12640, (2023).
+ 2. Shchemeleva Y B; Sokolov A A; Labazanova S H, "Development of hardware and a sys-
+    tem for analyzing energy parameters based on simulation in SimInTech," Journal of Phys-
+    ics: Conference Series 2176,(2022).
+ 3. Demidova L A; Mordakin B Yu, "Intelligent analysis of the list of technological operations
+    for the problem of developing of functional simulators stowage and installation-mooring of
+    the landing gear, " Journal of Physics: Conference Series 1902,1-13(2021).
+ 4. Umran Samir M.; Lu SongFeng; Abduljabbar Zaid Ameen; Nyangaresi Vincent Omollo,
+    "Multi-chain blockchain based secure data-sharing framework for industrial IoTs smart
+    devices in petroleum industry, " Internet of Things 24,(2023).
+ 5. Kelin Wang; Zhiyong L; Chengyi W;etc,” Research and Design of a Chicken Wing Test-
+    ing and Weight Grading Device,” Electronics 13, 1-17(2024).
+288         X. Gao et al.
+
+Open Access This chapter is licensed under the terms of the Creative Commons Attribution-
+NonCommercial 4.0 International License (http://creativecommons.org/licenses/by-nc/4.0/),
+which permits any noncommercial use, sharing, adaptation, distribution and reproduction in any
+medium or format, as long as you give appropriate credit to the original author(s) and the
+source, provide a link to the Creative Commons license and indicate if changes were made.
+      The images or other third party material in this chapter are included in the chapter's
+Creative Commons license, unless indicated otherwise in a credit line to the material. If material
+is not included in the chapter's Creative Commons license and your intended use is not
+permitted by statutory regulation or exceeds the permitted use, you will need to obtain
+permission directly from the copyright holder.
+

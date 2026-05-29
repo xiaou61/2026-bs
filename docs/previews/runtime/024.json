@@ -1,0 +1,49 @@
+{
+  "project": {
+    "project_id": "024",
+    "name": "流浪动物领养与救助平台 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "024-backend",
+    "frontend_dir": "024-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8024",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8024",
+      "pid": 25440
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3024",
+      "pid": 25436
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\024-backend.out.log",
+      "stderr": "logs\\project-preview\\024-backend.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\024-frontend.out.log",
+      "stderr": "logs\\project-preview\\024-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-05-24 22:34:48",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\024",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-05-24 22:35:21"
+}

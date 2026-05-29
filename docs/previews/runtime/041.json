@@ -1,0 +1,49 @@
+{
+  "project": {
+    "project_id": "041",
+    "name": "在线心理评测与咨询系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "041-backend",
+    "frontend_dir": "041-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8041",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8041",
+      "pid": 46784
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3041",
+      "pid": 43920
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\041-backend.out.log",
+      "stderr": "logs\\project-preview\\041-backend.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\041-frontend.out.log",
+      "stderr": "logs\\project-preview\\041-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-05-24 22:39:47",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\041",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-05-24 22:40:09"
+}

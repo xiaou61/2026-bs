@@ -1,0 +1,165 @@
+/* 009-frontend 全局样式变量 - 快递蓝风格 */
+
+:root {
+  /* 主色调 - 快递蓝 */
+  --primary-color: #1565C0;
+  --primary-light: #1E88E5;
+  --primary-dark: #0D47A1;
+  
+  /* 辅助色 - 活力黄 */
+  --secondary-color: #FFB300;
+  --secondary-light: #FFC107;
+  --secondary-dark: #FF8F00;
+  
+  /* 强调色 - 清新绿 */
+  --accent-color: #00C853;
+  --accent-light: #69F0AE;
+  --accent-dark: #00A844;
+  
+  /* 背景色 */
+  --bg-color: #F5F7FA;
+  --bg-light: #FFFFFF;
+  --bg-dark: #ECEFF1;
+  
+  /* 文字色 */
+  --text-primary: #212121;
+  --text-secondary: #616161;
+  --text-muted: #9E9E9E;
+  --text-light: #FFFFFF;
+  
+  /* 边框色 */
+  --border-color: #E0E0E0;
+  --border-light: #EEEEEE;
+  --border-dark: #BDBDBD;
+  
+  /* 阴影 */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
+  
+  /* 圆角 */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  
+  /* 字体 */
+  --font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-heading: 'Noto Sans SC', 'PingFang SC', sans-serif;
+  
+  /* 过渡效果 */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* 全局样式重置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #app {
+  height: 100%;
+  font-family: var(--font-family);
+  color: var(--text-primary);
+  background-color: var(--bg-color);
+}
+
+/* 链接样式 */
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--primary-light);
+}
+
+/* 按钮样式优化 */
+.el-button--primary {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+
+.el-button--primary:hover {
+  background-color: var(--primary-light) !important;
+  border-color: var(--primary-light) !important;
+}
+
+/* 卡片样式优化 */
+.el-card {
+  border-radius: var(--radius-md) !important;
+  border: none !important;
+  box-shadow: var(--shadow-sm) !important;
+  transition: box-shadow var(--transition-normal) !important;
+}
+
+.el-card:hover {
+  box-shadow: var(--shadow-md) !important;
+}
+
+/* 表格样式优化 */
+.el-table {
+  border-radius: var(--radius-md) !important;
+  overflow: hidden !important;
+}
+
+.el-table th {
+  background-color: var(--bg-light) !important;
+  color: var(--text-primary) !important;
+  font-weight: 600 !important;
+}
+
+/* 表单样式优化 */
+.el-input__wrapper {
+  border-radius: var(--radius-sm) !important;
+}
+
+/* 标签样式优化 */
+.el-tag {
+  border-radius: var(--radius-sm) !important;
+}
+
+/* 对话框样式优化 */
+.el-dialog {
+  border-radius: var(--radius-lg) !important;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+  border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-dark);
+  border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* 动画效果 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity var(--transition-normal), transform var(--transition-normal);
+}
+
+.fade-enter-from {
+  opacity: 0;
+  transform: translateX(10px);
+}
+
+.fade-leave-to {
+  opacity: 0;
+  transform: translateX(-10px);
+}

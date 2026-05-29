@@ -1,53 +1,69 @@
 <template>
   <div class="auth-page">
-    <div class="intro">
-      <span class="badge">Campus Loop</span>
-      <h1>登录后继续你的校园交易</h1>
-      <p>
-        发布闲置、发起聊天、收藏心仪商品、跟进订单状态，都从这里开始。
-      </p>
-      <ul>
-        <li>支持校园实名信息注册</li>
-        <li>信用分随交易评价动态变化</li>
-        <li>议价和聊天记录统一管理</li>
-      </ul>
+    <!-- 背景装饰 -->
+    <div class="bg-decoration">
+      <div class="circle circle-1"></div>
+      <div class="circle circle-2"></div>
+      <div class="circle circle-3"></div>
+      <div class="social-icon icon-1">💬</div>
+      <div class="social-icon icon-2">🛍️</div>
+      <div class="social-icon icon-3">❤️</div>
     </div>
-
-    <el-card class="form-card" shadow="never">
-      <template #header>
-        <div class="card-header">
-          <div>
-            <h2>欢迎回来</h2>
-            <p>输入账号密码进入平台</p>
-          </div>
+    
+    <div class="login-box">
+      <!-- 头部 -->
+      <div class="login-header">
+        <div class="logo-icon">
+          <el-icon :size="48"><ChatDotRound /></el-icon>
         </div>
-      </template>
-
-      <el-form ref="formRef" :model="form" :rules="rules" label-position="top" @submit.prevent>
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="form.username" placeholder="请输入用户名" size="large" />
+        <h1 class="login-title">校园交易平台</h1>
+        <p class="login-subtitle">Campus Trading Platform</p>
+      </div>
+      
+      <el-form ref="formRef" :model="form" :rules="rules" class="login-form">
+        <el-form-item prop="username">
+          <el-input 
+            v-model="form.username" 
+            placeholder="请输入用户名" 
+            size="large"
+            prefix-icon="User"
+            class="custom-input"
+          />
         </el-form-item>
-        <el-form-item label="密码" prop="password">
+        <el-form-item prop="password">
           <el-input
             v-model="form.password"
             type="password"
             show-password
             placeholder="请输入密码"
             size="large"
+            prefix-icon="Lock"
+            class="custom-input"
             @keyup.enter="handleLogin"
           />
         </el-form-item>
-
-        <el-button type="primary" size="large" :loading="submitting" class="submit-btn" @click="handleLogin">
-          登录
+        
+        <el-button 
+          type="primary" 
+          size="large" 
+          :loading="submitting" 
+          class="login-btn" 
+          @click="handleLogin"
+        >
+          <span v-if="!submitting">开始交易</span>
+          <span v-else>登录中...</span>
         </el-button>
       </el-form>
-
+      
       <div class="footer">
-        <span>还没有账号？</span>
-        <el-link type="primary" @click="router.push('/register')">去注册</el-link>
+        还没有账号？<router-link to="/register">立即注册</router-link>
       </div>
-    </el-card>
+      
+      <!-- 底部 -->
+      <div class="login-bottom">
+        <p>🛍️ 校园闲置 · 安全交易</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -92,92 +108,230 @@ const handleLogin = async () => {
 
 <style scoped>
 .auth-page {
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(420px, 480px);
-  gap: 32px;
-  align-items: center;
-  padding: 48px;
-  background:
-    radial-gradient(circle at left top, rgba(255, 200, 122, 0.28), transparent 30%),
-    radial-gradient(circle at right center, rgba(96, 165, 250, 0.24), transparent 24%),
-    #f8fafc;
-}
-
-.intro {
-  padding: 0 28px;
-}
-
-.badge {
-  display: inline-block;
-  padding: 8px 14px;
-  border-radius: 999px;
-  background: rgba(255, 138, 76, 0.12);
-  color: #c2410c;
-  margin-bottom: 18px;
-}
-
-.intro h1 {
-  font-size: 48px;
-  line-height: 1.15;
-  margin-bottom: 16px;
-  color: #0f172a;
-}
-
-.intro p {
-  color: #475569;
-  line-height: 1.9;
-  max-width: 560px;
-}
-
-.intro ul {
-  margin-top: 24px;
-  padding-left: 20px;
-  color: #334155;
-  line-height: 2;
-}
-
-.form-card {
-  border-radius: 28px;
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  background: rgba(255, 255, 255, 0.92);
-}
-
-.card-header h2 {
-  font-size: 28px;
-  margin-bottom: 6px;
-}
-
-.card-header p {
-  color: #64748b;
-}
-
-.submit-btn {
   width: 100%;
-  margin-top: 12px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #9C27B0 0%, #AB47BC 50%, #9C27B0 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 背景装饰 */
+.bg-decoration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(233, 30, 99, 0.15);
+}
+
+.circle-1 {
+  width: 350px;
+  height: 350px;
+  top: -120px;
+  right: -80px;
+  animation: float 8s ease-in-out infinite;
+}
+
+.circle-2 {
+  width: 250px;
+  height: 250px;
+  bottom: -80px;
+  left: -60px;
+  animation: float 10s ease-in-out infinite reverse;
+}
+
+.circle-3 {
+  width: 180px;
+  height: 180px;
+  top: 40%;
+  left: 10%;
+  animation: float 12s ease-in-out infinite;
+}
+
+.social-icon {
+  position: absolute;
+  font-size: 40px;
+  animation: float 6s ease-in-out infinite;
+}
+
+.icon-1 {
+  top: 15%;
+  right: 10%;
+  animation-delay: 0s;
+}
+
+.icon-2 {
+  top: 60%;
+  left: 15%;
+  animation-delay: 2s;
+}
+
+.icon-3 {
+  bottom: 20%;
+  right: 20%;
+  animation-delay: 4s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-25px) rotate(5deg);
+  }
+}
+
+/* 登录框 */
+.login-box {
+  width: 420px;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 24px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 10;
+  animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 头部 */
+.login-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.logo-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  background: linear-gradient(135deg, #9C27B0 0%, #E91E63 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 8px 20px rgba(156, 39, 176, 0.4);
+}
+
+.login-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #9C27B0;
+  margin-bottom: 8px;
+  font-family: var(--font-heading);
+}
+
+.login-subtitle {
+  font-size: 13px;
+  color: #9E9E9E;
+  letter-spacing: 1px;
+}
+
+/* 表单 */
+.login-form {
+  margin-top: 20px;
+}
+
+.custom-input :deep(.el-input__wrapper) {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 8px 15px;
+  transition: all 0.3s ease;
+}
+
+.custom-input :deep(.el-input__wrapper:hover) {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.custom-input :deep(.el-input__wrapper.is-focus) {
+  box-shadow: 0 4px 12px rgba(156, 39, 176, 0.3);
+}
+
+.login-btn {
+  width: 100%;
   height: 48px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #9C27B0 0%, #AB47BC 100%) !important;
+  border: none !important;
+  box-shadow: 0 8px 20px rgba(156, 39, 176, 0.4);
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(156, 39, 176, 0.5);
 }
 
 .footer {
-  margin-top: 24px;
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  color: #64748b;
+  text-align: center;
+  font-size: 14px;
+  color: #757575;
+  margin-top: 20px;
 }
 
-@media (max-width: 960px) {
-  .auth-page {
-    grid-template-columns: 1fr;
-    padding: 24px;
-  }
+.footer a {
+  color: #9C27B0;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
 
-  .intro {
-    padding: 0;
-  }
+.footer a:hover {
+  color: #7B1FA2;
+}
 
-  .intro h1 {
-    font-size: 36px;
+/* 底部 */
+.login-bottom {
+  text-align: center;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid #E0E0E0;
+}
+
+.login-bottom p {
+  font-size: 14px;
+  color: #E91E63;
+  font-weight: 500;
+}
+
+/* 响应式 */
+@media (max-width: 480px) {
+  .login-box {
+    width: 90%;
+    padding: 30px;
+  }
+  
+  .login-title {
+    font-size: 24px;
+  }
+  
+  .logo-icon {
+    width: 60px;
+    height: 60px;
   }
 }
 </style>

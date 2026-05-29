@@ -565,7 +565,11 @@ def prepare_project(project_id: str) -> None:
         package_info = load_package_scripts(frontend_dir)
         scripts = package_info.get("scripts", {})
         if "dev" in scripts:
-            command = ["npm.cmd", "run", "dev", "--", "--host", "127.0.0.1"]
+            dev_script = str(scripts.get("dev", ""))
+            if "vite" in dev_script:
+                command = ["npx.cmd", "--yes", "vite", "--host", "127.0.0.1"]
+            else:
+                command = ["npm.cmd", "run", "dev", "--", "--host", "127.0.0.1"]
         elif "start" in scripts:
             command = ["npm.cmd", "start"]
         else:
@@ -593,7 +597,7 @@ def prepare_project(project_id: str) -> None:
         "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png",
     }
     save_runtime(project_id, runtime)
-    print(json.dumps(runtime, ensure_ascii=False, indent=2))
+    print(json.dumps(runtime, ensure_ascii=True, indent=2))
 
 
 def detect_frontend_port(frontend_dir: Path) -> int:

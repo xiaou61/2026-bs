@@ -1,0 +1,96 @@
+{
+  "project": {
+    "project_id": "013",
+    "name": "校园共享经济平台 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "013-backend",
+    "frontend_dir": "013-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8013",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [
+      "登录",
+      "注册",
+      "首页",
+      "地图",
+      "闲置物品",
+      "发布闲置物品",
+      "技能服务",
+      "发布技能服务",
+      "我的订单",
+      "消息通知",
+      "个人中心",
+      "实名认证",
+      "收益中心",
+      "我的发布",
+      "我的收藏",
+      "信用中心",
+      "我的钱包",
+      "数据概览",
+      "用户管理",
+      "实名认证审核",
+      "物品审核",
+      "共享物品管理"
+    ],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8013",
+      "pid": 42236
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:5013",
+      "pid": 2092
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\013-backend.out.log",
+      "stderr": "logs\\project-preview\\013-backend.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\013-frontend.out.log",
+      "stderr": "logs\\project-preview\\013-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-05-24 22:26:26",
+  "sql_file": "013-backend\\src\\main\\resources\\sql\\schema.sql",
+  "capture_hints": {
+    "roles": [],
+    "routes": [
+      "登录",
+      "注册",
+      "首页",
+      "地图",
+      "闲置物品",
+      "发布闲置物品",
+      "技能服务",
+      "发布技能服务",
+      "我的订单",
+      "消息通知",
+      "个人中心",
+      "实名认证",
+      "收益中心",
+      "我的发布",
+      "我的收藏",
+      "信用中心",
+      "我的钱包",
+      "数据概览",
+      "用户管理",
+      "实名认证审核",
+      "物品审核",
+      "共享物品管理"
+    ],
+    "screenshot_dir": "docs\\previews\\assets\\013",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-05-24 22:27:45"
+}

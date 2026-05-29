@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Form, Input, Button, Card, message } from 'antd'
-import { UserOutlined, LockOutlined } from '@ant-design/icons'
+import { UserOutlined, LockOutlined, HeartOutlined } from '@ant-design/icons'
 import { login } from '../api/user'
 import useUserStore from '../store/useUserStore'
+import './Login.css'
 
 const Login = () => {
   const navigate = useNavigate()
@@ -37,38 +38,70 @@ const Login = () => {
   }
 
   return (
-    <div style={{ 
-      display: 'flex', 
-      justifyContent: 'center', 
-      alignItems: 'center', 
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-    }}>
-      <Card 
-        title="登录" 
-        style={{ width: 400 }}
-        extra={<Link to="/register">注册账号</Link>}
-      >
-        <Form onFinish={onFinish} size="large">
+    <div className="login-container">
+      {/* 背景装饰 */}
+      <div className="bg-decoration">
+        <div className="circle circle-1"></div>
+        <div className="circle circle-2"></div>
+        <div className="circle circle-3"></div>
+        <div className="health-icon icon-1">❤️</div>
+        <div className="health-icon icon-2">🏥</div>
+        <div className="health-icon icon-3">💊</div>
+      </div>
+      
+      <div className="login-box">
+        {/* 头部 */}
+        <div className="login-header">
+          <div className="logo-icon">
+            <HeartOutlined />
+          </div>
+          <h1 className="login-title">健康管理平台</h1>
+          <p className="login-subtitle">Smart Health Management</p>
+        </div>
+        
+        <Form onFinish={onFinish} size="large" className="login-form">
           <Form.Item
             name="username"
             rules={[{ required: true, message: '请输入用户名' }]}
           >
-            <Input prefix={<UserOutlined />} placeholder="用户名" />
+            <Input 
+              prefix={<UserOutlined />} 
+              placeholder="请输入用户名"
+              className="custom-input"
+            />
           </Form.Item>
           <Form.Item
             name="password"
             rules={[{ required: true, message: '请输入密码' }]}
           >
-            <Input.Password prefix={<LockOutlined />} placeholder="密码" />
+            <Input.Password 
+              prefix={<LockOutlined />} 
+              placeholder="请输入密码"
+              className="custom-input"
+            />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} block>
-              登录
+            <Button 
+              type="primary" 
+              htmlType="submit" 
+              loading={loading} 
+              block
+              className="login-btn"
+            >
+              {loading ? '登录中...' : '进入健康平台'}
             </Button>
           </Form.Item>
         </Form>
-      </Card>
+        
+        <div className="login-footer">
+          <Link to="/register">没有账号？立即注册</Link>
+        </div>
+        
+        {/* 底部 */}
+        <div className="login-bottom">
+          <p>❤️ 关爱健康 · 智慧生活</p>
+        </div>
+      </div>
     </div>
   )
 }

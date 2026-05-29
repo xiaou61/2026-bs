@@ -1,0 +1,102 @@
+{
+  "project": {
+    "project_id": "007",
+    "name": "志愿活动管理与积分激励平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "007-backend",
+    "frontend_dir": "007-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8087",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "ADMIN",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "volunteer",
+        "role_label": "VOLUNTEER",
+        "username": "volunteer",
+        "password": "123456"
+      },
+      {
+        "role_key": "volunteer",
+        "role_label": "VOLUNTEER",
+        "username": "zhangsan",
+        "password": "123456"
+      },
+      {
+        "role_key": "volunteer",
+        "role_label": "VOLUNTEER",
+        "username": "lisi",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "readme_sources": [
+      "007-backend\\ACCOUNTS.md"
+    ]
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8087",
+      "pid": 27988
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3007",
+      "pid": 47092
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\007-backend.out.log",
+      "stderr": "logs\\project-preview\\007-backend.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\007-frontend.out.log",
+      "stderr": "logs\\project-preview\\007-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-05-24 21:20:12",
+  "sql_file": "007-backend\\src\\main\\resources\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [
+      {
+        "role_key": "admin",
+        "role_label": "ADMIN",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "volunteer",
+        "role_label": "VOLUNTEER",
+        "username": "volunteer",
+        "password": "123456"
+      },
+      {
+        "role_key": "volunteer",
+        "role_label": "VOLUNTEER",
+        "username": "zhangsan",
+        "password": "123456"
+      },
+      {
+        "role_key": "volunteer",
+        "role_label": "VOLUNTEER",
+        "username": "lisi",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\007",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-05-24 21:32:45"
+}

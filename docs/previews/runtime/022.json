@@ -1,0 +1,104 @@
+{
+  "project": {
+    "project_id": "022",
+    "name": "校园自习室座位预约系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "022-backend",
+    "frontend_dir": "022-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "202001",
+        "password": "123456"
+      }
+    ],
+    "routes": [
+      "首页",
+      "自习室列表",
+      "我的预约",
+      "个人中心",
+      "信用记录",
+      "仪表盘",
+      "自习室管理",
+      "座位管理",
+      "预约管理",
+      "用户管理",
+      "数据统计",
+      "系统配置"
+    ],
+    "readme_sources": [
+      "022-frontend\\README.md"
+    ]
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8080",
+      "pid": 41124
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:5173",
+      "pid": 12176
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\022-backend.out.log",
+      "stderr": "logs\\project-preview\\022-backend.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\022-frontend.out.log",
+      "stderr": "logs\\project-preview\\022-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-05-24 22:33:23",
+  "sql_file": "022-backend\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "202001",
+        "password": "123456"
+      }
+    ],
+    "routes": [
+      "首页",
+      "自习室列表",
+      "我的预约",
+      "个人中心",
+      "信用记录",
+      "仪表盘",
+      "自习室管理",
+      "座位管理",
+      "预约管理",
+      "用户管理",
+      "数据统计",
+      "系统配置"
+    ],
+    "screenshot_dir": "docs\\previews\\assets\\022",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-05-24 22:34:03"
+}

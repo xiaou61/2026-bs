@@ -1,0 +1,193 @@
+{
+  "project": {
+    "project_id": "009",
+    "name": "校园快递代收管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "009-backend",
+    "frontend_dir": "009-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8009",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "station1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student1",
+        "password": "123456"
+      },
+      {
+        "role_key": "admin",
+        "role_label": "STATION_ADMIN",
+        "username": "station2",
+        "password": "123456"
+      },
+      {
+        "role_key": "courier",
+        "role_label": "COURIER",
+        "username": "courier1",
+        "password": "123456"
+      },
+      {
+        "role_key": "student",
+        "role_label": "STUDENT",
+        "username": "student1",
+        "password": "123456"
+      },
+      {
+        "role_key": "student",
+        "role_label": "STUDENT",
+        "username": "student2",
+        "password": "123456"
+      },
+      {
+        "role_key": "student",
+        "role_label": "STUDENT",
+        "username": "student3",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "用户",
+        "username": "courier1",
+        "password": "123456"
+      }
+    ],
+    "routes": [
+      "我的快递",
+      "取件历史",
+      "消息通知",
+      "个人中心",
+      "快递入库",
+      "批量导入",
+      "取件核销",
+      "快递管理",
+      "数据统计",
+      "代收点管理",
+      "快递公司管理",
+      "用户管理",
+      "操作日志",
+      "系统配置"
+    ],
+    "readme_sources": [
+      "009-backend\\ACCOUNTS.md",
+      "009-backend\\README.md",
+      "009-frontend\\README.md"
+    ]
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8009",
+      "pid": 30472
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:5009",
+      "pid": 12256
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\009-backend.out.log",
+      "stderr": "logs\\project-preview\\009-backend.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\009-frontend.out.log",
+      "stderr": "logs\\project-preview\\009-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-05-24 22:08:58",
+  "capture_hints": {
+    "roles": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "station1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student1",
+        "password": "123456"
+      },
+      {
+        "role_key": "admin",
+        "role_label": "STATION_ADMIN",
+        "username": "station2",
+        "password": "123456"
+      },
+      {
+        "role_key": "courier",
+        "role_label": "COURIER",
+        "username": "courier1",
+        "password": "123456"
+      },
+      {
+        "role_key": "student",
+        "role_label": "STUDENT",
+        "username": "student1",
+        "password": "123456"
+      },
+      {
+        "role_key": "student",
+        "role_label": "STUDENT",
+        "username": "student2",
+        "password": "123456"
+      },
+      {
+        "role_key": "student",
+        "role_label": "STUDENT",
+        "username": "student3",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "用户",
+        "username": "courier1",
+        "password": "123456"
+      }
+    ],
+    "routes": [
+      "我的快递",
+      "取件历史",
+      "消息通知",
+      "个人中心",
+      "快递入库",
+      "批量导入",
+      "取件核销",
+      "快递管理",
+      "数据统计",
+      "代收点管理",
+      "快递公司管理",
+      "用户管理",
+      "操作日志",
+      "系统配置"
+    ],
+    "screenshot_dir": "docs\\previews\\assets\\009",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-05-24 22:10:02"
+}

@@ -1,0 +1,50 @@
+{
+  "project": {
+    "project_id": "033",
+    "name": "婚纱写真馆管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "033-backend",
+    "frontend_dir": "033-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8080",
+      "pid": 31792
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:5173",
+      "pid": 31740
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\033-backend.out.log",
+      "stderr": "logs\\project-preview\\033-backend.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\033-frontend.out.log",
+      "stderr": "logs\\project-preview\\033-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-05-24 22:16:38",
+  "sql_file": "033-backend\\sql\\schema.sql",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\033",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-05-24 22:16:57"
+}

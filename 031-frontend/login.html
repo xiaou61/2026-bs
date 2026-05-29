@@ -7,29 +7,52 @@
     <link rel="icon" href="data:,">
     <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/login.css" rel="stylesheet">
 </head>
-<body>
+<body class="login-page">
+    <!-- 背景装饰 -->
+    <div class="bg-decoration">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+        <div class="circle circle-3"></div>
+        <div class="sport-icon icon-1">⚽</div>
+        <div class="sport-icon icon-2">🏀</div>
+        <div class="sport-icon icon-3">🏈</div>
+    </div>
+    
     <div class="container">
-        <div class="row justify-content-center mt-5">
+        <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
             <div class="col-md-6 col-lg-4">
-                <div class="card shadow">
-                    <div class="card-body p-4">
-                        <h3 class="card-title text-center mb-4">用户登录</h3>
-                        <form id="login-form">
-                            <div class="mb-3">
-                                <label class="form-label">用户名</label>
-                                <input type="text" name="username" class="form-control" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">密码</label>
-                                <input type="password" name="password" class="form-control" required>
-                            </div>
-                            <div id="login-result" class="mb-3"></div>
-                            <button type="submit" class="btn btn-primary w-100">登录</button>
-                        </form>
-                        <div class="text-center mt-3">
-                            <a href="register.html">还没有账号？立即注册</a>
+                <div class="login-card">
+                    <!-- 头部 -->
+                    <div class="login-header">
+                        <div class="logo-icon">
+                            <span class="sport-emoji">🏟️</span>
                         </div>
+                        <h1 class="login-title">球赛订票系统</h1>
+                        <p class="login-subtitle">Sports Ticket Booking</p>
+                    </div>
+                    
+                    <form id="login-form" class="login-form">
+                        <div class="mb-3">
+                            <label class="form-label">用户名</label>
+                            <input type="text" name="username" class="form-control custom-input" placeholder="请输入用户名" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">密码</label>
+                            <input type="password" name="password" class="form-control custom-input" placeholder="请输入密码" required>
+                        </div>
+                        <div id="login-result" class="mb-3"></div>
+                        <button type="submit" class="btn login-btn w-100">开始观赛</button>
+                    </form>
+                    
+                    <div class="login-footer">
+                        <a href="register.html">还没有账号？立即注册</a>
+                    </div>
+                    
+                    <!-- 底部 -->
+                    <div class="login-bottom">
+                        <p>🏟️ 精彩赛事 · 不容错过</p>
                     </div>
                 </div>
             </div>

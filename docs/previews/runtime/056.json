@@ -1,0 +1,87 @@
+{
+  "project": {
+    "project_id": "056",
+    "name": "短文写作竞赛管理小程序 🔥最新",
+    "components": [
+      "backend",
+      "frontend",
+      "miniapp"
+    ],
+    "backend_dir": "056-backend",
+    "frontend_dir": "056-frontend",
+    "miniapp_dir": "056-miniapp",
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8056",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      }
+    ],
+    "routes": [
+      "首页",
+      "用户管理",
+      "分类管理",
+      "竞赛管理",
+      "新增竞赛",
+      "作品管理",
+      "评分管理",
+      "公告管理",
+      "获奖管理"
+    ],
+    "readme_sources": [
+      "056-backend\\README.md"
+    ]
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8056",
+      "pid": 10524
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3056",
+      "pid": 42240
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\056-backend.out.log",
+      "stderr": "logs\\project-preview\\056-backend.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\056-frontend.out.log",
+      "stderr": "logs\\project-preview\\056-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-05-24 22:47:43",
+  "sql_file": "056-backend\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      }
+    ],
+    "routes": [
+      "首页",
+      "用户管理",
+      "分类管理",
+      "竞赛管理",
+      "新增竞赛",
+      "作品管理",
+      "评分管理",
+      "公告管理",
+      "获奖管理"
+    ],
+    "screenshot_dir": "docs\\previews\\assets\\056",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-05-24 22:49:28"
+}

@@ -1,31 +1,46 @@
 <template>
   <div class="profile-container">
-    <el-row :gutter="20">
+    <!-- 页面标题 -->
+    <div class="page-header">
+      <div class="page-title">
+        <el-icon><User /></el-icon>
+        <span>个人中心</span>
+      </div>
+    </div>
+
+    <el-row :gutter="24">
       <!-- 个人信息卡片 -->
-      <el-col :span="8">
-        <el-card>
-          <template #header>
-            <span>个人信息</span>
-          </template>
+      <el-col :xs="24" :lg="8">
+        <el-card class="profile-card">
           <div class="user-info">
-            <el-avatar :size="80" class="avatar">
-              {{ userInfo?.username?.charAt(0) }}
-            </el-avatar>
+            <div class="avatar-container">
+              <el-avatar :size="100" class="avatar">
+                {{ userInfo?.username?.charAt(0) }}
+              </el-avatar>
+              <div class="avatar-badge">
+                <el-icon><Camera /></el-icon>
+              </div>
+            </div>
             <h3 class="username">{{ userInfo?.username }}</h3>
-            <el-tag :type="getRoleType(userInfo?.role)" size="large">
+            <el-tag :type="getRoleType(userInfo?.role)" size="large" class="role-tag">
               {{ getRoleName(userInfo?.role) }}
             </el-tag>
-            <el-descriptions :column="1" border style="margin-top: 20px;">
+            <el-divider />
+            <el-descriptions :column="1" class="info-descriptions">
               <el-descriptions-item label="真实姓名">
+                <el-icon><User /></el-icon>
                 {{ userInfo?.realName }}
               </el-descriptions-item>
               <el-descriptions-item label="手机号">
+                <el-icon><Phone /></el-icon>
                 {{ userInfo?.phone }}
               </el-descriptions-item>
               <el-descriptions-item label="邮箱">
+                <el-icon><Message /></el-icon>
                 {{ userInfo?.email }}
               </el-descriptions-item>
               <el-descriptions-item label="注册时间">
+                <el-icon><Calendar /></el-icon>
                 {{ userInfo?.createTime }}
               </el-descriptions-item>
             </el-descriptions>
@@ -34,13 +49,15 @@
       </el-col>
 
       <!-- 编辑信息 -->
-      <el-col :span="16">
-        <el-card>
+      <el-col :xs="24" :lg="16">
+        <el-card class="edit-card">
           <template #header>
-            <el-tabs v-model="activeTab">
-              <el-tab-pane label="修改信息" name="info" />
-              <el-tab-pane label="修改密码" name="password" />
-            </el-tabs>
+            <div class="card-header">
+              <el-tabs v-model="activeTab" class="custom-tabs">
+                <el-tab-pane label="修改信息" name="info" />
+                <el-tab-pane label="修改密码" name="password" />
+              </el-tabs>
+            </div>
           </template>
 
           <!-- 修改信息表单 -->
@@ -53,16 +70,17 @@
             class="profile-form"
           >
             <el-form-item label="真实姓名" prop="realName">
-              <el-input v-model="infoForm.realName" placeholder="请输入真实姓名" />
+              <el-input v-model="infoForm.realName" placeholder="请输入真实姓名" class="custom-input" />
             </el-form-item>
             <el-form-item label="手机号" prop="phone">
-              <el-input v-model="infoForm.phone" placeholder="请输入手机号" />
+              <el-input v-model="infoForm.phone" placeholder="请输入手机号" class="custom-input" />
             </el-form-item>
             <el-form-item label="邮箱" prop="email">
-              <el-input v-model="infoForm.email" placeholder="请输入邮箱" />
+              <el-input v-model="infoForm.email" placeholder="请输入邮箱" class="custom-input" />
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="handleUpdateInfo" :loading="submitting">
+              <el-button type="primary" @click="handleUpdateInfo" :loading="submitting" class="save-btn">
+                <el-icon><Check /></el-icon>
                 保存修改
               </el-button>
             </el-form-item>
@@ -83,6 +101,7 @@
                 type="password"
                 placeholder="请输入原密码"
                 show-password
+                class="custom-input"
               />
             </el-form-item>
             <el-form-item label="新密码" prop="newPassword">
@@ -91,6 +110,7 @@
                 type="password"
                 placeholder="请输入新密码"
                 show-password
+                class="custom-input"
               />
             </el-form-item>
             <el-form-item label="确认密码" prop="confirmPassword">
@@ -99,10 +119,12 @@
                 type="password"
                 placeholder="请再次输入新密码"
                 show-password
+                class="custom-input"
               />
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="handleChangePassword" :loading="submitting">
+              <el-button type="primary" @click="handleChangePassword" :loading="submitting" class="save-btn">
+                <el-icon><Key /></el-icon>
                 修改密码
               </el-button>
             </el-form-item>
@@ -266,24 +288,224 @@ onMounted(() => {
   padding: 0;
 }
 
-.user-info {
-  text-align: center;
+/* 页面标题 */
+.page-header {
+  margin-bottom: 24px;
+  padding: 0 4px;
 }
 
-.avatar {
+.page-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #2C3E50;
+  font-family: var(--font-heading);
+}
+
+.page-title .el-icon {
+  color: #2E7D32;
+  font-size: 28px;
+}
+
+/* 个人信息卡片 */
+.profile-card {
+  border-radius: 16px !important;
+  border: none !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+  margin-bottom: 24px;
+}
+
+.user-info {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.avatar-container {
+  position: relative;
+  display: inline-block;
   margin-bottom: 20px;
 }
 
-.username {
-  font-size: 20px;
-  margin-bottom: 10px;
-  color: #303133;
+.avatar {
+  background: linear-gradient(135deg, #2E7D32 0%, #1565C0 100%);
+  color: white;
+  font-size: 36px;
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(46, 125, 50, 0.3);
 }
 
+.avatar-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #FF6F00 0%, #FFA726 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(255, 111, 0, 0.3);
+}
+
+.avatar-badge:hover {
+  transform: scale(1.1);
+}
+
+.username {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2C3E50;
+  margin-bottom: 12px;
+  font-family: var(--font-heading);
+}
+
+.role-tag {
+  border-radius: 20px !important;
+  padding: 0 20px !important;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.info-descriptions {
+  margin-top: 20px;
+}
+
+.info-descriptions :deep(.el-descriptions__label) {
+  font-weight: 500;
+  color: #606266;
+}
+
+.info-descriptions :deep(.el-descriptions__content) {
+  color: #2C3E50;
+}
+
+.info-descriptions :deep(.el-descriptions-item) {
+  padding: 12px 0;
+}
+
+.info-descriptions :deep(.el-descriptions-item .el-icon) {
+  color: #2E7D32;
+  margin-right: 8px;
+}
+
+/* 编辑信息卡片 */
+.edit-card {
+  border-radius: 16px !important;
+  border: none !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+.edit-card :deep(.el-card__header) {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 16px 24px;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+}
+
+/* 自定义标签页 */
+.custom-tabs :deep(.el-tabs__header) {
+  margin-bottom: 0;
+}
+
+.custom-tabs :deep(.el-tabs__nav-wrap::after) {
+  height: 1px;
+  background: #f0f0f0;
+}
+
+.custom-tabs :deep(.el-tabs__active-bar) {
+  background: linear-gradient(90deg, #2E7D32, #1565C0);
+  height: 3px;
+  border-radius: 2px;
+}
+
+.custom-tabs :deep(.el-tabs__item) {
+  font-weight: 500;
+  color: #606266;
+}
+
+.custom-tabs :deep(.el-tabs__item.is-active) {
+  color: #2E7D32;
+  font-weight: 600;
+}
+
+/* 个人表单 */
 .profile-form {
   max-width: 500px;
   margin: 0 auto;
   padding: 20px 0;
+}
+
+.profile-form :deep(.el-form-item__label) {
+  font-weight: 500;
+  color: #2C3E50;
+}
+
+.custom-input :deep(.el-input__wrapper) {
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.custom-input :deep(.el-input__wrapper:hover) {
+  box-shadow: 0 0 0 1px #2E7D32 inset;
+}
+
+.custom-input :deep(.el-input__wrapper.is-focus) {
+  box-shadow: 0 0 0 1px #2E7D32 inset;
+}
+
+/* 保存按钮 */
+.save-btn {
+  height: 44px;
+  padding: 0 24px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%) !important;
+  border: none !important;
+  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+  transition: all 0.3s ease;
+}
+
+.save-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(46, 125, 50, 0.4);
+}
+
+.save-btn:active {
+  transform: translateY(0);
+}
+
+/* 响应式 */
+@media (max-width: 1200px) {
+  .profile-card {
+    margin-bottom: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    margin-bottom: 16px;
+  }
+  
+  .profile-form {
+    padding: 10px 0;
+  }
+  
+  .avatar {
+    width: 80px !important;
+    height: 80px !important;
+    font-size: 28px;
+  }
 }
 </style>
 

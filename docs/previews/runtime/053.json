@@ -1,0 +1,78 @@
+{
+  "project": {
+    "project_id": "053",
+    "name": "救灾物资调度与救援系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "053-backend",
+    "frontend_dir": "053-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8053",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "admin",
+        "role_label": "仓库管理员",
+        "username": "warehouse",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "readme_sources": [
+      "053-backend\\README.md"
+    ]
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8055",
+      "pid": 47348
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3053",
+      "pid": 47596
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\053-backend.out.log",
+      "stderr": "logs\\project-preview\\053-backend.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\053-frontend.out.log",
+      "stderr": "logs\\project-preview\\053-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-05-24 22:44:23",
+  "sql_file": "053-backend\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "admin",
+        "role_label": "仓库管理员",
+        "username": "warehouse",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\053",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-05-24 22:46:03"
+}

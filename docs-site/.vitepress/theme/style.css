@@ -1,0 +1,84 @@
+/* 自定义样式 */
+
+/* 首页 hero 区域增强 */
+.VPHero {
+  .name {
+    font-weight: 700 !important;
+  }
+}
+
+/* 项目信息表格样式 */
+.vp-doc table {
+  th, td {
+    padding: 8px 16px;
+  }
+}
+
+/* 功能模块标题样式 */
+.vp-doc h3 {
+  margin-top: 1.2em;
+  margin-bottom: 0.4em;
+}
+
+/* 特色亮点列表样式 */
+.vp-doc ul {
+  li {
+    margin: 4px 0;
+  }
+}
+
+/* 代码块行号 */
+.vp-doc .line-numbers-mode {
+  .line-numbers {
+    padding-right: 12px;
+  }
+}
+
+/* 分类页项目卡片 */
+.project-card {
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+  transition: border-color 0.3s;
+}
+
+.project-card:hover {
+  border-color: var(--vp-c-brand);
+}
+
+/* 标签徽章 */
+.tech-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  background: var(--vp-c-default-soft);
+  color: var(--vp-c-text-2);
+  margin: 2px;
+}
+
+/* 首页 features 区域 */
+.VPFeature {
+  .icon {
+    font-size: 28px;
+  }
+}
+
+/* 搜索框增强 */
+.VPLocalSearchBox {
+  .search-input {
+    font-size: 14px;
+  }
+}
+
+/* 深色模式适配 */
+.dark {
+  .project-card {
+    border-color: var(--vp-c-divider);
+  }
+
+  .tech-badge {
+    background: var(--vp-c-default-soft);
+  }
+}

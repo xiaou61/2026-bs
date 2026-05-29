@@ -1,0 +1,108 @@
+{
+  "project": {
+    "project_id": "028",
+    "name": "校园共享自行车租赁系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "028-backend",
+    "frontend_dir": "028-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8028",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "admin123"
+      },
+      {
+        "role_key": "user",
+        "role_label": "用户",
+        "username": "testuser",
+        "password": "123456"
+      }
+    ],
+    "routes": [
+      "登录",
+      "注册",
+      "首页",
+      "停车点",
+      "我的订单",
+      "我的钱包",
+      "个人中心",
+      "管理员登录",
+      "控制台",
+      "用户管理",
+      "车辆管理",
+      "停车点管理",
+      "订单管理",
+      "故障管理"
+    ],
+    "readme_sources": [
+      "028-backend\\README.md"
+    ]
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8028",
+      "pid": 31520
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3028",
+      "pid": 39648
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\028-backend.out.log",
+      "stderr": "logs\\project-preview\\028-backend.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\028-frontend.out.log",
+      "stderr": "logs\\project-preview\\028-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-05-24 22:35:48",
+  "sql_file": "028-backend\\sql\\schema.sql",
+  "capture_hints": {
+    "roles": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "admin123"
+      },
+      {
+        "role_key": "user",
+        "role_label": "用户",
+        "username": "testuser",
+        "password": "123456"
+      }
+    ],
+    "routes": [
+      "登录",
+      "注册",
+      "首页",
+      "停车点",
+      "我的订单",
+      "我的钱包",
+      "个人中心",
+      "管理员登录",
+      "控制台",
+      "用户管理",
+      "车辆管理",
+      "停车点管理",
+      "订单管理",
+      "故障管理"
+    ],
+    "screenshot_dir": "docs\\previews\\assets\\028",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-05-24 22:36:28"
+}

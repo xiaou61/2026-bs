@@ -1,0 +1,80 @@
+{
+  "project": {
+    "project_id": "008",
+    "name": "智能菜谱推荐系统",
+    "components": [
+      "backend"
+    ],
+    "backend_dir": "008-backend",
+    "frontend_dir": null,
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8008"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "用户1",
+        "username": "user1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "用户2",
+        "username": "user2",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "readme_sources": [
+      "008-backend\\README.md"
+    ]
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8008",
+      "pid": 45480
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\008-backend.out.log",
+      "stderr": "logs\\project-preview\\008-backend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-05-24 21:45:08",
+  "sql_file": "008-backend\\src\\main\\resources\\sql\\schema.sql",
+  "capture_hints": {
+    "roles": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "用户1",
+        "username": "user1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "用户2",
+        "username": "user2",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\008",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-05-24 22:00:53"
+}

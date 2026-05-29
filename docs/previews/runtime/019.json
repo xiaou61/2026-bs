@@ -1,0 +1,115 @@
+{
+  "project": {
+    "project_id": "019",
+    "name": "校园运动健康管理平台 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "019-backend",
+    "frontend_dir": "019-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "admin",
+        "username": "admin",
+        "password": "admin123"
+      },
+      {
+        "role_key": "coach",
+        "role_label": "coach",
+        "username": "coach1",
+        "password": "coach123"
+      },
+      {
+        "role_key": "student",
+        "role_label": "student",
+        "username": "student1",
+        "password": "student123"
+      }
+    ],
+    "routes": [
+      "首页",
+      "运动记录",
+      "运动打卡",
+      "健身计划",
+      "创建计划",
+      "约球活动",
+      "发起活动",
+      "健康档案",
+      "场馆预约",
+      "我的预约",
+      "排行榜",
+      "个人中心"
+    ],
+    "readme_sources": [
+      "019-backend\\ACCOUNTS.md"
+    ]
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8080",
+      "pid": 8184
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:5173",
+      "pid": 33036
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\019-backend.out.log",
+      "stderr": "logs\\project-preview\\019-backend.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\019-frontend.out.log",
+      "stderr": "logs\\project-preview\\019-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-05-24 22:30:29",
+  "capture_hints": {
+    "roles": [
+      {
+        "role_key": "admin",
+        "role_label": "admin",
+        "username": "admin",
+        "password": "admin123"
+      },
+      {
+        "role_key": "coach",
+        "role_label": "coach",
+        "username": "coach1",
+        "password": "coach123"
+      },
+      {
+        "role_key": "student",
+        "role_label": "student",
+        "username": "student1",
+        "password": "student123"
+      }
+    ],
+    "routes": [
+      "首页",
+      "运动记录",
+      "运动打卡",
+      "健身计划",
+      "创建计划",
+      "约球活动",
+      "发起活动",
+      "健康档案",
+      "场馆预约",
+      "我的预约",
+      "排行榜",
+      "个人中心"
+    ],
+    "screenshot_dir": "docs\\previews\\assets\\019",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-05-24 22:32:40"
+}

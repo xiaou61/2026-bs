@@ -1,0 +1,50 @@
+{
+  "project": {
+    "project_id": "026",
+    "name": "画师接稿平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "026-backend",
+    "frontend_dir": "026-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8026",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8026",
+      "pid": 25300
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3026",
+      "pid": 46936
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\026-backend.out.log",
+      "stderr": "logs\\project-preview\\026-backend.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\026-frontend.out.log",
+      "stderr": "logs\\project-preview\\026-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-05-24 22:14:54",
+  "sql_file": "026-backend\\src\\main\\resources\\sql\\schema.sql",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\026",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-05-24 22:15:25"
+}

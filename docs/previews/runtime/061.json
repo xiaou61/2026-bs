@@ -1,0 +1,101 @@
+{
+  "project": {
+    "project_id": "061",
+    "name": "游戏交易系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "061-backend",
+    "frontend_dir": "061-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8061",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user2",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user3",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "readme_sources": [
+      "061-backend\\README.md"
+    ]
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8062",
+      "pid": 40140
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3062",
+      "pid": 39520
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\061-backend.out.log",
+      "stderr": "logs\\project-preview\\061-backend.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\061-frontend.out.log",
+      "stderr": "logs\\project-preview\\061-frontend.err.log"
+    }
+  },
+  "status": "running",
+  "prepared_at": "2026-05-24 22:57:00",
+  "sql_file": "061-backend\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user2",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user3",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\061",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  }
+}

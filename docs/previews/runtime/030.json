@@ -1,0 +1,49 @@
+{
+  "project": {
+    "project_id": "030",
+    "name": "居民智能健康管理平台 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "030-backend",
+    "frontend_dir": "030-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8080",
+      "pid": 35860
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3000",
+      "pid": 44680
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\030-backend.out.log",
+      "stderr": "logs\\project-preview\\030-backend.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\030-frontend.out.log",
+      "stderr": "logs\\project-preview\\030-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-05-24 22:36:57",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\030",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-05-24 22:37:34"
+}

@@ -1,0 +1,50 @@
+{
+  "project": {
+    "project_id": "025",
+    "name": "智慧社区综合服务管理平台 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "025-backend",
+    "frontend_dir": "025-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8025",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8025",
+      "pid": 43108
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3025",
+      "pid": 46892
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\025-backend.out.log",
+      "stderr": "logs\\project-preview\\025-backend.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\025-frontend.out.log",
+      "stderr": "logs\\project-preview\\025-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-05-24 22:14:31",
+  "sql_file": "025-backend\\src\\main\\resources\\sql\\schema.sql",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\025",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-05-24 22:35:24"
+}

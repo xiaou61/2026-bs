@@ -1,0 +1,7 @@
+=== VitePress Project Page Coverage ===
+Total projects: 199
+
+Real accounts: 199/199 (100.0%)
+Role permissions: 199/199 (100.0%)
+Descriptions: 199/199 (100.0%)
+Dev notes: 199/199 (100.0%)

@@ -1,0 +1,254 @@
+/* 007-frontend 全局样式变量 - 公益绿风格 */
+
+:root {
+  /* 主色调 - 公益绿 */
+  --primary-color: #2E7D32;
+  --primary-light: #43A047;
+  --primary-dark: #1B5E20;
+  
+  /* 辅助色 - 暖棕色 */
+  --secondary-color: #795548;
+  --secondary-light: #8D6E63;
+  --secondary-dark: #5D4037;
+  
+  /* 强调色 - 暖橙色 */
+  --accent-color: #FF8F00;
+  --accent-light: #FFA000;
+  --accent-dark: #FF6F00;
+  
+  /* 背景色 */
+  --bg-color: #FAFAFA;
+  --bg-light: #FFFFFF;
+  --bg-dark: #F5F5F5;
+  
+  /* 文字色 */
+  --text-primary: #212121;
+  --text-secondary: #616161;
+  --text-muted: #9E9E9E;
+  --text-light: #FFFFFF;
+  
+  /* 边框色 */
+  --border-color: #E0E0E0;
+  --border-light: #EEEEEE;
+  --border-dark: #BDBDBD;
+  
+  /* 阴影 */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
+  
+  /* 圆角 */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+  
+  /* 间距 */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  
+  /* 字体 */
+  --font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-heading: 'Noto Sans SC', 'PingFang SC', sans-serif;
+  
+  /* 过渡效果 */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* 全局样式重置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #app {
+  height: 100%;
+  font-family: var(--font-family);
+  color: var(--text-primary);
+  background-color: var(--bg-color);
+}
+
+/* 链接样式 */
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--primary-light);
+}
+
+/* 按钮样式优化 */
+.el-button--primary {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+
+.el-button--primary:hover {
+  background-color: var(--primary-light) !important;
+  border-color: var(--primary-light) !important;
+}
+
+/* 卡片样式优化 */
+.el-card {
+  border-radius: var(--radius-md) !important;
+  border: none !important;
+  box-shadow: var(--shadow-sm) !important;
+  transition: box-shadow var(--transition-normal) !important;
+}
+
+.el-card:hover {
+  box-shadow: var(--shadow-md) !important;
+}
+
+/* 表格样式优化 */
+.el-table {
+  border-radius: var(--radius-md) !important;
+  overflow: hidden !important;
+}
+
+.el-table th {
+  background-color: var(--bg-light) !important;
+  color: var(--text-primary) !important;
+  font-weight: 600 !important;
+}
+
+.el-table td {
+  border-bottom: 1px solid var(--border-light) !important;
+}
+
+/* 表单样式优化 */
+.el-input__wrapper {
+  border-radius: var(--radius-sm) !important;
+}
+
+.el-select .el-input__wrapper {
+  border-radius: var(--radius-sm) !important;
+}
+
+/* 分页器样式优化 */
+.el-pagination {
+  margin-top: var(--spacing-md) !important;
+}
+
+/* 标签样式优化 */
+.el-tag {
+  border-radius: var(--radius-sm) !important;
+}
+
+/* 对话框样式优化 */
+.el-dialog {
+  border-radius: var(--radius-lg) !important;
+}
+
+.el-dialog__header {
+  border-bottom: 1px solid var(--border-light) !important;
+  padding-bottom: var(--spacing-md) !important;
+}
+
+/* 消息框样式优化 */
+.el-message-box {
+  border-radius: var(--radius-lg) !important;
+}
+
+/* 通知样式优化 */
+.el-notification {
+  border-radius: var(--radius-md) !important;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+  border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-dark);
+  border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* 动画效果 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity var(--transition-normal), transform var(--transition-normal);
+}
+
+.fade-enter-from {
+  opacity: 0;
+  transform: translateX(10px);
+}
+
+.fade-leave-to {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+/* 工具类 */
+.text-primary {
+  color: var(--primary-color);
+}
+
+.text-secondary {
+  color: var(--secondary-color);
+}
+
+.text-accent {
+  color: var(--accent-color);
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+.bg-primary {
+  background-color: var(--primary-color);
+}
+
+.bg-secondary {
+  background-color: var(--secondary-color);
+}
+
+.bg-accent {
+  background-color: var(--accent-color);
+}
+
+.shadow-sm {
+  box-shadow: var(--shadow-sm);
+}
+
+.shadow-md {
+  box-shadow: var(--shadow-md);
+}
+
+.shadow-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+.radius-sm {
+  border-radius: var(--radius-sm);
+}
+
+.radius-md {
+  border-radius: var(--radius-md);
+}
+
+.radius-lg {
+  border-radius: var(--radius-lg);
+}

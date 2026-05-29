@@ -3087,6 +3087,24 @@
 ## 2026-05-16 187 正式开发记录
 
 ### Findings
+- `124` 存在明确的项目号/数据库配置串项：`application.yml` 仍连接 `smart_chargepile_safety_122`，与 `124` 的 PRD / PLAN 约定数据库 `ev_charging_124` 不一致，属于可直接落证的配置级 PRD 偏差。证据见 [124-backend/src/main/resources/application.yml](D:\毕业设计\2026-biyesheji\124-backend\src\main\resources\application.yml:6)。
+- `127-128` 首轮静态观察整体结构比 `097-103` 完整，前端路由和菜单已按角色区分，核心问题主要剩下默认 MySQL/Redis 演示强依赖；其中 `127` 的排放因子列表接口已经按 `ADMIN/ACCOUNTANT/AUDITOR` 收口，未见明显越界。
+- `129-145` 出现一批“前端按角色显隐、后端列表接口只校验已登录”的真实 PRD 偏差：
+  - `131` 的随访计划页前端仅给 `ADMIN/DOCTOR`，但后端 `FollowupPlanController.page` 仅做 `assertAuthenticated`，意味着复核员等非计划维护角色可直调接口读取全量随访计划；服务层 `page()` 也未做按角色或按本人过滤。[131-backend/src/main/java/com/drugreaction/controller/FollowupPlanController.java](D:\毕业设计\2026-biyesheji\131-backend\src\main\java\com\drugreaction\controller\FollowupPlanController.java:27)
+  - `133` 的库存台账前端仅给 `ADMIN/KEEPER/APPROVER`，但 `StockItemController.page` 只要求登录即可；若教师角色已登录，可绕过菜单直接取库存分页数据。[133-backend/src/main/java/com/labconsumable/controller/StockItemController.java](D:\毕业设计\2026-biyesheji\133-backend\src\main\java\com\labconsumable\controller\StockItemController.java:27)
+  - `135` 的论文投稿前端未向 `SECRETARY` 开放，但 `PaperSubmissionController.page` 只做 `assertAuthenticated`，会务秘书仍可直调看全量投稿记录。[135-backend/src/main/java/com/conferencereview/controller/PaperSubmissionController.java](D:\毕业设计\2026-biyesheji\135-backend\src\main\java\com\conferencereview\controller\PaperSubmissionController.java:27)
+  - `136` 的教师档案前端仅给 `ADMIN/TEACHER/AFFAIRS`，但 `TeacherProfileController.page` 同样只做登录校验，学生端可直接读取教师档案分页。[136-backend/src/main/java/com/topicselect/controller/TeacherProfileController.java](D:\毕业设计\2026-biyesheji\136-backend\src\main\java\com\topicselect\controller\TeacherProfileController.java:27)
+  - `137` 的路演评分应由评审专家主导，但 `RoadshowScoreController.page` 只做 `assertAuthenticated`，学生与导师端也可读取全量评分记录。[137-backend/src/main/java/com/innovationhub/controller/RoadshowScoreController.java](D:\毕业设计\2026-biyesheji\137-backend\src\main\java\com\innovationhub\controller\RoadshowScoreController.java:27)
+  - `143` 的互助兑换前端对各角色有差异化展示，但 `TimeExchangeController.page` 与服务层都没有做本人数据过滤，居民/志愿者可读到全量兑换记录而非自己的记录。[143-backend/src/main/java/com/timebank/controller/TimeExchangeController.java](D:\毕业设计\2026-biyesheji\143-backend\src\main\java\com\timebank\controller\TimeExchangeController.java:27)
+  - `145` 的处罚决定前端不对投诉市民开放，但 `PenaltyDecisionController.page` 仅做 `assertAuthenticated`，市民投诉人可绕过前端直接查看处罚记录全量分页。[145-backend/src/main/java/com/noisemonitor/controller/PenaltyDecisionController.java](D:\毕业设计\2026-biyesheji\145-backend\src\main\java\com\noisemonitor\controller\PenaltyDecisionController.java:27)
+- `146` 和 `150` 开始出现另一种更危险的宽放模式：控制器直接用 `assertAnyRole` 把敏感台账读权限显式给到所有业务角色，且服务层仍无本人过滤。
+  - `149` 的设备共享预约甚至更宽：`ReservationRequestController` 的查/增/改/删/提交流程全部只要求“已登录”，学生、老师、管理员之间没有数据归属边界。[149-backend/src/main/java/com/equipmentshare/controller/ReservationRequestController.java](D:\毕业设计\2026-biyesheji\149-backend\src\main\java\com\equipmentshare\controller\ReservationRequestController.java:27)
+  - `150` 的检查报告前端和后端都允许 `PATIENT` 访问分页接口，但 `ExamReportService.page()` 只是 `mapper.selectPage(keyword, status)`，没有按患者本人或就诊关系过滤，患者可看到全量报告而非自己的报告。[150-backend/src/main/java/com/outpatientexam/controller/ExamReportController.java](D:\毕业设计\2026-biyesheji\150-backend\src\main\java\com\outpatientexam\controller\ExamReportController.java:27) [150-backend/src/main/java/com/outpatientexam/service/ExamReportService.java](D:\毕业设计\2026-biyesheji\150-backend\src\main\java\com\outpatientexam\service\ExamReportService.java:15)
+- `151-170` 继续呈现高度一致的批量模板特征：
+  - 前端角色元数据完整，但几乎所有控制器的分页入口先做一次 `assertAuthenticated(role)`，再在增删改流程里用 `assertAnyRole` 广泛放开。
+  - 计数特征非常稳定：`151-160` 与 `161-170` 多数项目都呈现 `generic=12 / anyRole=48` 的同构分布，说明这是生成链路级别的权限模板问题，不是单个项目偶发。
+  - `151` 甚至把 `VISITOR` 放进票务预约、讲解预约、游客评价等多个读写角色集合，且列表入口统一允许所有登录角色访问，PRD 中“游客仅提交自己的预约/评价”的边界没有真正落到后端。
+  - `152-170` 大多同理，表现为“模块名换了、角色名换了，但 page() + service.page() 仍普遍缺少角色收口与本人过滤”。
 - `187` 批量版原始状态仍是通用模板：后端包名为 `com.p187`，业务类为 `BizRecord01-12`，数据库名为 `project_187`，前端页面和接口路径仍以 `record01-12` 命名。
 - 已基于 `186` 已验证的正式化流水线生成并执行 `scripts/develop_187.py`；执行前清理了校园餐厅、后厨区域、菜品档案、留样登记、留样存储、食材验收、消毒记录、卫生巡检、问题整改、风险提醒、厨余处置、`CANTEEN / CHEF / WAREHOUSE / SCHOOL` 等旧主题词，端口切换为后端 `8187`、前端 `3187`。
 - 已将后端切换为 `com.teambuilding` 包，启动类为 `TeamBuildingApplication`，artifactId 为 `travel-team-building-187`，数据库为 `team_building_187`，Redis token 前缀为 `teambuilding:token:`。
@@ -3306,3 +3324,45 @@
 - 按 `rule.md` 约定，本轮未执行 Maven/NPM 编译验证。
 - 全仓库 `node_modules` 扫描未发现残留。
 - 剩余风险：尚未连接真实 MySQL/Redis 做登录和业务接口联调；当前结论覆盖源码主题化与静态结构验证。当前清单已完成到 `200`。
+
+## 2026-05-20 高风险项目正式建档
+
+### 本轮新增正式报告
+- `docs/checks/124-ev-charging-platform.md`
+- `docs/checks/131-drug-reaction-platform.md`
+- `docs/checks/133-lab-consumable-platform.md`
+- `docs/checks/135-conference-review-platform.md`
+- `docs/checks/136-topic-selection-platform.md`
+- `docs/checks/137-innovation-incubation-platform.md`
+- `docs/checks/143-timebank-platform.md`
+- `docs/checks/145-noise-monitor-platform.md`
+- `docs/checks/149-equipment-share-platform.md`
+- `docs/checks/150-outpatient-exam-platform.md`
+
+### 关键静态结论
+- `124`：运行配置仍串到 `smart_chargepile_safety_122`，与 `PLAN.md` 和 `sql/init.sql` 要求的 `ev_charging_124` 不一致，属于明确配置串项。
+- `131` / `133` / `145`：前端已按角色收口，但后端分页接口仍普遍只校验“已登录”，service 层未继续做角色或本人过滤，属于前后端权限脱节。
+- `135` / `136` / `137`：除权限边界问题外，还存在明显领域模板串项，核心实体、mapper 或 service 仍映射库存、预算分类、入库记录等旧模板字段。
+- `143`：互助兑换的 `page` 只校验已登录，`add / update / delete / submit` 虽放到多角色，但没有记录归属校验，存在横向越权风险。
+- `149`：预约申请 `page / add / update / delete / submit` 五类动作全部只要求已登录，service 无申请人过滤，已具备高风险越权样板特征。
+- `150`：检查报告模块允许 `PATIENT` 访问，但 `ExamReportService` 与 `ExamReportMapper` 未按患者本人过滤，存在患者读取全量报告的风险。
+
+### 台账同步
+- `docs/project-check-tracker.md` 已同步修正为真实总项目数 `200`。
+- 上述 10 个项目已全部登记为 `待修复`，测试结果统一标记为“未验证（本轮以静态巡检为主）”。
+
+## 2026-05-20 109 角色口径断裂
+
+### Findings
+- `109` 的项目主题、数据库和主体模块命名与 PRD 基本一致，不属于主题串项项目。
+- 当前确认存在一条明确的角色口径断裂：`owner` 种子账号在 `109-backend/sql/init.sql` 中使用角色值 `DATA_OWNER`，但前端 `router / Layout` 和后端 `AuthService` 权限断言都统一按 `OWNER` 判断。
+- `109-frontend/src/store/user.js` 会直接保存登录返回的原始 `user.role`，不存在 `DATA_OWNER -> OWNER` 的中间转换；`router.beforeEach` 又依赖 `ROLE_HOME[role]` 和 `to.meta.roles` 做判断，因此数据负责人登录后无法稳定命中其首页和受限菜单。
+- 该问题会直接影响 PRD 中“数据负责人审批访问申请、导出审批和字段血缘”的核心角色闭环，已作为正式报告 `docs/checks/109-data-masking-platform.md` 建档，并登记为 `待修复`。
+
+## 2026-05-21 110 角色口径断裂
+
+### Findings
+- `110` 的项目主题、数据库和主体模块命名与 PRD 基本一致，不属于主题串项项目。
+- 当前确认存在第二条明确的角色口径断裂：`privacy / datauser` 种子账号在 `110-backend/sql/init.sql` 中使用角色值 `PRIVACY_OFFICER / DATA_USER`，但前端 `router / Layout` 和后端 `AuthService` 权限断言都统一按 `PRIVACY / DATAUSER` 判断。
+- `110-frontend/src/store/user.js` 会直接保存登录返回的原始 `user.role`，不存在 `PRIVACY_OFFICER -> PRIVACY` 或 `DATA_USER -> DATAUSER` 的中间转换；`router.beforeEach` 又依赖 `ROLE_HOME[role]` 和 `to.meta.roles` 做判断，因此隐私官和数据使用人登录后无法稳定命中其首页和受限菜单。
+- 该问题会直接影响 PRD 中“隐私官维护授权目的、授权策略、风险预警和审计报告”“数据使用人提交访问申请并在授权范围内访问数据”的核心角色闭环，已作为正式报告 `docs/checks/110-privacy-auth-platform.md` 建档，并登记为 `待修复`。

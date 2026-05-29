@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__pencil__get_editor_state",
+      "Bash(nul)",
+      "Bash(dir:*)",
+      "Bash(python:*)",
+      "Bash(findstr:*)",
+      "Bash(pip show:*)",
+      "Bash(/dev/null)",
+      "Bash(npm install:*)",
+      "Bash(mkdir:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

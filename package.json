@@ -1,0 +1,31 @@
+{
+  "name": "2026-biyesheji",
+  "version": "1.0.0",
+  "description": "[标题速看](readme_simple.md)",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "docs:dev": "vitepress dev docs-site",
+    "docs:build": "vitepress build docs-site",
+    "docs:preview": "vitepress preview docs-site",
+    "docs:generate": "node scripts/extract-project-source.mjs && node scripts/generate-vitepress-pages.mjs && node scripts/generate-guide-data.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xiaou61/2026-bs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/xiaou61/2026-bs/issues"
+  },
+  "homepage": "https://github.com/xiaou61/2026-bs#readme",
+  "devDependencies": {
+    "vitepress": "^1.6.4"
+  }
+}

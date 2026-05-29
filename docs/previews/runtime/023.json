@@ -1,0 +1,40 @@
+{
+  "project": {
+    "project_id": "023",
+    "name": "AI智能学习助手与个性化教育平台 🔥最新",
+    "components": [
+      "backend"
+    ],
+    "backend_dir": "023-backend",
+    "frontend_dir": null,
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8080",
+      "pid": 30492
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\023-backend.out.log",
+      "stderr": "logs\\project-preview\\023-backend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-05-24 22:34:04",
+  "sql_file": "023-backend\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\023",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-05-24 22:34:47"
+}

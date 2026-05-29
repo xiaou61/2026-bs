@@ -1,51 +1,92 @@
 <template>
   <el-container class="layout-container">
-    <el-aside :width="isCollapse ? '64px' : '200px'" class="aside-menu">
-      <div class="logo">
-        <span v-if="!isCollapse">校园事务管理</span>
-        <span v-else>校务</span>
+    <el-aside :width="isCollapse ? '64px' : '220px'" class="aside-menu">
+      <!-- Logo区域 -->
+      <div class="logo" :class="{ 'collapsed': isCollapse }">
+        <div class="logo-icon">
+          <el-icon :size="isCollapse ? 24 : 32"><School /></el-icon>
+        </div>
+        <transition name="fade">
+          <div v-if="!isCollapse" class="logo-text">
+            <span class="title">校园事务管理</span>
+            <span class="subtitle">Campus Affairs</span>
+          </div>
+        </transition>
       </div>
+      
+      <!-- 菜单 -->
       <el-menu
         :default-active="activeMenu"
         :collapse="isCollapse"
         :collapse-transition="false"
-        background-color="#304156"
-        text-color="#bfcbd9"
-        active-text-color="#409EFF"
+        class="sidebar-menu"
         router
       >
         <template v-for="route in menuRoutes" :key="route.path">
           <el-menu-item 
             v-if="!route.meta?.hidden && hasPermission(route)" 
             :index="route.path"
+            class="menu-item"
           >
-            <el-icon><component :is="route.meta.icon" /></el-icon>
-            <template #title>{{ route.meta.title }}</template>
+            <el-icon class="menu-icon"><component :is="route.meta.icon" /></el-icon>
+            <template #title>
+              <span class="menu-title">{{ route.meta.title }}</span>
+            </template>
           </el-menu-item>
         </template>
       </el-menu>
+      
+      <!-- 底部折叠按钮 -->
+      <div class="sidebar-footer">
+        <el-button 
+          class="collapse-btn"
+          @click="toggleCollapse"
+          :icon="isCollapse ? 'Expand' : 'Fold'"
+          circle
+        />
+      </div>
     </el-aside>
     
     <el-container>
       <el-header class="header">
         <div class="header-left">
-          <el-icon class="collapse-icon" @click="toggleCollapse">
-            <Expand v-if="isCollapse" />
-            <Fold v-else />
-          </el-icon>
+          <div class="breadcrumb">
+            <el-breadcrumb separator="/">
+              <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+              <el-breadcrumb-item v-if="route.meta?.title">
+                {{ route.meta.title }}
+              </el-breadcrumb-item>
+            </el-breadcrumb>
+          </div>
         </div>
         
         <div class="header-right">
-          <el-dropdown @command="handleCommand">
+          <!-- 通知图标 -->
+          <el-badge :value="3" :max="99" class="notification-badge">
+            <el-button class="notification-btn" circle>
+              <el-icon :size="18"><Bell /></el-icon>
+            </el-button>
+          </el-badge>
+          
+          <!-- 用户信息 -->
+          <el-dropdown @command="handleCommand" class="user-dropdown">
             <div class="user-info">
-              <el-avatar :size="32">{{ userInfo?.username?.charAt(0) }}</el-avatar>
-              <span class="username">{{ userInfo?.username }}</span>
-              <el-icon><ArrowDown /></el-icon>
+              <el-avatar :size="36" class="user-avatar">
+                {{ userInfo?.username?.charAt(0) }}
+              </el-avatar>
+              <div class="user-detail">
+                <span class="username">{{ userInfo?.username }}</span>
+                <span class="role">{{ getRoleName(userInfo?.role) }}</span>
+              </div>
+              <el-icon class="dropdown-icon"><ArrowDown /></el-icon>
             </div>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item command="profile">
                   <el-icon><User /></el-icon>个人中心
+                </el-dropdown-item>
+                <el-dropdown-item command="settings">
+                  <el-icon><Setting /></el-icon>系统设置
                 </el-dropdown-item>
                 <el-dropdown-item command="logout" divided>
                   <el-icon><SwitchButton /></el-icon>退出登录
@@ -100,6 +141,16 @@ const hasPermission = (route) => {
   return route.meta.roles.includes(userInfo.value?.role)
 }
 
+// 获取角色名称
+const getRoleName = (role) => {
+  const roleMap = {
+    'admin': '管理员',
+    'teacher': '教师',
+    'student': '学生'
+  }
+  return roleMap[role] || '用户'
+}
+
 // 切换侧边栏折叠
 const toggleCollapse = () => {
   isCollapse.value = !isCollapse.value
@@ -109,6 +160,8 @@ const toggleCollapse = () => {
 const handleCommand = (command) => {
   if (command === 'profile') {
     router.push('/profile')
+  } else if (command === 'settings') {
+    router.push('/settings')
   } else if (command === 'logout') {
     ElMessageBox.confirm('确定要退出登录吗？', '提示', {
       confirmButtonText: '确定',
@@ -130,34 +183,138 @@ onMounted(() => {
   height: 100vh;
 }
 
+/* 侧边栏 */
 .aside-menu {
-  background-color: #304156;
-  transition: width 0.3s;
+  background: linear-gradient(180deg, #1B5E20 0%, #2E7D32 50%, #1565C0 100%);
+  transition: width 0.3s ease;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
 }
 
+/* Logo区域 */
 .logo {
-  height: 60px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  padding: 0 16px;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.logo.collapsed {
+  height: 64px;
+  padding: 0 8px;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+}
+
+.logo-text {
+  margin-left: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.logo-text .title {
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  white-space: nowrap;
+  font-family: var(--font-heading);
+}
+
+.logo-text .subtitle {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  white-space: nowrap;
+  letter-spacing: 1px;
+}
+
+/* 菜单样式 */
+.sidebar-menu {
+  flex: 1;
+  border-right: none !important;
+  background: transparent !important;
+  padding: 10px 0;
+}
+
+.sidebar-menu:not(.el-menu--collapse) {
+  width: 100%;
+}
+
+.menu-item {
+  height: 50px !important;
+  line-height: 50px !important;
+  margin: 4px 8px;
+  border-radius: 10px !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  transition: all 0.3s ease !important;
+}
+
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: white !important;
+}
+
+.menu-item.is-active {
+  background: rgba(255, 255, 255, 0.25) !important;
+  color: white !important;
+  font-weight: 600;
+}
+
+.menu-icon {
   font-size: 18px;
-  font-weight: bold;
-  background-color: #2b3a4a;
+  margin-right: 8px;
 }
 
-.el-menu {
-  border-right: none;
+.menu-title {
+  font-size: 14px;
 }
 
+/* 侧边栏底部 */
+.sidebar-footer {
+  padding: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: center;
+}
+
+.collapse-btn {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: none !important;
+  color: white !important;
+  width: 36px;
+  height: 36px;
+}
+
+.collapse-btn:hover {
+  background: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* 头部导航 */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #fff;
+  background: white;
   border-bottom: 1px solid #e6e6e6;
-  padding: 0 20px;
+  padding: 0 24px;
+  height: 70px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
 }
 
 .header-left {
@@ -165,58 +322,117 @@ onMounted(() => {
   align-items: center;
 }
 
-.collapse-icon {
-  font-size: 20px;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.collapse-icon:hover {
-  color: #409EFF;
+.breadcrumb {
+  font-size: 14px;
 }
 
 .header-right {
   display: flex;
   align-items: center;
+  gap: 16px;
+}
+
+/* 通知图标 */
+.notification-badge {
+  margin-right: 8px;
+}
+
+.notification-btn {
+  background: transparent !important;
+  border: none !important;
+  color: #606266 !important;
+  width: 40px;
+  height: 40px;
+}
+
+.notification-btn:hover {
+  background: #f5f7fa !important;
+  color: #2E7D32 !important;
+}
+
+/* 用户信息 */
+.user-dropdown {
+  cursor: pointer;
 }
 
 .user-info {
   display: flex;
   align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  padding: 8px 12px;
-  border-radius: 4px;
-  transition: all 0.3s;
+  gap: 10px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
 }
 
 .user-info:hover {
-  background-color: #f5f7fa;
+  background: #f5f7fa;
+}
+
+.user-avatar {
+  background: linear-gradient(135deg, #2E7D32 0%, #1565C0 100%);
+  color: white;
+  font-weight: 600;
+}
+
+.user-detail {
+  display: flex;
+  flex-direction: column;
 }
 
 .username {
   font-size: 14px;
+  font-weight: 600;
+  color: #2C3E50;
 }
 
+.role {
+  font-size: 11px;
+  color: #909399;
+}
+
+.dropdown-icon {
+  color: #C0C4CC;
+  font-size: 12px;
+}
+
+/* 主内容区 */
 .main-content {
-  background-color: #f0f2f5;
-  padding: 20px;
+  background: #f5f7fa;
+  padding: 24px;
   overflow-y: auto;
 }
 
+/* 动画效果 */
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s, transform 0.3s;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .fade-enter-from {
   opacity: 0;
-  transform: translateX(10px);
+  transform: translateY(10px);
 }
 
 .fade-leave-to {
   opacity: 0;
-  transform: translateX(-10px);
+  transform: translateY(-10px);
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .aside-menu {
+    position: fixed;
+    z-index: 1000;
+    height: 100vh;
+  }
+  
+  .header {
+    padding: 0 16px;
+  }
+  
+  .main-content {
+    padding: 16px;
+  }
 }
 </style>
 
