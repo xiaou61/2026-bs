@@ -1,21 +1,42 @@
 <view class="container">
+  <!-- 顶部横幅 -->
+  <view class="header-banner">
+    <view class="header-bg"></view>
+    <view class="header-content">
+      <text class="header-icon">🛡️</text>
+      <text class="header-title">网络安全知识学堂</text>
+      <text class="header-desc">守护数字生活 · 从学习开始</text>
+    </view>
+  </view>
+
   <view class="banner">
-    <swiper autoplay circular indicator-dots>
+    <swiper autoplay circular indicator-dots class="custom-swiper">
       <swiper-item>
-        <view class="banner-card">网络安全从好习惯开始</view>
+        <view class="banner-card">
+          <text class="banner-icon">🔒</text>
+          <text class="banner-text">网络安全从好习惯开始</text>
+        </view>
       </swiper-item>
       <swiper-item>
-        <view class="banner-card banner-card-alt">识别诈骗，保护隐私</view>
+        <view class="banner-card banner-card-alt">
+          <text class="banner-icon">🛡️</text>
+          <text class="banner-text">识别诈骗，保护隐私</text>
+        </view>
       </swiper-item>
     </swiper>
   </view>
 
   <view class="category-section">
-    <view class="section-title">知识分类</view>
+    <view class="section-title">
+      <text class="title-icon">📚</text>
+      <text>知识分类</text>
+    </view>
     <view class="category-grid">
       <view class="category-item" wx:for="{{categories}}" wx:key="id" bindtap="goCategory" data-id="{{item.id}}" data-name="{{item.name}}">
-        <image wx:if="{{item.icon}}" src="{{item.icon}}" mode="aspectFit"></image>
-        <view wx:else class="category-icon-placeholder">安</view>
+        <view class="category-icon-wrap">
+          <image wx:if="{{item.icon}}" src="{{item.icon}}" mode="aspectFit"></image>
+          <view wx:else class="category-icon-placeholder">🔐</view>
+        </view>
         <text>{{item.name}}</text>
       </view>
     </view>
@@ -23,21 +44,39 @@
 
   <view class="article-section">
     <view class="section-title flex-between">
-      <text>推荐文章</text>
-      <text class="more text-primary" bindtap="goMore">更多</text>
+      <view class="title-left">
+        <text class="title-icon">📖</text>
+        <text>推荐文章</text>
+      </view>
+      <text class="more text-primary" bindtap="goMore">查看更多 ›</text>
     </view>
     <view class="article-list">
       <view class="article-item card" wx:for="{{articles}}" wx:key="id" bindtap="goArticle" data-id="{{item.id}}">
-        <image wx:if="{{item.cover}}" class="article-cover" src="{{item.cover}}" mode="aspectFill"></image>
-        <view wx:else class="article-cover placeholder-cover">安全</view>
+        <view class="article-cover-wrap">
+          <image wx:if="{{item.cover}}" class="article-cover" src="{{item.cover}}" mode="aspectFill"></image>
+          <view wx:else class="article-cover placeholder-cover">
+            <text class="cover-icon">📄</text>
+          </view>
+        </view>
         <view class="article-info">
           <view class="article-title">{{item.title}}</view>
           <view class="article-meta text-small text-gray">
-            <text>{{item.categoryName}}</text>
-            <text class="meta-item">浏览 {{item.viewCount}}</text>
+            <view class="meta-tag">{{item.categoryName}}</view>
+            <view class="meta-item">
+              <text class="meta-icon">👁️</text>
+              <text>{{item.viewCount}}</text>
+            </view>
           </view>
         </view>
       </view>
+    </view>
+  </view>
+
+  <!-- 安全小贴士 -->
+  <view class="tips-section">
+    <view class="tips-card">
+      <text class="tips-icon">💡</text>
+      <text class="tips-text">今日安全提醒：不要随意点击不明链接</text>
     </view>
   </view>
 </view>
