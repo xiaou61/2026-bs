@@ -6,100 +6,403 @@
   <title>零食铺子仓储管理前端</title>
   <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
   <style>
-    body { margin: 0; background: linear-gradient(135deg, #FF6D00 0%, #FF9100 50%, #FF6D00 100%); font-family: "PingFang SC", "Microsoft YaHei", sans-serif; min-height: 100vh; }
-    .app-shell { min-height: 100vh; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+    :root {
+      --primary: #FF6D00;
+      --primary-light: #FF9100;
+      --primary-dark: #E65100;
+      --accent: #FFD54F;
+      --success: #4CAF50;
+      --bg-gradient: linear-gradient(135deg, #FF6D00 0%, #FF9100 50%, #FFB300 100%);
+      --card-shadow: 0 8px 32px rgba(255, 109, 0, 0.15);
+      --hover-shadow: 0 12px 40px rgba(255, 109, 0, 0.25);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg-gradient);
+      font-family: "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 50%, rgba(255, 213, 79, 0.3) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 80%, rgba(255, 109, 0, 0.2) 0%, transparent 40%);
+      animation: floatBg 20s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    @keyframes floatBg {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(-2%, -2%) rotate(1deg); }
+    }
+
+    .app-shell {
+      min-height: 100vh;
+      background: rgba(255, 255, 255, 0.97);
+      backdrop-filter: blur(20px);
+      position: relative;
+      z-index: 1;
+      box-shadow: -20px 0 60px rgba(0, 0, 0, 0.1);
+    }
+
+    .el-header {
+      background: linear-gradient(90deg, #fff 0%, #FFF8E1 100%) !important;
+      border-bottom: 2px solid var(--accent);
+      padding: 16px 24px !important;
+      box-shadow: 0 4px 20px rgba(255, 109, 0, 0.08);
+    }
+
     .header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
-    .title { font-size: 24px; font-weight: 700; color: #E65100; font-family: "Noto Sans SC", "PingFang SC", sans-serif; }
-    .subtitle { color: #FF8F00; font-size: 13px; margin-top: 4px; letter-spacing: 1px; }
-    .header-right { display: flex; align-items: center; gap: 8px; }
-    .card-title { font-weight: 600; margin-bottom: 12px; color: #E65100; font-size: 16px; }
-    .mt16 { margin-top: 16px; }
-    .items-table { margin-top: 12px; }
-    .section-row { margin-top: 12px; }
-    .token-input { margin-top: 8px; }
-    .stat-grid { margin-top: 12px; }
-    .stat-card { padding: 16px; background: linear-gradient(135deg, #FF6D00 0%, #FF9100 100%); border: none; border-radius: 12px; color: white; box-shadow: 0 4px 12px rgba(255, 109, 0, 0.3); transition: all 0.3s ease; }
-    .stat-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(255, 109, 0, 0.4); }
-    .stat-label { color: rgba(255, 255, 255, 0.8); font-size: 12px; }
-    .stat-value { font-size: 24px; font-weight: 700; color: white; }
-    
+
+    .logo-section { display: flex; align-items: center; gap: 16px; }
+
+    .logo-icon {
+      width: 56px;
+      height: 56px;
+      background: var(--bg-gradient);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow: 0 4px 16px rgba(255, 109, 0, 0.3);
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    .title {
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 2px;
+    }
+
+    .subtitle {
+      color: var(--primary-light);
+      font-size: 14px;
+      margin-top: 4px;
+      letter-spacing: 2px;
+      font-weight: 500;
+    }
+
+    .header-right { display: flex; align-items: center; gap: 12px; }
+
+    .card-title {
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--primary-dark);
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title::before {
+      content: '';
+      width: 4px;
+      height: 20px;
+      background: var(--bg-gradient);
+      border-radius: 2px;
+    }
+
+    .mt16 { margin-top: 20px; }
+    .items-table { margin-top: 16px; }
+    .section-row { margin-top: 16px; }
+    .token-input { margin-top: 12px; }
+    .stat-grid { margin-top: 16px; }
+
+    .stat-card {
+      padding: 20px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      border: none;
+      border-radius: 16px;
+      color: white;
+      box-shadow: var(--card-shadow);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+      transform: scale(0);
+      transition: transform 0.6s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: var(--hover-shadow);
+    }
+
+    .stat-card:hover::before { transform: scale(1); }
+
+    .stat-label { color: rgba(255, 255, 255, 0.9); font-size: 13px; font-weight: 500; }
+    .stat-value { font-size: 28px; font-weight: 800; color: white; margin-top: 4px; }
+
     /* 卡片样式 */
-    .el-card { border-radius: 16px !important; border: none !important; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important; }
-    
+    .el-card {
+      border-radius: 20px !important;
+      border: none !important;
+      box-shadow: var(--card-shadow) !important;
+      transition: all 0.3s ease !important;
+      overflow: hidden;
+    }
+
+    .el-card:hover { box-shadow: var(--hover-shadow) !important; }
+
     /* 按钮样式 */
-    .el-button--primary { background: linear-gradient(135deg, #FF6D00 0%, #FF9100 100%) !important; border: none !important; border-radius: 8px !important; }
-    .el-button--success { background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%) !important; border: none !important; border-radius: 8px !important; }
-    
+    .el-button {
+      border-radius: 10px !important;
+      font-weight: 600 !important;
+      letter-spacing: 1px !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .el-button:hover { transform: translateY(-2px); }
+
+    .el-button--primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%) !important;
+      border: none !important;
+      box-shadow: 0 4px 16px rgba(255, 109, 0, 0.3) !important;
+    }
+
+    .el-button--primary:hover {
+      box-shadow: 0 8px 24px rgba(255, 109, 0, 0.4) !important;
+    }
+
+    .el-button--success {
+      background: linear-gradient(135deg, #43A047 0%, #66BB6A 100%) !important;
+      border: none !important;
+      box-shadow: 0 4px 16px rgba(76, 175, 80, 0.3) !important;
+    }
+
     /* 表格样式 */
-    .el-table { border-radius: 12px !important; overflow: hidden !important; }
-    .el-table th { background: #FFF3E0 !important; color: #E65100 !important; font-weight: 600 !important; }
-    
+    .el-table {
+      border-radius: 16px !important;
+      overflow: hidden !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+    }
+
+    .el-table th {
+      background: linear-gradient(180deg, #FFF3E0 0%, #FFE0B2 100%) !important;
+      color: var(--primary-dark) !important;
+      font-weight: 700 !important;
+      font-size: 14px !important;
+      border-bottom: 2px solid var(--accent) !important;
+    }
+
+    .el-table td { border-bottom: 1px solid #f5f5f5 !important; }
+    .el-table--enable-row-hover .el-table__body tr:hover > td { background: #FFF8E1 !important; }
+
     /* 标签页样式 */
-    .el-tabs__active-bar { background: linear-gradient(90deg, #FF6D00, #FF9100) !important; height: 3px !important; border-radius: 2px !important; }
-    .el-tabs__item.is-active { color: #FF6D00 !important; font-weight: 600 !important; }
-    
+    .el-tabs__active-bar {
+      background: var(--bg-gradient) !important;
+      height: 4px !important;
+      border-radius: 2px !important;
+    }
+
+    .el-tabs__item {
+      font-size: 15px !important;
+      font-weight: 600 !important;
+      transition: all 0.3s !important;
+    }
+
+    .el-tabs__item:hover { color: var(--primary) !important; transform: translateY(-2px); }
+    .el-tabs__item.is-active { color: var(--primary) !important; }
+
     /* 输入框样式 */
-    .el-input__wrapper { border-radius: 8px !important; }
-    
+    .el-input__wrapper {
+      border-radius: 10px !important;
+      transition: all 0.3s !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    }
+
+    .el-input__wrapper:hover { box-shadow: 0 4px 12px rgba(255, 109, 0, 0.1) !important; }
+    .el-input__wrapper.is-focus { box-shadow: 0 4px 16px rgba(255, 109, 0, 0.2) !important; }
+
     /* 标签样式 */
-    .el-tag { border-radius: 20px !important; }
+    .el-tag { border-radius: 20px !important; font-weight: 500 !important; }
+
+    /* 折叠面板样式 */
+    .el-collapse-item__header {
+      font-weight: 700 !important;
+      color: var(--primary-dark) !important;
+      font-size: 16px !important;
+      background: linear-gradient(90deg, #FFF8E1 0%, #fff 100%) !important;
+      border-radius: 12px !important;
+      padding: 0 16px !important;
+      margin-bottom: 8px !important;
+    }
+
+    .el-collapse-item__content { padding: 16px !important; }
+
+    /* 表单标签 */
+    .el-form-item__label {
+      font-weight: 600 !important;
+      color: #555 !important;
+    }
+
+    /* 数字输入框 */
+    .el-input-number { border-radius: 10px !important; }
+
+    /* 日期选择器 */
+    .el-date-editor { border-radius: 10px !important; }
+
+    /* 加载动画 */
+    .el-loading-spinner .circular {
+      animation: loading-rotate 1.5s linear infinite;
+    }
+
+    @keyframes loading-rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* 登录卡片特殊样式 */
+    .login-card {
+      background: linear-gradient(135deg, #fff 0%, #FFF8E1 100%) !important;
+      position: relative;
+    }
+
+    .login-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--bg-gradient);
+      border-radius: 0 0 20px 20px;
+    }
+
+    /* 滚动条美化 */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f5f5f5; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(var(--primary), var(--primary-light)); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary-dark); }
+
+    /* 响应式优化 */
+    @media (max-width: 768px) {
+      .header { flex-direction: column; }
+      .header-right { width: 100%; justify-content: flex-end; }
+      .title { font-size: 22px; }
+    }
   </style>
 </head>
 <body>
+  <!-- 装饰粒子 -->
+  <div class="particles" id="particles"></div>
+
   <div id="app">
     <el-container class="app-shell">
-      <el-header height="92px">
+      <el-header height="auto" style="padding: 16px 24px;">
         <div class="header">
-          <div>
-            <div class="title">零食铺子仓储管理前端</div>
-            <div class="subtitle">登录、SKU、库存、入出库、调拨、盘点一页搞定</div>
+          <div class="logo-section">
+            <div class="logo-icon">🍬</div>
+            <div>
+              <div class="title">零食铺子仓储管理</div>
+              <div class="subtitle">智能仓储 · 高效管理 · 新鲜直达</div>
+            </div>
           </div>
           <div class="header-right">
-            <el-input v-model="state.baseUrl" placeholder="API 地址，例如 http://localhost:8080" style="width: 320px" size="small"></el-input>
-            <el-button size="small" type="primary" @click="persistBaseUrl">保存地址</el-button>
-            <el-button v-if="state.token" size="small" @click="copyToken">复制 Token</el-button>
-            <el-tag v-if="state.token" type="success" effect="dark">令牌已就绪</el-tag>
-            <el-button v-if="state.token" size="small" type="warning" @click="logout">退出</el-button>
+            <el-input v-model="state.baseUrl" placeholder="API 地址" style="width: 280px" size="default" prefix-icon="Link">
+            </el-input>
+            <el-button type="primary" @click="persistBaseUrl">
+              <el-icon><Check /></el-icon> 保存
+            </el-button>
+            <template v-if="state.token">
+              <el-button @click="copyToken" icon="Document">复制Token</el-button>
+              <el-tag type="success" effect="dark" round>
+                <el-icon><CircleCheck /></el-icon> 已连接
+              </el-tag>
+              <el-button type="warning" @click="logout" icon="SwitchButton">退出</el-button>
+            </template>
           </div>
         </div>
       </el-header>
       <el-main v-loading="busy">
-        <el-row :gutter="16">
+        <el-row :gutter="20">
           <el-col :span="8">
-            <el-card shadow="never">
-              <div class="card-title">登录</div>
-              <el-form :model="state.loginForm" label-width="90px">
+            <el-card shadow="hover" class="login-card">
+              <div class="card-title">🔐 系统登录</div>
+              <el-form :model="state.loginForm" label-width="80px">
                 <el-form-item label="用户名">
-                  <el-input v-model="state.loginForm.username" autocomplete="username"></el-input>
+                  <el-input v-model="state.loginForm.username" autocomplete="username" placeholder="请输入用户名" prefix-icon="User">
+                  </el-input>
                 </el-form-item>
                 <el-form-item label="密码">
-                  <el-input v-model="state.loginForm.password" type="password" autocomplete="current-password"></el-input>
+                  <el-input v-model="state.loginForm.password" type="password" autocomplete="current-password" placeholder="请输入密码" prefix-icon="Lock">
+                  </el-input>
                 </el-form-item>
                 <el-form-item>
-                  <el-button type="primary" @click="login">登录获取 Token</el-button>
-                  <el-button @click="fillDefault">填充默认账号</el-button>
+                  <el-button type="primary" @click="login" style="width: 100%;" size="large">
+                    <el-icon><Key /></el-icon> 登录系统
+                  </el-button>
+                </el-form-item>
+                <el-form-item>
+                  <el-button @click="fillDefault" style="width: 100%;" plain>
+                    <el-icon><MagicStick /></el-icon> 填充演示账号
+                  </el-button>
                 </el-form-item>
               </el-form>
-              <div class="token-input">
-                <el-input v-model="state.token" readonly placeholder="登录成功后显示 token" size="small"></el-input>
+              <div class="token-input" v-if="state.token">
+                <el-divider>Token 信息</el-divider>
+                <el-input v-model="state.token" readonly size="small" type="password" show-password>
+                </el-input>
               </div>
             </el-card>
           </el-col>
           <el-col :span="16">
-            <el-card shadow="never">
-              <div class="card-title">快捷提示</div>
-              <el-descriptions :column="2" border size="small">
-                <el-descriptions-item label="默认账号">admin / admin</el-descriptions-item>
-                <el-descriptions-item label="鉴权">Authorization: Bearer {token}</el-descriptions-item>
-                <el-descriptions-item label="接口返回">{ code, message, data }</el-descriptions-item>
-                <el-descriptions-item label="提示">先登录再进行业务操作</el-descriptions-item>
+            <el-card shadow="hover">
+              <div class="card-title">📋 操作指南</div>
+              <el-descriptions :column="2" border size="default">
+                <el-descriptions-item label="🔑 默认账号">
+                  <el-tag type="info" round>admin / admin</el-tag>
+                </el-descriptions-item>
+                <el-descriptions-item label="🔒 鉴权方式">
+                  <el-tag type="warning" round>Bearer Token</el-tag>
+                </el-descriptions-item>
+                <el-descriptions-item label="📦 接口格式">{ code, message, data }</el-descriptions-item>
+                <el-descriptions-item label="💡 操作提示">先登录再进行业务操作</el-descriptions-item>
               </el-descriptions>
+              <el-divider>快捷操作</el-divider>
               <div class="section-row">
-                <el-space wrap>
-                  <el-button type="success" @click="loadSkus" :disabled="!state.token">刷新 SKU</el-button>
-                  <el-button @click="loadInventory" :disabled="!state.token">刷新库存</el-button>
-                  <el-button @click="loadLogs" :disabled="!state.token">刷新库存日志</el-button>
-                  <el-button @click="fillSamples" :disabled="!state.token">填充示例单据</el-button>
+                <el-space wrap size="default">
+                  <el-button type="success" @click="loadSkus" :disabled="!state.token" icon="Refresh">
+                    刷新 SKU
+                  </el-button>
+                  <el-button type="primary" plain @click="loadInventory" :disabled="!state.token" icon="Box">
+                    刷新库存
+                  </el-button>
+                  <el-button type="warning" plain @click="loadLogs" :disabled="!state.token" icon="Document">
+                    库存日志
+                  </el-button>
+                  <el-button type="info" plain @click="fillSamples" :disabled="!state.token" icon="MagicStick">
+                    填充示例
+                  </el-button>
                 </el-space>
               </div>
             </el-card>
@@ -442,6 +745,55 @@
       </el-main>
     </el-container>
   </div>
+  <style>
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: rgba(255, 213, 79, 0.6);
+      border-radius: 50%;
+      animation: float linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+    }
+  </style>
+  <script>
+    // 创建装饰粒子
+    function createParticles() {
+      const container = document.getElementById('particles');
+      if (!container) return;
+      const colors = ['rgba(255, 213, 79, 0.6)', 'rgba(255, 152, 0, 0.5)', 'rgba(255, 109, 0, 0.4)', 'rgba(255, 255, 255, 0.3)'];
+
+      for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.width = (Math.random() * 8 + 4) + 'px';
+        particle.style.height = particle.style.width;
+        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+        particle.style.animationDelay = (Math.random() * 10) + 's';
+        container.appendChild(particle);
+      }
+    }
+    createParticles();
+  </script>
   <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
   <script src="https://unpkg.com/element-plus/dist/index.full.min.js"></script>
   <script>
