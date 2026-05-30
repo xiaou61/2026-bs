@@ -1,18 +1,44 @@
 <template>
   <div class="login-page">
-    <el-card class="login-card">
-      <h2>无人机巡检任务调度与缺陷上报平台</h2>
-      <p>面向无人机巡检业务的任务调度、缺陷上报、整改闭环和统计分析平台</p>
-      <el-form :model="form" label-width="70px" @keyup.enter="submit">
-        <el-form-item label="账号"><el-input v-model="form.username" /></el-form-item>
-        <el-form-item label="密码"><el-input v-model="form.password" type="password" show-password /></el-form-item>
-        <el-button type="primary" style="width: 100%" @click="submit">登录</el-button>
+    <!-- 装饰背景 -->
+    <div class="bg-decoration">
+      <div class="deco deco-1">🚁</div>
+      <div class="deco deco-2">📷</div>
+      <div class="deco deco-3">🔍</div>
+      <div class="deco deco-4">⚡</div>
+    </div>
+
+    <el-card class="login-card" shadow="always">
+      <div class="logo-section">
+        <div class="logo-icon">🚁</div>
+        <h2 class="title">无人机巡检任务调度</h2>
+        <p class="subtitle">面向无人机巡检业务的任务调度、缺陷上报、整改闭环和统计分析平台</p>
+      </div>
+
+      <el-form :model="form" class="login-form" @keyup.enter="submit">
+        <el-form-item>
+          <el-input v-model="form.username" placeholder="请输入账号" prefix-icon="User" size="large" />
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="form.password" type="password" placeholder="请输入密码" prefix-icon="Lock" show-password size="large" />
+        </el-form-item>
+        <el-button type="primary" size="large" class="submit-btn" @click="submit">
+          <el-icon><Key /></el-icon> 登录系统
+        </el-button>
       </el-form>
-      <div class="account-list">
-        <el-tag>admin / 123456</el-tag>
-        <el-tag>pilot / 123456</el-tag>
-        <el-tag>engineer / 123456</el-tag>
-        <el-tag>manager / 123456</el-tag>
+
+      <div class="accounts">
+        <el-divider>测试账号</el-divider>
+        <div class="account-tags">
+          <el-tag effect="plain" round>admin / 123456</el-tag>
+          <el-tag type="success" effect="plain" round>pilot / 123456</el-tag>
+          <el-tag type="warning" effect="plain" round>engineer / 123456</el-tag>
+          <el-tag type="info" effect="plain" round>manager / 123456</el-tag>
+        </div>
+      </div>
+
+      <div class="drone-tips">
+        <span>🚁 空中巡检 · 智能识别 🚁</span>
       </div>
     </el-card>
   </div>
@@ -34,3 +60,212 @@ const submit = async () => {
   router.push('/dashboard')
 }
 </script>
+
+<style scoped>
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0D47A1 0%, #1565C0 30%, #1976D2 60%, #42A5F5 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-decoration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.deco {
+  position: absolute;
+  font-size: 48px;
+  opacity: 0.15;
+  animation: floatDeco 8s ease-in-out infinite;
+}
+
+.deco-1 { top: 15%; left: 10%; animation-delay: 0s; font-size: 64px; }
+.deco-2 { top: 25%; right: 15%; animation-delay: 2s; }
+.deco-3 { bottom: 25%; left: 20%; animation-delay: 4s; }
+.deco-4 { top: 50%; right: 10%; animation-delay: 1s; font-size: 56px; }
+
+@keyframes floatDeco {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-15px) rotate(5deg); }
+  50% { transform: translateY(-8px) rotate(-3deg); }
+  75% { transform: translateY(-12px) rotate(3deg); }
+}
+
+.login-card {
+  width: 480px;
+  padding: 48px 40px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 28px;
+  box-shadow: 0 24px 64px rgba(13, 71, 161, 0.3);
+  position: relative;
+  z-index: 10;
+  backdrop-filter: blur(20px);
+  overflow: hidden;
+}
+
+.login-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #0D47A1, #1565C0, #1976D2, #42A5F5, #0D47A1);
+  background-size: 300% 100%;
+  animation: droneGradient 4s linear infinite;
+}
+
+@keyframes droneGradient {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 300% 0%; }
+}
+
+.logo-section {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.logo-icon {
+  font-size: 72px;
+  margin-bottom: 16px;
+  animation: flyDrone 3s ease-in-out infinite;
+  display: inline-block;
+}
+
+@keyframes flyDrone {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(10px, -10px) rotate(5deg); }
+  50% { transform: translate(0, -15px) rotate(0deg); }
+  75% { transform: translate(-10px, -10px) rotate(-5deg); }
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #0D47A1, #1565C0, #1976D2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 8px 0;
+  letter-spacing: 2px;
+}
+
+.subtitle {
+  color: #1976D2;
+  font-size: 13px;
+  margin: 0;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+
+.login-form {
+  margin-top: 24px;
+}
+
+.login-form :deep(.el-input__wrapper) {
+  border-radius: 12px !important;
+  box-shadow: 0 2px 12px rgba(13, 71, 161, 0.08) !important;
+  padding: 4px 12px;
+  transition: all 0.3s ease;
+}
+
+.login-form :deep(.el-input__wrapper:hover) {
+  box-shadow: 0 4px 16px rgba(13, 71, 161, 0.15) !important;
+}
+
+.login-form :deep(.el-input__wrapper.is-focus) {
+  box-shadow: 0 4px 20px rgba(13, 71, 161, 0.25) !important;
+}
+
+.login-form :deep(.el-input__prefix) {
+  color: #1565C0;
+}
+
+.submit-btn {
+  width: 100%;
+  height: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  border-radius: 14px !important;
+  background: linear-gradient(135deg, #0D47A1 0%, #1565C0 50%, #1976D2 100%) !important;
+  border: none !important;
+  box-shadow: 0 8px 24px rgba(13, 71, 161, 0.3) !important;
+  transition: all 0.3s ease !important;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.submit-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(13, 71, 161, 0.4) !important;
+}
+
+.accounts {
+  margin-top: 24px;
+}
+
+.accounts :deep(.el-divider__text) {
+  background: rgba(255, 255, 255, 0.95);
+  color: #999;
+  font-size: 12px;
+}
+
+.account-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.account-tags .el-tag {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.account-tags .el-tag:hover {
+  transform: translateY(-2px);
+}
+
+.drone-tips {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #E3F2FD;
+}
+
+.drone-tips span {
+  color: #1565C0;
+  font-size: 12px;
+  letter-spacing: 2px;
+  opacity: 0.6;
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    width: 90%;
+    margin: 16px;
+    padding: 32px 24px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  .logo-icon {
+    font-size: 56px;
+  }
+}
+</style>
