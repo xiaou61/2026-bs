@@ -1,21 +1,48 @@
 <template>
   <div class="login-container">
+    <!-- 装饰背景 -->
+    <div class="bg-decoration">
+      <div class="deco deco-1">🛒</div>
+      <div class="deco deco-2">💰</div>
+      <div class="deco deco-3">🎁</div>
+      <div class="deco deco-4">🛍️</div>
+    </div>
+
     <div class="login-box">
-      <h2>网上团购系统</h2>
-      <el-form :model="form" :rules="rules" ref="formRef">
+      <div class="logo-section">
+        <div class="logo-icon">🛒</div>
+        <h2 class="title">网上团购系统</h2>
+        <p class="subtitle">拼团优惠 · 省钱购物</p>
+      </div>
+
+      <el-form :model="form" :rules="rules" ref="formRef" class="login-form">
         <el-form-item prop="username">
-          <el-input v-model="form.username" placeholder="用户名" prefix-icon="User" />
+          <el-input v-model="form.username" placeholder="请输入用户名" prefix-icon="User" size="large" />
         </el-form-item>
         <el-form-item prop="password">
-          <el-input v-model="form.password" type="password" placeholder="密码" prefix-icon="Lock" show-password />
+          <el-input v-model="form.password" type="password" placeholder="请输入密码" prefix-icon="Lock" show-password size="large" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="handleLogin" :loading="loading" style="width: 100%">登录</el-button>
+          <el-button type="primary" size="large" class="submit-btn" @click="handleLogin" :loading="loading">
+            <template v-if="!loading">
+              <el-icon><Key /></el-icon> 团购登录
+            </template>
+            <template v-else>登录中...</template>
+          </el-button>
         </el-form-item>
-        <div class="register-link">
-          还没有账号？<router-link to="/register">立即注册</router-link>
-        </div>
       </el-form>
+
+      <div class="register-link">
+        <el-divider>其他操作</el-divider>
+        <span class="hint-text">还没有账号？</span>
+        <router-link to="/register" class="register-entry">
+          <el-icon><UserFilled /></el-icon> 立即注册
+        </router-link>
+      </div>
+
+      <div class="group-tips">
+        <span>🛍️ 拼团更优惠 · 一起省更多 🛍️</span>
+      </div>
     </div>
   </div>
 </template>
@@ -53,30 +80,209 @@ const handleLogin = async () => {
 
 <style scoped>
 .login-container {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
-  align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  align-items: center;
+  background: linear-gradient(135deg, #FF6B35 0%, #F7931E 30%, #FFB347 60%, #FFD700 100%);
+  position: relative;
+  overflow: hidden;
 }
+
+.bg-decoration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.deco {
+  position: absolute;
+  font-size: 48px;
+  opacity: 0.2;
+  animation: floatDeco 8s ease-in-out infinite;
+}
+
+.deco-1 { top: 15%; left: 10%; animation-delay: 0s; }
+.deco-2 { top: 25%; right: 15%; animation-delay: 2s; }
+.deco-3 { bottom: 25%; left: 20%; animation-delay: 4s; font-size: 56px; }
+.deco-4 { top: 50%; right: 10%; animation-delay: 1s; font-size: 40px; }
+
+@keyframes floatDeco {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-15px) rotate(5deg); }
+  50% { transform: translateY(-8px) rotate(-3deg); }
+  75% { transform: translateY(-12px) rotate(3deg); }
+}
+
 .login-box {
-  width: 400px;
-  padding: 40px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  width: 460px;
+  padding: 48px 40px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 28px;
+  box-shadow: 0 24px 64px rgba(255, 107, 53, 0.2);
+  position: relative;
+  z-index: 10;
+  backdrop-filter: blur(20px);
+  overflow: hidden;
 }
-.login-box h2 {
+
+.login-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #FF6B35, #F7931E, #FFB347, #FFD700, #FF6B35);
+  background-size: 300% 100%;
+  animation: groupGradient 4s linear infinite;
+}
+
+@keyframes groupGradient {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 300% 0%; }
+}
+
+.logo-section {
   text-align: center;
-  margin-bottom: 30px;
-  color: #333;
+  margin-bottom: 32px;
 }
+
+.logo-icon {
+  font-size: 72px;
+  margin-bottom: 16px;
+  animation: bounce 2s ease-in-out infinite;
+  display: inline-block;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-10px) scale(1.1); }
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #E65100, #FF6B35, #F7931E);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 8px 0;
+  letter-spacing: 3px;
+}
+
+.subtitle {
+  color: #FF6B35;
+  font-size: 14px;
+  margin: 0;
+  letter-spacing: 6px;
+  font-weight: 500;
+}
+
+.login-form {
+  margin-top: 24px;
+}
+
+.login-form :deep(.el-input__wrapper) {
+  border-radius: 12px !important;
+  box-shadow: 0 2px 12px rgba(255, 107, 53, 0.08) !important;
+  padding: 4px 12px;
+  transition: all 0.3s ease;
+}
+
+.login-form :deep(.el-input__wrapper:hover) {
+  box-shadow: 0 4px 16px rgba(255, 107, 53, 0.15) !important;
+}
+
+.login-form :deep(.el-input__wrapper.is-focus) {
+  box-shadow: 0 4px 20px rgba(255, 107, 53, 0.25) !important;
+}
+
+.login-form :deep(.el-input__prefix) {
+  color: #FF6B35;
+}
+
+.submit-btn {
+  width: 100%;
+  height: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  border-radius: 14px !important;
+  background: linear-gradient(135deg, #E65100 0%, #FF6B35 50%, #F7931E 100%) !important;
+  border: none !important;
+  box-shadow: 0 8px 24px rgba(255, 107, 53, 0.3) !important;
+  transition: all 0.3s ease !important;
+}
+
+.submit-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(255, 107, 53, 0.4) !important;
+}
+
 .register-link {
+  margin-top: 24px;
   text-align: center;
-  color: #666;
 }
-.register-link a {
-  color: #409eff;
+
+.register-link :deep(.el-divider__text) {
+  background: rgba(255, 255, 255, 0.95);
+  color: #999;
+  font-size: 12px;
+}
+
+.hint-text {
+  color: #666;
+  font-size: 14px;
+}
+
+.register-entry {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #FF6B35;
   text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.register-entry:hover {
+  color: #E65100;
+  transform: translateX(4px);
+}
+
+.group-tips {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #FFF3E0;
+}
+
+.group-tips span {
+  color: #FF6B35;
+  font-size: 14px;
+  letter-spacing: 2px;
+  opacity: 0.6;
+}
+
+/* 响应式 */
+@media (max-width: 480px) {
+  .login-box {
+    width: 90%;
+    margin: 16px;
+    padding: 32px 24px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .logo-icon {
+    font-size: 56px;
+  }
 }
 </style>
