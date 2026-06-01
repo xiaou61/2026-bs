@@ -44,6 +44,20 @@ public class DocumentTemplateService {
         mapper.updateById(entity);
     }
 
+    public void saveEntity(DocumentTemplate entity) {
+        if (entity.getId() == null) {
+            entity.setCreateTime(LocalDateTime.now());
+            entity.setUpdateTime(LocalDateTime.now());
+            if (entity.getStatus() == null) {
+                entity.setStatus(1);
+            }
+            mapper.insert(entity);
+        } else {
+            entity.setUpdateTime(LocalDateTime.now());
+            mapper.updateById(entity);
+        }
+    }
+
     public void delete(Long id) {
         mapper.deleteById(id);
     }

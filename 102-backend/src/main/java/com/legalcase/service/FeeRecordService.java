@@ -45,6 +45,20 @@ public class FeeRecordService {
         mapper.updateById(entity);
     }
 
+    public void saveEntity(FeeRecord entity) {
+        if (entity.getId() == null) {
+            entity.setCreateTime(LocalDateTime.now());
+            entity.setUpdateTime(LocalDateTime.now());
+            if (entity.getPayStatus() == null) {
+                entity.setPayStatus(0);
+            }
+            mapper.insert(entity);
+        } else {
+            entity.setUpdateTime(LocalDateTime.now());
+            mapper.updateById(entity);
+        }
+    }
+
     public void delete(Long id) {
         mapper.deleteById(id);
     }
