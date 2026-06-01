@@ -1,4 +1,48 @@
-<template><div class="login"><el-card><h2>城市公厕巡检保洁与耗材补给调度系统</h2><el-form :model="form"><el-form-item><el-input v-model="form.username" placeholder="账号" /></el-form-item><el-form-item><el-input v-model="form.password" placeholder="密码" type="password" /></el-form-item><el-button type="primary" style="width:100%" @click="handleLogin">登录</el-button></el-form><div class="accounts"><span>admin</span><span>sanitation</span><span>cleaner</span><span>supply</span><span>inspector</span><span>citizen</span></div></el-card></div></template>
+<template>
+  <div class="login">
+    <!-- 装饰背景 -->
+    <div class="bg-decoration">
+      <div class="deco deco-1">🚻</div>
+      <div class="deco deco-2">🧹</div>
+      <div class="deco deco-3">🧻</div>
+      <div class="deco deco-4">✨</div>
+    </div>
+
+    <el-card class="login-card" shadow="always">
+      <div class="logo-section">
+        <div class="logo-icon">🚻</div>
+        <h2 class="title">城市公厕巡检保洁与耗材补给</h2>
+        <p class="subtitle">面向市政环卫场景的公厕巡检、保洁任务、耗材补给、投诉受理和整改跟踪一体化平台</p>
+      </div>
+
+      <el-form :model="form" class="login-form" @keyup.enter="handleLogin">
+        <el-form-item>
+          <el-input v-model="form.username" placeholder="请输入账号" prefix-icon="User" size="large" />
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="form.password" placeholder="请输入密码" type="password" prefix-icon="Lock" show-password size="large" />
+        </el-form-item>
+        <el-button type="success" size="large" class="submit-btn" @click="handleLogin">
+          <el-icon><Key /></el-icon> 环卫登录
+        </el-button>
+      </el-form>
+
+      <div class="accounts">
+        <el-divider>测试账号</el-divider>
+        <div class="account-tags">
+          <el-tag effect="plain" round>admin / 123456</el-tag>
+          <el-tag type="success" effect="plain" round>sanitation / 123456</el-tag>
+          <el-tag type="warning" effect="plain" round>inspector / 123456</el-tag>
+          <el-tag type="info" effect="plain" round>citizen / 123456</el-tag>
+        </div>
+      </div>
+
+      <div class="sanitation-tips">
+        <span>🚻 美丽城市 · 从厕所革命开始 🚻</span>
+      </div>
+    </el-card>
+  </div>
+</template>
 <script setup>
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
@@ -10,4 +54,210 @@ const form = reactive({ username: 'admin', password: '123456' })
 const home = { ADMIN: '/dashboard', SANITATION: '/site', CLEANER: '/task', SUPPLY: '/dispatch', INSPECTOR: '/inspection', CITIZEN: '/complaint' }
 const handleLogin = async () => { const res = await login(form); userStore.setLogin(res.data); router.push(home[res.data.user.role] || '/dashboard') }
 </script>
-<style scoped>.login{height:100vh;display:flex;align-items:center;justify-content:center;background:#edf4f2}.el-card{width:430px}h2{font-size:20px;margin:0 0 22px;text-align:center}.accounts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;color:#64748b;font-size:13px}.accounts span{background:#f1f5f9;border-radius:6px;padding:4px 8px}</style>
+
+<style scoped>
+.login {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 30%, #81C784 60%, #A5D6A7 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-decoration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.deco {
+  position: absolute;
+  font-size: 48px;
+  opacity: 0.15;
+  animation: floatDeco 8s ease-in-out infinite;
+}
+
+.deco-1 { top: 15%; left: 10%; animation-delay: 0s; }
+.deco-2 { top: 25%; right: 15%; animation-delay: 2s; }
+.deco-3 { bottom: 25%; left: 20%; animation-delay: 4s; }
+.deco-4 { top: 50%; right: 10%; animation-delay: 1s; }
+
+@keyframes floatDeco {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-15px) rotate(5deg); }
+  50% { transform: translateY(-8px) rotate(-3deg); }
+  75% { transform: translateY(-12px) rotate(3deg); }
+}
+
+.login-card {
+  width: 480px;
+  padding: 48px 40px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 28px;
+  box-shadow: 0 24px 64px rgba(76, 175, 80, 0.3);
+  position: relative;
+  z-index: 10;
+  backdrop-filter: blur(20px);
+  overflow: hidden;
+}
+
+.login-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #4CAF50, #66BB6A, #81C784, #A5D6A7, #4CAF50);
+  background-size: 300% 100%;
+  animation: cleanGradient 4s linear infinite;
+}
+
+@keyframes cleanGradient {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 300% 0%; }
+}
+
+.logo-section {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.logo-icon {
+  font-size: 72px;
+  margin-bottom: 16px;
+  animation: pulse 2s ease-in-out infinite;
+  display: inline-block;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #2E7D32, #43A047, #66BB6A);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 8px 0;
+  letter-spacing: 2px;
+}
+
+.subtitle {
+  color: #43A047;
+  font-size: 12px;
+  margin: 0;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+
+.login-form {
+  margin-top: 24px;
+}
+
+.login-form :deep(.el-input__wrapper) {
+  border-radius: 12px !important;
+  box-shadow: 0 2px 12px rgba(76, 175, 80, 0.08) !important;
+  padding: 4px 12px;
+  transition: all 0.3s ease;
+}
+
+.login-form :deep(.el-input__wrapper:hover) {
+  box-shadow: 0 4px 16px rgba(76, 175, 80, 0.15) !important;
+}
+
+.login-form :deep(.el-input__wrapper.is-focus) {
+  box-shadow: 0 4px 20px rgba(76, 175, 80, 0.25) !important;
+}
+
+.login-form :deep(.el-input__prefix) {
+  color: #4CAF50;
+}
+
+.submit-btn {
+  width: 100%;
+  height: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  border-radius: 14px !important;
+  background: linear-gradient(135deg, #2E7D32 0%, #43A047 50%, #66BB6A 100%) !important;
+  border: none !important;
+  box-shadow: 0 8px 24px rgba(76, 175, 80, 0.3) !important;
+  transition: all 0.3s ease !important;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.submit-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(76, 175, 80, 0.4) !important;
+}
+
+.accounts {
+  margin-top: 24px;
+}
+
+.accounts :deep(.el-divider__text) {
+  background: rgba(255, 255, 255, 0.95);
+  color: #999;
+  font-size: 12px;
+}
+
+.account-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.account-tags .el-tag {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.account-tags .el-tag:hover {
+  transform: translateY(-2px);
+}
+
+.sanitation-tips {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #E8F5E9;
+}
+
+.sanitation-tips span {
+  color: #4CAF50;
+  font-size: 12px;
+  letter-spacing: 2px;
+  opacity: 0.6;
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    width: 90%;
+    margin: 16px;
+    padding: 32px 24px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  .logo-icon {
+    font-size: 56px;
+  }
+}
+</style>
