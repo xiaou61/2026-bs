@@ -1,0 +1,1 @@
+import{b as t}from"./index-B5QLM0D-.js";function s(e){return t({url:"/store/list",method:"get",params:e})}function o(e){return t({url:`/store/${e}`,method:"get"})}function u(e){return t({url:`/store/${e}/hairdressers`,method:"get"})}function i(e){return t({url:`/store/${e}/services`,method:"get"})}export{u as a,s as b,i as c,o as g};

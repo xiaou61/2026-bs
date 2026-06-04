@@ -1,0 +1,206 @@
+=== 后端项目结构检查 ===
+检查时间: 2026年06月 1日 20:09:04
+
+OK: 001-backend
+OK: 002-backend
+OK: 003-backend
+OK: 004-backend
+OK: 005-backend
+OK: 006-backend
+OK: 007-backend
+OK: 008-backend
+OK: 009-backend
+OK: 010-backend
+WARN: 011-backend - 无controller目录; 
+WARN: 012-backend - 无controller目录; 
+WARN: 013-backend - 无controller目录; 
+WARN: 014-backend - 无controller目录; 
+WARN: 015-backend - 无controller目录; 
+WARN: 016-backend - 无controller目录; 
+WARN: 017-backend - 无controller目录; 
+WARN: 018-backend - 无controller目录; 
+WARN: 019-backend - 无controller目录; 
+WARN: 020-backend - 无controller目录; 
+OK: 021-backend
+WARN: 022-backend - 无controller目录; 
+WARN: 023-backend - 无controller目录; 数据库URL未配置; 
+WARN: 024-backend - 无controller目录; 数据库URL未配置; 
+WARN: 025-backend - 无controller目录; 数据库URL未配置; 
+WARN: 026-backend - 无controller目录; 数据库URL未配置; 
+WARN: 027-backend - 无controller目录; 数据库URL未配置; 
+WARN: 028-backend - 无controller目录; 数据库URL未配置; 
+WARN: 029-backend - 无controller目录; 
+WARN: 030-backend - 无controller目录; 数据库URL未配置; 
+WARN: 031-backend - 无controller目录; 
+WARN: 032-backend - 无controller目录; 
+WARN: 033-backend - 无controller目录; 
+WARN: 034-backend - 无controller目录; 
+WARN: 035-backend - 无controller目录; 
+WARN: 036-backend - 无controller目录; 数据库URL未配置; 
+WARN: 037-backend - 无controller目录; 
+WARN: 038-backend - 无controller目录; 
+WARN: 039-backend - 无controller目录; 数据库URL未配置; 
+WARN: 040-backend - 无controller目录; 
+WARN: 041-backend - 无controller目录; 
+OK: 042-backend
+OK: 043-backend
+OK: 044-backend
+OK: 045-backend
+OK: 046-backend
+OK: 047-backend
+OK: 048-backend
+OK: 049-backend
+OK: 050-backend
+OK: 051-backend
+OK: 052-backend
+OK: 053-backend
+OK: 054-backend
+OK: 055-backend
+OK: 056-backend
+OK: 057-backend
+OK: 058-backend
+OK: 059-backend
+OK: 060-backend
+OK: 061-backend
+OK: 062-backend
+OK: 063-backend
+OK: 064-backend
+OK: 065-backend
+OK: 066-backend
+OK: 067-backend
+OK: 068-backend
+WARN: 069-backend - 无controller目录; 
+OK: 070-backend
+OK: 071-backend
+WARN: 072-backend - 无controller目录; 
+OK: 073-backend
+OK: 074-backend
+OK: 075-backend
+OK: 076-backend
+OK: 077-backend
+OK: 078-backend
+OK: 079-backend
+OK: 080-backend
+OK: 081-backend
+OK: 082-backend
+OK: 083-backend
+OK: 084-backend
+OK: 085-backend
+OK: 086-backend
+OK: 087-backend
+OK: 088-backend
+OK: 089-backend
+OK: 090-backend
+OK: 091-backend
+OK: 092-backend
+OK: 093-backend
+OK: 094-backend
+OK: 095-backend
+OK: 096-backend
+OK: 097-backend
+OK: 098-backend
+OK: 099-backend
+OK: 100-backend
+OK: 101-backend
+OK: 102-backend
+OK: 103-backend
+OK: 104-backend
+OK: 105-backend
+OK: 106-backend
+OK: 107-backend
+OK: 108-backend
+OK: 109-backend
+OK: 110-backend
+OK: 111-backend
+OK: 112-backend
+OK: 113-backend
+OK: 114-backend
+OK: 115-backend
+OK: 116-backend
+OK: 117-backend
+OK: 118-backend
+OK: 119-backend
+OK: 120-backend
+OK: 121-backend
+OK: 122-backend
+OK: 123-backend
+OK: 124-backend
+OK: 125-backend
+OK: 126-backend
+OK: 127-backend
+OK: 128-backend
+OK: 129-backend
+OK: 130-backend
+OK: 131-backend
+OK: 132-backend
+OK: 133-backend
+OK: 134-backend
+OK: 135-backend
+OK: 136-backend
+OK: 137-backend
+OK: 138-backend
+OK: 139-backend
+OK: 140-backend
+OK: 141-backend
+OK: 142-backend
+OK: 143-backend
+OK: 144-backend
+OK: 145-backend
+OK: 146-backend
+OK: 147-backend
+OK: 148-backend
+OK: 149-backend
+OK: 150-backend
+OK: 151-backend
+OK: 152-backend
+OK: 153-backend
+OK: 154-backend
+OK: 155-backend
+OK: 156-backend
+OK: 157-backend
+OK: 158-backend
+OK: 159-backend
+OK: 160-backend
+OK: 161-backend
+OK: 162-backend
+OK: 163-backend
+OK: 164-backend
+OK: 165-backend
+OK: 166-backend
+OK: 167-backend
+OK: 168-backend
+OK: 169-backend
+OK: 170-backend
+OK: 171-backend
+OK: 172-backend
+OK: 173-backend
+OK: 174-backend
+OK: 175-backend
+OK: 176-backend
+OK: 177-backend
+OK: 178-backend
+OK: 179-backend
+OK: 180-backend
+OK: 181-backend
+OK: 182-backend
+OK: 183-backend
+OK: 184-backend
+OK: 185-backend
+OK: 186-backend
+OK: 187-backend
+OK: 188-backend
+OK: 189-backend
+OK: 190-backend
+OK: 191-backend
+OK: 192-backend
+OK: 193-backend
+OK: 194-backend
+OK: 195-backend
+OK: 196-backend
+OK: 197-backend
+OK: 198-backend
+OK: 199-backend
+OK: 200-backend
+
+=== 统计 ===
+正常: 168 问题: 32
