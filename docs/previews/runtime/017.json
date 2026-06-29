@@ -17,17 +17,30 @@
         "role_label": "管理员",
         "username": "admin",
         "password": "admin123"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "20210001",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "20210002",
+        "password": "123456"
       }
     ],
     "routes": [],
     "readme_sources": [
+      "017-backend\\ACCOUNTS.md",
       "017-backend\\README.md"
     ]
   },
   "services": {
     "backend": {
       "url": "http://127.0.0.1:8080",
-      "pid": 40136
+      "pid": 42140
     }
   },
   "logs": {
@@ -37,8 +50,13 @@
     }
   },
   "status": "stopped",
-  "prepared_at": "2026-05-24 22:29:13",
+  "prepared_at": "2026-06-07 12:02:46",
+  "datasource_kind": "mysql",
   "sql_file": "017-backend\\src\\main\\resources\\sql\\schema.sql",
+  "sql_files": [
+    "017-backend\\src\\main\\resources\\sql\\schema.sql",
+    "017-backend\\src\\main\\resources\\sql\\data.sql"
+  ],
   "capture_hints": {
     "roles": [
       {
@@ -46,11 +64,23 @@
         "role_label": "管理员",
         "username": "admin",
         "password": "admin123"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "20210001",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "20210002",
+        "password": "123456"
       }
     ],
     "routes": [],
     "screenshot_dir": "docs\\previews\\assets\\017",
     "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
   },
-  "stopped_at": "2026-05-24 22:29:34"
+  "stopped_at": "2026-06-07 12:06:46"
 }

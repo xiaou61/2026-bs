@@ -129,7 +129,7 @@ description: 商品交易、订单管理与电商平台
 
 **核心模块：** 用户与认证、用户管理、供应商管理、客户管理、分类管理、商品管理、采购管理、销售管理、库存流水、公告中心、经营看板
 
-**技术栈：** Spring Boot 2.7.18、MyBatis 3.5 + PageHelper 1.4.7、Vue 3.4.0、Element Plus 2.4.4 | **API：** 44 个 | **表：** 18 张 | **页面：** 13 个
+**技术栈：** Spring Boot 2.7.18、MyBatis 3.5 + PageHelper 1.4.7、Vue 3.4.0、Element Plus 2.4.4 | **API：** 44 个 | **表：** 27 张 | **页面：** 13 个
 
 ---
 
@@ -139,7 +139,7 @@ description: 商品交易、订单管理与电商平台
 
 **核心模块：** 用户与认证、用户管理、景点管理、景点图片上传、个人中心、常用出行人、景点收藏、订单管理、订单导出、评价管理、投诉管理、数据看板
 
-**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **API：** 42 个 | **表：** 14 张 | **页面：** 11 个
+**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **API：** 42 个 | **表：** 21 张 | **页面：** 11 个
 
 ---
 
@@ -149,7 +149,7 @@ description: 商品交易、订单管理与电商平台
 
 **核心模块：** 用户管理、电影管理、影院管理、影厅管理、场次管理、在线选座、订单管理、支付系统、票务系统、评论系统、优惠券系统、数据统计
 
-**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **API：** 78 个 | **表：** 24 张 | **页面：** 19 个
+**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **API：** 78 个 | **表：** 36 张 | **页面：** 19 个
 
 ---
 
@@ -217,7 +217,7 @@ description: 商品交易、订单管理与电商平台
 
 基于SpringBoot的宠物咖啡馆平台的设计与实现
 
-**技术栈：** Spring Boot 2.7.18、MyBatis-Plus、Vue 3、Element Plus
+**技术栈：** Spring Boot 2.7.18、MyBatis-Plus、Vue 3、Element Plus | **API：** 74 个 | **表：** 60 张 | **页面：** 17 个
 
 ---
 

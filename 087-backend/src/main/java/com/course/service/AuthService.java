@@ -5,6 +5,7 @@ import com.course.entity.SysUser;
 import com.course.mapper.SysUserMapper;
 import com.course.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -23,16 +24,15 @@ public class AuthService {
     @Autowired
     private RuntimeStoreService runtimeStoreService;
 
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     public Map<String, Object> login(String username, String password) {
         if (!StringUtils.hasText(username) || !StringUtils.hasText(password)) {
             throw new BusinessException("用户名和密码不能为空");
         }
         SysUser user = sysUserMapper.selectByUsername(username);
-        if (user == null) {
-            throw new BusinessException("用户不存在");
-        }
-        if (!password.equals(user.getPassword())) {
-            throw new BusinessException("密码错误");
+        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
+            throw new BusinessException("用户名或密码错误");
         }
         if (user.getStatus() == null || user.getStatus() != 1) {
             throw new BusinessException("账号已禁用");

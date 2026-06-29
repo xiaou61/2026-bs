@@ -23,6 +23,9 @@ public interface InventoryTransferMapper {
     @Update("UPDATE inventory_transfer SET record_no=#{recordNo},record_name=#{recordName},category=#{category},owner_name=#{ownerName},plan_time=#{planTime},status=#{status},remark=#{remark},updated_time=NOW() WHERE id=#{id}")
     int update(InventoryTransfer entity);
 
+    @Select("SELECT * FROM inventory_transfer WHERE id = #{id}")
+    InventoryTransfer selectById(Long id);
+
     @Delete("DELETE FROM inventory_transfer WHERE id=#{id}")
     int deleteById(Long id);
 

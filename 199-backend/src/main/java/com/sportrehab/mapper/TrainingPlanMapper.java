@@ -26,6 +26,9 @@ public interface TrainingPlanMapper {
     @Delete("DELETE FROM training_plan WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM training_plan WHERE id=#{id}")
+    TrainingPlan selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM training_plan")
     long countAll();
 

@@ -1,0 +1,71 @@
+{
+  "project": {
+    "project_id": "063",
+    "name": "进销存管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "063-backend",
+    "frontend_dir": "063-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8063",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "readme_sources": [
+      "063-backend\\README.md"
+    ]
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8063",
+      "pid": 1540
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3063",
+      "pid": 8600
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\063-backend.out.log",
+      "stderr": "logs\\project-preview\\063-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\063-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\063-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\063-frontend.out.log",
+      "stderr": "logs\\project-preview\\063-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 09:47:00",
+  "datasource_kind": "h2",
+  "capture_hints": {
+    "roles": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\063",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 09:48:58"
+}

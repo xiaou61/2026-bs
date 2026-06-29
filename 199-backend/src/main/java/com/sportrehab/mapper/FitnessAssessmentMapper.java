@@ -26,6 +26,9 @@ public interface FitnessAssessmentMapper {
     @Delete("DELETE FROM fitness_assessment WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM fitness_assessment WHERE id=#{id}")
+    FitnessAssessment selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM fitness_assessment")
     long countAll();
 

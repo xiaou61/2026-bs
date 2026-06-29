@@ -23,6 +23,9 @@ public interface MedicineCatalogMapper {
     @Update("UPDATE medicine_catalog SET record_no=#{recordNo},record_name=#{recordName},category=#{category},owner_name=#{ownerName},plan_time=#{planTime},status=#{status},remark=#{remark},updated_time=NOW() WHERE id=#{id}")
     int update(MedicineCatalog entity);
 
+    @Select("SELECT * FROM medicine_catalog WHERE id = #{id}")
+    MedicineCatalog selectById(Long id);
+
     @Delete("DELETE FROM medicine_catalog WHERE id=#{id}")
     int deleteById(Long id);
 

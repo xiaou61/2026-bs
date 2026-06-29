@@ -1,0 +1,56 @@
+{
+  "project": {
+    "project_id": "103",
+    "name": "智能客服工单质检与知识推荐系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "103-backend",
+    "frontend_dir": "103-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8103",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8103",
+      "pid": 49256
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3103",
+      "pid": 49536
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\103-backend.out.log",
+      "stderr": "logs\\project-preview\\103-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\103-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\103-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\103-frontend.out.log",
+      "stderr": "logs\\project-preview\\103-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 11:25:03",
+  "datasource_kind": "mysql",
+  "sql_file": "103-backend\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\103",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 11:27:11"
+}

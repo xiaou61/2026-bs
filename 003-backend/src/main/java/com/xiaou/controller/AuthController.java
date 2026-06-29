@@ -52,7 +52,6 @@ public class AuthController {
     @GetMapping("/current")
     public Result<?> getCurrentUser(@RequestAttribute Long userId) {
         User user = userService.getById(userId);
-        user.setPassword(null);
         return Result.success(user);
     }
 }

@@ -1,0 +1,95 @@
+{
+  "project": {
+    "project_id": "072",
+    "name": "基于SpringBoot和Vue的哈尔滨文旅系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "072-backend",
+    "frontend_dir": "072-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8072",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "tourist",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "readme_sources": [
+      "072-backend\\README.md"
+    ]
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8072",
+      "pid": 26300
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3072",
+      "pid": 47928
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\072-backend.out.log",
+      "stderr": "logs\\project-preview\\072-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\072-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\072-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\072-frontend.out.log",
+      "stderr": "logs\\project-preview\\072-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 10:06:38",
+  "datasource_kind": "h2",
+  "capture_hints": {
+    "roles": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "tourist",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\072",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 10:08:50"
+}

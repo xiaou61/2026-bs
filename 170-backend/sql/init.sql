@@ -16,12 +16,12 @@ CREATE TABLE sys_user (
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 INSERT INTO sys_user (username, password, nickname, role, department, phone, email, status, created_time, updated_time) VALUES
-('admin', '123456', '系统管理员', 'ADMIN', '养老机构照护中心', '13917000001', 'admin@elder170.local', 1, NOW(), NOW()),
-('admission', '123456', '入住管理员', 'ADMISSION', '养老机构照护中心', '13917000002', 'admission@elder170.local', 1, NOW(), NOW()),
-('nursing', '123456', '护理主管', 'NURSING', '养老机构照护中心', '13917000003', 'nursing@elder170.local', 1, NOW(), NOW()),
-('caregiver', '123456', '护理人员', 'CAREGIVER', '养老机构照护中心', '13917000004', 'caregiver@elder170.local', 1, NOW(), NOW()),
-('family', '123456', '家属用户', 'FAMILY', '养老机构照护中心', '13917000005', 'family@elder170.local', 1, NOW(), NOW()),
-('director', '123456', '院长管理员', 'DIRECTOR', '养老机构照护中心', '13917000006', 'director@elder170.local', 1, NOW(), NOW());
+('admin', '$2a$12$XSruOTU6svqvpxQNjLnVfe3HKdoy9E5BKZAtWfG/b7m9L3Fa.kYXC', '系统管理员', 'ADMIN', '养老机构照护中心', '13917000001', 'admin@elder170.local', 1, NOW(), NOW()),
+('admission', '$2a$12$XSruOTU6svqvpxQNjLnVfe3HKdoy9E5BKZAtWfG/b7m9L3Fa.kYXC', '入住管理员', 'ADMISSION', '养老机构照护中心', '13917000002', 'admission@elder170.local', 1, NOW(), NOW()),
+('nursing', '$2a$12$XSruOTU6svqvpxQNjLnVfe3HKdoy9E5BKZAtWfG/b7m9L3Fa.kYXC', '护理主管', 'NURSING', '养老机构照护中心', '13917000003', 'nursing@elder170.local', 1, NOW(), NOW()),
+('caregiver', '$2a$12$XSruOTU6svqvpxQNjLnVfe3HKdoy9E5BKZAtWfG/b7m9L3Fa.kYXC', '护理人员', 'CAREGIVER', '养老机构照护中心', '13917000004', 'caregiver@elder170.local', 1, NOW(), NOW()),
+('family', '$2a$12$XSruOTU6svqvpxQNjLnVfe3HKdoy9E5BKZAtWfG/b7m9L3Fa.kYXC', '家属用户', 'FAMILY', '养老机构照护中心', '13917000005', 'family@elder170.local', 1, NOW(), NOW()),
+('director', '$2a$12$XSruOTU6svqvpxQNjLnVfe3HKdoy9E5BKZAtWfG/b7m9L3Fa.kYXC', '院长管理员', 'DIRECTOR', '养老机构照护中心', '13917000006', 'director@elder170.local', 1, NOW(), NOW());
 
 CREATE TABLE care_area (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,

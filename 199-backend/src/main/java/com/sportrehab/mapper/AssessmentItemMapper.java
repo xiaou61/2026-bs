@@ -26,6 +26,9 @@ public interface AssessmentItemMapper {
     @Delete("DELETE FROM assessment_item WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM assessment_item WHERE id=#{id}")
+    AssessmentItem selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM assessment_item")
     long countAll();
 

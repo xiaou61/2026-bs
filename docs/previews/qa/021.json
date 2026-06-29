@@ -1,0 +1,245 @@
+{
+  "project_id": "021",
+  "mode": "single-project-fine-capture",
+  "started_at": "2026-06-07 21:31:27",
+  "old_images_removed": 3,
+  "backup_dir": "logs\\project-preview\\fine-backups\\021\\20260607-213127",
+  "logs": {
+    "prepare": "logs\\project-preview\\021-prepare.fine.log",
+    "render": "logs\\project-preview\\021-render.fine.log",
+    "docs_generate": "logs\\project-preview\\021-docs-generate.fine.log",
+    "stop": "logs\\project-preview\\021-stop.fine.log",
+    "cleanup": "logs\\project-preview\\021-cleanup.fine.log"
+  },
+  "roles": [],
+  "guest": [
+    {
+      "file": "guest-01-login.png",
+      "label": "guest: login",
+      "url": "http://127.0.0.1:3001/login",
+      "text_length": 72,
+      "size": 494192,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-02-register.png",
+      "label": "guest: register",
+      "url": "http://127.0.0.1:3001/register",
+      "text_length": 208,
+      "size": 136478,
+      "warnings": []
+    },
+    {
+      "file": "guest-03-home.png",
+      "label": "guest: home",
+      "url": "http://127.0.0.1:3001/",
+      "text_length": 307,
+      "size": 329863,
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "project_specific": [
+    {
+      "file": "guest-10-login.png",
+      "label": "project 021: guest login",
+      "url": "http://127.0.0.1:3001/login",
+      "text_length": 72,
+      "size": 494197,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-11-register.png",
+      "label": "project 021: guest register",
+      "url": "http://127.0.0.1:3001/register",
+      "text_length": 208,
+      "size": 136478,
+      "warnings": []
+    },
+    {
+      "file": "guest-12-home-seeded.png",
+      "label": "project 021: guest home with seeded products",
+      "url": "http://127.0.0.1:3001/",
+      "text_length": 512,
+      "size": 393352,
+      "warnings": []
+    },
+    {
+      "file": "buyer-10-home-seeded.png",
+      "label": "project 021: buyer home with products",
+      "url": "http://127.0.0.1:3001/",
+      "text_length": 528,
+      "size": 395573,
+      "warnings": []
+    },
+    {
+      "file": "buyer-11-product-detail-favorited.png",
+      "label": "project 021: buyer product detail favorited",
+      "url": "http://127.0.0.1:3001/product/1",
+      "text_length": 373,
+      "size": 275892,
+      "warnings": []
+    },
+    {
+      "file": "buyer-12-favorites.png",
+      "label": "project 021: buyer favorites",
+      "url": "http://127.0.0.1:3001/favorites",
+      "text_length": 322,
+      "size": 205588,
+      "warnings": []
+    },
+    {
+      "file": "buyer-13-chat-list.png",
+      "label": "project 021: buyer chat list",
+      "url": "http://127.0.0.1:3001/chat",
+      "text_length": 430,
+      "size": 221527,
+      "warnings": []
+    },
+    {
+      "file": "buyer-14-chat-detail-pending.png",
+      "label": "project 021: buyer pending bargain chat",
+      "url": "http://127.0.0.1:3001/chat/1/2",
+      "text_length": 382,
+      "size": 225277,
+      "warnings": []
+    },
+    {
+      "file": "buyer-15-chat-detail-accepted.png",
+      "label": "project 021: buyer accepted bargain chat",
+      "url": "http://127.0.0.1:3001/chat/1/3",
+      "text_length": 384,
+      "size": 226253,
+      "warnings": []
+    },
+    {
+      "file": "buyer-16-profile.png",
+      "label": "project 021: buyer profile",
+      "url": "http://127.0.0.1:3001/profile",
+      "text_length": 253,
+      "size": 188749,
+      "warnings": []
+    },
+    {
+      "file": "buyer-17-profile-buy-orders.png",
+      "label": "project 021: buyer buy orders",
+      "url": "http://127.0.0.1:3001/profile?tab=buy",
+      "text_length": 433,
+      "size": 208852,
+      "warnings": []
+    },
+    {
+      "file": "buyer-18-public-seller-profile.png",
+      "label": "project 021: buyer public seller profile",
+      "url": "http://127.0.0.1:3001/user/1",
+      "text_length": 319,
+      "size": 184613,
+      "warnings": []
+    },
+    {
+      "file": "buyer-19-publish-form.png",
+      "label": "project 021: buyer publish form",
+      "url": "http://127.0.0.1:3001/publish",
+      "text_length": 436,
+      "size": 320980,
+      "warnings": []
+    },
+    {
+      "file": "buyer-20-bargain-dialog.png",
+      "label": "project 021: buyer bargain dialog",
+      "url": "http://127.0.0.1:3001/product/1",
+      "text_length": 396,
+      "size": 213774,
+      "warnings": []
+    },
+    {
+      "file": "buyer-21-rate-dialog.png",
+      "label": "project 021: buyer order rating dialog",
+      "url": "http://127.0.0.1:3001/profile?tab=buy",
+      "text_length": 454,
+      "size": 166196,
+      "warnings": []
+    },
+    {
+      "file": "seller-10-home.png",
+      "label": "project 021: seller home",
+      "url": "http://127.0.0.1:3001/",
+      "text_length": 528,
+      "size": 395328,
+      "warnings": []
+    },
+    {
+      "file": "seller-11-my-products.png",
+      "label": "project 021: seller product management",
+      "url": "http://127.0.0.1:3001/my-products",
+      "text_length": 606,
+      "size": 222183,
+      "warnings": []
+    },
+    {
+      "file": "seller-12-product-detail-self.png",
+      "label": "project 021: seller self product detail",
+      "url": "http://127.0.0.1:3001/product/1",
+      "text_length": 373,
+      "size": 275712,
+      "warnings": []
+    },
+    {
+      "file": "seller-13-chat-list.png",
+      "label": "project 021: seller chat list",
+      "url": "http://127.0.0.1:3001/chat",
+      "text_length": 436,
+      "size": 222729,
+      "warnings": []
+    },
+    {
+      "file": "seller-14-chat-detail-pending.png",
+      "label": "project 021: seller pending bargain chat",
+      "url": "http://127.0.0.1:3001/chat/2/2",
+      "text_length": 388,
+      "size": 226444,
+      "warnings": []
+    },
+    {
+      "file": "seller-15-chat-detail-accepted.png",
+      "label": "project 021: seller accepted bargain chat",
+      "url": "http://127.0.0.1:3001/chat/2/3",
+      "text_length": 384,
+      "size": 226043,
+      "warnings": []
+    },
+    {
+      "file": "seller-16-profile-sell-orders.png",
+      "label": "project 021: seller sell orders",
+      "url": "http://127.0.0.1:3001/profile?tab=sell",
+      "text_length": 423,
+      "size": 206684,
+      "warnings": []
+    },
+    {
+      "file": "seller-17-publish-form.png",
+      "label": "project 021: seller publish form",
+      "url": "http://127.0.0.1:3001/publish",
+      "text_length": 436,
+      "size": 314117,
+      "warnings": []
+    },
+    {
+      "file": "seller-18-edit-product-form.png",
+      "label": "project 021: seller edit product form",
+      "url": "http://127.0.0.1:3001/publish?edit=1",
+      "text_length": 469,
+      "size": 339955,
+      "warnings": []
+    }
+  ],
+  "image_count": 27,
+  "status": "completed",
+  "finished_at": "2026-06-07 21:35:47",
+  "stop_exit_code": 0,
+  "cleanup_exit_code": 0
+}

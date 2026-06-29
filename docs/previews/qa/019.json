@@ -1,0 +1,213 @@
+{
+  "project_id": "019",
+  "mode": "single-project-fine-capture",
+  "started_at": "2026-06-07 14:34:39",
+  "old_images_removed": 26,
+  "backup_dir": "logs\\project-preview\\fine-backups\\019\\20260607-143439",
+  "logs": {
+    "prepare": "logs\\project-preview\\019-prepare.fine.log",
+    "render": "logs\\project-preview\\019-render.fine.log",
+    "docs_generate": "logs\\project-preview\\019-docs-generate.fine.log",
+    "stop": "logs\\project-preview\\019-stop.fine.log",
+    "cleanup": "logs\\project-preview\\019-cleanup.fine.log"
+  },
+  "roles": [],
+  "guest": [
+    {
+      "file": "guest-01-index.png",
+      "label": "guest: index",
+      "url": "http://127.0.0.1:5173/login",
+      "text_length": 69,
+      "size": 479952,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-02-register.png",
+      "label": "guest: register",
+      "url": "http://127.0.0.1:5173/register",
+      "text_length": 27,
+      "size": 475443,
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "project_specific": [
+    {
+      "file": "guest-10-login.png",
+      "label": "project 019: guest login",
+      "url": "http://127.0.0.1:5173/login",
+      "text_length": 69,
+      "size": 480913,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-11-register.png",
+      "label": "project 019: guest register",
+      "url": "http://127.0.0.1:5173/register",
+      "text_length": 27,
+      "size": 475443,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-10-home-seeded.png",
+      "label": "project 019: student dashboard with seeded stats",
+      "url": "http://127.0.0.1:5173/home",
+      "text_length": 336,
+      "size": 67340,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-11-sport-records.png",
+      "label": "project 019: sport records with points",
+      "url": "http://127.0.0.1:5173/sport/record",
+      "text_length": 438,
+      "size": 52339,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-12-create-record.png",
+      "label": "project 019: create sport record form",
+      "url": "http://127.0.0.1:5173/sport/create",
+      "text_length": 109,
+      "size": 38829,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-13-plans.png",
+      "label": "project 019: fitness plans with progress",
+      "url": "http://127.0.0.1:5173/plan/list",
+      "text_length": 290,
+      "size": 51005,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-15-create-plan.png",
+      "label": "project 019: create plan form",
+      "url": "http://127.0.0.1:5173/plan/create",
+      "text_length": 116,
+      "size": 46434,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-16-activities.png",
+      "label": "project 019: activity list",
+      "url": "http://127.0.0.1:5173/activity/list",
+      "text_length": 329,
+      "size": 60167,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-17-create-activity.png",
+      "label": "project 019: create activity form",
+      "url": "http://127.0.0.1:5173/activity/create",
+      "text_length": 114,
+      "size": 43032,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-18-health-profile.png",
+      "label": "project 019: health profile charts and records",
+      "url": "http://127.0.0.1:5173/health/profile",
+      "text_length": 714,
+      "size": 58289,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-19-venues.png",
+      "label": "project 019: venue list",
+      "url": "http://127.0.0.1:5173/venue/list",
+      "text_length": 284,
+      "size": 54310,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-21-bookings.png",
+      "label": "project 019: my bookings",
+      "url": "http://127.0.0.1:5173/venue/booking",
+      "text_length": 199,
+      "size": 36855,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-23-rank.png",
+      "label": "project 019: points rank",
+      "url": "http://127.0.0.1:5173/rank",
+      "text_length": 134,
+      "size": 181581,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-24-profile.png",
+      "label": "project 019: profile",
+      "url": "http://127.0.0.1:5173/profile",
+      "text_length": 102,
+      "size": 34763,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-14-plan-progress-dialog.png",
+      "label": "project 019: plan progress dialog",
+      "url": "http://127.0.0.1:5173/plan/list",
+      "text_length": 307,
+      "size": 51115,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-20-venue-booking-dialog.png",
+      "label": "project 019: venue booking dialog",
+      "url": "http://127.0.0.1:5173/venue/list",
+      "text_length": 322,
+      "size": 67332,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-22-booking-cancel-dialog.png",
+      "label": "project 019: booking cancellation dialog",
+      "url": "http://127.0.0.1:5173/venue/booking",
+      "text_length": 217,
+      "size": 42493,
+      "warnings": []
+    },
+    {
+      "file": "coach-coach1-10-home.png",
+      "label": "project 019: coach-coach1 dashboard",
+      "url": "http://127.0.0.1:5173/home",
+      "text_length": 178,
+      "size": 64030,
+      "warnings": []
+    },
+    {
+      "file": "coach-coach1-11-rank.png",
+      "label": "project 019: coach-coach1 rank",
+      "url": "http://127.0.0.1:5173/rank",
+      "text_length": 134,
+      "size": 182132,
+      "warnings": []
+    },
+    {
+      "file": "admin-admin-10-home.png",
+      "label": "project 019: admin-admin dashboard",
+      "url": "http://127.0.0.1:5173/home",
+      "text_length": 213,
+      "size": 57905,
+      "warnings": []
+    },
+    {
+      "file": "admin-admin-11-rank.png",
+      "label": "project 019: admin-admin rank",
+      "url": "http://127.0.0.1:5173/rank",
+      "text_length": 133,
+      "size": 181703,
+      "warnings": []
+    }
+  ],
+  "image_count": 23,
+  "status": "completed",
+  "finished_at": "2026-06-07 14:37:43",
+  "stop_exit_code": 0,
+  "cleanup_exit_code": 0
+}

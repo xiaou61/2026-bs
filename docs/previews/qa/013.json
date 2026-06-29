@@ -1,0 +1,653 @@
+{
+  "project_id": "013",
+  "mode": "single-project-fine-capture",
+  "started_at": "2026-06-06 20:02:26",
+  "old_images_removed": 35,
+  "backup_dir": "logs\\project-preview\\fine-backups\\013\\20260606-200226",
+  "logs": {
+    "prepare": "logs\\project-preview\\013-prepare.fine.log",
+    "render": "logs\\project-preview\\013-render.fine.log",
+    "docs_generate": "logs\\project-preview\\013-docs-generate.fine.log",
+    "stop": "logs\\project-preview\\013-stop.fine.log",
+    "cleanup": "logs\\project-preview\\013-cleanup.fine.log"
+  },
+  "roles": [
+    {
+      "role": "admin",
+      "username": "admin",
+      "file_prefix": "admin",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "首页",
+          "route": ""
+        },
+        {
+          "label": "地图",
+          "route": ""
+        },
+        {
+          "label": "闲置物品",
+          "route": ""
+        },
+        {
+          "label": "技能服务",
+          "route": ""
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "admin-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:5013/home",
+          "text_length": 417,
+          "size": 198840,
+          "warnings": []
+        },
+        {
+          "file": "admin-02-首页.png",
+          "label": "menu: 首页",
+          "url": "http://127.0.0.1:5013/home",
+          "text_length": 417,
+          "size": 196041,
+          "warnings": []
+        },
+        {
+          "file": "admin-03-地图.png",
+          "label": "menu: 地图",
+          "url": "http://127.0.0.1:5013/map",
+          "text_length": 659,
+          "size": 46110,
+          "warnings": []
+        },
+        {
+          "file": "admin-04-闲置物品.png",
+          "label": "menu: 闲置物品",
+          "url": "http://127.0.0.1:5013/idle",
+          "text_length": 347,
+          "size": 77035,
+          "warnings": []
+        },
+        {
+          "file": "admin-05-闲置物品-发布闲置物品-dialog.png",
+          "label": "dialog: 闲置物品 / 发布闲置物品",
+          "url": "http://127.0.0.1:5013/idle/publish",
+          "text_length": 123,
+          "size": 45575,
+          "warnings": []
+        },
+        {
+          "file": "admin-06-技能服务.png",
+          "label": "menu: 技能服务",
+          "url": "http://127.0.0.1:5013/skill",
+          "text_length": 323,
+          "size": 76901,
+          "warnings": []
+        },
+        {
+          "file": "admin-07-技能服务-发布技能服务-dialog.png",
+          "label": "dialog: 技能服务 / 发布技能服务",
+          "url": "http://127.0.0.1:5013/skill/publish",
+          "text_length": 121,
+          "size": 46418,
+          "warnings": []
+        }
+      ],
+      "warnings": [
+        "preview database password hash patched to match documented account"
+      ]
+    },
+    {
+      "role": "user",
+      "username": "test1",
+      "file_prefix": "user-test1",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "首页",
+          "route": ""
+        },
+        {
+          "label": "地图",
+          "route": ""
+        },
+        {
+          "label": "闲置物品",
+          "route": ""
+        },
+        {
+          "label": "技能服务",
+          "route": ""
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "user-test1-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:5013/home",
+          "text_length": 392,
+          "size": 194633,
+          "warnings": []
+        },
+        {
+          "file": "user-test1-02-首页.png",
+          "label": "menu: 首页",
+          "url": "http://127.0.0.1:5013/home",
+          "text_length": 392,
+          "size": 191219,
+          "warnings": []
+        },
+        {
+          "file": "user-test1-03-地图.png",
+          "label": "menu: 地图",
+          "url": "http://127.0.0.1:5013/map",
+          "text_length": 658,
+          "size": 46025,
+          "warnings": []
+        },
+        {
+          "file": "user-test1-04-闲置物品.png",
+          "label": "menu: 闲置物品",
+          "url": "http://127.0.0.1:5013/idle",
+          "text_length": 346,
+          "size": 76972,
+          "warnings": []
+        },
+        {
+          "file": "user-test1-05-闲置物品-发布闲置物品-dialog.png",
+          "label": "dialog: 闲置物品 / 发布闲置物品",
+          "url": "http://127.0.0.1:5013/idle/publish",
+          "text_length": 122,
+          "size": 45526,
+          "warnings": []
+        },
+        {
+          "file": "user-test1-06-技能服务.png",
+          "label": "menu: 技能服务",
+          "url": "http://127.0.0.1:5013/skill",
+          "text_length": 322,
+          "size": 76832,
+          "warnings": []
+        },
+        {
+          "file": "user-test1-07-技能服务-发布技能服务-dialog.png",
+          "label": "dialog: 技能服务 / 发布技能服务",
+          "url": "http://127.0.0.1:5013/skill/publish",
+          "text_length": 120,
+          "size": 46377,
+          "warnings": []
+        }
+      ],
+      "warnings": [
+        "preview database password hash patched to match documented account"
+      ]
+    },
+    {
+      "role": "user",
+      "username": "test4",
+      "file_prefix": "user-test4",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "首页",
+          "route": ""
+        },
+        {
+          "label": "地图",
+          "route": ""
+        },
+        {
+          "label": "闲置物品",
+          "route": ""
+        },
+        {
+          "label": "技能服务",
+          "route": ""
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "user-test4-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:5013/home",
+          "text_length": 414,
+          "size": 198415,
+          "warnings": []
+        },
+        {
+          "file": "user-test4-02-首页.png",
+          "label": "menu: 首页",
+          "url": "http://127.0.0.1:5013/home",
+          "text_length": 414,
+          "size": 195826,
+          "warnings": []
+        },
+        {
+          "file": "user-test4-03-地图.png",
+          "label": "menu: 地图",
+          "url": "http://127.0.0.1:5013/map",
+          "text_length": 656,
+          "size": 45809,
+          "warnings": []
+        },
+        {
+          "file": "user-test4-04-闲置物品.png",
+          "label": "menu: 闲置物品",
+          "url": "http://127.0.0.1:5013/idle",
+          "text_length": 344,
+          "size": 76753,
+          "warnings": []
+        },
+        {
+          "file": "user-test4-05-闲置物品-发布闲置物品-dialog.png",
+          "label": "dialog: 闲置物品 / 发布闲置物品",
+          "url": "http://127.0.0.1:5013/idle/publish",
+          "text_length": 120,
+          "size": 45282,
+          "warnings": []
+        },
+        {
+          "file": "user-test4-06-技能服务.png",
+          "label": "menu: 技能服务",
+          "url": "http://127.0.0.1:5013/skill",
+          "text_length": 320,
+          "size": 76604,
+          "warnings": []
+        },
+        {
+          "file": "user-test4-07-技能服务-发布技能服务-dialog.png",
+          "label": "dialog: 技能服务 / 发布技能服务",
+          "url": "http://127.0.0.1:5013/skill/publish",
+          "text_length": 118,
+          "size": 46123,
+          "warnings": []
+        }
+      ],
+      "warnings": [
+        "preview database password hash patched to match documented account"
+      ]
+    },
+    {
+      "role": "user",
+      "username": "test7",
+      "file_prefix": "user-test7",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "首页",
+          "route": ""
+        },
+        {
+          "label": "地图",
+          "route": ""
+        },
+        {
+          "label": "闲置物品",
+          "route": ""
+        },
+        {
+          "label": "技能服务",
+          "route": ""
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "user-test7-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:5013/home",
+          "text_length": 414,
+          "size": 197991,
+          "warnings": []
+        },
+        {
+          "file": "user-test7-02-首页.png",
+          "label": "menu: 首页",
+          "url": "http://127.0.0.1:5013/home",
+          "text_length": 414,
+          "size": 195465,
+          "warnings": []
+        },
+        {
+          "file": "user-test7-03-地图.png",
+          "label": "menu: 地图",
+          "url": "http://127.0.0.1:5013/map",
+          "text_length": 656,
+          "size": 45493,
+          "warnings": []
+        },
+        {
+          "file": "user-test7-04-闲置物品.png",
+          "label": "menu: 闲置物品",
+          "url": "http://127.0.0.1:5013/idle",
+          "text_length": 344,
+          "size": 76442,
+          "warnings": []
+        },
+        {
+          "file": "user-test7-05-闲置物品-发布闲置物品-dialog.png",
+          "label": "dialog: 闲置物品 / 发布闲置物品",
+          "url": "http://127.0.0.1:5013/idle/publish",
+          "text_length": 120,
+          "size": 44962,
+          "warnings": []
+        },
+        {
+          "file": "user-test7-06-技能服务.png",
+          "label": "menu: 技能服务",
+          "url": "http://127.0.0.1:5013/skill",
+          "text_length": 320,
+          "size": 76314,
+          "warnings": []
+        },
+        {
+          "file": "user-test7-07-技能服务-发布技能服务-dialog.png",
+          "label": "dialog: 技能服务 / 发布技能服务",
+          "url": "http://127.0.0.1:5013/skill/publish",
+          "text_length": 118,
+          "size": 45808,
+          "warnings": []
+        }
+      ],
+      "warnings": [
+        "preview database password hash patched to match documented account"
+      ]
+    }
+  ],
+  "guest": [
+    {
+      "file": "guest-01-index.png",
+      "label": "guest: index",
+      "url": "http://127.0.0.1:5013/index.html",
+      "text_length": 0,
+      "size": 5852,
+      "warnings": [
+        "visible text is very short",
+        "image file is unusually small"
+      ]
+    },
+    {
+      "file": "guest-02-login.png",
+      "label": "guest: login",
+      "url": "http://127.0.0.1:5013/login",
+      "text_length": 74,
+      "size": 566313,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-03-login.png",
+      "label": "guest: login",
+      "url": "http://127.0.0.1:5013/login.html",
+      "text_length": 0,
+      "size": 5851,
+      "warnings": [
+        "visible text is very short",
+        "image file is unusually small",
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-04-register.png",
+      "label": "guest: register",
+      "url": "http://127.0.0.1:5013/register",
+      "text_length": 51,
+      "size": 435492,
+      "warnings": []
+    },
+    {
+      "file": "guest-05-register.png",
+      "label": "guest: register",
+      "url": "http://127.0.0.1:5013/register.html",
+      "text_length": 0,
+      "size": 5851,
+      "warnings": [
+        "visible text is very short",
+        "image file is unusually small"
+      ]
+    },
+    {
+      "file": "guest-06-home.png",
+      "label": "guest: home",
+      "url": "http://127.0.0.1:5013/home",
+      "text_length": 270,
+      "size": 163059,
+      "warnings": []
+    },
+    {
+      "file": "guest-07-products.png",
+      "label": "guest: products",
+      "url": "http://127.0.0.1:5013/products.html",
+      "text_length": 0,
+      "size": 5851,
+      "warnings": [
+        "visible text is very short",
+        "image file is unusually small"
+      ]
+    }
+  ],
+  "warnings": [],
+  "project_specific": [
+    {
+      "file": "user-test1-10-map-items.png",
+      "label": "project 013: shared item map",
+      "url": "http://127.0.0.1:5013/map",
+      "text_length": 658,
+      "size": 45877,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-11-idle-list.png",
+      "label": "project 013: idle item list",
+      "url": "http://127.0.0.1:5013/idle",
+      "text_length": 346,
+      "size": 77378,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-12-idle-detail.png",
+      "label": "project 013: idle item detail",
+      "url": "http://127.0.0.1:5013/idle/1",
+      "text_length": 242,
+      "size": 57796,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-13-idle-publish-form.png",
+      "label": "project 013: idle publish form",
+      "url": "http://127.0.0.1:5013/idle/publish",
+      "text_length": 122,
+      "size": 45887,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-14-skill-list.png",
+      "label": "project 013: skill list",
+      "url": "http://127.0.0.1:5013/skill",
+      "text_length": 322,
+      "size": 77605,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-15-skill-detail.png",
+      "label": "project 013: skill detail",
+      "url": "http://127.0.0.1:5013/skill/1",
+      "text_length": 251,
+      "size": 68698,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-16-skill-publish-form.png",
+      "label": "project 013: skill publish form",
+      "url": "http://127.0.0.1:5013/skill/publish",
+      "text_length": 120,
+      "size": 46537,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-17-order-list.png",
+      "label": "project 013: order list",
+      "url": "http://127.0.0.1:5013/order",
+      "text_length": 333,
+      "size": 55805,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-18-order-detail.png",
+      "label": "project 013: order detail",
+      "url": "http://127.0.0.1:5013/order/1",
+      "text_length": 201,
+      "size": 34539,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-19-message-list.png",
+      "label": "project 013: message list",
+      "url": "http://127.0.0.1:5013/message",
+      "text_length": 196,
+      "size": 36757,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-20-profile.png",
+      "label": "project 013: profile",
+      "url": "http://127.0.0.1:5013/profile",
+      "text_length": 218,
+      "size": 45296,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-21-auth-status.png",
+      "label": "project 013: auth status",
+      "url": "http://127.0.0.1:5013/auth",
+      "text_length": 133,
+      "size": 31363,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-22-wallet.png",
+      "label": "project 013: wallet",
+      "url": "http://127.0.0.1:5013/wallet",
+      "text_length": 248,
+      "size": 41654,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-23-credit.png",
+      "label": "project 013: credit center",
+      "url": "http://127.0.0.1:5013/credit",
+      "text_length": 359,
+      "size": 112463,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-24-favorite.png",
+      "label": "project 013: favorite list",
+      "url": "http://127.0.0.1:5013/favorite",
+      "text_length": 133,
+      "size": 27944,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-25-my-publish.png",
+      "label": "project 013: my publish",
+      "url": "http://127.0.0.1:5013/my-publish",
+      "text_length": 48,
+      "size": 25804,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-26-income.png",
+      "label": "project 013: income center",
+      "url": "http://127.0.0.1:5013/income",
+      "text_length": 71,
+      "size": 31803,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-27-rent-confirm-dialog.png",
+      "label": "project 013: shared item rent dialog",
+      "url": "http://127.0.0.1:5013/map",
+      "text_length": 719,
+      "size": 50868,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-28-skill-book-dialog.png",
+      "label": "project 013: skill booking dialog",
+      "url": "http://127.0.0.1:5013/skill/1",
+      "text_length": 274,
+      "size": 65510,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-29-deposit-dialog.png",
+      "label": "project 013: deposit charge dialog",
+      "url": "http://127.0.0.1:5013/wallet",
+      "text_length": 266,
+      "size": 40850,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-30-withdraw-dialog.png",
+      "label": "project 013: withdraw dialog",
+      "url": "http://127.0.0.1:5013/income",
+      "text_length": 139,
+      "size": 38866,
+      "warnings": []
+    },
+    {
+      "file": "admin-10-dashboard.png",
+      "label": "project 013: admin dashboard",
+      "url": "http://127.0.0.1:5013/admin/dashboard",
+      "text_length": 133,
+      "size": 37405,
+      "warnings": []
+    },
+    {
+      "file": "admin-11-users.png",
+      "label": "project 013: admin users",
+      "url": "http://127.0.0.1:5013/admin/users",
+      "text_length": 941,
+      "size": 76008,
+      "warnings": []
+    },
+    {
+      "file": "admin-12-auth-list.png",
+      "label": "project 013: auth review list",
+      "url": "http://127.0.0.1:5013/admin/auth-list",
+      "text_length": 129,
+      "size": 28840,
+      "warnings": []
+    },
+    {
+      "file": "admin-13-idle-audit.png",
+      "label": "project 013: idle audit",
+      "url": "http://127.0.0.1:5013/admin/idle-audit",
+      "text_length": 127,
+      "size": 28114,
+      "warnings": []
+    },
+    {
+      "file": "admin-14-shared-items.png",
+      "label": "project 013: shared item management",
+      "url": "http://127.0.0.1:5013/admin/shared-items",
+      "text_length": 580,
+      "size": 60549,
+      "warnings": []
+    },
+    {
+      "file": "admin-15-shared-item-dialog.png",
+      "label": "project 013: add shared item dialog",
+      "url": "http://127.0.0.1:5013/admin/shared-items",
+      "text_length": 617,
+      "size": 59213,
+      "warnings": []
+    }
+  ],
+  "image_count": 62,
+  "status": "completed",
+  "finished_at": "2026-06-06 20:05:52",
+  "stop_exit_code": 0,
+  "cleanup_exit_code": 0
+}

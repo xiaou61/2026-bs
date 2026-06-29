@@ -16,12 +16,12 @@ CREATE TABLE sys_user (
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 INSERT INTO sys_user (username, password, nickname, role, department, phone, email, status, created_time, updated_time) VALUES
-('admin', '123456', '系统管理员', 'ADMIN', '应急物资储备中心', '13917100001', 'admin@supply171.local', 1, NOW(), NOW()),
-('warehouse', '123456', '仓储管理员', 'WAREHOUSE', '应急物资储备中心', '13917100002', 'warehouse@supply171.local', 1, NOW(), NOW()),
-('checker', '123456', '盘点人员', 'CHECKER', '应急物资储备中心', '13917100003', 'checker@supply171.local', 1, NOW(), NOW()),
-('applicant', '123456', '申领单位', 'APPLICANT', '应急物资储备中心', '13917100004', 'applicant@supply171.local', 1, NOW(), NOW()),
-('dispatch', '123456', '调度人员', 'DISPATCH', '应急物资储备中心', '13917100005', 'dispatch@supply171.local', 1, NOW(), NOW()),
-('auditor', '123456', '审核人员', 'AUDITOR', '应急物资储备中心', '13917100006', 'auditor@supply171.local', 1, NOW(), NOW());
+('admin', '$2a$12$YaRjaOxt2xWY8n0oNDHCMeI.HjkcoknrL4gXJKRjdIlzJO/LBNR42', '系统管理员', 'ADMIN', '应急物资储备中心', '13917100001', 'admin@supply171.local', 1, NOW(), NOW()),
+('warehouse', '$2a$12$YaRjaOxt2xWY8n0oNDHCMeI.HjkcoknrL4gXJKRjdIlzJO/LBNR42', '仓储管理员', 'WAREHOUSE', '应急物资储备中心', '13917100002', 'warehouse@supply171.local', 1, NOW(), NOW()),
+('checker', '$2a$12$YaRjaOxt2xWY8n0oNDHCMeI.HjkcoknrL4gXJKRjdIlzJO/LBNR42', '盘点人员', 'CHECKER', '应急物资储备中心', '13917100003', 'checker@supply171.local', 1, NOW(), NOW()),
+('applicant', '$2a$12$YaRjaOxt2xWY8n0oNDHCMeI.HjkcoknrL4gXJKRjdIlzJO/LBNR42', '申领单位', 'APPLICANT', '应急物资储备中心', '13917100004', 'applicant@supply171.local', 1, NOW(), NOW()),
+('dispatch', '$2a$12$YaRjaOxt2xWY8n0oNDHCMeI.HjkcoknrL4gXJKRjdIlzJO/LBNR42', '调度人员', 'DISPATCH', '应急物资储备中心', '13917100005', 'dispatch@supply171.local', 1, NOW(), NOW()),
+('auditor', '$2a$12$YaRjaOxt2xWY8n0oNDHCMeI.HjkcoknrL4gXJKRjdIlzJO/LBNR42', '审核人员', 'AUDITOR', '应急物资储备中心', '13917100006', 'auditor@supply171.local', 1, NOW(), NOW());
 
 CREATE TABLE reserve_warehouse (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,

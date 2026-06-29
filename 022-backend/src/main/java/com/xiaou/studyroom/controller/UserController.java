@@ -1,6 +1,5 @@
 package com.xiaou.studyroom.controller;
 
-import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaou.studyroom.common.Result;
 import com.xiaou.studyroom.entity.User;
@@ -9,7 +8,7 @@ import com.xiaou.studyroom.service.UserService;
 import com.xiaou.studyroom.utils.AuthHelper;
 import com.xiaou.studyroom.utils.JwtUtil;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -21,14 +20,17 @@ import java.util.Map;
 @CrossOrigin
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final AuthHelper authHelper;
+    private final JwtUtil jwtUtil;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
-    private AuthHelper authHelper;
-
-    @Autowired
-    private JwtUtil jwtUtil;
+    public UserController(UserService userService, AuthHelper authHelper, JwtUtil jwtUtil, BCryptPasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.authHelper = authHelper;
+        this.jwtUtil = jwtUtil;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @PostMapping("/login")
     public Result<Map<String, Object>> login(@RequestBody Map<String, String> loginMap) {
@@ -101,11 +103,11 @@ public class UserController {
             return Result.error("缺少密码参数");
         }
 
-        if (!SecureUtil.md5(oldPassword).equals(existing.getPassword())) {
+        if (!passwordEncoder.matches(oldPassword, existing.getPassword())) {
             return Result.error("原密码错误");
         }
 
-        existing.setPassword(SecureUtil.md5(newPassword));
+        existing.setPassword(passwordEncoder.encode(newPassword));
         if (userService.updateById(existing)) {
             return Result.success("密码修改成功");
         }
@@ -155,8 +157,18 @@ public class UserController {
     }
 
     private User toSafeUser(User user) {
-        user.setPassword(null);
-        user.setRole(userService.isAdmin(user.getId()) ? "admin" : "student");
-        return user;
+        User copy = new User();
+        copy.setId(user.getId());
+        copy.setUsername(user.getUsername());
+        copy.setRealName(user.getRealName());
+        copy.setDepartment(user.getDepartment());
+        copy.setGrade(user.getGrade());
+        copy.setPhone(user.getPhone());
+        copy.setCreditScore(user.getCreditScore());
+        copy.setStatus(user.getStatus());
+        copy.setRole(userService.isAdmin(user.getId()) ? "admin" : "student");
+        copy.setCreateTime(user.getCreateTime());
+        copy.setUpdateTime(user.getUpdateTime());
+        return copy;
     }
 }

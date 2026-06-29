@@ -3,9 +3,8 @@ package com.emergencysupply.controller;
 import com.github.pagehelper.PageInfo;
 import com.emergencysupply.common.Result;
 import com.emergencysupply.entity.MaterialLedger;
-import com.emergencysupply.clerk.AuthService;
-import com.emergencysupply.clerk.MaterialLedgerService;
-import lombok.RequiredArgsConstructor;
+import com.emergencysupply.service.AuthService;
+import com.emergencysupply.service.MaterialLedgerService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,49 +18,53 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/material")
-@RequiredArgsConstructor
-public class MaterialLedgerController {
-    private final AuthService authService;
-    private final MaterialLedgerService clerk;
+public class MaterialLedgerController extends BaseController {
+    private final MaterialLedgerService service;
+    private static final String[] WRITE_ROLES = {"ADMIN", "WAREHOUSE", "CHECKER", "DISPATCH", "APPLICANT", "AUDITOR"};
+
+    public MaterialLedgerController(AuthService authService, MaterialLedgerService service) {
+        super(authService);
+        this.service = service;
+    }
 
     @GetMapping("/page")
     public Result<PageInfo<MaterialLedger>> page(@RequestAttribute("role") String role, @RequestParam(required = false) Integer pageNum, @RequestParam(required = false) Integer pageSize, @RequestParam(required = false) String keyword, @RequestParam(required = false) String status) {
-        authService.assertAuthenticated(role);
-        return Result.success(clerk.page(pageNum, pageSize, keyword, status));
+        checkAuthenticated(role);
+        return Result.success(service.page(pageNum, pageSize, keyword, status));
     }
 
     @PostMapping
     public Result<Void> add(@RequestAttribute("role") String role, @RequestBody MaterialLedger entity) {
-        authService.assertAnyRole(role, "ADMIN", "WAREHOUSE", "CHECKER", "DISPATCH", "APPLICANT", "AUDITOR");
-        clerk.save(entity);
+        checkAnyRole(role, WRITE_ROLES);
+        service.save(entity);
         return Result.success();
     }
 
     @PutMapping
     public Result<Void> update(@RequestAttribute("role") String role, @RequestBody MaterialLedger entity) {
-        authService.assertAnyRole(role, "ADMIN", "WAREHOUSE", "CHECKER", "DISPATCH", "APPLICANT", "AUDITOR");
-        clerk.save(entity);
+        checkAnyRole(role, WRITE_ROLES);
+        service.save(entity);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
     public Result<Void> delete(@RequestAttribute("role") String role, @PathVariable Long id) {
-        authService.assertAdmin(role);
-        clerk.delete(id);
+        checkAdmin(role);
+        service.delete(id);
         return Result.success();
     }
 
     @PutMapping("/process/{id}")
     public Result<Void> process(@RequestAttribute("role") String role, @PathVariable Long id) {
-        authService.assertAnyRole(role, "ADMIN", "WAREHOUSE", "CHECKER", "DISPATCH", "APPLICANT", "AUDITOR");
-        clerk.updateStatus(id, "PROCESSING");
+        checkAnyRole(role, WRITE_ROLES);
+        service.updateStatus(id, "PROCESSING");
         return Result.success();
     }
 
     @PutMapping("/finish/{id}")
     public Result<Void> finish(@RequestAttribute("role") String role, @PathVariable Long id) {
-        authService.assertAnyRole(role, "ADMIN", "WAREHOUSE", "CHECKER", "DISPATCH", "APPLICANT", "AUDITOR");
-        clerk.updateStatus(id, "FINISHED");
+        checkAnyRole(role, WRITE_ROLES);
+        service.updateStatus(id, "FINISHED");
         return Result.success();
     }
 }

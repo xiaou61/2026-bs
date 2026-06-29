@@ -44,4 +44,7 @@ features:
   - title: 农业环保
     details: 农业科技、环保与绿色能源
     link: /categories/agriculture
+  - title: AI与前沿技术
+    details: 人工智能、区块链与前沿技术平台
+    link: /categories/ai-tech
 ---

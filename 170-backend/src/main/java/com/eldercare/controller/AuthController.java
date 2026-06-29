@@ -3,7 +3,7 @@ package com.eldercare.controller;
 import com.eldercare.common.Result;
 import com.eldercare.dto.LoginRequest;
 import com.eldercare.entity.SysUser;
-import com.eldercare.clerk.AuthService;
+import com.eldercare.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

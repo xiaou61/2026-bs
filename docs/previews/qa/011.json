@@ -1,0 +1,627 @@
+{
+  "project_id": "011",
+  "mode": "single-project-fine-capture",
+  "started_at": "2026-06-06 19:23:39",
+  "old_images_removed": 41,
+  "backup_dir": "logs\\project-preview\\fine-backups\\011\\20260606-192339",
+  "logs": {
+    "prepare": "logs\\project-preview\\011-prepare.fine.log",
+    "render": "logs\\project-preview\\011-render.fine.log",
+    "docs_generate": "logs\\project-preview\\011-docs-generate.fine.log",
+    "stop": "logs\\project-preview\\011-stop.fine.log",
+    "cleanup": "logs\\project-preview\\011-cleanup.fine.log"
+  },
+  "roles": [
+    {
+      "role": "admin",
+      "username": "admin",
+      "file_prefix": "admin",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "推荐",
+          "route": ""
+        },
+        {
+          "label": "关注",
+          "route": ""
+        },
+        {
+          "label": "搜索",
+          "route": ""
+        },
+        {
+          "label": "发布",
+          "route": ""
+        },
+        {
+          "label": "消息",
+          "route": ""
+        },
+        {
+          "label": "我的",
+          "route": ""
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "admin-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:5173/",
+          "text_length": 29,
+          "size": 14090,
+          "warnings": [
+            "image file is unusually small"
+          ]
+        },
+        {
+          "file": "admin-02-推荐.png",
+          "label": "menu: 推荐",
+          "url": "http://127.0.0.1:5173/",
+          "text_length": 29,
+          "size": 14094,
+          "warnings": [
+            "image file is unusually small"
+          ]
+        },
+        {
+          "file": "admin-03-关注.png",
+          "label": "menu: 关注",
+          "url": "http://127.0.0.1:5173/following",
+          "text_length": 36,
+          "size": 24822,
+          "warnings": []
+        },
+        {
+          "file": "admin-04-搜索.png",
+          "label": "menu: 搜索",
+          "url": "http://127.0.0.1:5173/search",
+          "text_length": 41,
+          "size": 28819,
+          "warnings": []
+        },
+        {
+          "file": "admin-05-发布.png",
+          "label": "menu: 发布",
+          "url": "http://127.0.0.1:5173/publish",
+          "text_length": 172,
+          "size": 49128,
+          "warnings": []
+        },
+        {
+          "file": "admin-06-消息.png",
+          "label": "menu: 消息",
+          "url": "http://127.0.0.1:5173/notification",
+          "text_length": 51,
+          "size": 30101,
+          "warnings": []
+        },
+        {
+          "file": "admin-07-我的.png",
+          "label": "menu: 我的",
+          "url": "http://127.0.0.1:5173/profile",
+          "text_length": 179,
+          "size": 94101,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "user",
+      "username": "test1",
+      "file_prefix": "user-test1",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "推荐",
+          "route": ""
+        },
+        {
+          "label": "关注",
+          "route": ""
+        },
+        {
+          "label": "搜索",
+          "route": ""
+        },
+        {
+          "label": "发布",
+          "route": ""
+        },
+        {
+          "label": "消息",
+          "route": ""
+        },
+        {
+          "label": "我的",
+          "route": ""
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "user-test1-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:5173/",
+          "text_length": 29,
+          "size": 14163,
+          "warnings": [
+            "image file is unusually small"
+          ]
+        },
+        {
+          "file": "user-test1-02-推荐.png",
+          "label": "menu: 推荐",
+          "url": "http://127.0.0.1:5173/",
+          "text_length": 29,
+          "size": 14094,
+          "warnings": [
+            "image file is unusually small"
+          ]
+        },
+        {
+          "file": "user-test1-03-关注.png",
+          "label": "menu: 关注",
+          "url": "http://127.0.0.1:5173/following",
+          "text_length": 36,
+          "size": 24822,
+          "warnings": []
+        },
+        {
+          "file": "user-test1-04-搜索.png",
+          "label": "menu: 搜索",
+          "url": "http://127.0.0.1:5173/search",
+          "text_length": 41,
+          "size": 28819,
+          "warnings": []
+        },
+        {
+          "file": "user-test1-05-发布.png",
+          "label": "menu: 发布",
+          "url": "http://127.0.0.1:5173/publish",
+          "text_length": 172,
+          "size": 49128,
+          "warnings": []
+        },
+        {
+          "file": "user-test1-06-消息.png",
+          "label": "menu: 消息",
+          "url": "http://127.0.0.1:5173/notification",
+          "text_length": 51,
+          "size": 30101,
+          "warnings": []
+        },
+        {
+          "file": "user-test1-07-我的.png",
+          "label": "menu: 我的",
+          "url": "http://127.0.0.1:5173/profile",
+          "text_length": 176,
+          "size": 93490,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "user",
+      "username": "test2",
+      "file_prefix": "user-test2",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "推荐",
+          "route": ""
+        },
+        {
+          "label": "关注",
+          "route": ""
+        },
+        {
+          "label": "搜索",
+          "route": ""
+        },
+        {
+          "label": "发布",
+          "route": ""
+        },
+        {
+          "label": "消息",
+          "route": ""
+        },
+        {
+          "label": "我的",
+          "route": ""
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "user-test2-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:5173/",
+          "text_length": 29,
+          "size": 14163,
+          "warnings": [
+            "image file is unusually small"
+          ]
+        },
+        {
+          "file": "user-test2-02-推荐.png",
+          "label": "menu: 推荐",
+          "url": "http://127.0.0.1:5173/",
+          "text_length": 29,
+          "size": 14094,
+          "warnings": [
+            "image file is unusually small"
+          ]
+        },
+        {
+          "file": "user-test2-03-关注.png",
+          "label": "menu: 关注",
+          "url": "http://127.0.0.1:5173/following",
+          "text_length": 36,
+          "size": 24822,
+          "warnings": []
+        },
+        {
+          "file": "user-test2-04-搜索.png",
+          "label": "menu: 搜索",
+          "url": "http://127.0.0.1:5173/search",
+          "text_length": 41,
+          "size": 28819,
+          "warnings": []
+        },
+        {
+          "file": "user-test2-05-发布.png",
+          "label": "menu: 发布",
+          "url": "http://127.0.0.1:5173/publish",
+          "text_length": 172,
+          "size": 49128,
+          "warnings": []
+        },
+        {
+          "file": "user-test2-06-消息.png",
+          "label": "menu: 消息",
+          "url": "http://127.0.0.1:5173/notification",
+          "text_length": 51,
+          "size": 30101,
+          "warnings": []
+        },
+        {
+          "file": "user-test2-07-我的.png",
+          "label": "menu: 我的",
+          "url": "http://127.0.0.1:5173/profile",
+          "text_length": 176,
+          "size": 93579,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "user",
+      "username": "test3",
+      "file_prefix": "user-test3",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "推荐",
+          "route": ""
+        },
+        {
+          "label": "关注",
+          "route": ""
+        },
+        {
+          "label": "搜索",
+          "route": ""
+        },
+        {
+          "label": "发布",
+          "route": ""
+        },
+        {
+          "label": "消息",
+          "route": ""
+        },
+        {
+          "label": "我的",
+          "route": ""
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "user-test3-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:5173/",
+          "text_length": 29,
+          "size": 14163,
+          "warnings": [
+            "image file is unusually small"
+          ]
+        },
+        {
+          "file": "user-test3-02-推荐.png",
+          "label": "menu: 推荐",
+          "url": "http://127.0.0.1:5173/",
+          "text_length": 29,
+          "size": 14094,
+          "warnings": [
+            "image file is unusually small"
+          ]
+        },
+        {
+          "file": "user-test3-03-关注.png",
+          "label": "menu: 关注",
+          "url": "http://127.0.0.1:5173/following",
+          "text_length": 36,
+          "size": 24822,
+          "warnings": []
+        },
+        {
+          "file": "user-test3-04-搜索.png",
+          "label": "menu: 搜索",
+          "url": "http://127.0.0.1:5173/search",
+          "text_length": 41,
+          "size": 28819,
+          "warnings": []
+        },
+        {
+          "file": "user-test3-05-发布.png",
+          "label": "menu: 发布",
+          "url": "http://127.0.0.1:5173/publish",
+          "text_length": 172,
+          "size": 49128,
+          "warnings": []
+        },
+        {
+          "file": "user-test3-06-消息.png",
+          "label": "menu: 消息",
+          "url": "http://127.0.0.1:5173/notification",
+          "text_length": 51,
+          "size": 30101,
+          "warnings": []
+        },
+        {
+          "file": "user-test3-07-我的.png",
+          "label": "menu: 我的",
+          "url": "http://127.0.0.1:5173/profile",
+          "text_length": 176,
+          "size": 93589,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "user",
+      "username": "test4",
+      "file_prefix": "user-test4",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "推荐",
+          "route": ""
+        },
+        {
+          "label": "关注",
+          "route": ""
+        },
+        {
+          "label": "搜索",
+          "route": ""
+        },
+        {
+          "label": "发布",
+          "route": ""
+        },
+        {
+          "label": "消息",
+          "route": ""
+        },
+        {
+          "label": "我的",
+          "route": ""
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "user-test4-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:5173/",
+          "text_length": 29,
+          "size": 14163,
+          "warnings": [
+            "image file is unusually small"
+          ]
+        },
+        {
+          "file": "user-test4-02-推荐.png",
+          "label": "menu: 推荐",
+          "url": "http://127.0.0.1:5173/",
+          "text_length": 29,
+          "size": 14094,
+          "warnings": [
+            "image file is unusually small"
+          ]
+        },
+        {
+          "file": "user-test4-03-关注.png",
+          "label": "menu: 关注",
+          "url": "http://127.0.0.1:5173/following",
+          "text_length": 36,
+          "size": 24822,
+          "warnings": []
+        },
+        {
+          "file": "user-test4-04-搜索.png",
+          "label": "menu: 搜索",
+          "url": "http://127.0.0.1:5173/search",
+          "text_length": 41,
+          "size": 28819,
+          "warnings": []
+        },
+        {
+          "file": "user-test4-05-发布.png",
+          "label": "menu: 发布",
+          "url": "http://127.0.0.1:5173/publish",
+          "text_length": 172,
+          "size": 49128,
+          "warnings": []
+        },
+        {
+          "file": "user-test4-06-消息.png",
+          "label": "menu: 消息",
+          "url": "http://127.0.0.1:5173/notification",
+          "text_length": 51,
+          "size": 30101,
+          "warnings": []
+        },
+        {
+          "file": "user-test4-07-我的.png",
+          "label": "menu: 我的",
+          "url": "http://127.0.0.1:5173/profile",
+          "text_length": 175,
+          "size": 93556,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    }
+  ],
+  "guest": [
+    {
+      "file": "guest-01-index.png",
+      "label": "guest: index",
+      "url": "http://127.0.0.1:5173/login?redirect=/index.html",
+      "text_length": 61,
+      "size": 347027,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-02-login.png",
+      "label": "guest: login",
+      "url": "http://127.0.0.1:5173/login",
+      "text_length": 61,
+      "size": 346820,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-03-login.png",
+      "label": "guest: login",
+      "url": "http://127.0.0.1:5173/login?redirect=/login.html",
+      "text_length": 61,
+      "size": 346868,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-04-register.png",
+      "label": "guest: register",
+      "url": "http://127.0.0.1:5173/register",
+      "text_length": 15,
+      "size": 477023,
+      "warnings": [
+        "visible text is very short"
+      ]
+    },
+    {
+      "file": "guest-05-home.png",
+      "label": "guest: home",
+      "url": "http://127.0.0.1:5173/login?redirect=/",
+      "text_length": 61,
+      "size": 346820,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-06-products.png",
+      "label": "guest: products",
+      "url": "http://127.0.0.1:5173/login?redirect=/products.html",
+      "text_length": 61,
+      "size": 346820,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    }
+  ],
+  "warnings": [],
+  "project_specific": [
+    {
+      "file": "user-test1-10-recommend-seeded.png",
+      "label": "project 011: seeded recommend feed",
+      "url": "http://127.0.0.1:5173/",
+      "text_length": 110,
+      "size": 25042,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-11-following-feed.png",
+      "label": "project 011: following feed",
+      "url": "http://127.0.0.1:5173/following",
+      "text_length": 43,
+      "size": 18579,
+      "warnings": [
+        "image file is unusually small"
+      ]
+    },
+    {
+      "file": "user-test1-12-video-detail.png",
+      "label": "project 011: video detail",
+      "url": "http://127.0.0.1:5173/video/1",
+      "text_length": 176,
+      "size": 45264,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-13-creator-center.png",
+      "label": "project 011: creator center",
+      "url": "http://127.0.0.1:5173/creator-center",
+      "text_length": 396,
+      "size": 67621,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-14-drafts.png",
+      "label": "project 011: draft box",
+      "url": "http://127.0.0.1:5173/drafts",
+      "text_length": 130,
+      "size": 113279,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-15-points-mall.png",
+      "label": "project 011: points mall",
+      "url": "http://127.0.0.1:5173/points-mall",
+      "text_length": 305,
+      "size": 85434,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-16-search-users.png",
+      "label": "project 011: search users",
+      "url": "http://127.0.0.1:5173/search",
+      "text_length": 47,
+      "size": 20837,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-17-profile-edit-dialog.png",
+      "label": "project 011: profile edit dialog",
+      "url": "http://127.0.0.1:5173/profile",
+      "text_length": 205,
+      "size": 64663,
+      "warnings": []
+    }
+  ],
+  "image_count": 49,
+  "status": "completed",
+  "finished_at": "2026-06-06 19:26:26",
+  "stop_exit_code": 0,
+  "cleanup_exit_code": 0
+}

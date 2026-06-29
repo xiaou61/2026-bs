@@ -1005,11 +1005,11 @@
       "categoryName": "文化娱乐",
       "projectType": "web",
       "backendVersion": "3.2.0",
-      "complexity": "简单",
+      "complexity": "中等",
       "totalApiCount": 0,
       "totalControllerCount": 0,
       "totalEntityCount": 0,
-      "totalSqlTableCount": 9,
+      "totalSqlTableCount": 18,
       "totalViewCount": 11,
       "backendTech": [
         "Spring Boot 3.2.0",
@@ -1093,7 +1093,7 @@
       "totalApiCount": 0,
       "totalControllerCount": 0,
       "totalEntityCount": 0,
-      "totalSqlTableCount": 13,
+      "totalSqlTableCount": 26,
       "totalViewCount": 14,
       "backendTech": [
         "Spring Boot 3.2.0",
@@ -1121,11 +1121,11 @@
       "categoryName": "医疗健康",
       "projectType": "web",
       "backendVersion": "3.2.0",
-      "complexity": "简单",
+      "complexity": "中等",
       "totalApiCount": 0,
       "totalControllerCount": 0,
       "totalEntityCount": 0,
-      "totalSqlTableCount": 10,
+      "totalSqlTableCount": 20,
       "totalViewCount": 16,
       "backendTech": [
         "Spring Boot 3.2.x",
@@ -2420,7 +2420,7 @@
       "totalApiCount": 53,
       "totalControllerCount": 11,
       "totalEntityCount": 9,
-      "totalSqlTableCount": 18,
+      "totalSqlTableCount": 27,
       "totalViewCount": 15,
       "backendTech": [
         "Spring Boot 2.7.18",
@@ -2465,7 +2465,7 @@
       "totalApiCount": 44,
       "totalControllerCount": 11,
       "totalEntityCount": 9,
-      "totalSqlTableCount": 18,
+      "totalSqlTableCount": 27,
       "totalViewCount": 13,
       "backendTech": [
         "Spring Boot 2.7.18",
@@ -2510,7 +2510,7 @@
       "totalApiCount": 46,
       "totalControllerCount": 11,
       "totalEntityCount": 9,
-      "totalSqlTableCount": 18,
+      "totalSqlTableCount": 27,
       "totalViewCount": 13,
       "backendTech": [
         "Spring Boot 2.7.18",
@@ -2555,7 +2555,7 @@
       "totalApiCount": 51,
       "totalControllerCount": 11,
       "totalEntityCount": 9,
-      "totalSqlTableCount": 18,
+      "totalSqlTableCount": 27,
       "totalViewCount": 13,
       "backendTech": [
         "Spring Boot 2.7.18",
@@ -2600,7 +2600,7 @@
       "totalApiCount": 38,
       "totalControllerCount": 8,
       "totalEntityCount": 7,
-      "totalSqlTableCount": 14,
+      "totalSqlTableCount": 21,
       "totalViewCount": 12,
       "backendTech": [
         "Spring Boot 2.7.18",
@@ -2643,7 +2643,7 @@
       "totalApiCount": 51,
       "totalControllerCount": 11,
       "totalEntityCount": 9,
-      "totalSqlTableCount": 18,
+      "totalSqlTableCount": 27,
       "totalViewCount": 13,
       "backendTech": [
         "Spring Boot 2.7.18",
@@ -2684,11 +2684,11 @@
       "categoryName": "电商交易",
       "projectType": "web",
       "backendVersion": "2.7.18",
-      "complexity": "中等",
+      "complexity": "复杂",
       "totalApiCount": 42,
       "totalControllerCount": 9,
       "totalEntityCount": 7,
-      "totalSqlTableCount": 14,
+      "totalSqlTableCount": 21,
       "totalViewCount": 11,
       "backendTech": [
         "Spring Boot 2.7.18",
@@ -2733,7 +2733,7 @@
       "totalApiCount": 0,
       "totalControllerCount": 0,
       "totalEntityCount": 0,
-      "totalSqlTableCount": 18,
+      "totalSqlTableCount": 27,
       "totalViewCount": 13,
       "backendTech": [
         "Spring Boot 2.7.18",
@@ -2777,7 +2777,7 @@
       "totalApiCount": 78,
       "totalControllerCount": 13,
       "totalEntityCount": 12,
-      "totalSqlTableCount": 24,
+      "totalSqlTableCount": 36,
       "totalViewCount": 19,
       "backendTech": [
         "Spring Boot 2.7.18",
@@ -3820,6 +3820,35 @@
       ],
       "dbName": "Shanghai",
       "port": "8093"
+    },
+    {
+      "number": "094",
+      "title": "宠物咖啡馆平台 🔥最新",
+      "category": "ecommerce",
+      "categoryName": "电商交易",
+      "projectType": "web",
+      "backendVersion": "2.7.18",
+      "complexity": "复杂",
+      "totalApiCount": 74,
+      "totalControllerCount": 14,
+      "totalEntityCount": 12,
+      "totalSqlTableCount": 60,
+      "totalViewCount": 17,
+      "backendTech": [
+        "Spring Boot 2.7.18",
+        "MyBatis-Plus",
+        "MySQL 8.0",
+        "JWT认证"
+      ],
+      "frontendTech": [
+        "Vue 3",
+        "Element Plus",
+        "Pinia",
+        "Axios"
+      ],
+      "modules": [],
+      "dbName": "Shanghai",
+      "port": "8094"
     },
     {
       "number": "095",
@@ -8804,8 +8833,8 @@
   "techStats": {
     "backend": {
       "Spring Boot 3.x": 9,
-      "MyBatis-Plus": 10,
-      "MySQL 8.0": 195,
+      "MyBatis-Plus": 11,
+      "MySQL 8.0": 196,
       "JWT 认证": 90,
       "MyBatis": 3,
       "Spring Validation": 1,
@@ -8827,7 +8856,7 @@
       "jBCrypt 0.4": 1,
       "Hutool 5.8.23": 2,
       "BCrypt密码加密": 4,
-      "JWT认证": 65,
+      "JWT认证": 66,
       "Thymeleaf 3.1.0": 1,
       "Apache Commons Math 3.6.1": 1,
       "MyBatis (XML配置)": 1,
@@ -8865,7 +8894,7 @@
       "Spring Boot 2.7": 1,
       "Knife4j接口文档": 1,
       "Spring Boot 2.7.x": 1,
-      "Spring Boot 2.7.18": 137,
+      "Spring Boot 2.7.18": 138,
       "MyBatis-Plus 3.5.4": 3,
       "Vue 3.4.0": 2,
       "Element Plus 2.4.4": 2,
@@ -8898,16 +8927,16 @@
       "MyBatis 2.3.1 注解 SQL": 68
     },
     "frontend": {
-      "Vue 3": 10,
-      "Element Plus": 17,
-      "Axios": 25,
+      "Vue 3": 11,
+      "Element Plus": 18,
+      "Axios": 26,
       "Vue Router": 3,
       "Vue 3 + Vite": 3,
       "Pinia 状态管理": 1,
       "jQuery": 2,
       "Bootstrap": 1,
       "Ajax": 1,
-      "Pinia": 23,
+      "Pinia": 24,
       "WebSocket Client": 1,
       "ECharts 图表": 1,
       "HTML5 + CSS3": 1,
@@ -8991,7 +9020,7 @@
     "springBootVersions": {
       "3.2.0": 45,
       "3.2.1": 8,
-      "2.7.18": 140,
+      "2.7.18": 141,
       "2.7.0": 1,
       "2.7.12": 1,
       "2.7.14": 4
@@ -8999,9 +9028,9 @@
     "dbTypes": {}
   },
   "complexityStats": {
-    "简单": 13,
-    "中等": 43,
-    "复杂": 143
+    "简单": 11,
+    "中等": 44,
+    "复杂": 145
   },
   "scenarios": {
     "用户权限管理": {
@@ -9549,7 +9578,7 @@
     },
     "文件上传下载": {
       "desc": "文件管理、附件上传、图片预览",
-      "count": 42,
+      "count": 43,
       "projects": [
         "003",
         "005",
@@ -9585,6 +9614,7 @@
         "089",
         "091",
         "093",
+        "094",
         "095",
         "096",
         "099",
@@ -9809,7 +9839,7 @@
     },
     "JWT认证": {
       "desc": "Token登录、Redis缓存、拦截鉴权",
-      "count": 195,
+      "count": 196,
       "projects": [
         "001",
         "002",
@@ -9900,6 +9930,7 @@
         "091",
         "092",
         "093",
+        "094",
         "095",
         "096",
         "097",
@@ -10033,5 +10064,5 @@
     "agriculture": "农业环保",
     "ai-tech": "AI与前沿技术"
   },
-  "generatedAt": "2026-05-23T02:57:22.535Z"
+  "generatedAt": "2026-06-18T05:56:40.163Z"
 }

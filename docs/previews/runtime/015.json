@@ -13,33 +13,40 @@
     },
     "accounts": [
       {
-        "role_key": "admin",
-        "role_label": "管理员",
+        "role_key": "user",
+        "role_label": "用户",
         "username": "admin",
         "password": "admin123"
       },
       {
         "role_key": "user",
-        "role_label": "测试用户1",
+        "role_label": "用户",
         "username": "20210001",
         "password": "123456"
       },
       {
         "role_key": "user",
-        "role_label": "测试用户2",
+        "role_label": "用户",
         "username": "20210002",
         "password": "123456"
+      },
+      {
+        "role_key": "admin",
+        "role_label": "超级管理员",
+        "username": "admin",
+        "password": "admin123"
       }
     ],
     "routes": [],
     "readme_sources": [
+      "015-backend\\ACCOUNTS.md",
       "015-backend\\README.md"
     ]
   },
   "services": {
     "backend": {
       "url": "http://127.0.0.1:8080",
-      "pid": 45136
+      "pid": 5152
     }
   },
   "logs": {
@@ -49,32 +56,43 @@
     }
   },
   "status": "stopped",
-  "prepared_at": "2026-05-24 22:28:02",
+  "prepared_at": "2026-06-06 20:47:42",
+  "datasource_kind": "mysql",
   "sql_file": "015-backend\\src\\main\\resources\\sql\\schema.sql",
+  "sql_files": [
+    "015-backend\\src\\main\\resources\\sql\\schema.sql",
+    "015-backend\\src\\main\\resources\\sql\\init_data.sql"
+  ],
   "capture_hints": {
     "roles": [
       {
-        "role_key": "admin",
-        "role_label": "管理员",
+        "role_key": "user",
+        "role_label": "用户",
         "username": "admin",
         "password": "admin123"
       },
       {
         "role_key": "user",
-        "role_label": "测试用户1",
+        "role_label": "用户",
         "username": "20210001",
         "password": "123456"
       },
       {
         "role_key": "user",
-        "role_label": "测试用户2",
+        "role_label": "用户",
         "username": "20210002",
         "password": "123456"
+      },
+      {
+        "role_key": "admin",
+        "role_label": "超级管理员",
+        "username": "admin",
+        "password": "admin123"
       }
     ],
     "routes": [],
     "screenshot_dir": "docs\\previews\\assets\\015",
     "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
   },
-  "stopped_at": "2026-05-24 22:28:28"
+  "stopped_at": "2026-06-06 20:50:04"
 }

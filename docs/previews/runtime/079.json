@@ -1,0 +1,71 @@
+{
+  "project": {
+    "project_id": "079",
+    "name": "计算机学院校友网 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "079-backend",
+    "frontend_dir": "079-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8079",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "readme_sources": [
+      "079-backend\\README.md"
+    ]
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8079",
+      "pid": 4976
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3079",
+      "pid": 43212
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\079-backend.out.log",
+      "stderr": "logs\\project-preview\\079-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\079-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\079-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\079-frontend.out.log",
+      "stderr": "logs\\project-preview\\079-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 10:22:49",
+  "datasource_kind": "h2",
+  "capture_hints": {
+    "roles": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\079",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 10:25:04"
+}

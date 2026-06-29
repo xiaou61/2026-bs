@@ -1,0 +1,458 @@
+{
+  "project_id": "007",
+  "mode": "single-project-fine-capture",
+  "started_at": "2026-06-06 17:42:18",
+  "old_images_removed": 18,
+  "backup_dir": "logs\\project-preview\\fine-backups\\007\\20260606-174218",
+  "logs": {
+    "prepare": "logs\\project-preview\\007-prepare.fine.log",
+    "render": "logs\\project-preview\\007-render.fine.log",
+    "docs_generate": "logs\\project-preview\\007-docs-generate.fine.log",
+    "stop": "logs\\project-preview\\007-stop.fine.log",
+    "cleanup": "logs\\project-preview\\007-cleanup.fine.log"
+  },
+  "roles": [
+    {
+      "role": "admin",
+      "username": "admin",
+      "file_prefix": "admin",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "数据概览",
+          "route": ""
+        },
+        {
+          "label": "活动管理",
+          "route": ""
+        },
+        {
+          "label": "报名管理",
+          "route": ""
+        },
+        {
+          "label": "签到管理",
+          "route": ""
+        },
+        {
+          "label": "用户管理",
+          "route": ""
+        },
+        {
+          "label": "商品管理",
+          "route": ""
+        },
+        {
+          "label": "兑换管理",
+          "route": ""
+        },
+        {
+          "label": "积分管理",
+          "route": ""
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "admin-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:3007/admin/dashboard",
+          "text_length": 116,
+          "size": 29265,
+          "warnings": []
+        },
+        {
+          "file": "admin-02-数据概览.png",
+          "label": "menu: 数据概览",
+          "url": "http://127.0.0.1:3007/admin/dashboard",
+          "text_length": 110,
+          "size": 27888,
+          "warnings": []
+        },
+        {
+          "file": "admin-03-活动管理.png",
+          "label": "menu: 活动管理",
+          "url": "http://127.0.0.1:3007/admin/activities",
+          "text_length": 467,
+          "size": 52194,
+          "warnings": []
+        },
+        {
+          "file": "admin-04-活动管理-创建活动-dialog.png",
+          "label": "dialog: 活动管理 / 创建活动",
+          "url": "http://127.0.0.1:3007/admin/activities",
+          "text_length": 518,
+          "size": 59494,
+          "warnings": []
+        },
+        {
+          "file": "admin-05-报名管理.png",
+          "label": "menu: 报名管理",
+          "url": "http://127.0.0.1:3007/admin/enrollments",
+          "text_length": 97,
+          "size": 20809,
+          "warnings": []
+        },
+        {
+          "file": "admin-06-签到管理.png",
+          "label": "menu: 签到管理",
+          "url": "http://127.0.0.1:3007/admin/attendances",
+          "text_length": 112,
+          "size": 23569,
+          "warnings": []
+        },
+        {
+          "file": "admin-07-用户管理.png",
+          "label": "menu: 用户管理",
+          "url": "http://127.0.0.1:3007/admin/users",
+          "text_length": 374,
+          "size": 41585,
+          "warnings": []
+        },
+        {
+          "file": "admin-08-商品管理.png",
+          "label": "menu: 商品管理",
+          "url": "http://127.0.0.1:3007/admin/rewards",
+          "text_length": 534,
+          "size": 65729,
+          "warnings": []
+        },
+        {
+          "file": "admin-09-商品管理-添加商品-dialog.png",
+          "label": "dialog: 商品管理 / 添加商品",
+          "url": "http://127.0.0.1:3007/admin/rewards",
+          "text_length": 565,
+          "size": 67546,
+          "warnings": []
+        },
+        {
+          "file": "admin-10-兑换管理.png",
+          "label": "menu: 兑换管理",
+          "url": "http://127.0.0.1:3007/admin/exchanges",
+          "text_length": 111,
+          "size": 21912,
+          "warnings": []
+        },
+        {
+          "file": "admin-11-积分管理.png",
+          "label": "menu: 积分管理",
+          "url": "http://127.0.0.1:3007/admin/points",
+          "text_length": 102,
+          "size": 22314,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "volunteer",
+      "username": "volunteer",
+      "file_prefix": "volunteer",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "活动大厅",
+          "route": ""
+        },
+        {
+          "label": "我的活动",
+          "route": ""
+        },
+        {
+          "label": "我的积分",
+          "route": ""
+        },
+        {
+          "label": "积分商城",
+          "route": ""
+        },
+        {
+          "label": "我的兑换",
+          "route": ""
+        },
+        {
+          "label": "排行榜",
+          "route": ""
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "volunteer-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:3007/volunteer/activities",
+          "text_length": 451,
+          "size": 80656,
+          "warnings": []
+        },
+        {
+          "file": "volunteer-02-活动大厅.png",
+          "label": "menu: 活动大厅",
+          "url": "http://127.0.0.1:3007/volunteer/activities",
+          "text_length": 445,
+          "size": 78801,
+          "warnings": []
+        },
+        {
+          "file": "volunteer-03-我的活动.png",
+          "label": "menu: 我的活动",
+          "url": "http://127.0.0.1:3007/volunteer/my-activities",
+          "text_length": 84,
+          "size": 19619,
+          "warnings": [
+            "image file is unusually small"
+          ]
+        },
+        {
+          "file": "volunteer-04-我的积分.png",
+          "label": "menu: 我的积分",
+          "url": "http://127.0.0.1:3007/volunteer/my-points",
+          "text_length": 114,
+          "size": 27064,
+          "warnings": []
+        },
+        {
+          "file": "volunteer-05-积分商城.png",
+          "label": "menu: 积分商城",
+          "url": "http://127.0.0.1:3007/volunteer/rewards",
+          "text_length": 365,
+          "size": 64717,
+          "warnings": []
+        },
+        {
+          "file": "volunteer-06-我的兑换.png",
+          "label": "menu: 我的兑换",
+          "url": "http://127.0.0.1:3007/volunteer/my-exchanges",
+          "text_length": 87,
+          "size": 19970,
+          "warnings": [
+            "image file is unusually small"
+          ]
+        },
+        {
+          "file": "volunteer-07-排行榜.png",
+          "label": "menu: 排行榜",
+          "url": "http://127.0.0.1:3007/volunteer/ranking",
+          "text_length": 132,
+          "size": 25233,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "volunteer",
+      "username": "zhangsan",
+      "file_prefix": "volunteer-zhangsan",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "活动大厅",
+          "route": ""
+        },
+        {
+          "label": "我的活动",
+          "route": ""
+        },
+        {
+          "label": "我的积分",
+          "route": ""
+        },
+        {
+          "label": "积分商城",
+          "route": ""
+        },
+        {
+          "label": "我的兑换",
+          "route": ""
+        },
+        {
+          "label": "排行榜",
+          "route": ""
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "volunteer-zhangsan-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:3007/volunteer/activities",
+          "text_length": 448,
+          "size": 79934,
+          "warnings": []
+        },
+        {
+          "file": "volunteer-zhangsan-02-活动大厅.png",
+          "label": "menu: 活动大厅",
+          "url": "http://127.0.0.1:3007/volunteer/activities",
+          "text_length": 442,
+          "size": 78112,
+          "warnings": []
+        },
+        {
+          "file": "volunteer-zhangsan-03-我的活动.png",
+          "label": "menu: 我的活动",
+          "url": "http://127.0.0.1:3007/volunteer/my-activities",
+          "text_length": 81,
+          "size": 18810,
+          "warnings": [
+            "image file is unusually small"
+          ]
+        },
+        {
+          "file": "volunteer-zhangsan-04-我的积分.png",
+          "label": "menu: 我的积分",
+          "url": "http://127.0.0.1:3007/volunteer/my-points",
+          "text_length": 109,
+          "size": 26365,
+          "warnings": []
+        },
+        {
+          "file": "volunteer-zhangsan-05-积分商城.png",
+          "label": "menu: 积分商城",
+          "url": "http://127.0.0.1:3007/volunteer/rewards",
+          "text_length": 362,
+          "size": 63963,
+          "warnings": []
+        },
+        {
+          "file": "volunteer-zhangsan-06-我的兑换.png",
+          "label": "menu: 我的兑换",
+          "url": "http://127.0.0.1:3007/volunteer/my-exchanges",
+          "text_length": 84,
+          "size": 19161,
+          "warnings": [
+            "image file is unusually small"
+          ]
+        },
+        {
+          "file": "volunteer-zhangsan-07-排行榜.png",
+          "label": "menu: 排行榜",
+          "url": "http://127.0.0.1:3007/volunteer/ranking",
+          "text_length": 129,
+          "size": 24452,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "volunteer",
+      "username": "lisi",
+      "file_prefix": "volunteer-lisi",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "活动大厅",
+          "route": ""
+        },
+        {
+          "label": "我的活动",
+          "route": ""
+        },
+        {
+          "label": "我的积分",
+          "route": ""
+        },
+        {
+          "label": "积分商城",
+          "route": ""
+        },
+        {
+          "label": "我的兑换",
+          "route": ""
+        },
+        {
+          "label": "排行榜",
+          "route": ""
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "volunteer-lisi-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:3007/volunteer/activities",
+          "text_length": 448,
+          "size": 79978,
+          "warnings": []
+        },
+        {
+          "file": "volunteer-lisi-02-活动大厅.png",
+          "label": "menu: 活动大厅",
+          "url": "http://127.0.0.1:3007/volunteer/activities",
+          "text_length": 442,
+          "size": 78166,
+          "warnings": []
+        },
+        {
+          "file": "volunteer-lisi-03-我的活动.png",
+          "label": "menu: 我的活动",
+          "url": "http://127.0.0.1:3007/volunteer/my-activities",
+          "text_length": 81,
+          "size": 18857,
+          "warnings": [
+            "image file is unusually small"
+          ]
+        },
+        {
+          "file": "volunteer-lisi-04-我的积分.png",
+          "label": "menu: 我的积分",
+          "url": "http://127.0.0.1:3007/volunteer/my-points",
+          "text_length": 111,
+          "size": 26485,
+          "warnings": []
+        },
+        {
+          "file": "volunteer-lisi-05-积分商城.png",
+          "label": "menu: 积分商城",
+          "url": "http://127.0.0.1:3007/volunteer/rewards",
+          "text_length": 362,
+          "size": 64005,
+          "warnings": []
+        },
+        {
+          "file": "volunteer-lisi-06-我的兑换.png",
+          "label": "menu: 我的兑换",
+          "url": "http://127.0.0.1:3007/volunteer/my-exchanges",
+          "text_length": 84,
+          "size": 19209,
+          "warnings": [
+            "image file is unusually small"
+          ]
+        },
+        {
+          "file": "volunteer-lisi-07-排行榜.png",
+          "label": "menu: 排行榜",
+          "url": "http://127.0.0.1:3007/volunteer/ranking",
+          "text_length": 129,
+          "size": 24495,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    }
+  ],
+  "guest": [
+    {
+      "file": "guest-01-login.png",
+      "label": "guest: login",
+      "url": "http://127.0.0.1:3007/login",
+      "text_length": 74,
+      "size": 316800,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-02-register.png",
+      "label": "guest: register",
+      "url": "http://127.0.0.1:3007/register",
+      "text_length": 50,
+      "size": 475126,
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "image_count": 34,
+  "status": "completed",
+  "finished_at": "2026-06-06 17:44:10",
+  "stop_exit_code": 0,
+  "cleanup_exit_code": 0
+}

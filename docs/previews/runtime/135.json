@@ -1,0 +1,56 @@
+{
+  "project": {
+    "project_id": "135",
+    "name": "学术会议投稿评审与日程管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "135-backend",
+    "frontend_dir": "135-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8135",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8135",
+      "pid": 7832
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3135",
+      "pid": 52720
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\135-backend.out.log",
+      "stderr": "logs\\project-preview\\135-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\135-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\135-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\135-frontend.out.log",
+      "stderr": "logs\\project-preview\\135-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 12:42:28",
+  "datasource_kind": "mysql",
+  "sql_file": "135-backend\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\135",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 12:44:52"
+}

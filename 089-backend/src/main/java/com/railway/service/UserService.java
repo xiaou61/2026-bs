@@ -7,7 +7,9 @@ import com.railway.common.PageResult;
 import com.railway.entity.User;
 import com.railway.mapper.UserMapper;
 import com.railway.utils.JwtUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -18,29 +20,33 @@ import java.util.Map;
 @Service
 public class UserService {
 
+    private static final int MIN_PASSWORD_LENGTH = 6;
+    private static final int MAX_PASSWORD_LENGTH = 64;
+
     @Resource
     private UserMapper userMapper;
 
     @Resource
     private RuntimeStoreService runtimeStoreService;
 
+    @Resource
+    private JwtUtils jwtUtils;
+
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     public Map<String, Object> login(String username, String password) {
         if (!StringUtils.hasText(username) || !StringUtils.hasText(password)) {
             throw new BusinessException("用户名或密码不能为空");
         }
         User user = userMapper.selectOne(new LambdaQueryWrapper<User>()
-                .eq(User::getUsername, username.trim())
-                .last("limit 1"));
-        if (user == null) {
-            throw new BusinessException("用户不存在");
-        }
-        if (!password.trim().equals(user.getPassword())) {
-            throw new BusinessException("密码错误");
+                .eq(User::getUsername, username.trim()));
+        if (user == null || !passwordEncoder.matches(password.trim(), user.getPassword())) {
+            throw new BusinessException("用户名或密码错误");
         }
         if (user.getStatus() == null || user.getStatus() == 0) {
             throw new BusinessException("账号已禁用");
         }
-        String token = JwtUtils.generateToken(String.valueOf(user.getId()), user.getRole());
+        String token = jwtUtils.generateToken(String.valueOf(user.getId()), user.getRole());
         runtimeStoreService.storeToken(user.getId(), token);
         Map<String, Object> data = new HashMap<>();
         data.put("token", token);
@@ -48,14 +54,16 @@ public class UserService {
         return data;
     }
 
+    @Transactional
     public User register(User user) {
         if (user == null || !StringUtils.hasText(user.getUsername()) || !StringUtils.hasText(user.getPassword())) {
             throw new BusinessException("用户名和密码不能为空");
         }
+        validatePassword(user.getPassword().trim());
         assertUsernameUnique(user.getUsername().trim(), null);
         assertPhoneUnique(user.getPhone(), null);
         user.setUsername(user.getUsername().trim());
-        user.setPassword(user.getPassword().trim());
+        user.setPassword(passwordEncoder.encode(user.getPassword().trim()));
         user.setNickname(StringUtils.hasText(user.getNickname()) ? user.getNickname().trim() : user.getUsername());
         user.setPhone(StringUtils.hasText(user.getPhone()) ? user.getPhone().trim() : null);
         user.setEmail(StringUtils.hasText(user.getEmail()) ? user.getEmail().trim() : null);
@@ -79,25 +87,28 @@ public class UserService {
         runtimeStoreService.removeToken(userId);
     }
 
+    @Transactional
     public void updatePassword(Long userId, String oldPassword, String newPassword) {
         if (!StringUtils.hasText(oldPassword) || !StringUtils.hasText(newPassword)) {
             throw new BusinessException("密码不能为空");
         }
+        validatePassword(newPassword.trim());
         User db = userMapper.selectById(userId);
         if (db == null) {
             throw new BusinessException("用户不存在");
         }
-        if (!oldPassword.trim().equals(db.getPassword())) {
+        if (!passwordEncoder.matches(oldPassword.trim(), db.getPassword())) {
             throw new BusinessException("原密码错误");
         }
         if (oldPassword.trim().equals(newPassword.trim())) {
             throw new BusinessException("新旧密码不能一致");
         }
-        db.setPassword(newPassword.trim());
+        db.setPassword(passwordEncoder.encode(newPassword.trim()));
         userMapper.updateById(db);
         runtimeStoreService.removeToken(userId);
     }
 
+    @Transactional
     public void updateProfile(Long userId, User profile) {
         User db = userMapper.selectById(userId);
         if (db == null) {
@@ -130,6 +141,7 @@ public class UserService {
         return result;
     }
 
+    @Transactional
     public void save(User user) {
         if (user == null) {
             throw new BusinessException("参数不能为空");
@@ -141,6 +153,7 @@ public class UserService {
         update(user);
     }
 
+    @Transactional
     public void updateStatus(Long id, Integer status) {
         if (status == null || (status != 0 && status != 1)) {
             throw new BusinessException("状态不合法");
@@ -159,6 +172,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public void deleteById(Long id) {
         if (id == 1L) {
             throw new BusinessException("默认管理员不可删除");
@@ -167,21 +181,15 @@ public class UserService {
         runtimeStoreService.removeToken(id);
     }
 
+    @Transactional
     public void changeBalance(Long userId, BigDecimal delta) {
         if (delta == null || BigDecimal.ZERO.compareTo(delta) == 0) {
             throw new BusinessException("金额不能为0");
         }
-        User user = userMapper.selectById(userId);
-        if (user == null) {
-            throw new BusinessException("用户不存在");
+        int affected = userMapper.changeBalance(userId, delta);
+        if (affected == 0) {
+            throw new BusinessException("余额不足或用户不存在");
         }
-        BigDecimal balance = user.getBalance() == null ? BigDecimal.ZERO : user.getBalance();
-        BigDecimal newBalance = balance.add(delta);
-        if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
-            throw new BusinessException("余额不足");
-        }
-        user.setBalance(newBalance);
-        userMapper.updateById(user);
     }
 
     public Long countAll() {
@@ -192,6 +200,7 @@ public class UserService {
         if (!StringUtils.hasText(user.getUsername()) || !StringUtils.hasText(user.getPassword())) {
             throw new BusinessException("用户名和密码不能为空");
         }
+        validatePassword(user.getPassword().trim());
         String username = user.getUsername().trim();
         assertUsernameUnique(username, null);
         assertPhoneUnique(user.getPhone(), null);
@@ -200,7 +209,7 @@ public class UserService {
             throw new BusinessException("角色不合法");
         }
         user.setUsername(username);
-        user.setPassword(user.getPassword().trim());
+        user.setPassword(passwordEncoder.encode(user.getPassword().trim()));
         user.setNickname(StringUtils.hasText(user.getNickname()) ? user.getNickname().trim() : username);
         user.setPhone(StringUtils.hasText(user.getPhone()) ? user.getPhone().trim() : null);
         user.setEmail(StringUtils.hasText(user.getEmail()) ? user.getEmail().trim() : null);
@@ -228,7 +237,8 @@ public class UserService {
         db.setEmail(StringUtils.hasText(user.getEmail()) ? user.getEmail().trim() : null);
         db.setAvatar(StringUtils.hasText(user.getAvatar()) ? user.getAvatar().trim() : null);
         if (StringUtils.hasText(user.getPassword())) {
-            db.setPassword(user.getPassword().trim());
+            validatePassword(user.getPassword().trim());
+            db.setPassword(passwordEncoder.encode(user.getPassword().trim()));
             runtimeStoreService.removeToken(db.getId());
         }
         if (StringUtils.hasText(user.getRole())) {
@@ -239,7 +249,10 @@ public class UserService {
             if (db.getId() == 1L && !"ADMIN".equals(role)) {
                 throw new BusinessException("默认管理员角色不可修改");
             }
-            db.setRole(role);
+            if (!role.equals(db.getRole())) {
+                db.setRole(role);
+                runtimeStoreService.removeToken(db.getId());
+            }
         }
         if (user.getStatus() != null) {
             db.setStatus(user.getStatus());
@@ -258,8 +271,7 @@ public class UserService {
             return;
         }
         User exist = userMapper.selectOne(new LambdaQueryWrapper<User>()
-                .eq(User::getUsername, username.trim())
-                .last("limit 1"));
+                .eq(User::getUsername, username.trim()));
         if (exist != null && (excludeId == null || !exist.getId().equals(excludeId))) {
             throw new BusinessException("用户名已存在");
         }
@@ -270,8 +282,7 @@ public class UserService {
             return;
         }
         User exist = userMapper.selectOne(new LambdaQueryWrapper<User>()
-                .eq(User::getPhone, phone.trim())
-                .last("limit 1"));
+                .eq(User::getPhone, phone.trim()));
         if (exist != null && (excludeId == null || !exist.getId().equals(excludeId))) {
             throw new BusinessException("手机号已存在");
         }
@@ -290,5 +301,11 @@ public class UserService {
             user.setPassword(null);
         }
         return user;
+    }
+
+    private void validatePassword(String password) {
+        if (!StringUtils.hasText(password) || password.length() < MIN_PASSWORD_LENGTH || password.length() > MAX_PASSWORD_LENGTH) {
+            throw new BusinessException("密码长度必须在 " + MIN_PASSWORD_LENGTH + " 到 " + MAX_PASSWORD_LENGTH + " 位之间");
+        }
     }
 }

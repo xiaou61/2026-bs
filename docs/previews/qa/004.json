@@ -1,0 +1,343 @@
+{
+  "project_id": "004",
+  "mode": "single-project-fine-capture",
+  "started_at": "2026-06-06 17:12:28",
+  "old_images_removed": 20,
+  "backup_dir": "logs\\project-preview\\fine-backups\\004\\20260606-171228",
+  "logs": {
+    "prepare": "logs\\project-preview\\004-prepare.fine.log",
+    "render": "logs\\project-preview\\004-render.fine.log",
+    "stop": "logs\\project-preview\\004-stop.fine.log",
+    "cleanup": "logs\\project-preview\\004-cleanup.fine.log"
+  },
+  "roles": [
+    {
+      "role": "admin",
+      "username": "admin",
+      "file_prefix": "admin",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "聊天",
+          "route": ""
+        },
+        {
+          "label": "好友",
+          "route": ""
+        },
+        {
+          "label": "通知",
+          "route": ""
+        },
+        {
+          "label": "设置",
+          "route": ""
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "admin-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:5004/chat",
+          "text_length": 55,
+          "size": 54713,
+          "warnings": []
+        },
+        {
+          "file": "admin-02-聊天.png",
+          "label": "menu: 聊天",
+          "url": "http://127.0.0.1:5004/chat",
+          "text_length": 49,
+          "size": 53372,
+          "warnings": []
+        },
+        {
+          "file": "admin-03-好友.png",
+          "label": "menu: 好友",
+          "url": "http://127.0.0.1:5004/friends",
+          "text_length": 51,
+          "size": 47018,
+          "warnings": []
+        },
+        {
+          "file": "admin-04-好友-添加好友-dialog.png",
+          "label": "dialog: 好友 / 添加好友",
+          "url": "http://127.0.0.1:5004/friends",
+          "text_length": 57,
+          "size": 45862,
+          "warnings": []
+        },
+        {
+          "file": "admin-05-通知.png",
+          "label": "menu: 通知",
+          "url": "http://127.0.0.1:5004/notifications",
+          "text_length": 51,
+          "size": 44556,
+          "warnings": []
+        },
+        {
+          "file": "admin-06-设置.png",
+          "label": "menu: 设置",
+          "url": "http://127.0.0.1:5004/profile",
+          "text_length": 119,
+          "size": 54595,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "user",
+      "username": "zhangsan",
+      "file_prefix": "user-zhangsan",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "聊天",
+          "route": ""
+        },
+        {
+          "label": "好友",
+          "route": ""
+        },
+        {
+          "label": "通知",
+          "route": ""
+        },
+        {
+          "label": "设置",
+          "route": ""
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "user-zhangsan-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:5004/chat",
+          "text_length": 68,
+          "size": 50658,
+          "warnings": []
+        },
+        {
+          "file": "user-zhangsan-02-聊天.png",
+          "label": "menu: 聊天",
+          "url": "http://127.0.0.1:5004/chat",
+          "text_length": 62,
+          "size": 49011,
+          "warnings": []
+        },
+        {
+          "file": "user-zhangsan-03-好友.png",
+          "label": "menu: 好友",
+          "url": "http://127.0.0.1:5004/friends",
+          "text_length": 96,
+          "size": 45037,
+          "warnings": []
+        },
+        {
+          "file": "user-zhangsan-04-好友-添加好友-dialog.png",
+          "label": "dialog: 好友 / 添加好友",
+          "url": "http://127.0.0.1:5004/friends",
+          "text_length": 101,
+          "size": 45691,
+          "warnings": []
+        },
+        {
+          "file": "user-zhangsan-05-通知.png",
+          "label": "menu: 通知",
+          "url": "http://127.0.0.1:5004/notifications",
+          "text_length": 50,
+          "size": 43891,
+          "warnings": []
+        },
+        {
+          "file": "user-zhangsan-06-设置.png",
+          "label": "menu: 设置",
+          "url": "http://127.0.0.1:5004/profile",
+          "text_length": 118,
+          "size": 53105,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "user",
+      "username": "lisi",
+      "file_prefix": "user-lisi",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "聊天",
+          "route": ""
+        },
+        {
+          "label": "好友",
+          "route": ""
+        },
+        {
+          "label": "通知",
+          "route": ""
+        },
+        {
+          "label": "设置",
+          "route": ""
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "user-lisi-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:5004/chat",
+          "text_length": 58,
+          "size": 48168,
+          "warnings": []
+        },
+        {
+          "file": "user-lisi-02-聊天.png",
+          "label": "menu: 聊天",
+          "url": "http://127.0.0.1:5004/chat",
+          "text_length": 52,
+          "size": 46516,
+          "warnings": []
+        },
+        {
+          "file": "user-lisi-03-好友.png",
+          "label": "menu: 好友",
+          "url": "http://127.0.0.1:5004/friends",
+          "text_length": 73,
+          "size": 43191,
+          "warnings": []
+        },
+        {
+          "file": "user-lisi-04-好友-添加好友-dialog.png",
+          "label": "dialog: 好友 / 添加好友",
+          "url": "http://127.0.0.1:5004/friends",
+          "text_length": 78,
+          "size": 42926,
+          "warnings": []
+        },
+        {
+          "file": "user-lisi-05-通知.png",
+          "label": "menu: 通知",
+          "url": "http://127.0.0.1:5004/notifications",
+          "text_length": 50,
+          "size": 43797,
+          "warnings": []
+        },
+        {
+          "file": "user-lisi-06-设置.png",
+          "label": "menu: 设置",
+          "url": "http://127.0.0.1:5004/profile",
+          "text_length": 118,
+          "size": 52284,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "user",
+      "username": "wangwu",
+      "file_prefix": "user-wangwu",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "聊天",
+          "route": ""
+        },
+        {
+          "label": "好友",
+          "route": ""
+        },
+        {
+          "label": "通知",
+          "route": ""
+        },
+        {
+          "label": "设置",
+          "route": ""
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "user-wangwu-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:5004/chat",
+          "text_length": 58,
+          "size": 47728,
+          "warnings": []
+        },
+        {
+          "file": "user-wangwu-02-聊天.png",
+          "label": "menu: 聊天",
+          "url": "http://127.0.0.1:5004/chat",
+          "text_length": 52,
+          "size": 46112,
+          "warnings": []
+        },
+        {
+          "file": "user-wangwu-03-好友.png",
+          "label": "menu: 好友",
+          "url": "http://127.0.0.1:5004/friends",
+          "text_length": 73,
+          "size": 42720,
+          "warnings": []
+        },
+        {
+          "file": "user-wangwu-04-好友-添加好友-dialog.png",
+          "label": "dialog: 好友 / 添加好友",
+          "url": "http://127.0.0.1:5004/friends",
+          "text_length": 78,
+          "size": 42543,
+          "warnings": []
+        },
+        {
+          "file": "user-wangwu-05-通知.png",
+          "label": "menu: 通知",
+          "url": "http://127.0.0.1:5004/notifications",
+          "text_length": 50,
+          "size": 43314,
+          "warnings": []
+        },
+        {
+          "file": "user-wangwu-06-设置.png",
+          "label": "menu: 设置",
+          "url": "http://127.0.0.1:5004/profile",
+          "text_length": 118,
+          "size": 53849,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    }
+  ],
+  "guest": [
+    {
+      "file": "guest-01-login.png",
+      "label": "guest: login",
+      "url": "http://127.0.0.1:5004/login",
+      "text_length": 83,
+      "size": 154114,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-02-register.png",
+      "label": "guest: register",
+      "url": "http://127.0.0.1:5004/register",
+      "text_length": 17,
+      "size": 480912,
+      "warnings": [
+        "visible text is very short"
+      ]
+    }
+  ],
+  "warnings": [],
+  "image_count": 26,
+  "status": "completed",
+  "finished_at": "2026-06-06 17:14:12",
+  "stop_exit_code": 0,
+  "cleanup_exit_code": 0
+}

@@ -7,7 +7,7 @@ USE study_room;
 CREATE TABLE IF NOT EXISTS `user` (
     `id` BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '用户ID',
     `username` VARCHAR(50) UNIQUE NOT NULL COMMENT '学号',
-    `password` VARCHAR(255) NOT NULL COMMENT '密码(MD5加密)',
+    `password` VARCHAR(255) NOT NULL COMMENT '密码(BCrypt加密)',
     `real_name` VARCHAR(50) NOT NULL COMMENT '真实姓名',
     `department` VARCHAR(100) COMMENT '院系',
     `grade` VARCHAR(20) COMMENT '年级',

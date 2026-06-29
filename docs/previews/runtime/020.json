@@ -13,18 +13,45 @@
       "backend": "http://127.0.0.1:8020",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student2",
+        "password": "123456"
+      },
+      {
+        "role_key": "teacher",
+        "role_label": "老师",
+        "username": "teacher1",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "020-backend\\ACCOUNTS.md"
+    ]
   },
   "services": {
     "backend": {
       "url": "http://127.0.0.1:8020",
-      "pid": 45012
+      "pid": 30380
     },
     "frontend": {
       "url": "http://127.0.0.1:5020",
-      "pid": 1076
+      "pid": 55208
     }
   },
   "logs": {
@@ -32,18 +59,49 @@
       "stdout": "logs\\project-preview\\020-backend.out.log",
       "stderr": "logs\\project-preview\\020-backend.err.log"
     },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\020-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\020-frontend-install.err.log"
+    },
     "frontend": {
       "stdout": "logs\\project-preview\\020-frontend.out.log",
       "stderr": "logs\\project-preview\\020-frontend.err.log"
     }
   },
   "status": "stopped",
-  "prepared_at": "2026-05-24 22:32:42",
+  "prepared_at": "2026-06-07 14:47:31",
+  "datasource_kind": "mysql",
   "capture_hints": {
-    "roles": [],
+    "roles": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student2",
+        "password": "123456"
+      },
+      {
+        "role_key": "teacher",
+        "role_label": "老师",
+        "username": "teacher1",
+        "password": "123456"
+      }
+    ],
     "routes": [],
     "screenshot_dir": "docs\\previews\\assets\\020",
     "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
   },
-  "stopped_at": "2026-05-24 22:32:59"
+  "stopped_at": "2026-06-07 14:50:13"
 }

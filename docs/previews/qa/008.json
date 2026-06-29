@@ -1,0 +1,433 @@
+{
+  "project_id": "008",
+  "mode": "single-project-fine-capture",
+  "started_at": "2026-06-06 18:06:44",
+  "old_images_removed": 9,
+  "backup_dir": "logs\\project-preview\\fine-backups\\008\\20260606-180644",
+  "logs": {
+    "prepare": "logs\\project-preview\\008-prepare.fine.log",
+    "render": "logs\\project-preview\\008-render.fine.log",
+    "docs_generate": "logs\\project-preview\\008-docs-generate.fine.log",
+    "stop": "logs\\project-preview\\008-stop.fine.log",
+    "cleanup": "logs\\project-preview\\008-cleanup.fine.log"
+  },
+  "roles": [
+    {
+      "role": "admin",
+      "username": "admin",
+      "file_prefix": "admin",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "管理后台",
+          "route": "index.html"
+        },
+        {
+          "label": "数据统计",
+          "route": "index.html"
+        },
+        {
+          "label": "菜谱管理",
+          "route": "recipes.html"
+        },
+        {
+          "label": "食材管理",
+          "route": "ingredients.html"
+        },
+        {
+          "label": "用户管理",
+          "route": "users.html"
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "admin-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8008/pages/admin/index.html",
+          "text_length": 180,
+          "size": 47698,
+          "warnings": []
+        },
+        {
+          "file": "admin-02-管理后台.png",
+          "label": "menu: 管理后台",
+          "url": "http://127.0.0.1:8008/pages/admin/index.html",
+          "text_length": 180,
+          "size": 47698,
+          "warnings": []
+        },
+        {
+          "file": "admin-03-数据统计.png",
+          "label": "menu: 数据统计",
+          "url": "http://127.0.0.1:8008/pages/admin/index.html",
+          "text_length": 180,
+          "size": 47698,
+          "warnings": []
+        },
+        {
+          "file": "admin-04-菜谱管理.png",
+          "label": "menu: 菜谱管理",
+          "url": "http://127.0.0.1:8008/pages/admin/recipes.html",
+          "text_length": 222,
+          "size": 44386,
+          "warnings": []
+        },
+        {
+          "file": "admin-05-食材管理.png",
+          "label": "menu: 食材管理",
+          "url": "http://127.0.0.1:8008/pages/admin/ingredients.html",
+          "text_length": 536,
+          "size": 83443,
+          "warnings": []
+        },
+        {
+          "file": "admin-06-用户管理.png",
+          "label": "menu: 用户管理",
+          "url": "http://127.0.0.1:8008/pages/admin/users.html",
+          "text_length": 156,
+          "size": 29329,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "1",
+      "username": "user1",
+      "file_prefix": "1-user1",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "智能菜谱",
+          "route": "index.html"
+        },
+        {
+          "label": "首页",
+          "route": "index.html"
+        },
+        {
+          "label": "菜谱",
+          "route": "recipes.html"
+        },
+        {
+          "label": "推荐",
+          "route": "recommend.html"
+        },
+        {
+          "label": "我的食材",
+          "route": "ingredients.html"
+        },
+        {
+          "label": "购物清单",
+          "route": "shopping.html"
+        },
+        {
+          "label": "我的打卡",
+          "route": "cooking.html"
+        },
+        {
+          "label": "美食爱好者",
+          "route": "#"
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "1-user1-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8008/pages/user/index.html",
+          "text_length": 233,
+          "size": 101916,
+          "warnings": []
+        },
+        {
+          "file": "1-user1-02-智能菜谱.png",
+          "label": "menu: 智能菜谱",
+          "url": "http://127.0.0.1:8008/pages/user/index.html",
+          "text_length": 233,
+          "size": 101736,
+          "warnings": []
+        },
+        {
+          "file": "1-user1-03-首页.png",
+          "label": "menu: 首页",
+          "url": "http://127.0.0.1:8008/pages/user/index.html",
+          "text_length": 233,
+          "size": 101736,
+          "warnings": []
+        },
+        {
+          "file": "1-user1-04-菜谱.png",
+          "label": "menu: 菜谱",
+          "url": "http://127.0.0.1:8008/pages/user/index.html",
+          "text_length": 233,
+          "size": 101736,
+          "warnings": []
+        },
+        {
+          "file": "1-user1-05-推荐.png",
+          "label": "menu: 推荐",
+          "url": "http://127.0.0.1:8008/pages/user/recommend.html",
+          "text_length": 184,
+          "size": 68024,
+          "warnings": []
+        },
+        {
+          "file": "1-user1-06-我的食材.png",
+          "label": "menu: 我的食材",
+          "url": "http://127.0.0.1:8008/pages/user/ingredients.html",
+          "text_length": 64,
+          "size": 22609,
+          "warnings": []
+        },
+        {
+          "file": "1-user1-07-我的食材-添加食材-dialog.png",
+          "label": "dialog: 我的食材 / 添加食材",
+          "url": "http://127.0.0.1:8008/pages/user/ingredients.html",
+          "text_length": 257,
+          "size": 38502,
+          "warnings": []
+        }
+      ],
+      "warnings": [
+        "menu navigation failed: 购物清单: Locator.click: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator(\".el-menu-item, [role='menuitem'], aside a, nav a, .nav-link, .menu-item\").filter(has_text=\"购物清单\").first\n    - locator resolved to <a class=\"nav-link\" href=\"shopping.html\">…</a>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div times=\"1\" id=\"layui-layer-shade1\" class=\"layui-layer-shade\"></div> intercepts pointer events\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div times=\"1\" id=\"layui-layer-shade1\" class=\"layui-layer-shade\"></div> intercepts pointer events\n    - retrying click action\n      - waiting 100ms\n    15 × waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - <div times=\"1\" id=\"layui-layer-shade1\" class=\"layui-layer-shade\"></div> intercepts pointer events\n     - retrying click action\n       - waiting 500ms\n",
+        "menu navigation failed: 我的打卡: Locator.click: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator(\".el-menu-item, [role='menuitem'], aside a, nav a, .nav-link, .menu-item\").filter(has_text=\"我的打卡\").first\n    - locator resolved to <a class=\"nav-link\" href=\"cooking.html\">…</a>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div times=\"1\" id=\"layui-layer-shade1\" class=\"layui-layer-shade\"></div> intercepts pointer events\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div times=\"1\" id=\"layui-layer-shade1\" class=\"layui-layer-shade\"></div> intercepts pointer events\n    - retrying click action\n      - waiting 100ms\n    15 × waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - <div times=\"1\" id=\"layui-layer-shade1\" class=\"layui-layer-shade\"></div> intercepts pointer events\n     - retrying click action\n       - waiting 500ms\n",
+        "menu navigation failed: 美食爱好者: Locator.click: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator(\".el-menu-item, [role='menuitem'], aside a, nav a, .nav-link, .menu-item\").filter(has_text=\"美食爱好者\").first\n    - locator resolved to <a href=\"#\" data-bs-toggle=\"dropdown\" class=\"nav-link dropdown-toggle\">…</a>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div times=\"1\" id=\"layui-layer-shade1\" class=\"layui-layer-shade\"></div> intercepts pointer events\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div times=\"1\" id=\"layui-layer-shade1\" class=\"layui-layer-shade\"></div> intercepts pointer events\n    - retrying click action\n      - waiting 100ms\n    15 × waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - <div times=\"1\" id=\"layui-layer-shade1\" class=\"layui-layer-shade\"></div> intercepts pointer events\n     - retrying click action\n       - waiting 500ms\n"
+      ]
+    },
+    {
+      "role": "2",
+      "username": "user2",
+      "file_prefix": "2-user2",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "智能菜谱",
+          "route": "index.html"
+        },
+        {
+          "label": "首页",
+          "route": "index.html"
+        },
+        {
+          "label": "菜谱",
+          "route": "recipes.html"
+        },
+        {
+          "label": "推荐",
+          "route": "recommend.html"
+        },
+        {
+          "label": "我的食材",
+          "route": "ingredients.html"
+        },
+        {
+          "label": "购物清单",
+          "route": "shopping.html"
+        },
+        {
+          "label": "我的打卡",
+          "route": "cooking.html"
+        },
+        {
+          "label": "厨房新手",
+          "route": "#"
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "2-user2-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8008/pages/user/index.html",
+          "text_length": 232,
+          "size": 101508,
+          "warnings": []
+        },
+        {
+          "file": "2-user2-02-智能菜谱.png",
+          "label": "menu: 智能菜谱",
+          "url": "http://127.0.0.1:8008/pages/user/index.html",
+          "text_length": 232,
+          "size": 101508,
+          "warnings": []
+        },
+        {
+          "file": "2-user2-03-首页.png",
+          "label": "menu: 首页",
+          "url": "http://127.0.0.1:8008/pages/user/index.html",
+          "text_length": 232,
+          "size": 101508,
+          "warnings": []
+        },
+        {
+          "file": "2-user2-04-菜谱.png",
+          "label": "menu: 菜谱",
+          "url": "http://127.0.0.1:8008/pages/user/index.html",
+          "text_length": 232,
+          "size": 101508,
+          "warnings": []
+        },
+        {
+          "file": "2-user2-05-推荐.png",
+          "label": "menu: 推荐",
+          "url": "http://127.0.0.1:8008/pages/user/recommend.html",
+          "text_length": 183,
+          "size": 67799,
+          "warnings": []
+        },
+        {
+          "file": "2-user2-06-我的食材.png",
+          "label": "menu: 我的食材",
+          "url": "http://127.0.0.1:8008/pages/user/ingredients.html",
+          "text_length": 63,
+          "size": 22210,
+          "warnings": []
+        },
+        {
+          "file": "2-user2-07-我的食材-添加食材-dialog.png",
+          "label": "dialog: 我的食材 / 添加食材",
+          "url": "http://127.0.0.1:8008/pages/user/ingredients.html",
+          "text_length": 256,
+          "size": 38080,
+          "warnings": []
+        }
+      ],
+      "warnings": [
+        "menu navigation failed: 购物清单: Locator.click: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator(\".el-menu-item, [role='menuitem'], aside a, nav a, .nav-link, .menu-item\").filter(has_text=\"购物清单\").first\n    - locator resolved to <a class=\"nav-link\" href=\"shopping.html\">…</a>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div times=\"1\" id=\"layui-layer-shade1\" class=\"layui-layer-shade\"></div> intercepts pointer events\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div times=\"1\" id=\"layui-layer-shade1\" class=\"layui-layer-shade\"></div> intercepts pointer events\n    - retrying click action\n      - waiting 100ms\n    15 × waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - <div times=\"1\" id=\"layui-layer-shade1\" class=\"layui-layer-shade\"></div> intercepts pointer events\n     - retrying click action\n       - waiting 500ms\n",
+        "menu navigation failed: 我的打卡: Locator.click: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator(\".el-menu-item, [role='menuitem'], aside a, nav a, .nav-link, .menu-item\").filter(has_text=\"我的打卡\").first\n    - locator resolved to <a class=\"nav-link\" href=\"cooking.html\">…</a>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div times=\"1\" id=\"layui-layer-shade1\" class=\"layui-layer-shade\"></div> intercepts pointer events\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div times=\"1\" id=\"layui-layer-shade1\" class=\"layui-layer-shade\"></div> intercepts pointer events\n    - retrying click action\n      - waiting 100ms\n    15 × waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - <div times=\"1\" id=\"layui-layer-shade1\" class=\"layui-layer-shade\"></div> intercepts pointer events\n     - retrying click action\n       - waiting 500ms\n",
+        "menu navigation failed: 厨房新手: Locator.click: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator(\".el-menu-item, [role='menuitem'], aside a, nav a, .nav-link, .menu-item\").filter(has_text=\"厨房新手\").first\n    - locator resolved to <a href=\"#\" data-bs-toggle=\"dropdown\" class=\"nav-link dropdown-toggle\">…</a>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div times=\"1\" id=\"layui-layer-shade1\" class=\"layui-layer-shade\"></div> intercepts pointer events\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div times=\"1\" id=\"layui-layer-shade1\" class=\"layui-layer-shade\"></div> intercepts pointer events\n    - retrying click action\n      - waiting 100ms\n    15 × waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - <div times=\"1\" id=\"layui-layer-shade1\" class=\"layui-layer-shade\"></div> intercepts pointer events\n     - retrying click action\n       - waiting 500ms\n"
+      ]
+    }
+  ],
+  "guest": [
+    {
+      "file": "guest-01-index.png",
+      "label": "guest: index",
+      "url": "http://127.0.0.1:8008/index.html",
+      "text_length": 36,
+      "size": 473650,
+      "warnings": []
+    },
+    {
+      "file": "guest-02-home.png",
+      "label": "guest: home",
+      "url": "http://127.0.0.1:8008/",
+      "text_length": 36,
+      "size": 473650,
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "project_specific": [
+    {
+      "file": "admin-10-dashboard.png",
+      "label": "project 008: admin dashboard",
+      "url": "http://127.0.0.1:8008/pages/admin/index.html",
+      "text_length": 180,
+      "size": 47698,
+      "warnings": []
+    },
+    {
+      "file": "admin-11-recipes.png",
+      "label": "project 008: admin recipes",
+      "url": "http://127.0.0.1:8008/pages/admin/recipes.html",
+      "text_length": 222,
+      "size": 44386,
+      "warnings": []
+    },
+    {
+      "file": "admin-12-ingredients.png",
+      "label": "project 008: admin ingredients",
+      "url": "http://127.0.0.1:8008/pages/admin/ingredients.html",
+      "text_length": 536,
+      "size": 83443,
+      "warnings": []
+    },
+    {
+      "file": "admin-13-users.png",
+      "label": "project 008: admin users",
+      "url": "http://127.0.0.1:8008/pages/admin/users.html",
+      "text_length": 156,
+      "size": 29329,
+      "warnings": []
+    },
+    {
+      "file": "user-user1-10-home.png",
+      "label": "project 008: user home",
+      "url": "http://127.0.0.1:8008/pages/user/index.html",
+      "text_length": 233,
+      "size": 101736,
+      "warnings": []
+    },
+    {
+      "file": "user-user1-11-recipes.png",
+      "label": "project 008: recipes",
+      "url": "http://127.0.0.1:8008/pages/user/recipes.html",
+      "text_length": 242,
+      "size": 52935,
+      "warnings": []
+    },
+    {
+      "file": "user-user1-12-recommend.png",
+      "label": "project 008: recommendations",
+      "url": "http://127.0.0.1:8008/pages/user/recommend.html",
+      "text_length": 184,
+      "size": 68024,
+      "warnings": []
+    },
+    {
+      "file": "user-user1-13-ingredients.png",
+      "label": "project 008: user ingredients",
+      "url": "http://127.0.0.1:8008/pages/user/ingredients.html",
+      "text_length": 64,
+      "size": 22641,
+      "warnings": []
+    },
+    {
+      "file": "user-user1-14-shopping.png",
+      "label": "project 008: shopping list",
+      "url": "http://127.0.0.1:8008/pages/user/shopping.html",
+      "text_length": 66,
+      "size": 22738,
+      "warnings": []
+    },
+    {
+      "file": "user-user1-15-cooking.png",
+      "label": "project 008: cooking records",
+      "url": "http://127.0.0.1:8008/pages/user/cooking.html",
+      "text_length": 89,
+      "size": 26474,
+      "warnings": []
+    },
+    {
+      "file": "user-user1-16-collect.png",
+      "label": "project 008: collections",
+      "url": "http://127.0.0.1:8008/pages/user/collect.html",
+      "text_length": 54,
+      "size": 19913,
+      "warnings": [
+        "image file is unusually small"
+      ]
+    },
+    {
+      "file": "user-user1-17-profile.png",
+      "label": "project 008: profile",
+      "url": "http://127.0.0.1:8008/pages/user/profile.html",
+      "text_length": 84,
+      "size": 27189,
+      "warnings": []
+    },
+    {
+      "file": "user-user1-18-recipe-detail.png",
+      "label": "project 008: recipe detail",
+      "url": "http://127.0.0.1:8008/pages/user/recipe-detail.html?id=1",
+      "text_length": 396,
+      "size": 108936,
+      "warnings": []
+    }
+  ],
+  "image_count": 35,
+  "status": "completed",
+  "finished_at": "2026-06-06 18:11:35",
+  "stop_exit_code": 0,
+  "cleanup_exit_code": 0
+}

@@ -23,6 +23,9 @@ public interface PlacementPlanMapper {
     @Update("UPDATE placement_plan SET record_no=#{recordNo},record_name=#{recordName},category=#{category},owner_name=#{ownerName},plan_time=#{planTime},status=#{status},remark=#{remark},updated_time=NOW() WHERE id=#{id}")
     int update(PlacementPlan entity);
 
+    @Select("SELECT * FROM placement_plan WHERE id = #{id}")
+    PlacementPlan selectById(Long id);
+
     @Delete("DELETE FROM placement_plan WHERE id=#{id}")
     int deleteById(Long id);
 

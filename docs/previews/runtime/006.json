@@ -39,7 +39,7 @@
   "services": {
     "backend": {
       "url": "http://127.0.0.1:8086",
-      "pid": 31140
+      "pid": 10336
     }
   },
   "logs": {
@@ -49,7 +49,8 @@
     }
   },
   "status": "stopped",
-  "prepared_at": "2026-04-25 13:27:11",
+  "prepared_at": "2026-06-06 17:35:34",
+  "datasource_kind": "mysql",
   "sql_file": "006-backend\\src\\main\\resources\\sql\\init.sql",
   "capture_hints": {
     "roles": [
@@ -76,5 +77,5 @@
     "screenshot_dir": "docs\\previews\\assets\\006",
     "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
   },
-  "stopped_at": "2026-04-25 14:02:01"
+  "stopped_at": "2026-06-06 17:40:21"
 }

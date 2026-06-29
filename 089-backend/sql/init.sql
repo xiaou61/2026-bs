@@ -175,9 +175,9 @@ CREATE TABLE system_notice (
 );
 
 INSERT INTO user (username, password, nickname, phone, email, balance, role, status) VALUES
-('admin', '123456', '系统管理员', '13800000001', 'admin@railway.com', 5000.00, 'ADMIN', 1),
-('dispatcher', '123456', '调度员', '13800000002', 'dispatcher@railway.com', 2000.00, 'DISPATCHER', 1),
-('user', '123456', '普通乘客', '13800000003', 'user@railway.com', 800.00, 'USER', 1);
+('admin', '$2a$12$e77kHVxuze/VuQObbJwQfu/KTRO1RcfNjLJyzm6BWBquk8AaS5oTK', '系统管理员', '13800000001', 'admin@railway.com', 5000.00, 'ADMIN', 1),
+('dispatcher', '$2a$12$e77kHVxuze/VuQObbJwQfu/KTRO1RcfNjLJyzm6BWBquk8AaS5oTK', '调度员', '13800000002', 'dispatcher@railway.com', 2000.00, 'DISPATCHER', 1),
+('user', '$2a$12$e77kHVxuze/VuQObbJwQfu/KTRO1RcfNjLJyzm6BWBquk8AaS5oTK', '普通乘客', '13800000003', 'user@railway.com', 800.00, 'USER', 1);
 
 INSERT INTO station (station_code, station_name, city, province, address, status) VALUES
 ('BJP', '北京南', '北京', '北京', '丰台区永外车站路12号', 1),

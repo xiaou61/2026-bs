@@ -2,10 +2,12 @@ package com.heritageworkshop.clerk;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.heritageworkshop.common.BusinessException;
 import com.heritageworkshop.entity.ProductOrder;
 import com.heritageworkshop.mapper.ProductOrderMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -17,16 +19,30 @@ public class ProductOrderService {
         return new PageInfo<>(mapper.selectPage(keyword, status));
     }
 
+    public ProductOrder getById(Long id) {
+        ProductOrder entity = mapper.selectById(id);
+        if (entity == null) throw new BusinessException("展销订单不存在");
+        return entity;
+    }
+
     public void save(ProductOrder entity) {
-        if (entity.getId() == null) mapper.insert(entity);
-        else mapper.update(entity);
+        if (!StringUtils.hasText(entity.getRecordName())) throw new BusinessException("订单名称不能为空");
+        if (entity.getId() == null) {
+            if (entity.getStatus() == null) entity.setStatus("REGISTERED");
+            mapper.insert(entity);
+        } else {
+            getById(entity.getId());
+            mapper.update(entity);
+        }
     }
 
     public void delete(Long id) {
+        getById(id);
         mapper.deleteById(id);
     }
 
     public void updateStatus(Long id, String status) {
+        getById(id);
         mapper.updateStatus(id, status);
     }
 }

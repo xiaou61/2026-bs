@@ -26,6 +26,9 @@ public interface ResidentProfileMapper {
     @Delete("DELETE FROM resident_profile WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM resident_profile WHERE id = #{id}")
+    ResidentProfile selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM resident_profile")
     long countAll();
 

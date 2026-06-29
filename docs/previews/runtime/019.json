@@ -54,11 +54,11 @@
   "services": {
     "backend": {
       "url": "http://127.0.0.1:8080",
-      "pid": 8184
+      "pid": 41196
     },
     "frontend": {
       "url": "http://127.0.0.1:5173",
-      "pid": 33036
+      "pid": 50024
     }
   },
   "logs": {
@@ -66,13 +66,19 @@
       "stdout": "logs\\project-preview\\019-backend.out.log",
       "stderr": "logs\\project-preview\\019-backend.err.log"
     },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\019-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\019-frontend-install.err.log"
+    },
     "frontend": {
       "stdout": "logs\\project-preview\\019-frontend.out.log",
       "stderr": "logs\\project-preview\\019-frontend.err.log"
     }
   },
   "status": "stopped",
-  "prepared_at": "2026-05-24 22:30:29",
+  "prepared_at": "2026-06-07 14:34:42",
+  "datasource_kind": "mysql",
   "capture_hints": {
     "roles": [
       {
@@ -111,5 +117,5 @@
     "screenshot_dir": "docs\\previews\\assets\\019",
     "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
   },
-  "stopped_at": "2026-05-24 22:32:40"
+  "stopped_at": "2026-06-07 14:37:46"
 }

@@ -23,6 +23,9 @@ public interface CabinetProfileMapper {
     @Update("UPDATE cabinet_profile SET record_no=#{recordNo},record_name=#{recordName},category=#{category},owner_name=#{ownerName},plan_time=#{planTime},status=#{status},remark=#{remark},updated_time=NOW() WHERE id=#{id}")
     int update(CabinetProfile entity);
 
+    @Select("SELECT * FROM cabinet_profile WHERE id = #{id}")
+    CabinetProfile selectById(Long id);
+
     @Delete("DELETE FROM cabinet_profile WHERE id=#{id}")
     int deleteById(Long id);
 

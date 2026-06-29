@@ -13,7 +13,7 @@ description: 健康管理、医疗预约与养老服务
 
 **核心模块：** 用户系统、食谱管理、食材库、社区交流、创作者认证、评价反馈、管理后台
 
-**技术栈：** Spring Boot 3.2.x、MyBatis-Plus、Vue 3、Element Plus | **表：** 10 张 | **页面：** 16 个
+**技术栈：** Spring Boot 3.2.x、MyBatis-Plus、Vue 3、Element Plus | **表：** 20 张 | **页面：** 16 个
 
 ---
 
@@ -59,7 +59,7 @@ description: 健康管理、医疗预约与养老服务
 
 **核心模块：** 用户与认证、用户管理、食材分类管理、药食食材管理、经方库管理、药膳方案管理、调理服务单、体质记录管理、收藏中心、公告中心、数据看板
 
-**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **API：** 46 个 | **表：** 18 张 | **页面：** 13 个
+**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **API：** 46 个 | **表：** 27 张 | **页面：** 13 个
 
 ---
 

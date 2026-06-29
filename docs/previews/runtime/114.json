@@ -1,0 +1,56 @@
+{
+  "project": {
+    "project_id": "114",
+    "name": "供应链冷链温控追踪与异常预警平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "114-backend",
+    "frontend_dir": "114-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8114",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8114",
+      "pid": 8596
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3114",
+      "pid": 29048
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\114-backend.out.log",
+      "stderr": "logs\\project-preview\\114-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\114-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\114-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\114-frontend.out.log",
+      "stderr": "logs\\project-preview\\114-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 11:50:31",
+  "datasource_kind": "mysql",
+  "sql_file": "114-backend\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\114",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 11:52:59"
+}

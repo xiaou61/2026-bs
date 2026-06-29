@@ -5,6 +5,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +21,8 @@ import java.util.Map;
  */
 @Component
 public class JwtUtil {
+
+    private static final Logger log = LoggerFactory.getLogger(JwtUtil.class);
 
     @Value("${jwt.secret}")
     private String secret;
@@ -53,7 +57,14 @@ public class JwtUtil {
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
+        } catch (io.jsonwebtoken.ExpiredJwtException e) {
+            log.warn("JWT 已过期");
+            return null;
+        } catch (io.jsonwebtoken.JwtException e) {
+            log.warn("JWT 解析失败: {}", e.getMessage());
+            return null;
         } catch (Exception e) {
+            log.error("JWT 解析异常", e);
             return null;
         }
     }
@@ -84,6 +95,14 @@ public class JwtUtil {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    /**
+     * 从Token中获取openId
+     */
+    public String getOpenIdFromToken(String token) {
+        Claims claims = getClaimsFromToken(token);
+        return claims != null ? claims.get(AppConstants.Jwt.OPEN_ID, String.class) : null;
     }
 
     /**

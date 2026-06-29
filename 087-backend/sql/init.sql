@@ -198,10 +198,10 @@ INSERT INTO academic_term (term_name, start_date, end_date, current_flag, status
 ('2026-2027学年第一学期', '2026-09-01', '2027-01-15', 0, 1);
 
 INSERT INTO sys_user (username, password, real_name, phone, role, department_id, major_id, class_id, status) VALUES
-('admin', '123456', '系统管理员', '13800000001', 'admin', 1, NULL, NULL, 1),
-('teacher', '123456', '陈教师', '13800000002', 'teacher', 1, NULL, NULL, 1),
-('student', '123456', '王同学', '13800000003', 'student', 1, 1, 1, 1),
-('student2', '123456', '李同学', '13800000004', 'student', 1, 2, 2, 1);
+('admin', '$2a$12$R.IV.9RwmwsRlz/wRx06GuMXRbqJaF0GBNkIG6eMBgGGCx70XU/om', '系统管理员', '13800000001', 'admin', 1, NULL, NULL, 1),
+('teacher', '$2a$12$R.IV.9RwmwsRlz/wRx06GuMXRbqJaF0GBNkIG6eMBgGGCx70XU/om', '陈教师', '13800000002', 'teacher', 1, NULL, NULL, 1),
+('student', '$2a$12$R.IV.9RwmwsRlz/wRx06GuMXRbqJaF0GBNkIG6eMBgGGCx70XU/om', '王同学', '13800000003', 'student', 1, 1, 1, 1),
+('student2', '$2a$12$R.IV.9RwmwsRlz/wRx06GuMXRbqJaF0GBNkIG6eMBgGGCx70XU/om', '李同学', '13800000004', 'student', 1, 2, 2, 1);
 
 INSERT INTO course_info (course_name, course_code, department_id, teacher_id, credit, course_type, course_hours, course_desc, status) VALUES
 ('Java程序设计', 'CS101', 1, 2, 4.0, '必修', 64, '面向对象程序设计基础课程', 1),

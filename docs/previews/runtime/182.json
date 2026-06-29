@@ -1,0 +1,56 @@
+{
+  "project": {
+    "project_id": "182",
+    "name": "养老助餐配送排线与营养套餐管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "182-backend",
+    "frontend_dir": "182-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8182",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8182",
+      "pid": 61048
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3182",
+      "pid": 42248
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\182-backend.out.log",
+      "stderr": "logs\\project-preview\\182-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\182-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\182-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\182-frontend.out.log",
+      "stderr": "logs\\project-preview\\182-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 14:46:22",
+  "datasource_kind": "mysql",
+  "sql_file": "182-backend\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\182",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 14:48:19"
+}

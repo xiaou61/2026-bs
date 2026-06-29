@@ -53,11 +53,11 @@
   "services": {
     "backend": {
       "url": "http://127.0.0.1:8011",
-      "pid": 5252
+      "pid": 24752
     },
     "frontend": {
       "url": "http://127.0.0.1:5173",
-      "pid": 42504
+      "pid": 36068
     }
   },
   "logs": {
@@ -65,13 +65,20 @@
       "stdout": "logs\\project-preview\\011-backend.out.log",
       "stderr": "logs\\project-preview\\011-backend.err.log"
     },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\011-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\011-frontend-install.err.log"
+    },
     "frontend": {
       "stdout": "logs\\project-preview\\011-frontend.out.log",
       "stderr": "logs\\project-preview\\011-frontend.err.log"
     }
   },
   "status": "stopped",
-  "prepared_at": "2026-05-24 22:25:30",
+  "prepared_at": "2026-06-06 19:23:41",
+  "datasource_kind": "mysql",
+  "sql_file": "011-backend\\src\\main\\resources\\sql\\campus_video.sql",
   "capture_hints": {
     "roles": [
       {
@@ -109,5 +116,5 @@
     "screenshot_dir": "docs\\previews\\assets\\011",
     "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
   },
-  "stopped_at": "2026-05-24 22:26:16"
+  "stopped_at": "2026-06-06 19:26:28"
 }

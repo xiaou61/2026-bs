@@ -1,0 +1,253 @@
+{
+  "project_id": "018",
+  "mode": "single-project-fine-capture",
+  "started_at": "2026-06-07 14:15:29",
+  "old_images_removed": 15,
+  "backup_dir": "logs\\project-preview\\fine-backups\\018\\20260607-141529",
+  "logs": {
+    "prepare": "logs\\project-preview\\018-prepare.fine.log",
+    "render": "logs\\project-preview\\018-render.fine.log",
+    "docs_generate": "logs\\project-preview\\018-docs-generate.fine.log",
+    "stop": "logs\\project-preview\\018-stop.fine.log",
+    "cleanup": "logs\\project-preview\\018-cleanup.fine.log"
+  },
+  "roles": [],
+  "guest": [
+    {
+      "file": "guest-01-index.png",
+      "label": "guest: index",
+      "url": "http://127.0.0.1:5173/login",
+      "text_length": 70,
+      "size": 503955,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-02-register.png",
+      "label": "guest: register",
+      "url": "http://127.0.0.1:5173/register",
+      "text_length": 26,
+      "size": 473170,
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "project_specific": [
+    {
+      "file": "guest-10-login.png",
+      "label": "project 018: guest login",
+      "url": "http://127.0.0.1:5173/login",
+      "text_length": 70,
+      "size": 504122,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-11-register.png",
+      "label": "project 018: guest register",
+      "url": "http://127.0.0.1:5173/register",
+      "text_length": 26,
+      "size": 473170,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-10-jobs.png",
+      "label": "project 018: student job list",
+      "url": "http://127.0.0.1:5173/student/jobs",
+      "text_length": 279,
+      "size": 36339,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-11-job-detail.png",
+      "label": "project 018: student job detail",
+      "url": "http://127.0.0.1:5173/student/job/2",
+      "text_length": 216,
+      "size": 49410,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-12-apply-dialog.png",
+      "label": "project 018: student apply dialog",
+      "url": "http://127.0.0.1:5173/student/job/2",
+      "text_length": 237,
+      "size": 53756,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-13-resume.png",
+      "label": "project 018: student resume",
+      "url": "http://127.0.0.1:5173/student/resume",
+      "text_length": 105,
+      "size": 46539,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-14-applications.png",
+      "label": "project 018: student applications",
+      "url": "http://127.0.0.1:5173/student/applications",
+      "text_length": 212,
+      "size": 30242,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-15-interviews.png",
+      "label": "project 018: student interviews",
+      "url": "http://127.0.0.1:5173/student/interviews",
+      "text_length": 286,
+      "size": 33807,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-16-experiences.png",
+      "label": "project 018: student experiences",
+      "url": "http://127.0.0.1:5173/student/experiences",
+      "text_length": 118,
+      "size": 27639,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-18-referrals.png",
+      "label": "project 018: student referrals",
+      "url": "http://127.0.0.1:5173/student/referrals",
+      "text_length": 175,
+      "size": 28206,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-20-profile.png",
+      "label": "project 018: student profile",
+      "url": "http://127.0.0.1:5173/student/profile",
+      "text_length": 63,
+      "size": 21114,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-17-experience-dialog.png",
+      "label": "project 018: publish experience dialog",
+      "url": "http://127.0.0.1:5173/student/experiences",
+      "text_length": 157,
+      "size": 38706,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-19-referral-dialog.png",
+      "label": "project 018: publish referral dialog",
+      "url": "http://127.0.0.1:5173/student/referrals",
+      "text_length": 213,
+      "size": 35625,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-21-experience-detail.png",
+      "label": "project 018: experience detail",
+      "url": "http://127.0.0.1:5173/student/experience/1",
+      "text_length": 125,
+      "size": 30377,
+      "warnings": []
+    },
+    {
+      "file": "company-company1-10-jobs.png",
+      "label": "project 018: company job management",
+      "url": "http://127.0.0.1:5173/company/jobs",
+      "text_length": 209,
+      "size": 33576,
+      "warnings": []
+    },
+    {
+      "file": "company-company1-12-applications.png",
+      "label": "project 018: company received resumes",
+      "url": "http://127.0.0.1:5173/company/applications",
+      "text_length": 276,
+      "size": 39096,
+      "warnings": []
+    },
+    {
+      "file": "company-company1-16-interviews.png",
+      "label": "project 018: company interviews",
+      "url": "http://127.0.0.1:5173/company/interviews",
+      "text_length": 289,
+      "size": 35631,
+      "warnings": []
+    },
+    {
+      "file": "company-company1-18-company-info.png",
+      "label": "project 018: company profile",
+      "url": "http://127.0.0.1:5173/company/company-info",
+      "text_length": 90,
+      "size": 30148,
+      "warnings": []
+    },
+    {
+      "file": "company-company1-19-profile.png",
+      "label": "project 018: company user profile",
+      "url": "http://127.0.0.1:5173/company/profile",
+      "text_length": 60,
+      "size": 22734,
+      "warnings": []
+    },
+    {
+      "file": "company-company1-11-job-dialog.png",
+      "label": "project 018: company publish job dialog",
+      "url": "http://127.0.0.1:5173/company/jobs",
+      "text_length": 286,
+      "size": 48606,
+      "warnings": []
+    },
+    {
+      "file": "company-company1-13-resume-dialog.png",
+      "label": "project 018: company resume detail dialog",
+      "url": "http://127.0.0.1:5173/company/applications",
+      "text_length": 446,
+      "size": 54874,
+      "warnings": []
+    },
+    {
+      "file": "company-company1-14-status-dialog.png",
+      "label": "project 018: company application status dialog",
+      "url": "http://127.0.0.1:5173/company/applications",
+      "text_length": 298,
+      "size": 42192,
+      "warnings": []
+    },
+    {
+      "file": "company-company1-15-interview-dialog.png",
+      "label": "project 018: company arrange interview dialog",
+      "url": "http://127.0.0.1:5173/company/applications",
+      "text_length": 313,
+      "size": 43815,
+      "warnings": []
+    },
+    {
+      "file": "company-company1-17-feedback-dialog.png",
+      "label": "project 018: company feedback dialog",
+      "url": "http://127.0.0.1:5173/company/interviews",
+      "text_length": 314,
+      "size": 37170,
+      "warnings": []
+    },
+    {
+      "file": "admin-10-dashboard-pending.png",
+      "label": "project 018: admin pending company dashboard",
+      "url": "http://127.0.0.1:5173/admin/dashboard",
+      "text_length": 308,
+      "size": 46618,
+      "warnings": []
+    },
+    {
+      "file": "admin-11-dashboard-reviewed.png",
+      "label": "project 018: admin reviewed company dashboard",
+      "url": "http://127.0.0.1:5173/admin/dashboard",
+      "text_length": 308,
+      "size": 46927,
+      "warnings": []
+    }
+  ],
+  "image_count": 28,
+  "status": "completed",
+  "finished_at": "2026-06-07 14:18:00",
+  "stop_exit_code": 0,
+  "cleanup_exit_code": 0
+}

@@ -1,0 +1,56 @@
+{
+  "project": {
+    "project_id": "126",
+    "name": "家庭能源用电分析与节能建议平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "126-backend",
+    "frontend_dir": "126-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8126",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8126",
+      "pid": 53452
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3126",
+      "pid": 43284
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\126-backend.out.log",
+      "stderr": "logs\\project-preview\\126-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\126-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\126-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\126-frontend.out.log",
+      "stderr": "logs\\project-preview\\126-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 12:18:57",
+  "datasource_kind": "mysql",
+  "sql_file": "126-backend\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\126",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 12:21:04"
+}

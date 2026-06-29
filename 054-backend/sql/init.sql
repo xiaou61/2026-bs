@@ -217,10 +217,10 @@ CREATE TABLE notice (
 );
 
 INSERT INTO user (username, password, real_name, role, phone, region, status) VALUES
-('admin', '123456', '系统管理员', 'ADMIN', '13800000001', '全国', 1),
-('expert', '123456', '张专家', 'EXPERT', '13800000002', '山东省', 1),
-('tech', '123456', '李技术员', 'TECHNICIAN', '13800000003', '河南省', 1),
-('farmer', '123456', '王农户', 'FARMER', '13800000004', '河北省', 1);
+('admin', '$2a$12$OItdNWEouJkP/A7MIWr8IuHA5QlMyfyklc7MaZJ46vR4D/kk6MnYe', '系统管理员', 'ADMIN', '13800000001', '全国', 1),
+('expert', '$2a$12$OItdNWEouJkP/A7MIWr8IuHA5QlMyfyklc7MaZJ46vR4D/kk6MnYe', '张专家', 'EXPERT', '13800000002', '山东省', 1),
+('tech', '$2a$12$OItdNWEouJkP/A7MIWr8IuHA5QlMyfyklc7MaZJ46vR4D/kk6MnYe', '李技术员', 'TECHNICIAN', '13800000003', '河南省', 1),
+('farmer', '$2a$12$OItdNWEouJkP/A7MIWr8IuHA5QlMyfyklc7MaZJ46vR4D/kk6MnYe', '王农户', 'FARMER', '13800000004', '河北省', 1);
 
 INSERT INTO crop_category (name, parent_id, sort, description) VALUES
 ('粮食作物', 0, 1, '主要粮食作物'),

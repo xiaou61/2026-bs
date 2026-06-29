@@ -1,0 +1,83 @@
+{
+  "project": {
+    "project_id": "090",
+    "name": "戏曲文化苑系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "090-backend",
+    "frontend_dir": "090-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8090",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [
+      "文化看板",
+      "剧种分类管理",
+      "名家档案管理",
+      "场馆管理",
+      "文化专题管理",
+      "剧目管理",
+      "排期与行程",
+      "预约中心",
+      "数字资源",
+      "签到管理",
+      "研学评分管理",
+      "剧目赏析互动",
+      "公告中心"
+    ],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8090",
+      "pid": 3752
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3000",
+      "pid": 43604
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\090-backend.out.log",
+      "stderr": "logs\\project-preview\\090-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\090-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\090-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\090-frontend.out.log",
+      "stderr": "logs\\project-preview\\090-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 11:17:34",
+  "datasource_kind": "h2",
+  "capture_hints": {
+    "roles": [],
+    "routes": [
+      "文化看板",
+      "剧种分类管理",
+      "名家档案管理",
+      "场馆管理",
+      "文化专题管理",
+      "剧目管理",
+      "排期与行程",
+      "预约中心",
+      "数字资源",
+      "签到管理",
+      "研学评分管理",
+      "剧目赏析互动",
+      "公告中心"
+    ],
+    "screenshot_dir": "docs\\previews\\assets\\090",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 11:20:03"
+}

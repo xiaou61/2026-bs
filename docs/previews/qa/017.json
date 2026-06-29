@@ -1,0 +1,159 @@
+{
+  "project_id": "017",
+  "mode": "single-project-fine-capture",
+  "started_at": "2026-06-07 12:02:43",
+  "old_images_removed": 1,
+  "backup_dir": "logs\\project-preview\\fine-backups\\017\\20260607-120243",
+  "logs": {
+    "prepare": "logs\\project-preview\\017-prepare.fine.log",
+    "render": "logs\\project-preview\\017-render.fine.log",
+    "docs_generate": "logs\\project-preview\\017-docs-generate.fine.log",
+    "stop": "logs\\project-preview\\017-stop.fine.log",
+    "cleanup": "logs\\project-preview\\017-cleanup.fine.log"
+  },
+  "roles": [],
+  "guest": [
+    {
+      "file": "guest-01-home.png",
+      "label": "guest: home",
+      "url": "http://127.0.0.1:8080/index",
+      "text_length": 597,
+      "size": 279166,
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "project_specific": [
+    {
+      "file": "guest-10-index.png",
+      "label": "project 017: guest index",
+      "url": "http://127.0.0.1:8080/index",
+      "text_length": 597,
+      "size": 279166,
+      "warnings": []
+    },
+    {
+      "file": "guest-11-merchant-list.png",
+      "label": "project 017: guest merchant list",
+      "url": "http://127.0.0.1:8080/merchant/list",
+      "text_length": 176,
+      "size": 24546,
+      "warnings": []
+    },
+    {
+      "file": "guest-12-merchant-detail.png",
+      "label": "project 017: guest merchant detail",
+      "url": "http://127.0.0.1:8080/merchant/detail/1",
+      "text_length": 339,
+      "size": 53138,
+      "warnings": []
+    },
+    {
+      "file": "guest-13-user-login.png",
+      "label": "project 017: user login",
+      "url": "http://127.0.0.1:8080/user/login",
+      "text_length": 41,
+      "size": 484715,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-14-user-register.png",
+      "label": "project 017: user register",
+      "url": "http://127.0.0.1:8080/user/register",
+      "text_length": 58,
+      "size": 464549,
+      "warnings": []
+    },
+    {
+      "file": "guest-15-merchant-login.png",
+      "label": "project 017: merchant login",
+      "url": "http://127.0.0.1:8080/merchant/login",
+      "text_length": 29,
+      "size": 465887,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-16-admin-login.png",
+      "label": "project 017: admin login",
+      "url": "http://127.0.0.1:8080/admin/login",
+      "text_length": 29,
+      "size": 487256,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "user-20210001-13-orders-pending.png",
+      "label": "project 017: user pending orders",
+      "url": "http://127.0.0.1:8080/user/orders",
+      "text_length": 179,
+      "size": 37443,
+      "warnings": []
+    },
+    {
+      "file": "user-20210001-14-order-detail.png",
+      "label": "project 017: user order detail",
+      "url": "http://127.0.0.1:8080/user/orders",
+      "text_length": 241,
+      "size": 45861,
+      "warnings": []
+    },
+    {
+      "file": "merchant-13900000001-10-manage-pending.png",
+      "label": "project 017: merchant manage pending order",
+      "url": "http://127.0.0.1:8080/merchant/manage",
+      "text_length": 204,
+      "size": 45553,
+      "warnings": []
+    },
+    {
+      "file": "merchant-13900000001-11-manage-accepted.png",
+      "label": "project 017: merchant manage accepted order",
+      "url": "http://127.0.0.1:8080/merchant/manage",
+      "text_length": 207,
+      "size": 46122,
+      "warnings": []
+    },
+    {
+      "file": "merchant-13900000001-12-manage-ready.png",
+      "label": "project 017: merchant manage ready order",
+      "url": "http://127.0.0.1:8080/merchant/manage",
+      "text_length": 201,
+      "size": 44398,
+      "warnings": []
+    },
+    {
+      "file": "user-20210001-15-orders-ready.png",
+      "label": "project 017: user ready orders",
+      "url": "http://127.0.0.1:8080/user/orders",
+      "text_length": 179,
+      "size": 37782,
+      "warnings": []
+    },
+    {
+      "file": "user-20210001-16-orders-completed.png",
+      "label": "project 017: user completed orders",
+      "url": "http://127.0.0.1:8080/user/orders",
+      "text_length": 174,
+      "size": 36472,
+      "warnings": []
+    },
+    {
+      "file": "admin-10-dashboard.png",
+      "label": "project 017: admin dashboard statistics",
+      "url": "http://127.0.0.1:8080/admin/dashboard",
+      "text_length": 165,
+      "size": 80102,
+      "warnings": []
+    }
+  ],
+  "image_count": 16,
+  "status": "completed",
+  "finished_at": "2026-06-07 12:06:44",
+  "stop_exit_code": 0,
+  "cleanup_exit_code": 0
+}

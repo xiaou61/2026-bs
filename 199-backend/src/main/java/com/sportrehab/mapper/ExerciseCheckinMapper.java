@@ -26,6 +26,9 @@ public interface ExerciseCheckinMapper {
     @Delete("DELETE FROM exercise_checkin WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM exercise_checkin WHERE id=#{id}")
+    ExerciseCheckin selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM exercise_checkin")
     long countAll();
 

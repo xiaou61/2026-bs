@@ -3,7 +3,7 @@ package com.livebase.controller;
 import com.livebase.common.Result;
 import com.livebase.dto.LoginRequest;
 import com.livebase.entity.SysUser;
-import com.livebase.clerk.AuthService;
+import com.livebase.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

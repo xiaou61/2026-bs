@@ -26,6 +26,9 @@ public interface SettlementRecordMapper {
     @Delete("DELETE FROM settlement_record WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM settlement_record WHERE id = #{id}")
+    SettlementRecord selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM settlement_record")
     long countAll();
 

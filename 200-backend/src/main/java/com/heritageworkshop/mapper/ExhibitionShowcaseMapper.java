@@ -26,6 +26,9 @@ public interface ExhibitionShowcaseMapper {
     @Delete("DELETE FROM exhibition_showcase WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM exhibition_showcase WHERE id=#{id}")
+    ExhibitionShowcase selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM exhibition_showcase")
     long countAll();
 

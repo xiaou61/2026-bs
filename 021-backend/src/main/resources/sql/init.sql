@@ -7,7 +7,7 @@ USE campus_market;
 CREATE TABLE IF NOT EXISTS `user` (
   `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键',
   `username` VARCHAR(50) NOT NULL COMMENT '用户名',
-  `password` VARCHAR(200) NOT NULL COMMENT '密码(MD5加密)',
+  `password` VARCHAR(200) NOT NULL COMMENT '密码(BCrypt哈希)',
   `student_id` VARCHAR(20) NOT NULL COMMENT '学号',
   `real_name` VARCHAR(50) NOT NULL COMMENT '真实姓名',
   `college` VARCHAR(100) NOT NULL COMMENT '学院',

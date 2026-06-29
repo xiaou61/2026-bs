@@ -26,6 +26,9 @@ public interface ScheduleDispatchMapper {
     @Delete("DELETE FROM schedule_dispatch WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM schedule_dispatch WHERE id = #{id}")
+    ScheduleDispatch selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM schedule_dispatch")
     long countAll();
 

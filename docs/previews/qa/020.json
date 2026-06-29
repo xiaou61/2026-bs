@@ -1,0 +1,237 @@
+{
+  "project_id": "020",
+  "mode": "single-project-fine-capture",
+  "started_at": "2026-06-07 14:47:28",
+  "old_images_removed": 2,
+  "backup_dir": "logs\\project-preview\\fine-backups\\020\\20260607-144728",
+  "logs": {
+    "prepare": "logs\\project-preview\\020-prepare.fine.log",
+    "render": "logs\\project-preview\\020-render.fine.log",
+    "docs_generate": "logs\\project-preview\\020-docs-generate.fine.log",
+    "stop": "logs\\project-preview\\020-stop.fine.log",
+    "cleanup": "logs\\project-preview\\020-cleanup.fine.log"
+  },
+  "roles": [],
+  "guest": [
+    {
+      "file": "guest-01-index.png",
+      "label": "guest: index",
+      "url": "http://127.0.0.1:5020/login",
+      "text_length": 71,
+      "size": 416076,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-02-register.png",
+      "label": "guest: register",
+      "url": "http://127.0.0.1:5020/register",
+      "text_length": 32,
+      "size": 476396,
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "project_specific": [
+    {
+      "file": "guest-10-login.png",
+      "label": "project 020: guest login",
+      "url": "http://127.0.0.1:5020/login",
+      "text_length": 71,
+      "size": 416074,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-11-register.png",
+      "label": "project 020: guest register",
+      "url": "http://127.0.0.1:5020/register",
+      "text_length": 32,
+      "size": 476396,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-10-home.png",
+      "label": "project 020: student dashboard",
+      "url": "http://127.0.0.1:5020/home",
+      "text_length": 349,
+      "size": 63332,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-11-resources.png",
+      "label": "project 020: resource list",
+      "url": "http://127.0.0.1:5020/resource",
+      "text_length": 572,
+      "size": 63879,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-12-resource-detail.png",
+      "label": "project 020: resource detail with rating",
+      "url": "http://127.0.0.1:5020/resource/7",
+      "text_length": 277,
+      "size": 54545,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-13-resource-upload.png",
+      "label": "project 020: resource upload form",
+      "url": "http://127.0.0.1:5020/resource/upload",
+      "text_length": 117,
+      "size": 41801,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-14-groups.png",
+      "label": "project 020: group list",
+      "url": "http://127.0.0.1:5020/group",
+      "text_length": 203,
+      "size": 37111,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-16-group-detail.png",
+      "label": "project 020: group detail and members",
+      "url": "http://127.0.0.1:5020/group/4",
+      "text_length": 186,
+      "size": 38726,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-17-question-list.png",
+      "label": "project 020: question bank",
+      "url": "http://127.0.0.1:5020/question",
+      "text_length": 256,
+      "size": 42646,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-19-question-practice.png",
+      "label": "project 020: question practice",
+      "url": "http://127.0.0.1:5020/question/practice",
+      "text_length": 67,
+      "size": 21251,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-20-wrong-questions.png",
+      "label": "project 020: wrong question list",
+      "url": "http://127.0.0.1:5020/question/wrong",
+      "text_length": 129,
+      "size": 26363,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-21-qa-list.png",
+      "label": "project 020: Q&A list",
+      "url": "http://127.0.0.1:5020/qa",
+      "text_length": 361,
+      "size": 61462,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-22-qa-detail.png",
+      "label": "project 020: Q&A detail with answer",
+      "url": "http://127.0.0.1:5020/qa/4",
+      "text_length": 224,
+      "size": 52409,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-23-qa-ask.png",
+      "label": "project 020: ask question form",
+      "url": "http://127.0.0.1:5020/qa/ask",
+      "text_length": 86,
+      "size": 29867,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-24-notes.png",
+      "label": "project 020: note list",
+      "url": "http://127.0.0.1:5020/note",
+      "text_length": 322,
+      "size": 52392,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-25-note-detail.png",
+      "label": "project 020: note detail",
+      "url": "http://127.0.0.1:5020/note/5",
+      "text_length": 141,
+      "size": 35198,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-26-note-edit.png",
+      "label": "project 020: note edit form",
+      "url": "http://127.0.0.1:5020/note/edit",
+      "text_length": 76,
+      "size": 33311,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-27-profile.png",
+      "label": "project 020: profile",
+      "url": "http://127.0.0.1:5020/profile",
+      "text_length": 124,
+      "size": 37871,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-15-group-create-dialog.png",
+      "label": "project 020: group create dialog",
+      "url": "http://127.0.0.1:5020/group",
+      "text_length": 242,
+      "size": 44239,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-18-question-detail-dialog.png",
+      "label": "project 020: question detail dialog",
+      "url": "http://127.0.0.1:5020/question",
+      "text_length": 392,
+      "size": 57453,
+      "warnings": []
+    },
+    {
+      "file": "teacher-teacher1-10-home.png",
+      "label": "project 020: teacher dashboard",
+      "url": "http://127.0.0.1:5020/home",
+      "text_length": 349,
+      "size": 64375,
+      "warnings": []
+    },
+    {
+      "file": "teacher-teacher1-11-qa-detail.png",
+      "label": "project 020: teacher Q&A detail",
+      "url": "http://127.0.0.1:5020/qa/4",
+      "text_length": 221,
+      "size": 52136,
+      "warnings": []
+    },
+    {
+      "file": "admin-admin-10-home.png",
+      "label": "project 020: admin dashboard",
+      "url": "http://127.0.0.1:5020/home",
+      "text_length": 350,
+      "size": 64386,
+      "warnings": []
+    },
+    {
+      "file": "admin-admin-11-profile.png",
+      "label": "project 020: admin profile",
+      "url": "http://127.0.0.1:5020/profile",
+      "text_length": 120,
+      "size": 38563,
+      "warnings": []
+    }
+  ],
+  "image_count": 26,
+  "status": "completed",
+  "finished_at": "2026-06-07 14:50:11",
+  "stop_exit_code": 0,
+  "cleanup_exit_code": 0
+}

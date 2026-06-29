@@ -26,6 +26,9 @@ public interface CourseBookingMapper {
     @Delete("DELETE FROM course_booking WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM course_booking WHERE id=#{id}")
+    CourseBooking selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM course_booking")
     long countAll();
 

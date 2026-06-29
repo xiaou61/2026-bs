@@ -23,6 +23,9 @@ public interface PurchaseRecordMapper {
     @Update("UPDATE purchase_record SET record_no=#{recordNo},record_name=#{recordName},category=#{category},owner_name=#{ownerName},plan_time=#{planTime},status=#{status},remark=#{remark},updated_time=NOW() WHERE id=#{id}")
     int update(PurchaseRecord entity);
 
+    @Select("SELECT * FROM purchase_record WHERE id = #{id}")
+    PurchaseRecord selectById(Long id);
+
     @Delete("DELETE FROM purchase_record WHERE id=#{id}")
     int deleteById(Long id);
 

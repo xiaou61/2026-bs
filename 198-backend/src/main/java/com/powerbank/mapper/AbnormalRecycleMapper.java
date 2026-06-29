@@ -23,6 +23,9 @@ public interface AbnormalRecycleMapper {
     @Update("UPDATE abnormal_recycle SET record_no=#{recordNo},record_name=#{recordName},category=#{category},owner_name=#{ownerName},plan_time=#{planTime},status=#{status},remark=#{remark},updated_time=NOW() WHERE id=#{id}")
     int update(AbnormalRecycle entity);
 
+    @Select("SELECT * FROM abnormal_recycle WHERE id = #{id}")
+    AbnormalRecycle selectById(Long id);
+
     @Delete("DELETE FROM abnormal_recycle WHERE id=#{id}")
     int deleteById(Long id);
 

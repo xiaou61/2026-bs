@@ -1,0 +1,56 @@
+{
+  "project": {
+    "project_id": "106",
+    "name": "DevOps 发布审批与回滚管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "106-backend",
+    "frontend_dir": "106-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8106",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8106",
+      "pid": 50616
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3106",
+      "pid": 39344
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\106-backend.out.log",
+      "stderr": "logs\\project-preview\\106-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\106-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\106-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\106-frontend.out.log",
+      "stderr": "logs\\project-preview\\106-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 11:31:58",
+  "datasource_kind": "mysql",
+  "sql_file": "106-backend\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\106",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 11:34:04"
+}

@@ -26,6 +26,9 @@ public interface CourseCatalogMapper {
     @Delete("DELETE FROM course_catalog WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM course_catalog WHERE id=#{id}")
+    CourseCatalog selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM course_catalog")
     long countAll();
 

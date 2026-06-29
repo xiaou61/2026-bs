@@ -13,7 +13,32 @@
       "backend": "http://127.0.0.1:8013",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "系统管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "test1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "test4",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "test7",
+        "password": "123456"
+      }
+    ],
     "routes": [
       "登录",
       "注册",
@@ -38,16 +63,18 @@
       "物品审核",
       "共享物品管理"
     ],
-    "readme_sources": []
+    "readme_sources": [
+      "013-backend\\ACCOUNTS.md"
+    ]
   },
   "services": {
     "backend": {
       "url": "http://127.0.0.1:8013",
-      "pid": 42236
+      "pid": 28636
     },
     "frontend": {
       "url": "http://127.0.0.1:5013",
-      "pid": 2092
+      "pid": 45200
     }
   },
   "logs": {
@@ -55,16 +82,51 @@
       "stdout": "logs\\project-preview\\013-backend.out.log",
       "stderr": "logs\\project-preview\\013-backend.err.log"
     },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\013-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\013-frontend-install.err.log"
+    },
     "frontend": {
       "stdout": "logs\\project-preview\\013-frontend.out.log",
       "stderr": "logs\\project-preview\\013-frontend.err.log"
     }
   },
   "status": "stopped",
-  "prepared_at": "2026-05-24 22:26:26",
+  "prepared_at": "2026-06-06 20:02:29",
+  "datasource_kind": "mysql",
   "sql_file": "013-backend\\src\\main\\resources\\sql\\schema.sql",
+  "sql_files": [
+    "013-backend\\src\\main\\resources\\sql\\schema.sql",
+    "013-backend\\src\\main\\resources\\sql\\init_data.sql"
+  ],
   "capture_hints": {
-    "roles": [],
+    "roles": [
+      {
+        "role_key": "admin",
+        "role_label": "系统管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "test1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "test4",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "test7",
+        "password": "123456"
+      }
+    ],
     "routes": [
       "登录",
       "注册",
@@ -92,5 +154,5 @@
     "screenshot_dir": "docs\\previews\\assets\\013",
     "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
   },
-  "stopped_at": "2026-05-24 22:27:45"
+  "stopped_at": "2026-06-06 20:05:53"
 }

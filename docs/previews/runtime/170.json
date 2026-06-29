@@ -1,0 +1,56 @@
+{
+  "project": {
+    "project_id": "170",
+    "name": "养老机构床位分配与护理记录管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "170-backend",
+    "frontend_dir": "170-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8170",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8170",
+      "pid": 44176
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3170",
+      "pid": 44048
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\170-backend.out.log",
+      "stderr": "logs\\project-preview\\170-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\170-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\170-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\170-frontend.out.log",
+      "stderr": "logs\\project-preview\\170-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 14:20:24",
+  "datasource_kind": "mysql",
+  "sql_file": "170-backend\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\170",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 14:22:36"
+}

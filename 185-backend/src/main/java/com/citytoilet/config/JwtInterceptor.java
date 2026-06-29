@@ -1,7 +1,7 @@
 package com.citytoilet.config;
 
 import com.citytoilet.common.BusinessException;
-import com.citytoilet.clerk.TokenService;
+import com.citytoilet.service.TokenService;
 import com.citytoilet.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;

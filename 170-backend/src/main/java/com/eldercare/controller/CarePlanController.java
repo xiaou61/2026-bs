@@ -3,9 +3,8 @@ package com.eldercare.controller;
 import com.github.pagehelper.PageInfo;
 import com.eldercare.common.Result;
 import com.eldercare.entity.CarePlan;
-import com.eldercare.clerk.AuthService;
-import com.eldercare.clerk.CarePlanService;
-import lombok.RequiredArgsConstructor;
+import com.eldercare.service.AuthService;
+import com.eldercare.service.CarePlanService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,49 +18,53 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/plan")
-@RequiredArgsConstructor
-public class CarePlanController {
-    private final AuthService authService;
-    private final CarePlanService clerk;
+public class CarePlanController extends BaseController {
+    private final CarePlanService service;
+    private static final String[] WRITE_ROLES = {"ADMIN", "NURSING", "CAREGIVER", "DIRECTOR"};
+
+    public CarePlanController(AuthService authService, CarePlanService service) {
+        super(authService);
+        this.service = service;
+    }
 
     @GetMapping("/page")
     public Result<PageInfo<CarePlan>> page(@RequestAttribute("role") String role, @RequestParam(required = false) Integer pageNum, @RequestParam(required = false) Integer pageSize, @RequestParam(required = false) String keyword, @RequestParam(required = false) String status) {
-        authService.assertAuthenticated(role);
-        return Result.success(clerk.page(pageNum, pageSize, keyword, status));
+        checkAuthenticated(role);
+        return Result.success(service.page(pageNum, pageSize, keyword, status));
     }
 
     @PostMapping
     public Result<Void> add(@RequestAttribute("role") String role, @RequestBody CarePlan entity) {
-        authService.assertAnyRole(role, "ADMIN", "NURSING", "CAREGIVER", "DIRECTOR");
-        clerk.save(entity);
+        checkAnyRole(role, WRITE_ROLES);
+        service.save(entity);
         return Result.success();
     }
 
     @PutMapping
     public Result<Void> update(@RequestAttribute("role") String role, @RequestBody CarePlan entity) {
-        authService.assertAnyRole(role, "ADMIN", "NURSING", "CAREGIVER", "DIRECTOR");
-        clerk.save(entity);
+        checkAnyRole(role, WRITE_ROLES);
+        service.save(entity);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
     public Result<Void> delete(@RequestAttribute("role") String role, @PathVariable Long id) {
-        authService.assertAdmin(role);
-        clerk.delete(id);
+        checkAdmin(role);
+        service.delete(id);
         return Result.success();
     }
 
     @PutMapping("/process/{id}")
     public Result<Void> process(@RequestAttribute("role") String role, @PathVariable Long id) {
-        authService.assertAnyRole(role, "ADMIN", "NURSING", "CAREGIVER", "DIRECTOR");
-        clerk.updateStatus(id, "PROCESSING");
+        checkAnyRole(role, WRITE_ROLES);
+        service.updateStatus(id, "PROCESSING");
         return Result.success();
     }
 
     @PutMapping("/finish/{id}")
     public Result<Void> finish(@RequestAttribute("role") String role, @PathVariable Long id) {
-        authService.assertAnyRole(role, "ADMIN", "NURSING", "CAREGIVER", "DIRECTOR");
-        clerk.updateStatus(id, "FINISHED");
+        checkAnyRole(role, WRITE_ROLES);
+        service.updateStatus(id, "FINISHED");
         return Result.success();
     }
 }

@@ -26,6 +26,9 @@ public interface CreditEvaluationMapper {
     @Delete("DELETE FROM credit_evaluation WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM credit_evaluation WHERE id = #{id}")
+    CreditEvaluation selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM credit_evaluation")
     long countAll();
 

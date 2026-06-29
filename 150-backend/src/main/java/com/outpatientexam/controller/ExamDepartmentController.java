@@ -5,7 +5,6 @@ import com.outpatientexam.common.Result;
 import com.outpatientexam.entity.ExamDepartment;
 import com.outpatientexam.service.AuthService;
 import com.outpatientexam.service.ExamDepartmentService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,10 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/department")
-@RequiredArgsConstructor
-public class ExamDepartmentController {
-    private final AuthService authService;
+public class ExamDepartmentController extends BaseController {
     private final ExamDepartmentService service;
+
+    public ExamDepartmentController(AuthService authService, ExamDepartmentService service) {
+        super(authService);
+        this.service = service;
+    }
 
     @GetMapping("/page")
     public Result<PageInfo<ExamDepartment>> page(@RequestAttribute("role") String role,
@@ -30,41 +32,41 @@ public class ExamDepartmentController {
                                                  @RequestParam(required = false) Integer pageSize,
                                                  @RequestParam(required = false) String keyword,
                                                  @RequestParam(required = false) String status) {
-        authService.assertAnyRole(role, "ADMIN", "DOCTOR", "TECHNICIAN");
+        checkAnyRole(role, "ADMIN", "DOCTOR", "TECHNICIAN");
         return Result.success(service.page(pageNum, pageSize, keyword, status));
     }
 
     @PostMapping
     public Result<Void> add(@RequestAttribute("role") String role, @RequestBody ExamDepartment entity) {
-        authService.assertAnyRole(role, "ADMIN", "TECHNICIAN");
+        checkAnyRole(role, "ADMIN", "TECHNICIAN");
         service.save(entity);
         return Result.success();
     }
 
     @PutMapping
     public Result<Void> update(@RequestAttribute("role") String role, @RequestBody ExamDepartment entity) {
-        authService.assertAnyRole(role, "ADMIN", "TECHNICIAN");
+        checkAnyRole(role, "ADMIN", "TECHNICIAN");
         service.save(entity);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
     public Result<Void> delete(@RequestAttribute("role") String role, @PathVariable Long id) {
-        authService.assertAnyRole(role, "ADMIN", "TECHNICIAN");
+        checkAnyRole(role, "ADMIN", "TECHNICIAN");
         service.delete(id);
         return Result.success();
     }
 
     @PutMapping("/submit/{id}")
     public Result<Void> submit(@RequestAttribute("role") String role, @PathVariable Long id) {
-        authService.assertAnyRole(role, "ADMIN", "TECHNICIAN");
+        checkAnyRole(role, "ADMIN", "TECHNICIAN");
         service.updateStatus(id, "SUBMITTED");
         return Result.success();
     }
 
     @PutMapping("/approve/{id}")
     public Result<Void> approve(@RequestAttribute("role") String role, @PathVariable Long id) {
-        authService.assertAnyRole(role, "ADMIN", "DOCTOR");
+        checkAnyRole(role, "ADMIN", "DOCTOR");
         service.updateStatus(id, "APPROVED");
         return Result.success();
     }

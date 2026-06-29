@@ -16,3 +16,7 @@ mybatis:
 pagehelper:
   helper-dialect: mysql
   reasonable: true
+
+jwt:
+  secret: smart-warehouse-agv-118-secret-key-32chars
+  expire: 86400000

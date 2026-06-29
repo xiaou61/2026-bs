@@ -26,6 +26,9 @@ public interface RehabFeedbackMapper {
     @Delete("DELETE FROM rehab_feedback WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM rehab_feedback WHERE id=#{id}")
+    RehabFeedback selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM rehab_feedback")
     long countAll();
 

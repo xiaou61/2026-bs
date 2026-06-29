@@ -26,6 +26,9 @@ public interface ServiceBookingMapper {
     @Delete("DELETE FROM service_booking WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM service_booking WHERE id = #{id}")
+    ServiceBooking selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM service_booking")
     long countAll();
 

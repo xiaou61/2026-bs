@@ -26,6 +26,9 @@ public interface InheritorProfileMapper {
     @Delete("DELETE FROM inheritor_profile WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM inheritor_profile WHERE id=#{id}")
+    InheritorProfile selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM inheritor_profile")
     long countAll();
 

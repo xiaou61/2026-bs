@@ -122,11 +122,11 @@ CREATE TABLE `notice` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='公告表';
 
 INSERT INTO `user` (`username`, `password`, `role`, `real_name`, `phone`, `address`, `status`) VALUES
-('admin', '0192023a7bbd73250516f069df18b500', 'admin', '系统管理员', '13800138000', '北京市', 1),
-('farmer1', '0192023a7bbd73250516f069df18b500', 'farmer', '张三', '13800138001', '山东省寿光市', 1),
-('farmer2', '0192023a7bbd73250516f069df18b500', 'farmer', '李四', '13800138002', '河南省周口市', 1),
-('buyer1', '0192023a7bbd73250516f069df18b500', 'buyer', '王五', '13800138003', '上海市浦东新区', 1),
-('buyer2', '0192023a7bbd73250516f069df18b500', 'buyer', '赵六', '13800138004', '广州市天河区', 1);
+('admin', '$2a$12$07RQAJp0zt3W0Msq6c4.yu54owJ.xHE3VFcU3omMh1VsxNNguFFx2', 'admin', '系统管理员', '13800138000', '北京市', 1),
+('farmer1', '$2a$12$07RQAJp0zt3W0Msq6c4.yu54owJ.xHE3VFcU3omMh1VsxNNguFFx2', 'farmer', '张三', '13800138001', '山东省寿光市', 1),
+('farmer2', '$2a$12$07RQAJp0zt3W0Msq6c4.yu54owJ.xHE3VFcU3omMh1VsxNNguFFx2', 'farmer', '李四', '13800138002', '河南省周口市', 1),
+('buyer1', '$2a$12$07RQAJp0zt3W0Msq6c4.yu54owJ.xHE3VFcU3omMh1VsxNNguFFx2', 'buyer', '王五', '13800138003', '上海市浦东新区', 1),
+('buyer2', '$2a$12$07RQAJp0zt3W0Msq6c4.yu54owJ.xHE3VFcU3omMh1VsxNNguFFx2', 'buyer', '赵六', '13800138004', '广州市天河区', 1);
 
 INSERT INTO `category` (`name`, `parent_id`, `sort_order`) VALUES
 ('蔬菜', 0, 1),

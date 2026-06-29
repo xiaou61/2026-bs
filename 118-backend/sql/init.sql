@@ -17,10 +17,10 @@ CREATE TABLE sys_user (
 );
 
 INSERT INTO sys_user (username, password, nickname, role, department, phone, email, status, created_time, updated_time) VALUES
-('admin', '123456', '系统管理员', 'ADMIN', '仓储调度中心', '13800001801', 'admin@warehouse.local', 1, NOW(), NOW()),
-('dispatcher', '123456', '调度员', 'DISPATCHER', '任务调度组', '13800001802', 'dispatcher@warehouse.local', 1, NOW(), NOW()),
-('warehouse', '123456', '仓管员', 'WAREHOUSE', '库存运营组', '13800001803', 'warehouse@warehouse.local', 1, NOW(), NOW()),
-('maintainer', '123456', '维保员', 'MAINTAINER', '设备维保组', '13800001804', 'maintainer@warehouse.local', 1, NOW(), NOW());
+('admin', '$2a$12$vZD7yamqJB3/iroZO.Bjh.2ISslYYmI.95upo4dNNJ0H8vVHN.ot6', '系统管理员', 'ADMIN', '仓储调度中心', '13800001801', 'admin@warehouse.local', 1, NOW(), NOW()),
+('dispatcher', '$2a$12$vZD7yamqJB3/iroZO.Bjh.2ISslYYmI.95upo4dNNJ0H8vVHN.ot6', '调度员', 'DISPATCHER', '任务调度组', '13800001802', 'dispatcher@warehouse.local', 1, NOW(), NOW()),
+('warehouse', '$2a$12$vZD7yamqJB3/iroZO.Bjh.2ISslYYmI.95upo4dNNJ0H8vVHN.ot6', '仓管员', 'WAREHOUSE', '库存运营组', '13800001803', 'warehouse@warehouse.local', 1, NOW(), NOW()),
+('maintainer', '$2a$12$vZD7yamqJB3/iroZO.Bjh.2ISslYYmI.95upo4dNNJ0H8vVHN.ot6', '维保员', 'MAINTAINER', '设备维保组', '13800001804', 'maintainer@warehouse.local', 1, NOW(), NOW());
 
 CREATE TABLE warehouse_zone (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,

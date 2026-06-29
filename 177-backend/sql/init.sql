@@ -16,12 +16,12 @@ CREATE TABLE sys_user (
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 INSERT INTO sys_user (username, password, nickname, role, department, phone, email, status, created_time, updated_time) VALUES
-('admin', '123456', '系统管理员', 'ADMIN', '直播基地运营中心', '13917700001', 'admin@livebase177.local', 1, NOW(), NOW()),
-('base', '123456', '基地运营', 'BASE', '直播基地运营中心', '13917700002', 'base@livebase177.local', 1, NOW(), NOW()),
-('anchor', '123456', '主播', 'ANCHOR', '直播基地运营中心', '13917700003', 'anchor@livebase177.local', 1, NOW(), NOW()),
-('selector', '123456', '选品专员', 'SELECTOR', '直播基地运营中心', '13917700004', 'selector@livebase177.local', 1, NOW(), NOW()),
-('sample', '123456', '样品管理员', 'SAMPLE', '直播基地运营中心', '13917700005', 'sample@livebase177.local', 1, NOW(), NOW()),
-('merchant', '123456', '商家代表', 'MERCHANT', '直播基地运营中心', '13917700006', 'merchant@livebase177.local', 1, NOW(), NOW());
+('admin', '$2a$12$m41tWJee9w5MEhyHM9HJOO7uCUFMbh4g6hK/ZT.JV8A3yZjMaF5QO', '系统管理员', 'ADMIN', '直播基地运营中心', '13917700001', 'admin@livebase177.local', 1, NOW(), NOW()),
+('base', '$2a$12$m41tWJee9w5MEhyHM9HJOO7uCUFMbh4g6hK/ZT.JV8A3yZjMaF5QO', '基地运营', 'BASE', '直播基地运营中心', '13917700002', 'base@livebase177.local', 1, NOW(), NOW()),
+('anchor', '$2a$12$m41tWJee9w5MEhyHM9HJOO7uCUFMbh4g6hK/ZT.JV8A3yZjMaF5QO', '主播', 'ANCHOR', '直播基地运营中心', '13917700003', 'anchor@livebase177.local', 1, NOW(), NOW()),
+('selector', '$2a$12$m41tWJee9w5MEhyHM9HJOO7uCUFMbh4g6hK/ZT.JV8A3yZjMaF5QO', '选品专员', 'SELECTOR', '直播基地运营中心', '13917700004', 'selector@livebase177.local', 1, NOW(), NOW()),
+('sample', '$2a$12$m41tWJee9w5MEhyHM9HJOO7uCUFMbh4g6hK/ZT.JV8A3yZjMaF5QO', '样品管理员', 'SAMPLE', '直播基地运营中心', '13917700005', 'sample@livebase177.local', 1, NOW(), NOW()),
+('merchant', '$2a$12$m41tWJee9w5MEhyHM9HJOO7uCUFMbh4g6hK/ZT.JV8A3yZjMaF5QO', '商家代表', 'MERCHANT', '直播基地运营中心', '13917700006', 'merchant@livebase177.local', 1, NOW(), NOW());
 
 CREATE TABLE live_studio (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,

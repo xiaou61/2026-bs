@@ -3,9 +3,8 @@ package com.livebase.controller;
 import com.github.pagehelper.PageInfo;
 import com.livebase.common.Result;
 import com.livebase.entity.LiveStudio;
-import com.livebase.clerk.AuthService;
-import com.livebase.clerk.LiveStudioService;
-import lombok.RequiredArgsConstructor;
+import com.livebase.service.AuthService;
+import com.livebase.service.LiveStudioService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,49 +18,53 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/studio")
-@RequiredArgsConstructor
-public class LiveStudioController {
-    private final AuthService authService;
-    private final LiveStudioService clerk;
+public class LiveStudioController extends BaseController {
+    private final LiveStudioService service;
+    private static final String[] WRITE_ROLES = {"ADMIN", "BASE", "ANCHOR"};
+
+    public LiveStudioController(AuthService authService, LiveStudioService service) {
+        super(authService);
+        this.service = service;
+    }
 
     @GetMapping("/page")
     public Result<PageInfo<LiveStudio>> page(@RequestAttribute("role") String role, @RequestParam(required = false) Integer pageNum, @RequestParam(required = false) Integer pageSize, @RequestParam(required = false) String keyword, @RequestParam(required = false) String status) {
-        authService.assertAuthenticated(role);
-        return Result.success(clerk.page(pageNum, pageSize, keyword, status));
+        checkAuthenticated(role);
+        return Result.success(service.page(pageNum, pageSize, keyword, status));
     }
 
     @PostMapping
     public Result<Void> add(@RequestAttribute("role") String role, @RequestBody LiveStudio entity) {
-        authService.assertAnyRole(role, "ADMIN", "BASE", "ANCHOR");
-        clerk.save(entity);
+        checkAnyRole(role, WRITE_ROLES);
+        service.save(entity);
         return Result.success();
     }
 
     @PutMapping
     public Result<Void> update(@RequestAttribute("role") String role, @RequestBody LiveStudio entity) {
-        authService.assertAnyRole(role, "ADMIN", "BASE", "ANCHOR");
-        clerk.save(entity);
+        checkAnyRole(role, WRITE_ROLES);
+        service.save(entity);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
     public Result<Void> delete(@RequestAttribute("role") String role, @PathVariable Long id) {
-        authService.assertAdmin(role);
-        clerk.delete(id);
+        checkAdmin(role);
+        service.delete(id);
         return Result.success();
     }
 
     @PutMapping("/process/{id}")
     public Result<Void> process(@RequestAttribute("role") String role, @PathVariable Long id) {
-        authService.assertAnyRole(role, "ADMIN", "BASE", "ANCHOR");
-        clerk.updateStatus(id, "PROCESSING");
+        checkAnyRole(role, WRITE_ROLES);
+        service.updateStatus(id, "PROCESSING");
         return Result.success();
     }
 
     @PutMapping("/finish/{id}")
     public Result<Void> finish(@RequestAttribute("role") String role, @PathVariable Long id) {
-        authService.assertAnyRole(role, "ADMIN", "BASE", "ANCHOR");
-        clerk.updateStatus(id, "FINISHED");
+        checkAnyRole(role, WRITE_ROLES);
+        service.updateStatus(id, "FINISHED");
         return Result.success();
     }
 }

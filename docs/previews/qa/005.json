@@ -1,0 +1,221 @@
+{
+  "project_id": "005",
+  "mode": "single-project-fine-capture",
+  "started_at": "2026-06-06 17:29:16",
+  "old_images_removed": 9,
+  "backup_dir": "logs\\project-preview\\fine-backups\\005\\20260606-172916",
+  "logs": {
+    "prepare": "logs\\project-preview\\005-prepare.fine.log",
+    "render": "logs\\project-preview\\005-render.fine.log",
+    "docs_generate": "logs\\project-preview\\005-docs-generate.fine.log",
+    "stop": "logs\\project-preview\\005-stop.fine.log",
+    "cleanup": "logs\\project-preview\\005-cleanup.fine.log"
+  },
+  "roles": [
+    {
+      "role": "admin",
+      "username": "admin",
+      "file_prefix": "admin",
+      "login_ok": true,
+      "visible_menus": [],
+      "screenshots": [
+        {
+          "file": "admin-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8085/dashboard",
+          "text_length": 46,
+          "size": 17417,
+          "warnings": [
+            "image file is unusually small"
+          ]
+        },
+        {
+          "file": "admin-02-创建问卷.png",
+          "label": "action: 创建问卷",
+          "url": "http://127.0.0.1:8085/survey/create",
+          "text_length": 19,
+          "size": 15744,
+          "warnings": [
+            "visible text is very short",
+            "image file is unusually small"
+          ]
+        }
+      ],
+      "warnings": [
+        "no visible menu items detected"
+      ]
+    },
+    {
+      "role": "user",
+      "username": "user1",
+      "file_prefix": "user-user1",
+      "login_ok": true,
+      "visible_menus": [],
+      "screenshots": [
+        {
+          "file": "user-user1-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8085/dashboard",
+          "text_length": 33,
+          "size": 15685,
+          "warnings": [
+            "image file is unusually small"
+          ]
+        }
+      ],
+      "warnings": [
+        "no visible menu items detected"
+      ]
+    },
+    {
+      "role": "user",
+      "username": "user2",
+      "file_prefix": "user-user2",
+      "login_ok": true,
+      "visible_menus": [],
+      "screenshots": [
+        {
+          "file": "user-user2-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8085/dashboard",
+          "text_length": 33,
+          "size": 15681,
+          "warnings": [
+            "image file is unusually small"
+          ]
+        }
+      ],
+      "warnings": [
+        "no visible menu items detected"
+      ]
+    }
+  ],
+  "guest": [
+    {
+      "file": "guest-01-login.png",
+      "label": "guest: login",
+      "url": "http://127.0.0.1:8085/login",
+      "text_length": 26,
+      "size": 485684,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-02-login.png",
+      "label": "guest: login",
+      "url": "http://127.0.0.1:8085/login.html",
+      "text_length": 67,
+      "size": 7194,
+      "warnings": [
+        "image file is unusually small",
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-03-register.png",
+      "label": "guest: register",
+      "url": "http://127.0.0.1:8085/register",
+      "text_length": 31,
+      "size": 478211,
+      "warnings": []
+    },
+    {
+      "file": "guest-04-register.png",
+      "label": "guest: register",
+      "url": "http://127.0.0.1:8085/register.html",
+      "text_length": 70,
+      "size": 7225,
+      "warnings": [
+        "image file is unusually small"
+      ]
+    },
+    {
+      "file": "guest-05-home.png",
+      "label": "guest: home",
+      "url": "http://127.0.0.1:8085/",
+      "text_length": 34,
+      "size": 514575,
+      "warnings": []
+    },
+    {
+      "file": "guest-06-products.png",
+      "label": "guest: products",
+      "url": "http://127.0.0.1:8085/products.html",
+      "text_length": 70,
+      "size": 7214,
+      "warnings": [
+        "image file is unusually small"
+      ]
+    }
+  ],
+  "warnings": [],
+  "project_specific": [
+    {
+      "file": "admin-10-create-form.png",
+      "label": "project 005: create survey form",
+      "url": "http://127.0.0.1:8085/survey/create",
+      "text_length": 19,
+      "size": 15744,
+      "warnings": [
+        "visible text is very short",
+        "image file is unusually small"
+      ]
+    },
+    {
+      "file": "admin-11-dashboard-draft.png",
+      "label": "project 005: dashboard with draft survey",
+      "url": "http://127.0.0.1:8085/dashboard",
+      "text_length": 84,
+      "size": 24955,
+      "warnings": []
+    },
+    {
+      "file": "admin-12-edit-questions.png",
+      "label": "project 005: edit survey questions",
+      "url": "http://127.0.0.1:8085/survey/edit?id=1",
+      "text_length": 288,
+      "size": 67775,
+      "warnings": []
+    },
+    {
+      "file": "admin-13-dashboard-published.png",
+      "label": "project 005: published survey",
+      "url": "http://127.0.0.1:8085/dashboard",
+      "text_length": 133,
+      "size": 28284,
+      "warnings": []
+    },
+    {
+      "file": "guest-10-fill-form.png",
+      "label": "project 005: fill survey form",
+      "url": "http://127.0.0.1:8085/survey/fill?id=1",
+      "text_length": 230,
+      "size": 654275,
+      "warnings": []
+    },
+    {
+      "file": "admin-14-statistics.png",
+      "label": "project 005: statistics",
+      "url": "http://127.0.0.1:8085/survey/stat?id=1",
+      "text_length": 247,
+      "size": 96786,
+      "warnings": []
+    },
+    {
+      "file": "user-user1-10-dashboard-after-publish.png",
+      "label": "project 005: user dashboard after publish",
+      "url": "http://127.0.0.1:8085/dashboard",
+      "text_length": 33,
+      "size": 15685,
+      "warnings": [
+        "image file is unusually small"
+      ]
+    }
+  ],
+  "image_count": 17,
+  "status": "completed",
+  "finished_at": "2026-06-06 17:30:09",
+  "stop_exit_code": 0,
+  "cleanup_exit_code": 0
+}

@@ -1,0 +1,489 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>037 小程序预览</title><style>
+body{margin:0;background:#f3f4f8;font-family:Arial,'Microsoft YaHei',sans-serif;color:#20233a}.hero{padding:32px 40px;background:linear-gradient(135deg,#5048e5,#ff6b9a);color:white}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;padding:24px}.phone{background:#fff;border-radius:18px;box-shadow:0 18px 45px rgba(28,32,70,.14);overflow:hidden;min-height:520px;border:1px solid rgba(80,72,229,.12)}.phone header{padding:14px 18px;background:#232136;color:#fff;font-weight:700}.phone main{padding:18px}div{box-sizing:border-box}button{border:0;border-radius:999px;background:#6c63ff;color:#fff;padding:10px 18px}.card{background:#fff;border-radius:14px;padding:14px;margin:10px 0;box-shadow:0 6px 18px rgba(40,44,80,.08)}
+</style></head><body><div class="hero"><h1>037 编程学习交流平台 · 小程序页面预览</h1><p>由 app.json/WXML/WXSS 生成的浏览器截图预览，用于纳入项目截图集。</p></div><div class="grid"><section class="phone"><header>01 · index</header><style scoped>.hero {
+  background: linear-gradient(135deg, #3066FF, #20C997);
+  color: #FFFFFF;
+}
+
+.hero-title {
+  display: block;
+  font-size: 44rpx;
+  font-weight: 700;
+  margin-bottom: 20rpx;
+}
+
+.hero-subtitle {
+  font-size: 28rpx;
+  opacity: 0.9;
+}
+
+.section-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  margin: 24rpx 0;
+}
+
+.course-card {
+  border-left: 8rpx solid #409EFF;
+}
+
+.desc {
+  display: block;
+  margin-top: 12rpx;
+  color: #666666;
+}
+</style><main><div>
+  <div>
+    <div>编程学习交流平台</div>
+    <div>课程学习、问答交流、文章沉淀，一站式编程成长。</div>
+  </div>
+
+  <div>热门课程</div>
+  <div>
+    <div>
+      <div>item.title</div>
+      <div>item.teacherName · item.category · item.studentCount 人学习</div>
+      <div>item.description</div>
+    </div>
+  </div>
+  <div>
+    <div>⌁</div>
+    <div>暂无课程数据，请确认后端已启动</div>
+  </div>
+</div>
+</main></section><section class="phone"><header>02 · login</header><style scoped>/* pages/login/login.wxss */
+.login-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #6C63FF 0%, #3F3D56 50%, #232136 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80rpx 60rpx;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 装饰背景圆 */
+.bg-circles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(108, 99, 255, 0.15);
+}
+
+.circle-1 {
+  width: 300rpx;
+  height: 300rpx;
+  top: -80rpx;
+  right: -60rpx;
+  animation: float1 6s ease-in-out infinite;
+}
+
+.circle-2 {
+  width: 200rpx;
+  height: 200rpx;
+  bottom: 200rpx;
+  left: -40rpx;
+  animation: float2 8s ease-in-out infinite;
+}
+
+.circle-3 {
+  width: 150rpx;
+  height: 150rpx;
+  top: 40%;
+  right: 10%;
+  background: rgba(255, 193, 7, 0.15);
+  animation: float3 7s ease-in-out infinite;
+}
+
+@keyframes float1 {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-30rpx) scale(1.05); }
+}
+
+@keyframes float2 {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20rpx) rotate(10deg); }
+}
+
+@keyframes float3 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-15rpx, -15rpx); }
+}
+
+/* Logo区域 */
+.logo-section {
+  text-align: center;
+  margin-bottom: 80rpx;
+  position: relative;
+  z-index: 2;
+}
+
+.logo-badge {
+  width: 180rpx;
+  height: 180rpx;
+  line-height: 180rpx;
+  margin: 0 auto 40rpx;
+  border-radius: 50rpx;
+  background: linear-gradient(135deg, #6C63FF 0%, #FF6584 100%);
+  box-shadow: 0 20rpx 60rpx rgba(108, 99, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15rpx); }
+}
+
+.logo-icon {
+  font-size: 80rpx;
+}
+
+.app-name {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 16rpx;
+  letter-spacing: 4rpx;
+  text-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+.slogan {
+  display: block;
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 6rpx;
+}
+
+/* 功能特色 */
+.features {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-bottom: 80rpx;
+  position: relative;
+  z-index: 2;
+}
+
+.feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24rpx;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 24rpx;
+  backdrop-filter: blur(10px);
+  min-width: 180rpx;
+}
+
+.feature-icon {
+  font-size: 48rpx;
+  margin-bottom: 12rpx;
+}
+
+.feature-text {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+/* 登录区域 */
+.login-section {
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.login-btn {
+  width: 100%;
+  height: 100rpx;
+  background: linear-gradient(135deg, #FFFFFF 0%, #F5F5F5 100%);
+  color: #333333;
+  border-radius: 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: 600;
+  margin-bottom: 40rpx;
+  box-shadow: 0 16rpx 48rpx rgba(0, 0, 0, 0.2);
+  border: none;
+  letter-spacing: 4rpx;
+}
+
+.login-btn::after {
+  border: none;
+}
+
+.wx-icon-wrap {
+  width: 52rpx;
+  height: 52rpx;
+  line-height: 52rpx;
+  margin-right: 16rpx;
+  border-radius: 50%;
+  background: #07C160;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wx-icon {
+  color: #FFFFFF;
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.btn-text {
+  color: #333;
+}
+
+.agreement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0 20rpx;
+}
+
+.agreement checkbox {
+  margin-right: 8rpx;
+  transform: scale(0.8);
+}
+
+.agreement-text {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.agreement .link {
+  color: #FFD54F;
+  font-weight: 500;
+}
+
+/* 底部装饰 */
+.bottom-decoration {
+  position: fixed;
+  bottom: 60rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+}
+
+.code-icon {
+  font-size: 40rpx;
+  color: rgba(255, 255, 255, 0.3);
+  font-weight: 700;
+  font-family: monospace;
+  margin-bottom: 12rpx;
+}
+
+.version {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 2rpx;
+}
+</style><main><!--pages/login/login.wxml-->
+<div>
+  <!-- 装饰背景 -->
+  <div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+
+  <!-- 顶部Logo -->
+  <div>
+    <div>
+      <div>💻</div>
+    </div>
+    <div>编程学习交流平台</div>
+    <div>让学习编程变得更简单</div>
+  </div>
+
+  <!-- 功能特色 -->
+  <div>
+    <div>
+      <div>📚</div>
+      <div>丰富课程</div>
+    </div>
+    <div>
+      <div>💡</div>
+      <div>实战项目</div>
+    </div>
+    <div>
+      <div>👥</div>
+      <div>社区交流</div>
+    </div>
+  </div>
+
+  <!-- 登录按钮区域 -->
+  <div>
+    <button>
+      <div>
+        <div>微</div>
+      </div>
+      <div>微信一键登录</div>
+    </button>
+    
+    <div>
+      <checkbox-group>
+        <checkbox checked="agreed" color="#6C63FF"/>
+      </checkbox-group>
+      <div>我已阅读并同意</div>
+      <div>《用户协议》</div>
+      <div>和</div>
+      <div>《隐私政策》</div>
+    </div>
+  </div>
+
+  <!-- 底部装饰 -->
+  <div>
+    <div>{ }</div>
+    <div>v1.0.0</div>
+  </div>
+</div>
+</main></section><section class="phone"><header>03 · course</header><style scoped>.section-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  margin: 20rpx 0;
+}
+
+.desc {
+  display: block;
+  margin-top: 12rpx;
+  color: #666666;
+}
+</style><main><div>
+  <div>课程中心</div>
+  <div>
+    <div>item.title</div>
+    <div>item.category · item.level · item.duration 分钟</div>
+    <div>item.description</div>
+  </div>
+  <div>
+    <div>∅</div>
+    <div>暂无课程数据</div>
+  </div>
+</div>
+</main></section><section class="phone"><header>04 · course-detail</header><style scoped>.body {
+  display: block;
+  line-height: 1.8;
+  color: #333333;
+}
+
+.meta {
+  display: block;
+  margin-top: 24rpx;
+  color: #999999;
+}
+</style><main><div>
+  <div>
+    <div>course.title</div>
+    <div>course.teacherName · course.category</div>
+    <div></div>
+    <div>course.description</div>
+    <div>学习人数：course.studentCount · 浏览：course.viewCount</div>
+  </div>
+</div>
+</main></section><section class="phone"><header>05 · chapter-detail</header><style scoped>.subtitle {
+  display: block;
+  line-height: 1.8;
+}
+</style><main><div>
+  <div>
+    <div>title</div>
+    <div>content</div>
+  </div>
+</div>
+</main></section><section class="phone"><header>06 · question</header><style scoped>.subtitle {
+  display: block;
+  line-height: 1.8;
+}
+</style><main><div>
+  <div>
+    <div>title</div>
+    <div>tips</div>
+    <div>发布问题</div>
+  </div>
+</div>
+</main></section><section class="phone"><header>07 · question-detail</header><style scoped>.subtitle {
+  display: block;
+  line-height: 1.8;
+}
+</style><main><div>
+  <div>
+    <div>title</div>
+    <div>content</div>
+  </div>
+</div>
+</main></section><section class="phone"><header>08 · article</header><style scoped>.subtitle {
+  display: block;
+  line-height: 1.8;
+}
+</style><main><div>
+  <div>
+    <div>title</div>
+    <div>tips</div>
+    <div>发布文章</div>
+  </div>
+</div>
+</main></section><section class="phone"><header>09 · article-detail</header><style scoped>.subtitle {
+  display: block;
+  line-height: 1.8;
+}
+</style><main><div>
+  <div>
+    <div>title</div>
+    <div>content</div>
+  </div>
+</div>
+</main></section><section class="phone"><header>10 · code</header><style scoped>.subtitle {
+  display: block;
+  line-height: 1.8;
+}
+</style><main><div>
+  <div>
+    <div>title</div>
+    <div>tips</div>
+    <div>发布代码</div>
+  </div>
+</div>
+</main></section><section class="phone"><header>11 · code-detail</header><style scoped>.subtitle {
+  display: block;
+  line-height: 1.8;
+}
+</style><main><div>
+  <div>
+    <div>title</div>
+    <div>content</div>
+  </div>
+</div>
+</main></section><section class="phone"><header>12 · checkin</header><style scoped>.subtitle {
+  display: block;
+  line-height: 1.8;
+}
+</style><main><div>
+  <div>
+    <div>每日学习打卡</div>
+    <div>当前为前端演示打卡，后端打卡接口需后续补齐。</div>
+    <div>checked ? &#x27;今日已打卡&#x27; : &#x27;立即打卡&#x27;</div>
+  </div>
+</div>
+</main></section></div></body></html>

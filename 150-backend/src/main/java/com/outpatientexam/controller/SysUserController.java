@@ -5,7 +5,6 @@ import com.outpatientexam.common.Result;
 import com.outpatientexam.entity.SysUser;
 import com.outpatientexam.service.AuthService;
 import com.outpatientexam.service.SysUserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,10 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/user")
-@RequiredArgsConstructor
-public class SysUserController {
-    private final AuthService authService;
+public class SysUserController extends BaseController {
     private final SysUserService service;
+
+    public SysUserController(AuthService authService, SysUserService service) {
+        super(authService);
+        this.service = service;
+    }
 
     @GetMapping("/page")
     public Result<PageInfo<SysUser>> page(@RequestAttribute String role,
@@ -30,41 +32,41 @@ public class SysUserController {
                                           @RequestParam(required = false) Integer pageSize,
                                           @RequestParam(required = false) String keyword,
                                           @RequestParam(required = false) String status) {
-        authService.assertAdmin(role);
+        checkAdmin(role);
         return Result.success(service.page(pageNum, pageSize, keyword, status));
     }
 
     @PostMapping
     public Result<Void> add(@RequestAttribute String role, @RequestBody SysUser entity) {
-        authService.assertAdmin(role);
+        checkAdmin(role);
         service.save(entity);
         return Result.success();
     }
 
     @PutMapping
     public Result<Void> update(@RequestAttribute String role, @RequestBody SysUser entity) {
-        authService.assertAdmin(role);
+        checkAdmin(role);
         service.save(entity);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
     public Result<Void> delete(@RequestAttribute String role, @PathVariable Long id) {
-        authService.assertAdmin(role);
+        checkAdmin(role);
         service.delete(id);
         return Result.success();
     }
 
     @PutMapping("/enable/{id}")
     public Result<Void> enable(@RequestAttribute String role, @PathVariable Long id) {
-        authService.assertAdmin(role);
+        checkAdmin(role);
         service.updateStatus(id, "1");
         return Result.success();
     }
 
     @PutMapping("/disable/{id}")
     public Result<Void> disable(@RequestAttribute String role, @PathVariable Long id) {
-        authService.assertAdmin(role);
+        checkAdmin(role);
         service.updateStatus(id, "0");
         return Result.success();
     }

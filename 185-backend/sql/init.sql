@@ -16,12 +16,12 @@ CREATE TABLE sys_user (
   updated_time DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 INSERT INTO sys_user (username, password, nickname, role, department, phone, email, status, created_time, updated_time) VALUES
-('admin', '123456', '系统管理员', 'ADMIN', '城市环卫服务中心', '13918500001', 'admin@citytoilet185.local', 1, NOW(), NOW()),
-('sanitation', '123456', '环卫管理员', 'SANITATION', '城市环卫服务中心', '13918500002', 'sanitation@citytoilet185.local', 1, NOW(), NOW()),
-('cleaner', '123456', '保洁员', 'CLEANER', '城市环卫服务中心', '13918500003', 'cleaner@citytoilet185.local', 1, NOW(), NOW()),
-('supply', '123456', '补给员', 'SUPPLY', '城市环卫服务中心', '13918500004', 'supply@citytoilet185.local', 1, NOW(), NOW()),
-('inspector', '123456', '巡检员', 'INSPECTOR', '城市环卫服务中心', '13918500005', 'inspector@citytoilet185.local', 1, NOW(), NOW()),
-('citizen', '123456', '市民监督', 'CITIZEN', '城市环卫服务中心', '13918500006', 'citizen@citytoilet185.local', 1, NOW(), NOW());
+('admin', '$2a$12$G1jLaJML7RMk2sfht9AuK.F0qsBrqLja78eu2TUTCJbMzFD0gKo16', '系统管理员', 'ADMIN', '城市环卫服务中心', '13918500001', 'admin@citytoilet185.local', 1, NOW(), NOW()),
+('sanitation', '$2a$12$G1jLaJML7RMk2sfht9AuK.F0qsBrqLja78eu2TUTCJbMzFD0gKo16', '环卫管理员', 'SANITATION', '城市环卫服务中心', '13918500002', 'sanitation@citytoilet185.local', 1, NOW(), NOW()),
+('cleaner', '$2a$12$G1jLaJML7RMk2sfht9AuK.F0qsBrqLja78eu2TUTCJbMzFD0gKo16', '保洁员', 'CLEANER', '城市环卫服务中心', '13918500003', 'cleaner@citytoilet185.local', 1, NOW(), NOW()),
+('supply', '$2a$12$G1jLaJML7RMk2sfht9AuK.F0qsBrqLja78eu2TUTCJbMzFD0gKo16', '补给员', 'SUPPLY', '城市环卫服务中心', '13918500004', 'supply@citytoilet185.local', 1, NOW(), NOW()),
+('inspector', '$2a$12$G1jLaJML7RMk2sfht9AuK.F0qsBrqLja78eu2TUTCJbMzFD0gKo16', '巡检员', 'INSPECTOR', '城市环卫服务中心', '13918500005', 'inspector@citytoilet185.local', 1, NOW(), NOW()),
+('citizen', '$2a$12$G1jLaJML7RMk2sfht9AuK.F0qsBrqLja78eu2TUTCJbMzFD0gKo16', '市民监督', 'CITIZEN', '城市环卫服务中心', '13918500006', 'citizen@citytoilet185.local', 1, NOW(), NOW());
 
 CREATE TABLE toilet_site (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,

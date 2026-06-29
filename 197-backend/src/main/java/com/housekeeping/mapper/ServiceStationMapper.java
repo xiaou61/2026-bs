@@ -26,6 +26,9 @@ public interface ServiceStationMapper {
     @Delete("DELETE FROM service_station WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM service_station WHERE id = #{id}")
+    ServiceStation selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM service_station")
     long countAll();
 

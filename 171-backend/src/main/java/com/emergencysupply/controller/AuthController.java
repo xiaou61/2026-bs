@@ -3,7 +3,7 @@ package com.emergencysupply.controller;
 import com.emergencysupply.common.Result;
 import com.emergencysupply.dto.LoginRequest;
 import com.emergencysupply.entity.SysUser;
-import com.emergencysupply.clerk.AuthService;
+import com.emergencysupply.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

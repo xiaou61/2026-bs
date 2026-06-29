@@ -1,0 +1,739 @@
+{
+  "project_id": "009",
+  "mode": "single-project-fine-capture",
+  "started_at": "2026-06-06 18:48:16",
+  "old_images_removed": 19,
+  "backup_dir": "logs\\project-preview\\fine-backups\\009\\20260606-184816",
+  "logs": {
+    "prepare": "logs\\project-preview\\009-prepare.fine.log",
+    "render": "logs\\project-preview\\009-render.fine.log",
+    "docs_generate": "logs\\project-preview\\009-docs-generate.fine.log",
+    "stop": "logs\\project-preview\\009-stop.fine.log",
+    "cleanup": "logs\\project-preview\\009-cleanup.fine.log"
+  },
+  "roles": [
+    {
+      "role": "admin",
+      "username": "admin",
+      "file_prefix": "admin",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "数据统计",
+          "route": ""
+        },
+        {
+          "label": "取件核销",
+          "route": ""
+        },
+        {
+          "label": "快递管理",
+          "route": ""
+        },
+        {
+          "label": "代收点管理",
+          "route": ""
+        },
+        {
+          "label": "快递公司",
+          "route": ""
+        },
+        {
+          "label": "用户管理",
+          "route": ""
+        },
+        {
+          "label": "批量导入",
+          "route": ""
+        },
+        {
+          "label": "操作日志",
+          "route": ""
+        },
+        {
+          "label": "系统配置",
+          "route": ""
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "admin-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:5009/admin/dashboard",
+          "text_length": 126,
+          "size": 66182,
+          "warnings": []
+        },
+        {
+          "file": "admin-02-数据统计.png",
+          "label": "menu: 数据统计",
+          "url": "http://127.0.0.1:5009/admin/dashboard",
+          "text_length": 120,
+          "size": 64336,
+          "warnings": []
+        },
+        {
+          "file": "admin-03-取件核销.png",
+          "label": "menu: 取件核销",
+          "url": "http://127.0.0.1:5009/admin/pickup",
+          "text_length": 83,
+          "size": 39051,
+          "warnings": []
+        },
+        {
+          "file": "admin-04-快递管理.png",
+          "label": "menu: 快递管理",
+          "url": "http://127.0.0.1:5009/admin/express",
+          "text_length": 663,
+          "size": 64777,
+          "warnings": []
+        },
+        {
+          "file": "admin-05-代收点管理.png",
+          "label": "menu: 代收点管理",
+          "url": "http://127.0.0.1:5009/admin/station",
+          "text_length": 356,
+          "size": 52871,
+          "warnings": []
+        },
+        {
+          "file": "admin-06-代收点管理-新增代收点-dialog.png",
+          "label": "dialog: 代收点管理 / 新增代收点",
+          "url": "http://127.0.0.1:5009/admin/station",
+          "text_length": 408,
+          "size": 59013,
+          "warnings": []
+        },
+        {
+          "file": "admin-07-快递公司.png",
+          "label": "menu: 快递公司",
+          "url": "http://127.0.0.1:5009/admin/company",
+          "text_length": 735,
+          "size": 79685,
+          "warnings": []
+        },
+        {
+          "file": "admin-08-快递公司-新增快递公司-dialog.png",
+          "label": "dialog: 快递公司 / 新增快递公司",
+          "url": "http://127.0.0.1:5009/admin/company",
+          "text_length": 775,
+          "size": 81603,
+          "warnings": []
+        },
+        {
+          "file": "admin-09-用户管理.png",
+          "label": "menu: 用户管理",
+          "url": "http://127.0.0.1:5009/admin/user",
+          "text_length": 739,
+          "size": 78585,
+          "warnings": []
+        },
+        {
+          "file": "admin-10-批量导入.png",
+          "label": "menu: 批量导入",
+          "url": "http://127.0.0.1:5009/admin/batch-import",
+          "text_length": 144,
+          "size": 42015,
+          "warnings": []
+        },
+        {
+          "file": "admin-11-操作日志.png",
+          "label": "menu: 操作日志",
+          "url": "http://127.0.0.1:5009/admin/operation-log",
+          "text_length": 140,
+          "size": 35489,
+          "warnings": []
+        },
+        {
+          "file": "admin-12-系统配置.png",
+          "label": "menu: 系统配置",
+          "url": "http://127.0.0.1:5009/admin/config",
+          "text_length": 231,
+          "size": 53315,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "admin",
+      "username": "station1",
+      "file_prefix": "admin-station1",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "数据统计",
+          "route": ""
+        },
+        {
+          "label": "取件核销",
+          "route": ""
+        },
+        {
+          "label": "快递管理",
+          "route": ""
+        },
+        {
+          "label": "代收点管理",
+          "route": ""
+        },
+        {
+          "label": "快递公司",
+          "route": ""
+        },
+        {
+          "label": "用户管理",
+          "route": ""
+        },
+        {
+          "label": "批量导入",
+          "route": ""
+        },
+        {
+          "label": "操作日志",
+          "route": ""
+        },
+        {
+          "label": "系统配置",
+          "route": ""
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "admin-station1-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:5009/admin/dashboard",
+          "text_length": 128,
+          "size": 66485,
+          "warnings": []
+        },
+        {
+          "file": "admin-station1-02-数据统计.png",
+          "label": "menu: 数据统计",
+          "url": "http://127.0.0.1:5009/admin/dashboard",
+          "text_length": 122,
+          "size": 64590,
+          "warnings": []
+        },
+        {
+          "file": "admin-station1-03-取件核销.png",
+          "label": "menu: 取件核销",
+          "url": "http://127.0.0.1:5009/admin/pickup",
+          "text_length": 85,
+          "size": 39292,
+          "warnings": []
+        },
+        {
+          "file": "admin-station1-04-快递管理.png",
+          "label": "menu: 快递管理",
+          "url": "http://127.0.0.1:5009/admin/express",
+          "text_length": 665,
+          "size": 65038,
+          "warnings": []
+        },
+        {
+          "file": "admin-station1-05-代收点管理.png",
+          "label": "menu: 代收点管理",
+          "url": "http://127.0.0.1:5009/admin/station",
+          "text_length": 358,
+          "size": 53130,
+          "warnings": []
+        },
+        {
+          "file": "admin-station1-06-代收点管理-新增代收点-dialog.png",
+          "label": "dialog: 代收点管理 / 新增代收点",
+          "url": "http://127.0.0.1:5009/admin/station",
+          "text_length": 410,
+          "size": 59277,
+          "warnings": []
+        },
+        {
+          "file": "admin-station1-07-快递公司.png",
+          "label": "menu: 快递公司",
+          "url": "http://127.0.0.1:5009/admin/company",
+          "text_length": 737,
+          "size": 79960,
+          "warnings": []
+        },
+        {
+          "file": "admin-station1-08-快递公司-新增快递公司-dialog.png",
+          "label": "dialog: 快递公司 / 新增快递公司",
+          "url": "http://127.0.0.1:5009/admin/company",
+          "text_length": 777,
+          "size": 81900,
+          "warnings": []
+        },
+        {
+          "file": "admin-station1-09-用户管理.png",
+          "label": "menu: 用户管理",
+          "url": "http://127.0.0.1:5009/admin/user",
+          "text_length": 741,
+          "size": 78826,
+          "warnings": []
+        },
+        {
+          "file": "admin-station1-10-批量导入.png",
+          "label": "menu: 批量导入",
+          "url": "http://127.0.0.1:5009/admin/batch-import",
+          "text_length": 146,
+          "size": 42324,
+          "warnings": []
+        },
+        {
+          "file": "admin-station1-11-操作日志.png",
+          "label": "menu: 操作日志",
+          "url": "http://127.0.0.1:5009/admin/operation-log",
+          "text_length": 142,
+          "size": 35724,
+          "warnings": []
+        },
+        {
+          "file": "admin-station1-12-系统配置.png",
+          "label": "menu: 系统配置",
+          "url": "http://127.0.0.1:5009/admin/config",
+          "text_length": 233,
+          "size": 53574,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "student",
+      "username": "student1",
+      "file_prefix": "student-student1",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "我的快递",
+          "route": ""
+        },
+        {
+          "label": "取件历史",
+          "route": ""
+        },
+        {
+          "label": "消息通知",
+          "route": ""
+        },
+        {
+          "label": "个人中心",
+          "route": ""
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "student-student1-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:5009/student/packages",
+          "text_length": 251,
+          "size": 44540,
+          "warnings": []
+        },
+        {
+          "file": "student-student1-02-我的快递.png",
+          "label": "menu: 我的快递",
+          "url": "http://127.0.0.1:5009/student/packages",
+          "text_length": 245,
+          "size": 42494,
+          "warnings": []
+        },
+        {
+          "file": "student-student1-03-取件历史.png",
+          "label": "menu: 取件历史",
+          "url": "http://127.0.0.1:5009/student/history",
+          "text_length": 117,
+          "size": 29151,
+          "warnings": []
+        },
+        {
+          "file": "student-student1-04-消息通知.png",
+          "label": "menu: 消息通知",
+          "url": "http://127.0.0.1:5009/student/notifications",
+          "text_length": 220,
+          "size": 44500,
+          "warnings": []
+        },
+        {
+          "file": "student-student1-05-个人中心.png",
+          "label": "menu: 个人中心",
+          "url": "http://127.0.0.1:5009/student/profile",
+          "text_length": 138,
+          "size": 32532,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "admin",
+      "username": "station2",
+      "file_prefix": "admin-station2",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "数据统计",
+          "route": ""
+        },
+        {
+          "label": "取件核销",
+          "route": ""
+        },
+        {
+          "label": "快递管理",
+          "route": ""
+        },
+        {
+          "label": "代收点管理",
+          "route": ""
+        },
+        {
+          "label": "快递公司",
+          "route": ""
+        },
+        {
+          "label": "用户管理",
+          "route": ""
+        },
+        {
+          "label": "批量导入",
+          "route": ""
+        },
+        {
+          "label": "操作日志",
+          "route": ""
+        },
+        {
+          "label": "系统配置",
+          "route": ""
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "admin-station2-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:5009/admin/dashboard",
+          "text_length": 128,
+          "size": 66391,
+          "warnings": []
+        },
+        {
+          "file": "admin-station2-02-数据统计.png",
+          "label": "menu: 数据统计",
+          "url": "http://127.0.0.1:5009/admin/dashboard",
+          "text_length": 122,
+          "size": 64536,
+          "warnings": []
+        },
+        {
+          "file": "admin-station2-03-取件核销.png",
+          "label": "menu: 取件核销",
+          "url": "http://127.0.0.1:5009/admin/pickup",
+          "text_length": 85,
+          "size": 39243,
+          "warnings": []
+        },
+        {
+          "file": "admin-station2-04-快递管理.png",
+          "label": "menu: 快递管理",
+          "url": "http://127.0.0.1:5009/admin/express",
+          "text_length": 665,
+          "size": 64984,
+          "warnings": []
+        },
+        {
+          "file": "admin-station2-05-代收点管理.png",
+          "label": "menu: 代收点管理",
+          "url": "http://127.0.0.1:5009/admin/station",
+          "text_length": 358,
+          "size": 53078,
+          "warnings": []
+        },
+        {
+          "file": "admin-station2-06-代收点管理-新增代收点-dialog.png",
+          "label": "dialog: 代收点管理 / 新增代收点",
+          "url": "http://127.0.0.1:5009/admin/station",
+          "text_length": 410,
+          "size": 59191,
+          "warnings": []
+        },
+        {
+          "file": "admin-station2-07-快递公司.png",
+          "label": "menu: 快递公司",
+          "url": "http://127.0.0.1:5009/admin/company",
+          "text_length": 737,
+          "size": 79910,
+          "warnings": []
+        },
+        {
+          "file": "admin-station2-08-快递公司-新增快递公司-dialog.png",
+          "label": "dialog: 快递公司 / 新增快递公司",
+          "url": "http://127.0.0.1:5009/admin/company",
+          "text_length": 777,
+          "size": 81813,
+          "warnings": []
+        },
+        {
+          "file": "admin-station2-09-用户管理.png",
+          "label": "menu: 用户管理",
+          "url": "http://127.0.0.1:5009/admin/user",
+          "text_length": 741,
+          "size": 78772,
+          "warnings": []
+        },
+        {
+          "file": "admin-station2-10-批量导入.png",
+          "label": "menu: 批量导入",
+          "url": "http://127.0.0.1:5009/admin/batch-import",
+          "text_length": 146,
+          "size": 42281,
+          "warnings": []
+        },
+        {
+          "file": "admin-station2-11-操作日志.png",
+          "label": "menu: 操作日志",
+          "url": "http://127.0.0.1:5009/admin/operation-log",
+          "text_length": 142,
+          "size": 35677,
+          "warnings": []
+        },
+        {
+          "file": "admin-station2-12-系统配置.png",
+          "label": "menu: 系统配置",
+          "url": "http://127.0.0.1:5009/admin/config",
+          "text_length": 233,
+          "size": 53523,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "courier",
+      "username": "courier1",
+      "file_prefix": "courier-courier1",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "快递入库",
+          "route": ""
+        },
+        {
+          "label": "批量导入",
+          "route": ""
+        },
+        {
+          "label": "取件核销",
+          "route": ""
+        },
+        {
+          "label": "快递管理",
+          "route": ""
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "courier-courier1-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:5009/courier/express-in",
+          "text_length": 97,
+          "size": 37903,
+          "warnings": []
+        },
+        {
+          "file": "courier-courier1-02-快递入库.png",
+          "label": "menu: 快递入库",
+          "url": "http://127.0.0.1:5009/courier/express-in",
+          "text_length": 91,
+          "size": 36404,
+          "warnings": []
+        },
+        {
+          "file": "courier-courier1-03-批量导入.png",
+          "label": "menu: 批量导入",
+          "url": "http://127.0.0.1:5009/courier/batch-import",
+          "text_length": 120,
+          "size": 36154,
+          "warnings": []
+        },
+        {
+          "file": "courier-courier1-04-取件核销.png",
+          "label": "menu: 取件核销",
+          "url": "http://127.0.0.1:5009/courier/pickup",
+          "text_length": 59,
+          "size": 33232,
+          "warnings": []
+        },
+        {
+          "file": "courier-courier1-05-快递管理.png",
+          "label": "menu: 快递管理",
+          "url": "http://127.0.0.1:5009/courier/express-list",
+          "text_length": 466,
+          "size": 49758,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "student",
+      "username": "student2",
+      "file_prefix": "student-student2",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "我的快递",
+          "route": ""
+        },
+        {
+          "label": "取件历史",
+          "route": ""
+        },
+        {
+          "label": "消息通知",
+          "route": ""
+        },
+        {
+          "label": "个人中心",
+          "route": ""
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "student-student2-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:5009/student/packages",
+          "text_length": 148,
+          "size": 38741,
+          "warnings": []
+        },
+        {
+          "file": "student-student2-02-我的快递.png",
+          "label": "menu: 我的快递",
+          "url": "http://127.0.0.1:5009/student/packages",
+          "text_length": 142,
+          "size": 37164,
+          "warnings": []
+        },
+        {
+          "file": "student-student2-03-取件历史.png",
+          "label": "menu: 取件历史",
+          "url": "http://127.0.0.1:5009/student/history",
+          "text_length": 119,
+          "size": 29377,
+          "warnings": []
+        },
+        {
+          "file": "student-student2-04-消息通知.png",
+          "label": "menu: 消息通知",
+          "url": "http://127.0.0.1:5009/student/notifications",
+          "text_length": 163,
+          "size": 38178,
+          "warnings": []
+        },
+        {
+          "file": "student-student2-05-个人中心.png",
+          "label": "menu: 个人中心",
+          "url": "http://127.0.0.1:5009/student/profile",
+          "text_length": 140,
+          "size": 32684,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "student",
+      "username": "student3",
+      "file_prefix": "student-student3",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "我的快递",
+          "route": ""
+        },
+        {
+          "label": "取件历史",
+          "route": ""
+        },
+        {
+          "label": "消息通知",
+          "route": ""
+        },
+        {
+          "label": "个人中心",
+          "route": ""
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "student-student3-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:5009/student/packages",
+          "text_length": 158,
+          "size": 40326,
+          "warnings": []
+        },
+        {
+          "file": "student-student3-02-我的快递.png",
+          "label": "menu: 我的快递",
+          "url": "http://127.0.0.1:5009/student/packages",
+          "text_length": 152,
+          "size": 38316,
+          "warnings": []
+        },
+        {
+          "file": "student-student3-03-取件历史.png",
+          "label": "menu: 取件历史",
+          "url": "http://127.0.0.1:5009/student/history",
+          "text_length": 119,
+          "size": 29806,
+          "warnings": []
+        },
+        {
+          "file": "student-student3-04-消息通知.png",
+          "label": "menu: 消息通知",
+          "url": "http://127.0.0.1:5009/student/notifications",
+          "text_length": 146,
+          "size": 36617,
+          "warnings": []
+        },
+        {
+          "file": "student-student3-05-个人中心.png",
+          "label": "menu: 个人中心",
+          "url": "http://127.0.0.1:5009/student/profile",
+          "text_length": 140,
+          "size": 33345,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    }
+  ],
+  "guest": [
+    {
+      "file": "guest-01-index.png",
+      "label": "guest: index",
+      "url": "http://127.0.0.1:5009/login",
+      "text_length": 105,
+      "size": 510824,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-02-register.png",
+      "label": "guest: register",
+      "url": "http://127.0.0.1:5009/register",
+      "text_length": 39,
+      "size": 468396,
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "image_count": 58,
+  "status": "completed",
+  "finished_at": "2026-06-06 18:51:21",
+  "stop_exit_code": 0,
+  "cleanup_exit_code": 0
+}

@@ -26,6 +26,9 @@ public interface ComplaintHandlingMapper {
     @Delete("DELETE FROM complaint_handling WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM complaint_handling WHERE id = #{id}")
+    ComplaintHandling selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM complaint_handling")
     long countAll();
 

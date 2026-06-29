@@ -26,6 +26,9 @@ public interface MemberProfileMapper {
     @Delete("DELETE FROM member_profile WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM member_profile WHERE id=#{id}")
+    MemberProfile selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM member_profile")
     long countAll();
 

@@ -1,0 +1,83 @@
+{
+  "project": {
+    "project_id": "092",
+    "name": "蓝天幼儿园管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "092-backend",
+    "frontend_dir": "092-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8092",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [
+      "园务看板",
+      "园区管理",
+      "年级管理",
+      "班级管理",
+      "学期管理",
+      "活动课程",
+      "活动安排",
+      "幼儿档案",
+      "每周食谱",
+      "入园考勤",
+      "健康晨检",
+      "家园反馈",
+      "公告中心"
+    ],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8092",
+      "pid": 45140
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3000",
+      "pid": 49204
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\092-backend.out.log",
+      "stderr": "logs\\project-preview\\092-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\092-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\092-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\092-frontend.out.log",
+      "stderr": "logs\\project-preview\\092-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 10:53:04",
+  "datasource_kind": "h2",
+  "capture_hints": {
+    "roles": [],
+    "routes": [
+      "园务看板",
+      "园区管理",
+      "年级管理",
+      "班级管理",
+      "学期管理",
+      "活动课程",
+      "活动安排",
+      "幼儿档案",
+      "每周食谱",
+      "入园考勤",
+      "健康晨检",
+      "家园反馈",
+      "公告中心"
+    ],
+    "screenshot_dir": "docs\\previews\\assets\\092",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 10:56:00"
+}

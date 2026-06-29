@@ -1,0 +1,22 @@
+{
+  "project_id": "003",
+  "mode": "single-project-fine-capture",
+  "started_at": "2026-06-06 16:41:16",
+  "old_images_removed": 24,
+  "backup_dir": "logs\\project-preview\\fine-backups\\003\\20260606-164116",
+  "logs": {
+    "prepare": "logs\\project-preview\\003-prepare.fine.log",
+    "stop": "logs\\project-preview\\003-stop.fine.log",
+    "cleanup": "logs\\project-preview\\003-cleanup.fine.log"
+  },
+  "roles": [],
+  "guest": [],
+  "warnings": [],
+  "status": "failed",
+  "failed_step": "capture",
+  "error": "Page.screenshot: Timeout 30000ms exceeded.\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n",
+  "traceback": "Traceback (most recent call last):\n  File \"D:\\毕业设计\\2026-biyesheji\\scripts\\project_preview\\fine_capture.py\", line 659, in run_fine_capture\n    result[\"guest\"] = [record.__dict__ for record in capture_guest_pages(page, base_url, asset_dir)]\n                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\毕业设计\\2026-biyesheji\\scripts\\project_preview\\fine_capture.py\", line 602, in capture_guest_pages\n    capture_current_page(\n  File \"D:\\毕业设计\\2026-biyesheji\\scripts\\project_preview\\fine_capture.py\", line 394, in capture_current_page\n    page.screenshot(path=str(target), full_page=True)\n  File \"C:\\Users\\Lenovo\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\playwright\\sync_api\\_generated.py\", line 10596, in screenshot\n    self._sync(\n  File \"C:\\Users\\Lenovo\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\playwright\\_impl\\_sync_base.py\", line 115, in _sync\n    return task.result()\n           ^^^^^^^^^^^^^\n  File \"C:\\Users\\Lenovo\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\playwright\\_impl\\_page.py\", line 825, in screenshot\n    encoded_binary = await self._channel.send(\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Lenovo\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\playwright\\_impl\\_connection.py\", line 69, in send\n    return await self._connection.wrap_api_call(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Lenovo\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\playwright\\_impl\\_connection.py\", line 559, in wrap_api_call\n    raise rewrite_error(error, f\"{parsed_st['apiName']}: {error}\") from None\nplaywright._impl._errors.TimeoutError: Page.screenshot: Timeout 30000ms exceeded.\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n\n",
+  "restored_images": 24,
+  "stop_exit_code": 0,
+  "cleanup_exit_code": 0
+}

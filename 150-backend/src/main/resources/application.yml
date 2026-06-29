@@ -17,6 +17,10 @@ pagehelper:
   helper-dialect: mysql
   reasonable: true
 
+jwt:
+  secret: outpatient-exam-150-secret-key-must-be-32-chars-long
+  expire: 86400000
+
 
 
 

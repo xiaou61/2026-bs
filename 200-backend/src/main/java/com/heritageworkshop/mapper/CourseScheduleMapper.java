@@ -26,6 +26,9 @@ public interface CourseScheduleMapper {
     @Delete("DELETE FROM course_schedule WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM course_schedule WHERE id=#{id}")
+    CourseSchedule selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM course_schedule")
     long countAll();
 

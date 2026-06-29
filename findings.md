@@ -3366,3 +3366,105 @@
 - 当前确认存在第二条明确的角色口径断裂：`privacy / datauser` 种子账号在 `110-backend/sql/init.sql` 中使用角色值 `PRIVACY_OFFICER / DATA_USER`，但前端 `router / Layout` 和后端 `AuthService` 权限断言都统一按 `PRIVACY / DATAUSER` 判断。
 - `110-frontend/src/store/user.js` 会直接保存登录返回的原始 `user.role`，不存在 `PRIVACY_OFFICER -> PRIVACY` 或 `DATA_USER -> DATAUSER` 的中间转换；`router.beforeEach` 又依赖 `ROLE_HOME[role]` 和 `to.meta.roles` 做判断，因此隐私官和数据使用人登录后无法稳定命中其首页和受限菜单。
 - 该问题会直接影响 PRD 中“隐私官维护授权目的、授权策略、风险预警和审计报告”“数据使用人提交访问申请并在授权范围内访问数据”的核心角色闭环，已作为正式报告 `docs/checks/110-privacy-auth-platform.md` 建档，并登记为 `待修复`。
+
+## 2026-06-06 项目预览批量截图自动化
+
+### Findings
+- 当前预览站点已有 `docs-site` 和 `docs/previews` 体系，无需新建独立 VitePress；`npm run docs:generate` 可同步截图并生成 200 个项目页。
+- 批量截图脚本原先不会在每个项目前端截图后清理依赖，且 `node_modules` 被清理后也不会自动安装依赖；已改为缺依赖时安装、项目结束后 cleanup。
+- `025` 暴露出 H2 文件库旧数据导致重复初始化问题；已通过识别 H2 datasource 并清理本地 H2 文件解决。MySQL SQL 中反引号数据库名解析也已修正。
+- `034` 是单文件静态 HTML，没有 npm 启动脚本；已通过 Python HTTP 服务兜底启动并截图。
+- `051/052` 暴露出多子前端结构：根 `*-frontend` 无 `package.json`，真正可运行目录在 `admin/user`；已让扫描器选择可运行子应用，目前优先 `admin`。
+- `037` 是微信小程序源码，普通浏览器截图脚本不能直接运行；后续需要单独策略。
+- `052`、`055` 目前启动成功但登录失败，只产出浅层截图；保留为后续项目级登录适配候选。
+- 截图脚本原先 Vue Router `children` 正则会把 `/login` 误判为父路由，导致错误 `login-*` 截图；已改为按 `children` 块回溯最近父 `path`。
+- 多次验证 cleanup 后，全仓库未发现 `node_modules / node_moudles / node_moudoules` 残留。
+
+## 2026-06-06 逐个精细截图流程修正
+
+### Findings
+- 用户明确要求“一个一个精细截图”，此前 `batch_capture.py --start/--end` 的范围循环只能证明有截图，不能证明每个角色、菜单和关键弹窗都被单独看过。
+- 已新增 `scripts/project_preview/fine_capture.py`，新流程只接受单个项目号，并为每个项目输出 `docs/previews/qa/<id>.json`，记录登录结果、真实可见菜单、截图文件、页面 URL、文本长度、图片大小和警告。
+- `001` 精修时发现 Vite 输出包含 ANSI 颜色码，旧 `wait_for_frontend_port` 没解析到实际端口。项目实际跑到 `3001`，runtime 曾误保留 `3000`，有误截其他本地服务的风险；已修复端口解析。
+- `001` 精修时发现 README 写的 `teacher001/teacher123`、`student001/student123` 与 SQL 种子 MD5 不一致；为完成预览截图，只在运行中的预览数据库临时更新密码哈希，源码 SQL 未改动，QA 中保留了该警告。
+- `001` 已按精修口径完成 28 张截图：访客登录/注册、管理员 10 张、教师 8 张、学生 8 张，并已同步进 VitePress public 和项目页。
+- `002` 精修时发现同一角色存在多个账号（`student1/student2`、`teacher1/teacher2`），如果只用角色名作为文件前缀会互相覆盖截图；已改为同角色多账号使用 `role-username-*` 前缀。`002` 最终完成 26 张精修截图并同步。
+- `003` 属于后端 Thymeleaf 模板项目，没有独立前端目录；通用 Vue/SPA 精修路径不适用。页面有外部 CDN、缺失商品图片、alert 登录提示和同页 section 切换，导致两次浏览器精修超时。已恢复旧图并清理进程，后续应单独实现“API 登录 + localStorage 注入 + 直接访问 HTML + JS section 切换”的专项脚本。
+- `004` 已按单项目精修口径复核完成：26 张截图覆盖登录/注册、聊天、好友、添加好友弹窗、通知、设置；注册页 QA 的“visible text is very short”来自表单文案较少，人工看图确认不是白屏。
+- `005` 属于后端 Thymeleaf + 前端 Vue/axios CDN 模板项目；通用菜单识别只能得到空仪表盘。已通过 API 登录、BCrypt 预览哈希补丁和项目级样例数据生成，补齐 17 张精修截图，覆盖创建问卷、五题型编辑、发布后分享、填写页和统计图表。
+- `006` 属于后端 Thymeleaf + Session 项目；页面真实菜单使用 `.menu-item`，原精修脚本只识别到顶部导航。补充 `.menu-item` 后可自动覆盖侧边栏，另加项目级路径截图覆盖失物/招领详情、认领弹窗、管理员用户/分类管理。详情页样例图片路径缺资源，但主体数据正常。
+- `007` 普通精修路径已足够，管理员和志愿者角色菜单均能被自动识别；空状态主要出现在志愿者“我的活动/我的兑换”，不需要额外项目级特例。
+- `008` 是后端静态 HTML 项目，真实入口为 `/index.html` 与 `/pages/admin|user/*.html`，不是 `/dashboard`。精修脚本需跳过 `No static resource / 系统异常` 的错误页，并使用登录 API 写入 `localStorage` 后直接访问静态页面路径；用户侧详情页有缺失菜谱图片资源，但主体数据和图表正常。
+- `009` 此前失败点不是截图质量，而是 `docs:generate` 阶段对其他项目 public 文件的瞬时复制错误导致精修脚本回滚旧图；重新单项目执行后已完整通过，58 张截图同步到源目录和 VitePress public。
+- `009` 的 `/` 访客入口最终停留在 `/login`，QA warning 属于入口跳转记录，不代表错误页；管理员新增代收点/快递公司弹窗、快递员入库表单、学生待取快递和消息通知均人工确认可见。
+- `010` 是 Spring Boot 静态资源一体化项目，账号来源在 `010-backend/ACCOUNTS.md`，表格列顺序不是旧解析器假设的“角色、用户名、密码”；账号解析必须按表头定位“学号/用户名、密码、角色”，否则会退化为只截访客登录/注册。
+- `010` 登录接口使用 `studentNo/password`，页面请求封装使用 `localStorage.userInfo`；精修脚本需要兼容该字段和存储名，才能稳定进入学生端与管理员端静态页面。
+- `010` 预约页只有选定时段、楼层和区域后才渲染 `.seat-item` 座位网格，普通导航截图停在筛选表单不够精细；已通过项目级动作补齐座位网格和预约确认弹窗。
+- `012` 是 Spring Boot + Thymeleaf 一体化的在线协作白板与笔记系统，通用菜单截图只能覆盖工作台/文档列表/团队/模板/个人中心，不能证明白板、脑图、Markdown 编辑器、版本、协作、分享和附件等核心功能已被精修。
+- `012` 需要项目级精修动作：通过 `/api/document/create` 准备 NOTE/BOARD/MINDMAP 三类样例文档，再直接进入 `/document/{id}` 截取 Markdown 双栏预览、白板 canvas、脑图结构编辑；同时打开版本历史、协作者搜索、分享链接、附件管理、新建文档弹窗，并验证模板市场“使用”按钮会创建模板副本编辑页。
+- `012` 分享页会先展示安全访问门槛；带密码分享时 `guest-10-share-view.png` 停在“访问密码”入口属于预期页面，不是登录失败或空白页。
+- Bootstrap 模板项目的关闭按钮使用 `.btn-close` 且按钮文本为空，旧 `close_dialog()` 只按“取消/关闭/返回”文本匹配会关不掉弹窗；已扩展为优先点击 `.btn-close` / `[aria-label='Close']`。
+- `013` 首轮失败根因是预览 SQL 只导入 `schema.sql`，没有导入同目录的 `init_data.sql`，导致 `user` 表为空；后端日志中 `admin/test1/test4/test7` 查询结果均为 `Total: 0`。多文件 SQL 项目必须按建表文件后接种子数据文件的顺序导入。
+- 已将 `run_preview.py` 的导入策略扩展为 `schema.sql + init_data.sql/data.sql/seed.sql/...` 顺序导入，并在 runtime 中记录 `sql_files`；这能避免后续类似项目只建表不插入账号和业务样例数据。
+- `013` 是 Vue + Spring Boot 的校园共享经济平台，顶部菜单只覆盖首页/地图/闲置物品/技能服务；用户订单、消息、钱包、信用、收益、认证、收藏、我的发布，以及管理员后台页面藏在下拉菜单或独立 `/admin` 布局中，必须通过项目级直达路由截图。
+- `013` 种子账号密码虽然文档写 `123456`，但 SQL 里的 BCrypt 示例哈希不匹配当前 Hutool BCrypt 校验；精修流程通过预览数据库临时重写密码哈希后登录，源码 SQL 保持不变。
+- `014` 是 Spring Boot 静态页面一体化的校园社团与兴趣圈平台，学生端登录走 `/api/user/login`，管理员后台登录走 `/api/admin/login`；如果把管理员账号放进通用角色循环，会被错误标记为登录失败并触发精修回滚。
+- `014` 的管理员后台由项目级钩子直接通过 `/api/admin/login` 注入 token 后访问 `/admin-dashboard.html`，可覆盖数据统计、用户管理、社团审核、话题管理；通用角色循环只保留 `student1/student2/student3` 学生端菜单截图。
+- `014` 的学生端顶部菜单只能覆盖首页、社团、活动、话题、圈子和创建页；社团详情、活动详情、话题详情、个人资料、我的社团、我的活动、活动报名/签到状态和评论表单需要项目级直达路由截图，才能证明核心业务被精修覆盖。
+- `014` 最终单项目精修 QA 为 57 张，源资产和 VitePress public 资产数量一致；代表截图人工确认包含真实业务内容和管理员表格，不是空白页或登录页。
+- `015` 是 Spring Boot 静态页面一体化的校园表白墙与匿名社交平台，用户登录接口是 `/api/auth/login` 且请求字段为 `account/password`；通用截图器必须兼容 `account` 字段，否则只能得到访客和浅层失败截图。
+- `015` 管理员登录接口是 `/api/auth/admin/login`，前端还要求 `localStorage.userInfo.isAdmin=true` 才允许进入 `/admin-dashboard.html`；管理员账号必须由项目级钩子登录并注入 `isAdmin`，不能放进通用用户登录循环。
+- `015` 的顶部用户导航很浅，自动菜单只能识别品牌链接；核心覆盖需要直达 `/home.html`、`/post-detail.html?id=1`、`/create-post.html`、`/search.html`、`/messages.html`、`/profile.html`、`/my-posts.html`、`/my-comments.html`、`/my-reports.html`，并额外打开发帖填充、评论输入和修改密码弹窗。
+- `015` 种子数据下消息、我的评论、我的举报可能是空状态，图片文件小且文本短；人工看图确认是有效“暂无消息/暂无记录”页面时可接受，不应误判为白屏。
+- `docs:generate` 可能在 Windows 上对历史截图 `copyfile` 偶发返回 `UNKNOWN`，并非当前单项目截图失败；`scripts/generate-vitepress-pages.mjs` 已对图片复制增加短重试，避免这种瞬时文件系统抖动触发精修回滚。
+- `016` 是 Vue/Vite + Spring Boot 的校园快递代领服务平台，账号文档同时给“用户名 user001/user002”和“学号 20210001/20210002”，但后端 `AuthService.login()` 只按 `studentId/phone` 查；精修截图必须把 `user001/user002` 映射成学号或直接使用学号登录。
+- `016` 前端路由守卫依赖 `localStorage.userType`，仅注入 token/userInfo 不足以进入 `/home` 或 `/admin/dashboard`；通用 `set_browser_login()` 已补充根据 `role/userType/isAdmin` 写入 `userType`。
+- `016` 当前通用角色截图不适用：账号名与登录名不一致会触发登录失败，且核心页面需要直接访问 Vue 路由；已改为项目级钩子覆盖用户和管理员页面，顶层 QA 不再把空 `roles` 误报为失败。
+- `016` 种子数据下订单广场为空，但钱包和管理员交易流水包含真实交易记录；用户端精修应至少覆盖发布订单表单、钱包/充值弹窗、通知、个人资料，管理员端覆盖数据、用户、订单、投诉、交易流水。
+
+## 2026-06-07 017 单项目精修
+
+### Findings
+- `017` 的账号口径与文档一致：管理员 `admin/admin123`、学生 `20210001/123456`、商家 `13900000001/123456` 的 BCrypt 哈希都能通过校验。
+- `017` 的真实项目入口是 `/index`、`/merchant/list`、`/merchant/detail/{id}`、`/user/login`、`/user/register`、`/merchant/login`、`/admin/login`，不是批量截图惯用的单一仪表盘。
+- `017` 需要分三段精修：访客看首页/店铺，学生看购物车和订单，商家看工作台，管理员看统计；如果只靠通用角色循环，商家端会因 `userType` 误写而回跳登录页。
+- 已补 `scripts/project_preview/fine_capture.py` 的 `017` 专属钩子，改为学生、商家、管理员三套入口独立截图，并补充商家 `userType=merchant` 注入。
+- `017` 最终 QA：`docs/previews/qa/017.json` 状态为 `completed`，共 16 张截图；`docs/previews/assets/017` 与 `docs-site/public/previews/assets/017` 均为 16 张。
+- 抽看代表图确认真实业务内容可见：店铺详情、用户订单详情、商家待处理/待取餐状态、管理员统计面板。
+- 全仓库扫描未发现 `node_modules / node_moudles / node_moudoules` 残留。
+
+## 2026-06-07 018 单项目精修
+
+### Findings
+- `018` 是 Vue/Vite + Spring Boot 的校园招聘系统，通用角色循环只能证明登录态可进入页面，不能证明职位发布、简历投递、面试安排、反馈和企业审核这些核心业务链路可见。
+- `018` 精修需要先准备业务状态：注册一个待审核企业 HR、企业发布职位、学生创建简历并投递、学生发布经验/内推，再让企业侧查看申请和安排面试，最后由管理员审核企业。
+- 已补 `scripts/project_preview/fine_capture.py` 的 `018` 专属钩子，并把 `018` 从通用角色循环中排除；QA 中 `roles=0` 是预期结果，真实覆盖记录在 `project_specific` 中。
+- `018` 最终 QA：`docs/previews/qa/018.json` 状态为 `completed`，共 28 张截图；`docs/previews/assets/018` 与 `docs-site/public/previews/assets/018` 均为 28 张。
+- 覆盖范围包括：访客登录/注册，学生职位列表、职位详情、投递弹窗、简历、申请、面试、经验、内推和个人资料；企业职位管理、职位弹窗、申请列表、简历详情、状态变更、面试安排、面试反馈和企业信息；管理员企业待审核与审核后状态。
+- 抽看代表图确认真实业务内容可见：`student-student1-11-job-detail.png`、`student-student1-14-applications.png`、`company-company1-13-resume-dialog.png`、`company-company1-15-interview-dialog.png`、`admin-10-dashboard-pending.png`。
+- `python -m py_compile scripts\project_preview\run_preview.py scripts\project_preview\fine_capture.py` 和 `python -m unittest scripts.project_preview.test_fine_capture` 均通过；全仓库扫描未发现 `node_modules / node_moudles / node_moudoules` 残留。
+
+## 2026-06-07 019 单项目精修
+
+### Findings
+- `019` 是 Vue/Vite + Spring Boot 的运动健康管理系统，三类账号 `admin / coach1 / student1` 都进入同一套侧边栏；如果走通用角色循环，会产生三份重复浅层菜单截图，不能证明运动记录、计划进度、活动、健康趋势和场馆预约这些核心状态已覆盖。
+- `019` 的 `schema.sql` 只插入用户和场馆，默认缺运动记录、健身计划、健康档案、约球活动和预约记录；精修必须在预览库中通过 API 构造业务数据，再截图列表、统计和弹窗。
+- 已补 `scripts/project_preview/fine_capture.py` 的 `019` 专属钩子，并把 `019` 从通用角色循环中排除；学生端负责深度业务覆盖，教练和管理员保留首页/排行榜入口截图。
+- 首轮 `019` 单项目精修发现通用访客探测会把 Vite fallback 的 `/login.html`、`/register.html`、`/products.html` 截成 0 文本、5KB 左右的小空壳图；已收紧 `capture_guest_pages()`，遇到“文本极短 + 文件异常小”的访客候选图会删除并跳过。
+- `019` 最终 QA：`docs/previews/qa/019.json` 状态为 `completed`，共 23 张截图；`docs/previews/assets/019` 与 `docs-site/public/previews/assets/019` 均为 23 张。
+- 覆盖范围包括：访客登录/注册，学生首页统计、运动记录、创建打卡、健身计划、进度弹窗、创建计划、活动列表、发起活动、健康档案趋势图、场馆列表、预约弹窗、我的预约、取消预约弹窗、排行榜、个人中心；教练和管理员各覆盖首页与排行榜。
+- 抽看代表图确认真实业务内容可见：`student-student1-10-home-seeded.png`、`student-student1-11-sport-records.png`、`student-student1-14-plan-progress-dialog.png`、`student-student1-18-health-profile.png`、`student-student1-20-venue-booking-dialog.png`、`student-student1-22-booking-cancel-dialog.png`、`coach-coach1-10-home.png`、`admin-admin-10-home.png`。
+- `python -m py_compile scripts\project_preview\run_preview.py scripts\project_preview\fine_capture.py` 和 `python -m unittest scripts.project_preview.test_fine_capture` 均通过；全仓库扫描未发现 `node_modules / node_moudles / node_moudoules` 残留。
+
+## 2026-06-07 020 单项目精修
+
+### Findings
+- `020` 是 Vue/Vite + Spring Boot 的校园学习资源共享平台，旧截图只有 2 张且没有 `docs/previews/qa/020.json`，不能证明资源库、小组、题库、问答、笔记等核心功能已被逐个查看。
+- `020` 前端请求封装直接把原始 token 写入 `Authorization` 头，后端 `AuthInterceptor` 也按原始 token 校验；旧 `api_request_json()` 只发送 `Bearer token`，会导致 API 造数据失败。已补兼容：Bearer 请求失败或返回 401 时自动以原始 token 重试。
+- 虽然 `020` 的 `schema.sql` 已包含资源、小组、题目、问答和笔记种子数据，但精修仍需要额外构造资源评分/下载、学生创建的小组、错题、老师回答和公开笔记，才能截图业务闭环而不是只截静态列表。
+- 已补 `scripts/project_preview/fine_capture.py` 的 `020` 专属钩子，并把 `020` 从通用角色循环中排除；学生端负责深度业务覆盖，老师和管理员保留入口/个人信息截图。
+- `020` 最终 QA：`docs/previews/qa/020.json` 状态为 `completed`，共 26 张截图；`docs/previews/assets/020` 与 `docs-site/public/previews/assets/020` 均为 26 张。
+- 覆盖范围包括：访客登录/注册，学生首页、资源库、资源详情与评价、资源上传、学习小组、小组创建弹窗、小组详情、题库、题目详情弹窗、刷题、错题本、问答列表、问答详情与老师回答、提问表单、笔记列表、笔记详情、笔记编辑、个人中心；老师覆盖首页和问答详情，管理员覆盖首页和个人中心。
+- 抽看代表图确认真实业务内容可见：`student-student1-12-resource-detail.png`、`student-student1-15-group-create-dialog.png`、`student-student1-18-question-detail-dialog.png`、`student-student1-22-qa-detail.png`、`student-student1-25-note-detail.png`、`student-student1-20-wrong-questions.png`、`teacher-teacher1-10-home.png`、`admin-admin-11-profile.png`。
+- `teacher-teacher1-10-home.png` 顶部统计为 0 但下方资源和问答列表有真实数据，属于项目首页统计口径问题，不是空白页或误截。
+- `python -m py_compile scripts\project_preview\run_preview.py scripts\project_preview\fine_capture.py` 和 `python -m unittest scripts.project_preview.test_fine_capture` 均通过；全仓库扫描未发现 `node_modules / node_moudles / node_moudoules` 残留。

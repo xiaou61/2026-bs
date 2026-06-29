@@ -1,7 +1,7 @@
 package com.livebase.config;
 
 import com.livebase.common.BusinessException;
-import com.livebase.clerk.TokenService;
+import com.livebase.service.TokenService;
 import com.livebase.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;

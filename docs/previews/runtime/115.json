@@ -1,0 +1,56 @@
+{
+  "project": {
+    "project_id": "115",
+    "name": "跨境电商清关订单与汇率结算平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "115-backend",
+    "frontend_dir": "115-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8115",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8115",
+      "pid": 6768
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3115",
+      "pid": 50140
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\115-backend.out.log",
+      "stderr": "logs\\project-preview\\115-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\115-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\115-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\115-frontend.out.log",
+      "stderr": "logs\\project-preview\\115-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 11:53:05",
+  "datasource_kind": "mysql",
+  "sql_file": "115-backend\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\115",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 11:55:18"
+}

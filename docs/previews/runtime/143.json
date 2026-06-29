@@ -1,0 +1,56 @@
+{
+  "project": {
+    "project_id": "143",
+    "name": "社区公益时间银行互助服务平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "143-backend",
+    "frontend_dir": "143-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8143",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8143",
+      "pid": 55704
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3143",
+      "pid": 56616
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\143-backend.out.log",
+      "stderr": "logs\\project-preview\\143-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\143-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\143-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\143-frontend.out.log",
+      "stderr": "logs\\project-preview\\143-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 13:02:29",
+  "datasource_kind": "mysql",
+  "sql_file": "143-backend\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\143",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 13:04:57"
+}

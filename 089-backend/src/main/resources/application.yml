@@ -37,3 +37,10 @@ mybatis-plus:
     db-config:
       id-type: auto
 
+jwt:
+  secret: railway-ticket-089-secret-key-must-be-at-least-32-chars-long
+  expire: 86400000
+
+cors:
+  allowed-origins: "*"
+

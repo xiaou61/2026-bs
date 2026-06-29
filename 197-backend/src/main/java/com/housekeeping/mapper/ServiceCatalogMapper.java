@@ -26,6 +26,9 @@ public interface ServiceCatalogMapper {
     @Delete("DELETE FROM service_catalog WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM service_catalog WHERE id = #{id}")
+    ServiceCatalog selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM service_catalog")
     long countAll();
 

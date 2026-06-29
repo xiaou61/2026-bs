@@ -26,6 +26,9 @@ public interface ReassessmentRecordMapper {
     @Delete("DELETE FROM reassessment_record WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM reassessment_record WHERE id=#{id}")
+    ReassessmentRecord selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM reassessment_record")
     long countAll();
 

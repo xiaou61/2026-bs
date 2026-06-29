@@ -1,0 +1,56 @@
+{
+  "project": {
+    "project_id": "167",
+    "name": "社区垃圾分类督导与积分兑换平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "167-backend",
+    "frontend_dir": "167-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8167",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8167",
+      "pid": 31272
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3167",
+      "pid": 55064
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\167-backend.out.log",
+      "stderr": "logs\\project-preview\\167-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\167-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\167-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\167-frontend.out.log",
+      "stderr": "logs\\project-preview\\167-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 14:13:34",
+  "datasource_kind": "mysql",
+  "sql_file": "167-backend\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\167",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 14:15:34"
+}

@@ -4,9 +4,11 @@ import argparse
 import json
 import os
 import re
+import shutil
 import socket
 import subprocess
 import sys
+import stat
 import time
 from dataclasses import dataclass, asdict
 from pathlib import Path
@@ -23,6 +25,7 @@ PROJECTS_DIR = PREVIEW_ROOT / "projects"
 ASSETS_DIR = PREVIEW_ROOT / "assets"
 RUNTIME_DIR = PREVIEW_ROOT / "runtime"
 LOG_DIR = ROOT / "logs" / "project-preview"
+NODE_MODULE_DIR_NAMES = {"node_modules", "node_moudles", "node_moudoules"}
 
 MYSQL_HOST = "127.0.0.1"
 MYSQL_PORT = 3306
@@ -99,16 +102,17 @@ def scan_projects() -> dict[str, ProjectMeta]:
         if miniapp_dir:
             components.append("miniapp")
 
+        runnable_frontend_dir = discover_runnable_frontend_dir(frontend_dir)
         accounts, readme_sources = discover_accounts(project_id, backend_dir, frontend_dir, miniapp_dir)
-        routes = discover_routes(frontend_dir)
-        capture_urls = build_capture_urls(backend_dir, frontend_dir)
+        routes = discover_routes(runnable_frontend_dir)
+        capture_urls = build_capture_urls(backend_dir, runnable_frontend_dir)
 
         result[project_id] = ProjectMeta(
             project_id=project_id,
             name=names.get(project_id, f"项目 {project_id}"),
             components=components,
             backend_dir=str(backend_dir.relative_to(ROOT)) if backend_dir.exists() else None,
-            frontend_dir=str(frontend_dir.relative_to(ROOT)) if frontend_dir.exists() else None,
+            frontend_dir=str(runnable_frontend_dir.relative_to(ROOT)) if runnable_frontend_dir else None,
             miniapp_dir=str(miniapp_dir.relative_to(ROOT)) if miniapp_dir else None,
             capture_urls=capture_urls,
             accounts=accounts,
@@ -157,8 +161,13 @@ def discover_accounts(
             "数据库信息",
             "数据库名",
             "修改数据库配置",
+            "连接信息",
+            "控制台连接",
             "datasource",
             "jdbc:mysql",
+            "jdbc:h2",
+            "jdbc url",
+            "h2 控制台",
             "mysql",
             "端口：3306",
             "端口:3306",
@@ -202,29 +211,66 @@ def discover_accounts(
         for block in re.split(r"\n\s*\n", text):
             if is_database_info_block(block):
                 continue
-            username_match = re.search(r"-\s*(?:\*\*)?用户名(?:\*\*)?\s*[:：]\s*`?([A-Za-z0-9_@.\-]+)`?", block)
+            username_match = re.search(r"-\s*(?:\*\*)?(?:用户名|账号)(?:\*\*)?\s*[:：]\s*`?([A-Za-z0-9_@.\-]+)`?", block)
             password_match = re.search(r"-\s*(?:\*\*)?密码(?:\*\*)?\s*[:：]\s*`?([^\s`]+)`?", block)
             role_match = re.search(r"-\s*(?:\*\*)?角色(?:\*\*)?\s*[:：]\s*([^\n`]+)", block)
             if username_match and password_match:
+                username = username_match.group(1).strip()
+                password = password_match.group(1).strip().strip("，。,.;；")
+                if username.lower() in {"sa", "root"} and not role_match:
+                    continue
                 role_label = role_match.group(1).strip() if role_match else ("管理员" if username_match.group(1).lower() == "admin" else "用户")
                 add_account(
                     Account(
                         role_key=role_key_from_label(role_label),
                         role_label=role_label,
-                        username=username_match.group(1).strip(),
-                        password=password_match.group(1).strip().strip("，。,.;；"),
+                        username=username,
+                        password=password,
                     ),
                     file,
                 )
 
+        table_header: list[str] | None = None
+        table_context = ""
         for raw_line in text.splitlines():
             line = raw_line.strip()
+            heading_match = re.match(r"^#+\s*(.+)$", line)
+            if heading_match:
+                table_context = heading_match.group(1).strip()
+                table_header = None
             if line.count("|") < 4:
                 continue
             columns = [column.strip().strip("`").strip("*") for column in line.split("|")[1:-1]]
             if len(columns) < 3:
                 continue
-            role_label, username, password = columns[:3]
+            if all(set(column) <= {"-", ":", " "} for column in columns):
+                continue
+            if any("密码" in column for column in columns) and any(
+                token in column for column in columns for token in ["角色", "用户名", "账号", "学号"]
+            ):
+                table_header = columns
+                continue
+            if table_header:
+                indexed = {header: columns[index] for index, header in enumerate(table_header) if index < len(columns)}
+
+                def column_value(*tokens: str) -> str:
+                    for header, value in indexed.items():
+                        if any(token in header for token in tokens):
+                            return value.strip()
+                    return ""
+
+                username = column_value("用户名", "账号", "学号")
+                password = column_value("密码")
+                role_label = column_value("角色")
+                if not role_label:
+                    if "管理" in table_context or "admin" in table_context.lower():
+                        role_label = "管理员"
+                    elif "学生" in table_context:
+                        role_label = "学生"
+                    else:
+                        role_label = "用户"
+            else:
+                role_label, username, password = columns[:3]
             if not role_label or not username or not password:
                 continue
             if set(role_label) <= {"-", " "} or "角色" in role_label:
@@ -345,6 +391,43 @@ def discover_routes(frontend_dir: Path) -> list[str]:
     return routes
 
 
+def is_runnable_frontend_dir(frontend_dir: Path) -> bool:
+    if not frontend_dir or not frontend_dir.exists():
+        return False
+    if (frontend_dir / "index.html").exists() and not (frontend_dir / "app.json").exists():
+        return True
+    package_json = frontend_dir / "package.json"
+    if not package_json.exists():
+        return False
+    try:
+        package_info = json.loads(package_json.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return False
+    scripts = package_info.get("scripts", {})
+    return "dev" in scripts or "start" in scripts
+
+
+def discover_runnable_frontend_dir(frontend_dir: Path) -> Path | None:
+    if not frontend_dir or not frontend_dir.exists():
+        return None
+    if is_runnable_frontend_dir(frontend_dir):
+        return frontend_dir
+
+    candidates: list[Path] = []
+    for child in sorted(frontend_dir.iterdir()):
+        if child.is_dir() and is_runnable_frontend_dir(child):
+            candidates.append(child)
+    if not candidates:
+        return None
+
+    priority = ["admin", "web", "user", "client", "frontend", "h5"]
+    for name in priority:
+        for candidate in candidates:
+            if candidate.name.lower() == name:
+                return candidate
+    return candidates[0]
+
+
 def detect_backend_port(backend_dir: Path) -> int:
     candidates = [
         backend_dir / "src" / "main" / "resources" / "application.yml",
@@ -360,16 +443,47 @@ def detect_backend_port(backend_dir: Path) -> int:
     return 8080
 
 
-def build_capture_urls(backend_dir: Path, frontend_dir: Path) -> dict[str, str]:
+def build_capture_urls(backend_dir: Path, frontend_dir: Path | None) -> dict[str, str]:
     urls: dict[str, str] = {}
     if backend_dir.exists():
         urls["backend"] = f"http://127.0.0.1:{detect_backend_port(backend_dir)}"
-    if frontend_dir.exists():
+    if frontend_dir and frontend_dir.exists():
         urls["frontend"] = "http://127.0.0.1:3000"
     return urls
 
 
 def find_sql_file(backend_dir: Path) -> Path | None:
+    sql_files = find_sql_files(backend_dir)
+    return sql_files[0] if sql_files else None
+
+
+def find_sql_files(backend_dir: Path) -> list[Path]:
+    sql_dirs = [
+        backend_dir / "src" / "main" / "resources" / "sql",
+        backend_dir / "sql",
+    ]
+    for directory in sql_dirs:
+        if not directory.exists():
+            continue
+        init_sql = directory / "init.sql"
+        if init_sql.exists():
+            return [init_sql]
+        schema_sql = directory / "schema.sql"
+        if schema_sql.exists():
+            ordered = [schema_sql]
+            for name in [
+                "init_data.sql",
+                "data.sql",
+                "seed.sql",
+                "seeds.sql",
+                "insert.sql",
+                "inserts.sql",
+            ]:
+                data_file = directory / name
+                if data_file.exists():
+                    ordered.append(data_file)
+            return ordered
+
     candidates = [
         backend_dir / "src" / "main" / "resources" / "sql" / "init.sql",
         backend_dir / "src" / "main" / "resources" / "sql" / "schema.sql",
@@ -379,7 +493,17 @@ def find_sql_file(backend_dir: Path) -> Path | None:
     for candidate in candidates:
         if candidate.exists():
             return candidate
-    return None
+    fallback_dirs = [
+        backend_dir / "src" / "main" / "resources" / "sql",
+        backend_dir / "sql",
+    ]
+    for directory in fallback_dirs:
+        if not directory.exists():
+            continue
+        sql_files = sorted(file for file in directory.glob("*.sql") if file.is_file())
+        if len(sql_files) == 1:
+            return [sql_files[0]]
+    return []
 
 
 def split_sql_statements(text: str) -> list[str]:
@@ -425,9 +549,16 @@ def split_sql_statements(text: str) -> list[str]:
 
 
 def import_sql_file(sql_file: Path) -> None:
-    text = sql_file.read_text(encoding="utf-8", errors="ignore")
-    statements = split_sql_statements(text)
-    database_name = discover_database_name(text)
+    import_sql_files([sql_file])
+
+
+def import_sql_files(sql_files: list[Path]) -> None:
+    file_texts = [(sql_file, sql_file.read_text(encoding="utf-8", errors="ignore")) for sql_file in sql_files]
+    database_name = None
+    for _, text in file_texts:
+        database_name = discover_database_name(text)
+        if database_name:
+            break
     connection = pymysql.connect(
         host=MYSQL_HOST,
         port=MYSQL_PORT,
@@ -440,16 +571,17 @@ def import_sql_file(sql_file: Path) -> None:
         with connection.cursor() as cursor:
             if database_name:
                 cursor.execute(f"DROP DATABASE IF EXISTS `{database_name}`")
-            for statement in statements:
-                cursor.execute(statement)
+            for _, text in file_texts:
+                for statement in split_sql_statements(text):
+                    cursor.execute(statement)
     finally:
         connection.close()
 
 
 def discover_database_name(text: str) -> str | None:
     for pattern in [
-        r"CREATE\s+DATABASE(?:\s+IF\s+NOT\s+EXISTS)?\s+([A-Za-z0-9_]+)",
-        r"USE\s+([A-Za-z0-9_]+)",
+        r"CREATE\s+DATABASE(?:\s+IF\s+NOT\s+EXISTS)?\s+`?([A-Za-z0-9_]+)`?",
+        r"USE\s+`?([A-Za-z0-9_]+)`?",
     ]:
         match = re.search(pattern, text, re.I)
         if match:
@@ -468,6 +600,142 @@ def run_command(command: list[str], cwd: Path, stdout_path: Path, stderr_path: P
         creationflags=getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0),
     )
     return process.pid
+
+
+def assert_inside_root(path: Path) -> Path:
+    resolved = path.resolve()
+    root = ROOT.resolve()
+    if resolved != root and root not in resolved.parents:
+        raise RuntimeError(f"拒绝操作工作区外路径：{resolved}")
+    return resolved
+
+
+def remove_tree(path: Path) -> None:
+    path = assert_inside_root(path)
+    if not path.exists():
+        return
+
+    def handle_remove_error(func, failed_path, _exc_info):
+        try:
+            os.chmod(failed_path, stat.S_IWRITE)
+            func(failed_path)
+        except Exception:
+            raise
+
+    shutil.rmtree(path, onerror=handle_remove_error)
+
+
+def clean_frontend_dependencies(project_id: str) -> list[str]:
+    projects = scan_projects()
+    if project_id not in projects:
+        return []
+    meta = projects[project_id]
+    if not meta.frontend_dir:
+        return []
+
+    frontend_dir = assert_inside_root(ROOT / meta.frontend_dir)
+    if not frontend_dir.exists():
+        return []
+
+    targets: list[Path] = []
+    for current_dir, dir_names, _file_names in os.walk(frontend_dir):
+        current = Path(current_dir)
+        for dir_name in list(dir_names):
+            if dir_name not in NODE_MODULE_DIR_NAMES:
+                continue
+            target = assert_inside_root(current / dir_name)
+            targets.append(target)
+            dir_names.remove(dir_name)
+
+    removed: list[str] = []
+    for target in targets:
+        remove_tree(target)
+        removed.append(str(target.relative_to(ROOT)))
+    return removed
+
+
+def read_backend_config_text(backend_dir: Path) -> str:
+    parts: list[str] = []
+    for relative in [
+        "src/main/resources/application.yml",
+        "src/main/resources/application.yaml",
+        "src/main/resources/application.properties",
+    ]:
+        candidate = backend_dir / relative
+        if candidate.exists():
+            parts.append(candidate.read_text(encoding="utf-8", errors="ignore"))
+    return "\n".join(parts)
+
+
+def detect_datasource_kind(backend_dir: Path) -> str:
+    text = read_backend_config_text(backend_dir).lower()
+    if "jdbc:h2:" in text or "org.h2.driver" in text:
+        return "h2"
+    if "jdbc:mysql:" in text or "com.mysql" in text:
+        return "mysql"
+    return "unknown"
+
+
+def clean_h2_database_files(backend_dir: Path) -> list[str]:
+    text = read_backend_config_text(backend_dir)
+    matches = re.findall(r"jdbc:h2:file:([^;\s]+)", text, flags=re.I)
+    removed: list[str] = []
+    for raw_match in matches:
+        raw_path = raw_match.strip().strip('"').strip("'")
+        database_path = Path(raw_path)
+        if not database_path.is_absolute():
+            database_path = backend_dir / database_path
+        database_path = assert_inside_root(database_path)
+        candidates = [
+            database_path,
+            Path(str(database_path) + ".mv.db"),
+            Path(str(database_path) + ".trace.db"),
+            Path(str(database_path) + ".lock.db"),
+        ]
+        for candidate in candidates:
+            candidate = assert_inside_root(candidate)
+            if candidate.is_dir():
+                remove_tree(candidate)
+                removed.append(str(candidate.relative_to(ROOT)))
+            elif candidate.exists():
+                candidate.chmod(stat.S_IWRITE)
+                candidate.unlink()
+                removed.append(str(candidate.relative_to(ROOT)))
+    return removed
+
+
+def install_frontend_dependencies(project_id: str, frontend_dir: Path) -> dict[str, str | int]:
+    node_modules = frontend_dir / "node_modules"
+    if node_modules.exists():
+        return {"status": "skipped", "reason": "node_modules exists"}
+
+    package_json = frontend_dir / "package.json"
+    if not package_json.exists():
+        return {"status": "skipped", "reason": "package.json missing"}
+
+    stdout_path = LOG_DIR / f"{project_id}-frontend-install.out.log"
+    stderr_path = LOG_DIR / f"{project_id}-frontend-install.err.log"
+    with stdout_path.open("w", encoding="utf-8", errors="ignore") as stdout_file, stderr_path.open(
+        "w", encoding="utf-8", errors="ignore"
+    ) as stderr_file:
+        process = subprocess.run(
+            ["npm.cmd", "install", "--no-audit", "--no-fund", "--package-lock=false"],
+            cwd=str(frontend_dir),
+            stdout=stdout_file,
+            stderr=stderr_file,
+            text=True,
+            timeout=900,
+        )
+
+    if process.returncode != 0:
+        raise RuntimeError(
+            f"{project_id} 前端依赖安装失败，查看 {stdout_path.relative_to(ROOT)} 和 {stderr_path.relative_to(ROOT)}"
+        )
+    return {
+        "status": "installed",
+        "stdout": str(stdout_path.relative_to(ROOT)),
+        "stderr": str(stderr_path.relative_to(ROOT)),
+    }
 
 
 def detect_backend_port(backend_dir: Path) -> int:
@@ -518,6 +786,10 @@ def load_package_scripts(frontend_dir: Path) -> dict[str, Any]:
     return json.loads(package_json.read_text(encoding="utf-8"))
 
 
+def has_static_index(frontend_dir: Path) -> bool:
+    return (frontend_dir / "index.html").exists()
+
+
 def prepare_project(project_id: str) -> None:
     ensure_dirs()
     if runtime_file(project_id).exists():
@@ -540,10 +812,18 @@ def prepare_project(project_id: str) -> None:
     }
 
     if backend_dir:
-        sql_file = find_sql_file(backend_dir)
-        if sql_file:
-            import_sql_file(sql_file)
-            runtime["sql_file"] = str(sql_file.relative_to(ROOT))
+        datasource_kind = detect_datasource_kind(backend_dir)
+        runtime["datasource_kind"] = datasource_kind
+        if datasource_kind == "h2":
+            removed_h2_files = clean_h2_database_files(backend_dir)
+            if removed_h2_files:
+                runtime["h2_files_removed"] = removed_h2_files
+
+        sql_files = find_sql_files(backend_dir)
+        if sql_files and datasource_kind != "h2":
+            import_sql_files(sql_files)
+            runtime["sql_file"] = str(sql_files[0].relative_to(ROOT))
+            runtime["sql_files"] = [str(sql_file.relative_to(ROOT)) for sql_file in sql_files]
 
         backend_port = find_available_port(detect_backend_port(backend_dir))
         backend_out = LOG_DIR / f"{project_id}-backend.out.log"
@@ -562,23 +842,25 @@ def prepare_project(project_id: str) -> None:
         }
 
     if frontend_dir:
+        runtime["logs"]["frontend_install"] = install_frontend_dependencies(project_id, frontend_dir)
         package_info = load_package_scripts(frontend_dir)
         scripts = package_info.get("scripts", {})
+        frontend_port = None
         if "dev" in scripts:
-            dev_script = str(scripts.get("dev", ""))
-            if "vite" in dev_script:
-                command = ["npx.cmd", "--yes", "vite", "--host", "127.0.0.1"]
-            else:
-                command = ["npm.cmd", "run", "dev", "--", "--host", "127.0.0.1"]
+            command = ["npm.cmd", "run", "dev", "--", "--host", "127.0.0.1"]
         elif "start" in scripts:
             command = ["npm.cmd", "start"]
+        elif has_static_index(frontend_dir):
+            frontend_port = find_available_port(detect_frontend_port(frontend_dir))
+            command = [sys.executable, "-m", "http.server", str(frontend_port), "--bind", "127.0.0.1"]
         else:
             raise RuntimeError(f"{project_id} 前端缺少可用启动脚本")
 
         frontend_out = LOG_DIR / f"{project_id}-frontend.out.log"
         frontend_err = LOG_DIR / f"{project_id}-frontend.err.log"
         frontend_pid = run_command(command, frontend_dir, frontend_out, frontend_err)
-        frontend_port = wait_for_frontend_port(frontend_out, detect_frontend_port(frontend_dir))
+        if frontend_port is None:
+            frontend_port = wait_for_frontend_port(frontend_out, detect_frontend_port(frontend_dir))
         wait_for_port(frontend_port)
         runtime["services"]["frontend"] = {
             "url": f"http://127.0.0.1:{frontend_port}",
@@ -616,7 +898,8 @@ def wait_for_frontend_port(stdout_path: Path, fallback_port: int, timeout: int =
     while time.time() - start < timeout:
         if stdout_path.exists():
             last_text = stdout_path.read_text(encoding="utf-8", errors="ignore")
-            matches = re.findall(r"http://127\.0\.0\.1:(\d+)/", last_text)
+            plain_text = re.sub(r"\x1b\[[0-9;]*m", "", last_text)
+            matches = re.findall(r"http://127\.0\.0\.1:\s*(\d+)\s*/", plain_text)
             if matches:
                 return int(matches[-1])
         time.sleep(1)
@@ -650,6 +933,14 @@ def stop_project(project_id: str) -> None:
     payload["stopped_at"] = time.strftime("%Y-%m-%d %H:%M:%S")
     save_runtime(project_id, payload)
     print(f"{project_id} 已停止")
+
+
+def cleanup_project(project_id: str) -> None:
+    removed = clean_frontend_dependencies(project_id)
+    if removed:
+        print(json.dumps({"project_id": project_id, "removed": removed}, ensure_ascii=False, indent=2))
+    else:
+        print(f"{project_id} 未发现需要清理的前端 node_modules")
 
 
 def terminate_services(payload: dict[str, Any]) -> None:
@@ -830,6 +1121,9 @@ def build_parser() -> argparse.ArgumentParser:
     stop_parser = subparsers.add_parser("stop", help="停止项目运行")
     stop_parser.add_argument("project_id", help="项目编号，例如 001")
 
+    cleanup_parser = subparsers.add_parser("cleanup", help="删除项目的前端 node_modules")
+    cleanup_parser.add_argument("project_id", help="项目编号，例如 001")
+
     return parser
 
 
@@ -849,6 +1143,9 @@ def main() -> int:
         return 0
     if args.command == "stop":
         stop_project(args.project_id)
+        return 0
+    if args.command == "cleanup":
+        cleanup_project(args.project_id)
         return 0
     parser.print_help()
     return 1

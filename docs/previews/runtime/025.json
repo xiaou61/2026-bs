@@ -20,11 +20,11 @@
   "services": {
     "backend": {
       "url": "http://127.0.0.1:8025",
-      "pid": 43108
+      "pid": 44964
     },
     "frontend": {
       "url": "http://127.0.0.1:3025",
-      "pid": 46892
+      "pid": 24796
     }
   },
   "logs": {
@@ -32,19 +32,28 @@
       "stdout": "logs\\project-preview\\025-backend.out.log",
       "stderr": "logs\\project-preview\\025-backend.err.log"
     },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\025-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\025-frontend-install.err.log"
+    },
     "frontend": {
       "stdout": "logs\\project-preview\\025-frontend.out.log",
       "stderr": "logs\\project-preview\\025-frontend.err.log"
     }
   },
   "status": "stopped",
-  "prepared_at": "2026-05-24 22:14:31",
-  "sql_file": "025-backend\\src\\main\\resources\\sql\\schema.sql",
+  "prepared_at": "2026-06-06 09:27:34",
+  "datasource_kind": "h2",
+  "h2_files_removed": [
+    "025-backend\\data\\025-community.mv.db",
+    "025-backend\\data\\025-community.lock.db"
+  ],
   "capture_hints": {
     "roles": [],
     "routes": [],
     "screenshot_dir": "docs\\previews\\assets\\025",
     "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
   },
-  "stopped_at": "2026-05-24 22:35:24"
+  "stopped_at": "2026-06-06 09:29:33"
 }

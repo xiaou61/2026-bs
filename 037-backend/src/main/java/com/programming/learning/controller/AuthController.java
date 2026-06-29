@@ -8,9 +8,11 @@ import com.programming.learning.util.JwtUtil;
 import com.programming.learning.util.WeChatUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -23,28 +25,24 @@ import java.util.Map;
 @RestController
 @RequestMapping("/auth")
 @Tag(name = "认证接口")
+@RequiredArgsConstructor
 public class AuthController {
 
-    @Autowired
-    private WeChatUtil weChatUtil;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private JwtUtil jwtUtil;
+    private final WeChatUtil weChatUtil;
+    private final UserService userService;
+    private final JwtUtil jwtUtil;
 
     /**
      * 微信小程序登录
      */
     @PostMapping("/wxlogin")
     @Operation(summary = "微信小程序登录")
-    public Result<Map<String, Object>> wxLogin(@RequestBody WxLoginRequest request) {
+    public Result<Map<String, Object>> wxLogin(@Valid @RequestBody WxLoginRequest request) {
         log.info("微信登录，code: {}", request.getCode());
 
         // 1. 通过code获取session信息
         WxMaJscode2SessionResult session = weChatUtil.code2Session(request.getCode());
-        if (session == null) {
+        if (session == null || !org.springframework.util.StringUtils.hasText(session.getOpenid())) {
             return Result.error("微信登录失败");
         }
 
@@ -81,7 +79,7 @@ public class AuthController {
      */
     @GetMapping("/userinfo")
     @Operation(summary = "获取用户信息")
-    public Result<User> getUserInfo(@RequestHeader(value = "Authorization", required = false) String authorization) {
+    public Result<Map<String, Object>> getUserInfo(@RequestHeader(value = "Authorization", required = false) String authorization) {
         if (authorization == null || !authorization.startsWith("Bearer ")) {
             return Result.error(401, "未登录");
         }
@@ -95,7 +93,18 @@ public class AuthController {
         }
 
         User user = userService.getUserById(userId);
-        return Result.success(user);
+        String openId = jwtUtil.getOpenIdFromToken(token);
+        Map<String, Object> data = new HashMap<>();
+        data.put("id", user.getId());
+        data.put("nickname", user.getNickname());
+        data.put("avatar", user.getAvatar());
+        data.put("role", user.getRole());
+        data.put("status", user.getStatus());
+        data.put("score", user.getScore());
+        data.put("level", user.getLevel());
+        data.put("bio", user.getBio());
+        data.put("openId", openId);
+        return Result.success(data);
     }
 
     /**
@@ -103,6 +112,7 @@ public class AuthController {
      */
     @Data
     public static class WxLoginRequest {
+        @NotBlank(message = "微信授权code不能为空")
         private String code;
         private String nickname;
         private String avatar;

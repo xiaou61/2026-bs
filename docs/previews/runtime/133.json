@@ -1,0 +1,56 @@
+{
+  "project": {
+    "project_id": "133",
+    "name": "实验室耗材采购审批与库存预警系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "133-backend",
+    "frontend_dir": "133-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8133",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8133",
+      "pid": 9312
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3133",
+      "pid": 35736
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\133-backend.out.log",
+      "stderr": "logs\\project-preview\\133-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\133-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\133-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\133-frontend.out.log",
+      "stderr": "logs\\project-preview\\133-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 12:37:15",
+  "datasource_kind": "mysql",
+  "sql_file": "133-backend\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\133",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 12:39:45"
+}

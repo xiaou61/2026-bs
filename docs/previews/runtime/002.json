@@ -13,38 +13,108 @@
       "backend": "http://127.0.0.1:8080",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student2",
+        "password": "123456"
+      },
+      {
+        "role_key": "teacher",
+        "role_label": "教师",
+        "username": "teacher1",
+        "password": "123456"
+      },
+      {
+        "role_key": "teacher",
+        "role_label": "教师",
+        "username": "teacher2",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "002-backend\\README.md"
+    ]
   },
   "services": {
     "backend": {
-      "url": "http://127.0.0.1:18080",
-      "pid": 42288
+      "url": "http://127.0.0.1:8080",
+      "pid": 9600
     },
     "frontend": {
-      "url": "http://127.0.0.1:3002",
-      "pid": 54984
+      "url": "http://127.0.0.1:3001",
+      "pid": 56820
     }
   },
   "logs": {
     "backend": {
-      "stdout": "logs\\project-preview\\002-backend-preview.out.log",
-      "stderr": "logs\\project-preview\\002-backend-preview.err.log"
+      "stdout": "logs\\project-preview\\002-backend.out.log",
+      "stderr": "logs\\project-preview\\002-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\002-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\002-frontend-install.err.log"
     },
     "frontend": {
-      "stdout": "logs\\project-preview\\002-frontend-preview.out.log",
-      "stderr": "logs\\project-preview\\002-frontend-preview.err.log"
+      "stdout": "logs\\project-preview\\002-frontend.out.log",
+      "stderr": "logs\\project-preview\\002-frontend.err.log"
     }
   },
   "status": "stopped",
-  "prepared_at": "2026-04-24 23:33:10",
+  "prepared_at": "2026-06-06 16:34:06",
+  "datasource_kind": "mysql",
   "sql_file": "002-backend\\src\\main\\resources\\sql\\init.sql",
   "capture_hints": {
-    "roles": [],
+    "roles": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student2",
+        "password": "123456"
+      },
+      {
+        "role_key": "teacher",
+        "role_label": "教师",
+        "username": "teacher1",
+        "password": "123456"
+      },
+      {
+        "role_key": "teacher",
+        "role_label": "教师",
+        "username": "teacher2",
+        "password": "123456"
+      }
+    ],
     "routes": [],
     "screenshot_dir": "docs\\previews\\assets\\002",
     "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
   },
-  "stopped_at": "2026-04-24 23:51:01"
+  "stopped_at": "2026-06-06 16:35:26"
 }

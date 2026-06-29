@@ -1,7 +1,6 @@
 package com.xiaou.studyroom.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -10,15 +9,26 @@ import com.xiaou.studyroom.entity.User;
 import com.xiaou.studyroom.mapper.CreditRecordMapper;
 import com.xiaou.studyroom.mapper.UserMapper;
 import com.xiaou.studyroom.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-    @Autowired
-    private CreditRecordMapper creditRecordMapper;
+    private static final int MIN_PASSWORD_LENGTH = 6;
+    private static final int MAX_PASSWORD_LENGTH = 64;
+    private static final int MIN_CREDIT_CHANGE = -100;
+    private static final int MAX_CREDIT_CHANGE = 100;
+    private static final int MAX_REASON_LENGTH = 200;
+
+    private final CreditRecordMapper creditRecordMapper;
+    private final BCryptPasswordEncoder passwordEncoder;
+
+    public UserServiceImpl(CreditRecordMapper creditRecordMapper, BCryptPasswordEncoder passwordEncoder) {
+        this.creditRecordMapper = creditRecordMapper;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public User login(String username, String password) {
@@ -26,21 +36,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return null;
         }
 
-        String encryptedPassword = SecureUtil.md5(password);
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username", username)
-                   .eq("password", encryptedPassword)
                    .eq("status", 1);
 
-        return getOne(queryWrapper);
+        User user = getOne(queryWrapper);
+        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
+            return null;
+        }
+        return user;
     }
 
     @Override
     @Transactional
     public boolean register(User user) {
-        if (StrUtil.isBlank(user.getUsername()) || StrUtil.isBlank(user.getPassword())) {
+        if (user == null || StrUtil.isBlank(user.getUsername()) || StrUtil.isBlank(user.getPassword())) {
             return false;
         }
+        validatePassword(user.getPassword());
 
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username", user.getUsername());
@@ -48,7 +61,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return false;
         }
 
-        user.setPassword(SecureUtil.md5(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setCreditScore(100);
         user.setStatus(1);
 
@@ -70,6 +83,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return false;
         }
 
+        if (scoreChange == null || scoreChange < MIN_CREDIT_CHANGE || scoreChange > MAX_CREDIT_CHANGE) {
+            throw new IllegalArgumentException("信用分调整幅度必须在 " + MIN_CREDIT_CHANGE + " 到 " + MAX_CREDIT_CHANGE + " 之间");
+        }
+
+        String trimmedReason = reason != null ? reason.trim() : "";
+        if (trimmedReason.isEmpty() || trimmedReason.length() > MAX_REASON_LENGTH) {
+            throw new IllegalArgumentException("调整原因不能为空且长度不能超过 " + MAX_REASON_LENGTH + " 字");
+        }
+
         user.setCreditScore(user.getCreditScore() + scoreChange);
         if (user.getCreditScore() < 0) {
             user.setCreditScore(0);
@@ -81,7 +103,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             CreditRecord record = new CreditRecord();
             record.setUserId(userId);
             record.setScoreChange(scoreChange);
-            record.setChangeReason(reason);
+            record.setChangeReason(trimmedReason);
             record.setRelatedType("SYSTEM");
             creditRecordMapper.insert(record);
         }
@@ -111,5 +133,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public boolean isAdmin(Long userId) {
         User user = getById(userId);
         return user != null && "admin".equalsIgnoreCase(user.getUsername());
+    }
+
+    private void validatePassword(String password) {
+        if (StrUtil.isBlank(password) || password.length() < MIN_PASSWORD_LENGTH || password.length() > MAX_PASSWORD_LENGTH) {
+            throw new IllegalArgumentException("密码长度必须在 " + MIN_PASSWORD_LENGTH + " 到 " + MAX_PASSWORD_LENGTH + " 位之间");
+        }
     }
 }

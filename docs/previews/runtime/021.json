@@ -29,11 +29,11 @@
   "services": {
     "backend": {
       "url": "http://127.0.0.1:8080",
-      "pid": 37944
+      "pid": 51932
     },
     "frontend": {
-      "url": "http://127.0.0.1:3000",
-      "pid": 39364
+      "url": "http://127.0.0.1:3001",
+      "pid": 66592
     }
   },
   "logs": {
@@ -41,14 +41,23 @@
       "stdout": "logs\\project-preview\\021-backend.out.log",
       "stderr": "logs\\project-preview\\021-backend.err.log"
     },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\021-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\021-frontend-install.err.log"
+    },
     "frontend": {
       "stdout": "logs\\project-preview\\021-frontend.out.log",
       "stderr": "logs\\project-preview\\021-frontend.err.log"
     }
   },
   "status": "stopped",
-  "prepared_at": "2026-05-24 22:33:00",
+  "prepared_at": "2026-06-07 21:31:36",
+  "datasource_kind": "mysql",
   "sql_file": "021-backend\\src\\main\\resources\\sql\\init.sql",
+  "sql_files": [
+    "021-backend\\src\\main\\resources\\sql\\init.sql"
+  ],
   "capture_hints": {
     "roles": [],
     "routes": [
@@ -64,5 +73,5 @@
     "screenshot_dir": "docs\\previews\\assets\\021",
     "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
   },
-  "stopped_at": "2026-05-24 22:33:21"
+  "stopped_at": "2026-06-07 21:35:50"
 }

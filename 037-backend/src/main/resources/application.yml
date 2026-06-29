@@ -90,6 +90,12 @@ wechat:
   miniapp:
     app-id: your-app-id
     app-secret: your-app-secret
+  mock:
+    enabled: true
+
+# CORS配置
+cors:
+  allowed-origins: "*"
 
 # 日志配置
 logging:

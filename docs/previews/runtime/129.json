@@ -1,0 +1,56 @@
+{
+  "project": {
+    "project_id": "129",
+    "name": "水产养殖环境监测与投喂预警系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "129-backend",
+    "frontend_dir": "129-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8129",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8129",
+      "pid": 36984
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3129",
+      "pid": 54220
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\129-backend.out.log",
+      "stderr": "logs\\project-preview\\129-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\129-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\129-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\129-frontend.out.log",
+      "stderr": "logs\\project-preview\\129-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 12:26:08",
+  "datasource_kind": "mysql",
+  "sql_file": "129-backend\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\129",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 12:28:27"
+}

@@ -26,6 +26,9 @@ public interface WorkerProfileMapper {
     @Delete("DELETE FROM worker_profile WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM worker_profile WHERE id = #{id}")
+    WorkerProfile selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM worker_profile")
     long countAll();
 

@@ -4,7 +4,7 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,16 +14,24 @@ import org.springframework.stereotype.Component;
 @Component
 public class WeChatUtil {
 
-    @Autowired
-    private WxMaService wxMaService;
+    private final WxMaService wxMaService;
+    private final boolean mockEnabled;
+
+    public WeChatUtil(WxMaService wxMaService,
+                      @Value("${wechat.mock.enabled:false}") boolean mockEnabled) {
+        this.wxMaService = wxMaService;
+        this.mockEnabled = mockEnabled;
+    }
 
     /**
      * 通过code获取session信息
      */
     public WxMaJscode2SessionResult code2Session(String code) {
-        WxMaJscode2SessionResult mockSession = buildMockSession(code);
-        if (mockSession != null) {
-            return mockSession;
+        if (mockEnabled) {
+            WxMaJscode2SessionResult mockSession = buildMockSession(code);
+            if (mockSession != null) {
+                return mockSession;
+            }
         }
 
         try {

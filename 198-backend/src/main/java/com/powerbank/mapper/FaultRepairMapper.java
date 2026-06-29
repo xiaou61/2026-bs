@@ -23,6 +23,9 @@ public interface FaultRepairMapper {
     @Update("UPDATE fault_repair SET record_no=#{recordNo},record_name=#{recordName},category=#{category},owner_name=#{ownerName},plan_time=#{planTime},status=#{status},remark=#{remark},updated_time=NOW() WHERE id=#{id}")
     int update(FaultRepair entity);
 
+    @Select("SELECT * FROM fault_repair WHERE id = #{id}")
+    FaultRepair selectById(Long id);
+
     @Delete("DELETE FROM fault_repair WHERE id=#{id}")
     int deleteById(Long id);
 

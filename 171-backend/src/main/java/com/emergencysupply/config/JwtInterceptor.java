@@ -1,7 +1,7 @@
 package com.emergencysupply.config;
 
 import com.emergencysupply.common.BusinessException;
-import com.emergencysupply.clerk.TokenService;
+import com.emergencysupply.service.TokenService;
 import com.emergencysupply.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;

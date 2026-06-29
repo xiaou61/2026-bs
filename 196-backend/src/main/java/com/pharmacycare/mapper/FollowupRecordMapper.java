@@ -23,6 +23,9 @@ public interface FollowupRecordMapper {
     @Update("UPDATE followup_record SET record_no=#{recordNo},record_name=#{recordName},category=#{category},owner_name=#{ownerName},plan_time=#{planTime},status=#{status},remark=#{remark},updated_time=NOW() WHERE id=#{id}")
     int update(FollowupRecord entity);
 
+    @Select("SELECT * FROM followup_record WHERE id = #{id}")
+    FollowupRecord selectById(Long id);
+
     @Delete("DELETE FROM followup_record WHERE id=#{id}")
     int deleteById(Long id);
 

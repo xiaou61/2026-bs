@@ -26,6 +26,9 @@ public interface RiskWarningMapper {
     @Delete("DELETE FROM risk_warning WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM risk_warning WHERE id=#{id}")
+    RiskWarning selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM risk_warning")
     long countAll();
 

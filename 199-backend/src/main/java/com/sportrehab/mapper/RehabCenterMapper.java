@@ -26,6 +26,9 @@ public interface RehabCenterMapper {
     @Delete("DELETE FROM rehab_center WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM rehab_center WHERE id=#{id}")
+    RehabCenter selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM rehab_center")
     long countAll();
 

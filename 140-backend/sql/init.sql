@@ -17,10 +17,10 @@ CREATE TABLE sys_user (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO sys_user (username, password, nickname, role, department, phone, email, status, created_time, updated_time) VALUES
-('admin', '123456', '系统管理员', 'ADMIN', '信息管理部', '139140000100', 'admin@demo.local', 1, NOW(), NOW()),
-('legal', '123456', '法务专员', 'LEGAL', '法务合规部', '139140000200', 'legal@demo.local', 1, NOW(), NOW()),
-('applicant', '123456', '业务申请人', 'APPLICANT', '业务运营部', '139140000300', 'applicant@demo.local', 1, NOW(), NOW()),
-('approver', '123456', '审批负责人', 'APPROVER', '综合管理部', '139140000400', 'approver@demo.local', 1, NOW(), NOW());
+('admin', '$2a$12$tstfO416nC5sUSbpA/LUtOE5PO4lZI8B1mx.NssOQefP4IZakTf6q', '系统管理员', 'ADMIN', '信息管理部', '139140000100', 'admin@demo.local', 1, NOW(), NOW()),
+('legal', '$2a$12$tstfO416nC5sUSbpA/LUtOE5PO4lZI8B1mx.NssOQefP4IZakTf6q', '法务专员', 'LEGAL', '法务合规部', '139140000200', 'legal@demo.local', 1, NOW(), NOW()),
+('applicant', '$2a$12$tstfO416nC5sUSbpA/LUtOE5PO4lZI8B1mx.NssOQefP4IZakTf6q', '业务申请人', 'APPLICANT', '业务运营部', '139140000300', 'applicant@demo.local', 1, NOW(), NOW()),
+('approver', '$2a$12$tstfO416nC5sUSbpA/LUtOE5PO4lZI8B1mx.NssOQefP4IZakTf6q', '审批负责人', 'APPROVER', '综合管理部', '139140000400', 'approver@demo.local', 1, NOW(), NOW());
 
 CREATE TABLE contract_template (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,

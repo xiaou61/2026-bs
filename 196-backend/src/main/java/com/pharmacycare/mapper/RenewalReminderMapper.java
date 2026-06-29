@@ -23,6 +23,9 @@ public interface RenewalReminderMapper {
     @Update("UPDATE renewal_reminder SET record_no=#{recordNo},record_name=#{recordName},category=#{category},owner_name=#{ownerName},plan_time=#{planTime},status=#{status},remark=#{remark},updated_time=NOW() WHERE id=#{id}")
     int update(RenewalReminder entity);
 
+    @Select("SELECT * FROM renewal_reminder WHERE id = #{id}")
+    RenewalReminder selectById(Long id);
+
     @Delete("DELETE FROM renewal_reminder WHERE id=#{id}")
     int deleteById(Long id);
 

@@ -1,0 +1,71 @@
+{
+  "project": {
+    "project_id": "065",
+    "name": "名城小区物业管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "065-backend",
+    "frontend_dir": "065-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8065",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "系统管理员",
+        "username": "admin",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "readme_sources": [
+      "065-backend\\README.md"
+    ]
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8065",
+      "pid": 39312
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3065",
+      "pid": 3240
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\065-backend.out.log",
+      "stderr": "logs\\project-preview\\065-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\065-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\065-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\065-frontend.out.log",
+      "stderr": "logs\\project-preview\\065-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 09:51:01",
+  "datasource_kind": "h2",
+  "capture_hints": {
+    "roles": [
+      {
+        "role_key": "admin",
+        "role_label": "系统管理员",
+        "username": "admin",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\065",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 09:53:02"
+}

@@ -1,0 +1,95 @@
+{
+  "project": {
+    "project_id": "055",
+    "name": "企业OA管理系统 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "055-backend",
+    "frontend_dir": "055-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8055",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "user",
+        "role_label": "用户",
+        "username": "sa",
+        "password": "留空"
+      },
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "admin123"
+      },
+      {
+        "role_key": "hr",
+        "role_label": "HR 主管",
+        "username": "hr",
+        "password": "hr123456"
+      }
+    ],
+    "routes": [],
+    "readme_sources": [
+      "055-backend\\README.md"
+    ]
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8055",
+      "pid": 32876
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3055",
+      "pid": 6580
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\055-backend.out.log",
+      "stderr": "logs\\project-preview\\055-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\055-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\055-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\055-frontend.out.log",
+      "stderr": "logs\\project-preview\\055-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 09:30:58",
+  "datasource_kind": "h2",
+  "capture_hints": {
+    "roles": [
+      {
+        "role_key": "user",
+        "role_label": "用户",
+        "username": "sa",
+        "password": "留空"
+      },
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "admin123"
+      },
+      {
+        "role_key": "hr",
+        "role_label": "HR 主管",
+        "username": "hr",
+        "password": "hr123456"
+      }
+    ],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\055",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 09:32:52"
+}

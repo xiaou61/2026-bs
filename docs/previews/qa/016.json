@@ -1,0 +1,173 @@
+{
+  "project_id": "016",
+  "mode": "single-project-fine-capture",
+  "started_at": "2026-06-06 21:19:11",
+  "old_images_removed": 17,
+  "backup_dir": "logs\\project-preview\\fine-backups\\016\\20260606-211911",
+  "logs": {
+    "prepare": "logs\\project-preview\\016-prepare.fine.log",
+    "render": "logs\\project-preview\\016-render.fine.log",
+    "docs_generate": "logs\\project-preview\\016-docs-generate.fine.log",
+    "stop": "logs\\project-preview\\016-stop.fine.log",
+    "cleanup": "logs\\project-preview\\016-cleanup.fine.log"
+  },
+  "roles": [],
+  "guest": [
+    {
+      "file": "guest-01-index.png",
+      "label": "guest: index",
+      "url": "http://127.0.0.1:5173/login",
+      "text_length": 70,
+      "size": 447971,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-02-login.png",
+      "label": "guest: login",
+      "url": "http://127.0.0.1:5173/login.html",
+      "text_length": 0,
+      "size": 5851,
+      "warnings": [
+        "visible text is very short",
+        "image file is unusually small",
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-03-register.png",
+      "label": "guest: register",
+      "url": "http://127.0.0.1:5173/register",
+      "text_length": 51,
+      "size": 444564,
+      "warnings": []
+    },
+    {
+      "file": "guest-04-register.png",
+      "label": "guest: register",
+      "url": "http://127.0.0.1:5173/register.html",
+      "text_length": 0,
+      "size": 5851,
+      "warnings": [
+        "visible text is very short",
+        "image file is unusually small"
+      ]
+    },
+    {
+      "file": "guest-05-products.png",
+      "label": "guest: products",
+      "url": "http://127.0.0.1:5173/products.html",
+      "text_length": 0,
+      "size": 5851,
+      "warnings": [
+        "visible text is very short",
+        "image file is unusually small"
+      ]
+    }
+  ],
+  "warnings": [],
+  "project_specific": [
+    {
+      "file": "user-user001-10-home.png",
+      "label": "project 016: order square",
+      "url": "http://127.0.0.1:5173/home",
+      "text_length": 59,
+      "size": 30327,
+      "warnings": []
+    },
+    {
+      "file": "user-user001-11-publish.png",
+      "label": "project 016: publish order",
+      "url": "http://127.0.0.1:5173/publish",
+      "text_length": 147,
+      "size": 51404,
+      "warnings": []
+    },
+    {
+      "file": "user-user001-12-my-orders.png",
+      "label": "project 016: my orders",
+      "url": "http://127.0.0.1:5173/my-orders",
+      "text_length": 197,
+      "size": 43169,
+      "warnings": []
+    },
+    {
+      "file": "user-user001-13-wallet.png",
+      "label": "project 016: wallet",
+      "url": "http://127.0.0.1:5173/wallet",
+      "text_length": 330,
+      "size": 49024,
+      "warnings": []
+    },
+    {
+      "file": "user-user001-14-notifications.png",
+      "label": "project 016: notifications",
+      "url": "http://127.0.0.1:5173/notifications",
+      "text_length": 443,
+      "size": 72524,
+      "warnings": []
+    },
+    {
+      "file": "user-user001-15-profile.png",
+      "label": "project 016: profile",
+      "url": "http://127.0.0.1:5173/profile",
+      "text_length": 165,
+      "size": 47664,
+      "warnings": []
+    },
+    {
+      "file": "user-user001-17-recharge-dialog.png",
+      "label": "project 016: recharge dialog",
+      "url": "http://127.0.0.1:5173/wallet",
+      "text_length": 348,
+      "size": 50941,
+      "warnings": []
+    },
+    {
+      "file": "admin-10-dashboard.png",
+      "label": "project 016: admin dashboard",
+      "url": "http://127.0.0.1:5173/admin/dashboard",
+      "text_length": 176,
+      "size": 48514,
+      "warnings": []
+    },
+    {
+      "file": "admin-11-users.png",
+      "label": "project 016: admin users",
+      "url": "http://127.0.0.1:5173/admin/users",
+      "text_length": 372,
+      "size": 42527,
+      "warnings": []
+    },
+    {
+      "file": "admin-12-orders.png",
+      "label": "project 016: admin orders",
+      "url": "http://127.0.0.1:5173/admin/orders",
+      "text_length": 329,
+      "size": 38603,
+      "warnings": []
+    },
+    {
+      "file": "admin-13-complaints.png",
+      "label": "project 016: admin complaints",
+      "url": "http://127.0.0.1:5173/admin/complaints",
+      "text_length": 200,
+      "size": 33060,
+      "warnings": []
+    },
+    {
+      "file": "admin-14-transactions.png",
+      "label": "project 016: admin transactions",
+      "url": "http://127.0.0.1:5173/admin/transactions",
+      "text_length": 542,
+      "size": 49089,
+      "warnings": []
+    }
+  ],
+  "image_count": 17,
+  "status": "completed",
+  "finished_at": "2026-06-06 21:20:32",
+  "stop_exit_code": 0,
+  "cleanup_exit_code": 0
+}

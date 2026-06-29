@@ -1,0 +1,83 @@
+{
+  "project": {
+    "project_id": "068",
+    "name": "周边游平台个人管理模块 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "068-backend",
+    "frontend_dir": "068-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8068",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "readme_sources": [
+      "068-backend\\README.md"
+    ]
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8068",
+      "pid": 47120
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3068",
+      "pid": 49248
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\068-backend.out.log",
+      "stderr": "logs\\project-preview\\068-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\068-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\068-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\068-frontend.out.log",
+      "stderr": "logs\\project-preview\\068-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 09:57:18",
+  "datasource_kind": "h2",
+  "capture_hints": {
+    "roles": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\068",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 09:59:21"
+}

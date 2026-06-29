@@ -22,6 +22,15 @@ def image_count(project_id: str) -> int:
     return sum(1 for file in asset_dir.iterdir() if file.suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"})
 
 
+def clear_project_images(project_id: str) -> None:
+    asset_dir = ASSETS_DIR / project_id
+    if not asset_dir.exists():
+        return
+    for file in asset_dir.iterdir():
+        if file.is_file() and file.suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}:
+            file.unlink()
+
+
 def project_exists(project_id: str) -> bool:
     return any((ROOT / f"{project_id}-{suffix}").exists() for suffix in ["backend", "frontend", "miniprogram", "miniapp"])
 
@@ -51,12 +60,18 @@ def stop_project(project_id: str) -> None:
     run_step(project_id, "stop", [sys.executable, "scripts/project_preview/run_preview.py", "stop", project_id])
 
 
+def cleanup_project(project_id: str) -> tuple[int, Path]:
+    return run_step(project_id, "cleanup", [sys.executable, "scripts/project_preview/run_preview.py", "cleanup", project_id])
+
+
 def capture_project(project_id: str, force: bool) -> dict:
     before_count = image_count(project_id)
     if before_count > 0 and not force:
         return {"project": project_id, "status": "skipped", "images": before_count, "reason": "already has screenshots"}
     if not project_exists(project_id):
         return {"project": project_id, "status": "skipped", "images": 0, "reason": "project directory missing"}
+    if force and before_count > 0:
+        clear_project_images(project_id)
 
     result = {"project": project_id, "status": "running", "images_before": before_count, "logs": {}}
     print(f"\n=== {project_id} prepare ===", flush=True)
@@ -65,6 +80,9 @@ def capture_project(project_id: str, force: bool) -> dict:
     if code != 0:
         result.update({"status": "failed", "failed_step": "prepare", "exit_code": code, "images": image_count(project_id)})
         stop_project(project_id)
+        cleanup_code, cleanup_log = cleanup_project(project_id)
+        result["logs"]["cleanup"] = str(cleanup_log.relative_to(ROOT))
+        result["cleanup_exit_code"] = cleanup_code
         return result
 
     try:
@@ -90,6 +108,10 @@ def capture_project(project_id: str, force: bool) -> dict:
     finally:
         print(f"=== {project_id} stop ===", flush=True)
         stop_project(project_id)
+        print(f"=== {project_id} cleanup ===", flush=True)
+        cleanup_code, cleanup_log = cleanup_project(project_id)
+        result["logs"]["cleanup"] = str(cleanup_log.relative_to(ROOT))
+        result["cleanup_exit_code"] = cleanup_code
 
 
 def save_summary(results: list[dict]) -> None:

@@ -26,6 +26,9 @@ public interface BookingReviewMapper {
     @Delete("DELETE FROM booking_review WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM booking_review WHERE id = #{id}")
+    BookingReview selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM booking_review")
     long countAll();
 

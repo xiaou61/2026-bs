@@ -5,7 +5,6 @@ import com.outpatientexam.common.Result;
 import com.outpatientexam.entity.OperationLog;
 import com.outpatientexam.service.AuthService;
 import com.outpatientexam.service.OperationLogService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,10 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/log")
-@RequiredArgsConstructor
-public class OperationLogController {
-    private final AuthService authService;
+public class OperationLogController extends BaseController {
     private final OperationLogService service;
+
+    public OperationLogController(AuthService authService, OperationLogService service) {
+        super(authService);
+        this.service = service;
+    }
 
     @GetMapping("/page")
     public Result<PageInfo<OperationLog>> page(@RequestAttribute String role,
@@ -30,27 +32,27 @@ public class OperationLogController {
                                                @RequestParam(required = false) Integer pageSize,
                                                @RequestParam(required = false) String keyword,
                                                @RequestParam(required = false) String status) {
-        authService.assertAdmin(role);
+        checkAdmin(role);
         return Result.success(service.page(pageNum, pageSize, keyword, status));
     }
 
     @PostMapping
     public Result<Void> add(@RequestAttribute String role, @RequestBody OperationLog entity) {
-        authService.assertAdmin(role);
+        checkAdmin(role);
         service.save(entity);
         return Result.success();
     }
 
     @PutMapping
     public Result<Void> update(@RequestAttribute String role, @RequestBody OperationLog entity) {
-        authService.assertAdmin(role);
+        checkAdmin(role);
         service.save(entity);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
     public Result<Void> delete(@RequestAttribute String role, @PathVariable Long id) {
-        authService.assertAdmin(role);
+        checkAdmin(role);
         service.delete(id);
         return Result.success();
     }

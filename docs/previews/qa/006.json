@@ -1,0 +1,693 @@
+{
+  "project_id": "006",
+  "mode": "single-project-fine-capture",
+  "started_at": "2026-06-06 17:35:32",
+  "old_images_removed": 11,
+  "backup_dir": "logs\\project-preview\\fine-backups\\006\\20260606-173532",
+  "logs": {
+    "prepare": "logs\\project-preview\\006-prepare.fine.log",
+    "render": "logs\\project-preview\\006-render.fine.log",
+    "docs_generate": "logs\\project-preview\\006-docs-generate.fine.log",
+    "stop": "logs\\project-preview\\006-stop.fine.log",
+    "cleanup": "logs\\project-preview\\006-cleanup.fine.log"
+  },
+  "roles": [
+    {
+      "role": "admin",
+      "username": "admin",
+      "file_prefix": "admin",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "通知",
+          "route": "/notifications"
+        },
+        {
+          "label": "个人中心",
+          "route": "/profile"
+        },
+        {
+          "label": "首页",
+          "route": "/home"
+        },
+        {
+          "label": "失物信息",
+          "route": "/lost"
+        },
+        {
+          "label": "招领信息",
+          "route": "/found"
+        },
+        {
+          "label": "发布失物",
+          "route": "/lost/publish"
+        },
+        {
+          "label": "发布招领",
+          "route": "/found/publish"
+        },
+        {
+          "label": "我的失物",
+          "route": "/my/lost"
+        },
+        {
+          "label": "我的招领",
+          "route": "/my/found"
+        },
+        {
+          "label": "发出的认领",
+          "route": "/claims/sent"
+        },
+        {
+          "label": "收到的认领",
+          "route": "/claims/received"
+        },
+        {
+          "label": "我的收藏",
+          "route": "/favorites"
+        },
+        {
+          "label": "用户管理",
+          "route": "/admin/users"
+        },
+        {
+          "label": "分类管理",
+          "route": "/admin/categories"
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "admin-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8086/home",
+          "text_length": 392,
+          "size": 100768,
+          "warnings": []
+        },
+        {
+          "file": "admin-02-通知.png",
+          "label": "menu: 通知",
+          "url": "http://127.0.0.1:8086/notifications",
+          "text_length": 99,
+          "size": 64498,
+          "warnings": []
+        },
+        {
+          "file": "admin-03-个人中心.png",
+          "label": "menu: 个人中心",
+          "url": "http://127.0.0.1:8086/profile",
+          "text_length": 113,
+          "size": 71138,
+          "warnings": []
+        },
+        {
+          "file": "admin-04-首页.png",
+          "label": "menu: 首页",
+          "url": "http://127.0.0.1:8086/home",
+          "text_length": 392,
+          "size": 100768,
+          "warnings": []
+        },
+        {
+          "file": "admin-05-失物信息.png",
+          "label": "menu: 失物信息",
+          "url": "http://127.0.0.1:8086/lost",
+          "text_length": 325,
+          "size": 83380,
+          "warnings": []
+        },
+        {
+          "file": "admin-06-招领信息.png",
+          "label": "menu: 招领信息",
+          "url": "http://127.0.0.1:8086/found",
+          "text_length": 304,
+          "size": 83804,
+          "warnings": []
+        },
+        {
+          "file": "admin-07-发布失物.png",
+          "label": "menu: 发布失物",
+          "url": "http://127.0.0.1:8086/lost/publish",
+          "text_length": 165,
+          "size": 75928,
+          "warnings": []
+        },
+        {
+          "file": "admin-08-发布招领.png",
+          "label": "menu: 发布招领",
+          "url": "http://127.0.0.1:8086/found/publish",
+          "text_length": 165,
+          "size": 76117,
+          "warnings": []
+        },
+        {
+          "file": "admin-09-我的失物.png",
+          "label": "menu: 我的失物",
+          "url": "http://127.0.0.1:8086/my/lost",
+          "text_length": 118,
+          "size": 69534,
+          "warnings": []
+        },
+        {
+          "file": "admin-10-我的招领.png",
+          "label": "menu: 我的招领",
+          "url": "http://127.0.0.1:8086/my/found",
+          "text_length": 118,
+          "size": 69514,
+          "warnings": []
+        },
+        {
+          "file": "admin-11-发出的认领.png",
+          "label": "menu: 发出的认领",
+          "url": "http://127.0.0.1:8086/claims/sent",
+          "text_length": 127,
+          "size": 71654,
+          "warnings": []
+        },
+        {
+          "file": "admin-12-收到的认领.png",
+          "label": "menu: 收到的认领",
+          "url": "http://127.0.0.1:8086/claims/received",
+          "text_length": 124,
+          "size": 71426,
+          "warnings": []
+        },
+        {
+          "file": "admin-13-我的收藏.png",
+          "label": "menu: 我的收藏",
+          "url": "http://127.0.0.1:8086/favorites",
+          "text_length": 119,
+          "size": 74361,
+          "warnings": []
+        },
+        {
+          "file": "admin-14-用户管理.png",
+          "label": "menu: 用户管理",
+          "url": "http://127.0.0.1:8086/admin/users",
+          "text_length": 360,
+          "size": 83344,
+          "warnings": []
+        },
+        {
+          "file": "admin-15-分类管理.png",
+          "label": "menu: 分类管理",
+          "url": "http://127.0.0.1:8086/admin/categories",
+          "text_length": 421,
+          "size": 99787,
+          "warnings": []
+        },
+        {
+          "file": "admin-16-分类管理-添加分类-dialog.png",
+          "label": "dialog: 分类管理 / 添加分类",
+          "url": "http://127.0.0.1:8086/admin/categories",
+          "text_length": 453,
+          "size": 83003,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "user",
+      "username": "user1",
+      "file_prefix": "user-user1",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "通知",
+          "route": "/notifications"
+        },
+        {
+          "label": "个人中心",
+          "route": "/profile"
+        },
+        {
+          "label": "首页",
+          "route": "/home"
+        },
+        {
+          "label": "失物信息",
+          "route": "/lost"
+        },
+        {
+          "label": "招领信息",
+          "route": "/found"
+        },
+        {
+          "label": "发布失物",
+          "route": "/lost/publish"
+        },
+        {
+          "label": "发布招领",
+          "route": "/found/publish"
+        },
+        {
+          "label": "我的失物",
+          "route": "/my/lost"
+        },
+        {
+          "label": "我的招领",
+          "route": "/my/found"
+        },
+        {
+          "label": "发出的认领",
+          "route": "/claims/sent"
+        },
+        {
+          "label": "收到的认领",
+          "route": "/claims/received"
+        },
+        {
+          "label": "我的收藏",
+          "route": "/favorites"
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "user-user1-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8086/home",
+          "text_length": 381,
+          "size": 99092,
+          "warnings": []
+        },
+        {
+          "file": "user-user1-02-通知.png",
+          "label": "menu: 通知",
+          "url": "http://127.0.0.1:8086/notifications",
+          "text_length": 88,
+          "size": 62941,
+          "warnings": []
+        },
+        {
+          "file": "user-user1-03-个人中心.png",
+          "label": "menu: 个人中心",
+          "url": "http://127.0.0.1:8086/profile",
+          "text_length": 102,
+          "size": 69667,
+          "warnings": []
+        },
+        {
+          "file": "user-user1-04-首页.png",
+          "label": "menu: 首页",
+          "url": "http://127.0.0.1:8086/home",
+          "text_length": 381,
+          "size": 99092,
+          "warnings": []
+        },
+        {
+          "file": "user-user1-05-失物信息.png",
+          "label": "menu: 失物信息",
+          "url": "http://127.0.0.1:8086/lost",
+          "text_length": 314,
+          "size": 81973,
+          "warnings": []
+        },
+        {
+          "file": "user-user1-06-招领信息.png",
+          "label": "menu: 招领信息",
+          "url": "http://127.0.0.1:8086/found",
+          "text_length": 293,
+          "size": 82386,
+          "warnings": []
+        },
+        {
+          "file": "user-user1-07-发布失物.png",
+          "label": "menu: 发布失物",
+          "url": "http://127.0.0.1:8086/lost/publish",
+          "text_length": 154,
+          "size": 74254,
+          "warnings": []
+        },
+        {
+          "file": "user-user1-08-发布招领.png",
+          "label": "menu: 发布招领",
+          "url": "http://127.0.0.1:8086/found/publish",
+          "text_length": 154,
+          "size": 74445,
+          "warnings": []
+        },
+        {
+          "file": "user-user1-09-我的失物.png",
+          "label": "menu: 我的失物",
+          "url": "http://127.0.0.1:8086/my/lost",
+          "text_length": 212,
+          "size": 81118,
+          "warnings": []
+        },
+        {
+          "file": "user-user1-10-我的招领.png",
+          "label": "menu: 我的招领",
+          "url": "http://127.0.0.1:8086/my/found",
+          "text_length": 107,
+          "size": 67928,
+          "warnings": []
+        },
+        {
+          "file": "user-user1-11-发出的认领.png",
+          "label": "menu: 发出的认领",
+          "url": "http://127.0.0.1:8086/claims/sent",
+          "text_length": 116,
+          "size": 70058,
+          "warnings": []
+        },
+        {
+          "file": "user-user1-12-收到的认领.png",
+          "label": "menu: 收到的认领",
+          "url": "http://127.0.0.1:8086/claims/received",
+          "text_length": 113,
+          "size": 69819,
+          "warnings": []
+        },
+        {
+          "file": "user-user1-13-我的收藏.png",
+          "label": "menu: 我的收藏",
+          "url": "http://127.0.0.1:8086/favorites",
+          "text_length": 108,
+          "size": 72750,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "user",
+      "username": "user2",
+      "file_prefix": "user-user2",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "通知",
+          "route": "/notifications"
+        },
+        {
+          "label": "个人中心",
+          "route": "/profile"
+        },
+        {
+          "label": "首页",
+          "route": "/home"
+        },
+        {
+          "label": "失物信息",
+          "route": "/lost"
+        },
+        {
+          "label": "招领信息",
+          "route": "/found"
+        },
+        {
+          "label": "发布失物",
+          "route": "/lost/publish"
+        },
+        {
+          "label": "发布招领",
+          "route": "/found/publish"
+        },
+        {
+          "label": "我的失物",
+          "route": "/my/lost"
+        },
+        {
+          "label": "我的招领",
+          "route": "/my/found"
+        },
+        {
+          "label": "发出的认领",
+          "route": "/claims/sent"
+        },
+        {
+          "label": "收到的认领",
+          "route": "/claims/received"
+        },
+        {
+          "label": "我的收藏",
+          "route": "/favorites"
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "user-user2-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8086/home",
+          "text_length": 381,
+          "size": 99126,
+          "warnings": []
+        },
+        {
+          "file": "user-user2-02-通知.png",
+          "label": "menu: 通知",
+          "url": "http://127.0.0.1:8086/notifications",
+          "text_length": 88,
+          "size": 62967,
+          "warnings": []
+        },
+        {
+          "file": "user-user2-03-个人中心.png",
+          "label": "menu: 个人中心",
+          "url": "http://127.0.0.1:8086/profile",
+          "text_length": 102,
+          "size": 69781,
+          "warnings": []
+        },
+        {
+          "file": "user-user2-04-首页.png",
+          "label": "menu: 首页",
+          "url": "http://127.0.0.1:8086/home",
+          "text_length": 381,
+          "size": 99126,
+          "warnings": []
+        },
+        {
+          "file": "user-user2-05-失物信息.png",
+          "label": "menu: 失物信息",
+          "url": "http://127.0.0.1:8086/lost",
+          "text_length": 314,
+          "size": 81997,
+          "warnings": []
+        },
+        {
+          "file": "user-user2-06-招领信息.png",
+          "label": "menu: 招领信息",
+          "url": "http://127.0.0.1:8086/found",
+          "text_length": 293,
+          "size": 82380,
+          "warnings": []
+        },
+        {
+          "file": "user-user2-07-发布失物.png",
+          "label": "menu: 发布失物",
+          "url": "http://127.0.0.1:8086/lost/publish",
+          "text_length": 154,
+          "size": 74289,
+          "warnings": []
+        },
+        {
+          "file": "user-user2-08-发布招领.png",
+          "label": "menu: 发布招领",
+          "url": "http://127.0.0.1:8086/found/publish",
+          "text_length": 154,
+          "size": 74482,
+          "warnings": []
+        },
+        {
+          "file": "user-user2-09-我的失物.png",
+          "label": "menu: 我的失物",
+          "url": "http://127.0.0.1:8086/my/lost",
+          "text_length": 107,
+          "size": 67992,
+          "warnings": []
+        },
+        {
+          "file": "user-user2-10-我的招领.png",
+          "label": "menu: 我的招领",
+          "url": "http://127.0.0.1:8086/my/found",
+          "text_length": 204,
+          "size": 80961,
+          "warnings": []
+        },
+        {
+          "file": "user-user2-11-发出的认领.png",
+          "label": "menu: 发出的认领",
+          "url": "http://127.0.0.1:8086/claims/sent",
+          "text_length": 116,
+          "size": 70092,
+          "warnings": []
+        },
+        {
+          "file": "user-user2-12-收到的认领.png",
+          "label": "menu: 收到的认领",
+          "url": "http://127.0.0.1:8086/claims/received",
+          "text_length": 113,
+          "size": 69858,
+          "warnings": []
+        },
+        {
+          "file": "user-user2-13-我的收藏.png",
+          "label": "menu: 我的收藏",
+          "url": "http://127.0.0.1:8086/favorites",
+          "text_length": 108,
+          "size": 72776,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    }
+  ],
+  "guest": [
+    {
+      "file": "guest-01-login.png",
+      "label": "guest: login",
+      "url": "http://127.0.0.1:8086/login",
+      "text_length": 29,
+      "size": 492029,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-02-register.png",
+      "label": "guest: register",
+      "url": "http://127.0.0.1:8086/register",
+      "text_length": 42,
+      "size": 459075,
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "project_specific": [
+    {
+      "file": "user-user1-10-lost-list.png",
+      "label": "project 006: lost list",
+      "url": "http://127.0.0.1:8086/lost",
+      "text_length": 314,
+      "size": 81973,
+      "warnings": []
+    },
+    {
+      "file": "user-user1-11-lost-detail.png",
+      "label": "project 006: lost detail",
+      "url": "http://127.0.0.1:8086/lost/detail?id=1",
+      "text_length": 210,
+      "size": 80004,
+      "warnings": []
+    },
+    {
+      "file": "user-user1-12-publish-lost.png",
+      "label": "project 006: publish lost",
+      "url": "http://127.0.0.1:8086/lost/publish",
+      "text_length": 154,
+      "size": 74254,
+      "warnings": []
+    },
+    {
+      "file": "user-user1-13-found-list.png",
+      "label": "project 006: found list",
+      "url": "http://127.0.0.1:8086/found",
+      "text_length": 293,
+      "size": 82386,
+      "warnings": []
+    },
+    {
+      "file": "user-user1-14-found-detail.png",
+      "label": "project 006: found detail",
+      "url": "http://127.0.0.1:8086/found/detail?id=1",
+      "text_length": 201,
+      "size": 81904,
+      "warnings": []
+    },
+    {
+      "file": "user-user1-15-publish-found.png",
+      "label": "project 006: publish found",
+      "url": "http://127.0.0.1:8086/found/publish",
+      "text_length": 154,
+      "size": 74441,
+      "warnings": []
+    },
+    {
+      "file": "user-user1-16-my-lost.png",
+      "label": "project 006: my lost",
+      "url": "http://127.0.0.1:8086/my/lost",
+      "text_length": 212,
+      "size": 81120,
+      "warnings": []
+    },
+    {
+      "file": "user-user1-17-my-found.png",
+      "label": "project 006: my found",
+      "url": "http://127.0.0.1:8086/my/found",
+      "text_length": 107,
+      "size": 67928,
+      "warnings": []
+    },
+    {
+      "file": "user-user1-18-claims-sent.png",
+      "label": "project 006: sent claims",
+      "url": "http://127.0.0.1:8086/claims/sent",
+      "text_length": 116,
+      "size": 70058,
+      "warnings": []
+    },
+    {
+      "file": "user-user1-19-claims-received.png",
+      "label": "project 006: received claims",
+      "url": "http://127.0.0.1:8086/claims/received",
+      "text_length": 113,
+      "size": 69819,
+      "warnings": []
+    },
+    {
+      "file": "user-user1-20-favorites.png",
+      "label": "project 006: favorites",
+      "url": "http://127.0.0.1:8086/favorites",
+      "text_length": 108,
+      "size": 72750,
+      "warnings": []
+    },
+    {
+      "file": "user-user1-21-lost-claim-dialog.png",
+      "label": "project 006: lost claim dialog",
+      "url": "http://127.0.0.1:8086/lost/detail?id=1",
+      "text_length": 232,
+      "size": 72827,
+      "warnings": []
+    },
+    {
+      "file": "user-user2-10-my-found.png",
+      "label": "project 006: user2 my found",
+      "url": "http://127.0.0.1:8086/my/found",
+      "text_length": 204,
+      "size": 80970,
+      "warnings": []
+    },
+    {
+      "file": "user-user2-11-claims-received.png",
+      "label": "project 006: user2 received claims",
+      "url": "http://127.0.0.1:8086/claims/received",
+      "text_length": 113,
+      "size": 69858,
+      "warnings": []
+    },
+    {
+      "file": "admin-10-users.png",
+      "label": "project 006: admin users",
+      "url": "http://127.0.0.1:8086/admin/users",
+      "text_length": 360,
+      "size": 83344,
+      "warnings": []
+    },
+    {
+      "file": "admin-11-categories.png",
+      "label": "project 006: admin categories",
+      "url": "http://127.0.0.1:8086/admin/categories",
+      "text_length": 421,
+      "size": 100847,
+      "warnings": []
+    }
+  ],
+  "image_count": 60,
+  "status": "completed",
+  "finished_at": "2026-06-06 17:39:06",
+  "stop_exit_code": 0,
+  "cleanup_exit_code": 0
+}

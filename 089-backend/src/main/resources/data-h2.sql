@@ -1,8 +1,8 @@
 INSERT INTO user (id, username, password, nickname, phone, email, balance, role, status) VALUES
-(1, 'admin', '123456', '系统管理员', '13800000001', 'admin@railway.com', 5000.00, 'ADMIN', 1),
-(2, 'dispatcher', '123456', '调度员', '13800000002', 'dispatcher@railway.com', 2000.00, 'DISPATCHER', 1),
-(3, 'user', '123456', '普通乘客', '13800000003', 'user@railway.com', 800.00, 'USER', 1),
-(4, 'user2', '123456', '其他乘客', '13800000005', 'user2@railway.com', 500.00, 'USER', 1);
+(1, 'admin', '$2a$12$e77kHVxuze/VuQObbJwQfu/KTRO1RcfNjLJyzm6BWBquk8AaS5oTK', '系统管理员', '13800000001', 'admin@railway.com', 5000.00, 'ADMIN', 1),
+(2, 'dispatcher', '$2a$12$e77kHVxuze/VuQObbJwQfu/KTRO1RcfNjLJyzm6BWBquk8AaS5oTK', '调度员', '13800000002', 'dispatcher@railway.com', 2000.00, 'DISPATCHER', 1),
+(3, 'user', '$2a$12$e77kHVxuze/VuQObbJwQfu/KTRO1RcfNjLJyzm6BWBquk8AaS5oTK', '普通乘客', '13800000003', 'user@railway.com', 800.00, 'USER', 1),
+(4, 'user2', '$2a$12$e77kHVxuze/VuQObbJwQfu/KTRO1RcfNjLJyzm6BWBquk8AaS5oTK', '其他乘客', '13800000005', 'user2@railway.com', 500.00, 'USER', 1);
 
 INSERT INTO station (id, station_code, station_name, city, province, address, status) VALUES
 (1, 'BJP', '北京南', '北京', '北京', '丰台区永外车站路12号', 1),

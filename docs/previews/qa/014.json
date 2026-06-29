@@ -1,0 +1,601 @@
+{
+  "project_id": "014",
+  "mode": "single-project-fine-capture",
+  "started_at": "2026-06-06 20:27:16",
+  "old_images_removed": 4,
+  "backup_dir": "logs\\project-preview\\fine-backups\\014\\20260606-202716",
+  "logs": {
+    "prepare": "logs\\project-preview\\014-prepare.fine.log",
+    "render": "logs\\project-preview\\014-render.fine.log",
+    "docs_generate": "logs\\project-preview\\014-docs-generate.fine.log",
+    "stop": "logs\\project-preview\\014-stop.fine.log",
+    "cleanup": "logs\\project-preview\\014-cleanup.fine.log"
+  },
+  "roles": [
+    {
+      "role": "user",
+      "username": "student1",
+      "file_prefix": "user-student1",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "校园社团平台",
+          "route": "index.html"
+        },
+        {
+          "label": "首页",
+          "route": "index.html"
+        },
+        {
+          "label": "社团广场",
+          "route": "clubs.html"
+        },
+        {
+          "label": "活动中心",
+          "route": "activities.html"
+        },
+        {
+          "label": "话题广场",
+          "route": "topics.html"
+        },
+        {
+          "label": "兴趣圈子",
+          "route": "circles.html"
+        },
+        {
+          "label": "用户",
+          "route": "#"
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "user-student1-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8080/",
+          "text_length": 523,
+          "size": 284052,
+          "warnings": []
+        },
+        {
+          "file": "user-student1-02-校园社团平台.png",
+          "label": "menu: 校园社团平台",
+          "url": "http://127.0.0.1:8080/index.html",
+          "text_length": 523,
+          "size": 284052,
+          "warnings": []
+        },
+        {
+          "file": "user-student1-03-首页.png",
+          "label": "menu: 首页",
+          "url": "http://127.0.0.1:8080/index.html",
+          "text_length": 523,
+          "size": 284052,
+          "warnings": []
+        },
+        {
+          "file": "user-student1-04-社团广场.png",
+          "label": "menu: 社团广场",
+          "url": "http://127.0.0.1:8080/clubs.html",
+          "text_length": 284,
+          "size": 55457,
+          "warnings": []
+        },
+        {
+          "file": "user-student1-05-社团广场-创建社团-dialog.png",
+          "label": "dialog: 社团广场 / 创建社团",
+          "url": "http://127.0.0.1:8080/create-club.html",
+          "text_length": 143,
+          "size": 36578,
+          "warnings": []
+        },
+        {
+          "file": "user-student1-06-活动中心.png",
+          "label": "menu: 活动中心",
+          "url": "http://127.0.0.1:8080/activities.html",
+          "text_length": 286,
+          "size": 47804,
+          "warnings": []
+        },
+        {
+          "file": "user-student1-07-话题广场.png",
+          "label": "menu: 话题广场",
+          "url": "http://127.0.0.1:8080/topics.html",
+          "text_length": 370,
+          "size": 68569,
+          "warnings": []
+        },
+        {
+          "file": "user-student1-08-话题广场-发布话题-dialog.png",
+          "label": "dialog: 话题广场 / 发布话题",
+          "url": "http://127.0.0.1:8080/create-topic.html",
+          "text_length": 140,
+          "size": 36614,
+          "warnings": []
+        },
+        {
+          "file": "user-student1-09-兴趣圈子.png",
+          "label": "menu: 兴趣圈子",
+          "url": "http://127.0.0.1:8080/circles.html",
+          "text_length": 271,
+          "size": 53359,
+          "warnings": []
+        },
+        {
+          "file": "user-student1-10-兴趣圈子-创建圈子-dialog.png",
+          "label": "dialog: 兴趣圈子 / 创建圈子",
+          "url": "http://127.0.0.1:8080/create-circle.html",
+          "text_length": 101,
+          "size": 27688,
+          "warnings": []
+        },
+        {
+          "file": "user-student1-11-用户.png",
+          "label": "menu: 用户",
+          "url": "http://127.0.0.1:8080/create-circle.html",
+          "text_length": 121,
+          "size": 32049,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "user",
+      "username": "student2",
+      "file_prefix": "user-student2",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "校园社团平台",
+          "route": "index.html"
+        },
+        {
+          "label": "首页",
+          "route": "index.html"
+        },
+        {
+          "label": "社团广场",
+          "route": "clubs.html"
+        },
+        {
+          "label": "活动中心",
+          "route": "activities.html"
+        },
+        {
+          "label": "话题广场",
+          "route": "topics.html"
+        },
+        {
+          "label": "兴趣圈子",
+          "route": "circles.html"
+        },
+        {
+          "label": "用户",
+          "route": "#"
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "user-student2-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8080/",
+          "text_length": 523,
+          "size": 292950,
+          "warnings": []
+        },
+        {
+          "file": "user-student2-02-校园社团平台.png",
+          "label": "menu: 校园社团平台",
+          "url": "http://127.0.0.1:8080/index.html",
+          "text_length": 523,
+          "size": 284052,
+          "warnings": []
+        },
+        {
+          "file": "user-student2-03-首页.png",
+          "label": "menu: 首页",
+          "url": "http://127.0.0.1:8080/index.html",
+          "text_length": 523,
+          "size": 284052,
+          "warnings": []
+        },
+        {
+          "file": "user-student2-04-社团广场.png",
+          "label": "menu: 社团广场",
+          "url": "http://127.0.0.1:8080/clubs.html",
+          "text_length": 284,
+          "size": 55457,
+          "warnings": []
+        },
+        {
+          "file": "user-student2-05-社团广场-创建社团-dialog.png",
+          "label": "dialog: 社团广场 / 创建社团",
+          "url": "http://127.0.0.1:8080/create-club.html",
+          "text_length": 143,
+          "size": 36578,
+          "warnings": []
+        },
+        {
+          "file": "user-student2-06-活动中心.png",
+          "label": "menu: 活动中心",
+          "url": "http://127.0.0.1:8080/activities.html",
+          "text_length": 286,
+          "size": 47804,
+          "warnings": []
+        },
+        {
+          "file": "user-student2-07-话题广场.png",
+          "label": "menu: 话题广场",
+          "url": "http://127.0.0.1:8080/topics.html",
+          "text_length": 370,
+          "size": 68569,
+          "warnings": []
+        },
+        {
+          "file": "user-student2-08-话题广场-发布话题-dialog.png",
+          "label": "dialog: 话题广场 / 发布话题",
+          "url": "http://127.0.0.1:8080/create-topic.html",
+          "text_length": 138,
+          "size": 36765,
+          "warnings": []
+        },
+        {
+          "file": "user-student2-09-兴趣圈子.png",
+          "label": "menu: 兴趣圈子",
+          "url": "http://127.0.0.1:8080/circles.html",
+          "text_length": 271,
+          "size": 53359,
+          "warnings": []
+        },
+        {
+          "file": "user-student2-10-兴趣圈子-创建圈子-dialog.png",
+          "label": "dialog: 兴趣圈子 / 创建圈子",
+          "url": "http://127.0.0.1:8080/create-circle.html",
+          "text_length": 101,
+          "size": 27688,
+          "warnings": []
+        },
+        {
+          "file": "user-student2-11-用户.png",
+          "label": "menu: 用户",
+          "url": "http://127.0.0.1:8080/create-circle.html",
+          "text_length": 121,
+          "size": 32049,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "user",
+      "username": "student3",
+      "file_prefix": "user-student3",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "校园社团平台",
+          "route": "index.html"
+        },
+        {
+          "label": "首页",
+          "route": "index.html"
+        },
+        {
+          "label": "社团广场",
+          "route": "clubs.html"
+        },
+        {
+          "label": "活动中心",
+          "route": "activities.html"
+        },
+        {
+          "label": "话题广场",
+          "route": "topics.html"
+        },
+        {
+          "label": "兴趣圈子",
+          "route": "circles.html"
+        },
+        {
+          "label": "用户",
+          "route": "#"
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "user-student3-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8080/",
+          "text_length": 523,
+          "size": 292950,
+          "warnings": []
+        },
+        {
+          "file": "user-student3-02-校园社团平台.png",
+          "label": "menu: 校园社团平台",
+          "url": "http://127.0.0.1:8080/index.html",
+          "text_length": 523,
+          "size": 283485,
+          "warnings": []
+        },
+        {
+          "file": "user-student3-03-首页.png",
+          "label": "menu: 首页",
+          "url": "http://127.0.0.1:8080/index.html",
+          "text_length": 523,
+          "size": 283485,
+          "warnings": []
+        },
+        {
+          "file": "user-student3-04-社团广场.png",
+          "label": "menu: 社团广场",
+          "url": "http://127.0.0.1:8080/clubs.html",
+          "text_length": 284,
+          "size": 55457,
+          "warnings": []
+        },
+        {
+          "file": "user-student3-05-社团广场-创建社团-dialog.png",
+          "label": "dialog: 社团广场 / 创建社团",
+          "url": "http://127.0.0.1:8080/create-club.html",
+          "text_length": 143,
+          "size": 36578,
+          "warnings": []
+        },
+        {
+          "file": "user-student3-06-活动中心.png",
+          "label": "menu: 活动中心",
+          "url": "http://127.0.0.1:8080/activities.html",
+          "text_length": 286,
+          "size": 47804,
+          "warnings": []
+        },
+        {
+          "file": "user-student3-07-话题广场.png",
+          "label": "menu: 话题广场",
+          "url": "http://127.0.0.1:8080/topics.html",
+          "text_length": 370,
+          "size": 68569,
+          "warnings": []
+        },
+        {
+          "file": "user-student3-08-话题广场-发布话题-dialog.png",
+          "label": "dialog: 话题广场 / 发布话题",
+          "url": "http://127.0.0.1:8080/create-topic.html",
+          "text_length": 140,
+          "size": 36614,
+          "warnings": []
+        },
+        {
+          "file": "user-student3-09-兴趣圈子.png",
+          "label": "menu: 兴趣圈子",
+          "url": "http://127.0.0.1:8080/circles.html",
+          "text_length": 271,
+          "size": 53359,
+          "warnings": []
+        },
+        {
+          "file": "user-student3-10-兴趣圈子-创建圈子-dialog.png",
+          "label": "dialog: 兴趣圈子 / 创建圈子",
+          "url": "http://127.0.0.1:8080/create-circle.html",
+          "text_length": 101,
+          "size": 27688,
+          "warnings": []
+        },
+        {
+          "file": "user-student3-11-用户.png",
+          "label": "menu: 用户",
+          "url": "http://127.0.0.1:8080/create-circle.html",
+          "text_length": 121,
+          "size": 32049,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    }
+  ],
+  "guest": [
+    {
+      "file": "guest-01-index.png",
+      "label": "guest: index",
+      "url": "http://127.0.0.1:8080/index.html",
+      "text_length": 521,
+      "size": 283778,
+      "warnings": []
+    },
+    {
+      "file": "guest-02-login.png",
+      "label": "guest: login",
+      "url": "http://127.0.0.1:8080/login.html",
+      "text_length": 57,
+      "size": 450592,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-03-register.png",
+      "label": "guest: register",
+      "url": "http://127.0.0.1:8080/register.html",
+      "text_length": 83,
+      "size": 430198,
+      "warnings": []
+    },
+    {
+      "file": "guest-04-home.png",
+      "label": "guest: home",
+      "url": "http://127.0.0.1:8080/",
+      "text_length": 521,
+      "size": 283778,
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "project_specific": [
+    {
+      "file": "student-student1-10-home.png",
+      "label": "project 014: home with seeded cards",
+      "url": "http://127.0.0.1:8080/index.html",
+      "text_length": 523,
+      "size": 292796,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-11-clubs.png",
+      "label": "project 014: clubs list",
+      "url": "http://127.0.0.1:8080/clubs.html",
+      "text_length": 284,
+      "size": 57837,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-12-club-detail.png",
+      "label": "project 014: club detail",
+      "url": "http://127.0.0.1:8080/club-detail.html?id=1",
+      "text_length": 259,
+      "size": 51928,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-13-create-club.png",
+      "label": "project 014: create club",
+      "url": "http://127.0.0.1:8080/create-club.html",
+      "text_length": 143,
+      "size": 37510,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-14-activities.png",
+      "label": "project 014: activities list",
+      "url": "http://127.0.0.1:8080/activities.html",
+      "text_length": 286,
+      "size": 49923,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-15-activity-detail.png",
+      "label": "project 014: activity detail",
+      "url": "http://127.0.0.1:8080/activity-detail.html?id=1",
+      "text_length": 232,
+      "size": 49550,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-16-topics.png",
+      "label": "project 014: topics list",
+      "url": "http://127.0.0.1:8080/topics.html",
+      "text_length": 370,
+      "size": 69398,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-17-topic-detail.png",
+      "label": "project 014: topic detail",
+      "url": "http://127.0.0.1:8080/topic-detail.html?id=1",
+      "text_length": 192,
+      "size": 45443,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-18-create-topic.png",
+      "label": "project 014: create topic",
+      "url": "http://127.0.0.1:8080/create-topic.html",
+      "text_length": 140,
+      "size": 37525,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-19-circles.png",
+      "label": "project 014: circles list",
+      "url": "http://127.0.0.1:8080/circles.html",
+      "text_length": 271,
+      "size": 53359,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-20-create-circle.png",
+      "label": "project 014: create circle",
+      "url": "http://127.0.0.1:8080/create-circle.html",
+      "text_length": 101,
+      "size": 28859,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-21-profile.png",
+      "label": "project 014: profile",
+      "url": "http://127.0.0.1:8080/profile.html",
+      "text_length": 244,
+      "size": 73251,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-22-my-clubs.png",
+      "label": "project 014: my clubs",
+      "url": "http://127.0.0.1:8080/my-clubs.html",
+      "text_length": 136,
+      "size": 30483,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-23-my-activities.png",
+      "label": "project 014: my activities",
+      "url": "http://127.0.0.1:8080/my-activities.html",
+      "text_length": 103,
+      "size": 25425,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-24-activity-action.png",
+      "label": "project 014: activity action state",
+      "url": "http://127.0.0.1:8080/activity-detail.html?id=1",
+      "text_length": 239,
+      "size": 50235,
+      "warnings": []
+    },
+    {
+      "file": "student-student1-25-topic-comment-form.png",
+      "label": "project 014: topic comment form",
+      "url": "http://127.0.0.1:8080/topic-detail.html?id=1",
+      "text_length": 192,
+      "size": 45679,
+      "warnings": []
+    },
+    {
+      "file": "admin-10-dashboard.png",
+      "label": "project 014: admin dashboard statistics",
+      "url": "http://127.0.0.1:8080/admin-dashboard.html",
+      "text_length": 79,
+      "size": 26006,
+      "warnings": []
+    },
+    {
+      "file": "admin-11-users.png",
+      "label": "project 014: admin users",
+      "url": "http://127.0.0.1:8080/admin-dashboard.html",
+      "text_length": 225,
+      "size": 36037,
+      "warnings": []
+    },
+    {
+      "file": "admin-12-club-audit.png",
+      "label": "project 014: admin club audit",
+      "url": "http://127.0.0.1:8080/admin-dashboard.html",
+      "text_length": 53,
+      "size": 20317,
+      "warnings": []
+    },
+    {
+      "file": "admin-13-topic-management.png",
+      "label": "project 014: admin topic management",
+      "url": "http://127.0.0.1:8080/admin-dashboard.html",
+      "text_length": 228,
+      "size": 37657,
+      "warnings": []
+    }
+  ],
+  "image_count": 57,
+  "status": "completed",
+  "finished_at": "2026-06-06 20:35:15",
+  "stop_exit_code": 0,
+  "cleanup_exit_code": 0
+}

@@ -23,6 +23,9 @@ public interface SettlementRecordMapper {
     @Update("UPDATE settlement_record SET record_no=#{recordNo},record_name=#{recordName},category=#{category},owner_name=#{ownerName},plan_time=#{planTime},status=#{status},remark=#{remark},updated_time=NOW() WHERE id=#{id}")
     int update(SettlementRecord entity);
 
+    @Select("SELECT * FROM settlement_record WHERE id = #{id}")
+    SettlementRecord selectById(Long id);
+
     @Delete("DELETE FROM settlement_record WHERE id=#{id}")
     int deleteById(Long id);
 

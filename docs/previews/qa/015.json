@@ -1,0 +1,249 @@
+{
+  "project_id": "015",
+  "mode": "single-project-fine-capture",
+  "started_at": "2026-06-06 20:47:41",
+  "old_images_removed": 1,
+  "backup_dir": "logs\\project-preview\\fine-backups\\015\\20260606-204741",
+  "logs": {
+    "prepare": "logs\\project-preview\\015-prepare.fine.log",
+    "render": "logs\\project-preview\\015-render.fine.log",
+    "docs_generate": "logs\\project-preview\\015-docs-generate.fine.log",
+    "stop": "logs\\project-preview\\015-stop.fine.log",
+    "cleanup": "logs\\project-preview\\015-cleanup.fine.log"
+  },
+  "roles": [
+    {
+      "role": "user",
+      "username": "20210001",
+      "file_prefix": "user-20210001",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "校园表白墙",
+          "route": "/home.html"
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "user-20210001-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8080/home.html",
+          "text_length": 295,
+          "size": 77496,
+          "warnings": []
+        },
+        {
+          "file": "user-20210001-02-校园表白墙.png",
+          "label": "menu: 校园表白墙",
+          "url": "http://127.0.0.1:8080/home.html",
+          "text_length": 295,
+          "size": 77496,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "user",
+      "username": "20210002",
+      "file_prefix": "user-20210002",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "校园表白墙",
+          "route": "/home.html"
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "user-20210002-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8080/home.html",
+          "text_length": 294,
+          "size": 77513,
+          "warnings": []
+        },
+        {
+          "file": "user-20210002-02-校园表白墙.png",
+          "label": "menu: 校园表白墙",
+          "url": "http://127.0.0.1:8080/home.html",
+          "text_length": 294,
+          "size": 77513,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    }
+  ],
+  "guest": [
+    {
+      "file": "guest-01-index.png",
+      "label": "guest: index",
+      "url": "http://127.0.0.1:8080/login.html",
+      "text_length": 46,
+      "size": 468764,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    }
+  ],
+  "warnings": [],
+  "project_specific": [
+    {
+      "file": "user-20210001-10-home.png",
+      "label": "project 015: confession wall feed",
+      "url": "http://127.0.0.1:8080/home.html",
+      "text_length": 295,
+      "size": 77496,
+      "warnings": []
+    },
+    {
+      "file": "user-20210001-11-post-detail.png",
+      "label": "project 015: post detail with comments",
+      "url": "http://127.0.0.1:8080/post-detail.html?id=1",
+      "text_length": 128,
+      "size": 33672,
+      "warnings": []
+    },
+    {
+      "file": "user-20210001-12-create-post.png",
+      "label": "project 015: create anonymous post",
+      "url": "http://127.0.0.1:8080/create-post.html",
+      "text_length": 93,
+      "size": 31882,
+      "warnings": []
+    },
+    {
+      "file": "user-20210001-13-search.png",
+      "label": "project 015: search results",
+      "url": "http://127.0.0.1:8080/search.html?keyword=%E9%A3%9F%E5%A0%82",
+      "text_length": 56,
+      "size": 20835,
+      "warnings": []
+    },
+    {
+      "file": "user-20210001-14-messages.png",
+      "label": "project 015: messages",
+      "url": "http://127.0.0.1:8080/messages.html",
+      "text_length": 23,
+      "size": 13935,
+      "warnings": [
+        "image file is unusually small"
+      ]
+    },
+    {
+      "file": "user-20210001-15-profile.png",
+      "label": "project 015: profile and points",
+      "url": "http://127.0.0.1:8080/profile.html",
+      "text_length": 83,
+      "size": 27443,
+      "warnings": []
+    },
+    {
+      "file": "user-20210001-16-my-posts.png",
+      "label": "project 015: my posts",
+      "url": "http://127.0.0.1:8080/my-posts.html",
+      "text_length": 133,
+      "size": 35092,
+      "warnings": []
+    },
+    {
+      "file": "user-20210001-17-my-comments.png",
+      "label": "project 015: my comments",
+      "url": "http://127.0.0.1:8080/my-comments.html",
+      "text_length": 42,
+      "size": 14956,
+      "warnings": [
+        "image file is unusually small"
+      ]
+    },
+    {
+      "file": "user-20210001-18-my-reports.png",
+      "label": "project 015: my reports",
+      "url": "http://127.0.0.1:8080/my-reports.html",
+      "text_length": 15,
+      "size": 10153,
+      "warnings": [
+        "visible text is very short",
+        "image file is unusually small"
+      ]
+    },
+    {
+      "file": "user-20210001-19-create-post-filled.png",
+      "label": "project 015: filled anonymous post form",
+      "url": "http://127.0.0.1:8080/create-post.html",
+      "text_length": 93,
+      "size": 34652,
+      "warnings": []
+    },
+    {
+      "file": "user-20210001-20-password-dialog.png",
+      "label": "project 015: change password dialog",
+      "url": "http://127.0.0.1:8080/profile.html",
+      "text_length": 108,
+      "size": 29365,
+      "warnings": []
+    },
+    {
+      "file": "user-20210001-21-comment-form.png",
+      "label": "project 015: post comment form",
+      "url": "http://127.0.0.1:8080/post-detail.html?id=1",
+      "text_length": 132,
+      "size": 36205,
+      "warnings": []
+    },
+    {
+      "file": "admin-10-dashboard.png",
+      "label": "project 015: admin dashboard statistics",
+      "url": "http://127.0.0.1:8080/admin-dashboard.html",
+      "text_length": 100,
+      "size": 37053,
+      "warnings": []
+    },
+    {
+      "file": "admin-11-users.png",
+      "label": "project 015: admin users",
+      "url": "http://127.0.0.1:8080/admin-dashboard.html",
+      "text_length": 147,
+      "size": 35573,
+      "warnings": []
+    },
+    {
+      "file": "admin-12-auth-audit.png",
+      "label": "project 015: admin auth audit",
+      "url": "http://127.0.0.1:8080/admin-dashboard.html",
+      "text_length": 56,
+      "size": 28432,
+      "warnings": []
+    },
+    {
+      "file": "admin-13-post-audit.png",
+      "label": "project 015: admin post audit",
+      "url": "http://127.0.0.1:8080/admin-dashboard.html",
+      "text_length": 54,
+      "size": 26941,
+      "warnings": []
+    },
+    {
+      "file": "admin-14-report-management.png",
+      "label": "project 015: admin reports",
+      "url": "http://127.0.0.1:8080/admin-dashboard.html",
+      "text_length": 54,
+      "size": 27073,
+      "warnings": []
+    },
+    {
+      "file": "admin-15-sensitive-words.png",
+      "label": "project 015: admin sensitive words",
+      "url": "http://127.0.0.1:8080/admin-dashboard.html",
+      "text_length": 280,
+      "size": 64210,
+      "warnings": []
+    }
+  ],
+  "image_count": 23,
+  "status": "completed",
+  "finished_at": "2026-06-06 20:50:03",
+  "stop_exit_code": 0,
+  "cleanup_exit_code": 0
+}

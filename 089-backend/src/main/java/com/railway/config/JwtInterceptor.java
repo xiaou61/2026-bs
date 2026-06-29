@@ -16,6 +16,9 @@ public class JwtInterceptor implements HandlerInterceptor {
     @Resource
     private RuntimeStoreService runtimeStoreService;
 
+    @Resource
+    private JwtUtils jwtUtils;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
@@ -29,15 +32,15 @@ public class JwtInterceptor implements HandlerInterceptor {
             throw new BusinessException(401, "未登录");
         }
         try {
-            if (JwtUtils.isTokenExpired(token)) {
+            if (jwtUtils.isTokenExpired(token)) {
                 throw new BusinessException(401, "登录已过期");
             }
-            Long userId = Long.parseLong(JwtUtils.getUserIdFromToken(token));
+            Long userId = Long.parseLong(jwtUtils.getUserIdFromToken(token));
             if (!runtimeStoreService.isValidToken(userId, token)) {
                 throw new BusinessException(401, "登录状态失效");
             }
             request.setAttribute("userId", userId);
-            request.setAttribute("role", JwtUtils.getRoleFromToken(token));
+            request.setAttribute("role", jwtUtils.getRoleFromToken(token));
             return true;
         } catch (BusinessException e) {
             throw e;

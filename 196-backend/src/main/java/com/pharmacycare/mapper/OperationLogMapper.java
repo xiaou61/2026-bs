@@ -23,6 +23,9 @@ public interface OperationLogMapper {
     @Update("UPDATE operation_log SET record_no=#{recordNo},record_name=#{recordName},category=#{category},owner_name=#{ownerName},plan_time=#{planTime},status=#{status},remark=#{remark},updated_time=NOW() WHERE id=#{id}")
     int update(OperationLog entity);
 
+    @Select("SELECT * FROM operation_log WHERE id = #{id}")
+    OperationLog selectById(Long id);
+
     @Delete("DELETE FROM operation_log WHERE id=#{id}")
     int deleteById(Long id);
 

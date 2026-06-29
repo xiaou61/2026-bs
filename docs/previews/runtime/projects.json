@@ -117,6 +117,30 @@
         "password": "admin123"
       },
       {
+        "role_key": "user",
+        "role_label": "用户",
+        "username": "farmer1",
+        "password": "admin123"
+      },
+      {
+        "role_key": "user",
+        "role_label": "用户",
+        "username": "farmer2",
+        "password": "admin123"
+      },
+      {
+        "role_key": "user",
+        "role_label": "用户",
+        "username": "buyer1",
+        "password": "admin123"
+      },
+      {
+        "role_key": "user",
+        "role_label": "用户",
+        "username": "buyer2",
+        "password": "admin123"
+      },
+      {
         "role_key": "farmer",
         "role_label": "农户",
         "username": "farmer1",
@@ -143,6 +167,7 @@
     ],
     "routes": [],
     "readme_sources": [
+      "003-backend\\README.md",
       "003-backend\\TEST_ACCOUNTS.md"
     ]
   },
@@ -157,7 +182,7 @@
     "frontend_dir": "004-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8004",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [
@@ -201,11 +226,32 @@
     "frontend_dir": null,
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080"
+      "backend": "http://127.0.0.1:8085"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user2",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "005-backend\\ACCOUNTS.md"
+    ]
   },
   "006": {
     "project_id": "006",
@@ -217,11 +263,32 @@
     "frontend_dir": null,
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080"
+      "backend": "http://127.0.0.1:8086"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "admin"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user2",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "006-backend\\ACCOUNTS.md"
+    ]
   },
   "007": {
     "project_id": "007",
@@ -234,12 +301,39 @@
     "frontend_dir": "007-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8087",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "ADMIN",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "volunteer",
+        "role_label": "VOLUNTEER",
+        "username": "volunteer",
+        "password": "123456"
+      },
+      {
+        "role_key": "volunteer",
+        "role_label": "VOLUNTEER",
+        "username": "zhangsan",
+        "password": "123456"
+      },
+      {
+        "role_key": "volunteer",
+        "role_label": "VOLUNTEER",
+        "username": "lisi",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "007-backend\\ACCOUNTS.md"
+    ]
   },
   "008": {
     "project_id": "008",
@@ -251,7 +345,7 @@
     "frontend_dir": null,
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080"
+      "backend": "http://127.0.0.1:8008"
     },
     "accounts": [
       {
@@ -289,7 +383,7 @@
     "frontend_dir": "009-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8009",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [
@@ -310,6 +404,42 @@
         "role_label": "学生",
         "username": "student1",
         "password": "123456"
+      },
+      {
+        "role_key": "admin",
+        "role_label": "STATION_ADMIN",
+        "username": "station2",
+        "password": "123456"
+      },
+      {
+        "role_key": "courier",
+        "role_label": "COURIER",
+        "username": "courier1",
+        "password": "123456"
+      },
+      {
+        "role_key": "student",
+        "role_label": "STUDENT",
+        "username": "student1",
+        "password": "123456"
+      },
+      {
+        "role_key": "student",
+        "role_label": "STUDENT",
+        "username": "student2",
+        "password": "123456"
+      },
+      {
+        "role_key": "student",
+        "role_label": "STUDENT",
+        "username": "student3",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "用户",
+        "username": "courier1",
+        "password": "123456"
       }
     ],
     "routes": [
@@ -329,7 +459,9 @@
       "系统配置"
     ],
     "readme_sources": [
-      "009-backend\\README.md"
+      "009-backend\\ACCOUNTS.md",
+      "009-backend\\README.md",
+      "009-frontend\\README.md"
     ]
   },
   "010": {
@@ -342,11 +474,50 @@
     "frontend_dir": null,
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080"
+      "backend": "http://127.0.0.1:8010"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "20240001",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "20240002",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "20240003",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "20240004",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "20240005",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "010-backend\\ACCOUNTS.md"
+    ]
   },
   "011": {
     "project_id": "011",
@@ -359,12 +530,45 @@
     "frontend_dir": "011-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8011",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "ADMIN",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "USER",
+        "username": "test1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "USER",
+        "username": "test2",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "USER",
+        "username": "test3",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "USER",
+        "username": "test4",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "011-backend\\ACCOUNTS.md"
+    ]
   },
   "012": {
     "project_id": "012",
@@ -376,11 +580,44 @@
     "frontend_dir": null,
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080"
+      "backend": "http://127.0.0.1:8012"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "ADMIN",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "USER",
+        "username": "test1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "USER",
+        "username": "test2",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "USER",
+        "username": "test3",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "USER",
+        "username": "test4",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "012-backend\\ACCOUNTS.md"
+    ]
   },
   "013": {
     "project_id": "013",
@@ -393,10 +630,35 @@
     "frontend_dir": "013-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8013",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "系统管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "test1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "test4",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "test7",
+        "password": "123456"
+      }
+    ],
     "routes": [
       "登录",
       "注册",
@@ -421,7 +683,9 @@
       "物品审核",
       "共享物品管理"
     ],
-    "readme_sources": []
+    "readme_sources": [
+      "013-backend\\ACCOUNTS.md"
+    ]
   },
   "014": {
     "project_id": "014",
@@ -453,26 +717,33 @@
     },
     "accounts": [
       {
-        "role_key": "admin",
-        "role_label": "管理员",
+        "role_key": "user",
+        "role_label": "用户",
         "username": "admin",
         "password": "admin123"
       },
       {
         "role_key": "user",
-        "role_label": "测试用户1",
+        "role_label": "用户",
         "username": "20210001",
         "password": "123456"
       },
       {
         "role_key": "user",
-        "role_label": "测试用户2",
+        "role_label": "用户",
         "username": "20210002",
         "password": "123456"
+      },
+      {
+        "role_key": "admin",
+        "role_label": "超级管理员",
+        "username": "admin",
+        "password": "admin123"
       }
     ],
     "routes": [],
     "readme_sources": [
+      "015-backend\\ACCOUNTS.md",
       "015-backend\\README.md"
     ]
   },
@@ -490,9 +761,30 @@
       "backend": "http://127.0.0.1:8080",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "admin123"
+      },
+      {
+        "role_key": "user",
+        "role_label": "用户",
+        "username": "user001",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "用户",
+        "username": "user002",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "016-backend\\ACCOUNTS.md"
+    ]
   },
   "017": {
     "project_id": "017",
@@ -506,9 +798,31 @@
     "capture_urls": {
       "backend": "http://127.0.0.1:8080"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "admin123"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "20210001",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "20210002",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "017-backend\\ACCOUNTS.md",
+      "017-backend\\README.md"
+    ]
   },
   "018": {
     "project_id": "018",
@@ -524,9 +838,30 @@
       "backend": "http://127.0.0.1:8080",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "admin",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "student",
+        "role_label": "student",
+        "username": "student1",
+        "password": "123456"
+      },
+      {
+        "role_key": "company",
+        "role_label": "company",
+        "username": "company1",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "018-backend\\ACCOUNTS.md"
+    ]
   },
   "019": {
     "project_id": "019",
@@ -542,7 +877,26 @@
       "backend": "http://127.0.0.1:8080",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "admin",
+        "username": "admin",
+        "password": "admin123"
+      },
+      {
+        "role_key": "coach",
+        "role_label": "coach",
+        "username": "coach1",
+        "password": "coach123"
+      },
+      {
+        "role_key": "student",
+        "role_label": "student",
+        "username": "student1",
+        "password": "student123"
+      }
+    ],
     "routes": [
       "首页",
       "运动记录",
@@ -557,7 +911,9 @@
       "排行榜",
       "个人中心"
     ],
-    "readme_sources": []
+    "readme_sources": [
+      "019-backend\\ACCOUNTS.md"
+    ]
   },
   "020": {
     "project_id": "020",
@@ -570,12 +926,39 @@
     "frontend_dir": "020-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8020",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student2",
+        "password": "123456"
+      },
+      {
+        "role_key": "teacher",
+        "role_label": "老师",
+        "username": "teacher1",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "020-backend\\ACCOUNTS.md"
+    ]
   },
   "021": {
     "project_id": "021",
@@ -662,9 +1045,36 @@
     "capture_urls": {
       "backend": "http://127.0.0.1:8080"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student2",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student3",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "023-backend\\README.md"
+    ]
   },
   "024": {
     "project_id": "024",
@@ -677,7 +1087,7 @@
     "frontend_dir": "024-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8024",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],
@@ -695,7 +1105,7 @@
     "frontend_dir": "025-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8025",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],
@@ -713,7 +1123,7 @@
     "frontend_dir": "026-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8026",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],
@@ -731,12 +1141,21 @@
     "frontend_dir": "027-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8027",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "admin123"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "027-backend\\README.md"
+    ]
   },
   "028": {
     "project_id": "028",
@@ -749,10 +1168,23 @@
     "frontend_dir": "028-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8028",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "admin123"
+      },
+      {
+        "role_key": "user",
+        "role_label": "用户",
+        "username": "testuser",
+        "password": "123456"
+      }
+    ],
     "routes": [
       "登录",
       "注册",
@@ -769,7 +1201,9 @@
       "订单管理",
       "故障管理"
     ],
-    "readme_sources": []
+    "readme_sources": [
+      "028-backend\\README.md"
+    ]
   },
   "029": {
     "project_id": "029",
@@ -836,7 +1270,7 @@
     "frontend_dir": "032-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8032",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],
@@ -908,7 +1342,7 @@
     "frontend_dir": "036-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8036",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],
@@ -923,10 +1357,10 @@
       "frontend"
     ],
     "backend_dir": "037-backend",
-    "frontend_dir": "037-frontend",
+    "frontend_dir": "037-frontend\\.preview",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8037",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],
@@ -944,7 +1378,7 @@
     "frontend_dir": "038-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8038",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [
@@ -971,7 +1405,7 @@
     "frontend_dir": "039-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8039",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],
@@ -989,7 +1423,7 @@
     "frontend_dir": "040-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8040",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],
@@ -1007,7 +1441,7 @@
     "frontend_dir": "041-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8041",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],
@@ -1025,7 +1459,7 @@
     "frontend_dir": "042-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8042",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],
@@ -1043,7 +1477,7 @@
     "frontend_dir": "043-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8043",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],
@@ -1061,7 +1495,7 @@
     "frontend_dir": "044-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8044",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],
@@ -1079,7 +1513,7 @@
     "frontend_dir": "045-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8045",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [
@@ -1106,7 +1540,7 @@
     "frontend_dir": "046-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8046",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [
@@ -1133,7 +1567,7 @@
     "frontend_dir": "047-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8047",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [
@@ -1160,7 +1594,7 @@
     "frontend_dir": "048-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8048",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [
@@ -1187,7 +1621,7 @@
     "frontend_dir": null,
     "miniapp_dir": "049-miniprogram",
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080"
+      "backend": "http://127.0.0.1:8049"
     },
     "accounts": [
       {
@@ -1225,7 +1659,7 @@
     "frontend_dir": null,
     "miniapp_dir": "050-miniprogram",
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080"
+      "backend": "http://127.0.0.1:8050"
     },
     "accounts": [
       {
@@ -1260,10 +1694,10 @@
       "frontend"
     ],
     "backend_dir": "051-backend",
-    "frontend_dir": "051-frontend",
+    "frontend_dir": "051-frontend\\admin",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8051",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],
@@ -1278,15 +1712,36 @@
       "frontend"
     ],
     "backend_dir": "052-backend",
-    "frontend_dir": "052-frontend",
+    "frontend_dir": "052-frontend\\admin",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8052",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "teacher",
+        "role_label": "教师",
+        "username": "teacher",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "052-backend\\README.md"
+    ]
   },
   "053": {
     "project_id": "053",
@@ -1299,12 +1754,27 @@
     "frontend_dir": "053-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8053",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "admin",
+        "role_label": "仓库管理员",
+        "username": "warehouse",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "053-backend\\README.md"
+    ]
   },
   "054": {
     "project_id": "054",
@@ -1317,10 +1787,23 @@
     "frontend_dir": "054-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8054",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "farmer",
+        "role_label": "农户",
+        "username": "farmer",
+        "password": "123456"
+      }
+    ],
     "routes": [
       "首页",
       "用户管理",
@@ -1337,7 +1820,9 @@
       "专家预约",
       "公告管理"
     ],
-    "readme_sources": []
+    "readme_sources": [
+      "054-backend\\README.md"
+    ]
   },
   "055": {
     "project_id": "055",
@@ -1350,12 +1835,27 @@
     "frontend_dir": "055-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8055",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "admin123"
+      },
+      {
+        "role_key": "hr",
+        "role_label": "HR 主管",
+        "username": "hr",
+        "password": "hr123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "055-backend\\README.md"
+    ]
   },
   "056": {
     "project_id": "056",
@@ -1369,10 +1869,17 @@
     "frontend_dir": "056-frontend",
     "miniapp_dir": "056-miniapp",
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8056",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      }
+    ],
     "routes": [
       "首页",
       "用户管理",
@@ -1384,7 +1891,9 @@
       "公告管理",
       "获奖管理"
     ],
-    "readme_sources": []
+    "readme_sources": [
+      "056-backend\\README.md"
+    ]
   },
   "057": {
     "project_id": "057",
@@ -1397,12 +1906,27 @@
     "frontend_dir": "057-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8057",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "超级管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "admin",
+        "role_label": "普通管理员",
+        "username": "user",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "057-backend\\README.md"
+    ]
   },
   "058": {
     "project_id": "058",
@@ -1415,12 +1939,27 @@
     "frontend_dir": "058-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8058",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "058-backend\\README.md"
+    ]
   },
   "059": {
     "project_id": "059",
@@ -1433,10 +1972,17 @@
     "frontend_dir": "059-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8059",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      }
+    ],
     "routes": [
       "数据看板",
       "用户管理",
@@ -1452,7 +1998,9 @@
       "维保计划",
       "维保记录"
     ],
-    "readme_sources": []
+    "readme_sources": [
+      "059-backend\\README.md"
+    ]
   },
   "060": {
     "project_id": "060",
@@ -1465,12 +2013,33 @@
     "frontend_dir": "060-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8060",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user2",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "060-backend\\README.md"
+    ]
   },
   "061": {
     "project_id": "061",
@@ -1483,12 +2052,39 @@
     "frontend_dir": "061-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8061",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user2",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user3",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "061-backend\\README.md"
+    ]
   },
   "062": {
     "project_id": "062",
@@ -1501,12 +2097,33 @@
     "frontend_dir": "062-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8062",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "商户用户",
+        "username": "user1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "商户用户",
+        "username": "user2",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "062-backend\\README.md"
+    ]
   },
   "063": {
     "project_id": "063",
@@ -1519,12 +2136,21 @@
     "frontend_dir": "063-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8063",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "063-backend\\README.md"
+    ]
   },
   "064": {
     "project_id": "064",
@@ -1537,12 +2163,27 @@
     "frontend_dir": "064-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8064",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "平台管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "调理用户",
+        "username": "user",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "064-backend\\README.md"
+    ]
   },
   "065": {
     "project_id": "065",
@@ -1555,12 +2196,21 @@
     "frontend_dir": "065-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8065",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "系统管理员",
+        "username": "admin",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "065-backend\\README.md"
+    ]
   },
   "066": {
     "project_id": "066",
@@ -1573,12 +2223,33 @@
     "frontend_dir": "066-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8066",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "作者用户",
+        "username": "writer",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "066-backend\\README.md"
+    ]
   },
   "067": {
     "project_id": "067",
@@ -1591,12 +2262,33 @@
     "frontend_dir": "067-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8067",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "teacher",
+        "role_label": "教师",
+        "username": "teacher",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "067-backend\\README.md"
+    ]
   },
   "068": {
     "project_id": "068",
@@ -1609,12 +2301,27 @@
     "frontend_dir": "068-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8068",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "068-backend\\README.md"
+    ]
   },
   "069": {
     "project_id": "069",
@@ -1627,12 +2334,33 @@
     "frontend_dir": "069-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8069",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "teacher",
+        "role_label": "教师",
+        "username": "teacher1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student1",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "069-backend\\README.md"
+    ]
   },
   "070": {
     "project_id": "070",
@@ -1645,12 +2373,33 @@
     "frontend_dir": "070-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8070",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "测试用户",
+        "username": "test",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "070-backend\\README.md"
+    ]
   },
   "071": {
     "project_id": "071",
@@ -1663,12 +2412,33 @@
     "frontend_dir": "071-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8071",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "测试用户",
+        "username": "test",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "071-backend\\README.md"
+    ]
   },
   "072": {
     "project_id": "072",
@@ -1681,12 +2451,33 @@
     "frontend_dir": "072-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8072",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "tourist",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "072-backend\\README.md"
+    ]
   },
   "073": {
     "project_id": "073",
@@ -1699,12 +2490,27 @@
     "frontend_dir": "073-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8073",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "hr",
+        "role_label": "HR",
+        "username": "hr",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "073-backend\\README.md"
+    ]
   },
   "074": {
     "project_id": "074",
@@ -1717,12 +2523,27 @@
     "frontend_dir": "074-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8074",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "buyer",
+        "role_label": "买家",
+        "username": "buyer1",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "074-backend\\README.md"
+    ]
   },
   "075": {
     "project_id": "075",
@@ -1735,12 +2556,21 @@
     "frontend_dir": "075-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8075",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "075-backend\\README.md"
+    ]
   },
   "076": {
     "project_id": "076",
@@ -1753,12 +2583,27 @@
     "frontend_dir": "076-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8076",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "企业用户",
+        "username": "buyer1",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "076-backend\\README.md"
+    ]
   },
   "077": {
     "project_id": "077",
@@ -1771,12 +2616,21 @@
     "frontend_dir": "077-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8077",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "077-backend\\README.md"
+    ]
   },
   "078": {
     "project_id": "078",
@@ -1789,12 +2643,51 @@
     "frontend_dir": "078-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8078",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "farmer",
+        "role_label": "商家一",
+        "username": "merchant",
+        "password": "123456"
+      },
+      {
+        "role_key": "farmer",
+        "role_label": "商家二",
+        "username": "merchant2",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户二",
+        "username": "user2",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户三",
+        "username": "user3",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "078-backend\\README.md"
+    ]
   },
   "079": {
     "project_id": "079",
@@ -1807,12 +2700,21 @@
     "frontend_dir": "079-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8079",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "079-backend\\README.md"
+    ]
   },
   "080": {
     "project_id": "080",
@@ -1828,9 +2730,18 @@
       "backend": "http://127.0.0.1:8080",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "080-backend\\README.md"
+    ]
   },
   "081": {
     "project_id": "081",
@@ -1847,9 +2758,30 @@
       "backend": "http://127.0.0.1:8080",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user2",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "081-backend\\README.md"
+    ]
   },
   "082": {
     "project_id": "082",
@@ -1862,12 +2794,21 @@
     "frontend_dir": "082-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8082",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "082-backend\\README.md"
+    ]
   },
   "083": {
     "project_id": "083",
@@ -1880,12 +2821,27 @@
     "frontend_dir": "083-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8083",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "teacher",
+        "role_label": "医生",
+        "username": "doctor",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "083-backend\\README.md"
+    ]
   },
   "084": {
     "project_id": "084",
@@ -1898,12 +2854,33 @@
     "frontend_dir": "084-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8084",
       "frontend": "http://127.0.0.1:3000"
     },
-    "accounts": [],
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "teacher",
+        "role_label": "教师",
+        "username": "teacher",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "学生",
+        "username": "student",
+        "password": "123456"
+      }
+    ],
     "routes": [],
-    "readme_sources": []
+    "readme_sources": [
+      "084-backend\\README.md"
+    ]
   },
   "085": {
     "project_id": "085",
@@ -1916,7 +2893,7 @@
     "frontend_dir": "085-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8085",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],
@@ -1934,7 +2911,7 @@
     "frontend_dir": "086-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8086",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],
@@ -1952,7 +2929,7 @@
     "frontend_dir": "087-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8087",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],
@@ -1984,7 +2961,7 @@
     "frontend_dir": "088-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8088",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],
@@ -2002,7 +2979,7 @@
     "frontend_dir": "089-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8089",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],
@@ -2020,7 +2997,7 @@
     "frontend_dir": "090-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8090",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],
@@ -2052,7 +3029,7 @@
     "frontend_dir": "091-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8091",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],
@@ -2070,7 +3047,7 @@
     "frontend_dir": "092-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8092",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],
@@ -2102,7 +3079,7 @@
     "frontend_dir": "093-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8093",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],
@@ -2111,7 +3088,7 @@
   },
   "094": {
     "project_id": "094",
-    "name": "项目 094",
+    "name": "宠物咖啡馆平台 🔥最新",
     "components": [
       "backend",
       "frontend"
@@ -2120,7 +3097,7 @@
     "frontend_dir": "094-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8094",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],
@@ -2138,7 +3115,7 @@
     "frontend_dir": "095-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8095",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],
@@ -2147,7 +3124,7 @@
   },
   "096": {
     "project_id": "096",
-    "name": "线上医院挂号系统 🔥最新",
+    "name": "线上医院挂号系统",
     "components": [
       "backend",
       "frontend"
@@ -2156,7 +3133,1879 @@
     "frontend_dir": "096-frontend",
     "miniapp_dir": null,
     "capture_urls": {
-      "backend": "http://127.0.0.1:8080",
+      "backend": "http://127.0.0.1:8096",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "097": {
+    "project_id": "097",
+    "name": "大模型提示词资产管理与效果评测平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "097-backend",
+    "frontend_dir": "097-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8097",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "098": {
+    "project_id": "098",
+    "name": "企业知识库智能问答与文档权限管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "098-backend",
+    "frontend_dir": "098-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8098",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "099": {
+    "project_id": "099",
+    "name": "AIGC 图片内容审核与版权存证平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "099-backend",
+    "frontend_dir": "099-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8099",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "100": {
+    "project_id": "100",
+    "name": "AI 生成文本检测与学术诚信预警系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "100-backend",
+    "frontend_dir": "100-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8100",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "101": {
+    "project_id": "101",
+    "name": "多模态招聘材料解析与岗位匹配系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "101-backend",
+    "frontend_dir": "101-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8101",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "102": {
+    "project_id": "102",
+    "name": "法律咨询案件进度与智能文书管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "102-backend",
+    "frontend_dir": "102-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8102",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "103": {
+    "project_id": "103",
+    "name": "智能客服工单质检与知识推荐系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "103-backend",
+    "frontend_dir": "103-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8103",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "104": {
+    "project_id": "104",
+    "name": "开源许可证合规扫描与项目台账系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "104-backend",
+    "frontend_dir": "104-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8104",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "105": {
+    "project_id": "105",
+    "name": "API 接口文档生成与测试用例管理平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "105-backend",
+    "frontend_dir": "105-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8105",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "106": {
+    "project_id": "106",
+    "name": "DevOps 发布审批与回滚管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "106-backend",
+    "frontend_dir": "106-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8106",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "107": {
+    "project_id": "107",
+    "name": "云服务器资产监控与告警平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "107-backend",
+    "frontend_dir": "107-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8107",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "108": {
+    "project_id": "108",
+    "name": "云原生成本分析与资源优化平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "108-backend",
+    "frontend_dir": "108-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8108",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "109": {
+    "project_id": "109",
+    "name": "数据脱敏与敏感信息识别平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "109-backend",
+    "frontend_dir": "109-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8109",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "110": {
+    "project_id": "110",
+    "name": "个人数据隐私授权与访问审计平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "110-backend",
+    "frontend_dir": "110-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8110",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "111": {
+    "project_id": "111",
+    "name": "网络钓鱼邮件演练与安全意识培训平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "111-backend",
+    "frontend_dir": "111-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8111",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "112": {
+    "project_id": "112",
+    "name": "零信任设备准入与访问控制管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "112-backend",
+    "frontend_dir": "112-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8112",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "113": {
+    "project_id": "113",
+    "name": "区块链农产品质量溯源与监管平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "113-backend",
+    "frontend_dir": "113-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8113",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "114": {
+    "project_id": "114",
+    "name": "供应链冷链温控追踪与异常预警平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "114-backend",
+    "frontend_dir": "114-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8114",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "115": {
+    "project_id": "115",
+    "name": "跨境电商清关订单与汇率结算平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "115-backend",
+    "frontend_dir": "115-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8115",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "116": {
+    "project_id": "116",
+    "name": "直播电商选品排期与售后工单系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "116-backend",
+    "frontend_dir": "116-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8116",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "117": {
+    "project_id": "117",
+    "name": "本地生活服务券核销与商户结算系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "117-backend",
+    "frontend_dir": "117-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8117",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "118": {
+    "project_id": "118",
+    "name": "智能仓储 AGV 任务调度与库位优化系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "118-backend",
+    "frontend_dir": "118-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8118",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "119": {
+    "project_id": "119",
+    "name": "设备备件寿命预测与维保决策系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "119-backend",
+    "frontend_dir": "119-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8119",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "120": {
+    "project_id": "120",
+    "name": "数字孪生园区设备巡检管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "120-backend",
+    "frontend_dir": "120-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8120",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "121": {
+    "project_id": "121",
+    "name": "无人机巡检任务调度与缺陷上报平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "121-backend",
+    "frontend_dir": "121-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8121",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "122": {
+    "project_id": "122",
+    "name": "智慧工地安全巡检与隐患整改系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "122-backend",
+    "frontend_dir": "122-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8122",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "123": {
+    "project_id": "123",
+    "name": "城市内涝监测与应急调度平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "123-backend",
+    "frontend_dir": "123-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8123",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "124": {
+    "project_id": "124",
+    "name": "电动车充电桩预约与运维管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "124-backend",
+    "frontend_dir": "124-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8124",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "125": {
+    "project_id": "125",
+    "name": "智慧停车诱导与空位预测平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "125-backend",
+    "frontend_dir": "125-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8125",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "126": {
+    "project_id": "126",
+    "name": "家庭能源用电分析与节能建议平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "126-backend",
+    "frontend_dir": "126-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8126",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "127": {
+    "project_id": "127",
+    "name": "企业碳排放核算与减排任务管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "127-backend",
+    "frontend_dir": "127-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8127",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "128": {
+    "project_id": "128",
+    "name": "ESG 数据填报与可视化报告系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "128-backend",
+    "frontend_dir": "128-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8128",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "129": {
+    "project_id": "129",
+    "name": "水产养殖环境监测与投喂预警系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "129-backend",
+    "frontend_dir": "129-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8129",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "130": {
+    "project_id": "130",
+    "name": "温室大棚物联网控制与病害预警系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "130-backend",
+    "frontend_dir": "130-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8130",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "131": {
+    "project_id": "131",
+    "name": "药品不良反应上报与随访管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "131-backend",
+    "frontend_dir": "131-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8131",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "132": {
+    "project_id": "132",
+    "name": "医疗器械借用消毒与追踪管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "132-backend",
+    "frontend_dir": "132-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8132",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "133": {
+    "project_id": "133",
+    "name": "实验室耗材采购审批与库存预警系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "133-backend",
+    "frontend_dir": "133-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8133",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "134": {
+    "project_id": "134",
+    "name": "科研项目经费报销与成果管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "134-backend",
+    "frontend_dir": "134-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8134",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "135": {
+    "project_id": "135",
+    "name": "学术会议投稿评审与日程管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "135-backend",
+    "frontend_dir": "135-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8135",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "136": {
+    "project_id": "136",
+    "name": "导师课题双选与开题过程管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "136-backend",
+    "frontend_dir": "136-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8136",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "137": {
+    "project_id": "137",
+    "name": "大学生创新创业项目孵化管理平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "137-backend",
+    "frontend_dir": "137-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8137",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "138": {
+    "project_id": "138",
+    "name": "在线考试反作弊行为分析与证据管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "138-backend",
+    "frontend_dir": "138-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8138",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "139": {
+    "project_id": "139",
+    "name": "企业培训学习路径与能力画像系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "139-backend",
+    "frontend_dir": "139-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8139",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "140": {
+    "project_id": "140",
+    "name": "电子合同签署与印章审批管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "140-backend",
+    "frontend_dir": "140-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8140",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "141": {
+    "project_id": "141",
+    "name": "固定资产 RFID 盘点与借用归还系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "141-backend",
+    "frontend_dir": "141-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8141",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "142": {
+    "project_id": "142",
+    "name": "车辆保险理赔材料审核与进度跟踪系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "142-backend",
+    "frontend_dir": "142-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8142",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "143": {
+    "project_id": "143",
+    "name": "社区公益时间银行互助服务平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "143-backend",
+    "frontend_dir": "143-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8143",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "144": {
+    "project_id": "144",
+    "name": "无障碍出行路线规划与志愿协助平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "144-backend",
+    "frontend_dir": "144-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8144",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "145": {
+    "project_id": "145",
+    "name": "城市噪声投诉监测与执法协同平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "145-backend",
+    "frontend_dir": "145-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8145",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "146": {
+    "project_id": "146",
+    "name": "食品安全抽检任务与结果公示平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "146-backend",
+    "frontend_dir": "146-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8146",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "147": {
+    "project_id": "147",
+    "name": "校园心理咨询预约与危机干预管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "147-backend",
+    "frontend_dir": "147-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8147",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "148": {
+    "project_id": "148",
+    "name": "社区养老服务派单与健康随访管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "148-backend",
+    "frontend_dir": "148-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8148",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "149": {
+    "project_id": "149",
+    "name": "高校实验设备共享预约与违规使用追踪系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "149-backend",
+    "frontend_dir": "149-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8149",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "150": {
+    "project_id": "150",
+    "name": "医院门诊检查预约与报告回传管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "150-backend",
+    "frontend_dir": "150-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8150",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "151": {
+    "project_id": "151",
+    "name": "文旅场馆讲解预约与票务核销管理平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "151-backend",
+    "frontend_dir": "151-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8151",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "152": {
+    "project_id": "152",
+    "name": "工厂危险作业审批与监护巡检管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "152-backend",
+    "frontend_dir": "152-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8152",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "153": {
+    "project_id": "153",
+    "name": "校园二手物品寄卖与信用评价系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "153-backend",
+    "frontend_dir": "153-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8153",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "154": {
+    "project_id": "154",
+    "name": "宠物医院接诊排班与疫苗随访管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "154-backend",
+    "frontend_dir": "154-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8154",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "155": {
+    "project_id": "155",
+    "name": "社区党建活动报名与积分激励平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "155-backend",
+    "frontend_dir": "155-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8155",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "156": {
+    "project_id": "156",
+    "name": "校园宿舍能耗监测与节能排名系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "156-backend",
+    "frontend_dir": "156-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8156",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "157": {
+    "project_id": "157",
+    "name": "物流园区车辆入场预约与道口调度平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "157-backend",
+    "frontend_dir": "157-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8157",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "158": {
+    "project_id": "158",
+    "name": "校外培训机构课消统计与退费审批系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "158-backend",
+    "frontend_dir": "158-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8158",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "159": {
+    "project_id": "159",
+    "name": "医疗废弃物收运联单与闭环监管系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "159-backend",
+    "frontend_dir": "159-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8159",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "160": {
+    "project_id": "160",
+    "name": "校园社团活动预算报销与物资借用系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "160-backend",
+    "frontend_dir": "160-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8160",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "161": {
+    "project_id": "161",
+    "name": "景区失物招领与游客寻回协同平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "161-backend",
+    "frontend_dir": "161-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8161",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "162": {
+    "project_id": "162",
+    "name": "生鲜门店临期商品预警与促销处置系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "162-backend",
+    "frontend_dir": "162-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8162",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "163": {
+    "project_id": "163",
+    "name": "医学实习轮转考核与病例学习管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "163-backend",
+    "frontend_dir": "163-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8163",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "164": {
+    "project_id": "164",
+    "name": "校园体育赛事报名编排与裁判评分系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "164-backend",
+    "frontend_dir": "164-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8164",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "165": {
+    "project_id": "165",
+    "name": "企业访客预约登记与门禁联动管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "165-backend",
+    "frontend_dir": "165-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8165",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "166": {
+    "project_id": "166",
+    "name": "农贸市场摊位巡检与食品追溯台账系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "166-backend",
+    "frontend_dir": "166-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8166",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "167": {
+    "project_id": "167",
+    "name": "社区垃圾分类督导与积分兑换平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "167-backend",
+    "frontend_dir": "167-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8167",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "168": {
+    "project_id": "168",
+    "name": "在线职业培训证书考试与续证提醒系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "168-backend",
+    "frontend_dir": "168-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8168",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "169": {
+    "project_id": "169",
+    "name": "校车乘车预约与学生上下车核验系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "169-backend",
+    "frontend_dir": "169-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8169",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "170": {
+    "project_id": "170",
+    "name": "养老机构床位分配与护理记录管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "170-backend",
+    "frontend_dir": "170-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8170",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "171": {
+    "project_id": "171",
+    "name": "应急物资储备盘点与调拨审批平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "171-backend",
+    "frontend_dir": "171-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8171",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "172": {
+    "project_id": "172",
+    "name": "口腔门诊治疗预约与耗材计费管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "172-backend",
+    "frontend_dir": "172-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8172",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "173": {
+    "project_id": "173",
+    "name": "高校毕业去向填报与就业帮扶跟踪系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "173-backend",
+    "frontend_dir": "173-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8173",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "174": {
+    "project_id": "174",
+    "name": "社区慢病档案随访与服药依从性管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "174-backend",
+    "frontend_dir": "174-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8174",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "175": {
+    "project_id": "175",
+    "name": "校园图书漂流借阅与读书打卡平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "175-backend",
+    "frontend_dir": "175-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8175",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "176": {
+    "project_id": "176",
+    "name": "水务巡线工单与阀门检修协同管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "176-backend",
+    "frontend_dir": "176-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8176",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "177": {
+    "project_id": "177",
+    "name": "直播基地主播排班与选品样品管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "177-backend",
+    "frontend_dir": "177-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8177",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "178": {
+    "project_id": "178",
+    "name": "医院手术室器械包追踪与灭菌放行系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "178-backend",
+    "frontend_dir": "178-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8178",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "179": {
+    "project_id": "179",
+    "name": "高校考勤异常申诉与课堂巡查管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "179-backend",
+    "frontend_dir": "179-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8179",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "180": {
+    "project_id": "180",
+    "name": "物业报修派单与服务满意度评价平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "180-backend",
+    "frontend_dir": "180-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8180",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "181": {
+    "project_id": "181",
+    "name": "社区儿童托管签到接送与安全告警系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "181-backend",
+    "frontend_dir": "181-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8181",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "182": {
+    "project_id": "182",
+    "name": "养老助餐配送排线与营养套餐管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "182-backend",
+    "frontend_dir": "182-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8182",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "183": {
+    "project_id": "183",
+    "name": "实验动物饲养排班与伦理审批管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "183-backend",
+    "frontend_dir": "183-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8183",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "184": {
+    "project_id": "184",
+    "name": "停车场月租合同续费与异常占位管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "184-backend",
+    "frontend_dir": "184-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8184",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "185": {
+    "project_id": "185",
+    "name": "城市公厕巡检保洁与耗材补给调度系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "185-backend",
+    "frontend_dir": "185-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8185",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "186": {
+    "project_id": "186",
+    "name": "校园餐厅后厨留样与卫生巡检台账系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "186-backend",
+    "frontend_dir": "186-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8186",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "187": {
+    "project_id": "187",
+    "name": "旅行社团建行程报名与费用分摊管理平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "187-backend",
+    "frontend_dir": "187-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8187",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "188": {
+    "project_id": "188",
+    "name": "医疗护理培训签到考核与技能档案系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "188-backend",
+    "frontend_dir": "188-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8188",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "189": {
+    "project_id": "189",
+    "name": "乡镇农机作业预约与维修保养跟踪平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "189-backend",
+    "frontend_dir": "189-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8189",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "190": {
+    "project_id": "190",
+    "name": "智慧楼宇访修协同与设备保养提醒系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "190-backend",
+    "frontend_dir": "190-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8190",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "191": {
+    "project_id": "191",
+    "name": "社区助残器具借用与康复随访平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "191-backend",
+    "frontend_dir": "191-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8191",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "192": {
+    "project_id": "192",
+    "name": "医院陪护服务预约与护工评价管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "192-backend",
+    "frontend_dir": "192-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8192",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "193": {
+    "project_id": "193",
+    "name": "校园创新实验班选拔与导师跟踪管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "193-backend",
+    "frontend_dir": "193-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8193",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "194": {
+    "project_id": "194",
+    "name": "工业园区危废暂存与转运联动监管平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "194-backend",
+    "frontend_dir": "194-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8194",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "195": {
+    "project_id": "195",
+    "name": "便民服务中心事项预约与窗口评价平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "195-backend",
+    "frontend_dir": "195-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8195",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "196": {
+    "project_id": "196",
+    "name": "药店处方审核与慢病续方提醒管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "196-backend",
+    "frontend_dir": "196-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8196",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "197": {
+    "project_id": "197",
+    "name": "社区家政服务预约与人员信用评价系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "197-backend",
+    "frontend_dir": "197-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8197",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "198": {
+    "project_id": "198",
+    "name": "城市共享充电宝投放巡检与收益结算系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "198-backend",
+    "frontend_dir": "198-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8198",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "199": {
+    "project_id": "199",
+    "name": "运动康复训练计划与体测评估管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "199-backend",
+    "frontend_dir": "199-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8199",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "200": {
+    "project_id": "200",
+    "name": "非遗工坊课程预约与作品展销平台 🔥最新",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "200-backend",
+    "frontend_dir": "200-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8200",
       "frontend": "http://127.0.0.1:3000"
     },
     "accounts": [],

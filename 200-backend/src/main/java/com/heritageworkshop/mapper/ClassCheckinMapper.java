@@ -26,6 +26,9 @@ public interface ClassCheckinMapper {
     @Delete("DELETE FROM class_checkin WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM class_checkin WHERE id=#{id}")
+    ClassCheckin selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM class_checkin")
     long countAll();
 

@@ -1,0 +1,56 @@
+{
+  "project": {
+    "project_id": "156",
+    "name": "校园宿舍能耗监测与节能排名系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "156-backend",
+    "frontend_dir": "156-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8156",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8156",
+      "pid": 36436
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3156",
+      "pid": 10892
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\156-backend.out.log",
+      "stderr": "logs\\project-preview\\156-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\156-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\156-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\156-frontend.out.log",
+      "stderr": "logs\\project-preview\\156-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 13:33:22",
+  "datasource_kind": "mysql",
+  "sql_file": "156-backend\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\156",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 13:35:25"
+}

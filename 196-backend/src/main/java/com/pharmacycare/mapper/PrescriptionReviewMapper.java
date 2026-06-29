@@ -23,6 +23,9 @@ public interface PrescriptionReviewMapper {
     @Update("UPDATE prescription_review SET record_no=#{recordNo},record_name=#{recordName},category=#{category},owner_name=#{ownerName},plan_time=#{planTime},status=#{status},remark=#{remark},updated_time=NOW() WHERE id=#{id}")
     int update(PrescriptionReview entity);
 
+    @Select("SELECT * FROM prescription_review WHERE id = #{id}")
+    PrescriptionReview selectById(Long id);
+
     @Delete("DELETE FROM prescription_review WHERE id=#{id}")
     int deleteById(Long id);
 

@@ -23,6 +23,9 @@ public interface MedicationGuideMapper {
     @Update("UPDATE medication_guide SET record_no=#{recordNo},record_name=#{recordName},category=#{category},owner_name=#{ownerName},plan_time=#{planTime},status=#{status},remark=#{remark},updated_time=NOW() WHERE id=#{id}")
     int update(MedicationGuide entity);
 
+    @Select("SELECT * FROM medication_guide WHERE id = #{id}")
+    MedicationGuide selectById(Long id);
+
     @Delete("DELETE FROM medication_guide WHERE id=#{id}")
     int deleteById(Long id);
 

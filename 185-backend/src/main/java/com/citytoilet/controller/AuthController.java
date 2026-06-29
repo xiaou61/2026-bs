@@ -3,7 +3,7 @@ package com.citytoilet.controller;
 import com.citytoilet.common.Result;
 import com.citytoilet.dto.LoginRequest;
 import com.citytoilet.entity.SysUser;
-import com.citytoilet.clerk.AuthService;
+import com.citytoilet.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

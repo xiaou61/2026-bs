@@ -26,6 +26,9 @@ public interface CoachProfileMapper {
     @Delete("DELETE FROM coach_profile WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM coach_profile WHERE id=#{id}")
+    CoachProfile selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM coach_profile")
     long countAll();
 

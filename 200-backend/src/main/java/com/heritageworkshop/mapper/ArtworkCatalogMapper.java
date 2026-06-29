@@ -26,6 +26,9 @@ public interface ArtworkCatalogMapper {
     @Delete("DELETE FROM artwork_catalog WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM artwork_catalog WHERE id=#{id}")
+    ArtworkCatalog selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM artwork_catalog")
     long countAll();
 

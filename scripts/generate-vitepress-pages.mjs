@@ -22,6 +22,23 @@ function syncPreviewAssets() {
   if (!fs.existsSync(PREVIEW_ASSETS_SOURCE_DIR)) return;
   const imageExts = new Set(['.png', '.jpg', '.jpeg', '.webp']);
 
+  function copyFileWithRetry(sourcePath, targetPath) {
+    let lastError;
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      try {
+        fs.copyFileSync(sourcePath, targetPath);
+        return;
+      } catch (error) {
+        lastError = error;
+        const waitUntil = Date.now() + 150 * (attempt + 1);
+        while (Date.now() < waitUntil) {
+          // Small synchronous backoff for transient Windows copyfile locks.
+        }
+      }
+    }
+    throw lastError;
+  }
+
   function copyImages(sourceDir, targetDir) {
     fs.mkdirSync(targetDir, { recursive: true });
     for (const entry of fs.readdirSync(sourceDir, { withFileTypes: true })) {
@@ -30,7 +47,7 @@ function syncPreviewAssets() {
       if (entry.isDirectory()) {
         copyImages(sourcePath, targetPath);
       } else if (entry.isFile() && imageExts.has(path.extname(entry.name).toLowerCase())) {
-        fs.copyFileSync(sourcePath, targetPath);
+        copyFileWithRetry(sourcePath, targetPath);
       }
     }
   }

@@ -81,33 +81,57 @@ def get_routes_from_router(frontend_dir: Path) -> dict[str, list[str]]:
             continue
         text = candidate.read_text(encoding="utf-8", errors="ignore")
 
-        # Find top-level routes with children (layout routes)
-        # Pattern: path: '/something', component: Layout, ... children: [...]
-        layout_pattern = re.compile(
-            r"path:\s*'([^']+)'\s*,\s*component:\s*\(\)\s*=>\s*import\('[^']*layout[^']*'\)[\s\S]*?children:\s*\[([\s\S]*?)\]",
-            re.S | re.I,
-        )
-        for match in layout_pattern.finditer(text):
-            parent_path = match.group(1)
-            children_text = match.group(2)
-            child_paths = re.findall(r"path:\s*'([^']+)'", children_text)
-            # Skip dynamic routes (with :param)
+        def find_matching_bracket(start_index: int) -> int:
+            depth = 0
+            quote = ""
+            escaped = False
+            for index in range(start_index, len(text)):
+                ch = text[index]
+                if quote:
+                    if escaped:
+                        escaped = False
+                    elif ch == "\\":
+                        escaped = True
+                    elif ch == quote:
+                        quote = ""
+                    continue
+                if ch in ("'", '"', "`"):
+                    quote = ch
+                elif ch == "[":
+                    depth += 1
+                elif ch == "]":
+                    depth -= 1
+                    if depth == 0:
+                        return index
+            return -1
+
+        for children_match in re.finditer(r"children\s*:\s*\[", text, flags=re.I):
+            parent_matches = list(re.finditer(r"path:\s*['\"]([^'\"]+)['\"]", text[: children_match.start()]))
+            if not parent_matches:
+                continue
+            parent_path = parent_matches[-1].group(1)
+            start_index = text.find("[", children_match.start())
+            end_index = find_matching_bracket(start_index)
+            if end_index == -1:
+                continue
+            children_text = text[start_index + 1 : end_index]
+            child_paths = re.findall(r"path:\s*['\"]([^'\"]+)['\"]", children_text)
             child_paths = [p for p in child_paths if ":" not in p]
             if child_paths:
-                # Build full paths
                 full_paths = []
                 for cp in child_paths:
-                    if parent_path.endswith("/") and cp.startswith("/"):
-                        full_paths.append(f"{parent_path}{cp.lstrip('/')}")
-                    elif cp.startswith("/"):
+                    if cp.startswith("/"):
                         full_paths.append(cp)
+                    elif parent_path == "/":
+                        full_paths.append(f"/{cp.lstrip('/')}")
+                    elif parent_path.endswith("/"):
+                        full_paths.append(f"{parent_path}{cp.lstrip('/')}")
                     else:
                         full_paths.append(f"{parent_path}/{cp}")
                 routes[parent_path] = full_paths
 
-        # Also find standalone routes (no children)
         standalone_pattern = re.compile(
-            r"path:\s*'([^']+)'\s*,\s*name:\s*'([^']+)'\s*,\s*component",
+            r"path:\s*['\"]([^'\"]+)['\"][\s\S]*?component",
         )
         for match in standalone_pattern.finditer(text):
             path_text = match.group(1)
@@ -149,16 +173,23 @@ def get_routes_from_static_backend(backend_dir: Path | None) -> dict[str, list[s
     return routes
 
 
-def determine_role_from_path(path: str, accounts: list[dict]) -> str:
+def determine_role_from_path(path: str, accounts: list[dict], app_hint: str = "") -> str:
     """Determine the role based on the URL path prefix."""
+    hint = app_hint.lower()
+    if "admin" in hint and any(str(acc.get("role_key", "")).lower() == "admin" for acc in accounts):
+        return "admin"
+    if "user" in hint and any(str(acc.get("role_key", "")).lower() == "user" for acc in accounts):
+        return "user"
+
     for role in ROLE_KEYWORDS:
         if f"/{role}" in path:
             return role
-    # Default: return first non-admin role
+    if any(str(acc.get("role_key", "")).lower() == "admin" for acc in accounts):
+        return "admin"
     for acc in accounts:
-        if acc.get("role_key") != "admin":
-            return acc.get("role_key")
-    return "user"
+        return accounts[0].get("role_key", "user")
+    normalized = path.strip("/").split("/", 1)[0]
+    return normalized or "guest"
 
 
 def get_credentials_for_role(role: str, accounts: list[dict]) -> tuple[str, str]:
@@ -191,12 +222,19 @@ def get_credentials_for_role(role: str, accounts: list[dict]) -> tuple[str, str]
     return "", ""
 
 
+def wait_for_page_settle(page, timeout: int = 10000) -> None:
+    try:
+        page.wait_for_load_state("networkidle", timeout=timeout)
+    except Exception as exc:
+        print(f"  networkidle wait skipped: {exc}")
+
+
 def login(page, base_url: str, username: str, password: str, login_paths: list[str] | None = None) -> bool:
     """Navigate to login page and attempt to login."""
     for login_path in login_paths or ["/login"]:
         try:
             page.goto(f"{base_url}{login_path}", timeout=15000)
-            page.wait_for_load_state("networkidle", timeout=10000)
+            wait_for_page_settle(page)
             time.sleep(1)
         except Exception:
             continue
@@ -256,10 +294,7 @@ def login(page, base_url: str, username: str, password: str, login_paths: list[s
             buttons[0].click()
 
         time.sleep(3)
-        try:
-            page.wait_for_load_state("networkidle", timeout=10000)
-        except Exception:
-            pass
+        wait_for_page_settle(page)
 
         # Verify login succeeded - check if redirected away from login page
         current_url = page.url
@@ -277,10 +312,11 @@ def login(page, base_url: str, username: str, password: str, login_paths: list[s
 def take_screenshot(page, path: str, name: str, screenshot_dir: str, wait: int = PAGE_WAIT) -> None:
     """Navigate to path and take a full-page screenshot."""
     base_url = page.url.split("/")[0] + "//" + page.url.split("/")[2]
-    full_url = f"{base_url}{path}"
+    normalized_path = "/" + path.lstrip("/")
+    full_url = f"{base_url}{normalized_path}"
     try:
         page.goto(full_url, timeout=15000)
-        page.wait_for_load_state("networkidle", timeout=10000)
+        wait_for_page_settle(page)
         time.sleep(wait)
         filepath = os.path.join(screenshot_dir, name)
         page.screenshot(path=filepath, full_page=True)
@@ -324,21 +360,26 @@ def screenshot_project(project_id: str, backend_port: int = None, frontend_port:
         route_map = get_routes_from_static_backend(backend_dir)
     if not route_map:
         route_map = {"/": ["/"]}
+    app_hint = frontend_dir.name if frontend_dir and frontend_dir.exists() else ""
     print(f"Found routes: {route_map}")
 
     # Also add standalone pages (login, register)
     standalone_pages = []
     for path, children in route_map.items():
-        if path in ("/login", "/register", "/", "/index.html"):
-            standalone_pages.extend(children)
+        normalized_children = ["/" + child.lstrip("/") for child in children]
+        if path in ("/login", "/register"):
+            standalone_pages.extend(normalized_children)
+        elif path in ("/", "/index.html") and normalized_children == ["/"]:
+            standalone_pages.extend(normalized_children)
 
     # Group routes by role
     role_routes: dict[str, list[str]] = {}
     for layout_path, child_paths in route_map.items():
-        if layout_path in ("/login", "/register", "/"):
+        normalized_children = ["/" + child.lstrip("/") for child in child_paths]
+        if layout_path in ("/login", "/register") or normalized_children == ["/"]:
             continue
-        role = determine_role_from_path(layout_path, accounts)
-        role_routes.setdefault(role, []).extend(child_paths)
+        role = determine_role_from_path(layout_path, accounts, app_hint=app_hint)
+        role_routes.setdefault(role, []).extend(normalized_children)
 
     # If no routes found from router, try common paths
     if not role_routes and frontend_dir and frontend_dir.exists():
@@ -362,7 +403,7 @@ def screenshot_project(project_id: str, backend_port: int = None, frontend_port:
         # Capture standalone pages (login, register)
         for index, standalone in enumerate(standalone_pages, start=1):
             page.goto(f"{base_url}{standalone}", timeout=15000)
-            page.wait_for_load_state("networkidle", timeout=10000)
+            wait_for_page_settle(page)
             time.sleep(1)
             # Determine filename
             page_name = standalone.strip("/").replace("/", "-") or "home"
@@ -371,7 +412,7 @@ def screenshot_project(project_id: str, backend_port: int = None, frontend_port:
         # Capture login page if not already captured
         if not is_static_backend and "/login" not in standalone_pages:
             page.goto(f"{base_url}/login", timeout=15000)
-            page.wait_for_load_state("networkidle", timeout=10000)
+            wait_for_page_settle(page)
             time.sleep(1)
             take_screenshot(page, "/login", "guest-01-login.png", screenshot_dir)
 
@@ -379,7 +420,7 @@ def screenshot_project(project_id: str, backend_port: int = None, frontend_port:
         if not is_static_backend and "/register" not in standalone_pages:
             try:
                 page.goto(f"{base_url}/register", timeout=15000)
-                page.wait_for_load_state("networkidle", timeout=10000)
+                wait_for_page_settle(page)
                 time.sleep(1)
                 take_screenshot(page, "/register", "guest-02-register.png", screenshot_dir)
             except Exception:
@@ -390,7 +431,14 @@ def screenshot_project(project_id: str, backend_port: int = None, frontend_port:
         for role, paths in role_routes.items():
             username, password = get_credentials_for_role(role, accounts)
             if not username:
-                print(f"  No account for role {role}, skipping")
+                print(f"  No account for role {role}, capturing routes as guest")
+                role_prefix = "guest" if role == "guest" else f"guest-{role}"
+                seq = 1
+                for path in paths:
+                    page_name = slugify_page_name(path)
+                    filename = f"{role_prefix}-{seq:02d}-{page_name}.png"
+                    take_screenshot(page, path, filename, screenshot_dir)
+                    seq += 1
                 continue
 
             print(f"\n=== Role: {role} ({username}) ===")

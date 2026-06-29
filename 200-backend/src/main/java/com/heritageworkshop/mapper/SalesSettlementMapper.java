@@ -26,6 +26,9 @@ public interface SalesSettlementMapper {
     @Delete("DELETE FROM sales_settlement WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM sales_settlement WHERE id=#{id}")
+    SalesSettlement selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM sales_settlement")
     long countAll();
 

@@ -23,6 +23,9 @@ public interface PharmacyStoreMapper {
     @Update("UPDATE pharmacy_store SET record_no=#{recordNo},record_name=#{recordName},category=#{category},owner_name=#{ownerName},plan_time=#{planTime},status=#{status},remark=#{remark},updated_time=NOW() WHERE id=#{id}")
     int update(PharmacyStore entity);
 
+    @Select("SELECT * FROM pharmacy_store WHERE id = #{id}")
+    PharmacyStore selectById(Long id);
+
     @Delete("DELETE FROM pharmacy_store WHERE id=#{id}")
     int deleteById(Long id);
 

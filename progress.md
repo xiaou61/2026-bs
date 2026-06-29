@@ -2760,3 +2760,243 @@
 ### 下一步
 - 继续按顺序推进 `114` 的 PRD 巡检与正式建档。
 - 后续若要把 `113` 转成 `已完成`，优先补编译、构建和基础登录/页面联调验证。
+
+## 2026-06-06 项目预览批量截图续跑
+
+### 已完成
+- 已补强 `scripts/project_preview/run_preview.py`：前端缺 `node_modules` 时自动 `npm install`；每个项目完成后可执行 `cleanup` 删除 `node_modules / node_moudles / node_moudoules`；H2 文件库项目启动前清理旧 H2 数据；静态 `index.html` 项目可用 Python HTTP 服务预览；`051/052` 这类子前端项目可自动选择可运行子应用。
+- 已补强 `scripts/project_preview/batch_capture.py`：每个项目成功或失败后都会执行 cleanup；`--force` 会先清空旧截图，避免新旧图片混在一起。
+- 已补强 `scripts/project_preview/screenshot_project.py`：修正 Vue Router `children` 解析，根路由子页面可截图；无账号时尽量按访客直接截图公开页面；后台子应用优先使用管理员账号。
+- 已验证并补充截图：`025` 9 张、`032` 3 张、`034` 3 张、`039` 8 张、`051` 9 张、`052` 2 张、`055` 2 张。
+- 已运行 `npm run docs:generate`，VitePress 站点项目页已重新生成。
+- 多轮全仓库扫描未发现残留 `node_modules / node_moudles / node_moudoules`。
+
+### 当前判断
+- 批量截图主流程已具备“启动 -> 截图 -> 渲染 -> 停止 -> 清理依赖”的闭环。
+- `037` 是微信小程序源码，不是普通 Web/Vite 前端，当前脚本不能直接浏览器启动，需要后续单独的小程序预览/转静态策略。
+- `052` 和 `055` 能启动但登录失败，当前只收录登录/注册页；后续若要提高截图覆盖，需要针对其登录表单或接口做项目级适配。
+
+### 下一步
+- 继续从 `056` 往后批量跑缺截图项目。
+- 遇到启动失败优先区分：依赖/端口/H2/MySQL/子前端/小程序/登录适配，不重复同一种失败尝试。
+
+### 2026-06-06 12:31 续跑更新
+- 已完成 `062-070` 截图补齐：`062` 15 张、`063` 13 张、`064` 13 张、`065` 13 张、`066` 11 张、`067` 13 张、`068` 11 张、`069` 13 张、`070` 19 张。
+- 已完成 `071-085` 截图补齐：其中 `071/072` 19 张，`073-077` 各 16 张，`078` 18 张，`079` 15 张，`080/081` 各 2 张，`082` 12 张，`083` 11 张，`084` 8 张，`085` 9 张。
+- 已完成 `086-100` 截图补齐；`086/090` 初次因 `networkidle` 超时失败，已改为容错等待后重跑成功，最终 `086` 12 张、`090` 15 张，其余 `087-100` 均已生成截图。
+- 已完成 `101-115` 截图补齐，全部成功，`101/102` 各 16 张，其余 `103-115` 各 17 张。
+- 已完成 `116-130` 截图补齐，全部成功，每个项目 17 张。
+- 每批结束均完成全仓库 `node_modules / node_moudles / node_moudoules` 扫描，未发现残留。
+
+### 2026-06-06 15:46 最终收口
+- 已完成 `131-145` 截图补齐，全部成功，每个项目 17 张。
+- 已完成 `146-200` 截图补齐；其中 `148` 后端因 MyBatis XML/注解解析失败无法启动，已用前端 Vite 单独预览生成 16 张截图并清理依赖；`037` 微信小程序源码已生成 `.preview/index.html` 并截图 1 张总览。
+- 已补齐早期缺口：`012` 1 张、`023` 1 张、`031` 3 张、`037` 1 张、`148` 16 张。
+- 已运行 `npm run docs:generate`，同步截图到 `docs-site/public/previews/assets` 并生成 200 个 VitePress 项目页。
+- 已临时安装根依赖执行 `npm run docs:build`，VitePress 构建通过；随后删除根 `node_modules`。
+- 最终审计结果：200/200 个项目均有截图；截图总数 2740 张；200/200 个项目截图已同步到 VitePress public；200/200 个项目 runtime 非 running；200/200 个预览项目页和站点项目页存在；全仓库无 `node_modules / node_moudles / node_moudoules` 残留；无当前工作区 Java/Node/Python/esbuild 预览进程残留。
+
+## 2026-06-06 逐个精细截图重做
+
+### 已完成
+- 已按用户要求从“范围批量截图”切换为“单项目精修截图”口径。
+- 新增 `scripts/project_preview/fine_capture.py`：一次只处理一个三位项目号；每个项目独立 prepare、截图、render、stop、cleanup，并写入 `docs/previews/qa/<id>.json`。
+- 已修复 `run_preview.py` 的 Vite 彩色输出端口解析问题，避免实际前端跑到 `3001/3002` 时 runtime 仍记录 `3000` 并误截其他服务。
+- 已完成 `001` 精修样板：28 张截图，覆盖访客登录/注册、管理员菜单和弹窗、教师菜单和弹窗、学生菜单和申请/报修弹窗。
+- 已运行 `npm run docs:generate`，`docs-site/projects/001.md` 已显示 28 张精修截图，`docs-site/public/previews/assets/001` 已同步。
+- 已发现并记录 `001` 教师/学生 README 密码与 SQL 种子 MD5 不一致；精修时仅临时修正预览数据库密码哈希，未改源码 SQL。
+- 已完成 `002` 精修：26 张截图，覆盖访客、管理员、`student1/student2`、`teacher1/teacher2`；已修复同角色多账号截图文件名覆盖问题，文件名前缀改为 `student-student1-*`、`teacher-teacher1-*` 等。
+- `003` 已尝试按后端 Thymeleaf 模板项目精修，发现页面依赖外部 CDN、存在缺失静态图片请求、登录成功弹窗和同页 section 切换，通用精修脚本两次卡在浏览器截图/页面动作；已恢复旧 24 张截图并清理残留进程。后续需要给后端模板项目做专项精修策略（API 登录注入 localStorage + 直接访问 HTML/section）。
+- 已完成全仓库扫描，未发现 `node_modules / node_moudles / node_moudoules` 残留。
+
+### 下一步
+- 先从 `004` 继续普通 Web/Vue 项目逐个精修；`003` 单独回头做后端模板专项精修。
+
+### 2026-06-06 004 精修复核
+- `004` 已完成单项目精修 QA：`docs/previews/qa/004.json` 状态为 `completed`，共 26 张截图。
+- 已人工抽看关键截图：`guest-01-login.png`、`guest-02-register.png`、`user-zhangsan-02-聊天.png`、`user-zhangsan-04-好友-添加好友-dialog.png`、`admin-06-设置.png`，确认不是白屏或误截其他服务。
+- `004` 覆盖访客登录/注册、管理员、张三、李四、王五四个登录视角，包含聊天、好友、添加好友弹窗、通知、设置页面。
+- 已重新运行 `npm run docs:generate`，`docs/previews/assets/004` 与 `docs-site/public/previews/assets/004` 均为 26 张。
+- 全仓库扫描未发现 `node_modules / node_moudles / node_moudoules` 残留。
+
+### 2026-06-06 005 精修复核
+- `005` 首次精修失败：登录页依赖外部 Vue/axios，且项目使用 BCrypt 密码哈希，旧脚本的 MD5 预览密码补丁会把登录数据改坏；失败后旧 15 张截图已自动恢复。
+- 已补强 `scripts/project_preview/fine_capture.py`：预览密码补丁会按现有哈希识别 MD5/BCrypt；登录可通过 `/api/user/login` 写入 `localStorage`；无侧边菜单时会继续抓顶部动作页。
+- 已新增 `scripts/project_preview/test_fine_capture.py`，覆盖 MD5 与 BCrypt 哈希生成；`python -m unittest scripts.project_preview.test_fine_capture` 通过。
+- 已为 `005` 增加项目级精修钩子，仅在预览运行库中创建样例问卷、五类题型和一份答卷，然后截图创建、编辑、发布、填写和统计闭环，未修改 `005` 源码。
+- `005` 最终 QA：`docs/previews/qa/005.json` 状态为 `completed`，共 17 张截图；`docs/previews/assets/005` 与 `docs-site/public/previews/assets/005` 均为 17 张。
+- 已人工抽看关键截图：`admin-10-create-form.png`、`admin-12-edit-questions.png`、`guest-10-fill-form.png`、`admin-14-statistics.png`，确认创建表单、五题型编辑、答卷填写和统计图表均可见。
+- 全仓库扫描未发现 `node_modules / node_moudles / node_moudoules` 残留。
+
+### 2026-06-06 006 精修复核
+- `006` 首轮精修虽然登录成功，但只识别到顶部“通知/个人中心”，覆盖太浅；已补强 `.menu-item` 菜单识别并增加 `006` 项目级路径截图。
+- `006` 最终 QA：`docs/previews/qa/006.json` 状态为 `completed`，共 60 张截图；`docs/previews/assets/006` 与 `docs-site/public/previews/assets/006` 均为 60 张。
+- 覆盖范围包括：访客登录/注册，管理员首页、失物/招领列表、发布表单、我的记录、认领记录、收藏、通知、个人中心、用户管理、分类管理和添加分类弹窗；`user1/user2` 两个普通用户各自覆盖首页、失物/招领、发布、我的记录、认领、收藏等页面。
+- 已人工抽看关键截图：`user-user1-11-lost-detail.png`、`user-user1-21-lost-claim-dialog.png`、`admin-16-分类管理-添加分类-dialog.png`，确认详情、认领弹窗和管理弹窗真实可见。
+- 失物/招领详情页中的样例图片路径指向缺失图片，但页面主体数据和操作按钮正常；记录为种子资源问题，不影响本轮截图判定。
+- 全仓库扫描未发现 `node_modules / node_moudles / node_moudoules` 残留，且无当前工作区 Java/Node/Python/esbuild 预览进程残留。
+
+### 2026-06-06 007 精修复核
+- `007` 已完成普通单项目精修，无需项目级特例；`docs/previews/qa/007.json` 状态为 `completed`，共 34 张截图。
+- 覆盖范围包括访客登录/注册、管理员数据概览、活动管理、创建活动弹窗、报名/签到/用户/商品/兑换/积分管理，以及志愿者活动大厅、我的活动、积分、积分商城、兑换记录和排行榜。
+- 已人工抽看关键截图：`admin-04-活动管理-创建活动-dialog.png`、`volunteer-02-活动大厅.png`、`volunteer-05-积分商城.png`，确认管理弹窗、活动卡片和积分商品列表真实可见。
+- `volunteer-*` 的“我的活动/我的兑换”为空状态，文件偏小但属于数据状态，不是误截或白屏。
+- `docs/previews/assets/007` 与 `docs-site/public/previews/assets/007` 均为 34 张；全仓库扫描未发现 `node_modules / node_moudles / node_moudoules` 残留；`python -m unittest scripts.project_preview.test_fine_capture` 通过。
+
+### 2026-06-06 008 精修复核
+- `008` 首轮精修误入 `/dashboard`，截图为 “No static resource dashboard” 的后端 JSON 错误页；已确认不能算有效截图。
+- 已补强 `scripts/project_preview/fine_capture.py`：登录注入改为先打开无跳转种子页再写 `localStorage`，后端错误页会被标记 warning，访客页会跳过 `No static resource / 系统异常` 页面，并为静态 HTML 项目 `008` 增加固定页面路径。
+- `008` 最终 QA：`docs/previews/qa/008.json` 状态为 `completed`，共 35 张截图；`docs/previews/assets/008` 与 `docs-site/public/previews/assets/008` 均为 35 张。
+- 覆盖范围包括：真实登录/注册页、管理员统计/菜谱/食材/用户管理，用户首页、菜谱列表、智能推荐、我的食材、购物清单、我的打卡、收藏、个人中心和菜谱详情。
+- 已人工抽看关键截图：`guest-01-index.png`、`admin-12-ingredients.png`、`user-user1-18-recipe-detail.png`，确认登录页、管理表格和菜谱详情/营养图表均真实可见。
+- 用户菜谱详情页顶部菜谱图片资源缺失，但菜谱主体、所需食材、步骤、收藏/购物/打卡按钮和营养分析正常；记录为种子资源问题。
+- 全仓库扫描未发现 `node_modules / node_moudles / node_moudoules` 残留，且无当前工作区 Java/Node/Python/esbuild 预览进程残留。
+
+### 2026-06-06 009 精修复核
+- `009` 已重新按单项目精修入口执行 `python scripts\project_preview\fine_capture.py 009`，本次完整通过 prepare、截图、render、`docs:generate`、stop 和 cleanup。
+- `docs/previews/qa/009.json` 状态为 `completed`，共 58 张截图；`docs/previews/assets/009` 与 `docs-site/public/previews/assets/009` 均为 58 张。
+- 覆盖范围包括：访客登录/注册，系统管理员、两个代收点管理员、快递员和三个学生账号；管理员侧覆盖数据统计、取件核销、快递管理、代收点管理、新增代收点弹窗、快递公司、新增快递公司弹窗、用户管理、批量导入、操作日志、系统配置；快递员侧覆盖快递入库、批量导入、取件核销和快递管理；学生侧覆盖待取快递、取件历史、消息通知和个人中心。
+- 已人工抽看关键截图：`admin-06-代收点管理-新增代收点-dialog.png`、`courier-courier1-02-快递入库.png`、`student-student1-02-我的快递.png`、`student-student1-04-消息通知.png`，确认不是白屏、登录页或误截其他服务。
+- `guest-01-index.png` QA 中保留 “current URL is still login page” warning，这是因为 `/` 入口会跳转到 `/login`，页面本身是有效登录页。
+- 全仓库扫描未发现 `node_modules / node_moudles / node_moudoules` 残留。
+
+### 2026-06-06 010 精修复核
+- `010` 首轮只生成登录/注册 2 张，原因是 `ACCOUNTS.md` 表格列为“学号/用户名 | 密码 | 角色”，旧账号解析器按“角色 | 用户名 | 密码”读取，导致运行时未识别账号；已修复账号表格按表头解析。
+- 已补强 `scripts/project_preview/fine_capture.py`：`/api/user/login` 同时尝试 `username/password` 与 `studentNo/password`；登录注入同时写入 `user` 和 `userInfo`；`ADMIN` 角色优先进入 `/admin/index.html`，后端静态一体化项目不再只停留访客页。
+- 已为 `010` 增加项目级精修动作：学生预约页选择时段、楼层、区域后截图座位网格，点击座位截图预约确认弹窗，个人中心截图修改密码弹窗；管理员座位管理页切到座位 Tab 并截图新增座位弹窗。
+- `010` 最终 QA：`docs/previews/qa/010.json` 状态为 `completed`，共 46 张截图；`docs/previews/assets/010` 与 `docs-site/public/previews/assets/010` 均为 46 张。
+- 覆盖范围包括：访客登录/注册，管理员数据统计、座位管理、添加楼层弹窗、预约管理、违约管理、用户管理、系统配置、座位 Tab、新增座位弹窗；5 个学生账号均覆盖首页、预约座位、我的预约和个人中心，其中 `20240001` 额外覆盖座位网格、预约确认、修改密码弹窗。
+- 已人工抽看关键截图：`admin-05-座位管理-添加楼层-dialog.png`、`student-20240001-10-seat-map-selected.png`、`student-20240001-11-seat-confirm-dialog.png`、`admin-21-seat-dialog.png`，确认真实业务数据、座位网格和弹窗均可见。
+- `python -m unittest scripts.project_preview.test_fine_capture` 通过；全仓库扫描未发现 `node_modules / node_moudles / node_moudoules` 残留。
+
+### 2026-06-06 012 精修复核
+- `012` 已按单项目精修入口执行并复跑到最终状态；`docs/previews/qa/012.json` 状态为 `completed`，共 48 张截图。
+- `docs/previews/assets/012` 与 `docs-site/public/previews/assets/012` 均为 48 张，QA `image_count`、源目录和 public 同步数量完全一致。
+- 覆盖范围包括：访客登录页，管理员与 `test1/test2/test3/test4` 五个账号的工作台、我的文档、团队空间、模板市场、个人中心；`test1` 额外覆盖文档列表、新建文档弹窗、Markdown 笔记编辑器、版本历史、协作者搜索、分享链接、附件管理、白板编辑器、脑图编辑器、模板市场加载、基于模板创建后的编辑器和分享访问页。
+- 已人工抽看关键截图：`user-test1-12-note-editor.png`、`user-test1-14-collaboration-dialog.png`、`user-test1-16-attachment-dialog.png`、`user-test1-17-board-editor.png`、`user-test1-18-mindmap-editor.png`、`user-test1-20-template-used-editor.png`、`guest-10-share-view.png`，确认不是白屏、异常页或误截其他服务。
+- 已补强 `scripts/project_preview/fine_capture.py`：新增 `012` 项目级精修流程，创建 NOTE/BOARD/MINDMAP 样例文档并截图核心编辑器和协作弹窗；同时修复 Bootstrap `.btn-close` 弹窗关闭识别，并避免重复注册 Playwright dialog 处理器。
+- `python -m unittest scripts.project_preview.test_fine_capture` 通过；`python -m py_compile scripts\project_preview\fine_capture.py` 通过；全仓库扫描未发现 `node_modules / node_moudles / node_moudoules` 残留。
+- 下一步继续 `013` 单项目精修；`003` 保持专项回头处理，不计入完成。
+
+### 2026-06-06 013 精修复核
+- `013` 首次单项目精修失败：`admin/test1/test4/test7` 全部登录失败，后端日志显示 `SELECT ... WHERE username=?` 对这些账号均 `Total: 0`；旧 17 张截图已自动恢复。
+- 已修复 `scripts/project_preview/run_preview.py` 的 SQL 导入策略：支持同一 SQL 目录中 `schema.sql` 后继续导入 `init_data.sql/data.sql/seed.sql/...`，并在 runtime 中记录 `sql_files`；`013` 的 runtime 已确认同时导入 `schema.sql` 与 `init_data.sql`。
+- 已为 `013` 增加项目级精修动作：用户侧直接覆盖地图共享物品、租借确认、闲置列表/详情/发布表单、技能列表/详情/发布表单/预约弹窗、订单列表/详情、消息、个人中心、实名认证、钱包/充值弹窗、信用、收藏、我的发布、收益/提现弹窗；管理员侧覆盖数据概览、用户管理、实名认证审核、物品审核、共享物品管理和添加共享物品弹窗。
+- `013` 最终 QA：`docs/previews/qa/013.json` 状态为 `completed`，共 62 张截图；`docs/previews/assets/013` 与 `docs-site/public/previews/assets/013` 均为 62 张，专项截图 27 张，无登录失败。
+- 已人工抽看关键截图：`user-test1-13-idle-publish-form.png`、`user-test1-27-rent-confirm-dialog.png`、`user-test1-28-skill-book-dialog.png`、`user-test1-29-deposit-dialog.png`、`admin-11-users.png`、`admin-15-shared-item-dialog.png`，确认真实列表、表单、弹窗和管理表格均可见。
+- `013` 官方种子密码 BCrypt 与文档密码不匹配，精修脚本在预览数据库中临时修正账号密码哈希完成截图，未修改项目 SQL 源码。
+- `python -m unittest scripts.project_preview.test_fine_capture` 通过；`python -m py_compile scripts\project_preview\run_preview.py scripts\project_preview\fine_capture.py` 通过；全仓库扫描未发现 `node_modules / node_moudles / node_moudoules` 残留；runtime 状态为 `stopped`。
+- 下一步继续 `014` 单项目精修；`003` 仍保持专项回头处理。
+
+### 2026-06-06 014 精修复核
+- `014` 首轮精修产生过 57 张截图，但因通用角色登录器把 `admin/manager` 走 `/api/user/login` 判失败，最终 QA 失败并回滚到旧 4 张；已确认管理员实际需要 `/api/admin/login`。
+- 已补强 `scripts/project_preview/fine_capture.py`：新增 `role_capture_accounts()`，仅对 `014` 将管理员账号排除出通用角色循环，由 `capture_project_014()` 专属钩子负责管理员后台截图；其他项目仍保留管理员通用截图。
+- 已新增单元测试覆盖 `014` 管理员过滤和其他项目不受影响；`python -m unittest scripts.project_preview.test_fine_capture` 通过，`python -m py_compile scripts\project_preview\run_preview.py scripts\project_preview\fine_capture.py` 通过。
+- 已按单项目入口执行 `python scripts\project_preview\fine_capture.py 014`，本次完整通过 prepare、截图、render、`docs:generate`、stop 和 cleanup。
+- `014` 最终 QA：`docs/previews/qa/014.json` 状态为 `completed`，共 57 张截图；`docs/previews/assets/014` 与 `docs-site/public/previews/assets/014` 均为 57 张，失败角色为 0，专项截图 20 张。
+- 覆盖范围包括：访客首页/登录/注册，`student1/student2/student3` 的首页、社团广场、创建社团、活动中心、话题广场、发布话题、兴趣圈子、创建圈子、用户入口；`student1` 额外覆盖社团详情、活动详情、活动操作、话题详情、评论表单、个人资料、我的社团和我的活动；管理员覆盖数据统计、用户管理、社团审核和话题管理。
+- 已人工抽看关键截图：`student-student1-12-club-detail.png`、`student-student1-15-activity-detail.png`、`student-student1-17-topic-detail.png`、`student-student1-21-profile.png`、`admin-10-dashboard.png`、`admin-11-users.png`、`admin-13-topic-management.png`，确认不是白屏、登录页或误截其他服务。
+- 全仓库扫描未发现 `node_modules / node_moudles / node_moudoules` 残留。
+- 下一步继续 `015` 单项目精修；`003` 仍保持专项回头处理。
+
+### 2026-06-06 015 精修复核
+- `015` 首轮精修失败：用户登录需要 `account/password`，管理员需要 `/api/auth/admin/login`，且 `docs:generate` 阶段曾因复制其他项目图片出现 Windows `UNKNOWN copyfile` 抖动导致回滚旧 1 张截图。
+- 已补强 `scripts/project_preview/fine_capture.py`：通用 API 登录 payload 增加 `account/password`；`015` 与 `014` 一样将管理员账号排除出通用角色循环；新增 `capture_project_015()`，用户端和管理员端分别走对应登录接口并直达核心页面。
+- 已补强 `scripts/generate-vitepress-pages.mjs`：截图同步复制图片时增加 3 次短重试，降低 Windows 瞬时文件锁/复制抖动导致整轮回滚的风险。
+- 已按单项目入口执行 `python scripts\project_preview\fine_capture.py 015`，本次完整通过 prepare、截图、render、`docs:generate`、stop 和 cleanup。
+- `015` 最终 QA：`docs/previews/qa/015.json` 状态为 `completed`，共 23 张截图；`docs/previews/assets/015` 与 `docs-site/public/previews/assets/015` 均为 23 张，失败角色为 0，专项截图 18 张。
+- 覆盖范围包括：访客登录页，`20210001/20210002` 用户登录后的广场页；`20210001` 额外覆盖帖子详情、发帖页、已填写发帖表单、搜索结果、消息中心、个人中心、我的发帖、我的评论、我的举报、修改密码弹窗和评论输入；管理员覆盖数据概览、用户管理、实名审核、内容审核、举报管理和敏感词管理。
+- 已人工抽看关键截图：`user-20210001-10-home.png`、`user-20210001-11-post-detail.png`、`user-20210001-19-create-post-filled.png`、`user-20210001-20-password-dialog.png`、`user-20210001-14-messages.png`、`admin-10-dashboard.png`、`admin-11-users.png`、`admin-15-sensitive-words.png`，确认真实业务内容和空状态可见，不是白屏、登录页或误截其他服务。
+- `messages/my-comments/my-reports` 截图文件较小是因为种子数据下为空状态；人工确认页面显示“暂无消息/暂无记录”，属于有效状态。
+- `python -m unittest scripts.project_preview.test_fine_capture` 通过；`python -m py_compile scripts\project_preview\run_preview.py scripts\project_preview\fine_capture.py` 通过；`node --check scripts\generate-vitepress-pages.mjs` 通过；全仓库扫描未发现 `node_modules / node_moudles / node_moudoules` 残留。
+- 下一步继续 `016` 单项目精修；`003` 仍保持专项回头处理。
+
+### 2026-06-06 016 精修复核
+- `016` 首轮精修失败：运行时账号解析为 `user001/user002`，但后端登录只按学号/手机号查询，文档 API 示例实际应使用 `20210001/20210002`；管理员登录还需要前端 `localStorage.userType=admin` 才能通过 Vue 路由守卫。
+- 已补强 `scripts/project_preview/fine_capture.py`：登录注入脚本会根据 `role/userType/isAdmin` 写入 `localStorage.userType`；新增 `capture_project_016()`，将 `user001/user002` 映射为学号登录，并分别注入用户/管理员前端状态后直达核心路由。
+- 已修正 QA warning 逻辑：对完全由项目级钩子覆盖的项目，不再因为通用 `roles` 为空而误报 `no role login succeeded`；已新增对应单元测试。
+- 已按单项目入口执行 `python scripts\project_preview\fine_capture.py 016` 并复跑到最终状态；本次完整通过 prepare、截图、render、`docs:generate`、stop 和 cleanup。
+- `016` 最终 QA：`docs/previews/qa/016.json` 状态为 `completed`，共 17 张截图；`docs/previews/assets/016` 与 `docs-site/public/previews/assets/016` 均为 17 张，QA 顶层 warning 为空，专项截图 12 张。
+- 覆盖范围包括：访客登录/注册入口，用户端订单广场、发布代领订单、我的订单、钱包、通知、个人资料、余额充值弹窗；管理员端数据概览、用户管理、订单管理、投诉管理和交易流水。
+- 已人工抽看关键截图：`user-user001-10-home.png`、`user-user001-11-publish.png`、`user-user001-13-wallet.png`、`user-user001-17-recharge-dialog.png`、`admin-10-dashboard.png`、`admin-11-users.png`、`admin-14-transactions.png`，确认真实页面、表单、弹窗和管理表格可见。
+- 种子数据下订单广场暂无订单，属于有效空状态；钱包和后台交易流水有真实交易数据。
+- `python -m unittest scripts.project_preview.test_fine_capture` 通过；`python -m py_compile scripts\project_preview\run_preview.py scripts\project_preview\fine_capture.py` 通过；`node --check scripts\generate-vitepress-pages.mjs` 通过；全仓库扫描未发现 `node_modules / node_moudles / node_moudoules` 残留。
+- 下一步继续 `018` 单项目精修；`003` 仍保持专项回头处理。
+
+## Session: 2026-06-07
+
+### 已完成：017 高校自助点餐系统
+- **Status:** completed
+- Actions taken:
+  - 按单项目精修口径补了 `017` 专属截图钩子，跳过通用角色循环，改为学生、商家、管理员三套入口分别截图
+  - 增加商家 `userType` 注入兼容，避免商家端误写成普通用户导致页面回跳登录页
+  - 运行 `python scripts\project_preview\fine_capture.py 017`，完整通过 prepare、截图、render、docs 生成、stop 与 cleanup
+  - 生成 `docs/previews/qa/017.json`，共 16 张截图；`docs/previews/assets/017` 与 `docs-site/public/previews/assets/017` 数量一致
+  - 覆盖访客首页、商家列表/详情、学生登录/注册、学生购物车与订单、商家工作台、管理员后台
+  - 抽看代表截图确认内容真实可见：店铺详情、订单详情、商家待处理状态、管理员统计页
+  - 全仓库扫描未发现 `node_modules / node_moudles / node_moudoules` 残留
+
+### 当前状态
+- `017`：已完成单项目精修
+- 下一项目：`018`
+
+### 已完成：018 校园招聘系统
+- **Status:** completed
+- Actions taken:
+  - 按单项目精修入口执行 `python scripts\project_preview\fine_capture.py 018`，没有使用范围或批量截图命令作为完成依据
+  - 走 `018` 专属项目截图钩子，跳过通用角色循环，分别覆盖学生、企业和管理员三套真实业务路径
+  - 生成 `docs/previews/qa/018.json`，状态为 `completed`，共 28 张截图；`roles=0` 属于专属钩子覆盖后的预期状态
+  - `docs/previews/assets/018` 与 `docs-site/public/previews/assets/018` 均为 28 张，源目录和 public 同步数量一致
+  - 覆盖访客登录/注册，学生职位列表、职位详情、投递弹窗、简历、申请、面试、经验、内推和个人资料，企业职位、申请、简历弹窗、状态弹窗、面试安排、反馈和企业信息，管理员待审核与已审核状态
+  - 抽看代表截图确认内容真实可见：职位详情、申请记录、简历详情弹窗、面试安排弹窗、管理员待审核企业行
+  - `python -m py_compile scripts\project_preview\run_preview.py scripts\project_preview\fine_capture.py` 通过
+  - `python -m unittest scripts.project_preview.test_fine_capture` 通过，12 个测试 OK
+  - 全仓库扫描未发现 `node_modules / node_moudles / node_moudoules` 残留
+
+### 当前状态
+- `017`：已完成单项目精修
+- `018`：已完成单项目精修
+- 下一项目：`019`
+
+### 已完成：019 运动健康管理系统
+- **Status:** completed
+- Actions taken:
+  - 按单项目精修入口执行并复跑 `python scripts\project_preview\fine_capture.py 019`，没有使用范围或批量截图命令作为完成依据
+  - 新增 `019` 专属截图钩子，跳过通用角色循环，避免管理员、教练、学生三类账号重复截同一套浅层侧边栏
+  - 通过 API 在预览库中构造学生运动记录、健身计划、健康记录、约球活动和场馆预约，再截图真实业务状态；项目源码 SQL 未改动
+  - 收紧访客页过滤，跳过 Vite fallback 下 `login.html/register.html/products.html` 这类文本为空且文件异常小的空壳截图
+  - 最终 QA：`docs/previews/qa/019.json` 状态为 `completed`，模式为 `single-project-fine-capture`，共 23 张截图；`roles=0` 属于专属钩子覆盖后的预期状态
+  - `docs/previews/assets/019` 与 `docs-site/public/previews/assets/019` 均为 23 张，源目录和 public 同步数量一致
+  - 覆盖访客登录/注册，学生首页统计、运动记录、创建打卡、健身计划、进度弹窗、创建计划、活动列表、发起活动、健康档案趋势图、场馆列表、预约弹窗、我的预约、取消预约弹窗、排行榜、个人中心，以及教练/管理员首页和排行榜
+  - 抽看代表截图确认内容真实可见：`student-student1-10-home-seeded.png`、`student-student1-11-sport-records.png`、`student-student1-14-plan-progress-dialog.png`、`student-student1-18-health-profile.png`、`student-student1-20-venue-booking-dialog.png`、`student-student1-22-booking-cancel-dialog.png`、`coach-coach1-10-home.png`、`admin-admin-10-home.png`
+  - `python -m py_compile scripts\project_preview\run_preview.py scripts\project_preview\fine_capture.py` 通过
+  - `python -m unittest scripts.project_preview.test_fine_capture` 通过，13 个测试 OK
+  - 全仓库扫描未发现 `node_modules / node_moudles / node_moudoules` 残留
+
+### 当前状态
+- `017`：已完成单项目精修
+- `018`：已完成单项目精修
+- `019`：已完成单项目精修
+- 下一项目：`020`
+
+### 已完成：020 校园学习资源共享平台
+- **Status:** completed
+- Actions taken:
+  - 按单项目精修入口执行 `python scripts\project_preview\fine_capture.py 020`，没有使用范围或批量截图命令作为完成依据
+  - 新增 `020` 专属截图钩子，跳过通用角色循环，改为围绕资源、小组、题库、问答、笔记和个人中心做业务链路截图
+  - 补强 API 请求 helper：当项目后端不接受 `Bearer token` 时自动以原始 token 重试，适配 `020` 的请求头口径
+  - 通过 API 在预览库中构造学生资源、资源评分/下载、小组、题库错题、问答、老师回答和公开笔记；项目源码 SQL 未改动
+  - 最终 QA：`docs/previews/qa/020.json` 状态为 `completed`，模式为 `single-project-fine-capture`，共 26 张截图；`roles=0` 属于专属钩子覆盖后的预期状态
+  - `docs/previews/assets/020` 与 `docs-site/public/previews/assets/020` 均为 26 张，源目录和 public 同步数量一致
+  - 覆盖访客登录/注册，学生首页、资源库、资源详情与评价、资源上传、学习小组、小组创建弹窗、小组详情、题库、题目详情弹窗、刷题、错题本、问答列表、问答详情与老师回答、提问表单、笔记列表、笔记详情、笔记编辑、个人中心，以及老师/管理员入口
+  - 抽看代表截图确认内容真实可见：`student-student1-12-resource-detail.png`、`student-student1-15-group-create-dialog.png`、`student-student1-18-question-detail-dialog.png`、`student-student1-22-qa-detail.png`、`student-student1-25-note-detail.png`、`student-student1-20-wrong-questions.png`、`teacher-teacher1-10-home.png`、`admin-admin-11-profile.png`
+  - `python -m py_compile scripts\project_preview\run_preview.py scripts\project_preview\fine_capture.py` 通过
+  - `python -m unittest scripts.project_preview.test_fine_capture` 通过，14 个测试 OK
+  - 全仓库扫描未发现 `node_modules / node_moudles / node_moudoules` 残留
+
+### 当前状态
+- `017`：已完成单项目精修
+- `018`：已完成单项目精修
+- `019`：已完成单项目精修
+- `020`：已完成单项目精修
+- 下一项目：`021`

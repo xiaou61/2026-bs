@@ -1,0 +1,83 @@
+{
+  "project": {
+    "project_id": "087",
+    "name": "课程管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "087-backend",
+    "frontend_dir": "087-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8087",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [
+      "数据看板",
+      "院系管理",
+      "专业管理",
+      "班级管理",
+      "学期管理",
+      "课程管理",
+      "排课与课表",
+      "选课中心",
+      "课程资源",
+      "考勤管理",
+      "成绩管理",
+      "课程评教",
+      "公告中心"
+    ],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8087",
+      "pid": 10648
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3000",
+      "pid": 46312
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\087-backend.out.log",
+      "stderr": "logs\\project-preview\\087-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\087-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\087-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\087-frontend.out.log",
+      "stderr": "logs\\project-preview\\087-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 10:40:52",
+  "datasource_kind": "h2",
+  "capture_hints": {
+    "roles": [],
+    "routes": [
+      "数据看板",
+      "院系管理",
+      "专业管理",
+      "班级管理",
+      "学期管理",
+      "课程管理",
+      "排课与课表",
+      "选课中心",
+      "课程资源",
+      "考勤管理",
+      "成绩管理",
+      "课程评教",
+      "公告中心"
+    ],
+    "screenshot_dir": "docs\\previews\\assets\\087",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 10:43:22"
+}

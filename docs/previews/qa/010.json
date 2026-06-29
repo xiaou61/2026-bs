@@ -1,0 +1,590 @@
+{
+  "project_id": "010",
+  "mode": "single-project-fine-capture",
+  "started_at": "2026-06-06 19:03:57",
+  "old_images_removed": 41,
+  "backup_dir": "logs\\project-preview\\fine-backups\\010\\20260606-190357",
+  "logs": {
+    "prepare": "logs\\project-preview\\010-prepare.fine.log",
+    "render": "logs\\project-preview\\010-render.fine.log",
+    "docs_generate": "logs\\project-preview\\010-docs-generate.fine.log",
+    "stop": "logs\\project-preview\\010-stop.fine.log",
+    "cleanup": "logs\\project-preview\\010-cleanup.fine.log"
+  },
+  "roles": [
+    {
+      "role": "admin",
+      "username": "admin",
+      "file_prefix": "admin",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "管理后台",
+          "route": "/admin/index.html"
+        },
+        {
+          "label": "数据统计",
+          "route": "/admin/index.html"
+        },
+        {
+          "label": "座位管理",
+          "route": "/admin/seats.html"
+        },
+        {
+          "label": "预约管理",
+          "route": "/admin/bookings.html"
+        },
+        {
+          "label": "违约管理",
+          "route": "/admin/violations.html"
+        },
+        {
+          "label": "用户管理",
+          "route": "/admin/users.html"
+        },
+        {
+          "label": "系统配置",
+          "route": "/admin/config.html"
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "admin-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8010/admin/index.html",
+          "text_length": 274,
+          "size": 117272,
+          "warnings": []
+        },
+        {
+          "file": "admin-02-管理后台.png",
+          "label": "menu: 管理后台",
+          "url": "http://127.0.0.1:8010/admin/index.html",
+          "text_length": 274,
+          "size": 117272,
+          "warnings": []
+        },
+        {
+          "file": "admin-03-数据统计.png",
+          "label": "menu: 数据统计",
+          "url": "http://127.0.0.1:8010/admin/index.html",
+          "text_length": 274,
+          "size": 117272,
+          "warnings": []
+        },
+        {
+          "file": "admin-04-座位管理.png",
+          "label": "menu: 座位管理",
+          "url": "http://127.0.0.1:8010/admin/seats.html",
+          "text_length": 187,
+          "size": 79803,
+          "warnings": []
+        },
+        {
+          "file": "admin-05-座位管理-添加楼层-dialog.png",
+          "label": "dialog: 座位管理 / 添加楼层",
+          "url": "http://127.0.0.1:8010/admin/seats.html",
+          "text_length": 209,
+          "size": 66519,
+          "warnings": []
+        },
+        {
+          "file": "admin-06-预约管理.png",
+          "label": "menu: 预约管理",
+          "url": "http://127.0.0.1:8010/admin/bookings.html",
+          "text_length": 182,
+          "size": 70310,
+          "warnings": []
+        },
+        {
+          "file": "admin-07-违约管理.png",
+          "label": "menu: 违约管理",
+          "url": "http://127.0.0.1:8010/admin/violations.html",
+          "text_length": 86,
+          "size": 61522,
+          "warnings": []
+        },
+        {
+          "file": "admin-08-用户管理.png",
+          "label": "menu: 用户管理",
+          "url": "http://127.0.0.1:8010/admin/users.html",
+          "text_length": 268,
+          "size": 86703,
+          "warnings": []
+        },
+        {
+          "file": "admin-09-系统配置.png",
+          "label": "menu: 系统配置",
+          "url": "http://127.0.0.1:8010/admin/config.html",
+          "text_length": 278,
+          "size": 98418,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "student",
+      "username": "20240001",
+      "file_prefix": "student-20240001",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "图书馆座位预约",
+          "route": "/index.html"
+        },
+        {
+          "label": "首页",
+          "route": "/index.html"
+        },
+        {
+          "label": "预约座位",
+          "route": "/booking.html"
+        },
+        {
+          "label": "我的预约",
+          "route": "/my-bookings.html"
+        },
+        {
+          "label": "个人中心",
+          "route": "/profile.html"
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "student-20240001-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8010/index.html",
+          "text_length": 337,
+          "size": 107240,
+          "warnings": []
+        },
+        {
+          "file": "student-20240001-02-图书馆座位预约.png",
+          "label": "menu: 图书馆座位预约",
+          "url": "http://127.0.0.1:8010/index.html",
+          "text_length": 337,
+          "size": 107240,
+          "warnings": []
+        },
+        {
+          "file": "student-20240001-03-首页.png",
+          "label": "menu: 首页",
+          "url": "http://127.0.0.1:8010/index.html",
+          "text_length": 337,
+          "size": 107240,
+          "warnings": []
+        },
+        {
+          "file": "student-20240001-04-预约座位.png",
+          "label": "menu: 预约座位",
+          "url": "http://127.0.0.1:8010/booking.html",
+          "text_length": 216,
+          "size": 66060,
+          "warnings": []
+        },
+        {
+          "file": "student-20240001-05-我的预约.png",
+          "label": "menu: 我的预约",
+          "url": "http://127.0.0.1:8010/my-bookings.html",
+          "text_length": 147,
+          "size": 66790,
+          "warnings": []
+        },
+        {
+          "file": "student-20240001-06-个人中心.png",
+          "label": "menu: 个人中心",
+          "url": "http://127.0.0.1:8010/profile.html",
+          "text_length": 210,
+          "size": 86519,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "student",
+      "username": "20240002",
+      "file_prefix": "student-20240002",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "图书馆座位预约",
+          "route": "/index.html"
+        },
+        {
+          "label": "首页",
+          "route": "/index.html"
+        },
+        {
+          "label": "预约座位",
+          "route": "/booking.html"
+        },
+        {
+          "label": "我的预约",
+          "route": "/my-bookings.html"
+        },
+        {
+          "label": "个人中心",
+          "route": "/profile.html"
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "student-20240002-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8010/index.html",
+          "text_length": 243,
+          "size": 95217,
+          "warnings": []
+        },
+        {
+          "file": "student-20240002-02-图书馆座位预约.png",
+          "label": "menu: 图书馆座位预约",
+          "url": "http://127.0.0.1:8010/index.html",
+          "text_length": 243,
+          "size": 95217,
+          "warnings": []
+        },
+        {
+          "file": "student-20240002-03-首页.png",
+          "label": "menu: 首页",
+          "url": "http://127.0.0.1:8010/index.html",
+          "text_length": 243,
+          "size": 95217,
+          "warnings": []
+        },
+        {
+          "file": "student-20240002-04-预约座位.png",
+          "label": "menu: 预约座位",
+          "url": "http://127.0.0.1:8010/booking.html",
+          "text_length": 216,
+          "size": 66060,
+          "warnings": []
+        },
+        {
+          "file": "student-20240002-05-我的预约.png",
+          "label": "menu: 我的预约",
+          "url": "http://127.0.0.1:8010/my-bookings.html",
+          "text_length": 92,
+          "size": 62226,
+          "warnings": []
+        },
+        {
+          "file": "student-20240002-06-个人中心.png",
+          "label": "menu: 个人中心",
+          "url": "http://127.0.0.1:8010/profile.html",
+          "text_length": 201,
+          "size": 85752,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "student",
+      "username": "20240003",
+      "file_prefix": "student-20240003",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "图书馆座位预约",
+          "route": "/index.html"
+        },
+        {
+          "label": "首页",
+          "route": "/index.html"
+        },
+        {
+          "label": "预约座位",
+          "route": "/booking.html"
+        },
+        {
+          "label": "我的预约",
+          "route": "/my-bookings.html"
+        },
+        {
+          "label": "个人中心",
+          "route": "/profile.html"
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "student-20240003-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8010/index.html",
+          "text_length": 243,
+          "size": 95514,
+          "warnings": []
+        },
+        {
+          "file": "student-20240003-02-图书馆座位预约.png",
+          "label": "menu: 图书馆座位预约",
+          "url": "http://127.0.0.1:8010/index.html",
+          "text_length": 243,
+          "size": 95514,
+          "warnings": []
+        },
+        {
+          "file": "student-20240003-03-首页.png",
+          "label": "menu: 首页",
+          "url": "http://127.0.0.1:8010/index.html",
+          "text_length": 243,
+          "size": 95514,
+          "warnings": []
+        },
+        {
+          "file": "student-20240003-04-预约座位.png",
+          "label": "menu: 预约座位",
+          "url": "http://127.0.0.1:8010/booking.html",
+          "text_length": 216,
+          "size": 66060,
+          "warnings": []
+        },
+        {
+          "file": "student-20240003-05-我的预约.png",
+          "label": "menu: 我的预约",
+          "url": "http://127.0.0.1:8010/my-bookings.html",
+          "text_length": 92,
+          "size": 62226,
+          "warnings": []
+        },
+        {
+          "file": "student-20240003-06-个人中心.png",
+          "label": "menu: 个人中心",
+          "url": "http://127.0.0.1:8010/profile.html",
+          "text_length": 205,
+          "size": 85427,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "student",
+      "username": "20240004",
+      "file_prefix": "student-20240004",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "图书馆座位预约",
+          "route": "/index.html"
+        },
+        {
+          "label": "首页",
+          "route": "/index.html"
+        },
+        {
+          "label": "预约座位",
+          "route": "/booking.html"
+        },
+        {
+          "label": "我的预约",
+          "route": "/my-bookings.html"
+        },
+        {
+          "label": "个人中心",
+          "route": "/profile.html"
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "student-20240004-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8010/index.html",
+          "text_length": 243,
+          "size": 95388,
+          "warnings": []
+        },
+        {
+          "file": "student-20240004-02-图书馆座位预约.png",
+          "label": "menu: 图书馆座位预约",
+          "url": "http://127.0.0.1:8010/index.html",
+          "text_length": 243,
+          "size": 95388,
+          "warnings": []
+        },
+        {
+          "file": "student-20240004-03-首页.png",
+          "label": "menu: 首页",
+          "url": "http://127.0.0.1:8010/index.html",
+          "text_length": 243,
+          "size": 95388,
+          "warnings": []
+        },
+        {
+          "file": "student-20240004-04-预约座位.png",
+          "label": "menu: 预约座位",
+          "url": "http://127.0.0.1:8010/booking.html",
+          "text_length": 216,
+          "size": 66060,
+          "warnings": []
+        },
+        {
+          "file": "student-20240004-05-我的预约.png",
+          "label": "menu: 我的预约",
+          "url": "http://127.0.0.1:8010/my-bookings.html",
+          "text_length": 92,
+          "size": 62226,
+          "warnings": []
+        },
+        {
+          "file": "student-20240004-06-个人中心.png",
+          "label": "menu: 个人中心",
+          "url": "http://127.0.0.1:8010/profile.html",
+          "text_length": 206,
+          "size": 86462,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "student",
+      "username": "20240005",
+      "file_prefix": "student-20240005",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "图书馆座位预约",
+          "route": "/index.html"
+        },
+        {
+          "label": "首页",
+          "route": "/index.html"
+        },
+        {
+          "label": "预约座位",
+          "route": "/booking.html"
+        },
+        {
+          "label": "我的预约",
+          "route": "/my-bookings.html"
+        },
+        {
+          "label": "个人中心",
+          "route": "/profile.html"
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "student-20240005-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8010/index.html",
+          "text_length": 286,
+          "size": 100414,
+          "warnings": []
+        },
+        {
+          "file": "student-20240005-02-图书馆座位预约.png",
+          "label": "menu: 图书馆座位预约",
+          "url": "http://127.0.0.1:8010/index.html",
+          "text_length": 286,
+          "size": 100414,
+          "warnings": []
+        },
+        {
+          "file": "student-20240005-03-首页.png",
+          "label": "menu: 首页",
+          "url": "http://127.0.0.1:8010/index.html",
+          "text_length": 286,
+          "size": 100414,
+          "warnings": []
+        },
+        {
+          "file": "student-20240005-04-预约座位.png",
+          "label": "menu: 预约座位",
+          "url": "http://127.0.0.1:8010/booking.html",
+          "text_length": 216,
+          "size": 66060,
+          "warnings": []
+        },
+        {
+          "file": "student-20240005-05-我的预约.png",
+          "label": "menu: 我的预约",
+          "url": "http://127.0.0.1:8010/my-bookings.html",
+          "text_length": 117,
+          "size": 63928,
+          "warnings": []
+        },
+        {
+          "file": "student-20240005-06-个人中心.png",
+          "label": "menu: 个人中心",
+          "url": "http://127.0.0.1:8010/profile.html",
+          "text_length": 213,
+          "size": 86844,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    }
+  ],
+  "guest": [
+    {
+      "file": "guest-01-index.png",
+      "label": "guest: index",
+      "url": "http://127.0.0.1:8010/login.html",
+      "text_length": 89,
+      "size": 521496,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    },
+    {
+      "file": "guest-02-register.png",
+      "label": "guest: register",
+      "url": "http://127.0.0.1:8010/register.html",
+      "text_length": 68,
+      "size": 499443,
+      "warnings": []
+    }
+  ],
+  "warnings": [],
+  "project_specific": [
+    {
+      "file": "student-20240001-10-seat-map-selected.png",
+      "label": "project 010: selected seat map",
+      "url": "http://127.0.0.1:8010/booking.html",
+      "text_length": 270,
+      "size": 73794,
+      "warnings": []
+    },
+    {
+      "file": "student-20240001-11-seat-confirm-dialog.png",
+      "label": "project 010: seat booking confirm dialog",
+      "url": "http://127.0.0.1:8010/booking.html",
+      "text_length": 294,
+      "size": 81233,
+      "warnings": []
+    },
+    {
+      "file": "student-20240001-12-password-dialog.png",
+      "label": "project 010: password dialog",
+      "url": "http://127.0.0.1:8010/profile.html",
+      "text_length": 235,
+      "size": 69463,
+      "warnings": []
+    },
+    {
+      "file": "admin-20-seat-tab.png",
+      "label": "project 010: admin seat tab",
+      "url": "http://127.0.0.1:8010/admin/seats.html",
+      "text_length": 1230,
+      "size": 257281,
+      "warnings": []
+    },
+    {
+      "file": "admin-21-seat-dialog.png",
+      "label": "project 010: admin seat dialog",
+      "url": "http://127.0.0.1:8010/admin/seats.html",
+      "text_length": 1300,
+      "size": 242504,
+      "warnings": []
+    }
+  ],
+  "image_count": 46,
+  "status": "completed",
+  "finished_at": "2026-06-06 19:06:41",
+  "stop_exit_code": 0,
+  "cleanup_exit_code": 0
+}

@@ -906,7 +906,7 @@
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 9,
+    "totalSqlTableCount": 18,
     "totalViewCount": 11,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -982,7 +982,7 @@
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 13,
+    "totalSqlTableCount": 26,
     "totalViewCount": 14,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -1010,7 +1010,7 @@
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 10,
+    "totalSqlTableCount": 20,
     "totalViewCount": 16,
     "backendTech": [
       "Spring Boot 3.2.x",
@@ -2173,7 +2173,7 @@
     "totalApiCount": 53,
     "totalControllerCount": 11,
     "totalEntityCount": 9,
-    "totalSqlTableCount": 18,
+    "totalSqlTableCount": 27,
     "totalViewCount": 15,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2214,7 +2214,7 @@
     "totalApiCount": 44,
     "totalControllerCount": 11,
     "totalEntityCount": 9,
-    "totalSqlTableCount": 18,
+    "totalSqlTableCount": 27,
     "totalViewCount": 13,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2255,7 +2255,7 @@
     "totalApiCount": 46,
     "totalControllerCount": 11,
     "totalEntityCount": 9,
-    "totalSqlTableCount": 18,
+    "totalSqlTableCount": 27,
     "totalViewCount": 13,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2296,7 +2296,7 @@
     "totalApiCount": 51,
     "totalControllerCount": 11,
     "totalEntityCount": 9,
-    "totalSqlTableCount": 18,
+    "totalSqlTableCount": 27,
     "totalViewCount": 13,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2337,7 +2337,7 @@
     "totalApiCount": 38,
     "totalControllerCount": 8,
     "totalEntityCount": 7,
-    "totalSqlTableCount": 14,
+    "totalSqlTableCount": 21,
     "totalViewCount": 12,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2376,7 +2376,7 @@
     "totalApiCount": 51,
     "totalControllerCount": 11,
     "totalEntityCount": 9,
-    "totalSqlTableCount": 18,
+    "totalSqlTableCount": 27,
     "totalViewCount": 13,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2417,7 +2417,7 @@
     "totalApiCount": 42,
     "totalControllerCount": 9,
     "totalEntityCount": 7,
-    "totalSqlTableCount": 14,
+    "totalSqlTableCount": 21,
     "totalViewCount": 11,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2458,7 +2458,7 @@
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 18,
+    "totalSqlTableCount": 27,
     "totalViewCount": 13,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2498,7 +2498,7 @@
     "totalApiCount": 78,
     "totalControllerCount": 13,
     "totalEntityCount": 12,
-    "totalSqlTableCount": 24,
+    "totalSqlTableCount": 36,
     "totalViewCount": 19,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -3453,12 +3453,12 @@
     "title": "宠物咖啡馆平台 🔥最新",
     "category": "ecommerce",
     "projectType": "web",
-    "backendVersion": "",
-    "totalApiCount": 0,
-    "totalControllerCount": 0,
-    "totalEntityCount": 0,
-    "totalSqlTableCount": 0,
-    "totalViewCount": 0,
+    "backendVersion": "2.7.18",
+    "totalApiCount": 74,
+    "totalControllerCount": 14,
+    "totalEntityCount": 12,
+    "totalSqlTableCount": 60,
+    "totalViewCount": 17,
     "backendTech": [
       "Spring Boot 2.7.18",
       "MyBatis-Plus",

@@ -1,0 +1,56 @@
+{
+  "project": {
+    "project_id": "191",
+    "name": "社区助残器具借用与康复随访平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "191-backend",
+    "frontend_dir": "191-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8191",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8191",
+      "pid": 52000
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3191",
+      "pid": 47568
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\191-backend.out.log",
+      "stderr": "logs\\project-preview\\191-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\191-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\191-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\191-frontend.out.log",
+      "stderr": "logs\\project-preview\\191-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 15:05:15",
+  "datasource_kind": "mysql",
+  "sql_file": "191-backend\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\191",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 15:07:15"
+}

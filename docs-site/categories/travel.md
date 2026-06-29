@@ -11,7 +11,7 @@ description: 旅游预订、出行与交通服务
 
 校园共享自行车租赁系统（扫码租车+信用体系+计费管理）
 
-**技术栈：** Spring Boot 3.2.0、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **表：** 13 张 | **页面：** 14 个
+**技术栈：** Spring Boot 3.2.0、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **表：** 26 张 | **页面：** 14 个
 
 ---
 

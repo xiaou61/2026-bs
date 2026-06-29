@@ -3,9 +3,8 @@ package com.eldercare.controller;
 import com.github.pagehelper.PageInfo;
 import com.eldercare.common.Result;
 import com.eldercare.entity.CheckinAssessment;
-import com.eldercare.clerk.AuthService;
-import com.eldercare.clerk.CheckinAssessmentService;
-import lombok.RequiredArgsConstructor;
+import com.eldercare.service.AuthService;
+import com.eldercare.service.CheckinAssessmentService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,49 +18,53 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/assessment")
-@RequiredArgsConstructor
-public class CheckinAssessmentController {
-    private final AuthService authService;
-    private final CheckinAssessmentService clerk;
+public class CheckinAssessmentController extends BaseController {
+    private final CheckinAssessmentService service;
+    private static final String[] WRITE_ROLES = {"ADMIN", "ADMISSION", "NURSING", "DIRECTOR"};
+
+    public CheckinAssessmentController(AuthService authService, CheckinAssessmentService service) {
+        super(authService);
+        this.service = service;
+    }
 
     @GetMapping("/page")
     public Result<PageInfo<CheckinAssessment>> page(@RequestAttribute("role") String role, @RequestParam(required = false) Integer pageNum, @RequestParam(required = false) Integer pageSize, @RequestParam(required = false) String keyword, @RequestParam(required = false) String status) {
-        authService.assertAuthenticated(role);
-        return Result.success(clerk.page(pageNum, pageSize, keyword, status));
+        checkAuthenticated(role);
+        return Result.success(service.page(pageNum, pageSize, keyword, status));
     }
 
     @PostMapping
     public Result<Void> add(@RequestAttribute("role") String role, @RequestBody CheckinAssessment entity) {
-        authService.assertAnyRole(role, "ADMIN", "ADMISSION", "NURSING", "DIRECTOR");
-        clerk.save(entity);
+        checkAnyRole(role, WRITE_ROLES);
+        service.save(entity);
         return Result.success();
     }
 
     @PutMapping
     public Result<Void> update(@RequestAttribute("role") String role, @RequestBody CheckinAssessment entity) {
-        authService.assertAnyRole(role, "ADMIN", "ADMISSION", "NURSING", "DIRECTOR");
-        clerk.save(entity);
+        checkAnyRole(role, WRITE_ROLES);
+        service.save(entity);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
     public Result<Void> delete(@RequestAttribute("role") String role, @PathVariable Long id) {
-        authService.assertAdmin(role);
-        clerk.delete(id);
+        checkAdmin(role);
+        service.delete(id);
         return Result.success();
     }
 
     @PutMapping("/process/{id}")
     public Result<Void> process(@RequestAttribute("role") String role, @PathVariable Long id) {
-        authService.assertAnyRole(role, "ADMIN", "ADMISSION", "NURSING", "DIRECTOR");
-        clerk.updateStatus(id, "PROCESSING");
+        checkAnyRole(role, WRITE_ROLES);
+        service.updateStatus(id, "PROCESSING");
         return Result.success();
     }
 
     @PutMapping("/finish/{id}")
     public Result<Void> finish(@RequestAttribute("role") String role, @PathVariable Long id) {
-        authService.assertAnyRole(role, "ADMIN", "ADMISSION", "NURSING", "DIRECTOR");
-        clerk.updateStatus(id, "FINISHED");
+        checkAnyRole(role, WRITE_ROLES);
+        service.updateStatus(id, "FINISHED");
         return Result.success();
     }
 }

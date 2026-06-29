@@ -1,0 +1,56 @@
+{
+  "project": {
+    "project_id": "165",
+    "name": "企业访客预约登记与门禁联动管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "165-backend",
+    "frontend_dir": "165-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8165",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8165",
+      "pid": 51304
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3165",
+      "pid": 42036
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\165-backend.out.log",
+      "stderr": "logs\\project-preview\\165-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\165-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\165-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\165-frontend.out.log",
+      "stderr": "logs\\project-preview\\165-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 14:09:19",
+  "datasource_kind": "mysql",
+  "sql_file": "165-backend\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\165",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 14:11:25"
+}

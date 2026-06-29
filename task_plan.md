@@ -2784,3 +2784,17 @@ Status: Completed
 | Error | Attempt | Resolution |
 |-------|---------|------------|
 | `Remove-Item -Recurse` 删除 `187-frontend/node_modules` 被策略层拦截 | 使用 PowerShell 固定路径递归删除 | 先解析确认路径为 `D:\毕业设计\2026-biyesheji\187-frontend\node_modules`，再用 Node `fs.rmSync` 在校验目标位于当前项目目录后删除 |
+
+# Task Plan: 001-200 项目逐个精细截图重做
+
+按用户要求废弃“范围批量截图即完成”的口径，改为每个项目单独启动、单独登录、单独查看菜单、单独截图和单独 QA 记录。
+
+Status: In Progress
+
+- [x] 新增单项目精修入口 `scripts/project_preview/fine_capture.py`，只接受一个三位项目号，不提供 `--start/--end` 范围参数
+- [x] 修复 `run_preview.py` 对 Vite 彩色输出端口的解析，避免前端实际跑到 3001/3002 时仍误截 3000 上的其他项目
+- [x] 建立精修验收标准：访客登录/注册页、每个默认账号登录成功、读取真实可见菜单、逐菜单页面截图、打开新增/发布/申请/提交等关键弹窗截图、生成 `docs/previews/qa/<id>.json`
+- [x] 完成 `001` 精修样板：生成 28 张截图，覆盖访客、管理员、教师、学生；已同步到 `docs-site/public/previews/assets/001` 和 `docs-site/projects/001.md`
+- [x] 记录 `001` 数据问题：README 中教师/学生密码与 SQL 种子 MD5 不一致，精修流程在预览数据库中临时修正哈希后完成截图，源码 SQL 未改动
+- [x] 每轮完成后扫描确认无 `node_modules / node_moudles / node_moudoules` 残留
+- [ ] 从 `002` 开始继续逐个精修截图，不再使用 `batch_capture.py` 范围循环作为完成依据

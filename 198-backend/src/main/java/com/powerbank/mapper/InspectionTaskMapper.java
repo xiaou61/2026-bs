@@ -23,6 +23,9 @@ public interface InspectionTaskMapper {
     @Update("UPDATE inspection_task SET record_no=#{recordNo},record_name=#{recordName},category=#{category},owner_name=#{ownerName},plan_time=#{planTime},status=#{status},remark=#{remark},updated_time=NOW() WHERE id=#{id}")
     int update(InspectionTask entity);
 
+    @Select("SELECT * FROM inspection_task WHERE id = #{id}")
+    InspectionTask selectById(Long id);
+
     @Delete("DELETE FROM inspection_task WHERE id=#{id}")
     int deleteById(Long id);
 

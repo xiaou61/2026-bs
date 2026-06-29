@@ -1,0 +1,96 @@
+{
+  "project": {
+    "project_id": "081",
+    "name": "电器维修系统小程序 🔥最新",
+    "components": [
+      "backend",
+      "frontend",
+      "miniapp"
+    ],
+    "backend_dir": "081-backend",
+    "frontend_dir": "081-frontend",
+    "miniapp_dir": "081-miniapp",
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8080",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user2",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "readme_sources": [
+      "081-backend\\README.md"
+    ]
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8081",
+      "pid": 40524
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3081",
+      "pid": 6680
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\081-backend.out.log",
+      "stderr": "logs\\project-preview\\081-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\081-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\081-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\081-frontend.out.log",
+      "stderr": "logs\\project-preview\\081-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 10:27:31",
+  "datasource_kind": "h2",
+  "capture_hints": {
+    "roles": [
+      {
+        "role_key": "admin",
+        "role_label": "管理员",
+        "username": "admin",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user1",
+        "password": "123456"
+      },
+      {
+        "role_key": "user",
+        "role_label": "普通用户",
+        "username": "user2",
+        "password": "123456"
+      }
+    ],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\081",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 10:29:12"
+}

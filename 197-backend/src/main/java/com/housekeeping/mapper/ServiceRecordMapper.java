@@ -26,6 +26,9 @@ public interface ServiceRecordMapper {
     @Delete("DELETE FROM service_record WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM service_record WHERE id = #{id}")
+    ServiceRecord selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM service_record")
     long countAll();
 

@@ -26,6 +26,9 @@ public interface ProductOrderMapper {
     @Delete("DELETE FROM product_order WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM product_order WHERE id=#{id}")
+    ProductOrder selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM product_order")
     long countAll();
 

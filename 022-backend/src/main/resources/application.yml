@@ -28,6 +28,11 @@ mybatis-plus:
       logic-not-delete-value: 0
   mapper-locations: classpath:mapper/*.xml
 
+# 应用配置
+app:
+  admin:
+    default-password: 123456
+
 # JWT配置
 jwt:
   secret: studyRoomJwtSecretKey2024!@#$%^&*()

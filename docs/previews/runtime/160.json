@@ -1,0 +1,56 @@
+{
+  "project": {
+    "project_id": "160",
+    "name": "校园社团活动预算报销与物资借用系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "160-backend",
+    "frontend_dir": "160-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8160",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8160",
+      "pid": 36956
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3160",
+      "pid": 60768
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\160-backend.out.log",
+      "stderr": "logs\\project-preview\\160-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\160-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\160-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\160-frontend.out.log",
+      "stderr": "logs\\project-preview\\160-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 13:58:07",
+  "datasource_kind": "mysql",
+  "sql_file": "160-backend\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\160",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 14:00:15"
+}

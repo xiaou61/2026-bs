@@ -1,0 +1,56 @@
+{
+  "project": {
+    "project_id": "134",
+    "name": "科研项目经费报销与成果管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "134-backend",
+    "frontend_dir": "134-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8134",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8134",
+      "pid": 54596
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3134",
+      "pid": 3156
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\134-backend.out.log",
+      "stderr": "logs\\project-preview\\134-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\134-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\134-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\134-frontend.out.log",
+      "stderr": "logs\\project-preview\\134-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 12:39:50",
+  "datasource_kind": "mysql",
+  "sql_file": "134-backend\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\134",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 12:42:22"
+}

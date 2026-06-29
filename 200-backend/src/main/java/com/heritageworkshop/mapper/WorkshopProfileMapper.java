@@ -26,6 +26,9 @@ public interface WorkshopProfileMapper {
     @Delete("DELETE FROM workshop_profile WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM workshop_profile WHERE id=#{id}")
+    WorkshopProfile selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM workshop_profile")
     long countAll();
 

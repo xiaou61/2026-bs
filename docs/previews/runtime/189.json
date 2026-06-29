@@ -1,0 +1,56 @@
+{
+  "project": {
+    "project_id": "189",
+    "name": "乡镇农机作业预约与维修保养跟踪平台",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "189-backend",
+    "frontend_dir": "189-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8189",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8189",
+      "pid": 10128
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3189",
+      "pid": 36656
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\189-backend.out.log",
+      "stderr": "logs\\project-preview\\189-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\189-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\189-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\189-frontend.out.log",
+      "stderr": "logs\\project-preview\\189-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 15:01:08",
+  "datasource_kind": "mysql",
+  "sql_file": "189-backend\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\189",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 15:03:08"
+}

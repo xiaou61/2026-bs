@@ -1,0 +1,567 @@
+{
+  "project_id": "012",
+  "mode": "single-project-fine-capture",
+  "started_at": "2026-06-06 19:43:42",
+  "old_images_removed": 46,
+  "backup_dir": "logs\\project-preview\\fine-backups\\012\\20260606-194342",
+  "logs": {
+    "prepare": "logs\\project-preview\\012-prepare.fine.log",
+    "render": "logs\\project-preview\\012-render.fine.log",
+    "docs_generate": "logs\\project-preview\\012-docs-generate.fine.log",
+    "stop": "logs\\project-preview\\012-stop.fine.log",
+    "cleanup": "logs\\project-preview\\012-cleanup.fine.log"
+  },
+  "roles": [
+    {
+      "role": "admin",
+      "username": "admin",
+      "file_prefix": "admin",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "工作台",
+          "route": "/dashboard"
+        },
+        {
+          "label": "我的文档",
+          "route": "/documents"
+        },
+        {
+          "label": "团队空间",
+          "route": "/teams"
+        },
+        {
+          "label": "模板市场",
+          "route": "/templates"
+        },
+        {
+          "label": "个人中心",
+          "route": "/profile"
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "admin-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8012/dashboard",
+          "text_length": 98,
+          "size": 58184,
+          "warnings": []
+        },
+        {
+          "file": "admin-02-工作台.png",
+          "label": "menu: 工作台",
+          "url": "http://127.0.0.1:8012/dashboard",
+          "text_length": 98,
+          "size": 58184,
+          "warnings": []
+        },
+        {
+          "file": "admin-03-我的文档.png",
+          "label": "menu: 我的文档",
+          "url": "http://127.0.0.1:8012/documents",
+          "text_length": 72,
+          "size": 44288,
+          "warnings": []
+        },
+        {
+          "file": "admin-04-团队空间.png",
+          "label": "menu: 团队空间",
+          "url": "http://127.0.0.1:8012/teams",
+          "text_length": 71,
+          "size": 43979,
+          "warnings": []
+        },
+        {
+          "file": "admin-05-团队空间-创建团队-dialog.png",
+          "label": "dialog: 团队空间 / 创建团队",
+          "url": "http://127.0.0.1:8012/teams",
+          "text_length": 93,
+          "size": 43959,
+          "warnings": []
+        },
+        {
+          "file": "admin-06-模板市场.png",
+          "label": "menu: 模板市场",
+          "url": "http://127.0.0.1:8012/templates",
+          "text_length": 52,
+          "size": 29612,
+          "warnings": []
+        },
+        {
+          "file": "admin-07-个人中心.png",
+          "label": "menu: 个人中心",
+          "url": "http://127.0.0.1:8012/profile",
+          "text_length": 127,
+          "size": 47893,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "user",
+      "username": "test1",
+      "file_prefix": "user-test1",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "工作台",
+          "route": "/dashboard"
+        },
+        {
+          "label": "我的文档",
+          "route": "/documents"
+        },
+        {
+          "label": "团队空间",
+          "route": "/teams"
+        },
+        {
+          "label": "模板市场",
+          "route": "/templates"
+        },
+        {
+          "label": "个人中心",
+          "route": "/profile"
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "user-test1-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8012/dashboard",
+          "text_length": 100,
+          "size": 58773,
+          "warnings": []
+        },
+        {
+          "file": "user-test1-02-工作台.png",
+          "label": "menu: 工作台",
+          "url": "http://127.0.0.1:8012/dashboard",
+          "text_length": 100,
+          "size": 58773,
+          "warnings": []
+        },
+        {
+          "file": "user-test1-03-我的文档.png",
+          "label": "menu: 我的文档",
+          "url": "http://127.0.0.1:8012/documents",
+          "text_length": 74,
+          "size": 44862,
+          "warnings": []
+        },
+        {
+          "file": "user-test1-04-团队空间.png",
+          "label": "menu: 团队空间",
+          "url": "http://127.0.0.1:8012/teams",
+          "text_length": 73,
+          "size": 44553,
+          "warnings": []
+        },
+        {
+          "file": "user-test1-05-团队空间-创建团队-dialog.png",
+          "label": "dialog: 团队空间 / 创建团队",
+          "url": "http://127.0.0.1:8012/teams",
+          "text_length": 95,
+          "size": 44442,
+          "warnings": []
+        },
+        {
+          "file": "user-test1-06-模板市场.png",
+          "label": "menu: 模板市场",
+          "url": "http://127.0.0.1:8012/templates",
+          "text_length": 282,
+          "size": 86112,
+          "warnings": []
+        },
+        {
+          "file": "user-test1-07-个人中心.png",
+          "label": "menu: 个人中心",
+          "url": "http://127.0.0.1:8012/profile",
+          "text_length": 123,
+          "size": 68736,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "user",
+      "username": "test2",
+      "file_prefix": "user-test2",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "工作台",
+          "route": "/dashboard"
+        },
+        {
+          "label": "我的文档",
+          "route": "/documents"
+        },
+        {
+          "label": "团队空间",
+          "route": "/teams"
+        },
+        {
+          "label": "模板市场",
+          "route": "/templates"
+        },
+        {
+          "label": "个人中心",
+          "route": "/profile"
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "user-test2-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8012/dashboard",
+          "text_length": 100,
+          "size": 58881,
+          "warnings": []
+        },
+        {
+          "file": "user-test2-02-工作台.png",
+          "label": "menu: 工作台",
+          "url": "http://127.0.0.1:8012/dashboard",
+          "text_length": 100,
+          "size": 58881,
+          "warnings": []
+        },
+        {
+          "file": "user-test2-03-我的文档.png",
+          "label": "menu: 我的文档",
+          "url": "http://127.0.0.1:8012/documents",
+          "text_length": 74,
+          "size": 44970,
+          "warnings": []
+        },
+        {
+          "file": "user-test2-04-团队空间.png",
+          "label": "menu: 团队空间",
+          "url": "http://127.0.0.1:8012/teams",
+          "text_length": 73,
+          "size": 44661,
+          "warnings": []
+        },
+        {
+          "file": "user-test2-05-团队空间-创建团队-dialog.png",
+          "label": "dialog: 团队空间 / 创建团队",
+          "url": "http://127.0.0.1:8012/teams",
+          "text_length": 95,
+          "size": 44524,
+          "warnings": []
+        },
+        {
+          "file": "user-test2-06-模板市场.png",
+          "label": "menu: 模板市场",
+          "url": "http://127.0.0.1:8012/templates",
+          "text_length": 282,
+          "size": 86215,
+          "warnings": []
+        },
+        {
+          "file": "user-test2-07-个人中心.png",
+          "label": "menu: 个人中心",
+          "url": "http://127.0.0.1:8012/profile",
+          "text_length": 123,
+          "size": 69058,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "user",
+      "username": "test3",
+      "file_prefix": "user-test3",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "工作台",
+          "route": "/dashboard"
+        },
+        {
+          "label": "我的文档",
+          "route": "/documents"
+        },
+        {
+          "label": "团队空间",
+          "route": "/teams"
+        },
+        {
+          "label": "模板市场",
+          "route": "/templates"
+        },
+        {
+          "label": "个人中心",
+          "route": "/profile"
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "user-test3-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8012/dashboard",
+          "text_length": 100,
+          "size": 58861,
+          "warnings": []
+        },
+        {
+          "file": "user-test3-02-工作台.png",
+          "label": "menu: 工作台",
+          "url": "http://127.0.0.1:8012/dashboard",
+          "text_length": 100,
+          "size": 58861,
+          "warnings": []
+        },
+        {
+          "file": "user-test3-03-我的文档.png",
+          "label": "menu: 我的文档",
+          "url": "http://127.0.0.1:8012/documents",
+          "text_length": 74,
+          "size": 44950,
+          "warnings": []
+        },
+        {
+          "file": "user-test3-04-团队空间.png",
+          "label": "menu: 团队空间",
+          "url": "http://127.0.0.1:8012/teams",
+          "text_length": 73,
+          "size": 44642,
+          "warnings": []
+        },
+        {
+          "file": "user-test3-05-团队空间-创建团队-dialog.png",
+          "label": "dialog: 团队空间 / 创建团队",
+          "url": "http://127.0.0.1:8012/teams",
+          "text_length": 95,
+          "size": 44519,
+          "warnings": []
+        },
+        {
+          "file": "user-test3-06-模板市场.png",
+          "label": "menu: 模板市场",
+          "url": "http://127.0.0.1:8012/templates",
+          "text_length": 282,
+          "size": 86198,
+          "warnings": []
+        },
+        {
+          "file": "user-test3-07-个人中心.png",
+          "label": "menu: 个人中心",
+          "url": "http://127.0.0.1:8012/profile",
+          "text_length": 123,
+          "size": 69005,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "role": "user",
+      "username": "test4",
+      "file_prefix": "user-test4",
+      "login_ok": true,
+      "visible_menus": [
+        {
+          "label": "工作台",
+          "route": "/dashboard"
+        },
+        {
+          "label": "我的文档",
+          "route": "/documents"
+        },
+        {
+          "label": "团队空间",
+          "route": "/teams"
+        },
+        {
+          "label": "模板市场",
+          "route": "/templates"
+        },
+        {
+          "label": "个人中心",
+          "route": "/profile"
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "user-test4-01-dashboard.png",
+          "label": "post-login dashboard",
+          "url": "http://127.0.0.1:8012/dashboard",
+          "text_length": 100,
+          "size": 58867,
+          "warnings": []
+        },
+        {
+          "file": "user-test4-02-工作台.png",
+          "label": "menu: 工作台",
+          "url": "http://127.0.0.1:8012/dashboard",
+          "text_length": 100,
+          "size": 58867,
+          "warnings": []
+        },
+        {
+          "file": "user-test4-03-我的文档.png",
+          "label": "menu: 我的文档",
+          "url": "http://127.0.0.1:8012/documents",
+          "text_length": 74,
+          "size": 44956,
+          "warnings": []
+        },
+        {
+          "file": "user-test4-04-团队空间.png",
+          "label": "menu: 团队空间",
+          "url": "http://127.0.0.1:8012/teams",
+          "text_length": 73,
+          "size": 44647,
+          "warnings": []
+        },
+        {
+          "file": "user-test4-05-团队空间-创建团队-dialog.png",
+          "label": "dialog: 团队空间 / 创建团队",
+          "url": "http://127.0.0.1:8012/teams",
+          "text_length": 95,
+          "size": 44495,
+          "warnings": []
+        },
+        {
+          "file": "user-test4-06-模板市场.png",
+          "label": "menu: 模板市场",
+          "url": "http://127.0.0.1:8012/templates",
+          "text_length": 282,
+          "size": 86201,
+          "warnings": []
+        },
+        {
+          "file": "user-test4-07-个人中心.png",
+          "label": "menu: 个人中心",
+          "url": "http://127.0.0.1:8012/profile",
+          "text_length": 123,
+          "size": 69013,
+          "warnings": []
+        }
+      ],
+      "warnings": []
+    }
+  ],
+  "guest": [
+    {
+      "file": "guest-01-login.png",
+      "label": "guest: login",
+      "url": "http://127.0.0.1:8012/login",
+      "text_length": 25,
+      "size": 491967,
+      "warnings": [
+        "current URL is still login page"
+      ]
+    }
+  ],
+  "warnings": [],
+  "project_specific": [
+    {
+      "file": "user-test1-10-documents-created.png",
+      "label": "project 012: created documents list",
+      "url": "http://127.0.0.1:8012/documents",
+      "text_length": 172,
+      "size": 62202,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-11-create-document-dialog.png",
+      "label": "project 012: create document dialog",
+      "url": "http://127.0.0.1:8012/documents",
+      "text_length": 209,
+      "size": 61501,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-12-note-editor.png",
+      "label": "project 012: markdown note editor",
+      "url": "http://127.0.0.1:8012/document/1",
+      "text_length": 279,
+      "size": 163550,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-13-version-dialog.png",
+      "label": "project 012: version history dialog",
+      "url": "http://127.0.0.1:8012/document/1",
+      "text_length": 366,
+      "size": 155609,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-14-collaboration-dialog.png",
+      "label": "project 012: collaborator search dialog",
+      "url": "http://127.0.0.1:8012/document/1",
+      "text_length": 364,
+      "size": 144049,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-15-share-dialog.png",
+      "label": "project 012: share link dialog",
+      "url": "http://127.0.0.1:8012/document/1",
+      "text_length": 413,
+      "size": 168596,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-16-attachment-dialog.png",
+      "label": "project 012: attachment dialog",
+      "url": "http://127.0.0.1:8012/document/1",
+      "text_length": 314,
+      "size": 150490,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-17-board-editor.png",
+      "label": "project 012: board editor",
+      "url": "http://127.0.0.1:8012/document/2",
+      "text_length": 241,
+      "size": 161457,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-18-mindmap-editor.png",
+      "label": "project 012: mindmap editor",
+      "url": "http://127.0.0.1:8012/document/3",
+      "text_length": 326,
+      "size": 171735,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-19-template-market-loaded.png",
+      "label": "project 012: template market loaded",
+      "url": "http://127.0.0.1:8012/templates",
+      "text_length": 282,
+      "size": 86112,
+      "warnings": []
+    },
+    {
+      "file": "user-test1-20-template-used-editor.png",
+      "label": "project 012: template used editor",
+      "url": "http://127.0.0.1:8012/document/4",
+      "text_length": 237,
+      "size": 140017,
+      "warnings": []
+    },
+    {
+      "file": "guest-10-share-view.png",
+      "label": "project 012: public share view",
+      "url": "http://127.0.0.1:8012/share/60bd58e8",
+      "text_length": 86,
+      "size": 149716,
+      "warnings": []
+    }
+  ],
+  "image_count": 48,
+  "status": "completed",
+  "finished_at": "2026-06-06 19:47:25",
+  "stop_exit_code": 0,
+  "cleanup_exit_code": 0
+}

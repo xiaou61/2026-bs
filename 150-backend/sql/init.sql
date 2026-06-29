@@ -17,10 +17,10 @@ CREATE TABLE sys_user (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO sys_user (username, password, nickname, role, department, phone, email, status, created_time, updated_time) VALUES
-('admin', '123456', '系统管理员', 'ADMIN', '门诊管理部', '13915000001', 'admin@outpatient.local', 1, NOW(), NOW()),
-('doctor', '123456', '王晨医生', 'DOCTOR', '内科门诊', '13915000002', 'doctor@outpatient.local', 1, NOW(), NOW()),
-('tech', '123456', '刘洋技师', 'TECHNICIAN', '影像科', '13915000003', 'tech@outpatient.local', 1, NOW(), NOW()),
-('patient', '123456', '张敏患者', 'PATIENT', '患者服务', '13915000004', 'patient@outpatient.local', 1, NOW(), NOW());
+('admin', '$2a$12$Qn6MYnrUpj6R8uprDUfAm.2TTucdX0WCswUxVYRNrrioAeKJnYKgi', '系统管理员', 'ADMIN', '门诊管理部', '13915000001', 'admin@outpatient.local', 1, NOW(), NOW()),
+('doctor', '$2a$12$Qn6MYnrUpj6R8uprDUfAm.2TTucdX0WCswUxVYRNrrioAeKJnYKgi', '王晨医生', 'DOCTOR', '内科门诊', '13915000002', 'doctor@outpatient.local', 1, NOW(), NOW()),
+('tech', '$2a$12$Qn6MYnrUpj6R8uprDUfAm.2TTucdX0WCswUxVYRNrrioAeKJnYKgi', '刘洋技师', 'TECHNICIAN', '影像科', '13915000003', 'tech@outpatient.local', 1, NOW(), NOW()),
+('patient', '$2a$12$Qn6MYnrUpj6R8uprDUfAm.2TTucdX0WCswUxVYRNrrioAeKJnYKgi', '张敏患者', 'PATIENT', '患者服务', '13915000004', 'patient@outpatient.local', 1, NOW(), NOW());
 
 CREATE TABLE exam_item (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,

@@ -1,7 +1,7 @@
 package com.eldercare.config;
 
 import com.eldercare.common.BusinessException;
-import com.eldercare.clerk.TokenService;
+import com.eldercare.service.TokenService;
 import com.eldercare.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;

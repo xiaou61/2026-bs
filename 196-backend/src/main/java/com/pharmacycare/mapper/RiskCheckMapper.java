@@ -23,6 +23,9 @@ public interface RiskCheckMapper {
     @Update("UPDATE risk_check SET record_no=#{recordNo},record_name=#{recordName},category=#{category},owner_name=#{ownerName},plan_time=#{planTime},status=#{status},remark=#{remark},updated_time=NOW() WHERE id=#{id}")
     int update(RiskCheck entity);
 
+    @Select("SELECT * FROM risk_check WHERE id = #{id}")
+    RiskCheck selectById(Long id);
+
     @Delete("DELETE FROM risk_check WHERE id=#{id}")
     int deleteById(Long id);
 

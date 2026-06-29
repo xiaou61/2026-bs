@@ -1,0 +1,56 @@
+{
+  "project": {
+    "project_id": "154",
+    "name": "宠物医院接诊排班与疫苗随访管理系统",
+    "components": [
+      "backend",
+      "frontend"
+    ],
+    "backend_dir": "154-backend",
+    "frontend_dir": "154-frontend",
+    "miniapp_dir": null,
+    "capture_urls": {
+      "backend": "http://127.0.0.1:8154",
+      "frontend": "http://127.0.0.1:3000"
+    },
+    "accounts": [],
+    "routes": [],
+    "readme_sources": []
+  },
+  "services": {
+    "backend": {
+      "url": "http://127.0.0.1:8154",
+      "pid": 47080
+    },
+    "frontend": {
+      "url": "http://127.0.0.1:3154",
+      "pid": 48560
+    }
+  },
+  "logs": {
+    "backend": {
+      "stdout": "logs\\project-preview\\154-backend.out.log",
+      "stderr": "logs\\project-preview\\154-backend.err.log"
+    },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\154-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\154-frontend-install.err.log"
+    },
+    "frontend": {
+      "stdout": "logs\\project-preview\\154-frontend.out.log",
+      "stderr": "logs\\project-preview\\154-frontend.err.log"
+    }
+  },
+  "status": "stopped",
+  "prepared_at": "2026-06-06 13:28:58",
+  "datasource_kind": "mysql",
+  "sql_file": "154-backend\\sql\\init.sql",
+  "capture_hints": {
+    "roles": [],
+    "routes": [],
+    "screenshot_dir": "docs\\previews\\assets\\154",
+    "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
+  },
+  "stopped_at": "2026-06-06 13:31:06"
+}

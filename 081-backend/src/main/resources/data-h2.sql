@@ -1,8 +1,8 @@
 INSERT INTO user (username, password, real_name, phone, email, role, status) VALUES
-('admin', '123456', '系统管理员', '13800138000', 'admin@repair.com', 'admin', 1),
-('tech1', '123456', '王师傅', '13800138001', 'tech1@repair.com', 'technician', 1),
-('user1', '123456', '张三', '13800138002', 'user1@repair.com', 'customer', 1),
-('user2', '123456', '李四', '13800138004', 'user2@repair.com', 'customer', 1);
+('admin', '$2a$12$TKp8Io6FgOlod37m6nUoxePJv68h4VAYVV5xI5k50Z8Govns8c34S', '系统管理员', '13800138000', 'admin@repair.com', 'admin', 1),
+('tech1', '$2a$12$TKp8Io6FgOlod37m6nUoxePJv68h4VAYVV5xI5k50Z8Govns8c34S', '王师傅', '13800138001', 'tech1@repair.com', 'technician', 1),
+('user1', '$2a$12$TKp8Io6FgOlod37m6nUoxePJv68h4VAYVV5xI5k50Z8Govns8c34S', '张三', '13800138002', 'user1@repair.com', 'customer', 1),
+('user2', '$2a$12$TKp8Io6FgOlod37m6nUoxePJv68h4VAYVV5xI5k50Z8Govns8c34S', '李四', '13800138004', 'user2@repair.com', 'customer', 1);
 
 INSERT INTO appliance_category (name, brand, sort, status) VALUES
 ('空调', '格力', 1, 1),

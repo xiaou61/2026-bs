@@ -26,6 +26,9 @@ public interface OperationLogMapper {
     @Delete("DELETE FROM operation_log WHERE id=#{id}")
     int deleteById(Long id);
 
+    @Select("SELECT * FROM operation_log WHERE id = #{id}")
+    OperationLog selectById(Long id);
+
     @Select("SELECT COUNT(*) FROM operation_log")
     long countAll();
 

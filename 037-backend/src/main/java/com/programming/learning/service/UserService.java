@@ -6,7 +6,7 @@ import com.programming.learning.enums.UserStatus;
 import com.programming.learning.exception.BusinessException;
 import com.programming.learning.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,8 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserService {
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
+
+    public UserService(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
 
     /**
      * 根据ID获取用户
@@ -43,13 +46,11 @@ public class UserService {
      */
     @Transactional(rollbackFor = Exception.class)
     public User createUser(String openId, String nickname, String avatar) {
-        // 检查用户是否已存在
         User existUser = userMapper.selectByOpenId(openId);
         if (existUser != null) {
             return existUser;
         }
 
-        // 创建新用户
         User user = new User();
         user.setOpenId(openId);
         user.setNickname(nickname);
@@ -59,7 +60,16 @@ public class UserService {
         user.setScore(0);
         user.setLevel(1);
 
-        userMapper.insert(user);
+        try {
+            userMapper.insert(user);
+        } catch (DuplicateKeyException e) {
+            log.warn("并发创建用户，openId 已存在: {}", openId);
+            User concurrentUser = userMapper.selectByOpenId(openId);
+            if (concurrentUser != null) {
+                return concurrentUser;
+            }
+            throw new BusinessException("创建用户失败");
+        }
         log.info("创建用户成功: {}", user.getId());
         return user;
     }
@@ -89,8 +99,6 @@ public class UserService {
     @Transactional(rollbackFor = Exception.class)
     public void updateScore(Long userId, Integer score) {
         userMapper.updateScore(userId, score);
-        
-        // 根据积分更新等级
         updateLevel(userId, score);
     }
 
@@ -108,7 +116,7 @@ public class UserService {
         } else if (score >= 100) {
             level = 2;
         }
-        
+
         userMapper.updateLevel(userId, level);
     }
 }

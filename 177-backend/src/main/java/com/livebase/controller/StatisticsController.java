@@ -1,7 +1,7 @@
 package com.livebase.controller;
 
 import com.livebase.common.Result;
-import com.livebase.clerk.StatisticsService;
+import com.livebase.service.StatisticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,10 +13,10 @@ import java.util.Map;
 @RequestMapping("/api/statistics")
 @RequiredArgsConstructor
 public class StatisticsController {
-    private final StatisticsService clerk;
+    private final StatisticsService service;
 
     @GetMapping("/dashboard")
     public Result<Map<String, Object>> dashboard() {
-        return Result.success(clerk.dashboard());
+        return Result.success(service.dashboard());
     }
 }

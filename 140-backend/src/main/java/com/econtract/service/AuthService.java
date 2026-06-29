@@ -7,6 +7,7 @@ import com.econtract.mapper.SysUserMapper;
 import com.econtract.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -18,10 +19,11 @@ import java.util.Map;
 public class AuthService {
     private final SysUserMapper userMapper;
     private final TokenService tokenService;
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public Map<String, Object> login(LoginRequest request) {
         SysUser user = userMapper.selectByUsername(request.getUsername());
-        if (user == null || !user.getPassword().equals(request.getPassword())) throw new BusinessException("账号或密码错误");
+        if (user == null || !passwordEncoder.matches(request.getPassword(), user.getPassword())) throw new BusinessException("账号或密码错误");
         if (user.getStatus() == null || user.getStatus() != 1) throw new BusinessException("账号已停用");
         String token = JwtUtils.generateToken(user.getId(), user.getUsername(), user.getRole());
         tokenService.save(token, String.valueOf(user.getId()));

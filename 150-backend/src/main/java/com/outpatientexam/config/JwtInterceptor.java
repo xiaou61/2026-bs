@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 public class JwtInterceptor implements HandlerInterceptor {
     private final TokenService tokenService;
+    private final JwtUtils jwtUtils;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -22,7 +23,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         String token = request.getHeader("Authorization");
         if (token != null && token.startsWith("Bearer ")) token = token.substring(7);
         if (token == null || !tokenService.valid(token)) throw new BusinessException("登录已失效");
-        Claims claims = JwtUtils.parse(token);
+        Claims claims = jwtUtils.parse(token);
         request.setAttribute("userId", Long.valueOf(claims.getSubject()));
         request.setAttribute("username", claims.get("username", String.class));
         request.setAttribute("role", claims.get("role", String.class));

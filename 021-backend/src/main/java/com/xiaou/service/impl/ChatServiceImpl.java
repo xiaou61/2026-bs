@@ -100,9 +100,9 @@ public class ChatServiceImpl implements ChatService {
 
         LambdaQueryWrapper<ChatMessage> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(ChatMessage::getProductId, productId)
-                .and(q -> q.and(c -> c.eq(ChatMessage::getSenderId, userId).eq(ChatMessage::getReceiverId, targetUserId))
+                .and(q -> q.eq(ChatMessage::getSenderId, userId).eq(ChatMessage::getReceiverId, targetUserId)
                         .or()
-                        .and(c -> c.eq(ChatMessage::getSenderId, targetUserId).eq(ChatMessage::getReceiverId, userId)))
+                        .eq(ChatMessage::getSenderId, targetUserId).eq(ChatMessage::getReceiverId, userId))
                 .orderByAsc(ChatMessage::getCreateTime);
         return chatMessageMapper.selectList(wrapper).stream().map(this::toChatMessageVO).toList();
     }

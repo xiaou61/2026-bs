@@ -47,11 +47,11 @@
   "services": {
     "backend": {
       "url": "http://127.0.0.1:8087",
-      "pid": 27988
+      "pid": 7552
     },
     "frontend": {
       "url": "http://127.0.0.1:3007",
-      "pid": 47092
+      "pid": 48368
     }
   },
   "logs": {
@@ -59,13 +59,19 @@
       "stdout": "logs\\project-preview\\007-backend.out.log",
       "stderr": "logs\\project-preview\\007-backend.err.log"
     },
+    "frontend_install": {
+      "status": "installed",
+      "stdout": "logs\\project-preview\\007-frontend-install.out.log",
+      "stderr": "logs\\project-preview\\007-frontend-install.err.log"
+    },
     "frontend": {
       "stdout": "logs\\project-preview\\007-frontend.out.log",
       "stderr": "logs\\project-preview\\007-frontend.err.log"
     }
   },
   "status": "stopped",
-  "prepared_at": "2026-05-24 21:20:12",
+  "prepared_at": "2026-06-06 17:42:23",
+  "datasource_kind": "mysql",
   "sql_file": "007-backend\\src\\main\\resources\\sql\\init.sql",
   "capture_hints": {
     "roles": [
@@ -98,5 +104,5 @@
     "screenshot_dir": "docs\\previews\\assets\\007",
     "naming_rule": "建议使用 role-序号-页面名.png，例如 admin-01-dashboard.png"
   },
-  "stopped_at": "2026-05-24 21:32:45"
+  "stopped_at": "2026-06-06 17:45:30"
 }
