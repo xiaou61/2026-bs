@@ -17,8 +17,8 @@ public interface ElderProfileMapper {
         "<script>",
         "SELECT * FROM elder_profile",
         "<where>",
-        "<if test='keyword != null && keyword != \"\"'> AND (elder_no LIKE CONCAT('%',#{keyword},'%') OR elder_name LIKE CONCAT('%',#{keyword},'%') OR age_group LIKE CONCAT('%',#{keyword},'%') OR home_address LIKE CONCAT('%',#{keyword},'%'))</if>",
-        "<if test='status != null && status != \"\"'> AND status = #{status}</if>",
+        "<if test='keyword != null and keyword != \"\"'> AND (elder_no LIKE CONCAT('%',#{keyword},'%') OR elder_name LIKE CONCAT('%',#{keyword},'%') OR age_group LIKE CONCAT('%',#{keyword},'%') OR home_address LIKE CONCAT('%',#{keyword},'%'))</if>",
+        "<if test='status != null and status != \"\"'> AND status = #{status}</if>",
         "</where>",
         "ORDER BY id DESC",
         "</script>"
