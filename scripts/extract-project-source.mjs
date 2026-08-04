@@ -210,22 +210,40 @@ function extractViews(frontendDir) {
 
 // 从 application.yml 提取配置信息
 function extractAppConfig(backendDir) {
-  const config = { port: '', dbName: '', dbUrl: '', springBootVersion: '' };
+  const config = {
+    port: '',
+    dbName: '',
+    dbUrl: '',
+    databaseMode: '',
+    springBootVersion: '',
+    javaVersion: '',
+  };
 
-  const ymlFiles = findFiles(path.join(backendDir, 'src'), /application.*\.yml$/);
-  for (const file of ymlFiles) {
+  const configFiles = findFiles(path.join(backendDir, 'src'), /application.*\.(yml|yaml|properties)$/)
+    .sort((left, right) => {
+      const leftName = path.basename(left);
+      const rightName = path.basename(right);
+      const isBase = name => /^application\.(yml|yaml|properties)$/.test(name);
+      return Number(!isBase(leftName)) - Number(!isBase(rightName));
+    });
+  for (const file of configFiles) {
     try {
       const content = fs.readFileSync(file, 'utf-8');
 
-      // 端口
-      const portMatch = content.match(/port:\s*(\d+)/);
+      // 只读取 server.port，避免把数据库或 Redis 的 port 当成应用端口。
+      const portMatch = content.match(/(?:^|\n)\s*server:\s*\r?\n\s+port:\s*(\d+)/m)
+        || content.match(/^\s*server\.port\s*[:=]\s*(\d+)/m);
       if (portMatch && !config.port) config.port = portMatch[1];
 
-      // 数据库 URL
-      const urlMatch = content.match(/url:\s*jdbc:mysql:\/\/[^\s]+\/(\w+)/);
+      // 数据库 URL 和默认模式
+      const urlMatch = content.match(/(?:url:\s*)?jdbc:(mysql|postgresql|h2):\/\/[^\s]+\/([A-Za-z0-9_]+)/i);
       if (urlMatch && !config.dbName) {
-        config.dbName = urlMatch[1];
-        config.dbUrl = urlMatch[0].replace(/url:\s*/, '');
+        config.dbName = urlMatch[2];
+        config.dbUrl = urlMatch[0].replace(/^url:\s*/i, '');
+      }
+      if (!config.databaseMode) {
+        const modeMatch = content.match(/jdbc:(mysql|postgresql|h2):/i);
+        if (modeMatch) config.databaseMode = modeMatch[1].toUpperCase();
       }
     } catch (e) { /* skip */ }
   }
@@ -237,6 +255,8 @@ function extractAppConfig(backendDir) {
       const pomContent = fs.readFileSync(pomFile, 'utf-8');
       const versionMatch = pomContent.match(/spring-boot-starter-parent[^>]*>\s*<version>([^<]+)<\/version>/s);
       if (versionMatch) config.springBootVersion = versionMatch[1];
+      const javaVersionMatch = pomContent.match(/<java\.version>\s*([^<]+)\s*<\/java\.version>/);
+      if (javaVersionMatch) config.javaVersion = javaVersionMatch[1].trim();
     } catch (e) { /* skip */ }
   }
 
@@ -244,9 +264,17 @@ function extractAppConfig(backendDir) {
 }
 
 // 主函数：提取所有项目信息
-const projectList = JSON.parse(
-  fs.readFileSync(path.join(ROOT, 'docs-site', '.vitepress', 'project-list.json'), 'utf-8')
-);
+// 项目编号以 readme_simple.md 为源，避免新增项目时依赖上一轮生成的 JSON。
+const simpleReadmePath = path.join(ROOT, 'readme_simple.md');
+const simpleReadme = fs.existsSync(simpleReadmePath)
+  ? fs.readFileSync(simpleReadmePath, 'utf-8').replace(/\r\n?/g, '\n')
+  : '';
+const indexedNumbers = [...simpleReadme.matchAll(/^### (\d{3}) - .+$/gm)].map(match => match[1]);
+const projectList = indexedNumbers.length > 0
+  ? indexedNumbers.map(number => ({ number }))
+  : JSON.parse(
+      fs.readFileSync(path.join(ROOT, 'docs-site', '.vitepress', 'project-list.json'), 'utf-8')
+    );
 
 const enhancedData = {};
 let processed = 0;

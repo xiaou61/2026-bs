@@ -13,21 +13,21 @@ description: 商品交易、订单管理与电商平台
 
 **核心模块：** 农户管理、商品管理、订单管理、购物车、评价系统、数据统计、后台管理
 
-**技术栈：** Spring Boot 3.x、MyBatis-Plus、jQuery、Bootstrap | **API：** 47 个 | **表：** 14 张
+**技术栈：** Spring Boot 3.x、MyBatis-Plus、jQuery、Bootstrap | **API：** 47 个 | **表：** 7 张
 
 ---
 
-## [017 - 高校自助点餐系统 🔥最新](/projects/017)
+## [017 - 高校自助点餐系统 🔥](/projects/017)
 
 高校自助点餐系统（校园美食外卖平台）
 
 **核心模块：** 用户系统、商家浏览、菜品点餐、购物车、订单管理、取餐号系统、评价系统、优惠活动、商家端、管理后台
 
-**技术栈：** Spring Boot 3.2.0、MyBatis-Plus 3.5.5、Thymeleaf模板引擎、jQuery 3.7.0 | **表：** 24 张
+**技术栈：** Spring Boot 3.2.0、MyBatis-Plus 3.5.5、Thymeleaf模板引擎、jQuery 3.7.0 | **表：** 12 张
 
 ---
 
-## [021 - 校园二手交易平台 🔥最新](/projects/021)
+## [021 - 校园二手交易平台 🔥](/projects/021)
 
 校园二手交易平台（闲置物品交易+信用评价+在线沟通）
 
@@ -37,193 +37,221 @@ description: 商品交易、订单管理与电商平台
 
 ---
 
-## [027 - 线上理发预约系统 🔥最新](/projects/027)
+## [027 - 线上理发预约系统 🔥](/projects/027)
 
 线上理发预约系统（智能预约+会员积分+订单支付）
 
 **核心模块：** 用户系统、门店管理、理发师管理、服务项目、在线预约、预约管理、会员体系、积分系统、订单支付、评价系统
 
-**技术栈：** Spring Boot 3.2.0、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.5.1 | **表：** 36 张 | **页面：** 9 个
+**技术栈：** Spring Boot 3.2.0、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.5.1 | **表：** 12 张 | **页面：** 9 个
 
 ---
 
-## [031 - 基于SpringBoot的球赛订票系统 🔥最新](/projects/031)
+## [031 - 基于SpringBoot的球赛订票系统 🔥](/projects/031)
 
 球赛订票系统（在线选座+实时订票+电子票务）
 
 **核心模块：** 用户管理、赛事管理、场馆管理、球队管理、在线选座、订单管理、支付系统、电子票务、消息通知、统计分析
 
-**技术栈：** Spring Boot 3.2.0、jOOQ 3.18.7、htmx 1.9.10、Bootstrap 5.3.0 | **表：** 22 张
+**技术栈：** Spring Boot 3.2.0、jOOQ 3.18.7、htmx 1.9.10、Bootstrap 5.3.0 | **表：** 11 张
+
+---
+
+## [033 - 婚纱写真馆管理系统 🔥最新](/projects/033)
+
+基于 Spring Boot + React 的婚纱写真馆管理系统（预约排班+订单收支+相册选片+服装道具管理）
+
+**技术栈：** Spring Boot 3.2、MyBatis、React 18 + Vite、Ant Design | **表：** 18 张
 
 ---
 
 ## [034 - 零食铺子仓储管理系统 🔥最新](/projects/034)
 
-基于 Spring Boot + Vue 的零食铺子仓储管理系统（多仓/批次/效期）
+基于 Spring Boot + Vue 的零食铺子仓储管理系统（多仓/批次/效期/入出库/盘点）
 
-**技术栈：** Spring Boot 3.2、MyBatis-Plus、Vue 3 + Element Plus（CDN 单页）、原生 Fetch API | **表：** 63 张
+**技术栈：** Spring Boot 3.2、MyBatis-Plus、Vue 3 + Element Plus（CDN 单页）、原生 Fetch API | **表：** 21 张
 
 ---
 
-## [043 - 宠物寄养服务系统 🔥最新](/projects/043)
+## [043 - 宠物寄养服务系统 🔥](/projects/043)
 
-基于SpringBoot的宠物寄养服务系统的设计与实现
+基于SpringBoot的宠物寄养服务系统的设计与实现（Spring Boot 3.2 + MyBatis-Plus 3.5.5 + Vue3 + TypeScript + Element Plus）
 
 **核心模块：** 用户系统、宠物管理、服务商管理、服务项目、预约系统、订单管理、个人中心、首页仪表盘
 
-**技术栈：** Spring Boot 3.2.1、MyBatis-Plus 3.5.5、Vue 3.4.0 + TypeScript、Element Plus 2.5.1 | **API：** 16 个 | **表：** 16 张 | **页面：** 8 个
+**技术栈：** Spring Boot 3.2.1、MyBatis-Plus 3.5.5、Vue 3.4.0 + TypeScript、Element Plus 2.5.1 | **API：** 16 个 | **表：** 8 张 | **页面：** 8 个
 
 ---
 
-## [044 - 特色民宿预订平台 🔥最新](/projects/044)
+## [044 - 特色民宿预订平台 🔥](/projects/044)
 
-基于SpringBoot的特色民宿预订平台的设计与实现
+基于SpringBoot的特色民宿预订平台的设计与实现（Spring Boot 3.2 + MyBatis-Plus 3.5.5 + Vue3 + TypeScript + Element Plus + 双角色系统）
 
 **核心模块：** 用户系统、民宿浏览、民宿详情、在线预订、订单管理、评价系统、收藏功能、房东中心、个人中心
 
-**技术栈：** Spring Boot 3.2.1、MyBatis-Plus 3.5.5、Vue 3.3.11 + TypeScript、Element Plus 2.4.4 | **API：** 32 个 | **表：** 16 张 | **页面：** 13 个
+**技术栈：** Spring Boot 3.2.1、MyBatis-Plus 3.5.5、Vue 3.3.11 + TypeScript、Element Plus 2.4.4 | **API：** 32 个 | **表：** 8 张 | **页面：** 13 个
 
 ---
 
 ## [047 - 剧本杀创作与预约平台 🔥](/projects/047)
 
-基于SpringBoot的剧本杀创作与预约平台的设计与实现
+基于SpringBoot的剧本杀创作与预约平台的设计与实现（Spring Boot 3.2 + MyBatis-Plus 3.5.5 + Vue3 + TypeScript + Element Plus + 四角色：玩家/店家/作者/管理员 + 剧本创作审核）
 
-**技术栈：** Spring Boot 3.2、MyBatis-Plus 3.5.5、Vue 3 + TypeScript、Element Plus | **API：** 59 个 | **表：** 23 张 | **页面：** 23 个
+**技术栈：** Spring Boot 3.2、MyBatis-Plus 3.5.5、Vue 3 + TypeScript、Element Plus | **API：** 59 个 | **表：** 11 张 | **页面：** 23 个
 
 ---
 
-## [053 - 救灾物资调度与救援系统 🔥最新](/projects/053)
+## [053 - 救灾物资调度与救援系统 🔥](/projects/053)
 
-基于SpringBoot的救灾物资调度与救援系统设计与实现
+基于SpringBoot的救灾物资调度与救援系统（Spring Boot 3.2 + MyBatis-Plus 3.5.5 + Redis + Vue3 + Element Plus + 四角色：管理员/仓库管理员/救援人员/上报员 + 灾情管理+物资调度+库存管理+救援任务）
 
 **核心模块：** 用户管理、灾情管理、物资管理、仓库管理、库存管理、调度管理、救援任务、公告管理、数据统计
 
-**技术栈：** Spring Boot 3.2.0、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **API：** 77 个 | **表：** 36 张 | **页面：** 12 个
+**技术栈：** Spring Boot 3.2.0、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **API：** 77 个 | **表：** 12 张 | **页面：** 12 个
 
 ---
 
 ## [058 - 鲜牛奶订购系统 🔥最新](/projects/058)
 
-基于SpringBoot+Vue3的鲜牛奶订购配送管理系统设计与实现
+基于SpringBoot+Vue3的鲜牛奶订购配送管理系统（Spring Boot 2.7.12 + MyBatis-Plus 3.5.3.1 + Redis + Vue3 + Element Plus + ECharts + 三角色：管理员/配送员/用户 + 订阅管理+订单配送+区域路线+投诉反馈+统计报表）
 
 **核心模块：** 用户管理、牛奶分类、产品管理、订阅管理、订单管理、配送区域、配送路线、配送任务、地址管理、投诉反馈、通知管理、统计报表
 
-**技术栈：** Spring Boot 2.7.12、MyBatis-Plus 3.5.3.1、Vue 3.4.0、Element Plus 2.4.4 | **API：** 56 个 | **表：** 36 张 | **页面：** 18 个
+**技术栈：** Spring Boot 2.7.12、MyBatis-Plus 3.5.3.1、Vue 3.4.0、Element Plus 2.4.4 | **API：** 56 个 | **表：** 12 张 | **页面：** 18 个
 
 ---
 
 ## [061 - 游戏交易系统](/projects/061)
 
-基于SpringBoot+Vue3的游戏交易系统设计与实现
+基于SpringBoot+Vue3的游戏交易系统（Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + Redis + Vue3 + Element Plus + ECharts + 双角色：管理员/用户 + 商品发布+下单支付+收藏评价+申诉处理+运营看板）
 
 **核心模块：** 用户与认证、游戏分类管理、交易商品管理、交易市场、订单交易、售出订单、收藏系统、评价系统、申诉处理、个人中心、公告中心与看板
 
-**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **API：** 51 个 | **表：** 24 张 | **页面：** 16 个
+**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **API：** 51 个 | **表：** 8 张 | **页面：** 16 个
 
 ---
 
 ## [063 - 进销存管理系统](/projects/063)
 
-基于SpringBoot+Vue3的进销存管理系统设计与实现
+基于SpringBoot+Vue3的进销存管理系统（Spring Boot 2.7.18 + MyBatis + PageHelper + Redis + Vue3 + Element Plus + ECharts + 双角色：管理员/业务员 + 用户管理+供应商客户+商品分类+采购销售审核+库存流水+公告中心+经营看板）
 
 **核心模块：** 用户与认证、用户管理、供应商管理、客户管理、分类管理、商品管理、采购管理、销售管理、库存流水、公告中心、经营看板
 
-**技术栈：** Spring Boot 2.7.18、MyBatis 3.5 + PageHelper 1.4.7、Vue 3.4.0、Element Plus 2.4.4 | **API：** 44 个 | **表：** 27 张 | **页面：** 13 个
+**技术栈：** Spring Boot 2.7.18、MyBatis 3.5 + PageHelper 1.4.7、Vue 3.4.0、Element Plus 2.4.4 | **API：** 44 个 | **表：** 9 张 | **页面：** 13 个
 
 ---
 
 ## [068 - 周边游平台个人管理模块 🔥最新](/projects/068)
 
-基于SpringBoot+Vue3的周边游平台个人管理模块设计与实现
+基于SpringBoot+Vue3的周边游平台个人管理模块（Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + Redis + Vue3 + Element Plus + ECharts + 双角色：管理员/用户 + 景点图片上传+投诉附件上传+订单导出+评价审核+运营趋势看板）
 
 **核心模块：** 用户与认证、用户管理、景点管理、景点图片上传、个人中心、常用出行人、景点收藏、订单管理、订单导出、评价管理、投诉管理、数据看板
 
-**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **API：** 42 个 | **表：** 21 张 | **页面：** 11 个
+**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **API：** 42 个 | **表：** 7 张 | **页面：** 11 个
 
 ---
 
 ## [070 - 基于SpringBoot和Vue的最优网络购票系统](/projects/070)
 
-基于SpringBoot和Vue的最优网络购票系统（在线选座+订单支付+电子票务）
+基于SpringBoot+Vue3的电影购票系统（Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + Redis + Vue3 + Element Plus + 双角色 + 12张表 + 60+API + 19页面 + 电影管理+影院场次+在线选座+Redis座位锁定+订单支付+电子票券+优惠券+评论审核+ECharts统计）
 
 **核心模块：** 用户管理、电影管理、影院管理、影厅管理、场次管理、在线选座、订单管理、支付系统、票务系统、评论系统、优惠券系统、数据统计
 
-**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **API：** 78 个 | **表：** 36 张 | **页面：** 19 个
+**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **API：** 78 个 | **表：** 12 张 | **页面：** 19 个
 
 ---
 
 ## [071 - 基于SpringBoot和Vue的共享单车系统](/projects/071)
 
-基于SpringBoot和Vue的共享单车系统（扫码骑行+分段计费+信用体系+电子钱包）
+基于SpringBoot+Vue3的共享单车系统（Spring Boot 2.7.18 + MyBatis 3.5.13原生XML + PageHelper + Redis + Vue3 + Element Plus + ECharts + 三角色：管理员/运维人员/用户 + 扫码骑行+分段阶梯计费+信用体系+电子钱包+押金管理+站点车辆管理+故障上报+运营看板）
 
 **核心模块：** 用户管理、站点管理、车辆管理、骑行系统、计费规则、电子钱包、押金管理、信用体系、故障上报、订单管理、公告管理、意见反馈、数据统计
 
-**技术栈：** Spring Boot 2.7.18、MyBatis 3.5.13（原生XML映射）、Vue 3.4.0、Element Plus 2.4.4 | **API：** 60 个 | **表：** 30 张 | **页面：** 19 个
+**技术栈：** Spring Boot 2.7.18、MyBatis 3.5.13（原生XML映射）、Vue 3.4.0、Element Plus 2.4.4 | **API：** 60 个 | **表：** 10 张 | **页面：** 19 个
 
 ---
 
 ## [074 - 基于SpringBoot和Vue的手工艺品销售系统 🔥最新](/projects/074)
 
-基于SpringBoot和Vue的手工艺品销售系统（工艺品上架+交易下单+收藏评价+售后申诉）
+基于SpringBoot+Vue3的手工艺品销售系统（Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + Redis + Vue3 + Element Plus + ECharts + 双角色：管理员/用户 + 工艺分类+作品发布+在线下单+收藏评价+售后申诉+运营看板）
 
 **核心模块：** 用户认证、用户管理、工艺分类管理、手工艺商品管理、手作市集浏览、订单管理、收藏系统、评价系统、申诉处理、公告中心、运营看板、文件上传
 
-**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **API：** 51 个 | **表：** 24 张 | **页面：** 16 个
+**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **API：** 51 个 | **表：** 8 张 | **页面：** 16 个
 
 ---
 
-## [078 - 网上团购系统 🔥最新](/projects/078)
+## [078 - 网上团购系统 🔥](/projects/078)
 
-基于SpringBoot+Vue3的网上团购系统（商家入驻+团购活动+开团参团+订单管理）
+基于SpringBoot+Vue3的网上团购系统（Spring Boot 2.7.0 + MyBatis-Plus 3.5.2 + Redis + Vue3 + Element Plus + ECharts + 三角色：管理员/商家/用户 + 商家入驻审核+团购活动+开团参团+订单管理+购物车+收货地址+评价管理+公告系统+运营看板）
 
 **核心模块：** 用户系统、商家管理、团购活动、开团参团、订单管理、购物车、收货地址、评价系统、公告中心、运营看板
 
-**技术栈：** Spring Boot 2.7.0、MyBatis-Plus 3.5.2、Vue 3.4.0、Element Plus 2.4.4 | **API：** 83 个 | **表：** 36 张 | **页面：** 20 个
+**技术栈：** Spring Boot 2.7.0、MyBatis-Plus 3.5.2、Vue 3.4.0、Element Plus 2.4.4 | **API：** 83 个 | **表：** 12 张 | **页面：** 20 个
 
 ---
 
 ## [086 - 高清壁纸社区网站](/projects/086)
 
-基于SpringBoot+Vue3的高清壁纸社区网站（壁纸前台浏览 + 用户投稿 + 后台审核运营）
+基于SpringBoot+Vue3的高清壁纸社区网站（Spring Boot 2.7.18 + MyBatis-Plus 3.5.3 + Redis + Vue3 + Element Plus + ECharts + 双角色：管理员/用户 + 壁纸分类标签+公开浏览+投稿审核+收藏下载+公告轮播+数据看板）
 
 **核心模块：** 用户权限、分类标签、壁纸内容、投稿审核、收藏下载、运营模块
 
-**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.3、Vue 3.4.0、Element Plus 2.4.4 | **API：** 52 个 | **表：** 33 张 | **页面：** 16 个
+**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.3、Vue 3.4.0、Element Plus 2.4.4 | **API：** 52 个 | **表：** 11 张 | **页面：** 16 个
 
 ---
 
 ## [089 - 铁路订票平台 🔥最新](/projects/089)
 
-基于SpringBoot+Vue3的铁路订票平台（管理员后台 + 调度审核 + 乘客订票端）
+基于SpringBoot+Vue3的铁路订票平台（Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + Redis + Vue3 + Element Plus + ECharts + 三角色：管理员/调度员/乘客 + 车站列车管理+班次排期+余票查询+在线选座+电子出票+退改签审核+公告与统计看板）
 
 **核心模块：** 用户权限、基础资料、班次管理、在线订票、支付出票、订单中心、退改签、公告统计
 
-**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **API：** 72 个 | **表：** 36 张 | **页面：** 19 个
+**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **API：** 72 个 | **表：** 12 张 | **页面：** 19 个
+
+---
+
+## [091 - 电影院会员管理系统 🔥最新](/projects/091)
+
+基于SpringBoot+Vue3的电影院会员管理系统（Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + Redis + Vue3 + Element Plus + ECharts + 三角色：管理员/门店员工/会员 + 会员档案+等级积分+影片门店影厅场次+储值优惠券+消费订单+电子观影码+评价反馈+运营看板）
+
+**核心模块：** 账号权限、会员档案、影院资源、会员运营、消费闭环、观影核销、评价反馈、运营看板
+
+**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **API：** 78 个 | **表：** 12 张 | **页面：** 19 个
 
 ---
 
 ## [093 - 自助售货管理系统 🔥最新](/projects/093)
 
-基于SpringBoot+Vue3的自助售货管理系统（设备零售运营 + 补货库存管理 + 顾客自助消费闭环）
+基于SpringBoot+Vue3的自助售货管理系统（Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + Redis + Vue3 + Element Plus + ECharts + 三角色：管理员/补货员/顾客 + 点位设备管理+商品分类+货道库存+补货登记+顾客下单+余额支付+出货记录+故障反馈+经营看板）
 
 **核心模块：** 账号权限、点位设备、商品库存、补货维护、订单支付、出货追踪、反馈公告、经营看板
 
-**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **API：** 69 个 | **表：** 60 张 | **页面：** 19 个
+**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **API：** 69 个 | **表：** 12 张 | **页面：** 19 个
 
 ---
 
 ## [094 - 宠物咖啡馆平台 🔥最新](/projects/094)
 
-基于SpringBoot的宠物咖啡馆平台的设计与实现
+基于SpringBoot的宠物咖啡馆平台的设计与实现（门店管理+店宠展示+菜单管理+座位预约+到店消费+余额支付+评价回复+运营看板）
 
-**技术栈：** Spring Boot 2.7.18、MyBatis-Plus、Vue 3、Element Plus | **API：** 74 个 | **表：** 60 张 | **页面：** 17 个
+**技术栈：** Spring Boot + Vue | **API：** 74 个 | **表：** 12 张 | **页面：** 17 个
+
+---
+
+## [096 - 线上医院挂号系统](/projects/096)
+
+基于SpringBoot+Vue3的线上医院挂号系统（Spring Boot 2.7.18 + MyBatis 3.5.13 + PageHelper + Redis + Vue3 + Element Plus + ECharts + 三角色：管理员/医生/患者 + 科室医生+排班号源+在线挂号+订单支付+就诊卡+评价公告+统计看板）
+
+**核心模块：** 账号权限、科室医生、排班号源、在线挂号、订单支付、就诊服务、评价公告、统计看板
+
+**技术栈：** Spring Boot 2.7.18、MyBatis 3.5.13、Vue 3.4.0、Element Plus 2.4.4 | **API：** 59 个 | **表：** 12 张 | **页面：** 20 个
 
 ---
 
 ## [115 - 跨境电商清关订单与汇率结算平台](/projects/115)
 
-基于SpringBoot+Vue3的跨境电商清关订单与汇率结算平台
+基于SpringBoot+Vue3的跨境电商清关订单与汇率结算平台（Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + Redis + Vue3 + Element Plus + ECharts + 四角色：管理员/关务专员/财务结算员/运营人员 + 账号权限+商家店铺+客户档案+商品SKU+跨境订单+清关申报+清关单证+税费记录+汇率牌价+结算账单+支付记录+物流跟踪+订单对账+操作日志）
 
 **核心模块：** 账号权限、商家店铺、客户档案、商品SKU、跨境订单、清关申报、清关单证、税费记录、汇率牌价、结算账单、支付记录、物流跟踪、订单对账、操作日志
 
@@ -233,7 +261,7 @@ description: 商品交易、订单管理与电商平台
 
 ## [116 - 直播电商选品排期与售后工单系统](/projects/116)
 
-基于SpringBoot+Vue3的直播电商选品排期与售后工单系统
+基于SpringBoot+Vue3的直播电商选品排期与售后工单系统（Spring Boot 2.7.18 + MyBatis注解SQL + PageHelper + Redis + Vue3 + Element Plus + ECharts + 四角色：管理员/主播运营/客服专员/商家 + 账号权限+直播渠道+主播档案+供应商品牌+选品池+直播场次+排期计划+样品申请+话术脚本+直播订单+售后工单+退款记录+主播绩效+操作日志）
 
 **核心模块：** 账号权限、直播渠道、主播档案、供应商品牌、选品池、直播场次、排期计划、样品申请、话术脚本、直播订单、售后工单、退款记录、主播绩效、操作日志
 
@@ -243,7 +271,7 @@ description: 商品交易、订单管理与电商平台
 
 ## [151 - 文旅场馆讲解预约与票务核销管理平台](/projects/151)
 
-基于SpringBoot+Vue3的文旅场馆讲解预约与票务核销管理平台
+基于SpringBoot+Vue3的文旅场馆讲解预约与票务核销管理平台（Spring Boot 2.7.18 + MyBatis注解SQL + PageHelper + Redis + Vue3 + Element Plus + ECharts + 文旅服务方向 + 票务预约 + 讲解排期 + 扫码核销 + 客流统计 + 业务台账+统计看板+操作日志）
 
 **核心模块：** 账号权限、场馆档案、票种产品、票务预约、讲解员档案、讲解排期、讲解预约、扫码核销、客流统计、游客评价、文旅活动、场馆公告、操作日志
 
@@ -253,7 +281,7 @@ description: 商品交易、订单管理与电商平台
 
 ## [162 - 生鲜门店临期商品预警与促销处置系统](/projects/162)
 
-基于SpringBoot+Vue3的生鲜门店临期商品预警与促销处置系统
+基于SpringBoot+Vue3的生鲜门店临期商品预警与促销处置系统（Spring Boot 2.7.18 + MyBatis注解SQL + PageHelper + Redis + Vue3 + Element Plus + ECharts + 新零售方向 + 商品批次 + 保质期规则 + 临期预警 + 促销策略 + 折扣执行 + 报损记录 + 库存周转 + 门店分析 + 业务台账+统计看板+操作日志）
 
 **核心模块：** 账号权限、门店档案、供应商档案、生鲜品类、商品批次、保质期规则、临期预警、促销策略、折扣执行、报损记录、库存周转、门店分析、操作日志
 
@@ -263,7 +291,7 @@ description: 商品交易、订单管理与电商平台
 
 ## [171 - 应急物资储备盘点与调拨审批平台](/projects/171)
 
-基于SpringBoot+Vue3的应急物资储备盘点与调拨审批平台
+基于SpringBoot+Vue3的应急物资储备盘点与调拨审批平台（Spring Boot 2.7.18 + MyBatis注解SQL + PageHelper + Redis + Vue3 + Element Plus + ECharts + 应急管理方向 + 储备仓库 + 物资分类 + 物资台账 + 库存批次 + 库存盘点 + 盘点差异 + 申领工单 + 调拨审批 + 调度任务 + 出库记录 + 库存预警 + 统计看板+操作日志）
 
 **核心模块：** 账号权限、储备仓库、物资分类、物资台账、库存批次、库存盘点、盘点差异、申领工单、调拨审批、调度任务、出库记录、库存预警、操作日志
 
@@ -271,9 +299,19 @@ description: 商品交易、订单管理与电商平台
 
 ---
 
+## [177 - 直播基地主播排班与选品样品管理系统](/projects/177)
+
+基于SpringBoot+Vue3的直播基地主播排班与选品样品管理系统（Spring Boot 2.7.18 + MyBatis注解SQL + PageHelper + Redis + Vue3 + Element Plus + ECharts + 直播电商方向 + 直播间档案 + 主播档案 + 商家档案 + 商品选品 + 样品台账 + 样品借还 + 主播排班 + 选品评测 + 直播计划 + 直播场次 + 直播复盘 + 统计看板+操作日志）
+
+**核心模块：** 账号权限、直播间档案、主播档案、商家档案、商品选品、样品台账、样品借还、主播排班、选品评测、直播计划、直播场次、直播复盘、操作日志
+
+**技术栈：** Spring Boot 2.7.18、MyBatis 2.3.1 注解 SQL、Vue 3.4.0、Element Plus 2.4.4 | **API：** 71 个 | **表：** 13 张 | **页面：** 16 个
+
+---
+
 ## [185 - 城市公厕巡检保洁与耗材补给调度系统](/projects/185)
 
-基于SpringBoot+Vue3的城市公厕巡检保洁与耗材补给调度系统
+基于SpringBoot+Vue3的城市公厕巡检保洁与耗材补给调度系统（Spring Boot 2.7.18 + MyBatis注解SQL + PageHelper + Redis + Vue3 + Element Plus + ECharts + 城市运维方向 + 公厕点位 + 保洁路线 + 保洁任务 + 保洁记录 + 巡检计划 + 巡检记录 + 耗材库存 + 补给申请 + 补给调度 + 投诉反馈 + 问题整改 + 统计看板+操作日志）
 
 **核心模块：** 账号权限、公厕点位、保洁路线、保洁任务、保洁记录、巡检计划、巡检记录、耗材库存、补给申请、补给调度、投诉反馈、问题整改、操作日志
 

@@ -41,7 +41,7 @@ export default defineConfig({
   title: '2026毕设项目合集',
   description: '200+ Spring Boot + Vue3 毕业设计项目合集',
   lang: 'zh-CN',
-  ignoreDeadLinks: true,
+  ignoreDeadLinks: false,
 
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }]

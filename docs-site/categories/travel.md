@@ -7,21 +7,21 @@ description: 旅游预订、出行与交通服务
 
 > 旅游预订、出行与交通服务
 
-## [028 - 校园共享自行车租赁系统 🔥最新](/projects/028)
+## [028 - 校园共享自行车租赁系统 🔥](/projects/028)
 
 校园共享自行车租赁系统（扫码租车+信用体系+计费管理）
 
-**技术栈：** Spring Boot 3.2.0、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **表：** 26 张 | **页面：** 14 个
+**技术栈：** Spring Boot 3.2.0、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **表：** 13 张 | **页面：** 14 个
 
 ---
 
 ## [072 - 基于SpringBoot和Vue的哈尔滨文旅系统](/projects/072)
 
-基于SpringBoot和Vue的哈尔滨文旅系统（冰雪旅游+景点门票+路线规划+游记分享）
+基于SpringBoot+Vue3的哈尔滨文旅系统（Spring Boot 2.7.18 + MyBatis-Plus 3.5.5 + Redis + Vue3 + Element Plus + ECharts + 双角色：管理员/用户 + 冰雪旅游+景点门票预订+路线规划+酒店餐厅推荐+活动报名+游记分享+评价收藏+钱包支付+运营看板）
 
 **核心模块：** 用户管理、景点管理、路线规划、门票预订、酒店推荐、餐厅推荐、活动报名、游记分享、评价系统、收藏功能、钱包系统、公告管理、数据统计
 
-**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **表：** 42 张 | **页面：** 20 个
+**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **表：** 14 张 | **页面：** 20 个
 
 ---
 

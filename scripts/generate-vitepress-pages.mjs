@@ -9,8 +9,10 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const README_PATH = path.join(ROOT, 'readme.md');
+const SIMPLE_README_PATH = path.join(ROOT, 'readme_simple.md');
 const DOCS_SITE_DIR = path.join(ROOT, 'docs-site');
 const PROJECTS_DIR = path.join(DOCS_SITE_DIR, 'projects');
+const PROJECT_LIST_PATH = path.join(DOCS_SITE_DIR, '.vitepress', 'project-list.json');
 const PREVIEW_ASSETS_SOURCE_DIR = path.join(ROOT, 'docs', 'previews', 'assets');
 const PREVIEW_ASSETS_PUBLIC_DIR = path.join(DOCS_SITE_DIR, 'public', 'previews', 'assets');
 
@@ -75,6 +77,19 @@ function getProjectScreenshots(number) {
       role: path.basename(file, path.extname(file)).split('-', 1)[0] || 'preview',
       url: `/previews/assets/${number}/${encodeURIComponent(file)}`,
     }));
+}
+
+function getSqlInitPath(number) {
+  const backendDir = path.join(ROOT, `${number}-backend`);
+  const candidates = [
+    'sql/init.sql',
+    'src/main/resources/sql/init.sql',
+    'src/main/resources/init.sql',
+    'src/main/resources/schema.sql',
+    'database/init.sql',
+    'db/init.sql',
+  ];
+  return candidates.find(relativePath => fs.existsSync(path.join(backendDir, relativePath))) || '';
 }
 
 function roleDisplayName(role) {
@@ -1370,25 +1385,70 @@ function readCheckReport(number) {
   return result;
 }
 
-// === 解析 readme.md ===
+// === 解析项目索引 ===
+// 根 README 只保留入口信息，200 个编号以 readme_simple.md 作为稳定索引。
+// 兼容旧版生成数据，保留 project-list.json 中已有的技术栈和功能模块元数据。
 const readmeContent = fs.readFileSync(README_PATH, 'utf-8').replace(/\r\n?/g, '\n');
-const projectRegex = /^### (\d{3}) - (.+)$/gm;
-const positions = [];
+const simpleReadmeContent = fs.readFileSync(SIMPLE_README_PATH, 'utf-8').replace(/\r\n?/g, '\n');
+const featuredRegex = /^### (\d{3}) - (.+)$/gm;
+const featuredPositions = [];
 let match;
-while ((match = projectRegex.exec(readmeContent)) !== null) {
-  positions.push({ number: match[1], title: match[2], start: match.index });
+while ((match = featuredRegex.exec(readmeContent)) !== null) {
+  featuredPositions.push({ number: match[1], title: match[2].trim(), start: match.index });
 }
 
+const featuredProjects = new Map();
+for (let i = 0; i < featuredPositions.length; i++) {
+  const start = featuredPositions[i].start;
+  const end = i + 1 < featuredPositions.length ? featuredPositions[i + 1].start : readmeContent.length;
+  featuredProjects.set(featuredPositions[i].number, {
+    title: featuredPositions[i].title,
+    block: readmeContent.substring(start, end),
+  });
+}
+
+const simpleRegex = /^### (\d{3}) - (.+)$/gm;
+const simplePositions = [];
+while ((match = simpleRegex.exec(simpleReadmeContent)) !== null) {
+  simplePositions.push({ number: match[1], title: match[2].trim(), start: match.index });
+}
+
+const projectIndex = simplePositions.map((position, index) => {
+  const end = index + 1 < simplePositions.length ? simplePositions[index + 1].start : simpleReadmeContent.length;
+  const block = simpleReadmeContent.substring(position.start, end);
+  const description = block
+    .split('\n')
+    .slice(1)
+    .map(line => line.trim())
+    .find(line => line.length > 0 && !line.startsWith('#') && line !== '---') || position.title;
+  return { ...position, description };
+});
+
+if (projectIndex.length === 0) {
+  throw new Error('readme_simple.md 未解析到任何项目');
+}
+
+let existingProjectList = [];
+if (fs.existsSync(PROJECT_LIST_PATH)) {
+  try {
+    const parsed = JSON.parse(fs.readFileSync(PROJECT_LIST_PATH, 'utf-8'));
+    if (Array.isArray(parsed)) existingProjectList = parsed;
+  } catch (error) {
+    console.warn(`无法读取历史项目元数据，将使用源码和 README：${error.message}`);
+  }
+}
+const existingByNumber = new Map(existingProjectList.map(project => [project.number, project]));
+
 const projects = [];
-for (let i = 0; i < positions.length; i++) {
-  const start = positions[i].start;
-  const end = i + 1 < positions.length ? positions[i + 1].start : readmeContent.length;
-  const block = readmeContent.substring(start, end);
-  const num = positions[i].number;
-  const title = positions[i].title;
+for (const entry of projectIndex) {
+  const num = entry.number;
+  const legacy = existingByNumber.get(num) || {};
+  const featured = featuredProjects.get(num);
+  const block = featured?.block || `### ${num} - ${entry.title}\n\n${entry.description}\n`;
+  const title = featured?.title || entry.title;
 
   const nameMatch = block.match(/#### 🏷️ 项目名称\s*\n(.+)/);
-  const projectName = nameMatch ? nameMatch[1].trim() : title;
+  const projectName = nameMatch ? nameMatch[1].trim() : (entry.description || legacy.projectName || title);
 
   const techStackMatch = block.match(/#### 💻 技术栈\s*\n([\s\S]*?)(?=#### 🎯|#### ✨|---|$)/);
   let backendTech = [], frontendTech = [];
@@ -1398,6 +1458,8 @@ for (let i = 0; i < positions.length; i++) {
     backendTech = parts[0].replace(/\*\*后端[^*]*\*\*\s*\n?/, '').split('\n').map(l => l.replace(/^-\s*/, '').trim()).filter(l => l.length > 0 && !l.startsWith('**'));
     frontendTech = (parts.length > 1 ? parts[1] : '').replace(/[^*]*\*\*\s*\n?/, '').split('\n').map(l => l.replace(/^-\s*/, '').trim()).filter(l => l.length > 0 && !l.startsWith('**'));
   }
+  if (backendTech.length === 0 && Array.isArray(legacy.backendTech)) backendTech = legacy.backendTech;
+  if (frontendTech.length === 0 && Array.isArray(legacy.frontendTech)) frontendTech = legacy.frontendTech;
 
   const modulesMatch = block.match(/#### 🎯 功能模块\s*\n([\s\S]*?)(?=#### ✨|#### 🎬|#### 💡|---|$)/);
   const modules = [];
@@ -1407,6 +1469,9 @@ for (let i = 0; i < positions.length; i++) {
       const m = line.match(/^\d+\.\s+\*\*(.+?)\*\*\s*[-–—]\s*(.+)/);
       if (m) modules.push({ name: m[1], description: m[2].trim() });
     }
+  }
+  if (modules.length === 0 && Array.isArray(legacy.modules)) {
+    modules.push(...legacy.modules.map(name => ({ name, description: '' })));
   }
 
   const highlightsMatch = block.match(/#### ✨ 特色亮点\s*\n([\s\S]*?)(?=#### 🎬|#### 💡|---|$)/);
@@ -1433,6 +1498,7 @@ for (let i = 0; i < positions.length; i++) {
   if (block.includes('小程序') || block.includes('miniprogram') || block.includes('miniapp') || block.includes('微信小程序')) projectType = 'miniprogram';
   const sd = sourceData[num];
   if (sd && sd.hasMiniprogram && !sd.hasFrontend) projectType = 'miniprogram';
+  if (projectType === 'web' && legacy.projectType) projectType = legacy.projectType;
 
   const isIntegrated = block.includes('一体化') || block.includes('集成');
 
@@ -1446,7 +1512,7 @@ for (let i = 0; i < positions.length; i++) {
     totalControllerCount = sd.controllers?.length || 0;
     totalApiCount = sd.controllers ? sd.controllers.reduce((s, c) => s + c.apis.length, 0) : 0;
     totalEntityCount = sd.entities?.length || 0;
-    totalSqlTableCount = sd.sqlTables?.length || 0;
+    totalSqlTableCount = new Set((sd.sqlTables || []).map(table => table.name)).size;
     totalViewCount = sd.views?.length || 0;
     backendVersion = sd.appConfig?.springBootVersion || '';
   }
@@ -1511,6 +1577,15 @@ for (const project of projects) {
 }
 
 // === 生成项目页面 ===
+if (projectIndex.length === 200) {
+  const expectedPageNames = new Set(projects.map(project => `${project.number}.md`));
+  for (const fileName of fs.readdirSync(PROJECTS_DIR)) {
+    if (/^\d{3}\.md$/.test(fileName) && !expectedPageNames.has(fileName)) {
+      fs.unlinkSync(path.join(PROJECTS_DIR, fileName));
+    }
+  }
+}
+
 for (const project of projects) {
   const { number, title, projectName, backendTech, frontendTech, modules, highlights, demoSteps,
     projectType, isIntegrated, backendVersion,
@@ -1521,6 +1596,8 @@ for (const project of projects) {
   const sd = sourceData[number] || {};
   const dbName = checkReport?.dbInfo || sd.appConfig?.dbName || `db_${number}`;
   const port = checkReport?.portInfo || sd.appConfig?.port || '';
+  const databaseMode = sd.appConfig?.databaseMode || '';
+  const sqlInitPath = getSqlInitPath(number);
 
   // Merge check report accounts/roles into projectDocs - prefer richer data
   if (checkReport && projectDocs.defaultAccounts.length === 0 && checkReport.defaultAccounts.length > 0) {
@@ -1554,6 +1631,9 @@ for (const project of projects) {
   md += `| 项目全称 | ${projectName} |\n`;
   md += `| 项目类型 | ${projectType === 'miniprogram' ? '微信小程序' : 'Web应用'} |\n`;
   if (isIntegrated) md += `| 部署方式 | 前后端一体化 |\n`;
+  if (sd.hasBackend) md += `| 后端目录 | \`${number}-backend\` |\n`;
+  if (sd.hasFrontend) md += `| 前端目录 | \`${number}-frontend\` |\n`;
+  if (sd.hasMiniprogram) md += `| 小程序目录 | \`${number}-miniprogram\` 或 \`${number}-miniapp\` |\n`;
   if (backendVersion) md += `| Spring Boot 版本 | ${backendVersion} |\n`;
   if (port) md += `| 后端默认端口 | \`${port}\` |\n`;
   md += `| 数据库名 | \`${dbName}\` |\n`;
@@ -1861,35 +1941,43 @@ for (const project of projects) {
   md += `### 环境要求\n\n`;
   md += `| 工具 | 版本 |\n`;
   md += `|------|------|\n`;
-  md += `| JDK | ${backendVersion && backendVersion.startsWith('2') ? '8+ / 11+' : '17+'} |\n`;
+  const javaVersion = sd.appConfig?.javaVersion || '';
+  md += `| JDK | ${javaVersion ? `${javaVersion}+` : '以 pom.xml 为准'} |\n`;
   md += `| Maven | 3.8+ |\n`;
-  md += `| MySQL | 8.0+ |\n`;
-  if (projectType !== 'miniprogram') md += `| Node.js | 18+ |\n`;
+  if (databaseMode === 'H2') md += `| 数据库 | H2 内存模式（默认） |\n`;
+  else if (databaseMode) md += `| 数据库 | ${databaseMode} |\n`;
+  else md += `| 数据库 | 以 application*.yml 为准 |\n`;
+  if (sd.hasFrontend || projectType === 'miniprogram') md += `| Node.js | 以 package.json 为准 |\n`;
   md += `\n`;
 
-  md += `### 后端启动\n\n`;
-  md += `\`\`\`bash\n`;
-  md += `cd ${number}-backend\n`;
-  md += `# 1. 创建数据库并执行 init.sql\n`;
-  md += `# 2. 修改 application.yml 数据库配置\n`;
-  md += `# spring.datasource.url=jdbc:mysql://localhost:3306/${dbName}\n`;
-  md += `# spring.datasource.username=root\n`;
-  md += `# spring.datasource.password=你的密码\n`;
-  md += `mvn spring-boot:run\n`;
-  md += `\`\`\`\n\n`;
+  if (sd.hasBackend) {
+    md += `### 后端启动\n\n`;
+    if (databaseMode === 'H2') {
+      md += `默认配置使用 H2 内存数据库，通常无需预先创建外部数据库。`;
+      if (sqlInitPath) md += ` 如需切换外部数据库，请先查看 \`${number}-backend/${sqlInitPath}\`。`;
+      md += `\n\n`;
+    } else if (sqlInitPath) {
+      md += `初始化脚本：\`${number}-backend/${sqlInitPath}\`。执行前请检查脚本是否包含破坏性操作。\n\n`;
+    } else {
+      md += `请先查看项目配置文件中的数据库 profile 和初始化方式。\n\n`;
+    }
+    md += `\`\`\`bash\n`;
+    md += `cd ${number}-backend\n`;
+    md += `mvn spring-boot:run\n`;
+    md += `\`\`\`\n\n`;
+  }
 
   if (projectType === 'miniprogram') {
     md += `### 小程序启动\n\n`;
-    md += `1. 使用微信开发者工具打开 \`${number}-miniprogram\` 目录\n`;
+    md += `1. 使用微信开发者工具打开对应的小程序目录\n`;
     md += `2. 确认 AppID 配置正确\n`;
     md += `3. 修改后端接口地址（通常在 config.js 或 utils/request.js 中）\n`;
     md += `4. 点击编译运行\n\n`;
-  } else {
+  } else if (sd.hasFrontend) {
     md += `### 前端启动\n\n`;
     md += `\`\`\`bash\n`;
     md += `cd ${number}-frontend\n`;
     md += `npm install\n`;
-    md += `# 修改后端接口地址（通常在 .env.development 或 src/utils/request.js 中）\n`;
     md += `npm run dev\n`;
     md += `\`\`\`\n\n`;
   }
@@ -1906,26 +1994,38 @@ for (const project of projects) {
   } else if (checkReport?.defaultAccount) {
     md += `- 管理员：\`${checkReport.defaultAccount}\`\n\n`;
   } else {
-    md += `- 管理员：\`admin / admin123\` 或 \`admin / 123456\`\n`;
-    md += `- 具体账号密码请查看项目 README.md\n\n`;
+    md += `- 未从项目资料中提取到演示账号，请以项目 README、检查报告或初始化脚本为准。\n\n`;
   }
 
   // === 开发说明 ===
   if (projectDocs.devNotes.length > 0) {
     md += `### 开发注意事项\n\n`;
-    for (let i = 0; i < projectDocs.devNotes.slice(0, 6).length; i++) {
-      md += `${i + 1}. ${escapeHtml(projectDocs.devNotes[i])}\n`;
+    let devNotes = projectDocs.devNotes.slice(0, 6);
+    if (databaseMode === 'H2') {
+      devNotes = devNotes.filter(note => !/先创建数据库|执行 SQL 初始化脚本/.test(note));
+      if (!devNotes.some(note => note.includes('H2'))) {
+        devNotes.unshift('默认使用 H2 内存数据库，无需预先创建外部数据库');
+      }
+    }
+    for (let i = 0; i < devNotes.length; i++) {
+      md += `${i + 1}. ${escapeHtml(devNotes[i])}\n`;
     }
     md += `\n`;
   } else {
     // Auto-generate basic dev notes from source data
     md += `### 开发注意事项\n\n`;
-    md += `1. 数据库配置：修改 \`application.yml\` 中的数据库连接信息`;
-    if (dbName && dbName !== `db_${number}`) md += `（数据库名：\`${dbName}\`）`;
-    md += `\n`;
-    md += `2. 后端启动前需先创建数据库并执行 SQL 初始化脚本\n`;
-    if (port) md += `3. 后端默认端口为 \`${port}\`，前端代理需配置对应端口\n`;
-    md += `4. 默认账号密码请查看上方表格，首次登录后建议修改密码\n`;
+    if (databaseMode === 'H2') {
+      md += `1. 默认使用 H2 内存数据库，无需预先创建外部数据库\n`;
+      if (sqlInitPath) md += `2. 如需切换外部数据库，请查看 \`${number}-backend/${sqlInitPath}\`\n`;
+    } else {
+      md += `1. 数据库配置：修改 \`application.yml\` 中的数据库连接信息`;
+      if (dbName && dbName !== `db_${number}`) md += `（数据库名：\`${dbName}\`）`;
+      md += `\n`;
+      md += `2. 后端启动前需先创建数据库并执行 SQL 初始化脚本\n`;
+    }
+    const portNoteNumber = databaseMode === 'H2' && sqlInitPath ? 3 : 2;
+    if (port) md += `${portNoteNumber}. 后端默认端口为 \`${port}\`，前端代理需配置对应端口\n`;
+    md += `${portNoteNumber + 1}. 默认账号密码请查看上方表格，首次登录后建议修改密码\n`;
     md += `\n`;
   }
 

@@ -8,7 +8,7 @@
     "totalApiCount": 37,
     "totalControllerCount": 6,
     "totalEntityCount": 6,
-    "totalSqlTableCount": 2,
+    "totalSqlTableCount": 1,
     "totalViewCount": 11,
     "backendTech": [
       "Spring Boot 3.x",
@@ -40,7 +40,7 @@
     "totalApiCount": 32,
     "totalControllerCount": 7,
     "totalEntityCount": 6,
-    "totalSqlTableCount": 12,
+    "totalSqlTableCount": 6,
     "totalViewCount": 13,
     "backendTech": [
       "Spring Boot 3.x",
@@ -73,7 +73,7 @@
     "totalApiCount": 47,
     "totalControllerCount": 9,
     "totalEntityCount": 7,
-    "totalSqlTableCount": 14,
+    "totalSqlTableCount": 7,
     "totalViewCount": 0,
     "backendTech": [
       "Spring Boot 3.x",
@@ -104,7 +104,7 @@
     "totalApiCount": 25,
     "totalControllerCount": 5,
     "totalEntityCount": 5,
-    "totalSqlTableCount": 10,
+    "totalSqlTableCount": 5,
     "totalViewCount": 6,
     "backendTech": [
       "Spring Boot 3.x",
@@ -137,7 +137,7 @@
     "totalApiCount": 28,
     "totalControllerCount": 5,
     "totalEntityCount": 5,
-    "totalSqlTableCount": 10,
+    "totalSqlTableCount": 5,
     "totalViewCount": 0,
     "backendTech": [
       "Spring Boot 3.x",
@@ -257,14 +257,14 @@
   },
   {
     "number": "009",
-    "title": "校园快递代收管理系统 ",
+    "title": "校园快递代收管理系统",
     "category": "campus",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 54,
     "totalControllerCount": 10,
     "totalEntityCount": 8,
-    "totalSqlTableCount": 16,
+    "totalSqlTableCount": 8,
     "totalViewCount": 18,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -298,14 +298,14 @@
   },
   {
     "number": "010",
-    "title": "图书馆座位预约系统 ",
+    "title": "图书馆座位预约系统",
     "category": "campus",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 54,
     "totalControllerCount": 6,
     "totalEntityCount": 10,
-    "totalSqlTableCount": 20,
+    "totalSqlTableCount": 10,
     "totalViewCount": 0,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -338,14 +338,14 @@
   },
   {
     "number": "011",
-    "title": "校园短视频创作与分享平台 🔥最新",
+    "title": "校园短视频创作与分享平台 🔥",
     "category": "campus",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 30,
+    "totalSqlTableCount": 15,
     "totalViewCount": 14,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -378,14 +378,14 @@
   },
   {
     "number": "012",
-    "title": "在线协作白板与笔记系统 🔥最新",
+    "title": "在线协作白板与笔记系统 🔥",
     "category": "education",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 28,
+    "totalSqlTableCount": 14,
     "totalViewCount": 0,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -419,14 +419,14 @@
   },
   {
     "number": "013",
-    "title": "校园共享经济平台 🔥最新",
+    "title": "校园共享经济平台 🔥",
     "category": "campus",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 32,
+    "totalSqlTableCount": 16,
     "totalViewCount": 25,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -463,14 +463,14 @@
   },
   {
     "number": "014",
-    "title": "校园社团与兴趣圈层平台 🔥最新",
+    "title": "校园社团与兴趣圈层平台 🔥",
     "category": "campus",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 34,
+    "totalSqlTableCount": 17,
     "totalViewCount": 0,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -499,7 +499,7 @@
   },
   {
     "number": "015",
-    "title": "校园表白墙与匿名社交平台 🔥最新",
+    "title": "校园表白墙与匿名社交平台 🔥",
     "category": "campus",
     "projectType": "web",
     "backendVersion": "3.2.0",
@@ -535,14 +535,14 @@
   },
   {
     "number": "016",
-    "title": "校园快递代领服务平台 🔥最新",
+    "title": "校园快递代领服务平台 🔥",
     "category": "campus",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 16,
+    "totalSqlTableCount": 8,
     "totalViewCount": 15,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -573,14 +573,14 @@
   },
   {
     "number": "017",
-    "title": "高校自助点餐系统 🔥最新",
+    "title": "高校自助点餐系统 🔥",
     "category": "ecommerce",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 24,
+    "totalSqlTableCount": 12,
     "totalViewCount": 0,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -611,7 +611,7 @@
   },
   {
     "number": "018",
-    "title": "校园实习招聘与求职平台 🔥最新",
+    "title": "校园实习招聘与求职平台 🔥",
     "category": "enterprise",
     "projectType": "web",
     "backendVersion": "3.2.0",
@@ -647,14 +647,14 @@
   },
   {
     "number": "019",
-    "title": "校园运动健康管理平台 🔥最新",
+    "title": "校园运动健康管理平台 🔥",
     "category": "campus",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 18,
+    "totalSqlTableCount": 9,
     "totalViewCount": 14,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -683,14 +683,14 @@
   },
   {
     "number": "020",
-    "title": "校园学习资源共享平台 🔥最新",
+    "title": "校园学习资源共享平台 🔥",
     "category": "education",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 22,
+    "totalSqlTableCount": 11,
     "totalViewCount": 18,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -720,7 +720,7 @@
   },
   {
     "number": "021",
-    "title": "校园二手交易平台 🔥最新",
+    "title": "校园二手交易平台 🔥",
     "category": "ecommerce",
     "projectType": "web",
     "backendVersion": "3.2.0",
@@ -758,7 +758,7 @@
   },
   {
     "number": "022",
-    "title": "校园自习室座位预约系统 🔥最新",
+    "title": "校园自习室座位预约系统 🔥",
     "category": "campus",
     "projectType": "web",
     "backendVersion": "3.2.0",
@@ -798,7 +798,7 @@
   },
   {
     "number": "023",
-    "title": "AI智能学习助手与个性化教育平台 🔥最新",
+    "title": "AI智能学习助手与个性化教育平台 🔥",
     "category": "education",
     "projectType": "web",
     "backendVersion": "3.2.0",
@@ -833,7 +833,7 @@
   },
   {
     "number": "024",
-    "title": "流浪动物领养与救助平台 🔥最新",
+    "title": "流浪动物领养与救助平台 🔥",
     "category": "community",
     "projectType": "web",
     "backendVersion": "3.2.0",
@@ -865,7 +865,7 @@
   },
   {
     "number": "025",
-    "title": "智慧社区综合服务管理平台 🔥最新",
+    "title": "智慧社区综合服务管理平台 🔥",
     "category": "community",
     "projectType": "web",
     "backendVersion": "3.2.0",
@@ -906,7 +906,7 @@
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 18,
+    "totalSqlTableCount": 9,
     "totalViewCount": 11,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -936,14 +936,14 @@
   },
   {
     "number": "027",
-    "title": "线上理发预约系统 🔥最新",
+    "title": "线上理发预约系统 🔥",
     "category": "ecommerce",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 36,
+    "totalSqlTableCount": 12,
     "totalViewCount": 9,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -975,14 +975,14 @@
   },
   {
     "number": "028",
-    "title": "校园共享自行车租赁系统 🔥最新",
+    "title": "校园共享自行车租赁系统 🔥",
     "category": "travel",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 26,
+    "totalSqlTableCount": 13,
     "totalViewCount": 14,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -1003,14 +1003,14 @@
   },
   {
     "number": "029",
-    "title": "中药食疗推荐交流平台 🔥最新",
+    "title": "中药食疗推荐交流平台 🔥",
     "category": "health",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 20,
+    "totalSqlTableCount": 10,
     "totalViewCount": 16,
     "backendTech": [
       "Spring Boot 3.2.x",
@@ -1041,7 +1041,7 @@
   },
   {
     "number": "030",
-    "title": "居民智能健康管理平台 🔥最新",
+    "title": "居民智能健康管理平台 🔥",
     "category": "education",
     "projectType": "web",
     "backendVersion": "3.2.0",
@@ -1081,14 +1081,14 @@
   },
   {
     "number": "031",
-    "title": "基于SpringBoot的球赛订票系统 🔥最新",
+    "title": "基于SpringBoot的球赛订票系统 🔥",
     "category": "ecommerce",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 22,
+    "totalSqlTableCount": 11,
     "totalViewCount": 0,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -1157,14 +1157,14 @@
   },
   {
     "number": "033",
-    "title": "婚纱写真馆管理系统",
-    "category": "enterprise",
+    "title": "婚纱写真馆管理系统 🔥最新",
+    "category": "ecommerce",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 54,
+    "totalSqlTableCount": 18,
     "totalViewCount": 0,
     "backendTech": [
       "Spring Boot 3.2",
@@ -1189,7 +1189,7 @@
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 63,
+    "totalSqlTableCount": 21,
     "totalViewCount": 0,
     "backendTech": [
       "Spring Boot 3.2",
@@ -1206,8 +1206,8 @@
   },
   {
     "number": "035",
-    "title": "乡村振兴水稽收割预约系统 🔥最新",
-    "category": "enterprise",
+    "title": "乡村振兴水稻收割预约系统 🔥最新",
+    "category": "agriculture",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
@@ -1250,7 +1250,7 @@
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 8,
+    "totalSqlTableCount": 4,
     "totalViewCount": 7,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -1287,7 +1287,7 @@
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 34,
+    "totalSqlTableCount": 14,
     "totalViewCount": 0,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -1326,7 +1326,7 @@
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 28,
+    "totalSqlTableCount": 7,
     "totalViewCount": 9,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -1366,7 +1366,7 @@
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 21,
+    "totalSqlTableCount": 7,
     "totalViewCount": 19,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -1406,7 +1406,7 @@
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 26,
+    "totalSqlTableCount": 13,
     "totalViewCount": 9,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -1447,7 +1447,7 @@
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 52,
+    "totalSqlTableCount": 13,
     "totalViewCount": 14,
     "backendTech": [],
     "frontendTech": [],
@@ -1462,7 +1462,7 @@
     "totalApiCount": 51,
     "totalControllerCount": 10,
     "totalEntityCount": 9,
-    "totalSqlTableCount": 18,
+    "totalSqlTableCount": 9,
     "totalViewCount": 23,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -1496,14 +1496,14 @@
   },
   {
     "number": "043",
-    "title": "宠物寄养服务系统 🔥最新",
+    "title": "宠物寄养服务系统 🔥",
     "category": "ecommerce",
     "projectType": "web",
     "backendVersion": "3.2.1",
     "totalApiCount": 16,
     "totalControllerCount": 4,
     "totalEntityCount": 5,
-    "totalSqlTableCount": 16,
+    "totalSqlTableCount": 8,
     "totalViewCount": 8,
     "backendTech": [
       "Spring Boot 3.2.1",
@@ -1535,14 +1535,14 @@
   },
   {
     "number": "044",
-    "title": "特色民宿预订平台 🔥最新",
+    "title": "特色民宿预订平台 🔥",
     "category": "ecommerce",
     "projectType": "web",
     "backendVersion": "3.2.1",
     "totalApiCount": 32,
     "totalControllerCount": 6,
     "totalEntityCount": 7,
-    "totalSqlTableCount": 16,
+    "totalSqlTableCount": 8,
     "totalViewCount": 13,
     "backendTech": [
       "Spring Boot 3.2.1",
@@ -1583,7 +1583,7 @@
     "totalApiCount": 44,
     "totalControllerCount": 9,
     "totalEntityCount": 13,
-    "totalSqlTableCount": 27,
+    "totalSqlTableCount": 13,
     "totalViewCount": 16,
     "backendTech": [
       "Spring Boot 3.2",
@@ -1608,7 +1608,7 @@
     "totalApiCount": 41,
     "totalControllerCount": 8,
     "totalEntityCount": 10,
-    "totalSqlTableCount": 21,
+    "totalSqlTableCount": 10,
     "totalViewCount": 19,
     "backendTech": [
       "Spring Boot 3.2",
@@ -1633,7 +1633,7 @@
     "totalApiCount": 59,
     "totalControllerCount": 10,
     "totalEntityCount": 11,
-    "totalSqlTableCount": 23,
+    "totalSqlTableCount": 11,
     "totalViewCount": 23,
     "backendTech": [
       "Spring Boot 3.2",
@@ -1658,7 +1658,7 @@
     "totalApiCount": 73,
     "totalControllerCount": 12,
     "totalEntityCount": 13,
-    "totalSqlTableCount": 27,
+    "totalSqlTableCount": 13,
     "totalViewCount": 27,
     "backendTech": [
       "Spring Boot 2.7",
@@ -1683,7 +1683,7 @@
     "totalApiCount": 69,
     "totalControllerCount": 11,
     "totalEntityCount": 16,
-    "totalSqlTableCount": 33,
+    "totalSqlTableCount": 16,
     "totalViewCount": 0,
     "backendTech": [
       "Spring Boot 3.2",
@@ -1700,14 +1700,14 @@
   },
   {
     "number": "050",
-    "title": "微信小程序课堂考勤签到APP 🔥最新",
+    "title": "微信小程序课堂考勤签到APP 🔥",
     "category": "campus",
     "projectType": "miniprogram",
     "backendVersion": "3.2.1",
     "totalApiCount": 75,
     "totalControllerCount": 8,
     "totalEntityCount": 12,
-    "totalSqlTableCount": 25,
+    "totalSqlTableCount": 12,
     "totalViewCount": 0,
     "backendTech": [
       "Spring Boot 3.x",
@@ -1730,7 +1730,7 @@
     "totalApiCount": 50,
     "totalControllerCount": 8,
     "totalEntityCount": 11,
-    "totalSqlTableCount": 33,
+    "totalSqlTableCount": 11,
     "totalViewCount": 0,
     "backendTech": [
       "Spring Boot 2.7.x",
@@ -1756,14 +1756,14 @@
   },
   {
     "number": "052",
-    "title": "网课在线学习观看系统 🔥最新",
+    "title": "网课在线学习观看系统 🔥",
     "category": "campus",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 57,
     "totalControllerCount": 6,
     "totalEntityCount": 9,
-    "totalSqlTableCount": 27,
+    "totalSqlTableCount": 9,
     "totalViewCount": 0,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -1797,14 +1797,14 @@
   },
   {
     "number": "053",
-    "title": "救灾物资调度与救援系统 🔥最新",
+    "title": "救灾物资调度与救援系统 🔥",
     "category": "ecommerce",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 77,
     "totalControllerCount": 10,
     "totalEntityCount": 12,
-    "totalSqlTableCount": 36,
+    "totalSqlTableCount": 12,
     "totalViewCount": 12,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -1834,14 +1834,14 @@
   },
   {
     "number": "054",
-    "title": "农业生产技术管理系统 🌱最新",
+    "title": "农业生产技术管理系统 🌱",
     "category": "agriculture",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 68,
     "totalControllerCount": 11,
     "totalEntityCount": 15,
-    "totalSqlTableCount": 45,
+    "totalSqlTableCount": 15,
     "totalViewCount": 17,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -1875,14 +1875,14 @@
   },
   {
     "number": "055",
-    "title": "企业OA管理系统 🔥最新",
+    "title": "企业OA管理系统 🔥",
     "category": "enterprise",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 52,
     "totalControllerCount": 12,
     "totalEntityCount": 12,
-    "totalSqlTableCount": 36,
+    "totalSqlTableCount": 12,
     "totalViewCount": 15,
     "backendTech": [
       "Spring Boot 3.2.0",
@@ -1916,14 +1916,14 @@
   },
   {
     "number": "056",
-    "title": "短文写作竞赛管理小程序 🔥最新",
+    "title": "短文写作竞赛管理小程序 🔥",
     "category": "culture",
     "projectType": "miniprogram",
     "backendVersion": "2.7.18",
     "totalApiCount": 66,
     "totalControllerCount": 12,
     "totalEntityCount": 10,
-    "totalSqlTableCount": 30,
+    "totalSqlTableCount": 10,
     "totalViewCount": 13,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -1958,13 +1958,13 @@
   {
     "number": "057",
     "title": "招生管理系统 🔥",
-    "category": "culture",
+    "category": "enterprise",
     "projectType": "web",
     "backendVersion": "2.7.0",
     "totalApiCount": 56,
     "totalControllerCount": 12,
     "totalEntityCount": 10,
-    "totalSqlTableCount": 30,
+    "totalSqlTableCount": 10,
     "totalViewCount": 13,
     "backendTech": [
       "Spring Boot 2.7.0",
@@ -2005,7 +2005,7 @@
     "totalApiCount": 56,
     "totalControllerCount": 13,
     "totalEntityCount": 12,
-    "totalSqlTableCount": 36,
+    "totalSqlTableCount": 12,
     "totalViewCount": 18,
     "backendTech": [
       "Spring Boot 2.7.12",
@@ -2047,7 +2047,7 @@
     "totalApiCount": 53,
     "totalControllerCount": 14,
     "totalEntityCount": 12,
-    "totalSqlTableCount": 36,
+    "totalSqlTableCount": 12,
     "totalViewCount": 15,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2083,13 +2083,13 @@
   {
     "number": "060",
     "title": "电影订票及评论网站 🔥",
-    "category": "culture",
+    "category": "enterprise",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 53,
     "totalControllerCount": 12,
     "totalEntityCount": 10,
-    "totalSqlTableCount": 30,
+    "totalSqlTableCount": 10,
     "totalViewCount": 15,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2131,7 +2131,7 @@
     "totalApiCount": 51,
     "totalControllerCount": 11,
     "totalEntityCount": 8,
-    "totalSqlTableCount": 24,
+    "totalSqlTableCount": 8,
     "totalViewCount": 16,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2167,13 +2167,13 @@
   {
     "number": "062",
     "title": "反欺诈平台",
-    "category": "culture",
+    "category": "enterprise",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 53,
     "totalControllerCount": 11,
     "totalEntityCount": 9,
-    "totalSqlTableCount": 27,
+    "totalSqlTableCount": 9,
     "totalViewCount": 15,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2214,7 +2214,7 @@
     "totalApiCount": 44,
     "totalControllerCount": 11,
     "totalEntityCount": 9,
-    "totalSqlTableCount": 27,
+    "totalSqlTableCount": 9,
     "totalViewCount": 13,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2255,7 +2255,7 @@
     "totalApiCount": 46,
     "totalControllerCount": 11,
     "totalEntityCount": 9,
-    "totalSqlTableCount": 27,
+    "totalSqlTableCount": 9,
     "totalViewCount": 13,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2296,7 +2296,7 @@
     "totalApiCount": 51,
     "totalControllerCount": 11,
     "totalEntityCount": 9,
-    "totalSqlTableCount": 27,
+    "totalSqlTableCount": 9,
     "totalViewCount": 13,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2331,13 +2331,13 @@
   {
     "number": "066",
     "title": "精简博客系统 🔥最新",
-    "category": "culture",
+    "category": "enterprise",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 38,
     "totalControllerCount": 8,
     "totalEntityCount": 7,
-    "totalSqlTableCount": 21,
+    "totalSqlTableCount": 7,
     "totalViewCount": 12,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2376,7 +2376,7 @@
     "totalApiCount": 51,
     "totalControllerCount": 11,
     "totalEntityCount": 9,
-    "totalSqlTableCount": 27,
+    "totalSqlTableCount": 9,
     "totalViewCount": 13,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2417,7 +2417,7 @@
     "totalApiCount": 42,
     "totalControllerCount": 9,
     "totalEntityCount": 7,
-    "totalSqlTableCount": 21,
+    "totalSqlTableCount": 7,
     "totalViewCount": 11,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2452,13 +2452,13 @@
   {
     "number": "069",
     "title": "科任教师考评系统 🔥最新",
-    "category": "culture",
+    "category": "enterprise",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 27,
+    "totalSqlTableCount": 9,
     "totalViewCount": 13,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2498,7 +2498,7 @@
     "totalApiCount": 78,
     "totalControllerCount": 13,
     "totalEntityCount": 12,
-    "totalSqlTableCount": 36,
+    "totalSqlTableCount": 12,
     "totalViewCount": 19,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2542,7 +2542,7 @@
     "totalApiCount": 60,
     "totalControllerCount": 11,
     "totalEntityCount": 10,
-    "totalSqlTableCount": 30,
+    "totalSqlTableCount": 10,
     "totalViewCount": 19,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2587,7 +2587,7 @@
     "totalApiCount": 0,
     "totalControllerCount": 0,
     "totalEntityCount": 0,
-    "totalSqlTableCount": 42,
+    "totalSqlTableCount": 14,
     "totalViewCount": 20,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2631,7 +2631,7 @@
     "totalApiCount": 72,
     "totalControllerCount": 12,
     "totalEntityCount": 12,
-    "totalSqlTableCount": 36,
+    "totalSqlTableCount": 12,
     "totalViewCount": 16,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2676,7 +2676,7 @@
     "totalApiCount": 51,
     "totalControllerCount": 11,
     "totalEntityCount": 8,
-    "totalSqlTableCount": 24,
+    "totalSqlTableCount": 8,
     "totalViewCount": 16,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2719,7 +2719,7 @@
     "totalApiCount": 51,
     "totalControllerCount": 11,
     "totalEntityCount": 8,
-    "totalSqlTableCount": 24,
+    "totalSqlTableCount": 8,
     "totalViewCount": 16,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2762,7 +2762,7 @@
     "totalApiCount": 51,
     "totalControllerCount": 11,
     "totalEntityCount": 8,
-    "totalSqlTableCount": 24,
+    "totalSqlTableCount": 8,
     "totalViewCount": 16,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2798,14 +2798,14 @@
   },
   {
     "number": "077",
-    "title": "基于Vue的MES生产制造执行系统 🔥最新",
+    "title": "基于Vue的MES生产制造执行系统 🔥",
     "category": "enterprise",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 51,
     "totalControllerCount": 11,
     "totalEntityCount": 8,
-    "totalSqlTableCount": 24,
+    "totalSqlTableCount": 8,
     "totalViewCount": 16,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -2841,14 +2841,14 @@
   },
   {
     "number": "078",
-    "title": "网上团购系统 🔥最新",
+    "title": "网上团购系统 🔥",
     "category": "ecommerce",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 83,
     "totalControllerCount": 13,
     "totalEntityCount": 12,
-    "totalSqlTableCount": 36,
+    "totalSqlTableCount": 12,
     "totalViewCount": 20,
     "backendTech": [
       "Spring Boot 2.7.0",
@@ -2888,7 +2888,7 @@
     "totalApiCount": 88,
     "totalControllerCount": 15,
     "totalEntityCount": 19,
-    "totalSqlTableCount": 57,
+    "totalSqlTableCount": 19,
     "totalViewCount": 20,
     "backendTech": [
       "Spring Boot 2.7.0",
@@ -2923,13 +2923,13 @@
   {
     "number": "080",
     "title": "贫困地区儿童资助网站 🔥最新",
-    "category": "enterprise",
+    "category": "campus",
     "projectType": "web",
     "backendVersion": "2.7.14",
     "totalApiCount": 55,
     "totalControllerCount": 12,
     "totalEntityCount": 12,
-    "totalSqlTableCount": 36,
+    "totalSqlTableCount": 12,
     "totalViewCount": 14,
     "backendTech": [
       "Spring Boot 2.7.14",
@@ -2971,7 +2971,7 @@
     "totalApiCount": 105,
     "totalControllerCount": 20,
     "totalEntityCount": 19,
-    "totalSqlTableCount": 24,
+    "totalSqlTableCount": 8,
     "totalViewCount": 21,
     "backendTech": [
       "Spring Boot 2.7.14",
@@ -3010,7 +3010,7 @@
     "totalApiCount": 57,
     "totalControllerCount": 10,
     "totalEntityCount": 12,
-    "totalSqlTableCount": 36,
+    "totalSqlTableCount": 12,
     "totalViewCount": 12,
     "backendTech": [
       "Spring Boot 2.7.14",
@@ -3049,7 +3049,7 @@
     "totalApiCount": 51,
     "totalControllerCount": 10,
     "totalEntityCount": 12,
-    "totalSqlTableCount": 36,
+    "totalSqlTableCount": 12,
     "totalViewCount": 11,
     "backendTech": [
       "Spring Boot 2.7.14",
@@ -3082,13 +3082,13 @@
   {
     "number": "084",
     "title": "教学资料管理系统 🔥最新",
-    "category": "education",
+    "category": "campus",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 38,
     "totalControllerCount": 7,
     "totalEntityCount": 12,
-    "totalSqlTableCount": 36,
+    "totalSqlTableCount": 12,
     "totalViewCount": 8,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -3126,7 +3126,7 @@
     "totalApiCount": 45,
     "totalControllerCount": 8,
     "totalEntityCount": 9,
-    "totalSqlTableCount": 27,
+    "totalSqlTableCount": 9,
     "totalViewCount": 9,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -3163,7 +3163,7 @@
     "totalApiCount": 52,
     "totalControllerCount": 10,
     "totalEntityCount": 11,
-    "totalSqlTableCount": 33,
+    "totalSqlTableCount": 11,
     "totalViewCount": 16,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -3198,7 +3198,7 @@
     "totalApiCount": 69,
     "totalControllerCount": 15,
     "totalEntityCount": 14,
-    "totalSqlTableCount": 42,
+    "totalSqlTableCount": 14,
     "totalViewCount": 15,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -3235,7 +3235,7 @@
     "totalApiCount": 48,
     "totalControllerCount": 11,
     "totalEntityCount": 12,
-    "totalSqlTableCount": 36,
+    "totalSqlTableCount": 12,
     "totalViewCount": 20,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -3272,7 +3272,7 @@
     "totalApiCount": 72,
     "totalControllerCount": 14,
     "totalEntityCount": 12,
-    "totalSqlTableCount": 36,
+    "totalSqlTableCount": 12,
     "totalViewCount": 19,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -3309,7 +3309,7 @@
     "totalApiCount": 69,
     "totalControllerCount": 15,
     "totalEntityCount": 14,
-    "totalSqlTableCount": 42,
+    "totalSqlTableCount": 14,
     "totalViewCount": 15,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -3340,13 +3340,13 @@
   {
     "number": "091",
     "title": "电影院会员管理系统 🔥最新",
-    "category": "enterprise",
+    "category": "ecommerce",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 78,
     "totalControllerCount": 13,
     "totalEntityCount": 12,
-    "totalSqlTableCount": 36,
+    "totalSqlTableCount": 12,
     "totalViewCount": 19,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -3383,7 +3383,7 @@
     "totalApiCount": 74,
     "totalControllerCount": 15,
     "totalEntityCount": 14,
-    "totalSqlTableCount": 42,
+    "totalSqlTableCount": 14,
     "totalViewCount": 15,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -3420,7 +3420,7 @@
     "totalApiCount": 69,
     "totalControllerCount": 14,
     "totalEntityCount": 12,
-    "totalSqlTableCount": 60,
+    "totalSqlTableCount": 12,
     "totalViewCount": 19,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -3457,20 +3457,10 @@
     "totalApiCount": 74,
     "totalControllerCount": 14,
     "totalEntityCount": 12,
-    "totalSqlTableCount": 60,
+    "totalSqlTableCount": 12,
     "totalViewCount": 17,
-    "backendTech": [
-      "Spring Boot 2.7.18",
-      "MyBatis-Plus",
-      "MySQL 8.0",
-      "JWT认证"
-    ],
-    "frontendTech": [
-      "Vue 3",
-      "Element Plus",
-      "Pinia",
-      "Axios"
-    ],
+    "backendTech": [],
+    "frontendTech": [],
     "modules": []
   },
   {
@@ -3482,7 +3472,7 @@
     "totalApiCount": 71,
     "totalControllerCount": 14,
     "totalEntityCount": 12,
-    "totalSqlTableCount": 60,
+    "totalSqlTableCount": 12,
     "totalViewCount": 17,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -3513,13 +3503,13 @@
   {
     "number": "096",
     "title": "线上医院挂号系统",
-    "category": "health",
+    "category": "ecommerce",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 59,
     "totalControllerCount": 12,
     "totalEntityCount": 12,
-    "totalSqlTableCount": 60,
+    "totalSqlTableCount": 12,
     "totalViewCount": 20,
     "backendTech": [
       "Spring Boot 2.7.18",
@@ -4663,7 +4653,7 @@
   {
     "number": "123",
     "title": "城市内涝监测与应急调度平台",
-    "category": "campus",
+    "category": "enterprise",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -5489,7 +5479,7 @@
   {
     "number": "142",
     "title": "车辆保险理赔材料审核与进度跟踪系统",
-    "category": "campus",
+    "category": "enterprise",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -5663,7 +5653,7 @@
   {
     "number": "146",
     "title": "食品安全抽检任务与结果公示平台",
-    "category": "campus",
+    "category": "enterprise",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -6999,7 +6989,7 @@
   {
     "number": "177",
     "title": "直播基地主播排班与选品样品管理系统",
-    "category": "enterprise",
+    "category": "ecommerce",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,

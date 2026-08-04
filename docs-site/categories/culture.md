@@ -13,7 +13,7 @@ description: 文化传承、娱乐休闲与社交平台
 
 **核心模块：** 问卷设计、问卷发布、答卷收集、数据分析、权限管理、导出功能
 
-**技术栈：** Spring Boot 3.x、MyBatis、Vue 3、Element Plus | **API：** 28 个 | **表：** 10 张
+**技术栈：** Spring Boot 3.x、MyBatis、Vue 3、Element Plus | **API：** 28 个 | **表：** 5 张
 
 ---
 
@@ -23,105 +23,55 @@ description: 文化传承、娱乐休闲与社交平台
 
 **核心模块：** 用户中心、画师认证、作品集管理、画师广场、需求发布、订单管理、支付系统、评价系统
 
-**技术栈：** Spring Boot 3.2.0、MyBatis 3.0.3、Vue 3、Vite | **表：** 18 张 | **页面：** 11 个
+**技术栈：** Spring Boot 3.2.0、MyBatis 3.0.3、Vue 3、Vite | **表：** 9 张 | **页面：** 11 个
 
 ---
 
 ## [036 - 小梦想全球公益捐赠平台 🔥最新](/projects/036)
 
-基于SpringBoot的小梦想全球公益捐赠平台的设计与实现
+基于SpringBoot的小梦想全球公益捐赠平台的设计与实现（Spring Data JPA + PostgreSQL + Vue3）
 
 **核心模块：** 用户系统、公益项目管理、捐赠功能、项目进度、数据统计、个人中心
 
-**技术栈：** Spring Boot 3.2.0、Spring Data JPA（区别于其他项目的MyBatis-Plus）、Vue 3.3.4、Element Plus 2.4.0 | **表：** 8 张 | **页面：** 7 个
+**技术栈：** Spring Boot 3.2.0、Spring Data JPA（区别于其他项目的MyBatis-Plus）、Vue 3.3.4、Element Plus 2.4.0 | **表：** 4 张 | **页面：** 7 个
 
 ---
 
 ## [039 - 民歌民谣交流平台 🔥最新](/projects/039)
 
-基于SpringBoot的民歌民谣交流平台的设计与实现
+基于SpringBoot的民歌民谣交流平台的设计与实现（Spring Data JDBC + PostgreSQL + Vue3 + Element Plus）
 
 **核心模块：** 用户系统、民歌分类、民歌发布、民歌浏览、互动功能、审核管理、系统公告、文件上传、管理后台
 
-**技术栈：** Spring Boot 3.2.0、Spring Data JDBC 3.2.0（区别于MyBatis-Plus/MyBatis）、Vue 3.4.0、Element Plus 2.5.1 | **表：** 21 张 | **页面：** 19 个
+**技术栈：** Spring Boot 3.2.0、Spring Data JDBC 3.2.0（区别于MyBatis-Plus/MyBatis）、Vue 3.4.0、Element Plus 2.5.1 | **表：** 7 张 | **页面：** 19 个
 
 ---
 
 ## [048 - 博物馆文物数字化管理平台 🔥](/projects/048)
 
-基于SpringBoot的博物馆文物数字化管理平台的设计与实现
+基于SpringBoot的博物馆文物数字化管理平台的设计与实现（Spring Boot 2.7 + MyBatis-Plus + Vue3 + TypeScript + Element Plus + 四角色：游客/讲解员/研究员/管理员 + 文物管理+展览预约+研究成果）
 
-**技术栈：** Spring Boot 2.7、MyBatis-Plus、Vue 3 + TypeScript、Element Plus | **API：** 73 个 | **表：** 27 张 | **页面：** 27 个
+**技术栈：** Spring Boot 2.7、MyBatis-Plus、Vue 3 + TypeScript、Element Plus | **API：** 73 个 | **表：** 13 张 | **页面：** 27 个
 
 ---
 
-## [056 - 短文写作竞赛管理小程序 🔥最新](/projects/056)
+## [056 - 短文写作竞赛管理小程序 🔥](/projects/056)
 
-基于SpringBoot+Vue+uni-app的短文写作竞赛管理小程序设计与实现
+基于SpringBoot+Vue+uni-app的短文写作竞赛管理小程序（Spring Boot 2.7.18 + MyBatis-Plus 3.5.4 + Vue3 + Element Plus + uni-app + 三角色：管理员/评委/参赛者 + 竞赛管理+作品投稿+多维评分+获奖公示）
 
 **核心模块：** 竞赛管理、分类管理、作品管理、评分标准、评委管理、评分管理、公告通知、获奖管理、用户管理、数据统计
 
-**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.4 | **API：** 66 个 | **表：** 30 张 | **页面：** 13 个
-
----
-
-## [057 - 招生管理系统 🔥](/projects/057)
-
-基于SpringBoot+Vue3的高校招生管理系统设计与实现
-
-**核心模块：** 系统管理、院系管理、专业管理、招生计划、考生管理、报名管理、成绩管理、录取管理、分数线管理、通知公告、统计分析
-
-**技术栈：** Spring Boot 2.7.0、MyBatis-Plus 3.5.2、Vue 3.4.0、Element Plus 2.4.4 | **API：** 56 个 | **表：** 30 张 | **页面：** 13 个
-
----
-
-## [060 - 电影订票及评论网站 🔥](/projects/060)
-
-基于SpringBoot+Vue3的电影订票及评论网站设计与实现
-
-**核心模块：** 用户管理、电影分类、电影管理、影院管理、影厅管理、排片管理、在线订票、影评系统、收藏功能、公告管理、数据看板
-
-**技术栈：** Spring Boot 2.7.18、MyBatis 3.5.13（原生XML映射）、Vue 3.4.0、Element Plus 2.4.4 | **API：** 53 个 | **表：** 30 张 | **页面：** 15 个
-
----
-
-## [062 - 反欺诈平台](/projects/062)
-
-基于SpringBoot+Vue3的反欺诈平台设计与实现
-
-**核心模块：** 用户与认证、用户管理、黑名单管理、规则引擎管理、风险事件上报、风险预警处置、案件管理、申诉复核、公告中心、风险看板、操作审计
-
-**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **API：** 53 个 | **表：** 27 张 | **页面：** 15 个
-
----
-
-## [066 - 精简博客系统 🔥最新](/projects/066)
-
-基于SpringBoot开发的精简博客系统设计与实现
-
-**核心模块：** 用户与认证、用户管理、分类管理、标签管理、文章管理、评论管理、公告中心、博客前台、数据看板
-
-**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **API：** 38 个 | **表：** 21 张 | **页面：** 12 个
-
----
-
-## [069 - 科任教师考评系统 🔥最新](/projects/069)
-
-基于SpringBoot+Vue3的科任教师考评系统设计与实现
-
-**核心模块：** 用户与认证、用户管理、科目管理、班级管理、教师档案管理、评价指标管理、考评任务管理、评教记录管理、申诉处理、公告中心、考评看板
-
-**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.5、Vue 3.4.0、Element Plus 2.4.4 | **表：** 27 张 | **页面：** 13 个
+**技术栈：** Spring Boot 2.7.18、MyBatis-Plus 3.5.4 | **API：** 66 个 | **表：** 10 张 | **页面：** 13 个
 
 ---
 
 ## [090 - 戏曲文化苑系统 🔥最新](/projects/090)
 
-基于SpringBoot+Vue3的戏曲文化苑系统（戏曲数字化传承 + 文化活动运营 + 会员体验服务）
+基于SpringBoot+Vue3的戏曲文化苑系统（Spring Boot 2.7.18 + MyBatis 3.5.13 + PageHelper + Redis + Vue3 + Element Plus + ECharts + 三角色：管理员/艺术家/会员 + 剧种分类+名家档案+剧目排期+预约行程+数字资源+签到研学评分+赏析互动+公告看板）
 
 **核心模块：** 用户权限、基础资料、剧目管理、排期预约、数字资源、现场互动、公告统计
 
-**技术栈：** Spring Boot 2.7.18、MyBatis 3.5.13、Vue 3.4.0、Element Plus 2.4.4 | **API：** 69 个 | **表：** 42 张 | **页面：** 15 个
+**技术栈：** Spring Boot 2.7.18、MyBatis 3.5.13、Vue 3.4.0、Element Plus 2.4.4 | **API：** 69 个 | **表：** 14 张 | **页面：** 15 个
 
 ---
 
