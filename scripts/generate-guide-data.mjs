@@ -22,16 +22,21 @@ const sourceData = JSON.parse(
 
 // 分类映射
 const categoryNames = {
-  campus: '校园生活',
-  education: '教育培训',
-  ecommerce: '电商交易',
-  health: '医疗健康',
-  community: '社区服务',
-  culture: '文化娱乐',
-  enterprise: '企业管理',
-  travel: '旅游出行',
-  agriculture: '农业环保',
-  'ai-tech': 'AI与前沿技术'
+  'education': '教育教学与培训',
+  'campus-life': '校园生活与社交',
+  'campus-service': '校园设施与后勤',
+  retail: '电商零售与交易',
+  'local-life': '生活服务与O2O',
+  health: '医疗健康与养老',
+  community: '社区治理与物业',
+  charity: '公益慈善与帮扶',
+  'agri-food': '农林食品与环保',
+  'culture-travel': '文化娱乐与文旅',
+  'collab-tools': '通用内容与协作工具',
+  'hr-office': '企业办公与人力',
+  'mfg-supply': '生产制造与供应链',
+  'dev-sec-ops': '研发运维与安全合规',
+  'gov-civic': '政务监管与公共服务'
 };
 
 // === 技术栈统计 ===

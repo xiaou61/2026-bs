@@ -2,7 +2,7 @@
   {
     "number": "001",
     "title": "校园事务管理系统",
-    "category": "campus",
+    "category": "campus-service",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 37,
@@ -34,7 +34,7 @@
   {
     "number": "002",
     "title": "在线选课与成绩管理系统",
-    "category": "campus",
+    "category": "education",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 32,
@@ -67,7 +67,7 @@
   {
     "number": "003",
     "title": "助农精准扶贫平台",
-    "category": "ecommerce",
+    "category": "agri-food",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 47,
@@ -98,7 +98,7 @@
   {
     "number": "004",
     "title": "实时聊天与通知系统",
-    "category": "enterprise",
+    "category": "collab-tools",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 25,
@@ -131,7 +131,7 @@
   {
     "number": "005",
     "title": "在线问卷调查与数据分析系统",
-    "category": "culture",
+    "category": "collab-tools",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 28,
@@ -163,7 +163,7 @@
   {
     "number": "006",
     "title": "校园失物招领系统",
-    "category": "campus",
+    "category": "campus-life",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 62,
@@ -194,7 +194,7 @@
   {
     "number": "007",
     "title": "志愿活动管理与积分激励平台",
-    "category": "campus",
+    "category": "campus-life",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 45,
@@ -225,7 +225,7 @@
   {
     "number": "008",
     "title": "智能菜谱推荐系统",
-    "category": "ai-tech",
+    "category": "agri-food",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 50,
@@ -258,7 +258,7 @@
   {
     "number": "009",
     "title": "校园快递代收管理系统",
-    "category": "campus",
+    "category": "campus-service",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 54,
@@ -299,7 +299,7 @@
   {
     "number": "010",
     "title": "图书馆座位预约系统",
-    "category": "campus",
+    "category": "campus-service",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 54,
@@ -339,7 +339,7 @@
   {
     "number": "011",
     "title": "校园短视频创作与分享平台 🔥",
-    "category": "campus",
+    "category": "campus-life",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
@@ -379,7 +379,7 @@
   {
     "number": "012",
     "title": "在线协作白板与笔记系统 🔥",
-    "category": "education",
+    "category": "collab-tools",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
@@ -420,7 +420,7 @@
   {
     "number": "013",
     "title": "校园共享经济平台 🔥",
-    "category": "campus",
+    "category": "campus-life",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
@@ -464,7 +464,7 @@
   {
     "number": "014",
     "title": "校园社团与兴趣圈层平台 🔥",
-    "category": "campus",
+    "category": "campus-life",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
@@ -500,7 +500,7 @@
   {
     "number": "015",
     "title": "校园表白墙与匿名社交平台 🔥",
-    "category": "campus",
+    "category": "campus-life",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
@@ -536,7 +536,7 @@
   {
     "number": "016",
     "title": "校园快递代领服务平台 🔥",
-    "category": "campus",
+    "category": "campus-service",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
@@ -574,7 +574,7 @@
   {
     "number": "017",
     "title": "高校自助点餐系统 🔥",
-    "category": "ecommerce",
+    "category": "campus-service",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
@@ -612,7 +612,7 @@
   {
     "number": "018",
     "title": "校园实习招聘与求职平台 🔥",
-    "category": "enterprise",
+    "category": "education",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
@@ -648,7 +648,7 @@
   {
     "number": "019",
     "title": "校园运动健康管理平台 🔥",
-    "category": "campus",
+    "category": "campus-life",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
@@ -721,7 +721,7 @@
   {
     "number": "021",
     "title": "校园二手交易平台 🔥",
-    "category": "ecommerce",
+    "category": "campus-life",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 39,
@@ -759,7 +759,7 @@
   {
     "number": "022",
     "title": "校园自习室座位预约系统 🔥",
-    "category": "campus",
+    "category": "campus-service",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
@@ -834,7 +834,7 @@
   {
     "number": "024",
     "title": "流浪动物领养与救助平台 🔥",
-    "category": "community",
+    "category": "charity",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
@@ -900,7 +900,7 @@
   {
     "number": "026",
     "title": "画师接稿平台",
-    "category": "culture",
+    "category": "retail",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
@@ -937,7 +937,7 @@
   {
     "number": "027",
     "title": "线上理发预约系统 🔥",
-    "category": "ecommerce",
+    "category": "local-life",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
@@ -976,7 +976,7 @@
   {
     "number": "028",
     "title": "校园共享自行车租赁系统 🔥",
-    "category": "travel",
+    "category": "campus-service",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
@@ -1042,7 +1042,7 @@
   {
     "number": "030",
     "title": "居民智能健康管理平台 🔥",
-    "category": "education",
+    "category": "health",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
@@ -1082,7 +1082,7 @@
   {
     "number": "031",
     "title": "基于SpringBoot的球赛订票系统 🔥",
-    "category": "ecommerce",
+    "category": "culture-travel",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
@@ -1158,7 +1158,7 @@
   {
     "number": "033",
     "title": "婚纱写真馆管理系统 🔥最新",
-    "category": "ecommerce",
+    "category": "local-life",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
@@ -1183,7 +1183,7 @@
   {
     "number": "034",
     "title": "零食铺子仓储管理系统 🔥最新",
-    "category": "ecommerce",
+    "category": "retail",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
@@ -1207,7 +1207,7 @@
   {
     "number": "035",
     "title": "乡村振兴水稻收割预约系统 🔥最新",
-    "category": "agriculture",
+    "category": "agri-food",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
@@ -1244,7 +1244,7 @@
   {
     "number": "036",
     "title": "小梦想全球公益捐赠平台 🔥最新",
-    "category": "culture",
+    "category": "charity",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
@@ -1360,7 +1360,7 @@
   {
     "number": "039",
     "title": "民歌民谣交流平台 🔥最新",
-    "category": "culture",
+    "category": "culture-travel",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 0,
@@ -1456,7 +1456,7 @@
   {
     "number": "042",
     "title": "房屋租赁管理系统 🔥最新",
-    "category": "campus",
+    "category": "retail",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 51,
@@ -1497,7 +1497,7 @@
   {
     "number": "043",
     "title": "宠物寄养服务系统 🔥",
-    "category": "ecommerce",
+    "category": "local-life",
     "projectType": "web",
     "backendVersion": "3.2.1",
     "totalApiCount": 16,
@@ -1536,7 +1536,7 @@
   {
     "number": "044",
     "title": "特色民宿预订平台 🔥",
-    "category": "ecommerce",
+    "category": "culture-travel",
     "projectType": "web",
     "backendVersion": "3.2.1",
     "totalApiCount": 32,
@@ -1602,7 +1602,7 @@
   {
     "number": "046",
     "title": "垃圾回收服务系统 🔥",
-    "category": "agriculture",
+    "category": "agri-food",
     "projectType": "web",
     "backendVersion": "3.2.1",
     "totalApiCount": 41,
@@ -1627,7 +1627,7 @@
   {
     "number": "047",
     "title": "剧本杀创作与预约平台 🔥",
-    "category": "ecommerce",
+    "category": "culture-travel",
     "projectType": "web",
     "backendVersion": "3.2.1",
     "totalApiCount": 59,
@@ -1652,7 +1652,7 @@
   {
     "number": "048",
     "title": "博物馆文物数字化管理平台 🔥",
-    "category": "culture",
+    "category": "culture-travel",
     "projectType": "web",
     "backendVersion": "3.2.1",
     "totalApiCount": 73,
@@ -1677,7 +1677,7 @@
   {
     "number": "049",
     "title": "微信小程序考研学习系统 🔥",
-    "category": "campus",
+    "category": "education",
     "projectType": "miniprogram",
     "backendVersion": "3.2.1",
     "totalApiCount": 69,
@@ -1701,7 +1701,7 @@
   {
     "number": "050",
     "title": "微信小程序课堂考勤签到APP 🔥",
-    "category": "campus",
+    "category": "education",
     "projectType": "miniprogram",
     "backendVersion": "3.2.1",
     "totalApiCount": 75,
@@ -1757,7 +1757,7 @@
   {
     "number": "052",
     "title": "网课在线学习观看系统 🔥",
-    "category": "campus",
+    "category": "education",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 57,
@@ -1798,7 +1798,7 @@
   {
     "number": "053",
     "title": "救灾物资调度与救援系统 🔥",
-    "category": "ecommerce",
+    "category": "gov-civic",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 77,
@@ -1835,7 +1835,7 @@
   {
     "number": "054",
     "title": "农业生产技术管理系统 🌱",
-    "category": "agriculture",
+    "category": "agri-food",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 68,
@@ -1876,7 +1876,7 @@
   {
     "number": "055",
     "title": "企业OA管理系统 🔥",
-    "category": "enterprise",
+    "category": "hr-office",
     "projectType": "web",
     "backendVersion": "3.2.0",
     "totalApiCount": 52,
@@ -1917,7 +1917,7 @@
   {
     "number": "056",
     "title": "短文写作竞赛管理小程序 🔥",
-    "category": "culture",
+    "category": "education",
     "projectType": "miniprogram",
     "backendVersion": "2.7.18",
     "totalApiCount": 66,
@@ -1958,7 +1958,7 @@
   {
     "number": "057",
     "title": "招生管理系统 🔥",
-    "category": "enterprise",
+    "category": "education",
     "projectType": "web",
     "backendVersion": "2.7.0",
     "totalApiCount": 56,
@@ -1999,7 +1999,7 @@
   {
     "number": "058",
     "title": "鲜牛奶订购系统 🔥最新",
-    "category": "ecommerce",
+    "category": "retail",
     "projectType": "web",
     "backendVersion": "2.7.12",
     "totalApiCount": 56,
@@ -2041,7 +2041,7 @@
   {
     "number": "059",
     "title": "制造装备物联及生产管理ERP系统 🔥最新",
-    "category": "enterprise",
+    "category": "mfg-supply",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 53,
@@ -2083,7 +2083,7 @@
   {
     "number": "060",
     "title": "电影订票及评论网站 🔥",
-    "category": "enterprise",
+    "category": "culture-travel",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 53,
@@ -2125,7 +2125,7 @@
   {
     "number": "061",
     "title": "游戏交易系统",
-    "category": "ecommerce",
+    "category": "retail",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 51,
@@ -2167,7 +2167,7 @@
   {
     "number": "062",
     "title": "反欺诈平台",
-    "category": "enterprise",
+    "category": "dev-sec-ops",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 53,
@@ -2208,7 +2208,7 @@
   {
     "number": "063",
     "title": "进销存管理系统",
-    "category": "ecommerce",
+    "category": "mfg-supply",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 44,
@@ -2331,7 +2331,7 @@
   {
     "number": "066",
     "title": "精简博客系统 🔥最新",
-    "category": "enterprise",
+    "category": "collab-tools",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 38,
@@ -2370,7 +2370,7 @@
   {
     "number": "067",
     "title": "大学生一体化服务平台 🔥最新",
-    "category": "campus",
+    "category": "education",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 51,
@@ -2411,7 +2411,7 @@
   {
     "number": "068",
     "title": "周边游平台个人管理模块 🔥最新",
-    "category": "ecommerce",
+    "category": "culture-travel",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 42,
@@ -2452,7 +2452,7 @@
   {
     "number": "069",
     "title": "科任教师考评系统 🔥最新",
-    "category": "enterprise",
+    "category": "education",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 0,
@@ -2492,7 +2492,7 @@
   {
     "number": "070",
     "title": "基于SpringBoot和Vue的最优网络购票系统",
-    "category": "ecommerce",
+    "category": "culture-travel",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 78,
@@ -2536,7 +2536,7 @@
   {
     "number": "071",
     "title": "基于SpringBoot和Vue的共享单车系统",
-    "category": "ecommerce",
+    "category": "campus-service",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 60,
@@ -2581,7 +2581,7 @@
   {
     "number": "072",
     "title": "基于SpringBoot和Vue的哈尔滨文旅系统",
-    "category": "travel",
+    "category": "culture-travel",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 0,
@@ -2625,7 +2625,7 @@
   {
     "number": "073",
     "title": "基于SpringBoot和Vue的人事管理系统 🔥最新",
-    "category": "campus",
+    "category": "hr-office",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 72,
@@ -2670,7 +2670,7 @@
   {
     "number": "074",
     "title": "基于SpringBoot和Vue的手工艺品销售系统 🔥最新",
-    "category": "ecommerce",
+    "category": "retail",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 51,
@@ -2713,7 +2713,7 @@
   {
     "number": "075",
     "title": "基于SpringBoot和Vue的汽车维修预约服务系统 🔥最新",
-    "category": "community",
+    "category": "local-life",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 51,
@@ -2756,7 +2756,7 @@
   {
     "number": "076",
     "title": "基于SpringBoot和Vue的企业信息管理系统 🔥最新",
-    "category": "enterprise",
+    "category": "hr-office",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 51,
@@ -2799,7 +2799,7 @@
   {
     "number": "077",
     "title": "基于Vue的MES生产制造执行系统 🔥",
-    "category": "enterprise",
+    "category": "mfg-supply",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 51,
@@ -2842,7 +2842,7 @@
   {
     "number": "078",
     "title": "网上团购系统 🔥",
-    "category": "ecommerce",
+    "category": "retail",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 83,
@@ -2882,7 +2882,7 @@
   {
     "number": "079",
     "title": "计算机学院校友网 🔥最新",
-    "category": "enterprise",
+    "category": "education",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 88,
@@ -2923,7 +2923,7 @@
   {
     "number": "080",
     "title": "贫困地区儿童资助网站 🔥最新",
-    "category": "campus",
+    "category": "charity",
     "projectType": "web",
     "backendVersion": "2.7.14",
     "totalApiCount": 55,
@@ -2965,7 +2965,7 @@
   {
     "number": "081",
     "title": "电器维修系统小程序 🔥最新",
-    "category": "enterprise",
+    "category": "local-life",
     "projectType": "miniprogram",
     "backendVersion": "2.7.14",
     "totalApiCount": 105,
@@ -3082,7 +3082,7 @@
   {
     "number": "084",
     "title": "教学资料管理系统 🔥最新",
-    "category": "campus",
+    "category": "education",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 38,
@@ -3120,7 +3120,7 @@
   {
     "number": "085",
     "title": "数学课程评价系统 🔥最新",
-    "category": "campus",
+    "category": "education",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 45,
@@ -3157,7 +3157,7 @@
   {
     "number": "086",
     "title": "高清壁纸社区网站",
-    "category": "ecommerce",
+    "category": "collab-tools",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 52,
@@ -3192,7 +3192,7 @@
   {
     "number": "087",
     "title": "课程管理系统",
-    "category": "campus",
+    "category": "education",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 69,
@@ -3229,7 +3229,7 @@
   {
     "number": "088",
     "title": "孩童收养信息管理系统 🔥最新",
-    "category": "enterprise",
+    "category": "charity",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 48,
@@ -3266,7 +3266,7 @@
   {
     "number": "089",
     "title": "铁路订票平台 🔥最新",
-    "category": "ecommerce",
+    "category": "culture-travel",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 72,
@@ -3303,7 +3303,7 @@
   {
     "number": "090",
     "title": "戏曲文化苑系统 🔥最新",
-    "category": "culture",
+    "category": "culture-travel",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 69,
@@ -3340,7 +3340,7 @@
   {
     "number": "091",
     "title": "电影院会员管理系统 🔥最新",
-    "category": "ecommerce",
+    "category": "culture-travel",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 78,
@@ -3377,7 +3377,7 @@
   {
     "number": "092",
     "title": "蓝天幼儿园管理系统",
-    "category": "health",
+    "category": "education",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -3414,7 +3414,7 @@
   {
     "number": "093",
     "title": "自助售货管理系统 🔥最新",
-    "category": "ecommerce",
+    "category": "retail",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 69,
@@ -3451,7 +3451,7 @@
   {
     "number": "094",
     "title": "宠物咖啡馆平台 🔥最新",
-    "category": "ecommerce",
+    "category": "local-life",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -3466,7 +3466,7 @@
   {
     "number": "095",
     "title": "足球联赛管理系统",
-    "category": "enterprise",
+    "category": "culture-travel",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -3503,7 +3503,7 @@
   {
     "number": "096",
     "title": "线上医院挂号系统",
-    "category": "ecommerce",
+    "category": "health",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 59,
@@ -3541,7 +3541,7 @@
   {
     "number": "097",
     "title": "大模型提示词资产管理与效果评测平台",
-    "category": "enterprise",
+    "category": "dev-sec-ops",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 46,
@@ -3579,7 +3579,7 @@
   {
     "number": "098",
     "title": "企业知识库智能问答与文档权限管理系统",
-    "category": "enterprise",
+    "category": "dev-sec-ops",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 46,
@@ -3618,7 +3618,7 @@
   {
     "number": "099",
     "title": "AIGC 图片内容审核与版权存证平台",
-    "category": "enterprise",
+    "category": "dev-sec-ops",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 50,
@@ -3657,7 +3657,7 @@
   {
     "number": "100",
     "title": "AI 生成文本检测与学术诚信预警系统",
-    "category": "enterprise",
+    "category": "education",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 50,
@@ -3698,7 +3698,7 @@
   {
     "number": "101",
     "title": "多模态招聘材料解析与岗位匹配系统",
-    "category": "enterprise",
+    "category": "hr-office",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 57,
@@ -3740,7 +3740,7 @@
   {
     "number": "102",
     "title": "法律咨询案件进度与智能文书管理系统",
-    "category": "enterprise",
+    "category": "hr-office",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 59,
@@ -3783,7 +3783,7 @@
   {
     "number": "103",
     "title": "智能客服工单质检与知识推荐系统",
-    "category": "enterprise",
+    "category": "dev-sec-ops",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 58,
@@ -3826,7 +3826,7 @@
   {
     "number": "104",
     "title": "开源许可证合规扫描与项目台账系统",
-    "category": "enterprise",
+    "category": "dev-sec-ops",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 62,
@@ -3870,7 +3870,7 @@
   {
     "number": "105",
     "title": "API 接口文档生成与测试用例管理平台",
-    "category": "enterprise",
+    "category": "dev-sec-ops",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 61,
@@ -3913,7 +3913,7 @@
   {
     "number": "106",
     "title": "DevOps 发布审批与回滚管理系统",
-    "category": "enterprise",
+    "category": "dev-sec-ops",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 64,
@@ -3957,7 +3957,7 @@
   {
     "number": "107",
     "title": "云服务器资产监控与告警平台",
-    "category": "enterprise",
+    "category": "dev-sec-ops",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 62,
@@ -4000,7 +4000,7 @@
   {
     "number": "108",
     "title": "云原生成本分析与资源优化平台",
-    "category": "enterprise",
+    "category": "dev-sec-ops",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 76,
@@ -4044,7 +4044,7 @@
   {
     "number": "109",
     "title": "数据脱敏与敏感信息识别平台",
-    "category": "enterprise",
+    "category": "dev-sec-ops",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 75,
@@ -4087,7 +4087,7 @@
   {
     "number": "110",
     "title": "个人数据隐私授权与访问审计平台",
-    "category": "enterprise",
+    "category": "dev-sec-ops",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -4131,7 +4131,7 @@
   {
     "number": "111",
     "title": "网络钓鱼邮件演练与安全意识培训平台",
-    "category": "enterprise",
+    "category": "dev-sec-ops",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 70,
@@ -4174,7 +4174,7 @@
   {
     "number": "112",
     "title": "零信任设备准入与访问控制管理系统",
-    "category": "enterprise",
+    "category": "dev-sec-ops",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -4218,7 +4218,7 @@
   {
     "number": "113",
     "title": "区块链农产品质量溯源与监管平台",
-    "category": "agriculture",
+    "category": "agri-food",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 75,
@@ -4261,7 +4261,7 @@
   {
     "number": "114",
     "title": "供应链冷链温控追踪与异常预警平台",
-    "category": "community",
+    "category": "mfg-supply",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 76,
@@ -4305,7 +4305,7 @@
   {
     "number": "115",
     "title": "跨境电商清关订单与汇率结算平台",
-    "category": "ecommerce",
+    "category": "retail",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 78,
@@ -4348,7 +4348,7 @@
   {
     "number": "116",
     "title": "直播电商选品排期与售后工单系统",
-    "category": "ecommerce",
+    "category": "retail",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 78,
@@ -4392,7 +4392,7 @@
   {
     "number": "117",
     "title": "本地生活服务券核销与商户结算系统",
-    "category": "enterprise",
+    "category": "retail",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 78,
@@ -4435,7 +4435,7 @@
   {
     "number": "118",
     "title": "智能仓储 AGV 任务调度与库位优化系统",
-    "category": "agriculture",
+    "category": "mfg-supply",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 80,
@@ -4479,7 +4479,7 @@
   {
     "number": "119",
     "title": "设备备件寿命预测与维保决策系统",
-    "category": "community",
+    "category": "mfg-supply",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -4522,7 +4522,7 @@
   {
     "number": "120",
     "title": "数字孪生园区设备巡检管理系统",
-    "category": "community",
+    "category": "mfg-supply",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 75,
@@ -4566,7 +4566,7 @@
   {
     "number": "121",
     "title": "无人机巡检任务调度与缺陷上报平台",
-    "category": "community",
+    "category": "mfg-supply",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -4609,7 +4609,7 @@
   {
     "number": "122",
     "title": "智慧工地安全巡检与隐患整改系统",
-    "category": "community",
+    "category": "gov-civic",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -4653,7 +4653,7 @@
   {
     "number": "123",
     "title": "城市内涝监测与应急调度平台",
-    "category": "enterprise",
+    "category": "gov-civic",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -4696,7 +4696,7 @@
   {
     "number": "124",
     "title": "电动车充电桩预约与运维管理系统",
-    "category": "agriculture",
+    "category": "local-life",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -4740,7 +4740,7 @@
   {
     "number": "125",
     "title": "智慧停车诱导与空位预测平台",
-    "category": "campus",
+    "category": "local-life",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -4827,7 +4827,7 @@
   {
     "number": "127",
     "title": "企业碳排放核算与减排任务管理系统",
-    "category": "enterprise",
+    "category": "gov-civic",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -4870,7 +4870,7 @@
   {
     "number": "128",
     "title": "ESG 数据填报与可视化报告系统",
-    "category": "enterprise",
+    "category": "gov-civic",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -4914,7 +4914,7 @@
   {
     "number": "129",
     "title": "水产养殖环境监测与投喂预警系统",
-    "category": "health",
+    "category": "agri-food",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -4957,7 +4957,7 @@
   {
     "number": "130",
     "title": "温室大棚物联网控制与病害预警系统",
-    "category": "community",
+    "category": "agri-food",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -5088,7 +5088,7 @@
   {
     "number": "133",
     "title": "实验室耗材采购审批与库存预警系统",
-    "category": "health",
+    "category": "education",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -5131,7 +5131,7 @@
   {
     "number": "134",
     "title": "科研项目经费报销与成果管理系统",
-    "category": "enterprise",
+    "category": "education",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -5218,7 +5218,7 @@
   {
     "number": "136",
     "title": "导师课题双选与开题过程管理系统",
-    "category": "campus",
+    "category": "education",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -5305,7 +5305,7 @@
   {
     "number": "138",
     "title": "在线考试反作弊行为分析与证据管理系统",
-    "category": "community",
+    "category": "education",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -5349,7 +5349,7 @@
   {
     "number": "139",
     "title": "企业培训学习路径与能力画像系统",
-    "category": "education",
+    "category": "hr-office",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -5392,7 +5392,7 @@
   {
     "number": "140",
     "title": "电子合同签署与印章审批管理系统",
-    "category": "enterprise",
+    "category": "hr-office",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -5436,7 +5436,7 @@
   {
     "number": "141",
     "title": "固定资产 RFID 盘点与借用归还系统",
-    "category": "community",
+    "category": "mfg-supply",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -5479,7 +5479,7 @@
   {
     "number": "142",
     "title": "车辆保险理赔材料审核与进度跟踪系统",
-    "category": "enterprise",
+    "category": "hr-office",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -5523,7 +5523,7 @@
   {
     "number": "143",
     "title": "社区公益时间银行互助服务平台",
-    "category": "campus",
+    "category": "community",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -5566,7 +5566,7 @@
   {
     "number": "144",
     "title": "无障碍出行路线规划与志愿协助平台",
-    "category": "campus",
+    "category": "charity",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -5610,7 +5610,7 @@
   {
     "number": "145",
     "title": "城市噪声投诉监测与执法协同平台",
-    "category": "enterprise",
+    "category": "gov-civic",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -5653,7 +5653,7 @@
   {
     "number": "146",
     "title": "食品安全抽检任务与结果公示平台",
-    "category": "enterprise",
+    "category": "gov-civic",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -5697,7 +5697,7 @@
   {
     "number": "147",
     "title": "校园心理咨询预约与危机干预管理系统",
-    "category": "campus",
+    "category": "education",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -5740,7 +5740,7 @@
   {
     "number": "148",
     "title": "社区养老服务派单与健康随访管理系统",
-    "category": "health",
+    "category": "community",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -5784,7 +5784,7 @@
   {
     "number": "149",
     "title": "高校实验设备共享预约与违规使用追踪系统",
-    "category": "health",
+    "category": "education",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 74,
@@ -5871,7 +5871,7 @@
   {
     "number": "151",
     "title": "文旅场馆讲解预约与票务核销管理平台",
-    "category": "ecommerce",
+    "category": "culture-travel",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -5914,7 +5914,7 @@
   {
     "number": "152",
     "title": "工厂危险作业审批与监护巡检管理系统",
-    "category": "health",
+    "category": "gov-civic",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -5957,7 +5957,7 @@
   {
     "number": "153",
     "title": "校园二手物品寄卖与信用评价系统",
-    "category": "campus",
+    "category": "campus-life",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -6000,7 +6000,7 @@
   {
     "number": "154",
     "title": "宠物医院接诊排班与疫苗随访管理系统",
-    "category": "health",
+    "category": "local-life",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -6043,7 +6043,7 @@
   {
     "number": "155",
     "title": "社区党建活动报名与积分激励平台",
-    "category": "campus",
+    "category": "community",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -6086,7 +6086,7 @@
   {
     "number": "156",
     "title": "校园宿舍能耗监测与节能排名系统",
-    "category": "campus",
+    "category": "campus-service",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -6129,7 +6129,7 @@
   {
     "number": "157",
     "title": "物流园区车辆入场预约与道口调度平台",
-    "category": "campus",
+    "category": "mfg-supply",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -6172,7 +6172,7 @@
   {
     "number": "158",
     "title": "校外培训机构课消统计与退费审批系统",
-    "category": "campus",
+    "category": "education",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -6258,7 +6258,7 @@
   {
     "number": "160",
     "title": "校园社团活动预算报销与物资借用系统",
-    "category": "campus",
+    "category": "campus-life",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -6301,7 +6301,7 @@
   {
     "number": "161",
     "title": "景区失物招领与游客寻回协同平台",
-    "category": "campus",
+    "category": "culture-travel",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -6344,7 +6344,7 @@
   {
     "number": "162",
     "title": "生鲜门店临期商品预警与促销处置系统",
-    "category": "ecommerce",
+    "category": "retail",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -6387,7 +6387,7 @@
   {
     "number": "163",
     "title": "医学实习轮转考核与病例学习管理系统",
-    "category": "education",
+    "category": "health",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -6430,7 +6430,7 @@
   {
     "number": "164",
     "title": "校园体育赛事报名编排与裁判评分系统",
-    "category": "campus",
+    "category": "campus-life",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -6473,7 +6473,7 @@
   {
     "number": "165",
     "title": "企业访客预约登记与门禁联动管理系统",
-    "category": "community",
+    "category": "hr-office",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -6516,7 +6516,7 @@
   {
     "number": "166",
     "title": "农贸市场摊位巡检与食品追溯台账系统",
-    "category": "agriculture",
+    "category": "agri-food",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -6645,7 +6645,7 @@
   {
     "number": "169",
     "title": "校车乘车预约与学生上下车核验系统",
-    "category": "campus",
+    "category": "campus-service",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -6731,7 +6731,7 @@
   {
     "number": "171",
     "title": "应急物资储备盘点与调拨审批平台",
-    "category": "ecommerce",
+    "category": "gov-civic",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -6817,7 +6817,7 @@
   {
     "number": "173",
     "title": "高校毕业去向填报与就业帮扶跟踪系统",
-    "category": "enterprise",
+    "category": "education",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -6903,7 +6903,7 @@
   {
     "number": "175",
     "title": "校园图书漂流借阅与读书打卡平台",
-    "category": "campus",
+    "category": "campus-life",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -6946,7 +6946,7 @@
   {
     "number": "176",
     "title": "水务巡线工单与阀门检修协同管理系统",
-    "category": "enterprise",
+    "category": "gov-civic",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -6989,7 +6989,7 @@
   {
     "number": "177",
     "title": "直播基地主播排班与选品样品管理系统",
-    "category": "ecommerce",
+    "category": "retail",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -7075,7 +7075,7 @@
   {
     "number": "179",
     "title": "高校考勤异常申诉与课堂巡查管理系统",
-    "category": "campus",
+    "category": "education",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -7118,7 +7118,7 @@
   {
     "number": "180",
     "title": "物业报修派单与服务满意度评价平台",
-    "category": "campus",
+    "category": "community",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -7161,7 +7161,7 @@
   {
     "number": "181",
     "title": "社区儿童托管签到接送与安全告警系统",
-    "category": "health",
+    "category": "community",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -7247,7 +7247,7 @@
   {
     "number": "183",
     "title": "实验动物饲养排班与伦理审批管理系统",
-    "category": "health",
+    "category": "education",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -7333,7 +7333,7 @@
   {
     "number": "185",
     "title": "城市公厕巡检保洁与耗材补给调度系统",
-    "category": "ecommerce",
+    "category": "gov-civic",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -7376,7 +7376,7 @@
   {
     "number": "186",
     "title": "校园餐厅后厨留样与卫生巡检台账系统",
-    "category": "campus",
+    "category": "campus-service",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -7419,7 +7419,7 @@
   {
     "number": "187",
     "title": "旅行社团建行程报名与费用分摊管理平台",
-    "category": "campus",
+    "category": "culture-travel",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -7505,7 +7505,7 @@
   {
     "number": "189",
     "title": "乡镇农机作业预约与维修保养跟踪平台",
-    "category": "agriculture",
+    "category": "agri-food",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -7720,7 +7720,7 @@
   {
     "number": "194",
     "title": "工业园区危废暂存与转运联动监管平台",
-    "category": "enterprise",
+    "category": "gov-civic",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -7763,7 +7763,7 @@
   {
     "number": "195",
     "title": "便民服务中心事项预约与窗口评价平台",
-    "category": "campus",
+    "category": "gov-civic",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -7892,7 +7892,7 @@
   {
     "number": "198",
     "title": "城市共享充电宝投放巡检与收益结算系统",
-    "category": "agriculture",
+    "category": "local-life",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -7935,7 +7935,7 @@
   {
     "number": "199",
     "title": "运动康复训练计划与体测评估管理系统",
-    "category": "enterprise",
+    "category": "health",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,
@@ -7978,7 +7978,7 @@
   {
     "number": "200",
     "title": "非遗工坊课程预约与作品展销平台 🔥最新",
-    "category": "campus",
+    "category": "culture-travel",
     "projectType": "web",
     "backendVersion": "2.7.18",
     "totalApiCount": 71,

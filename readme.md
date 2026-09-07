@@ -2,6 +2,8 @@
 
 > 200 个基于 Spring Boot、Vue、微信小程序等技术的计算机毕业设计项目，覆盖校园、社区、电商、医疗、养老、农业和企业信息化等方向。
 
+> 📌 **需要定制毕业设计、源码部署或二次开发？请联系 QQ：`3153566913`**（支持选题指导、功能定制、论文与答辩辅导）
+
 本仓库是一个项目集合仓库。每个项目按编号拆分为后端、前端或小程序模块；项目级说明和源码统计由文档站统一生成，方便按场景、技术栈和项目规模筛选。
 
 <p align="center">
@@ -18,9 +20,11 @@
 
 | 入口 | 用途 |
 |------|------|
-| [在线文档站](http://36.140.150.167:8013/) | 在线搜索、分类浏览和技术栈筛选（服务可用时访问） |
-| [文档站源码](docs-site/index.md) | 本地运行 VitePress 文档站 |
+| [在线文档站](http://36.140.150.167:8013/) | 在线浏览 200 个项目：按 15 大分类、技术栈、功能场景筛选（已部署） |
+| [文档站源码](docs-site/index.md) | VitePress 文档站源码，本地预览：`npm install && npm run docs:dev` |
 | [项目标题速览](readme_simple.md) | 快速浏览 001-200 的项目名称 |
+| [分类索引](_分类建议.md) | 200 个项目按 15 个业务主类的完整归类和映射 |
+| [结构化分类数据](_projects_mapped.json) | 编号 → 主类/方向/目录/形态 的机器可读映射 |
 | [项目详情目录](docs/projects/) | 按编号分组的 Markdown 项目目录 |
 | [项目截图预览](docs/previews/groups/) | 各项目运行截图索引 |
 | [项目 README 模板](docs/README_TEMPLATE.md) | 新增或补齐项目文档时使用 |
@@ -33,15 +37,32 @@
 - **小程序模块**：4 个（`miniprogram` 或 `miniapp`）
 - **主要技术**：Spring Boot、MyBatis / MyBatis-Plus、MySQL / PostgreSQL / H2、Vue、Element Plus、Vite、Redis
 
-项目目录命名约定如下：
+项目目录按**业务主类**分组（见 [分类索引](_分类建议.md)），分组内目录命名约定如下：
 
 ```text
-001-backend/       后端服务
-001-frontend/      Vue 或其他 Web 前端（如果项目提供）
-049-miniprogram/   小程序端（如果项目提供）
-docs-site/         VitePress 文档站
-scripts/           文档生成和校验脚本
+education/            教育教学与培训（34 个项目）
+  ├─ 001-backend/     后端服务
+  ├─ 001-frontend/    Vue 或其他 Web 前端（如果项目提供）
+  └─ 049-miniprogram/ 小程序端（如果项目提供）
+health/               医疗健康与养老
+culture-travel/       文化娱乐与文旅
+community/            社区治理与物业
+dev-sec-ops/          研发运维与安全合规
+retail/               电商零售与交易
+gov-civic/            政务监管与公共服务
+campus-life/          校园生活与社交
+campus-service/       校园设施与后勤
+agri-food/            农林食品与环保
+local-life/           生活服务与 O2O
+mfg-supply/           生产制造与供应链
+hr-office/            企业办公与人力
+collab-tools/         通用内容与协作工具
+charity/              公益慈善与帮扶
+docs-site/            VitePress 文档站
+scripts/              文档生成和校验脚本
 ```
+
+项目编号 001-200 不变；查找某个项目时，先到分类索引确认主类，再进入对应分组目录。
 
 每个项目的准确端口、Java / Node 版本、数据库模式、初始化脚本、测试账号和验证状态，以对应的 [文档站项目页](docs-site/projects/) 为准。
 
@@ -59,11 +80,11 @@ scripts/           文档生成和校验脚本
 
 ### 启动一个前后端分离项目
 
-以下命令以 001 为例，具体项目请先打开对应的文档站页面：
+以下命令以 001 为例（001 位于 `education/` 分组），具体项目请先打开对应的文档站页面：
 
 ```bash
 # 后端
-cd 001-backend
+cd education/001-backend
 mvn spring-boot:run
 
 # 另开终端启动前端

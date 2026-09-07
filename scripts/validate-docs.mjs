@@ -40,6 +40,23 @@ function listMarkdownFiles(dir) {
     .map(entry => entry.name);
 }
 
+// 项目按业务主类分组存放(_projects_mapped.json: number -> group), 这里把 "NNN-suffix" 解析到分组目录下
+const mappedByNumber = (() => {
+  try {
+    const mapping = JSON.parse(readText(path.join(ROOT, '_projects_mapped.json')));
+    const map = {};
+    for (const item of mapping) map[item.number] = item.group;
+    return map;
+  } catch {
+    return {};
+  }
+})();
+function moduleDir(number, suffix) {
+  const group = mappedByNumber[number];
+  if (!group) return path.join(ROOT, `${number}-${suffix}`);
+  return path.join(ROOT, group, `${number}-${suffix}`);
+}
+
 const rootReadmePath = path.join(ROOT, 'readme.md');
 const simpleReadmePath = path.join(ROOT, 'readme_simple.md');
 const projectPagesDir = path.join(ROOT, 'docs-site', 'projects');
@@ -119,7 +136,7 @@ for (const number of expectedNumbers) {
     failures.push(`${number}.md 的数据库表数量不一致`);
   }
 
-  const pomPath = path.join(ROOT, `${number}-backend`, 'pom.xml');
+  const pomPath = path.join(moduleDir(number, 'backend'), 'pom.xml');
   const javaVersion = fs.existsSync(pomPath)
     ? readText(pomPath).match(/<java\.version>\s*([^<]+)\s*<\/java\.version>/)?.[1]
     : null;
@@ -128,8 +145,8 @@ for (const number of expectedNumbers) {
     failures.push(`${number}.md 的 JDK 要求与 pom.xml 不一致`);
   }
 
-  const hasBackend = fs.existsSync(path.join(ROOT, `${number}-backend`));
-  const hasFrontend = fs.existsSync(path.join(ROOT, `${number}-frontend`));
+  const hasBackend = fs.existsSync(moduleDir(number, 'backend'));
+  const hasFrontend = fs.existsSync(moduleDir(number, 'frontend'));
   if (!hasBackend && page.includes(`cd ${number}-backend`)) {
     failures.push(`${number}.md 为不存在的后端目录生成了启动命令`);
   }
@@ -138,10 +155,22 @@ for (const number of expectedNumbers) {
   }
 }
 
-const moduleDirs = fs.readdirSync(ROOT, { withFileTypes: true })
-  .filter(entry => entry.isDirectory() && /^\d{3}-(backend|frontend|miniprogram|miniapp)$/.test(entry.name));
+// 模块目录现在分散在各业务主类分组下, 遍历分组目录收集
+const MODULE_RE = /^(\d{3})-(backend|frontend|miniprogram|miniapp)$/;
+const seenModulePaths = new Set();
+const groupDirs = Object.values(mappedByNumber);
+for (const dir of groupDirs) {
+  const full = path.join(ROOT, dir);
+  if (!fs.existsSync(full)) continue;
+  for (const entry of fs.readdirSync(full, { withFileTypes: true })) {
+    if (entry.isDirectory() && MODULE_RE.test(entry.name)) {
+      seenModulePaths.add(path.join(full, entry.name));
+    }
+  }
+}
+const moduleDirs = [...seenModulePaths].map(dirPath => ({ name: path.basename(dirPath), dirPath }));
 const missingReadmes = moduleDirs.filter(entry => {
-  const dir = path.join(ROOT, entry.name);
+  const dir = entry.dirPath;
   return !fs.existsSync(path.join(dir, 'README.md')) && !fs.existsSync(path.join(dir, 'README_SIMPLE.md'));
 });
 if (missingReadmes.length > 0) {

@@ -4,16 +4,21 @@
 
 ## 项目结构
 
-每个毕设项目由以下部分组成：
+仓库根目录按**业务主类**分为 15 个分组，200 个项目按编号分布在对应分组内；每个项目由后端、前端或小程序模块组成：
 
 ```
-项目根目录/
-├── NNN-backend/          # 后端源码 (Spring Boot)
-├── NNN-frontend/         # 前端源码 (Vue 3 / 小程序)
-└── docs-site/projects/NNN.md  # 项目文档
+仓库根目录/
+├── education/            # 教育教学与培训
+│   ├── 001-backend/      # 后端源码 (Spring Boot)
+│   └── 001-frontend/     # 前端源码 (Vue 3 / 小程序)
+├── health/               # 医疗健康与养老
+├── culture-travel/       # 文化娱乐与文旅
+├── community/            # 社区治理与物业
+├── ...                   # 其余 11 个分组
+└── docs-site/projects/   # 200 个项目文档页
 ```
 
-其中 `NNN` 为项目编号（如 001、050、100 等）。
+项目编号 001-200 不变；查找某个项目时，先到首页或侧边栏的“项目分类”确认它属于哪个主类，再进入对应分组目录（详见 [分类索引](https://github.com/xiaou61/2026-bs/blob/main/_%E5%88%86%E7%B1%BB%E5%BB%BA%E8%AE%AE.md)）。
 
 ## 技术栈概览
 

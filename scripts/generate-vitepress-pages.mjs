@@ -1530,50 +1530,42 @@ for (const entry of projectIndex) {
 
 console.log(`解析到 ${projects.length} 个项目`);
 
-// === 分类 ===
-const categories = {
-  'campus': { name: '校园生活', desc: '校园相关的管理系统与服务平台', projects: [] },
-  'education': { name: '教育培训', desc: '在线学习、考试与教育管理平台', projects: [] },
-  'ecommerce': { name: '电商交易', desc: '商品交易、订单管理与电商平台', projects: [] },
-  'health': { name: '医疗健康', desc: '健康管理、医疗预约与养老服务', projects: [] },
-  'community': { name: '社区服务', desc: '社区管理、物业与生活服务平台', projects: [] },
-  'culture': { name: '文化娱乐', desc: '文化传承、娱乐休闲与社交平台', projects: [] },
-  'enterprise': { name: '企业管理', desc: '企业办公、ERP与管理系统', projects: [] },
-  'travel': { name: '旅游出行', desc: '旅游预订、出行与交通服务', projects: [] },
-  'agriculture': { name: '农业环保', desc: '农业科技、环保与绿色能源', projects: [] },
-  'ai-tech': { name: 'AI与前沿技术', desc: '人工智能、区块链与前沿技术平台', projects: [] },
+// === 分类(读取权威映射 _projects_mapped.json, 按编号覆盖) ===
+const CATEGORY_META = {
+  'education':      { name: '教育教学与培训',   desc: '高校教务、在线学习与职业技能培训平台' },
+  'campus-life':    { name: '校园生活与社交',   desc: '校园社交、社团、二手与活动平台' },
+  'campus-service': { name: '校园设施与后勤',   desc: '座位预约、快递代收、点餐校车等校园服务' },
+  'retail':         { name: '电商零售与交易',   desc: '商品交易、订单与营销平台' },
+  'local-life':     { name: '生活服务与O2O',    desc: '本地到店/上门生活服务与共享出行' },
+  'health':         { name: '医疗健康与养老',   desc: '医疗、健康管理、养老与康复服务' },
+  'community':      { name: '社区治理与物业',   desc: '社区治理、物业、党建与家政' },
+  'charity':        { name: '公益慈善与帮扶',   desc: '捐赠、资助、领养与志愿互助' },
+  'agri-food':      { name: '农林食品与环保',   desc: '农业、水产、食品、环保与回收' },
+  'culture-travel': { name: '文化娱乐与文旅',   desc: '票务演出、文博文旅、体育与文化社区' },
+  'collab-tools':   { name: '通用内容与协作工具', desc: '通讯、问卷、白板、内容社区等通用工具' },
+  'hr-office':      { name: '企业办公与人力',   desc: 'OA、人事、合同、法务与行政' },
+  'mfg-supply':     { name: '生产制造与供应链', desc: 'ERP/MES、仓储物流与设备物联' },
+  'dev-sec-ops':    { name: '研发运维与安全合规', desc: 'DevOps、云平台、数据安全与合规' },
+  'gov-civic':      { name: '政务监管与公共服务', desc: '政务监管、应急、市政治理与公共窗口' },
 };
-const categoryKeywords = {
-  'campus': ['校园', '学生', '课程', '选课', '图书馆', '自习室', '社团', '表白', '快递', '宿舍', '报修', '请假', '志愿', '失物', '考勤', '签到', '毕设', '考研', '课堂', '校友', '校园共享', '校园二手', '校园点餐', '校园运动', '校园学习', '校园视频', '校园事务'],
-  'education': ['教育', '学习', '教学', '在线课程', '编程学习', '知识', '题库', '智能学习', '教师评价', '数学', '教学资源', '考试', '公考'],
-  'ecommerce': ['交易', '电商', '购物', '订单', '商城', '团购', '二手', '拍卖', '购物车', '零食', '仓库', '库存', '游戏交易', '工艺销售', '牛奶', '电影票', '球赛', '票务', '点餐', '理发', '民宿', '剧本杀', '壁纸', '宠物咖啡'],
-  'health': ['医疗', '健康', '医院', '养老', '护理', '体检', '心理', '药', '中医', '食疗', '饮食', '营养', '门诊', '药品', '老年人', '养老院', '幼儿', '幼儿园', '儿童领养'],
-  'community': ['社区', '物业', '停车', '访客', '缴费', '家政', '维修', '家电维修', '社区服务', '垃圾分类', '噪音', '设备共享', '充电桩', '时间银行'],
-  'culture': ['文化', '非遗', '民俗', '戏曲', '艺术品', '画师', '接稿', '短视频', '白板', '协作', '写作', '竞赛', '博物馆', '文物', '设计', '文创'],
-  'enterprise': ['企业', 'ERP', 'OA', 'HRM', 'MES', '招聘', '求职', '实习', '面试', '管理', '办公', '工单', '客户服务', '质量', '合规', 'DevOps', '监控', '云', '数据脱敏', '隐私', '零信任', '防欺诈', 'API', '测试'],
-  'travel': ['旅游', '出行', '酒店', '租车', '共享单车', '共享自行车', '铁路', '火车票', '自行车', '哈尔滨', '球赛订票', '电影', '足球'],
-  'agriculture': ['农', '扶贫', '助农', '农业', '大米', '水稻', '环保', '垃圾', '回收', '充电', '新能源', '农业追溯'],
-  'ai-tech': ['AI', '智能', '推荐', 'AIGC', '版权', '多模态', '大模型', '学术不端', '智能匹配', '提示词', 'AI菜谱', '知识图谱', '区块链'],
-};
+const categories = {};
+for (const [key, meta] of Object.entries(CATEGORY_META)) {
+  categories[key] = { name: meta.name, desc: meta.desc, projects: [] };
+}
+const mappingPath = path.join(ROOT, '_projects_mapped.json');
+let categoryByNumber = {};
+if (fs.existsSync(mappingPath)) {
+  const mapping = JSON.parse(fs.readFileSync(mappingPath, 'utf-8'));
+  for (const item of mapping) categoryByNumber[item.number] = item.group;
+} else {
+  console.warn('[warn] 未找到 _projects_mapped.json, 分类将回退为默认');
+}
 
 for (const project of projects) {
-  const text = `${project.title} ${project.projectName} ${project.modules.map(m => m.name).join(' ')}`;
-  let bestCategory = 'campus', bestScore = 0;
-  for (const [cat, keywords] of Object.entries(categoryKeywords)) {
-    let score = 0;
-    for (const kw of keywords) { if (text.includes(kw)) score++; }
-    if (score > bestScore) { bestScore = score; bestCategory = cat; }
-  }
-  const num = parseInt(project.number);
-  if (num >= 97 && num <= 112) bestCategory = 'enterprise';
-  if (num >= 113) {
-    if (text.includes('农') || text.includes('充电')) bestCategory = 'agriculture';
-    else if (text.includes('药') || text.includes('医疗') || text.includes('健康') || text.includes('门诊') || text.includes('实验室')) bestCategory = 'health';
-    else if (text.includes('会议') || text.includes('选题') || text.includes('创新')) bestCategory = 'education';
-    else if (text.includes('噪音') || text.includes('设备')) bestCategory = 'community';
-  }
-  project.category = bestCategory;
-  categories[bestCategory].projects.push(project);
+  const fallback = 'campus-life';
+  project.category = categoryByNumber[project.number] || fallback;
+  if (!categories[project.category]) project.category = fallback;
+  categories[project.category].projects.push(project);
 }
 
 // === 生成项目页面 ===
