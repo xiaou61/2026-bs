@@ -26,6 +26,7 @@ docs/project-check-tracker.md
 docs/UI_REDESIGN_OVERVIEW.md
 verification/
 .claude/
+papers/
 
 *.class
 *.log
