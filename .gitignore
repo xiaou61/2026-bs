@@ -10,6 +10,23 @@
 .playwright-cli/
 .spec-workflow/
 
+# 内部开发文档与过程记录(不上传 GitHub)
+PRD.md
+findings.md
+progress.md
+task_plan.md
+rule.md
+skill.md
+skills.md
+paper-skill-spec.md
+docs/checks/
+docs/plans/
+docs/topic-candidates-*.md
+docs/project-check-tracker.md
+docs/UI_REDESIGN_OVERVIEW.md
+verification/
+.claude/
+
 *.class
 *.log
 *.pyc
